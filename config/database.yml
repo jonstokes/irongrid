@@ -1,15 +1,3 @@
-production:
-  adapter: jdbcpostgresql
-  encoding: unicode
-  pool: 200
-  url: Figaro.env.database_url
-
-staging:
-  adapter: jdbcpostgresql
-  encoding: unicode
-  pool: 25
-  url: Figaro.env.database_url
-
 development:
   adapter: postgresql
   encoding: unicode
