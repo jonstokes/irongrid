@@ -19,6 +19,8 @@ gem 'robotex'
 gem 'execjs'
 gem 'jruby-openssl'
 gem 'activerecord-jdbcpostgresql-adapter', :platform => :jruby
+gem 'activerecord-jdbc-adapter'
+gem 'jdbc-postgres'
 gem 'american_date'
 gem 'sidekiq'
 gem 'sidekiq-pro'
