@@ -1,6 +1,6 @@
 if Rails.env.production?
   Tire.configure do
-    url Figaro.env.elasticsearch_index_remote
+    url Figaro.env.elasticsearch_url_remote
   end
 else
   Tire.configure do
@@ -35,11 +35,11 @@ module Tire
     def analyze_with_local(text, options={})
       options = {:pretty => true}.update(options)
       params  = options.to_param
-      @response = Configuration.client.get "#{Figaro.env.elasticsearch_index_local}/#{Listing.index_name}/_analyze?#{params}", text
+      @response = Configuration.client.get "#{Figaro.env.elasticsearch_url_local}/#{Listing.index_name}/_analyze?#{params}", text
       @response.success? ? MultiJson.decode(@response.body) : false
 
     ensure
-      curl = %Q|curl -X GET "#{Figaro.env.elasticsearch_index_local}/#{Listing.index_name}/_analyze?#{params}" -d '#{text}'|
+      curl = %Q|curl -X GET "#{Figaro.env.elasticsearch_url_local}/#{Listing.index_name}/_analyze?#{params}" -d '#{text}'|
       logged('_analyze', curl)
     end
   end
