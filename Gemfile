@@ -1,25 +1,20 @@
 source 'http://rubygems.org'
 source "http://7efe68ea:9c90e496@www.mikeperham.com/rubygems/"
 
-
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.3'
-gem 'sass-rails', '~> 4.0.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
-gem 'therubyrhino'
-gem 'jquery-rails'
-gem 'jbuilder', '~> 1.2'
-
+gem "rails", "4.0.2"
 gem 'figaro'
 gem 'interactor'
 gem "protected_attributes"
 gem 'redis'
+gem 'mongo'
+gem 'robots'
 gem 'robotex'
 gem 'execjs'
+gem 'therubyrhino'
+gem 'nokogiri'
 gem 'jruby-openssl'
-gem 'activerecord-jdbcpostgresql-adapter', :platform => :jruby
 gem 'activerecord-jdbc-adapter'
+gem 'activerecord-jdbcpostgresql-adapter'
 gem 'jdbc-postgres'
 gem 'american_date'
 gem 'sidekiq'
@@ -27,9 +22,11 @@ gem 'sidekiq-pro'
 gem 'airbrake'
 gem 'aws-sdk'
 gem 'net-http-persistent'
+gem 'net-ssh'
+gem 'net-scp'
 gem 'thread_safe'
 gem "geocoder"
-
+gem 'connection_pool'
 gem "tire", :git => "git://github.com/karmi/retire.git", :branch => "master"
 gem 'tire-contrib'
 gem 'stringex'
@@ -59,9 +56,3 @@ group :test do
   gem "factory_girl_rails"
   gem "ffaker"
 end
-
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', :require => false
-end
-
