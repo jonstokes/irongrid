@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 285
+  engine: www.ironsights.com
+  url: http://palmettostatearmory.com/index.php/firearms/handguns/beretta-nano-9mm-pistol-jmn9s15.html
+  digest: 793e7e887f395a62e982d013fa28f5ee
+  title: Beretta Nano 9mm Pistol JMN9S15
+  description: ''
+  keywords: Beretta Nano 9mm Pistol JMN9S15
+  listing_type: Retail
+  seller_domain: palmettostatearmory.com
+  seller_name: Palmetto State Armory
+  category1: Guns
+  category2: ''
+  item_condition: New
+  image: http://palmettostatearmory.com/media/catalog/product/cache/1/image/269x/9df78eab33525d08d6e5fb8d27136e95/n/a/nano-002.png
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 44500
+  price_on_request: ''
+  sale_price_in_cents: 39800
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-07-02 21:46:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Beretta_Nano_9mm_Pistol_JMN9S15.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:37.110000000 Z
+  updated_at: 2014-01-23 23:04:37.110000000 Z
+  not_found: false
+  item_sold: false

@@ -1,0 +1,48 @@
+--- !ruby/object:Site
+attributes:
+  id: 23
+  name: Sportsman's Warehouse
+  domain: www.sportsmanswarehouse.com
+  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price']\
+    \ || raw['out_of_stock_message']) && raw['title']\r\nseller_defaults:\r\n  condition:\
+    \ new\r\n  stock_status: in stock\r\n  listing_type: retail\r\n  item_location:\
+    \ \"7035 High Tech Dr, Midvale, UT 84047\"\r\ntitle:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //Product_Name\r\ndescription:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //Long_Description\r\nkeywords:\r\
+    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //Keywords\r\n\
+    image:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //Image_URL\r\
+    \nsale_price:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ //Sale_Price\r\nprice:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n\
+    \    xpath: //Retail_Price\r\nout_of_stock_message:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //Status\r\n    regexp: !ruby/regexp '/^Removed/i'\r\
+    \ncategory1:\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type:\
+    \ Ammunition\r\n    xpath: //Category\r\n    regexp: !ruby/regexp '/Ammunition/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n\
+    \    xpath: //Category\r\n    regexp: !ruby/regexp '/Optics/i'\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\n    xpath: //Category\r\
+    \n    regexp: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'\r\
+    \n"
+  created_at: 2013-12-04 16:46:15.257617000 Z
+  updated_at: 2014-01-28 20:15:58.139000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: AffiliatesService
+  service_options:
+    feeds:
+    - url: http://datafeed.avantlink.com/download_feed.php?id=155991&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status
+      product_list_xpath: //Products/Product
+      product_link_xpath: //Buy_Link
+      product_status_xpath: //Status
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 2
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 4
+  read_at: 2014-01-28 20:15:58.137000000 Z
+  read_interval: 7200
+  commit_sha:

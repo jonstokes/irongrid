@@ -1,0 +1,125 @@
+--- !ruby/object:Site
+attributes:
+  id: 29
+  name: Gamaliel Shooting Supply
+  domain: www.gamaliel.com
+  adapter_source: "validation:\r\n  retail: (raw['price'] || raw['sale_price']) &&\
+    \ raw['title'] && raw['image'] && raw['description']\r\nseller_defaults:\r\n \
+    \ condition: new\r\n  listing_type: retail\r\n  stock_status: In Stock\r\n  item_location:\
+    \ \"1497 Fountain Run Road, Gamaliel, Kentucky 42140\"\r\ntitle:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //h1[@id='detail_parent_prod_nm']\r\
+    \n    filters:\r\n      - reject: !ruby/regexp '/Used/i'\r\nkeywords:\r\n  - scraper_method:\
+    \ meta_keywords\r\nimage_prefix: http://www.gamaliel.com/\r\nimage:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //a[@id='detail_large']/img[@id='prodpicthumb']/@src\r\
+    \nprice:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //ul[@class='detail_pricing']/li[@class='listprice']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@id='price_container']\r\n    regexp: !ruby/regexp\
+    \ '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: //ul[@class='detail_pricing']/li[@class='saleprice']\r\n    regexp:\
+    \ !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\n\
+    \  arguments:\r\n    xpath: /html\r\n    regexp: !ruby/regexp '/\\\"price\\\"\\\
+    :\\s*\\\"\\$\\d[\\d\\,\\.]+/i'\r\n    filters:\r\n    - reject: !ruby/regexp '/\\\
+    \"price\\\"\\:\\s*\\\"/i'\r\nsale_price:\r\n- scraper_method: find_by_xpath\r\n\
+    \  arguments:\r\n    xpath: //ul[@class='detail_pricing']/li[@class='saleprice']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\ndescription:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='detail_cart']/div[@class='detail_desc']/div[@id='detail_desc_content_0']\r\
+    \n    filters:\r\n      - reject: !ruby/regexp '/Used/i'\r\n- scraper_method:\
+    \ meta_description\r\nstock_status:\r\n- scraper_method: classify_by_xpath\r\n\
+    \  arguments:\r\n    type: In Stock\r\n    xpath: //div[@class='idp_container\
+    \ inv_msg']/span[@class='instock']\r\n    regexp: !ruby/regexp '/In Stock/'\r\n\
+    - scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Out Of Stock\r\
+    \n    xpath: //div[@class='idp_container inv_msg']/span[@class='outstock']\r\n\
+    \    regexp: !ruby/regexp '/Out of Stock/'\r\nitem_condition:\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Used\r\n    xpath: .//h1[@id='detail_parent_prod_nm']\r\
+    \n    regexp: !ruby/regexp '/Used/'\r\ncategory1:\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: None\r\n    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\
+    \n    regexp: !ruby/regexp '/Automotive/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\
+    \n    regexp: !ruby/regexp '/Ammunition|Sabots|Bullets|Caps/i'\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\n    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\
+    \n    regexp: !ruby/regexp '/Accessories|Components|Tubes|Cleaning|Silencers|Targets|Magazines/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n\
+    \    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\n    regexp:\
+    \ !ruby/regexp '/Optics/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
+    \n    type: Guns\r\n    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\
+    \n    regexp: !ruby/regexp '/Guns/i'\r\n"
+  created_at: 2014-01-23 11:44:56.194894000 Z
+  updated_at: 2014-01-27 22:20:38.210000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    compressed_links:
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Ammunition)&search_prod=(searchexact~p.searchfield1~Ammunition)&searchfield1=Ammunition&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 80
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~AR15%20Accessories)&search_prod=(searchexact~p.searchfield1~AR15%20Accessories)&searchfield1=AR15%20Accessories&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 13
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Choke%20Tubes)&search_prod=(searchexact~p.searchfield1~Choke%20Tubes)&searchfield1=Choke%20Tubes&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 13
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Gun%20Parts%20%26%20Accessories)&search_prod=(searchexact~p.searchfield1~Gun%20Parts%20%26%20Accessories)&searchfield1=Gun%20Parts%20%26%20Accessories&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 14
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Guns)&search_prod=(searchexact~p.searchfield1~Guns)&searchfield1=Guns&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 71
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Muzzleloading)&search_prod=(searchexact~p.searchfield1~Muzzleloading)&searchfield1=Muzzleloading&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 14
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Optics)&search_prod=(searchexact~p.searchfield1~Optics)&searchfield1=Optics&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 33
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloaders%20%26%20Parts)&search_prod=(searchexact~p.searchfield1~Reloaders%20%26%20Parts)&searchfield1=Reloaders%20%26%20Parts&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 28
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloading%20Accessories)&search_prod=(searchexact~p.searchfield1~Reloading%20Accessories)&searchfield1=Reloading%20Accessories&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 16
+      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloading%20Components)&search_prod=(searchexact~p.searchfield1~Reloading%20Components)&searchfield1=Reloading%20Components&page=PAGENUM
+      : link_prefix: http://www.gamaliel.com/
+        link_xpaths:
+        - //div[@class='thumb']/a/@href
+        start_at_page: 1
+        stop_at_page: 66
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 4
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 7
+  read_at: 2014-01-27 22:20:38.209000000 Z
+  read_interval: 86400
+  commit_sha:

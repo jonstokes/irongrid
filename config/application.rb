@@ -19,7 +19,15 @@ module Irongrid
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib/modules)
+    config.autoload_paths += %W(#{config.root}/lib/modules/elastic_tools)
+    config.autoload_paths += %W(#{config.root}/lib/modules/product_details)
+    config.autoload_paths += %W(#{config.root}/lib/modules/page_utils)
+    config.autoload_paths += %W(#{config.root}/app/models/core)
     config.autoload_paths += %W(#{config.root}/app/models/concerns)
+    config.autoload_paths += %W(#{config.root}/app/models/listings)
+    config.autoload_paths += %W(#{config.root}/app/models/queues)
+    config.autoload_paths += %W(#{config.root}/app/models/sets)
+    config.autoload_paths += %W(#{config.root}/app/models/listing_cleaners)
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

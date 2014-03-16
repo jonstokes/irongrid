@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 295
+  engine: ''
+  url: http://www.classicfirearms.com/ammunition/wolfgold308
+  digest: 136bb994fceefa50c6e43ed86aad6fb7
+  title: Wolf Gold .308 Brass Cased Soft Point Ammunition
+  description: ''
+  keywords: Wolf Gold .308 Brass Cased Soft Point Ammunition
+  listing_type: Retail
+  seller_domain: www.classicfirearms.com
+  seller_name: Classic Firearms
+  category1: Ammunition
+  category2: ''
+  item_condition: New
+  image: http://classicfirearms-magento.s3.amazonaws.com/catalog/product/cache/1/image/350x/040ec09b1e35df139433887a97daa66f/w/o/wolf_gold_308.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 1699
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-07-03 18:48:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-classicfirearms-com-Wolf_Gold_.308_Brass_Cased_Soft_Point_Ammunition.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:38.738000000 Z
+  updated_at: 2014-01-23 23:04:38.738000000 Z
+  not_found: false
+  item_sold: false

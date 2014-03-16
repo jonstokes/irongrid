@@ -1,0 +1,68 @@
+--- !ruby/object:Site
+attributes:
+  id: 16
+  name: Classic Firearms
+  domain: www.classicfirearms.com
+  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['in_stock_message']\
+    \ || raw['out_of_stock_message']) && raw['title']\r\nseller_defaults:\r\n  condition:\
+    \ new\r\n  listing_type: retail\r\n  item_location: \"510 Morgan Mill Rd, Monroe,\
+    \ NC 28110\"\r\ntitle:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n\
+    \    xpath: //div[@class='product-shop']/h1\r\nin_stock_message:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='product-shop']/p[@class='availability\
+    \ in-stock']/span\r\n    regexp: !ruby/regexp '/In stock/i'\r\nout_of_stock_message:\r\
+    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='product-shop']/p[@class='availability\
+    \ out-of-stock']/span\r\n    regexp: !ruby/regexp '/Out of stock/i'\r\nkeywords:\r\
+    \n  - scraper_method: meta_keywords\r\nimage:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@class='product-img-box']//img[@id='image']/@src\r\
+    \ndescription:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ //div[@id='product_tabs_description_contents']/div[@class='std']\r\nprice:\r\
+    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='product-shop']/div[@class='product-options-bottom']//span[@class='price']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@class='product-shop']/div[@class='price-box']/p[@class='old-price']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@class='product-shop']//div[@class='product-options-bottom']//span[@class='price']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\ncategory1:\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\
+    \n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Guns\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\
+    \n    regexp: !ruby/regexp '/Guns|Eligible/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Optics\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\
+    \n    regexp: !ruby/regexp '/Optic|Scope/i'\r\n"
+  created_at: 2013-07-03 18:36:59.459437000 Z
+  updated_at: 2014-01-27 23:49:50.540000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    seed_links:
+      http://www.classicfirearms.com/accessories?cat=34&limit=all:
+        link_xpaths:
+        - //h2[@class='product-name']/a/@href
+      http://www.classicfirearms.com/long-guns?limit=all:
+        link_xpaths:
+        - //h2[@class='product-name']/a/@href
+      http://www.classicfirearms.com/hand-guns?limit=all:
+        link_xpaths:
+        - //h2[@class='product-name']/a/@href
+      http://www.classicfirearms.com/c-r-eligible?limit=all:
+        link_xpaths:
+        - //h2[@class='product-name']/a/@href
+      http://www.classicfirearms.com/ammunition?limit=all:
+        link_xpaths:
+        - //h2[@class='product-name']/a/@href
+      http://www.classicfirearms.com/accessories?limit=all:
+        link_xpaths:
+        - //h2[@class='product-name']/a/@href
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 2
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 4
+  read_at: 2014-01-27 23:49:50.538000000 Z
+  read_interval: 86400
+  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386

@@ -1,0 +1,135 @@
+--- !ruby/object:Site
+attributes:
+  id: 25
+  name: PersonalSecurityZone
+  domain: personalsecurityzone.com
+  adapter_source: "validation:\r\n  retail: (raw['price'] || raw['sale_price']) &&\
+    \ raw['title'] && raw['image'] && raw['description']\r\nseller_defaults:\r\n \
+    \ condition: new\r\n  listing_type: retail\r\n  stock_status: In Stock\r\n  item_location:\
+    \ \"502 N. Division St., Carson City, NV 89703\"\r\ntitle:\r\n- scraper_method:\
+    \ meta_title\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ //h1[@class='Header2red']\r\nkeywords:\r\n  - scraper_method: meta_keywords\r\
+    \nimage_prefix: http://personalsecurityzone.com/\r\nimage:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //table//tr/td//div/img/@src\r\n\
+    price:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div/p/span[@class='header2red']/span\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nsale_price:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //td[@class='pageHeading'][2]/span[@class='productSpecialPrice']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\ndescription:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //fieldset[@id='product-specifications']\r\
+    \n    filters:\r\n      - reject: !ruby/regexp '/Product Specifications/i'\r\n\
+    - scraper_method: meta_description\r\n"
+  created_at: 2014-01-23 11:44:51.221066000 Z
+  updated_at: 2014-01-28 07:44:51.087000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    compressed_links:
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=handguns-pistols-guns-firearms-for-sale-online&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 27
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=rifles-for-sale-AR-15-firearm-lower-arms-hunting&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 37
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=shotguns-for-sale-pump-semi-auto-home-security&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 7
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=airguns-air-gun-rifle-pellets-warehouse-co2-pistol&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 5
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=ammunition-ammo-rifle-pistol-shotgun-shells-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 20
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=gun-barrels-for-sale-AR-15-upper-conversion-kit&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 7
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=gun-cases-bags-backpacks-pistol-shooting-mat&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 20
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=gun-cleaner-cleaning-kit-supplies-mat-for-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 25
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=grips-gun-stocks-pads-bipods-pistol-rifle-for-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 46
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=holsters-gun-magazine-pouches-duty-belts-vests&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 175
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=low-capacity-magazines-clips-mags-for-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 20
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=hi-cap-hicap-magazines-gun-clips-for-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 15
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=gun-firearm-parts-gunsmith-supplies-for-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 20
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=rifle-sling-mounts-swivels-hardware-shooting&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 10
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=binoculars-rangefinders-night-vision-for-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 3
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=scope-mounts-rails-mounting-kit-for-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 20
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=optics-optical-magnifier-boresighter-scope-cover&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 7
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=rifle-scopes-pistol-shotgun-handgun-for-sale&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 20
+      ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=gun-sights-lasers-tactical-lights-red-dot-tritium&Page=PAGENUM
+      : link_xpaths:
+        - //h3/a/@href
+        start_at_page: 1
+        stop_at_page: 25
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 7
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 9
+  read_at: 2014-01-28 07:44:51.085000000 Z
+  read_interval: 86400
+  commit_sha:

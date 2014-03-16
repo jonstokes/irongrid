@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 286
+  engine: ''
+  url: http://palmettostatearmory.com/index.php/firearms/handguns/colt-1991-government-45-acp-o1991.html
+  digest: 2f62ce9dd071bc053fe7bb38f2b2fc3b
+  title: Colt 1991 Government .45 ACP O1991
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: palmettostatearmory.com
+  seller_name: Palmetto State Armory
+  category1: Guns
+  category2: ''
+  item_condition: New
+  image: http://palmettostatearmory.com/media/catalog/product/cache/1/image/269x/9df78eab33525d08d6e5fb8d27136e95/o/1/o1991.png
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 92899
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-07-02 22:20:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Colt_1991_Government_.45_ACP_O1991.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:37.271000000 Z
+  updated_at: 2014-01-23 23:04:37.271000000 Z
+  not_found: false
+  item_sold: false

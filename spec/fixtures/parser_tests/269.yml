@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 269
+  engine: ''
+  url: http://www.ableammo.com/catalog/glock-short-sleeve-shirt-small-tg50007-p-77200.html
+  digest: ebdba57282d86f1328d2ebd258ae0d03
+  title: Glock Short Sleeve "Team Glock" Grey Cotton T-Shirt (TG50G)
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.ableammo.com
+  seller_name: Able Ammo
+  category1: ''
+  category2: ''
+  item_condition: ''
+  image: http://www.ableammo.com/catalog/images/ssi/medium/18481.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 1229
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-04-12 22:13:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages.s3.amazonaws.com/www-ableammo-com-Glock_Short_Sleeve_%22Team_Glock%22_Grey_Cotton_T-Shirt_%28TG50G%29.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:34.467000000 Z
+  updated_at: 2014-01-23 23:04:34.467000000 Z
+  not_found: false
+  item_sold: false

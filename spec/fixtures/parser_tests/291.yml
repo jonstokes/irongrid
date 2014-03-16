@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 291
+  engine: ''
+  url: http://www.hyattgunstore.com/umc-223-remington-45-grain-jacketed-hollow-point-20-rounds.html
+  digest: d8dd41349be2002aeb8b369868a6f075
+  title: UMC 223 Remington 45 Grain Jacketed Hollow Point, 20 Rounds
+  description: ''
+  keywords: ''
+  listing_type: ''
+  seller_domain: www.hyattgunstore.com
+  seller_name: ''
+  category1: Ammunition
+  category2: ''
+  item_condition: New
+  image: ''
+  stock_status: Out Of Stock
+  item_location: ''
+  price_in_cents:
+  price_on_request: ''
+  sale_price_in_cents: 1699
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-04-24 02:21:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-hyattgunstore-com-UMC_223_Remington_45_Grain_Jacketed_Hollow_Point%2C_20_Rounds.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:38.079000000 Z
+  updated_at: 2014-01-23 23:04:38.079000000 Z
+  not_found: false
+  item_sold: false

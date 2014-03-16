@@ -1,0 +1,2208 @@
+--- !ruby/object:Site
+attributes:
+  id: 9
+  name: Bud's Gun Shop
+  domain: www.budsgunshop.com
+  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price']\
+    \ || raw['out_of_stock_message'] || raw['price_on_request']) && raw['title']\r\
+    \n  auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price'])\
+    \ && raw['title']\r\n  classified: raw['title']\r\nseller_defaults:\r\n  condition:\
+    \ new\r\n  stock_status: in stock\r\n  listing_type: retail\r\n  item_location:\
+    \ \"1105 Industry Road Lexington, KY 40505\"\r\ntitle:\r\n- scraper_method: meta_title\r\
+    \n- scraper_method: meta_og_title\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: .//title\r\ndescription:\r\n- scraper_method: meta_og_description\r\
+    \n- scraper_method: meta_description\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: //td[@class=\"main\"]/p\r\nkeywords:\r\n- scraper_method: meta_keywords\r\
+    \nimage_prefix: http://www.budsgunshop.com/catalog/\r\nimage:\r\n- scraper_method:\
+    \ meta_og_image\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ .//div[@style=\"padding:0px 8px 2px 8px;\"]//img/@src\r\n    regexp: !ruby/regexp\
+    \ '/images\\/.*jpg/'\r\nsale_price:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: '//tr[@id=\"x2d\"]/td[2]/div[1]/div[1]/div[2]/strong'\r\n    regexp:\
+    \ !ruby/regexp /^\\$\\d[\\d\\,\\.]+/i\r\nprice:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //a[@id=\"buy\"]/span\r\n    regexp: !ruby/regexp\
+    \ '/^\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: '//tr[@id=\"x2d\"]/td[2]/div[1]/div[1]/div[1]'\r\n    regexp: !ruby/regexp\
+    \ /^\\$\\d[\\d\\,\\.]+/i\r\nprice_on_request:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //a[@id=\"get_price_quote\"]/@alt\r\n    regexp:\
+    \ !ruby/regexp '/Get Quote/'\r\nout_of_stock_message:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: .//span[@style=\"color:red; background:black; padding:3\"\
+    ]\r\n    regexp: !ruby/regexp '/^Currently unavailable/i'\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: .//div/font[@color=\"red\"]\r\n\
+    \    regexp: !ruby/regexp '/OUT OF STOCK/'\r\nlisting_type:\r\n- scraper_method:\
+    \ classify_url_by_regexp\r\n  arguments:\r\n    type: auction\r\n    regexp: !ruby/regexp\
+    \ '/auction_info.*auctions_id/'\r\n- scraper_method: classify_url_by_regexp\r\n\
+    \  arguments:\r\n    type: retail\r\n    regexp: !ruby/regexp '/product_info.*products_id/'\r\
+    \ncondition_new:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ .//span[@style=\"font-size:9pt; color:#990000; font-weight:bold;\"]\r\n    regexp:\
+    \ !ruby/regexp '/Factory New/'\r\ncondition_used:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: .//span[@style=\"font-size:9pt; color:#990000; font-weight:bold;\"\
+    ]\r\n    regexp: !ruby/regexp '/Used/'\r\ncurrent_bid:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //td[@class=\"main\"]/b[. = \"Auction price:\"]/following-sibling::text()\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nauction_ends:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //td[@class=\"main\"]/b[. = \"Auction\
+    \ expires on:\"]/following-sibling::text()\r\ncategory1:\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Guns\r\n    xpath: //a[@class=\"\
+    breadcrumb_sep_link\"][2]\r\n    regexp: !ruby/regexp '/Guns|Rifles|California\
+    \ Compliant|BUDS VIP/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
+    \n    type: Guns\r\n    xpath: //a[@class=\"breadcrumb_sep_link\"][3]\r\n    regexp:\
+    \ !ruby/regexp '/Guns|Rifles|California Compliant|BUDS VIP/i'\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\n    xpath: //a[@class=\"\
+    breadcrumb_sep_link\"][2]\r\n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\n    xpath: //a[@class=\"\
+    breadcrumb_sep_link\"][3]\r\n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n    xpath: //a[@class=\"\
+    breadcrumb_sep_link\"][2]\r\n    regexp: !ruby/regexp '/Scopes|Optics/i'\r\n-\
+    \ scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n  \
+    \  xpath: //a[@class=\"breadcrumb_sep_link\"][3]\r\n    regexp: !ruby/regexp '/Scope|Optics|Cameras/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\
+    \n    xpath: //a[@class=\"breadcrumb_sep_link\"][3]\r\n    regexp: !ruby/regexp\
+    \ '/Holsters|Magazine|Sights|Lasers|Lights|Rails|Stocks|Choke Tubes|Barrels|Cleaning|Safety|Cases|Mace|Muzzle|Reloading|Targets|Gunsmith|Rests|AR\
+    \ Upper|Parts|Pods|Boss|Boxes|Chronographs|Conversion|Ammo|Pads|Speedloaders|Swivels|Trigger|Wilson|Grips/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\
+    \n    xpath: //a[@class=\"breadcrumb_sep_link\"][2]\r\n    regexp: !ruby/regexp\
+    \ '/Doublestar Accessories/i'\r\nnot_found:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: '//table[@class=\"infoBoxContents\"]/tr[2]/td[@class=\"\
+    boxText\"]'\r\n    regexp: !ruby/regexp '/Product not found/'\r\n"
+  created_at: 2012-10-23 21:12:24.943000000 Z
+  updated_at: 2014-01-28 16:29:46.524000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    seed_links:
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1330/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1000/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1679/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1788/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1106/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/196/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1083/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1092/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1647/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1308/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/60/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1038/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1839/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/501/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/120/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1154/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1185/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/477/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1426/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1124/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/423/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/433/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/376/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1771/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1022/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1175/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1021/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1857/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/412/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1088/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1064/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1712/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1045/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/54/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1041/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1071/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1810/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1126/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/39/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/178/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1582/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1539/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1202/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/435/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1434/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/446/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1321/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1235/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/139/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/515/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1200/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/214/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1043/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1686/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1290/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1336/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1032/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/146/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/475/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1828/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1488/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1236/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1007/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/38/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1263/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1094/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/441/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1191/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1155/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1778/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1777/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1129/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1130/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1073/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/352/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/408/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1674/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1086/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1735/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1238/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1101/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1756/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1177/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1169/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1196/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/404/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1227/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1205/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1172/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1396/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1104/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1274/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1849/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1785/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1761/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1685/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1758/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1011/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/87/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1050/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1814/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/520/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1058/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1334/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1252/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1281/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1057/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1767/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1757/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1287/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1020/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1029/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1524/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1702/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1846/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/504/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1062/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1344/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1282/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1760/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1673/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1831/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1260/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/506/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1557/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1256/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1835/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/519/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1325/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1215/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1851/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1305/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1827/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1310/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1079/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1297/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1525/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1306/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/434/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1275/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1841/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/495/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1856/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1269/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1111/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1293/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/529/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1001/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/223/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1133/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1265/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1250/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/518/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1482/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/292/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/493/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1097/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1745/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/232/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1189/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1405/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1820/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1802/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1270/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1323/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1763/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1271/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1218/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1838/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1346/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1053/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1176/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1659/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/254/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1228/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1335/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/192/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/207/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1821/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1066/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/59/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1390/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/330/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1493/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1230/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/474/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1428/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1726/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/84/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/366/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1253/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/212/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1843/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/402/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1069/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1063/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/56/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1818/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1393/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1292/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1283/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1276/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/290/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1558/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1070/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1264/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1173/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1138/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/527/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1422/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/488/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1061/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1289/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1294/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1037/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1317/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/286/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1180/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1573/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1006/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/32/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1845/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1142/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1713/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/432/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1181/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1067/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1816/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1204/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1562/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1051/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/368/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/141/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/22/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/234/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1698/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/360/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1479/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1401/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1014/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/302/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1047/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1858/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/118/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1301/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1143/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1847/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1015/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1248/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/336/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1715/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1026/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1144/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1808/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1705/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1812/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/421/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1837/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/270/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/413/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1307/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1095/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1295/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/429/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1836/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1170/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1216/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1555/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1023/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/42/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1765/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/391/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1259/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1065/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1197/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1319/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1543/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1267/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1243/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/525/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/274/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1291/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/320/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/491/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1329/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1327/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1403/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1783/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1840/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1084/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1768/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1121/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1108/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1770/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1072/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1397/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/517/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/104/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1085/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1456/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1472/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1302/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1331/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1787/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1044/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1149/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1531/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1459/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1052/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/15/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1288/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1560/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1544/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1320/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1341/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1150/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1314/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/364/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1042/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1019/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1028/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1245/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1799/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/264/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1035/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1421/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1794/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1833/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/117/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1054/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1457/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1031/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1018/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/480/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1187/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/522/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/442/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/338/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1059/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1102/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1791/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1233/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1718/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/175/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1511/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/77/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1078/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/248/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1332/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1100/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/62/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1298/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1528/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/322/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1008/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1087/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/346/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/255/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1311/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1206/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1099/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1413/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1151/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/111/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/436/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/503/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1262/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1179/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1030/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/72/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/332/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1060/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/388/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/369/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1793/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1255/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1462/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/374/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1284/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1342/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1407/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1547/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1076/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1119/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1798/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/549/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1691/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/61/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1371/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1220/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1318/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1844/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/415/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1068/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1328/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/372/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1285/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/66/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1203/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1221/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1222/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1300/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1268/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1694/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/403/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1747/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1779/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1048/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1234/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1162/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1211/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/418/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/356/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1781/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1153/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/256/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1163/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/220/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1186/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1077/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1773/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1165/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1850/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/271/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1074/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1412/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1090/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1171/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1853/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1098/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/487/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/347/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1569/sort/6a/page/1:
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+    compressed_links:
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1194/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1198/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/468/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/258/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1033/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/383/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/76/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/243/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/498/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1460/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/217/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1055/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/86/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 13
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/68/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/153/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 10
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/90/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/528/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 10
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/394/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/472/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/173/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 27
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/305/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1470/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1081/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/150/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/373/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/145/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/140/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1110/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/445/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/204/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1024/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1445/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/526/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/134/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/362/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1046/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1082/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1034/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/246/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/509/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/116/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/306/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/285/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/313/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/169/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/407/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 10
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/401/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1103/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/499/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1546/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/428/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/188/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/328/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/198/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/10/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 22
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/514/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 8
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/409/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 7
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/427/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/158/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 19
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/303/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/128/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1583/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/137/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 10
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1452/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/7/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/486/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1134/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/275/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/221/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/390/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/227/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/298/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/131/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/29/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 9
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/156/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 13
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/107/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/348/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 9
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1373/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/179/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/261/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1136/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 7
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/244/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/277/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1829/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1002/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/114/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 8
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/187/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/79/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/283/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/165/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/478/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/148/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/88/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/340/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1114/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/19/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/252/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/206/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/215/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/181/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/102/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/83/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 17
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/185/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1146/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/152/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/172/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1012/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 9
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/300/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/75/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/496/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/34/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/144/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 7
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/282/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/319/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/476/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/385/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/170/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/299/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1188/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1520/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/405/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/203/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 7
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/4/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/3/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 46
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/318/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1115/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1027/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/184/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/73/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 22
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/208/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/51/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 25
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/30/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/31/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 26
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1337/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/197/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 14
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/260/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/16/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/78/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/236/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/85/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 19
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/291/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/37/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 14
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/160/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/279/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/171/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1105/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1161/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/311/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 5
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/410/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/28/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 15
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1156/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1333/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1093/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/344/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/438/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 3
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/166/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 12
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/27/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 17
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1164/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/467/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/437/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 4
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/23/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 28
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/389/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 2
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+      http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1159/sort/6a/page/PAGENUM:
+        start_at_page: 1
+        stop_at_page: 6
+        link_xpaths:
+        - //span[@class="productListing-productname"]/a/@href
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 2
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 4
+  read_at: 2014-01-28 16:29:46.522000000 Z
+  read_interval: 86400
+  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386

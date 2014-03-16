@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 308
+  engine: ''
+  url: http://www.budsgunshop.com/catalog/product_info.php/cPath/26_487_647/products_id/713075054
+  digest: 9d95a36c995b640276713bd88bdff1a3
+  title: BERETTA MOBILCHOKE CHOKE TUBE
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.budsgunshop.com
+  seller_name: ''
+  category1: Accessories
+  category2: ''
+  item_condition: New
+  image: ''
+  stock_status: ''
+  item_location: ''
+  price_in_cents: 2340
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2013-10-02 17:11:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-budsgunshop-com-BERETTA_MOBILCHOKE_CHOKE_TUBE.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:45.855000000 Z
+  updated_at: 2014-01-23 23:04:45.855000000 Z
+  not_found: false
+  item_sold: false

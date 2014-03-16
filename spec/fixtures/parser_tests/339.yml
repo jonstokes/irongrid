@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 339
+  engine: ''
+  url: http://www.gamaliel.com/handguns/fnh_fns9_9mm.asp
+  digest: 9c2fb41dc1353ad5f07b7c953620db47
+  title: FNH FNS-9 9mm full size
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.gamaliel.com
+  seller_name: Gamaliel Shooting Supply
+  category1: Guns
+  category2: ''
+  item_condition: New
+  image: http://www.gamaliel.com/images/FN66927_N.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 79500
+  price_on_request: ''
+  sale_price_in_cents: 54900
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 20:42:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-FNH_FNS-9_9mm_full_size.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:52.273000000 Z
+  updated_at: 2014-01-23 23:04:52.273000000 Z
+  not_found: false
+  item_sold: false

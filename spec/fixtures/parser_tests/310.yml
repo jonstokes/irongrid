@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 310
+  engine: ''
+  url: http://centerfiresystems.com/COM1022-BLLONG.aspx
+  digest: acf49beb351a4a73caa7880281dc6ad0
+  title: '10/22 Long Blue Compensator #COM1022-BL LONG'
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: centerfiresystems.com
+  seller_name: ''
+  category1: Accessories
+  category2: ''
+  item_condition: New
+  image: ''
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 999
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2013-10-02 21:24:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/centerfiresystems-com-10/22_Long_Blue_Compensator_%23COM1022-BL_LONG.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:46.235000000 Z
+  updated_at: 2014-01-23 23:04:46.235000000 Z
+  not_found: false
+  item_sold: false

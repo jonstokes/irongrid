@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 342
+  engine: ''
+  url: http://www.rockwellarms.com/Store/ProductDetails/LWRC-M6A2-5-56-16-Piston-Special-Teams-Rifle-M6A2R5CK16
+  digest: 875835a7b896b87250844d3f0cc2d78e
+  title: LWRC M6A2 5.56 16" Piston - Special Teams Rifle - 30rd - Tan LWM6A2R5CK16
+  description: standard carbine available in various barrel lengths and in either
+  keywords: LWRC M6A2 5.56 16" Piston - Special Teams Rifle, lwrc M6A2R5CK16
+  listing_type: Retail
+  seller_domain: www.rockwellarms.com
+  seller_name: Rockwell Arms
+  category1: ''
+  category2: ''
+  item_condition: New
+  image: http://images.rockwellarms.com/ProductImages/LWRC/Rifles/M6A2R5CK16.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 239999
+  price_on_request: ''
+  sale_price_in_cents: 248995
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 22:12:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-rockwellarms-com-LWRC_M6A2_5.56_16%22_Piston_-_Special_Teams_Rifle_-_30rd_-_Tan_LWM6A2R5CK16.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:52.751000000 Z
+  updated_at: 2014-01-23 23:04:52.751000000 Z
+  not_found: false
+  item_sold: false

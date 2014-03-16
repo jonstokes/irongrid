@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 353
+  engine: ''
+  url: http://personalsecurityzone.com/product/Barnes-Tac-xpd-9MM-115GR-HP-20-200-21551-716876135110-55655
+  digest: 83b775f5a5db68b82e9249e51a82b2c7
+  title: Barnes Tac-xpd 9MM 115GR HP 20/200
+  description: Barnes
+  keywords: ''
+  listing_type: Retail
+  seller_domain: personalsecurityzone.com
+  seller_name: PersonalSecurityZone
+  category1: ''
+  category2: ''
+  item_condition: New
+  image: http://personalsecurityzone.com//images/BB21551lg.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 3400
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 23:30:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/personalsecurityzone-com-Barnes_Tac-xpd_9MM_115GR_HP_20/200.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:54.534000000 Z
+  updated_at: 2014-01-23 23:04:54.534000000 Z
+  not_found: false
+  item_sold: false

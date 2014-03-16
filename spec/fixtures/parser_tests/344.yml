@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 344
+  engine: ''
+  url: http://www.dixiegunworks.com/product_info.php?cPath=21_154&products_id=623
+  digest: ''
+  title: 14134 VON LENGERKE AND DETMOLD/FRANCOTTE KNOCK-ABOUT GUN
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.dixiegunworks.com
+  seller_name: Dixie Gun Works
+  category1: Guns
+  category2: ''
+  item_condition: New
+  image: http://www.dixiegunworks.com/images/14134.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 120000
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 22:44:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-dixiegunworks-com-14134_VON_LENGERKE_AND_DETMOLD/FRANCOTTE_KNOCK-ABOUT_GUN.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:53.075000000 Z
+  updated_at: 2014-01-23 23:04:53.075000000 Z
+  not_found: false
+  item_sold: false

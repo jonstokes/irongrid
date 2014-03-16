@@ -1,0 +1,79 @@
+--- !ruby/object:Site
+attributes:
+  id: 3
+  name: Gun Auction
+  domain: www.gunauction.com
+  adapter_source: "---\r\nvalidation:\r\n  auction: (raw['current_bid'] || raw['minimum_bid']\
+    \ || raw['buy_now_price']) && raw['title']\r\nseller_defaults:\r\n  listing_type:\
+    \ auction\r\n  timezone: \"Pacific Time (US & Canada)\"\r\ndigest_attributes:\r\
+    \n- defaults\r\n- url\r\ntitle:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: //div[@class=\"listingheader\"]/h1[@class=\"h1vv\"]\r\n    filters:\r\
+    \n      - reject: !ruby/regexp '/^Guns For Sale - /'\r\ndescription:\r\n- scraper_method:\
+    \ meta_description\r\nkeywords:\r\n- scraper_method: meta_keyword\r\nimage:\r\n\
+    - scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id=\"galleria\"\
+    ]/a/img/@src\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ //div[@class=\"galleria-image\"][3]/img/@src\r\nitem_location:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id=\"listingmain\"]/div[5]/div[1]/div[1]/div[3]/div[2]/span[2]\r\
+    \n    regexp: !ruby/regexp '/(?<=\\().*(?=\\))/'\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@id=\"listingmain\"]/div[5]/div[1]/div[1]/div[2]/div[2]/span[2]\r\
+    \n    regexp: !ruby/regexp '/(?<=\\().*(?=\\))/'\r\nbuy_now_price:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: ! '//span[@style=\"color: 16850D;\
+    \ font-size: 30px; font-weight: bold;\"]'\r\n    regexp: !ruby/regexp '/\\$\\\
+    d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ //a[@href[contains(.,\"http://www.gunauction.com/search/buyitnowconfirm.cfm\"\
+    )]]\r\n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\ncurrent_bid:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //span[@class=\"listingamount\"\
+    ]\r\n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nminimum_bid:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id=\"listingmain\"]/div[5]/div[1]/div[2]/form/div[2]/div[2]\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,]+\\.\\d\\d/i'\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id=\"listingmain\"]/div[5]/div[1]/div[2]/form/div[2]/div\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,]+\\.\\d\\d/i'\r\nauction_ends:\r\n\
+    - scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id=\"ItemListingRightColumn\"\
+    ]/div[9]\r\n    regexp: !ruby/regexp '/(?<=\\().*(?=\\))/'\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id=\"ItemListingRightColumn\"\
+    ]/div[9]\r\n    regexp: !ruby/regexp '/([a-zA-Z]+)\\s\\d+\\,\\s\\d\\d\\d\\d\\\
+    s\\d\\d:\\d\\d:\\d\\d\\s([A-Z]{3}|[A-Z]{2})/'\r\ncondition_new:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id='listingmain']/div[5]/div[@id='ItemListingRightColumn']/div[4]\r\
+    \n    regexp: !ruby/regexp '/new|never|NIB/i'\r\ncategory1:\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Guns\r\n    xpath: //div[@class=\"\
+    breadCrumbs\"]/a[2]\r\n    regexp: !ruby/regexp '/Rifles|Guns|Revolvers|Pistols|Handguns/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Guns\r\n  \
+    \  xpath: //div[@class=\"breadCrumbs\"]/a[3]\r\n    regexp: !ruby/regexp '/Rifles|Guns|Revolvers|Pistols|Handguns/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n\
+    \    xpath: //div[@class=\"breadCrumbs\"]/a[2]\r\n    regexp: !ruby/regexp '/Scopes|Vision|Optics/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n\
+    \    xpath: //div[@class=\"breadCrumbs\"]/a[3]\r\n    regexp: !ruby/regexp '/Scopes|Vision|Optics/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
+    \n    xpath: //div[@class=\"breadCrumbs\"]/a[2]\r\n    regexp: !ruby/regexp '/Ammo|Ammunition/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
+    \n    xpath: //div[@class=\"breadCrumbs\"]/a[3]\r\n    regexp: !ruby/regexp '/Ammo|Ammunition/i'\r\
+    \n"
+  created_at: 2012-10-23 21:12:21.130000000 Z
+  updated_at: 2014-01-28 20:56:10.845000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    compressed_links:
+      http://www.gunauction.com/shop/guns/listed-24hrs/page-PAGENUM:
+        start_at_page: 1
+        stop_at_page: 15
+        link_prefix: http://www.gunauction.com
+        link_xpaths:
+        - //a[@class="lblk"]/@href
+        - //a[@class="lbgrn"]/@href
+        - //a[@class="lbblk"]/@href
+        - //a[@class="lbblu"]/@href
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 2
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 4
+  read_at: 2014-01-28 20:56:10.843000000 Z
+  read_interval: 3600
+  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386

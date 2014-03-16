@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 356
+  engine: ''
+  url: http://www.keystonegunsales.com/index.php?route=product/product&filter_tag=&product_id=196375
+  digest: 4a9f5bb74ba598bc291994c770774080
+  title: Swamp People 22LR Mini-Mag 36gr HP /375
+  description: Swamp People Special Edition Mini-Mag Ammo
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.keystonegunsales.com
+  seller_name: Keystone Gun Sales
+  category1: ''
+  category2: ''
+  item_condition: New
+  image: http://www.keystonegunsales.com/image/cache/data/prodpics/ccipic961-228x228.jpg
+  stock_status: Out Of Stock
+  item_location: ''
+  price_in_cents: 3599
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-23 19:47:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-keystonegunsales-com-Swamp_People_22LR_Mini-Mag_36gr_HP_/375.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:55.015000000 Z
+  updated_at: 2014-01-23 23:04:55.015000000 Z
+  not_found: false
+  item_sold: false

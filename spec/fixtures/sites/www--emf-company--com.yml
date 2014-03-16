@@ -1,0 +1,52 @@
+--- !ruby/object:Site
+attributes:
+  id: 28
+  name: E.M.F. Company Inc.
+  domain: www.emf-company.com
+  adapter_source: "validation:\r\n  retail: (raw['price'] || raw['sale_price']) &&\
+    \ raw['title'] && raw['image'] && raw['description']\r\nseller_defaults:\r\n \
+    \ condition: new\r\n  listing_type: retail\r\n  stock_status: In Stock\r\n  item_location:\
+    \ \"1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705\"\r\ntitle:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //tr[1]/td/h1\r\nkeywords:\r\n \
+    \ - scraper_method: meta_keywords\r\nimage_prefix: http://www.emf-company.com/store/pc/\r\
+    \nimage:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='pcShowMainImage']/a[@class='highslide']/img[@id='mainimg']/@src\r\
+    \nprice:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='pcShowProductPrice']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nsale_price:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='pcShowProductPrice'][1]\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\ndescription:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //table[@class='pcMainTable']//tr[4]/td[1]/table//tr[1]/td/div[@class='pcShowProductSDesc']\r\
+    \n    filters:\r\n      - reject: !ruby/regexp '/More details...|(\\WComing Soon)\\\
+    W|(\\WIn Stock)\\W/i'\r\n- scraper_method: meta_description\r\ncategory1:\r\n\
+    - scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: None\r\n    xpath:\
+    \ //div[@class='pcPageNav']/a\r\n    regexp: !ruby/regexp '/Knives|Books/i'\r\n\
+    - scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\n\
+    \    xpath: //div[@class='pcPageNav']/a\r\n    regexp: !ruby/regexp '/Ammo|Ammunition|Blank/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\
+    \n    xpath: //div[@class='pcPageNav']/a\r\n    regexp: !ruby/regexp '/Accessories/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Guns\r\n  \
+    \  xpath: //div[@class='pcPageNav']/a\r\n    regexp: !ruby/regexp '/Handguns|Rifles|Shotguns|Revolvers|Carbines|Guns|Pistols|Flintlock/i'\r\
+    \n"
+  created_at: 2014-01-23 11:44:55.564585000 Z
+  updated_at: 2014-01-28 20:05:12.410000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    seed_links:
+      ? http://www.emf-company.com/store/pc/showSearchResults.asp?VA=1&ProdSort=&PageStyle=l&customfield=0&SearchValues=&exact=0&keyword=&priceFrom=0&priceUntil=100000&idCategory=0&IdSupplier=0&withStock=&IDBrand=0&order=2
+      : link_prefix: http://www.emf-company.com/store/pc/
+        link_xpaths:
+        - //div[@class='pcShowProductName']/a/@href
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 4
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 7
+  read_at: 2014-01-28 20:05:12.408000000 Z
+  read_interval: 86400
+  commit_sha:

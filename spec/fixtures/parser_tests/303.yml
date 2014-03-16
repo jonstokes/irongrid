@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 303
+  engine: ''
+  url: http://www.midwayusa.com/product/145235/ar-stoner-bolt-carrier-assembly-mil-spec-ar-15-223-remington-parkerized?cm_vc=PPLR
+  digest: 6b4745481f4a991c7a45e23ad615fe0e
+  title: AR-Stoner Bolt Carrier Assembly Mil-Spec AR-15 223 Remington
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.midwayusa.com
+  seller_name: ''
+  category1: Accessories
+  category2: ''
+  item_condition: New
+  image: ''
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 14699
+  price_on_request: ''
+  sale_price_in_cents: 12999
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2013-10-03 16:17:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-midwayusa-com-AR-Stoner_Bolt_Carrier_Assembly_Mil-Spec_AR-15_223_Remington.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:45.017000000 Z
+  updated_at: 2014-01-23 23:04:45.017000000 Z
+  not_found: false
+  item_sold: false

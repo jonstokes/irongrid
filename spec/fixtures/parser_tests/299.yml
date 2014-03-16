@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 299
+  engine: ''
+  url: http://clydearmory.com/beretta-92a1-9mm.html
+  digest: 738b5561534fe0edb9531da56da3f3d3
+  title: Beretta 92A1 9mm
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: clydearmory.com
+  seller_name: Clyde Armory
+  category1: None
+  category2: ''
+  item_condition: New
+  image: http://clydearmory.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/9/2/92a15.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 65000
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-07-03 22:19:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages.s3.amazonaws.com/clydearmory-com-Beretta_92A1_9mm.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:44.375000000 Z
+  updated_at: 2014-01-23 23:04:44.375000000 Z
+  not_found: false
+  item_sold: false

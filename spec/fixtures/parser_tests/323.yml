@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 323
+  engine: ''
+  url: http://www.impactguns.com/remington-223-umc-45-jhp-2004-l223r7a-047700364506.aspx
+  digest: 04546e322e024c8731cae0d3c3db8328
+  title: Remington 223 UMC 45 JHP 200
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.impactguns.com
+  seller_name: ''
+  category1: Ammunition
+  category2: ''
+  item_condition: New
+  image: ''
+  stock_status: Out Of Stock
+  item_location: ''
+  price_in_cents:
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-04-12 20:19:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages.s3.amazonaws.com/www-impactguns-com-Remington_223_UMC_45_JHP_200.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:49.697000000 Z
+  updated_at: 2014-01-23 23:04:49.697000000 Z
+  not_found: false
+  item_sold:

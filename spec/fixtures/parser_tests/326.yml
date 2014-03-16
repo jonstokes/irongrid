@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 326
+  engine: ''
+  url: http://www.gunbroker.com/Auction/ViewItem.aspx?Item=361869792
+  digest: ''
+  title: Aimpoint Micro H-1 4MOA LRP/Sp.39mm Rifle Scope
+  description: ''
+  keywords: ''
+  listing_type: Auction
+  seller_domain: www.gunbroker.com
+  seller_name: ''
+  category1: Optics
+  category2: ''
+  item_condition: New
+  image: http://pics.gunbroker.com/GB/361869000/361869792/pix782633417.jpg
+  stock_status: ''
+  item_location: Seagoville, TX 75159-5613
+  price_in_cents:
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents: 71999
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2025-09-07 16:24:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages.s3.amazonaws.com/www-gunbroker-com-Aimpoint_Micro_H-1_4MOA_LRP/Sp.39mm_Rifle_Scope.html
+  listing_is_valid: false
+  created_at: 2014-01-23 23:04:50.176000000 Z
+  updated_at: 2014-01-23 23:04:50.176000000 Z
+  not_found: false
+  item_sold: false

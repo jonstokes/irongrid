@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 331
+  engine: ''
+  url: http://www.luckygunner.com/remington-45-acp-ammo-for-sale-45acpp185jhpremsaber-25
+  digest: 37c4b83cd6b29b7b018fed634e5d5830
+  title: 45 ACP +P - 185 gr JHP - Remington Golden Saber- 25 Rounds
+  description: 25 rounds per box
+  keywords: 45 acp, ammo, 45 cal, ammunition, remington, golden saber, 45 auto, 185 grain, 185gr, 185 gr
+  listing_type: Retail
+  seller_domain: www.luckygunner.com
+  seller_name: Lucky Gunner
+  category1: Ammunition
+  category2: ''
+  item_condition: New
+  image: http://cdn5.luckygunner.com/media/catalog/product/cache/1/image/2da9827f2ca8fee3e7f2af19d95a1b6e/4/5/45acpp185jhpremsaber-25-3.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 2450
+  price_on_request: ''
+  sale_price_in_cents: 1995
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 20:12:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-luckygunner-com-45_ACP_%2BP_-_185_gr_JHP_-_Remington_Golden_Saber-_25_Rounds.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:50.985000000 Z
+  updated_at: 2014-01-23 23:04:50.985000000 Z
+  not_found: false
+  item_sold: false

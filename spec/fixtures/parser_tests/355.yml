@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 355
+  engine: ''
+  url: http://www.gunsamerica.com/938323411/Non-Guns/Gun-Parts/Grips/Cowboy/Ruger_Vaquero_XR3_Red_Ivory_Like_Floral_Grips.htm
+  digest: 1b142c4ecaf2e17afd7a374534103279
+  title: Ruger Vaquero XR3 Red Ivory-Like Floral Grips
+  description: ''
+  keywords: ''
+  listing_type: Classified
+  seller_domain: www.gunsamerica.com
+  seller_name: ''
+  category1: ''
+  category2: ''
+  item_condition: ''
+  image: http://www.gunsamerica.com/userimages/137428/938323411/wm_md_3972401.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents:
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-04-11 20:26:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsamerica-com-Ruger_Vaquero_XR3_Red_Ivory-Like_Floral_Grips.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:54.852000000 Z
+  updated_at: 2014-01-23 23:04:54.852000000 Z
+  not_found: false
+  item_sold: false

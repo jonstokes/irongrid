@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 297
+  engine: www.ironsights.com
+  url: http://www.freedommunitions.com/357-MAG-125-gr-FP-New-p/fm357f125n-b0050.htm
+  digest: 4e0e198690343c76ce07fab40def4423
+  title: 357 MAG 125 gr. FP New
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.freedommunitions.com
+  seller_name: Freedom Munitions
+  category1: Ammunition
+  category2: ''
+  item_condition: New
+  image: http://a248.e.akamai.net/origin-cdn.volusion.com/flupx.oauzh/v/vspfiles/photos/FM357F125R-B0050-2.jpg
+  stock_status: Out Of Stock
+  item_location: ''
+  price_in_cents: 2279
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-07-03 22:51:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-freedommunitions-com-357_MAG_125_gr._FP_New.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:44.053000000 Z
+  updated_at: 2014-01-23 23:04:44.053000000 Z
+  not_found: false
+  item_sold: false

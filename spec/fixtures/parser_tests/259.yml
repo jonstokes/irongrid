@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 259
+  engine: ''
+  url: http://www.impactguns.com/impacterror.aspx?aspxerrorpath=/product.aspx
+  digest: 2c370a9b8bb93275a614e8158d61469d
+  title: Impact Guns - 404 Error
+  description: ''
+  keywords: ''
+  listing_type: ''
+  seller_domain: www.impactguns.com
+  seller_name: ''
+  category1: ''
+  category2: ''
+  item_condition: ''
+  image: ''
+  stock_status: ''
+  item_location: ''
+  price_in_cents:
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-04-12 20:16:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-impactguns-com-Impact_Guns_-_404_Error.html
+  listing_is_valid: false
+  created_at: 2014-01-23 23:04:32.800000000 Z
+  updated_at: 2014-01-23 23:04:32.800000000 Z
+  not_found: true
+  item_sold:

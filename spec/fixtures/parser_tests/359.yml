@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 359
+  engine: ''
+  url: http://www.copesdistributing.com/model-blackout-bolt-action-p-6966.html
+  digest: 0448001c0c44c8f9974e7c9bc8080e1e
+  title: AAC Model 7 300 Blackout Bolt Action
+  description: AAC's MODEL-7 rifle is chambered in the new 300 AAC BLACKOUT cartridge which offers an accurate, light weight, and compact package for hunting or target shooting.
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.copesdistributing.com
+  seller_name: Cope's Distributing
+  category1: Guns
+  category2: ''
+  item_condition: New
+  image: http://www.copesdistributing.com/images/aac-7-lg.jpg
+  stock_status: In Stock
+  item_location: 640 Markwith Ave, Greenville, OH, 45331
+  price_in_cents: 84699
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-21 14:19:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-copesdistributing-com-AAC_Model_7_300_Blackout_Bolt_Action.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:55.491000000 Z
+  updated_at: 2014-01-23 23:04:55.491000000 Z
+  not_found: false
+  item_sold: false

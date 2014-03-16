@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 306
+  engine: ''
+  url: http://www.ableammo.com/catalog/precision-90600-breech-lock-quick-changin-bush-p-104127.html
+  digest: 8e378debf06297e7254764400388050b
+  title: Lee Precision 90600 Breech Lock Quick Changin Bush
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.ableammo.com
+  seller_name: Able Ammo
+  category1: Accessories
+  category2: ''
+  item_condition: New
+  image: http://www.ableammo.com/catalog/images/ssi-2013/medium/52510.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 798
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2013-10-02 16:48:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ableammo-com-Lee_Precision_90600_Breech_Lock_Quick_Changin_Bush.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:45.523000000 Z
+  updated_at: 2014-01-23 23:04:45.523000000 Z
+  not_found: false
+  item_sold: false

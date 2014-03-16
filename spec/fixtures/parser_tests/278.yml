@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 278
+  engine: ''
+  url: http://centermassfirearms.com/index.php/gun-ammo/american-eagle-20rd-85gr-jsp-327-mag.html
+  digest: 810ad666cd69755fb60eb387829a39de
+  title: American Eagle 20rd 85gr JSP .327 Mag
+  description: ''
+  keywords: American Eagle 20rd 85gr JSP .327 Mag
+  listing_type: Retail
+  seller_domain: centermassfirearms.com
+  seller_name: Center Mass Firearms
+  category1: Ammunition
+  category2: ''
+  item_condition: New
+  image: http://centermassfirearms.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/d/s/dsc00002.jpg_1.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 3495
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-06-26 01:00:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/centermassfirearms-com-American_Eagle_20rd_85gr_JSP_.327_Mag.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:35.964000000 Z
+  updated_at: 2014-01-23 23:04:35.964000000 Z
+  not_found: false
+  item_sold: false

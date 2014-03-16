@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 316
+  engine: ''
+  url: http://palmettostatearmory.com/index.php/accessories/glock-19-9mm-15rd.html
+  digest: ''
+  title: GLOCK 19 9mm 15rd Magazine MF19115
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: palmettostatearmory.com
+  seller_name: ''
+  category1: Accessories
+  category2: ''
+  item_condition: New
+  image: ''
+  stock_status: Out Of Stock
+  item_location: ''
+  price_in_cents:
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2013-10-02 22:31:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-GLOCK_19_9mm_15rd_Magazine_MF19115.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:48.566000000 Z
+  updated_at: 2014-01-23 23:04:48.566000000 Z
+  not_found: false
+  item_sold: false

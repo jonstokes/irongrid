@@ -1,0 +1,143 @@
+--- !ruby/object:Site
+attributes:
+  id: 12
+  name: Centerfire Systems
+  domain: centerfiresystems.com
+  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price'])\
+    \ && raw['title'] && raw['image'] && raw['description']\r\nseller_defaults:\r\n\
+    \  condition: new\r\n  stock_status: in stock\r\n  listing_type: retail\r\n  item_location:\
+    \ \"102 Fieldview Dr, Versailles, KY 40383\"\r\ntitle:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@id='ctl00_pageContent_productDetailUpdatePanel']/div[@id='product-detail-div']/h1\r\
+    \n    filters:\r\n      - reject: !ruby/regexp '/-\\s+Used/i'\r\n- scraper_method:\
+    \ meta_og_title\r\nkeywords:\r\n  - scraper_method: meta_keywords\r\nimage:\r\n\
+    - scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //a[@class='MagicZoomPlus']/@href\r\
+    \nimage_prefix: http://centerfiresystems.com\r\nprice:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@class='prod-detail-price']/div[@class='prod-detail-msrp']/span[@class='prod-detail-msrp-value']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@class='prod-detail-price']/div[@class='prod-detail-cost']/span[@class='prod-detail-cost-value']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nout_of_stock_message:\r\n\
+    - scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='prod-detail-stock']\r\
+    \n    regexp: !ruby/regexp '/temporarily out of stock/i'\r\nsale_price:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='prod-detail-price']/div[@class='prod-detail-cost']/span[@class='prod-detail-cost-value']\r\
+    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\ndescription:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id='product-detail-div']/table[@class='prod-detail']//tr[2]/td[@class='prod-detail-bt']/div[@class='prod-detail-desc']\r\
+    \ncondition_used:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ //div[@id='product-detail-div']/table[@class='prod-detail']//tr[2]/td[@class='prod-detail-bt']/div[@class='prod-detail-desc']\r\
+    \n    regexp: !ruby/regexp '/Used condition/'\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //div[@id='ctl00_pageContent_productDetailUpdatePanel']/div[@id='product-detail-div']/h1\r\
+    \n    regexp: !ruby/regexp '/-\\s+Used/i'\r\ncategory1:\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Guns\r\n    xpath: //tr/td[@id='ctl00_centerColumn']/div[@id='ctl00_breadcrumb']/span[@id='ctl00_breadcrumbContent']/span[3]\r\
+    \n    regexp: !ruby/regexp '/Firearms/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Guns\r\n    xpath: //tr/td[@id='ctl00_centerColumn']/div[@id='ctl00_breadcrumb']/span[@id='ctl00_breadcrumbContent']/span[5]\r\
+    \n    regexp: !ruby/regexp '/Firearms/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Guns\r\n    xpath: //td[@class='prod-detail-bt']/div[@class='prod-detail-desc']/center/img/@src\r\
+    \n    regexp: !ruby/regexp '/FFLLOGO.JPG/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //tr/td[@id='ctl00_centerColumn']/div[@id='ctl00_breadcrumb']/span[@id='ctl00_breadcrumbContent']/span[3]\r\
+    \n    regexp: !ruby/regexp '/Ammunition|ammo/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Optics\r\n    xpath: //tr/td[@id='ctl00_centerColumn']/div[@id='ctl00_breadcrumb']/span[@id='ctl00_breadcrumbContent']/span[3]\r\
+    \n    regexp: !ruby/regexp '/Optics|Scopes|Mounts/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Optics\r\n    xpath: //tr/td[@id='ctl00_centerColumn']/div[@id='ctl00_breadcrumb']/span[@id='ctl00_breadcrumbContent']\r\
+    \n    regexp: !ruby/regexp '/Scope Mount|Scope Cover|Rings/i'\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\n    xpath: //tr/td[@id='ctl00_centerColumn']/div[@id='ctl00_breadcrumb']/span[@id='ctl00_breadcrumbContent']\r\
+    \n    regexp: !ruby/regexp '/Accessories|Compensators|Eye Wear|G3\\/HK|FAL|Lasers|Magazines|Parts|Mounts|Stocks|Equipment/i'\r\
+    \n- scraper_method: classify_by_meta_keywords\r\n  arguments:\r\n    type: Ammunition\r\
+    \n    regexp: !ruby/regexp '/Ammunition|ammo/i'\r\n- scraper_method: classify_by_meta_keywords\r\
+    \n  arguments:\r\n    type: Accessories\r\n    regexp: !ruby/regexp '/Accessories|Compensator|Eye\
+    \ Wear|Laser|Magazine|Part|Stock|Equipment|Swivel/i'\r\n- scraper_method: classify_by_meta_keywords\r\
+    \n  arguments:\r\n    type: Optics\r\n    regexp: !ruby/regexp '/Optic|scope|sight|mount|cantilever|dot/i'\r\
+    \n\r\n"
+  created_at: 2013-06-25 00:37:48.952014000 Z
+  updated_at: 2014-01-27 23:56:19.590000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    seed_links:
+      http://centerfiresystems.com/ammo_brasscase.aspx:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+      http://centerfiresystems.com/ammo_steelcase.aspx:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+      http://centerfiresystems.com/ammunition-shotgun.aspx:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+      http://centerfiresystems.com/firearms_handguns.aspx:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+      http://centerfiresystems.com/fal.aspx:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+      http://centerfiresystems.com/g3.aspx:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+      http://centerfiresystems.com/search.aspx?find=mag&log=false&size=200:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+      http://centerfiresystems.com/search.aspx?find=magazine&log=false&size=200:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+    compressed_links:
+      http://centerfiresystems.com/firearms_longguns.aspx?page=PAGENUM:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+        start_at_page: 1
+        stop_at_page: 2
+      http://centerfiresystems.com/ak_parts_and_accessories.aspx?page=PAGENUM:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+        start_at_page: 1
+        stop_at_page: 4
+      http://centerfiresystems.com/ar_parts_and_accessories.aspx?page=PAGENUM:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+        start_at_page: 1
+        stop_at_page: 4
+      http://centerfiresystems.com/optics.aspx?page=PAGENUM:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+        start_at_page: 1
+        stop_at_page: 2
+      http://centerfiresystems.com/new_products_and_specials.aspx?page=PAGENUM:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+        start_at_page: 1
+        stop_at_page: 2
+      http://centerfiresystems.com/stocks.aspx?page=PAGENUM:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+        start_at_page: 1
+        stop_at_page: 2
+      http://centerfiresystems.com/shotgun_accessories.aspx?page=PAGENUM:
+        link_prefix: http://centerfiresystems.com
+        link_xpaths:
+        - //div[@class='product-list-item']/div[@class='product-list-options']/h5/a/@href
+        start_at_page: 1
+        stop_at_page: 2
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 2
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 4
+  read_at: 2014-01-27 23:56:19.588000000 Z
+  read_interval: 86400
+  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386

@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 321
+  engine: ''
+  url: http://www.gunsinternational.com/NOBELSPORT-12GA-MINI-BUCKSHOT-LOADS-2-LONG-1250FPS-00-BUCK.cfm?gun_id=100350913
+  digest: b55cde0fa8d9ca1a7c11780871b0583c
+  title: 'NOBELSPORT 12GA MINI BUCKSHOT LOADS 2" LONG, 1250FPS #00 BUCK'
+  description: ''
+  keywords: ''
+  listing_type: Classified
+  seller_domain: www.gunsinternational.com
+  seller_name: Guns International
+  category1: Ammunition
+  category2: ''
+  item_condition: Unknown
+  image: http://images.gunsinternational.com/listings/100350913-1-s.jpg
+  stock_status: In Stock
+  item_location: '86322'
+  price_in_cents: 22500
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2008-07-03 17:42:00.000000000 Z
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsinternational-com-NOBELSPORT_12GA_MINI_BUCKSHOT_LOADS_2%22_LONG%2C_1250FPS_%2300_BUCK.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:49.379000000 Z
+  updated_at: 2014-01-23 23:04:49.379000000 Z
+  not_found: false
+  item_sold: false

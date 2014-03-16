@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 347
+  engine: ''
+  url: http://www.huntingdepot.net/catalog/product.asp?pid=47969&ret_id=1219039
+  digest: bff53eb31a12bbb2ebef784015d4e36c
+  title: Rossi M351 .38Special 2" Barrel, Blue
+  description: small frame revolver chambered
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.huntingdepot.net
+  seller_name: Hunting Depot
+  category1: Guns
+  category2: ''
+  item_condition: New
+  image: http://images.dealerease.net/prodpics/rosspicr35102.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 30670
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 23:08:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-Rossi_M351_.38Special_2%22_Barrel%2C_Blue.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:53.555000000 Z
+  updated_at: 2014-01-23 23:04:53.555000000 Z
+  not_found: false
+  item_sold: false

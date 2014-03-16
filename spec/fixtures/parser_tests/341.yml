@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 341
+  engine: ''
+  url: http://www.gamaliel.com/Bushnell/BUSAR730132C_Bushnell_Ar_Optic_1Xmp_Dot.asp
+  digest: abc8b592a18ee300f73de9c5c19c166a
+  title: Bushnell Ar Optic 1Xmp Dot
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.gamaliel.com
+  seller_name: Gamaliel Shooting Supply
+  category1: Optics
+  category2: ''
+  item_condition: New
+  image: ''
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 19995
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 20:49:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-Bushnell_Ar_Optic_1Xmp_Dot.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:52.592000000 Z
+  updated_at: 2014-01-23 23:04:52.592000000 Z
+  not_found: false
+  item_sold: false

@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 346
+  engine: ''
+  url: http://www.huntingdepot.net/catalog/product.asp?pid=72701&ret_id=1219039
+  digest: af1af7aaaf420a6914ffde3f0cba5954
+  title: Winchester Ammo .410 Gauge PDX1 2.5" Personal Defense
+  description: Winchester Supreme Elite Personal Defense Ammunition
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.huntingdepot.net
+  seller_name: Hunting Depot
+  category1: Ammunition
+  category2: ''
+  item_condition: New
+  image: http://images.dealerease.net/prodpics/wincpics410pdx1.jpg
+  stock_status: In Stock
+  item_location: ''
+  price_in_cents: 1373
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 22:59:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-Winchester_Ammo_.410_Gauge_PDX1_2.5%22_Personal_Defense.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:53.394000000 Z
+  updated_at: 2014-01-23 23:04:53.394000000 Z
+  not_found: false
+  item_sold: false

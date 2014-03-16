@@ -1,0 +1,82 @@
+--- !ruby/object:Site
+attributes:
+  id: 15
+  name: Guns International
+  domain: www.gunsinternational.com
+  adapter_source: "---\r\nseller_defaults:\r\n  listing_type: classified\r\nvalidation:\r\
+    \n  classified: raw['image'] && raw['title'] && raw['keywords'] && raw['price']\
+    \ && raw['item_location']\r\ndigest_attributes:\r\n- defaults\r\n- url\r\nimage:\r\
+    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[1]/a[1]/img/@src\r\
+    \ntitle:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //table[3]//tr[1]/td[2]/table[2]//tr/td/h1\r\
+    \n    filters:\r\n      - reject: !ruby/regexp '/Contact seller/'\r\n- scraper_method:\
+    \ meta_keywords\r\ndescription:\r\n- scraper_method: meta_description\r\nkeywords:\r\
+    \n- scraper_method: meta_keywords\r\nitem_location:\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]//tr[4]/td/table//tr[2]/td[2]/table\r\
+    \n    regexp: !ruby/regexp '/Zip:\\s+\\d{5}/i'\r\n    filters:\r\n      - accept:\
+    \ !ruby/regexp '/\\d{5}/'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]//tr[3]/td/table//tr/td[1]/table\r\
+    \n    regexp: !ruby/regexp '/Item\\s+Location:\\s+(\\w|,| |  )+\\n\\n/i'\r\n \
+    \   filters:\r\n      - reject: !ruby/regexp '/Item\\s+Location:/i'\r\nprice:\r\
+    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]\r\
+    \n    regexp: !ruby/regexp '/Price:\\s+\\$\\s*\\d[\\d\\,\\.]+/i'\r\n    filters:\r\
+    \n      - accept: !ruby/regexp '/\\$\\s*\\d[\\d\\,\\.]+/i'\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]\r\
+    \n    regexp: !ruby/regexp '/Price:\\s+\\d[\\d\\,\\.]+/i'\r\n    filters:\r\n\
+    \      - accept: !ruby/regexp '/\\s*\\d[\\d\\,\\.]+/i'\r\ncondition_new:\r\n-\
+    \ scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]//tr[3]/td/table\r\
+    \n    regexp: !ruby/regexp '/Condition:\\s+(\\w| |)*/i'\r\n    filters:\r\n  \
+    \  - accept: !ruby/regexp '/New|Unfired/i'\r\ncondition_used:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]//tr[3]/td/table\r\
+    \n    regexp: !ruby/regexp '/Condition:\\s+(\\w| |)*/i'\r\n    filters:\r\n  \
+    \  - accept: !ruby/regexp '/wear|scratches|used|marks|good/i'\r\nitem_sold:\r\n\
+    - scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='big_red']\r\
+    \n    regexp: !ruby/regexp '/This item has already been sold/i'\r\nnot_found:\r\
+    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //table[3]//tr[1]/td[2]/table[2]\r\
+    \n    regexp: !ruby/regexp '/Page Not Found/i'\r\ncategory1:\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Guns\r\n    xpath: //td[@class='breadcrumbs']/a[2]\r\
+    \n    regexp: !ruby/regexp '/Colts|Guns|Rifles|Pistols|Revolvers|AR-15 Copies|Firearms|Colts|Century\
+    \ Arms/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type:\
+    \ Guns\r\n    xpath: //td[@class='breadcrumbs']/a[3]\r\n    regexp: !ruby/regexp\
+    \ '/Colts|Guns|Rifles|Pistols|Revolvers|AR-15 Copies|Firearms|Colts|Century Arms/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
+    \n    xpath: //td[@class='breadcrumbs']/a[2]\r\n    regexp: !ruby/regexp '/Ammunition|Ammo/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
+    \n    xpath: //td[@class='breadcrumbs']/a[3]\r\n    regexp: !ruby/regexp '/Ammunition|Ammo/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n\
+    \    xpath: //td[@class='breadcrumbs']/a[2]\r\n    regexp: !ruby/regexp '/Scope\
+    \ Mounts|Optics/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n\
+    \    type: Optics\r\n    xpath: //td[@class='breadcrumbs']/a[3]\r\n    regexp:\
+    \ !ruby/regexp '/Scope Mounts|Optics/i'\r\n\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Accessories\r\n    xpath: //td[@class='breadcrumbs']/a[2]\r\
+    \n    regexp: !ruby/regexp '/Gunsmith|Holsters|Laser|Reloading|Slings|Stocks|Stock\
+    \ Pads|Software|Cleaning|Cases|Parts|Safes|Sights|Accessories|Actions|Barrels|Bayonets|Chokes|Clips|Magazines/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\
+    \n    xpath: //td[@class='breadcrumbs']/a[3]\r\n    regexp: !ruby/regexp '/Gunsmith|Holsters|Laser|Reloading|Slings|Stocks|Stock\
+    \ Pads|Software|Cleaning|Cases|Parts|Safes|Sights|Accessories|Actions|Barrels|Bayonets|Chokes|Clips|Magazines/i'\r\
+    \n"
+  created_at: 2013-07-02 23:15:22.561770000 Z
+  updated_at: 2014-01-28 17:56:36.997000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    compressed_links:
+      http://www.gunsinternational.com/gun-classifieds-new-this-week.cfm?start_row=PAGENUM:
+        start_at_page: 1
+        stop_at_page: 1000
+        step: 50
+        link_xpaths:
+        - //tr/td[2]/table[1]//tr/td[1]/a/@href
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 2
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 4
+  read_at: 2014-01-28 17:56:36.995000000 Z
+  read_interval: 14400
+  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386

@@ -1,0 +1,32 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 335
+  engine: ''
+  url: http://www.luckygunner.com/22-lr-38-hp-centurion-500-rounds
+  digest: c67b5405111d288c6d5d2bfe1ccf7f03
+  title: 22 LR - 38 gr HP - Centurion - 500 Rounds
+  description: ''
+  keywords: ''
+  listing_type: Retail
+  seller_domain: www.luckygunner.com
+  seller_name: Lucky Gunner
+  category1: Ammunition
+  category2: ''
+  item_condition: ''
+  image: ''
+  stock_status: Out Of Stock
+  item_location: ''
+  price_in_cents:
+  price_on_request: ''
+  sale_price_in_cents:
+  buy_now_price_in_cents:
+  current_bid_in_cents:
+  minimum_bid_in_cents:
+  reserve_in_cents:
+  auction_ends: 2014-01-22 20:38:00.000000000 Z
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-luckygunner-com-22_LR_-_38_gr_HP_-_Centurion_-_500_Rounds.html
+  listing_is_valid: true
+  created_at: 2014-01-23 23:04:51.631000000 Z
+  updated_at: 2014-01-23 23:04:51.631000000 Z
+  not_found: false
+  item_sold: false

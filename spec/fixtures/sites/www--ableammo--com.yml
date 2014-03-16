@@ -1,0 +1,88 @@
+--- !ruby/object:Site
+attributes:
+  id: 8
+  name: Able Ammo
+  domain: www.ableammo.com
+  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price']\
+    \ || raw['out_of_stock_message'] || raw['in_stock_message']) && raw['title']\r\
+    \nseller_defaults:\r\n  condition: new\r\n  listing_type: retail\r\n  item_location:\
+    \ \"357 Farm to Market Road 1791  Huntsville, TX 77340\"\r\ndigest_attributes:\r\
+    \n- title\r\n- image\r\n- type\r\n- seller_domain\r\n- item_condition\r\n- current_price_in_cents\r\
+    \n- stock_status\r\nlisting_type:\r\n- scraper_method: classify_url_by_regexp\r\
+    \n  arguments:\r\n    type: retail\r\n    regexp: !ruby/regexp '/.*/'\r\ntitle:\r\
+    \n- scraper_method: schema_name\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: //body/table/tr/td/table/tr/td/table/tr/td/h1\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: //body/div/table/tr/td/table/tr/td/table/tr/td/h1\r\
+    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //title\r\ndescription:\r\
+    \n- scraper_method: schema_description\r\nkeywords:\r\n- scraper_method: meta_keywords\r\
+    \nimage_prefix: http://www.ableammo.com/catalog/\r\nimage:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: .//a[contains(@href, \"popupWindow\"\
+    )]/img/@src\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: .//a/img[contains(@src,\
+    \ \"medium\")]/@src\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n   \
+    \ xpath: .//a/img[contains(@src, \"small\")]/@src\r\nprice:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: .//*[@itemprop=\"price\"]\r\n  \
+    \  regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
+    \n  arguments:\r\n    xpath: //body/div[1]/table[1]/tr/td[2]/table/tr[2]/td[@class=\"\
+    main\"]/table/tr/td[2]/div/table[1]/tr[1]/td[2]/h2\r\n    regexp: !ruby/regexp\
+    \ '/\\$\\d[\\d\\,\\.]+/i'\r\nsale_price:\r\n- scraper_method: find_by_xpath\r\n\
+    \  arguments:\r\n    xpath: //span[@class=\"SalePrice\"]\r\n    regexp: !ruby/regexp\
+    \ '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
+    \n    xpath: //h2[@itemprop=\"price\"]/span[@class=\"productSpecialPrice\"]\r\n\
+    \    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nin_stock_message:\r\n- scraper_method:\
+    \ find_by_xpath\r\n  arguments:\r\n    xpath: .//*[@itemprop=\"availability\"\
+    ]/@content\r\n    regexp: !ruby/regexp '/in_stock/'\r\nout_of_stock_message:\r\
+    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: .//*[@itemprop=\"\
+    availability\"]/@content\r\n    regexp: !ruby/regexp '/out_of_stock/'\r\ncondition_new:\r\
+    \n- scraper_method: classify_url_by_regexp\r\n  arguments:\r\n    type: new\r\n\
+    \    regexp: !ruby/regexp '/conditioning|conditioner/i'\r\ncondition_used:\r\n\
+    - scraper_method: classify_url_by_regexp\r\n  arguments:\r\n    type: used\r\n\
+    \    regexp: !ruby/regexp '/used|condition|like.new/i'\r\ncategory1:\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    xpath: //tr[@class=\"headerNavigation\"\
+    ]/td[@class=\"headerNavigation\"][1]/a[@class=\"headerNavigation\"][2]\r\n   \
+    \ type: Guns\r\n    regexp: !ruby/regexp '/Firearms/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    xpath: //tr[@class=\"headerNavigation\"]/td[@class=\"headerNavigation\"\
+    ][1]/a[@class=\"headerNavigation\"][3]\r\n    type: Guns\r\n    regexp: !ruby/regexp\
+    \ '/Firearms/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n   \
+    \ xpath: //tr[@class=\"headerNavigation\"]/td[@class=\"headerNavigation\"][1]/a[@class=\"\
+    headerNavigation\"][2]\r\n    type: Ammunition\r\n    regexp: !ruby/regexp '/Ammunition/i'\r\
+    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    xpath: //tr[@class=\"\
+    headerNavigation\"]/td[@class=\"headerNavigation\"][1]/a[@class=\"headerNavigation\"\
+    ][3]\r\n    type: Ammunition\r\n    regexp: !ruby/regexp '/Ammunition/i'\r\n-\
+    \ scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n  \
+    \  xpath: //tr[@class=\"headerNavigation\"]/td[@class=\"headerNavigation\"][1]/a[@class=\"\
+    headerNavigation\"][2]\r\n    regexp: !ruby/regexp '/Scopes|Optics/i'\r\n- scraper_method:\
+    \ classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n    xpath: //tr[@class=\"\
+    headerNavigation\"]/td[@class=\"headerNavigation\"][1]/a[@class=\"headerNavigation\"\
+    ][3]\r\n    regexp: !ruby/regexp '/Scopes|Optics/i'\r\n- scraper_method: classify_by_xpath\r\
+    \n  arguments:\r\n    type: Accessories\r\n    xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation']\r\
+    \n    regexp: !ruby/regexp '/Choke Tubes|Gun Accessories|Reloading|Shooting Supplies/i'\r\
+    \nnot_found:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
+    \ //body/div[1]/table[1]/tr/td[2]/table/tr[2]/td/h2/font\r\n    regexp: !ruby/regexp\
+    \ '/Product NOT Found/'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n\
+    \    xpath: //body/table[4]/tr/td[2]/table/tr[1]/td/table/tr/td[@class=\"pageHeading\"\
+    ][1]\r\n    regexp: !ruby/regexp '/Read What Others Are Saying/'\r\n"
+  created_at: 2012-10-23 21:12:24.305000000 Z
+  updated_at: 2014-01-28 00:40:36.737000000 Z
+  engine: www.ironsights.com
+  scrape_with_service: CreateLinksService
+  service_options:
+    compressed_links:
+      http://www.ableammo.com/catalog/all-products.php?page=PAGENUM&instock=1&max=200&sort=5a:
+        start_at_page: 1
+        stop_at_page: 65
+        link_xpaths:
+        - //td[@class='productListing-data2']/table//td[@class='main']//td[@class='main']//a/@href
+  size:
+  active: true
+  rate_limits:
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 2
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 4
+  read_at: 2014-01-28 00:40:36.735000000 Z
+  read_interval: 86400
+  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
