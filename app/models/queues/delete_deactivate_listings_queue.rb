@@ -1,5 +1,5 @@
 class DeleteDeactivateListingsQueue < SuperQueue
   def initialize
-    super(disable_s3: true, name: 'delete_deactivate_listings_queue')
+    super(disable_s3: true, name: 'irongrid-delete-deactivate-listings-queue')
   end
 end

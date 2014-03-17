@@ -7,6 +7,20 @@ class SuperQueue
 
   BUFFER_SIZE = 10
 
+  def self.mock!
+    @@page_queue = Queue.new
+    @@parsed_page_queue = Queue.new
+    @@delete_deactivate_listings_queue = Queue.new
+  end
+
+  def self.mocking?
+    !!@@page_queue || @@parsed_page_queue
+  end
+
+  def self.stop_mocking!
+    @@page_queue = @@parsed_page_queue = nil
+  end
+
   class S3Pointer < Hash
     def initialize(key)
       super
@@ -23,6 +37,17 @@ class SuperQueue
   end
 
   def initialize(opts)
+    if SuperQueue.mocking?
+      if opts[:name] == 'irongrid-parsed-page-queue'
+        @q = @@parsed_page_queue
+      elsif opts[:name] == 'irongrid-delete-deactivate-listings-queue'
+        @q = @@delete_deactivate_listings_queue
+      else
+        @q = @@page_queue
+      end
+      return
+    end
+
     check_opts(opts)
     @queue_name = generate_queue_name(opts)
     @bucket_name = opts[:bucket_name] || queue_name unless opts[:disable_s3]
@@ -40,12 +65,19 @@ class SuperQueue
 
   def push(p)
     check_for_errors
+    return @q.push(p) if SuperQueue.mocking?
+
     @in_buffer.push p
     clear_in_buffer if @in_buffer.size >= BUFFER_SIZE
   end
 
   def pop
     check_for_errors
+    begin
+      return @q.pop(true) if SuperQueue.mocking?
+    rescue
+      return nil
+    end
     return if @out_buffer.compact.empty? && !(fill_out_buffer_from_sqs_queue || fill_out_buffer_from_in_buffer)
     m = @out_buffer.compact.shift
     @deletion_buffer << m
@@ -55,16 +87,19 @@ class SuperQueue
 
   def length
     check_for_errors
+    return @q.length if SuperQueue.mocking?
     return sqs_length + @in_buffer.size + @out_buffer.size
   end
 
   def empty?
+    return @q.empty? if SuperQueue.mocking?
     len = 0
     2.times { len += self.length; sleep(0.01) }
     len == 0
   end
 
   def clear
+    return @q.clear if SuperQueue.mocking?
     @in_buffer = []
     while @out_buffer.any? do
       @deletion_buffer << @out_buffer.shift
@@ -82,18 +117,21 @@ class SuperQueue
   end
 
   def shutdown
+    return true if SuperQueue.mocking?
     clear_in_buffer
     collect_garbage!
     @done = true
   end
 
   def destroy
+    return true if SuperQueue.mocking?
     delete_aws_resources
     @done = true
   end
 
   def sqs_requests
     check_for_errors
+    return 0 if SuperQueue.mocking?
     @write_count + @read_count + @delete_count
   end
 
