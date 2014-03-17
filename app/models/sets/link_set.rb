@@ -1,5 +1,5 @@
 class LinkSet
-  attr_reader :domain, :set_name
+  attr_reader :set_name, :domain
 
   def self.connect!
     pool_size = Figaro.env.redis_pool_size rescue 10
@@ -12,30 +12,31 @@ class LinkSet
 
   def initialize(opts)
     raise "Domain required!" unless @domain = opts[:domain]
-    namespace = opts[:namespace] || "linkset"
-    @set_name = "#{namespace}--#{domain}"
+    @set_name = "#linkset--#{domain}"
   end
 
   def add(keys)
-    return 0 unless keys
-    return 0 if keys.is_a?(String) && keys.blank?
+    keys = [keys] unless keys.is_a?(Array)
+    keys.compact!
+    return 0 if keys.empty?
 
-    if keys.is_a?(Array)
-      return 0 if keys.empty?
-      keys = keys.uniq.select { |key| !key.empty? && is_valid_url?(key) }
-    else
-      keys = [keys]
+    urls = keys.map { |k| k[:url] if k[:url] && is_valid_url?(k[:url]) }.compact.uniq
+
+    redis_pool.with do |conn|
+      conn.sadd(set_name, urls)
+      keys.select { |k| k[:id] }.each do |key|
+        conn.set key[:url], key[:id]
+      end
     end
-
-
-    redis_pool.with { |conn| conn.sadd(set_name, keys) }
-    keys.count
+    urls.count
   end
 
   def pop
     redis_pool.with do |conn|
       return unless conn.exists(set_name)
-      conn.spop(set_name)
+      url = conn.spop(set_name)
+      id = conn.get(url)
+      id ? { url: url, id: id.to_i } : { url: url }
     end
   end
 
@@ -48,6 +49,8 @@ class LinkSet
 
   def clear
     redis_pool.with do |conn|
+      urls = conn.smembers(set_name)
+      urls.each { |url| conn.del(url) }
       conn.del(set_name)
     end
   end
