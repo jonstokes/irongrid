@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'digest/md5'
 
 describe ListingScraper do
+
   describe "#parse" do
     it "should correctly parse a standard, in-stock retail listing from Hyatt Gun Store" do
       page = load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")
