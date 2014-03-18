@@ -2,7 +2,7 @@ Feature: Update Retail Listings
 
   @wip
   Scenario:
-    Update a retail listing with UpdateListingsWorker so that it has a new price
+    Update a retail listing with RefreshLinksWorker so that it has a new price
 
     Given a set of pages on the test-site.com
     And the following page exists:
@@ -12,7 +12,7 @@ Feature: Update Retail Listings
       |url                          | image        | updated_at | price
       |"http://www.test-site.com/1" | TEST_IMAGE_1 | 2.days.ago | $1.00
 
-    When I run UpdateListingsWorker for test-site.com
+    When I run RefreshLinksWorker for test-site.com
     Then 1 link should be added to the LinkSet for test-site.com
 
     When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
@@ -30,10 +30,10 @@ Feature: Update Retail Listings
     And the database should have 1 retail listing with price $2.00
     And the search index should have 1 retail listing with price $2.00
 
-    When I empty the ImageSet for test-site.com with CopyImagesToCdnWorker for test-site.com
+    When I empty the ImageSet for test-site.com with CreateCdnImagesWorker for test-site.com
     Then the CDN should have 1 images
 
-    When I run the UpdateImagesWorker
+    When I run the UpdateListingImagesWorker
     Then the database should have 0 retail listings with a nil image
     And the search index should have 0 retail listings with a nil image
 
@@ -67,10 +67,10 @@ Feature: Update Retail Listings
     And the database should have 1 retail listing with price $2.00
     And the search index should have 1 retail listing with price $2.00
 
-    When I empty the ImageSet for test-site.com with CopyImagesToCdnWorker for test-site.com
+    When I empty the ImageSet for test-site.com with CreateCdnImagesWorker for test-site.com
     Then the CDN should have 10 images
 
-    When I run the UpdateImagesWorker
+    When I run the UpdateListingImagesWorker
     Then the database should have 0 retail listings with a nil image
     And the search index should have 0 retail listings with a nil image
 
@@ -86,7 +86,7 @@ Feature: Update Retail Listings
       |url                          | image        | updated_at
       |"http://www.test-site.com/1" | TEST_IMAGE_1 | 2.days.ago
 
-    When I run UpdateListingsWorker for test-site.com
+    When I run RefreshLinksWorker for test-site.com
     Then the LinkSet for test-site.com should have 1 link
 
     When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
@@ -102,10 +102,10 @@ Feature: Update Retail Listings
     And the database should have 1 retail listings with a nil image
     And the search index should have 1 retail listings with a nil image
 
-    When I empty the ImageSet for test-site.com with CopyImagesToCdnWorker for test-site.com
+    When I empty the ImageSet for test-site.com with CreateCdnImagesWorker for test-site.com
     Then the CDN should have 1 image
 
-    When I run the UpdateImagesWorker
+    When I run the UpdateListingImagesWorker
     Then the database should have 0 retail listings with a nil image
     And the search index should have 0 retail listings with a nil image
 

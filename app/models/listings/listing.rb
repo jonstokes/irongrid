@@ -154,7 +154,7 @@ class Listing < ActiveRecord::Base
 
   def image_is_shared?
     return false unless image
-    db { Listing.where("digest != ? AND item_data->>'image' = ?", digest, image).any? }
+    db { Listing.where("id != ? AND item_data->>'image' = ?", id, image).any? }
   end
 
   def active?
@@ -201,12 +201,6 @@ class Listing < ActiveRecord::Base
   #
   #FIXME: Move the logic below to an interactor
   #
-
-	def delete_with_cdn
-    db { self.destroy }
-    CDN.delete_image_for_listing(self) unless self.image_is_shared?
-	end
-	
 
   private
 

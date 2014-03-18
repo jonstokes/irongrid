@@ -10,7 +10,8 @@ class SuperQueue
   def self.mock!
     @@page_queue = Queue.new
     @@parsed_page_queue = Queue.new
-    @@delete_deactivate_listings_queue = Queue.new
+    @@delete_listings_queue = Queue.new
+    @@deactivate_listings_queue = Queue.new
   end
 
   def self.mocking?
@@ -40,8 +41,10 @@ class SuperQueue
     if SuperQueue.mocking?
       if opts[:name] == 'irongrid-parsed-page-queue'
         @q = @@parsed_page_queue
-      elsif opts[:name] == 'irongrid-delete-deactivate-listings-queue'
-        @q = @@delete_deactivate_listings_queue
+      elsif opts[:name] == 'irongrid-deactivate-listings-queue'
+        @q = @@deactivate_listings_queue
+      elsif opts[:name] == 'irongrid-delete-listings-queue'
+        @q = @@delete_listings_queue
       else
         @q = @@page_queue
       end

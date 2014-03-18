@@ -10,14 +10,15 @@ Feature: Delete or Deactivate Listings
 
     Given an auction listing exists in the database with auction_ends 1 day ago
     And an auction listing exists in the database with image TEST_IMAGE_1
+    And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
     When I run DeleteEndedAuctionsWorker
-    Then 1 listing should be added to the DeleteDeactivateListingsQueue
+    Then 1 listing should be added to the DeleteListingsQueue
 
-    When I run DeleteDeactivateListingsWorker
+    When I run DeleteListingsWorker
     Then the database should have 0 auction listings
 
-    When I run UpdateImagesWorker
+    When I run DeleteCdnImagesWorker
     Then the CDN should not have TEST_IMAGE_1
 
   @wip
@@ -31,8 +32,9 @@ Feature: Delete or Deactivate Listings
     And the following classified listing exists in the database
       |url                          | image        | updated_at
       |"http://www.test-site.com/1" | TEST_IMAGE_1 | 2.days.ago
+    And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run UpdateListingsWorker for test-site.com
+    When I run RefreshLinksWorker for test-site.com
     Then the LinkSet for test-site.com should have 1 link
 
     When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
@@ -41,13 +43,13 @@ Feature: Delete or Deactivate Listings
     When I empty the PageQueue with ParsePagesWorker
     Then the ParsedPageQueue should have 0 pages
     And the ImageSet for test-site.com should have 0 links
-    And the DeleteDeactivateListingsQueue should have 1 listing
+    And the DeleteListingsQueue should have 1 listing
 
-    When I run DeleteDeactivateListingsWorker
+    When I run DeleteListingsWorker
     Then the database should have 0 classified listings
     And the search index should have 0 classified listings
 
-    When I run UpdateImagesWorker
+    When I run DeleteCdnImagesWorker
     Then the CDN should not have TEST_IMAGE_1
 
   @wip
@@ -62,7 +64,7 @@ Feature: Delete or Deactivate Listings
       |url                          | image        |updated_at
       |"http://www.test-site.com/1" | TEST_IMAGE_1 |2.days.ago
 
-    When I run UpdateListingsWorker for test-site.com
+    When I run RefreshLinksWorker for test-site.com
     Then the LinkSet for test-site.com should have 1 link
 
     When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
@@ -71,13 +73,13 @@ Feature: Delete or Deactivate Listings
     When I empty the PageQueue with ParsePagesWorker
     Then the ParsedPageQueue should have 0 pages
     And the ImageSet for test-site.com should have 0 links
-    And the DeleteDeactivateListingsQueue should have 1 listing
+    And the DeleteListingsQueue should have 1 listing
 
-    When I run DeleteDeactivateListingsWorker
+    When I run DeleteListingsWorker
     Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
-    When I run UpdateImagesWorker
+    When I run DeleteCdnImagesWorker
     Then the CDN should not have TEST_IMAGE_1
 
   @wip
@@ -89,19 +91,24 @@ Feature: Delete or Deactivate Listings
     And the following retail listing exists in the database:
       |url                          | image        |updated_at
       |"http://www.test-site.com/1" | TEST_IMAGE_1 |2.days.ago
+    And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run UpdateListingsWorker for test-site.com
+    When I run RefreshLinksWorker for test-site.com
     Then the LinkSet for test-site.com should have 1 link
 
     When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 0 pages
-    And the DeleteDeactivateListingsQueue should have 1 listing
+    Then the PageQueue should have 1 pages
 
-    When I run DeleteDeactivateListingsWorker
+    When I empty the PageQueue with ParsePagesWorker
+    Then the ParsedPageQueue should have 0 pages
+    And the ImageSet for test-site.com should have 0 links
+    And the DeleteListingsQueue should have 1 listing
+
+    When I run DeleteListingsWorker
     Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
-    When I run UpdateImagesWorker
+    When I run DeleteCdnImagesWorker
     Then the CDN should have 0 images
 
   @wip
@@ -116,7 +123,7 @@ Feature: Delete or Deactivate Listings
       |url                          | image        |updated_at
       |"http://www.test-site.com/1" | TEST_IMAGE_1 |2.days.ago
 
-    When I run UpdateListingsWorker for test-site.com
+    When I run RefreshLinksWorker for test-site.com
     Then the LinkSet for test-site.com should have 1 link
 
     When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
@@ -125,33 +132,36 @@ Feature: Delete or Deactivate Listings
     When I empty the PageQueue with ParsePagesWorker
     Then the ParsedPageQueue should have 0 pages
     And the ImageSet for test-site.com should have 0 links
-    And the DeleteDeactivateListingsQueue should have 1 listing
+    And the DeactivateListingsQueue should have 1 listing
 
-    When I run DeleteDeactivateListingsWorker
+    When I run DeactivateListingsWorker
     Then the database should have 1 retail listings with type "inactive"
     And the search index should have 0 retail listings
 
-    When I run UpdateImagesWorker
+    When I run UpdateListingImagesWorker
     Then the CDN should have 1 images
 
 
   @wip
   Scenario:
-    Delete a removed affiliate listing
+    Delete a removed affiliate listing, but keep the image because
+    it's in use by another listing
 
     Given an affiliate feed with one "remove" entry
     And the following retail listing exists in the database:
       |url                          | image        |updated_at
       |"http://www.test-site.com/1" | TEST_IMAGE_1 |2.days.ago
+      |"http://www.test-site.com/2" | TEST_IMAGE_1 |2.days.ago
+    And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
     When I run AffiliatesWorker
-    Then DeleteDeactivateQueue should have 1 listing
+    Then DeleteListingsQueue should have 1 listing
 
-    When I run the DeleteDeactivateListingsWorker
+    When I run the DeleteListingsWorker
     Then the database should have 0 retail listings
 
-    When I run UpdateImagesWorker
-    Then the CDN should not have TEST_IMAGE_1
+    When I run DeleteCdnImagesWorker
+    Then the CDN should have TEST_IMAGE_1
 
 
 
