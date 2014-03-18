@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe CreateLinksWorker do
+  before :all do
+    SuperQueue.mock!
+  end
+
   before :each do
     @worker = CreateLinksWorker.new
   end
@@ -17,12 +21,7 @@ describe CreateLinksWorker do
       #will have database ids for them and be updated.
     end
 
-    it "adds links to a site's LinkSet from a seed url" do
-      pending "Example"
-      # LinkSet << { url: link }
-    end
-
-    it "adds links to a site's LinkSet from a compressed url" do
+    it "adds links to a site's LinkSet" do
       pending "Example"
       # LinkSet << { url: link }
     end
