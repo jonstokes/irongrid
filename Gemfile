@@ -3,11 +3,8 @@ source "http://7efe68ea:9c90e496@www.mikeperham.com/rubygems/"
 
 gem "rails", "4.0.2"
 gem 'figaro'
-gem 'interactor'
 gem "protected_attributes"
 gem 'redis'
-gem 'mongo'
-gem 'robots'
 gem 'robotex'
 gem 'execjs'
 gem 'therubyrhino'
@@ -22,8 +19,6 @@ gem 'sidekiq-pro'
 gem 'airbrake'
 gem 'aws-sdk'
 gem 'net-http-persistent'
-gem 'net-ssh'
-gem 'net-scp'
 gem 'thread_safe'
 gem "geocoder"
 gem 'connection_pool'
@@ -50,7 +45,6 @@ group :test do
   gem 'database_cleaner'
   gem 'spork'
   gem 'launchy'
-  gem 'fakeweb'
   gem 'rake'
   gem 'rdoc'
   gem "factory_girl_rails"
