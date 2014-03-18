@@ -26,7 +26,6 @@ class LinkSet
       keys = [keys]
     end
 
-
     redis_pool.with { |conn| conn.sadd(set_name, keys) }
     keys.count
   end

@@ -1,30 +1,5 @@
 module PageUtils
 
-  def system_has_link?(key)
-    listing_found = false
-    begin
-      tries ||= 10
-      listing_found = !!Listing.find_by_url(key)
-    rescue ActiveRecord::JDBCError, ActiveRecord::StatementInvalid => e
-      ActiveRecord::Base.connection_pool.clear_stale_cached_connections!
-      if e.message =~ /This connection has been closed/
-        ActiveRecord::Base.connection.reconnect!
-      end
-      sleep 1
-      retry unless (tries -= 1).zero?
-    rescue ActiveRecord::SubclassNotFound => e
-      Rails.logger.info "Link #{key} is throwing SubclassNotFound error! \n#{e.message}\n#{e.backtrace.to_s.gsub(',',"\n")}"
-      listing_found = true
-    rescue Exception
-      sleep 1
-      retry unless (tries -= 1).zero?
-    end
-
-    gs_found = defined?(@page_queue) ? retryable { @page_queue.has_key?(key) } : false
-
-    listing_found || gs_found
-  end
-
   def open_link(raw_url, source=true)
     #FIXME: This is hideous. At the very least the args should be an opts hash.
 

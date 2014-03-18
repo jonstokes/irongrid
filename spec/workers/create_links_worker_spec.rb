@@ -1,12 +1,18 @@
 require 'spec_helper'
 
 describe CreateLinksWorker do
+include SidekiqUtils
+
   before :all do
-    SuperQueue.mock!
+    create_site_from_repo "www.retailer.com"
   end
 
   before :each do
     @worker = CreateLinksWorker.new
+  end
+
+  after :each do
+    LinkSet.new(domain: "www.retailer.com").clear
   end
 
   describe "#perform" do
@@ -14,16 +20,19 @@ describe CreateLinksWorker do
       pending "Example"
     end
 
-    it "spawns a RefreshLinksWorker instance when it starts" do
-      pending "Example"
-      #It spawns an RefreshLinksWorker.perform(domain: domain) to start populating
-      #the LinkSet for this domain in parallel with the crawl. This way, existing listings
-      #will have database ids for them and be updated.
+    it "spawns a RefreshLinksWorker job when it starts" do
+      pending "RefreshLinksWorker hasn't been created yet"
+      @worker.perform(domain: "www.retailer.com")
+      jobs = jobs_for_class("RefreshLinksWorker")
+      jobs.count.should == 1
+      job_domain(jobs.first).should == "www.retailer.com"
     end
 
     it "adds links to a site's LinkSet" do
-      pending "Example"
-      # LinkSet << { url: link }
+      CreateLinksWorker.new.perform(domain: "www.retailer.com")
+      ls = LinkSet.new(domain: "www.retailer.com")
+      ls.size.should == 436
+      expect(ls.pop).to match(/http.*retailer\.com/)
     end
   end
 

@@ -10,12 +10,11 @@ class CreateLinksWorker < CoreWorker
     opts.symbolize_keys!
     return false unless (@domain = opts[:domain]) && i_am_alone?(@domain)
 
-    @http = Anemone::HTTP.new
+    @http = PageUtils::HTTP.new
     @links_to_add_to_store = Set.new
-    @site = opts[:site] || db { Site.find_by_domain(@domain) }
+    @site = opts[:site] || db { Site.find_by_domain(domain) }
     @rate_limiter = RateLimiter.new(@site.rate_limit)
-    @link_store = opts[:link_store] || LinkQueue.new(@domain)
-    @page_queue = opts[:page_queue] || PageQueue.new(@domain)
+    @link_store = opts[:link_store] || LinkSet.new(domain: domain)
     record_opts = opts[:record] || {
       links_crawled: 0,
       links_created: 0,
@@ -26,23 +25,19 @@ class CreateLinksWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
+    #RefreshLinksWorker.perform_async(domain: domain)
     notify "Running #{link_list.size} links with rate limit #{@site.rate_limit}..."
     link_list.each do |link|
       pull_product_links_from_seed(link).each { |url| @links_to_add_to_store << url }
     end
-    @links_to_add_to_store.reject! do |link|
-      db { system_has_link?(link) }
-    end
     notify "Adding #{@links_to_add_to_store.size} product links to link store..."
-    record_set :links_created, @link_store.add_links(links_to_add_to_store)
+    record_set :links_created, @link_store.add(links_to_add_to_store)
     notify "#{@record.links_created} links added to link store."
     clean_up
   end
 
   def clean_up
-    @link_store.shutdown
-    @page_queue.shutdown
-    @link_store = @page_queue = nil
+    @link_store = nil
     stop_tracking
     @site.mark_read!
   end

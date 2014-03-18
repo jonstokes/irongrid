@@ -49,4 +49,5 @@ group :test do
   gem 'rdoc'
   gem "factory_girl_rails"
   gem "ffaker"
+  gem 'mocktra'
 end

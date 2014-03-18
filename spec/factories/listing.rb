@@ -27,7 +27,7 @@ end
 
 FactoryGirl.define do
   factory :listing do
-    sequence(:url) { |i| "url-#{i}" }
+    sequence(:url) { |i| "http://www.retailer.com/#{i}" }
     sequence(:digest) { |i| "digest-#{i}" }
     item_data { retail_item_data }
     updated_at Time.current
