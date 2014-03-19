@@ -7,17 +7,9 @@ describe AvantlinkWorker do
       @pq = PageQueue.new
     end
 
-    it "should add new listings to the PageQueue with proper :format" do
+    it "should add new (and modified) listings to the PageQueue with proper :format" do
       pending "Example"
       # PQ << { url: url, source: xml, format: :xml }
-    end
-
-    it "should add modified listings to the PageQueue with proper :format and :id" do
-      pending "Example"
-      # PQ << { url: url, source: xml, format: :xml, id: :lookup }
-
-      # @worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed.xml")
-      # write_page_queue_to_database
       worker = AffiliatesWorker.new
       worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed_update.xml")
       @pq.size.should == 10
@@ -25,10 +17,10 @@ describe AvantlinkWorker do
       @page.pop[:source].should_not be_nil
     end
 
-    it "should add removed listings to the PageQueue with the proper :id and :source" do
+    it "should add removed listings to the PageQueue with the proper :source" do
       pending "Example"
       # if status == "REMOVED"
-      #   PQ { url: url, source: nil, id: :lookup }
+      #   PQ { url: url, source: nil }
       worker = AffiliatesWorker.new
       worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed_remove.xml")
       @pq.size.should == 10
@@ -62,6 +54,7 @@ describe AvantlinkWorker do
     end
 
     it "should modify listings that are marked as modified" do
+      pending "Example"
     end
 
     it "should delete listings that are marked as deleted" do
