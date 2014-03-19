@@ -4,110 +4,75 @@ Feature: Update Retail Listings
   Scenario:
     Update a retail listing with RefreshLinksWorker so that it has a new price
 
-    Given a set of pages on the test-site.com
+    Given a set of pages on the www.retailer.com
     And the following page exists:
-      |url                          | price
-      |"http://www.test-site.com/1" | $2.00
+      |url                             | price
+      |"http://www.retailer.com/1" | $2.00
     And the following retail listing exists in the database
-      |url                          | image        | updated_at | price
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 | 2.days.ago | $1.00
+      |url                             | image        | updated_at | price
+      |"http://www.retailer.com/1" | TEST_IMAGE_1 | 2.days.ago | $1.00
 
-    When I run RefreshLinksWorker for test-site.com
-    Then 1 link should be added to the LinkSet for test-site.com
+    When I run RefreshLinksWorker for www.retailer.com
+    Then the LinkSet for www.retailer.com should have 1 link
+    And sidekiq should have 1 CreateLinksWorker
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then 1 page should be added to the PageQueue
+    When I run CreateLinksWorker for www.retailer.com
+    Then the LinkSet for www.retailer.com should have 1 link
+    And sidekiq should have 1 ParsePagesWorker
 
-    And I empty the PageQueue with ParsePagesWorker
-    Then 1 page should be added to the ParsedPageQueue
-    And 1 link should be added to the ImageSet for test-site.com
+    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    Then the LinkSet for www.retailer.com should have 0 links
+    And the ImageSet for www.retailer.com should have 0 links
+    And Sidekiq should have 1 WriteListingWorker with action "update"
 
-    When I run CreateUpdateListingsWorker
-    Then the database should have 1 retail listings
-    And the search index should have 1 retail listings
-    And the database should have 0 retail listings with a nil image
-    And the search index should have 0 retail listings with a nil image
+    When I run WriteListingWorker from Sidekiq
+    Then the database should have 1 retail listing
+    And the search index should have 1 retail listing
+    And the database should have 0 retail listings without an image
+    And the search index should have 0 retail listings without an image
     And the database should have 1 retail listing with price $2.00
     And the search index should have 1 retail listing with price $2.00
-
-    When I empty the ImageSet for test-site.com with CreateCdnImagesWorker for test-site.com
-    Then the CDN should have 1 images
-
-    When I run the UpdateListingImagesWorker
-    Then the database should have 0 retail listings with a nil image
-    And the search index should have 0 retail listings with a nil image
-
-  @wip
-  Scenario:
-    Update a retail listing with CreateListingsWorker so that it has a new price
-
-    Given a set of pages on the test-site.com
-    And the following page exists:
-      |url                          | price
-      |"http://www.test-site.com/1" | $2.00
-    And the following retail listing exists in the database
-      |url                          | image        | updated_at | price
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 | 2.days.ago | $1.00
-
-    When I run CreateListingsWorker for test-site.com
-    Then the LinkSet for test-site.com should have 20 links
-
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 20 pages
-
-    And I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 10 pages
-    And the ImageSet for test-site.com should have 10 links
-
-    When I run CreateUpdateListingsWorker
-    Then the database should have 10 retail listings
-    And the search index should have 10 retail listings
-    And the database should have 9 retail listings with a nil image
-    And the search index should have 9 retail listings with a nil image
-    And the database should have 1 retail listing with price $2.00
-    And the search index should have 1 retail listing with price $2.00
-
-    When I empty the ImageSet for test-site.com with CreateCdnImagesWorker for test-site.com
-    Then the CDN should have 10 images
-
-    When I run the UpdateListingImagesWorker
-    Then the database should have 0 retail listings with a nil image
-    And the search index should have 0 retail listings with a nil image
 
   @wip
   Scenario:
     Update a retail listing so that it has a new image
 
-    Given a set of pages on the test-site.com
+    Given a set of pages on the www.retailer.com
     And the following page exists:
-      |url                          | image
-      |"http://www.test-site.com/1" | TEST_IMAGE_2
+      |url                             | image
+      |"http://www.retailer.com/1" | TEST_IMAGE_2
     And the following retail listing exists in the database
-      |url                          | image        | updated_at
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 | 2.days.ago
+      |url                             | image        | updated_at
+      |"http://www.retailer.com/1" | TEST_IMAGE_1 | 2.days.ago
 
-    When I run RefreshLinksWorker for test-site.com
-    Then the LinkSet for test-site.com should have 1 link
+    When I run RefreshLinksWorker for www.retailer.com
+    Then the LinkSet for www.retailer.com should have 1 link
+    And sidekiq should have 1 CreateLinksWorker
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 1 page
+    When I run CreateLinksWorker for www.retailer.com
+    Then the LinkSet for www.retailer.com should have 1 link
+    And sidekiq should have 1 ParsePagesWorker
 
-    And I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 1 page
-    And the ImageSet for test-site.com should have 1 link
+    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    Then the LinkSet for www.retailer.com should have 0 links
+    And the ImageSet for www.retailer.com should have 1 link
+    And Sidekiq should have 1 WriteListingWorker with action "update"
 
-    When I run CreateUpdateListingsWorker
+    When I run WriteListingWorker from Sidekiq
     Then the database should have 1 retail listings
     And the search index should have 1 retail listings
-    And the database should have 1 retail listings with a nil image
-    And the search index should have 1 retail listings with a nil image
+    And the database should have 1 retail listings without an image
+    And the search index should have 1 retail listings without an image
 
-    When I empty the ImageSet for test-site.com with CreateCdnImagesWorker for test-site.com
-    Then the CDN should have 1 image
+    When I run CreateCdnImages for www.retailer.com from Sidekiq
+    Then the ImageSet should have 0 links
+    And the CDN should have 1 image
+    And Sidekiq should have 1 UpdateListingImageWorker
 
-    When I run the UpdateListingImagesWorker
-    Then the database should have 0 retail listings with a nil image
-    And the search index should have 0 retail listings with a nil image
+    When I run UpdateListingImageWorker from Sidekiq
+    Then the database should have 1 retail listing with an image
+    And the search index should have 1 retail listing with an image
+
 
   @wip
   Scenario:
@@ -116,24 +81,26 @@ Feature: Update Retail Listings
     Given an affiliate feed with one "update" entry
     And the following retail listing exists in the database
       |url                          | image        | updated_at | price
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 | 2.days.ago | $1.00
+      |"http://www.affiliate.com/1" | TEST_IMAGE_1 | 2.days.ago | $1.00
 
-    When I run AffiliatesWorker for test-site.com
-    Then the LinkSet for test-site.com should have 1 link
+    When I run AffiliatesWorker for www.affiliate.com
+    Then the ImageSet for www.affiliate.com should have 1 link
+    And Sidekiq should have 1 WriteListingsWorker
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 1 page
-
-    And I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 1 page
-    And the ImageSet for test-site.com should have 0 links
-
-    When I run CreateUpdateListingsWorker
+    When I run the WriteListingWorker from Sidekiq
     Then the database should have 1 retail listings
     And the search index should have 1 retail listings
-    And the database should have 0 retail listings with a nil image
-    And the search index should have 0 retail listings with a nil image
     And the database should have 1 retail listing with price $2.00
     And the search index should have 1 retail listing with price $2.00
 
+    When I run CreateCdnImages for www.affiliate.com from Sidekiq
+    Then the ImageSet should have 0 links
+    And the CDN should have 1 image
+    And Sidekiq should have 1 UpdateListingImageWorker
+
+    When I run UpdateListingImageWorker from Sidekiq
+    Then the database should have 1 retail listing with an image
+    And the search index should have 1 retail listing with an image
+    And the database should have 0 retail listings without an image
+    And the search index should have 0 retail listings without an image
 

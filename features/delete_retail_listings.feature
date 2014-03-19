@@ -6,7 +6,7 @@ Feature: Delete or Deactivate Listings
 
     Given the following auction listing exists in the database:
       |url                          | image        |auction_ends
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 | 1.day.ago
+      |"http://www.retailer.com/1" | TEST_IMAGE_1 | 1.day.ago
 
     Given an auction listing exists in the database with auction_ends 1 day ago
     And an auction listing exists in the database with image TEST_IMAGE_1
@@ -25,29 +25,27 @@ Feature: Delete or Deactivate Listings
   Scenario:
     Delete a sold classified listing
 
-    Given a set of pages on the test-site.com
+    Given a set of pages on the retailer.com
     And the following page exists:
       |url                          | type
-      |"http://www.test-site.com/1" | classified_sold
+      |"http://www.retailer.com/1" | classified_sold
     And the following classified listing exists in the database
       |url                          | image        | updated_at
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 | 2.days.ago
+      |"http://www.retailer.com/1" | TEST_IMAGE_1 | 2.days.ago
     And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run RefreshLinksWorker for test-site.com
-    Then the LinkSet for test-site.com should have 1 link
+    When I run RefreshLinksWorker for retailer.com
+    Then the LinkSet for retailer.com should have 1 link
+    And Sidekiq should have 1 ParsePagesWorker
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 1 page
+    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    Then the LinkSet for www.retailer.com should have 0 links
+    And the ImageSet for www.retailer.com should have 0 links
+    And Sidekiq should have 1 WriteListingWorker with action "delete"
 
-    When I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 0 pages
-    And the ImageSet for test-site.com should have 0 links
-    And the DeleteListingsQueue should have 1 listing
-
-    When I run DeleteListingsWorker
-    Then the database should have 0 classified listings
-    And the search index should have 0 classified listings
+    When I run WriteListingWorker from Sidekiq
+    Then the database should have 0 retail listings
+    And the search index should have 0 retail listings
 
     When I run DeleteCdnImagesWorker
     Then the CDN should not have TEST_IMAGE_1
@@ -56,26 +54,24 @@ Feature: Delete or Deactivate Listings
   Scenario:
     Delete a not_found retail listing
 
-    Given a set of pages on the test-site.com
+    Given a set of pages on the retailer.com
     And the following page exists:
       |url                          | type
-      |"http://www.test-site.com/1" | not_found
+      |"http://www.retailer.com/1" | not_found
     And the following retail listing exists in the database
       |url                          | image        |updated_at
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 |2.days.ago
+      |"http://www.retailer.com/1" | TEST_IMAGE_1 |2.days.ago
 
-    When I run RefreshLinksWorker for test-site.com
-    Then the LinkSet for test-site.com should have 1 link
+    When I run RefreshLinksWorker for retailer.com
+    Then the LinkSet for retailer.com should have 1 link
+    And Sidekiq should have 1 ParsePagesWorker
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 1 page
+    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    Then the LinkSet for www.retailer.com should have 0 links
+    And the ImageSet for www.retailer.com should have 0 links
+    And Sidekiq should have 1 WriteListingWorker with action "delete"
 
-    When I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 0 pages
-    And the ImageSet for test-site.com should have 0 links
-    And the DeleteListingsQueue should have 1 listing
-
-    When I run DeleteListingsWorker
+    When I run WriteListingWorker from Sidekiq
     Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
@@ -86,59 +82,56 @@ Feature: Delete or Deactivate Listings
   Scenario:
     Delete a 404 retail listing
 
-    Given a set of pages on the test-site.com
-    And a page does not exist at http://www.test-site.com/1
+    Given a set of pages on the retailer.com
+    And a page does not exist at http://www.retailer.com/1
     And the following retail listing exists in the database:
       |url                          | image        |updated_at
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 |2.days.ago
+      |"http://www.retailer.com/1" | TEST_IMAGE_1 |2.days.ago
     And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run RefreshLinksWorker for test-site.com
-    Then the LinkSet for test-site.com should have 1 link
+    When I run RefreshLinksWorker for retailer.com
+    Then the LinkSet for retailer.com should have 1 link
+    And Sidekiq should have 1 ParsePagesWorker
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 1 pages
+    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    Then the LinkSet for www.retailer.com should have 0 links
+    And the ImageSet for www.retailer.com should have 0 links
+    And Sidekiq should have 1 WriteListingWorker with action "delete"
 
-    When I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 0 pages
-    And the ImageSet for test-site.com should have 0 links
-    And the DeleteListingsQueue should have 1 listing
-
-    When I run DeleteListingsWorker
+    When I run WriteListingWorker from Sidekiq
     Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
     When I run DeleteCdnImagesWorker
-    Then the CDN should have 0 images
+    Then the CDN should not have TEST_IMAGE_1
 
   @wip
   Scenario:
     Deactivate an invalid listing
 
-    Given a set of pages on the test-site.com with type not_found
+    Given a set of pages on the retailer.com with type not_found
     And the following page exists:
       |url                          | type
-      |"http://www.test-site.com/1" | invalid
+      |"http://www.retailer.com/1" | invalid
     And the following listing exists in the database:
       |url                          | image        |updated_at
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 |2.days.ago
+      |"http://www.retailer.com/1" | TEST_IMAGE_1 |2.days.ago
+    And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run RefreshLinksWorker for test-site.com
-    Then the LinkSet for test-site.com should have 1 link
+    When I run RefreshLinksWorker for retailer.com
+    Then the LinkSet for retailer.com should have 1 link
+    And Sidekiq should have 1 ParsePagesWorker
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 1 page
+    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    Then the LinkSet for www.retailer.com should have 0 links
+    And the ImageSet for www.retailer.com should have 0 links
+    And Sidekiq should have 1 WriteListingWorker with action "deactivate"
 
-    When I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 0 pages
-    And the ImageSet for test-site.com should have 0 links
-    And the DeactivateListingsQueue should have 1 listing
-
-    When I run DeactivateListingsWorker
-    Then the database should have 1 retail listings with type "inactive"
+    When I run WriteListingWorker from Sidekiq
+    Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
-    When I run UpdateListingImagesWorker
+    When I run DeleteCdnImagesWorker
     Then the CDN should have 1 images
 
 
@@ -150,15 +143,15 @@ Feature: Delete or Deactivate Listings
     Given an affiliate feed with one "remove" entry
     And the following retail listing exists in the database:
       |url                          | image        |updated_at
-      |"http://www.test-site.com/1" | TEST_IMAGE_1 |2.days.ago
-      |"http://www.test-site.com/2" | TEST_IMAGE_1 |2.days.ago
+      |"http://www.retailer.com/1" | TEST_IMAGE_1 |2.days.ago
+      |"http://www.retailer.com/2" | TEST_IMAGE_1 |2.days.ago
     And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
     When I run AffiliatesWorker
-    Then DeleteListingsQueue should have 1 listing
+    Then Sidekiq should have 2 WriteListingsWorkers
 
-    When I run the DeleteListingsWorker
-    Then the database should have 0 retail listings
+    When I run the WriteListingsWorkers from Sidekiq
+    Then the database should have 1 retail listings
 
     When I run DeleteCdnImagesWorker
     Then the CDN should have TEST_IMAGE_1

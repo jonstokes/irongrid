@@ -2,86 +2,105 @@ Feature: Create Retail Listings
 
   @wip
   Scenario:
-    Create retail listings from a site with valid and invalid pages
+    Create a retail listing from a site with valid and invalid pages
 
-    Given the LinkSet for test-site.com is populated
+    Given www.retailer.com has 1 valid page and 1 invalid page
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 20 pages
+    When I run RefreshLinksWorker for www.retailer.com
+    Then the LinkSet for www.retailer.com should have 0 links
+    And Sidekiq should have 1 CreateLinksWorker for www.retailer.com
 
-    When I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 10 pages
-    And the ImageSet for test-site.com should have 10 links
+    When I run CreateLinksWorker for www.retailer.com from Sidekiq
+    Then the LinkSet for www.retailer.com should have 2 links
+    And Sidekiq should have 1 ParsePagesWorker for www.retailer.com
 
-    When I run CreateUpdateListingsWorker
-    Then the database should have 10 retail listings
-    And the search index should have 10 retail listings
-    And the database should have 10 retail listings with a nil image
-    And the search index should have 10 retail listings with a nil image
+    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    Then the LinkSet for www.retailer.com should have 0 links
+    And the ImageSet for www.retailer.com should have 1 link
+    And Sidekiq should have 1 WriteListingWorker with action "create"
 
-    When I empty the ImageSet for test-site.com with CreateCdnImagesWorker for test-site.com
-    Then the CDN should have 10 images
+    When I run WriteListingWorker from Sidekiq
+    Then the database should have one retail listing
+    And the search index should have one retail listing without an image
 
-    When I run the UpdateListingImagesWorker
-    Then the database should have 0 retail listings with a nil image
-    And the search index should have 0 retail listings with a nil image
+    When I run CreateCdnImages for www.retailer.com from Sidekiq
+    Then the ImageSet should have 0 links
+    And the CDN should have 1 image
+    And Sidekiq should have 1 UpdateListingImageWorker
+
+    When I run UpdateListingImageWorker from Sidekiq
+    Then the database should have 1 retail listing with an image
+    And the search index should have 1 retail listing with an image
 
   @wip
   Scenario:
-    Create retail listings from a set of valid and invalid links
+    Create retail listings from a set of valid and 404 links
 
-    Given the LinkSet for test-site.com is populated
-    And the LinkSet for test-site.com is seeded with 5 invalid links
+    Given the LinkSet for test-site.com is seeded with 1 valid link
+    And the LinkSet for test-site.com is seeded with 1 404 link
 
-    When I empty the LinkSet for test-site.com with CreatePagesWorker for test-site.com
-    Then the PageQueue should have 20 pages
+    When I run ParsePagesWorker for www.retailer.com
+    Then the LinkSet for www.retailer.com should have 0 links
+    And the ImageSet for www.retailer.com should have 1 link
+    And Sidekiq should have 1 WriteListingWorker with action "create"
 
-    When I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 10 pages
-    And the ImageSet for test-site.com should have 10 links
+    When I run WriteListingWorker from Sidekiq
+    Then the database should have one retail listing
+    And the search index should have one retail listing without an image
 
-    When I run CreateUpdateListingsWorker
-    Then the database should have 10 retail listings
-    And the search index should have 10 retail listings
-    And the database should have 10 retail listings with a nil image
-    And the search index should have 10 retail listings with a nil image
+    When I run CreateCdnImages for www.retailer.com from Sidekiq
+    Then the ImageSet should have 0 links
+    And the CDN should have 1 image
+    And Sidekiq should have 1 UpdateListingImageWorker
 
-    When I empty the ImageSet for test-site.com with CreateCdnImagesWorker for test-site.com
-    Then the CDN should have 10 images
-
-    When I run the UpdateListingImagesWorker
-    Then the database should have 0 retail listings with a nil image
-    And the search index should have 0 retail listings with a nil image
+    When I run UpdateListingImageWorker from Sidekiq
+    Then the database should have 1 retail listing with an image
+    And the search index should have 1 retail listing with an image
 
   @wip
   Scenario:
     Create ten retail listings from an affiliate feed
 
     Given an affiliate feed with 10 "create" entries
-    When I run AffiliatesWorker
-    Then the PageQueue should have 10 pages
 
-    When I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 10 pages
+    When I run AffiliatesWorker for www.affiliate.com
+    Then the ImageSet for www.affiliate.com should have 10 links
+    And Sidekiq should have 10 WriteListingsWorkers
 
-    When I empty the ParsedPageQueue with CreateUpdateListingsWorker
-    Then the database should have 10 retail listings
+    When I run the WriteListingsWorkers in Sidekiq
+    Then the ImageSet for www.affiliate.com should have 0 links
+    And the database should have 10 retail listings without an image
     And the search index should have 10 retail listings
+
+    When I run CreateCdnImages for www.retailer.com from Sidekiq
+    Then the ImageSet should have 0 links
     And the CDN should have 10 images
+    And Sidekiq should have 10 UpdateListingImageWorkers
+
+    When I run UpdateListingImageWorkers from Sidekiq
+    Then the database should have 10 retail listing with an image
+    And the search index should have 10 retail listing with an image
 
   @wip
   Scenario:
     Create ten retail listings from an rss feed
 
     Given an rss feed with 10 entries
-    When I run RssWorker
-    Then the PageQueue should have 10 pages
 
-    When I empty the PageQueue with ParsePagesWorker
-    Then the ParsedPageQueue should have 10 pages
+    Then the ImageSet for www.rss.com should have 10 links
+    And Sidekiq should have 10 WriteListingsWorkers
 
-    When I empty the ParsedPageQueue with CreateUpdateListingsWorker
-    Then the database should have 10 retail listings
+    When I run the WriteListingsWorkers in Sidekiq
+    Then the ImageSet for www.rss.com should have 0 links
+    And the database should have 10 retail listings without an image
     And the search index should have 10 retail listings
+
+    When I run CreateCdnImages for www.rss.com from Sidekiq
+    Then the ImageSet should have 0 links
     And the CDN should have 10 images
+    And Sidekiq should have 10 UpdateListingImageWorkers
+
+    When I run UpdateListingImageWorkers from Sidekiq
+    Then the database should have 10 retail listing with an image
+    And the search index should have 10 retail listing with an image
 
