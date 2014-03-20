@@ -12,20 +12,20 @@ Feature: Update Retail Listings
       |url                             | image        | updated_at | price
       |"http://www.retailer.com/1" | TEST_IMAGE_1 | 2.days.ago | $1.00
 
-    When I run RefreshLinksWorker for www.retailer.com
+    When I drain RefreshLinksWorker
     Then the LinkSet for www.retailer.com should have 1 link
-    And sidekiq should have 1 CreateLinksWorker
+    And Sidekiq should have 1 CreateLinksWorker
 
-    When I run CreateLinksWorker for www.retailer.com
+    When I drain CreateLinksWorker
     Then the LinkSet for www.retailer.com should have 1 link
-    And sidekiq should have 1 ParsePagesWorker
+    And Sidekiq should have 1 ParsePagesWorker
 
-    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    When I drain ParsePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "update"
 
-    When I run WriteListingWorker from Sidekiq
+    When I drain WriteListingWorker
     Then the database should have 1 retail listing
     And the search index should have 1 retail listing
     And the database should have 0 retail listings without an image
@@ -45,31 +45,31 @@ Feature: Update Retail Listings
       |url                             | image        | updated_at
       |"http://www.retailer.com/1" | TEST_IMAGE_1 | 2.days.ago
 
-    When I run RefreshLinksWorker for www.retailer.com
+    When I drain RefreshLinksWorker
     Then the LinkSet for www.retailer.com should have 1 link
-    And sidekiq should have 1 CreateLinksWorker
+    And Sidekiq should have 1 CreateLinksWorker
 
-    When I run CreateLinksWorker for www.retailer.com
+    When I drain CreateLinksWorker
     Then the LinkSet for www.retailer.com should have 1 link
-    And sidekiq should have 1 ParsePagesWorker
+    And Sidekiq should have 1 ParsePagesWorker
 
-    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    When I drain ParsePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 1 link
     And Sidekiq should have 1 WriteListingWorker with action "update"
 
-    When I run WriteListingWorker from Sidekiq
+    When I drain WriteListingWorker
     Then the database should have 1 retail listings
     And the search index should have 1 retail listings
     And the database should have 1 retail listings without an image
     And the search index should have 1 retail listings without an image
 
-    When I run CreateCdnImages for www.retailer.com from Sidekiq
+    When I drain CreateCdnImagesWorker
     Then the ImageSet should have 0 links
     And the CDN should have 1 image
     And Sidekiq should have 1 UpdateListingImageWorker
 
-    When I run UpdateListingImageWorker from Sidekiq
+    When I drain UpdateListingImageWorker
     Then the database should have 1 retail listing with an image
     And the search index should have 1 retail listing with an image
 
@@ -83,22 +83,22 @@ Feature: Update Retail Listings
       |url                          | image        | updated_at | price
       |"http://www.affiliate.com/1" | TEST_IMAGE_1 | 2.days.ago | $1.00
 
-    When I run AffiliatesWorker for www.affiliate.com
+    When I drain AffiliatesWorker for www.affiliate.com
     Then the ImageSet for www.affiliate.com should have 1 link
     And Sidekiq should have 1 WriteListingsWorker
 
-    When I run the WriteListingWorker from Sidekiq
+    When I drain WriteListingWorker
     Then the database should have 1 retail listings
     And the search index should have 1 retail listings
     And the database should have 1 retail listing with price $2.00
     And the search index should have 1 retail listing with price $2.00
 
-    When I run CreateCdnImages for www.affiliate.com from Sidekiq
+    When I drain CreateCdnImages for www.affiliate.com from Sidekiq
     Then the ImageSet should have 0 links
     And the CDN should have 1 image
     And Sidekiq should have 1 UpdateListingImageWorker
 
-    When I run UpdateListingImageWorker from Sidekiq
+    When I drain UpdateListingImageWorker
     Then the database should have 1 retail listing with an image
     And the search index should have 1 retail listing with an image
     And the database should have 0 retail listings without an image

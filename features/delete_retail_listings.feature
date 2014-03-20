@@ -12,13 +12,13 @@ Feature: Delete or Deactivate Listings
     And an auction listing exists in the database with image TEST_IMAGE_1
     And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run DeleteEndedAuctionsWorker
-    Then 1 listing should be added to the DeleteListingsQueue
+    When I drain DeleteEndedAuctionsWorker
+    Then 1 retail listing should be added to the DeleteListingsQueue
 
-    When I run DeleteListingsWorker
+    When I drain DeleteListingsWorker
     Then the database should have 0 auction listings
 
-    When I run DeleteCdnImagesWorker
+    When I drain DeleteCdnImagesWorker
     Then the CDN should not have TEST_IMAGE_1
 
   @wip
@@ -34,20 +34,20 @@ Feature: Delete or Deactivate Listings
       |"http://www.retailer.com/1" | TEST_IMAGE_1 | 2.days.ago
     And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run RefreshLinksWorker for retailer.com
+    When I drain RefreshLinksWorker
     Then the LinkSet for retailer.com should have 1 link
     And Sidekiq should have 1 ParsePagesWorker
 
-    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    When I drain ParsePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "delete"
 
-    When I run WriteListingWorker from Sidekiq
+    When I drain WriteListingWorker
     Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
-    When I run DeleteCdnImagesWorker
+    When I drain DeleteCdnImagesWorker
     Then the CDN should not have TEST_IMAGE_1
 
   @wip
@@ -62,20 +62,20 @@ Feature: Delete or Deactivate Listings
       |url                          | image        |updated_at
       |"http://www.retailer.com/1" | TEST_IMAGE_1 |2.days.ago
 
-    When I run RefreshLinksWorker for retailer.com
+    When I drain RefreshLinksWorker
     Then the LinkSet for retailer.com should have 1 link
     And Sidekiq should have 1 ParsePagesWorker
 
-    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    When I drain ParsePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "delete"
 
-    When I run WriteListingWorker from Sidekiq
+    When I drain WriteListingWorker
     Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
-    When I run DeleteCdnImagesWorker
+    When I drain DeleteCdnImagesWorker
     Then the CDN should not have TEST_IMAGE_1
 
   @wip
@@ -89,20 +89,20 @@ Feature: Delete or Deactivate Listings
       |"http://www.retailer.com/1" | TEST_IMAGE_1 |2.days.ago
     And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run RefreshLinksWorker for retailer.com
+    When I drain RefreshLinksWorker
     Then the LinkSet for retailer.com should have 1 link
     And Sidekiq should have 1 ParsePagesWorker
 
-    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    When I drain ParsePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "delete"
 
-    When I run WriteListingWorker from Sidekiq
+    When I drain WriteListingWorker
     Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
-    When I run DeleteCdnImagesWorker
+    When I drain DeleteCdnImagesWorker
     Then the CDN should not have TEST_IMAGE_1
 
   @wip
@@ -118,20 +118,20 @@ Feature: Delete or Deactivate Listings
       |"http://www.retailer.com/1" | TEST_IMAGE_1 |2.days.ago
     And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run RefreshLinksWorker for retailer.com
+    When I drain RefreshLinksWorker
     Then the LinkSet for retailer.com should have 1 link
     And Sidekiq should have 1 ParsePagesWorker
 
-    When I run ParsePagesWorker for www.retailer.com from Sidekiq
+    When I drain ParsePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "deactivate"
 
-    When I run WriteListingWorker from Sidekiq
+    When I drain WriteListingWorker
     Then the database should have 0 retail listings
     And the search index should have 0 retail listings
 
-    When I run DeleteCdnImagesWorker
+    When I drain DeleteCdnImagesWorker
     Then the CDN should have 1 images
 
 
@@ -147,13 +147,13 @@ Feature: Delete or Deactivate Listings
       |"http://www.retailer.com/2" | TEST_IMAGE_1 |2.days.ago
     And the CDN has TEST_IMAGE_1 last modified 2 weeks ago
 
-    When I run AffiliatesWorker
-    Then Sidekiq should have 2 WriteListingsWorkers
+    When I drain AffiliatesWorker
+    Then Sidekiq should have 2 WriteListingsWorker
 
-    When I run the WriteListingsWorkers from Sidekiq
+    When I drain WriteListingsWorker
     Then the database should have 1 retail listings
 
-    When I run DeleteCdnImagesWorker
+    When I drain DeleteCdnImagesWorker
     Then the CDN should have TEST_IMAGE_1
 
 
