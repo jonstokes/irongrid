@@ -1,4 +1,5 @@
 require 'spec_helper'
+include SidekiqUtils
 
 describe RefreshLinksWorker do
   before :all do
@@ -10,7 +11,7 @@ describe RefreshLinksWorker do
   end
 
   describe "#perform" do
-    it "adds linksto the LinkSet for stale listings" do
+    it "adds links to the LinkSet for stale listings" do
       FactoryGirl.create(:retail_listing, site_id: @site.id, updated_at: Time.now - 10.hours)
       FactoryGirl.create(:retail_listing, site_id: @site.id, updated_at: Time.now)
       RefreshLinksWorker.new.perform(domain: "www.retailer.com")
@@ -20,14 +21,5 @@ describe RefreshLinksWorker do
       expect(link).to match(/retailer\.com/)
       expect(CreateLinksWorker.jobs.count).to eq(1)
     end
-
-    it "does not transition to next state if the LinkSet is empty" do
-      FactoryGirl.create(:retail_listing, site_id: @site.id, updated_at: Time.now)
-      RefreshLinksWorker.new.perform(domain: "www.retailer.com")
-      ls = LinkSet.new(domain: "www.retailer.com")
-      ls.size.should == 0
-      expect(CreateLinksWorker.jobs.count).to eq(0)
-    end
-
   end
 end

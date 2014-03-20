@@ -26,7 +26,6 @@ class CreateLinksWorker < CoreWorker
 
   def perform(opts)
     return unless init(opts)
-    #RefreshLinksWorker.perform_async(domain: domain)
     notify "Running #{link_list.size} links with rate limit #{@site.rate_limit}..."
     link_list.each do |link|
       pull_product_links_from_seed(link).each { |url| @links_to_add_to_store << url }
@@ -35,12 +34,16 @@ class CreateLinksWorker < CoreWorker
     record_set :links_created, @link_store.add(links_to_add_to_store)
     notify "#{@record.links_created} links added to link store."
     clean_up
+    transition unless @link_store.empty?
   end
 
   def clean_up
-    @link_store = nil
     stop_tracking
     @site.mark_read!
+  end
+
+  def transition
+    ParsePagesWorker.perform_async(domain: domain)
   end
 
   def pull_product_links_from_seed(link)

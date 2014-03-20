@@ -1,10 +1,18 @@
 require 'spec_helper'
+require 'mocktra'
 
 describe CreateLinksWorker do
 include SidekiqUtils
 
   before :all do
-    create_site_from_repo "www.retailer.com"
+    @site = create_site_from_repo "www.retailer.com"
+    Mocktra(@site.domain) do
+      get '/products' do
+        File.open("#{Rails.root}/spec/fixtures/web_pages/www--retailer--com/products.html") do |file|
+          file.read
+        end
+      end
+    end
   end
 
   before :each do
@@ -12,27 +20,20 @@ include SidekiqUtils
   end
 
   after :each do
-    LinkSet.new(domain: "www.retailer.com").clear
+    LinkSet.new(domain: @site.domain).clear
   end
 
   describe "#perform" do
-    it "will not start if another worker is reading this domain" do
-      pending "Example"
-    end
-
-    it "spawns a RefreshLinksWorker job when it starts" do
-      pending "RefreshLinksWorker hasn't been created yet"
-      @worker.perform(domain: "www.retailer.com")
-      jobs = jobs_for_class("RefreshLinksWorker")
-      jobs.count.should == 1
-      job_domain(jobs.first).should == "www.retailer.com"
-    end
-
-    it "adds links to a site's LinkSet" do
-      CreateLinksWorker.new.perform(domain: "www.retailer.com")
-      ls = LinkSet.new(domain: "www.retailer.com")
+    it "adds links to a site's LinkSet and transitions to ParsePagesWorker" do
+      CreateLinksWorker.new.perform(domain: @site.domain)
+      ls = LinkSet.new(domain: @site.domain)
       ls.size.should == 436
       expect(ls.pop).to match(/http.*retailer\.com/)
+      expect(ParsePagesWorker.jobs.count).to eq(1)
+    end
+
+    it "does not transition to ParsePagesWorker if no links were added to the link store" do
+      pending "Example"
     end
   end
 

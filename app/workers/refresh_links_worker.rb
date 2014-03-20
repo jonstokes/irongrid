@@ -40,7 +40,7 @@ class RefreshLinksWorker < CoreWorker
     @link_store.add(listings.map(&:url))
 
     clean_up
-    transition unless @link_store.empty?
+    transition
   end
 
   def listings
