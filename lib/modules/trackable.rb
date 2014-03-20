@@ -1,4 +1,5 @@
 module Trackable
+  include Notifier
   attr_reader :tracker_error, :done, :record, :status
 
   def track(opts={})
@@ -11,7 +12,7 @@ module Trackable
       complete: false
     )
     @write_interval = opts[:write_interval]
-    @record ||= find_or_create_record(opts)
+    @record ||= JobRecord.new(opts)
     status_update
   end
 
@@ -22,7 +23,7 @@ module Trackable
   def status_update
     return if @write_interval && !(@count % @write_interval == 0)
     @count += 1
-    db { @record.save }
+    notify @record.to_json
   end
 
   def record_incr(attr)
@@ -33,15 +34,5 @@ module Trackable
     @done = true
     @record.complete = true
     status_update
-  end
-
-  def find_or_create_record(opts)
-    opts.delete(:write_interval)
-    if opts[:append_record]
-      opts.delete(:append_record)
-      db { JobRecord.append_or_create_job_record(opts) }
-    else
-      db { JobRecord.create(opts) }
-    end
   end
 end
