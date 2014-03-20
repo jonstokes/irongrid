@@ -10,7 +10,7 @@ class LinkSet
     @set_name = "#linkset--#{domain}"
   end
 
-  def add(keys)
+  def push(keys)
     return 0 unless keys
     return 0 if keys.is_a?(String) && keys.blank?
 
@@ -59,6 +59,7 @@ class LinkSet
     end
   end
 
+  alias add push
   alias length size
   alias count size
 

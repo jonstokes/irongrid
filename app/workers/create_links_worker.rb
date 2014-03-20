@@ -7,8 +7,9 @@ class CreateLinksWorker < CoreWorker
   sidekiq_options :queue => :crawls, :retry => false
 
   def init(opts)
+    return unless opts
     opts.symbolize_keys!
-    return false unless (@domain = opts[:domain]) && i_am_alone?(@domain)
+    return false unless (@domain = opts[:domain])
 
     @http = PageUtils::HTTP.new
     @links_to_add_to_store = Set.new
@@ -24,7 +25,7 @@ class CreateLinksWorker < CoreWorker
   end
 
   def perform(opts)
-    return unless opts && init(opts)
+    return unless init(opts)
     #RefreshLinksWorker.perform_async(domain: domain)
     notify "Running #{link_list.size} links with rate limit #{@site.rate_limit}..."
     link_list.each do |link|

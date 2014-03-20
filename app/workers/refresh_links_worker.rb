@@ -2,14 +2,16 @@ class RefreshLinksWorker < CoreWorker
   include Sidekiq::Worker
   include PageUtils
 
-  sidekiq_options :queue => :scheduled, :retry => false
+  sidekiq_options :queue => :db_read, :retry => false
 
-  attr_reader :domain, :query_conditions, :record, :deleted_listing_count, :updated_listing_count
+  attr_reader :domain, :site, :query_conditions, :record, :deleted_listing_count, :updated_listing_count
   attr_accessor :scraper
 
   def init(opts)
+    return unless opts
     opts.symbolize_keys!
-    return false unless (@domain = opts[:domain]) && i_am_alone?(@domain)
+    return false unless (@domain = opts[:domain])
+    @site = Site.find_by_domain(domain)
     record_opts = {
       append_record:    true,
       listings_deleted: 0,
@@ -20,8 +22,8 @@ class RefreshLinksWorker < CoreWorker
     track(record_opts)
     @link_store = LinkSet.new(domain: domain)
     @query_conditions = {
-      seller_domain: domain,
-      type:          ["RetailListing", "ClassifiedListing"],
+      site_id: site.id,
+      type:    ["RetailListing", "ClassifiedListing"],
     }
     @threshold = Time.now - 4.hours
 
@@ -32,12 +34,13 @@ class RefreshLinksWorker < CoreWorker
   end
 
   def perform(opts)
-    return unless opts && init(opts)
+    return unless init(opts)
     return unless listings.any?
 
     @link_store.add(listings.map(&:url))
 
     clean_up
+    transition unless @link_store.empty?
   end
 
   def listings
@@ -49,5 +52,9 @@ class RefreshLinksWorker < CoreWorker
   def clean_up
     stop_tracking
     notify "Batch iteration finished."
+  end
+
+  def transition
+    CreateLinksWorker.perform_async(domain: domain)
   end
 end
