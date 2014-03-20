@@ -2,22 +2,24 @@ class ParsePagesWorker < CoreWorker
   include Sidekiq::Worker
   include PageUtils
 
+  attr_reader :domain, :site
+
   sidekiq_options :queue => :crawls, :retry => false
 
   def initialize
-    @http = Anemone::HTTP.new
-    @start_time = Time.now
+    @http = PageUtils::HTTP.new
   end
 
   def init(opts)
+    return false unless opts
     opts.symbolize_keys!
-    return false unless (@domain = opts[:domain]) && i_am_alone?(@domain)
+    return false unless @domain = opts[:domain]
 
     @site = db { Site.find_by_domain(@domain) }
+    @scraper = ListingScraper.new(@site)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
-    @page_queue = PageQueue.new(@domain)
-    @page_queue.bypass_buffer_on_push!
-    @link_store = LinkQueue.new(@domain)
+    @timeout ||= ((60.0 / site.rate_limit.to_f) * 60).to_i
+    @link_store = LinkStore.new(domain: domain)
     record_opts = {
       pages_created: 0,
       links_deleted: 0
@@ -27,30 +29,87 @@ class ParsePagesWorker < CoreWorker
   end
 
   def perform(opts)
-    return unless opts && init(opts)
+    return unless init(opts)
+
     notify "Emptying link store..."
     while !timed_out? && (link = @link_store.pop) do
       record_incr(:links_deleted)
-      send_to_page_queue(link)
+      @rate_limiter.with_limit { pull_and_process(link) }
     end
     clean_up
+    transition
   end
 
   def clean_up
     notify "Added #{@record.pages_created} from link store."
-    @page_queue.shutdown
-    @link_store.shutdown
-    @page_queue = @link_store = nil
     stop_tracking
   end
 
-  def timed_out?
-    Time.now - @start_time > 3.hours.to_i
+  def transition
+    if @link_store.empty? && @image_store.empty?
+      RefreshLinksWorker.perform_async(domain: domain)
+    elsif !@link_store.empty?
+      self.class.perform_async(domain: domain)
+    end
   end
 
-  def send_to_page_queue(link)
-    return unless link
-    return unless page = @rate_limiter.with_limit { get_page(link) }
-    record_incr(:pages_created) if @page_queue.push(url: link, html: page.body)
+  #
+  # private
+  #
+
+  def timed_out?
+    (@timeout -= 1).zero?
+  end
+
+  def pull_and_process(url)
+    page = get_page(url)
+    if listing = Listing.find_by_url(url)
+      process_existing_listing(listing: listing, url: url, page: page)
+    else
+      process_possible_new_listing(url: url, page: page)
+    end
+    @scraper.empty!
+  end
+
+  def process_possible_new_listing(opts)
+    page, url = opts[:page], opts[:url]
+    return if page.nil?
+    scraper.parse(doc: page.doc, url: url)
+    return if page_is_a_duplicate?(scraper)
+    update_image(scraper)
+    WriteListingWorker.perform_async(attributes: scraper.listing, action: :create)
+  end
+
+  def process_existing_listing(opts)
+    listing, url, page = opts[:listing], opts[:url], opts[:page]
+    return WriteListingWorker.perform_async(id: listing.id, action: :delete) if page.nil?
+    scraper.parse(doc: page.doc, url: url)
+    if scraper.is_valid?
+      if page_is_a_duplicate(scraper, listing)
+        WriteListingWorker.perform_async(id: listing.id, action: :delete)
+      else
+        update_image(scraper)
+        WriteListingWorker.perform_async(id: listing.id, attributes: scraper.listing, action: :update)
+      end
+    else
+      WriteListingWorker.perform_async(id: listing.id, action: :deactivate)
+    end
+  end
+
+  def update_image(scraper)
+    if image = CDN.url_for_image(scraper.listing["image_source_url"])
+      scraper.listing["image"] == image
+    else
+      image_set = ImageSet.new(domain: listing.seller_domain)
+      image_set.add scraper.listing["image_source_url"]
+    end
+  end
+
+  def page_is_a_duplicate?(scraper, listing=nil)
+    if listing
+      !!Listing.find("id != ? AND digest = ?", listing.id, scraper.listing["digest"])
+    else
+      !!Listing.find_by_digest(scraper.listing["digest"])
+    end
   end
 end

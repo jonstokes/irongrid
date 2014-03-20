@@ -3,46 +3,55 @@ require 'spec_helper'
 describe ParsePagesWorker do
 
   describe "#perform" do
-    describe "new listings" do
-      it "adds a valid new listing's attributes to the CLQ" do
+    it "pulls a block of listings from the site's LinkSet" do
+      pending "Example"
+    end
+
+    it "transitions to self if the site's LinkSet is not empty" do
+      pending "Example"
+    end
+
+    it "transitions to RefreshLinksWorker if the site's LinkSet and ImageSet are empty" do
+      pending "Example"
+    end
+
+    describe "possible new listings" do
+      it "generates the correct WriteListingWorker for a valid listing" do
         pending "Example"
-        # if scraper.valid?
-        #   CLQ << { url: url, source: nil, attributes: scraper.listing }
+        # action: create
       end
 
-      it "does not add an invalid new listing to any queue" do
+      it "does not generate any worker for an invalid listing" do
         pending "Example"
       end
 
-      it "does not add a duplicate digest listing's attributes to any queue" do
+      it "does not generate any worker for a duplicate listing" do
         pending "Example"
-        # return if Listing.find_by_digest[scraper.digest]
       end
 
-      it "does not add a new listing with no :source to any queue" do
+      it "does not generate any worker for an entry that 404's" do
         pending "Example"
       end
     end
 
     describe "existing listings" do
-      it "adds a valid listing's parsed attributes to the ULQ" do
+      it "generates the correct WriteListingWorker for a valid listing" do
         pending "Example"
-        # if scraper.valid?
-        #   ULQ << { url: url, source: nil, attributes: scraper.listing }
+        # action: update
       end
 
-      it "adds an invalid listing's id to the DAQ for deactivation" do
+      it "generates the correct WriteListingWorker for an invalid listing" do
         pending "Example"
-        # DAQ << { id: listing.id }
+        # id: listing.id, action: deactivate
       end
 
-      it "adds a listing with a nil source to the DTQ for deletion" do
-        # DTQ << { id: listing.id }
+      it "generates the correct WriteListingWorker for a url that 404s" do
+        # id: listing.id, action: delete
       end
 
-      it "adds a sold classified listing to the DTQ for deletion" do
+      it "generates the correct WriteListingWorker for a sold classified listing" do
         pending "Example"
-        # DTQ << { id: listing.id }
+        # id: listing.id, action: delete
       end
     end
 
