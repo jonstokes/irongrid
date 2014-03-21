@@ -2,10 +2,13 @@ require 'spec_helper'
 require 'digest/md5'
 
 describe ListingCleaner do
+  before :all do
+    @site = create_site_from_repo "www.hyattgunstore.com"
+    @site.validation["retail"] = "true"
+  end
+
   describe "#title" do
     before :each do
-      @site = create_site_from_repo "www.hyattgunstore.com"
-      @site.validation["retail"] = "true"
       @url = "http://www.hyattgunstore.com/ammo.html"
       @raw_listing = {
         "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420rnds",
@@ -34,7 +37,7 @@ describe ListingCleaner do
     it "should return a prefixed image url when appropriate" do
       page = load_listing_source("Retail", "www.impactguns.com", 'Remington 22LR CYCLONE 36HP 5000 CAS')
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.impactguns.com"))
+      scraper = ListingScraper.new(Site.new(domain: "www.impactguns.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
       scraper.listing["item_data"]["image"].should == "http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg"
     end
@@ -42,7 +45,7 @@ describe ListingCleaner do
     it "should return the page image when no prefix is needed" do
       page = load_listing_source("Retail", "www.budsgunshop.com", "Silva Olive Drab Compass")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.budsgunshop.com"))
+      scraper = ListingScraper.new(Site.new(domain: "www.budsgunshop.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
       scraper.listing["item_data"]["image"].should == "http://www.budsgunshop.com/catalog/images/15118.jpg"
     end
@@ -50,7 +53,7 @@ describe ListingCleaner do
     it "should return nil when the image is invalid" do
       page = load_listing_source("Retail", "www.budsgunshop.com", "Silva Olive Drab Compass")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.budsgunshop.com"))
+      scraper = ListingScraper.new(Site.new(domain: "www.budsgunshop.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
       scraper.raw_listing['image'] = "http://www.budsgunshop.com/catalog/images/"
       scraper.listing["item_data"]["image"].should be_nil
@@ -61,7 +64,7 @@ describe ListingCleaner do
     it "should correctly digest a standard, in-stock retail listing from Hyatt Gun Store" do
       page = load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.hyattgunstore.com"))
+      scraper = ListingScraper.new(Site.new(domain: "www.hyattgunstore.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
       scraper.listing["digest"].should == "291e298cad05c55189c9986d98294ca4"
     end
@@ -69,7 +72,7 @@ describe ListingCleaner do
     it "should add the URL to the digest on a site where that's required" do
       page = load_listing_source("Classified", "www.armslist.com", "fast sale springfield xd 45")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.armslist.com"))
+      scraper = ListingScraper.new(Site.new(domain: "www.armslist.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
       scraper.listing["digest"].should == "3156d647af022ebc3925a56eacd94f05"
     end
@@ -77,8 +80,6 @@ describe ListingCleaner do
 
   describe "#category1" do
     before :each do
-      @site = create_site_from_repo "www.hyattgunstore.com"
-      @site.validation["retail"] = "true"
       @url = "http://www.hyattgunstore.com/ammo.html"
       @raw_listing = {
         "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
@@ -95,8 +96,6 @@ describe ListingCleaner do
 
   describe "revisit_category" do
     it "categorizes and uncategorized listing based on extracted metadata" do
-      @site = create_site_from_repo "www.hyattgunstore.com"
-      @site.validation["retail"] = "true"
       @url = "http://www.hyattgunstore.com/ammo.html"
       @raw_listing = {
         "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
@@ -109,8 +108,6 @@ describe ListingCleaner do
 
   describe "extended_item_data" do
     before :each do
-      @site = create_site_from_repo "www.hyattgunstore.com"
-      @site.validation["retail"] = "true"
       @url = "http://www.hyattgunstore.com/ammo.html"
       @raw_listing = {
         "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
@@ -314,8 +311,6 @@ describe ListingCleaner do
 
   describe "#convert_price", no_es: true do
     before :each do
-      @site = create_site_from_repo "www.hyattgunstore.com"
-      @site.validation["retail"] = "true"
       @url = "http://www.hyattgunstore.com/ammo.html"
       @raw_listing = {
         "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420rnds",

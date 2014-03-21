@@ -60,7 +60,7 @@ class ParserTest < ActiveRecord::Base
 
   def fetch_page
     domain = URI(url).host
-    site = Site.find_by_domain domain
+    site = Site.new(domain: domain, source: :local)
     source_location = html_on_s3 && !html_on_s3.blank? ? html_on_s3 : url
     source = open_link(source_location)
     doc = parse_source(html: source, url: source_location)

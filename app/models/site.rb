@@ -145,7 +145,7 @@ class Site
     end
     site_data_hash
   end
-
+  
   def update_attribute(attr, value)
     @site_data[attr] = value
     write_to_redis

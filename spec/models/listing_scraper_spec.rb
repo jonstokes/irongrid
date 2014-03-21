@@ -7,7 +7,7 @@ describe ListingScraper do
     it "should correctly parse a standard, in-stock retail listing from Hyatt Gun Store" do
       page = load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.hyattgunstore.com"))
+      scraper = ListingScraper.new(create_site_from_repo("www.hyattgunstore.com"))
       scraper.parse(doc: doc, url: page[:url])
 
       scraper.listing["item_data"]["category1"].first["category1"].downcase.should == "ammunition"
@@ -29,7 +29,7 @@ describe ListingScraper do
     it "can be re-used on two consecutive listings" do
       page = load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.hyattgunstore.com"))
+      scraper = ListingScraper.new(create_site_from_repo("www.hyattgunstore.com"))
       scraper.parse(url: page[:url], doc: doc)
       scraper.raw_listing['title'].downcase.should == "federal xm855 5.56 ammo 62 grain fmj, 420 rounds, stripper clips in ammo can"
 
@@ -44,7 +44,7 @@ describe ListingScraper do
     it "should correctly clean up a standard, in stock retail listing from Hyatt Gun Store" do
       page = load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.hyattgunstore.com"))
+      scraper = ListingScraper.new(create_site_from_repo("www.hyattgunstore.com"))
       scraper.parse(doc: doc, url: page[:url])
 
       scraper.raw_listing.should_not be_nil
@@ -65,7 +65,7 @@ describe ListingScraper do
     it "should correctly clean up a standard, out of stock retail listing from Impact Guns" do
       page = load_listing_source("Retail", "www.impactguns.com", "Remington 22LR CYCLONE 36HP 5000 CAS")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.impactguns.com"))
+      scraper = ListingScraper.new(create_site_from_repo("www.impactguns.com"))
       scraper.parse(doc: doc, url: page[:url])
       scraper.raw_listing.should_not be_nil
 
@@ -86,7 +86,7 @@ describe ListingScraper do
     it "should correctly clean up a classified listing from Armslist" do
       page = load_listing_source("Classified", "www.armslist.com", "fast sale springfield xd 45")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.armslist.com"))
+      scraper = ListingScraper.new(create_site_from_repo("www.armslist.com"))
       scraper.parse(doc: doc, url: page[:url])
       scraper.raw_listing.should_not be_nil
       scraper.listing["item_data"]["title"].first["title"].should == "fast sale springfield xd 45"
@@ -104,7 +104,7 @@ describe ListingScraper do
     it "should correctly clean up a CTD retail listing using meta tags" do
       page = load_listing_source("Retail", "www.cheaperthandirt.com", 'Ammo 16 Gauge Lightfield Commander IDS 2-3/4" Lead 7/8 Oz Slug 1630 fps 5 Round Box LFCP-16')
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.cheaperthandirt.com"))
+      scraper = ListingScraper.new(create_site_from_repo("www.cheaperthandirt.com"))
       scraper.parse(doc: doc, url: page[:url])
       scraper.raw_listing.should_not be_nil
 
@@ -119,7 +119,7 @@ describe ListingScraper do
     it "should correctly clean up a BGS retail listing using meta_og tags" do
       page = load_listing_source("Retail", "www.budsgunshop.com", "Silva Olive Drab Compass")
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.budsgunshop.com"))
+      scraper = ListingScraper.new(create_site_from_repo("www.budsgunshop.com"))
       scraper.parse(doc: doc, url: page[:url])
       scraper.raw_listing.should_not be_nil
 
@@ -132,7 +132,7 @@ describe ListingScraper do
     it "should correctly clean up an auction listing from Gunbroker.com" do
       page = load_listing_source("Auction", "www.gunbroker.com", 'Aimpoint Micro H-1 4MOA LRP/Sp.39mm Rifle Scope')
       doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.find_by_domain("www.gunbroker.com"))
+      scraper = ListingScraper.new(create_site_from_repo("www.gunbroker.com"))
       scraper.parse(doc: doc, url: page[:url])
       scraper.raw_listing.should_not be_nil
       scraper.listing["item_data"]["auction_ends"].should == Time.parse("2025-09-07 16:24:14 UTC")
