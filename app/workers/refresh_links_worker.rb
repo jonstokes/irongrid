@@ -36,7 +36,7 @@ class RefreshLinksWorker < CoreWorker
     return unless init(opts)
     return unless listings.any?
 
-    @link_store.add(listings.map(&:url))
+    @link_store.add(listings.map { |l| {url: l.url, digest: l.digest, id: l.id} })
 
     clean_up
     transition

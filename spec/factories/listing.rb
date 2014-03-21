@@ -29,12 +29,11 @@ FactoryGirl.define do
   factory :listing do
     sequence(:url) { |i| "http://www.retailer.com/#{i}" }
     sequence(:digest) { |i| "digest-#{i}" }
-    item_data { retail_item_data }
+    item_data { retail_item_data.merge(seller_domain: URI.parse(url).host) }
     updated_at Time.current
     created_at Time.current
 
     geo_data
-    site
 
     trait :optics do
       item_data { retail_item_data.merge("category1" => [{"category1" => "Optics"}, {"category1_type" => "hard" }]) }
