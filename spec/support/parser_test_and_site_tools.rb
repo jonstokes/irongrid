@@ -71,20 +71,12 @@ def create_parser_test(title)
 end
 
 def create_site_from_repo(domain)
-  filename = domain.gsub(".","--") + ".yml"
-  attrs = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}").attributes
-  attrs.delete("id")
-  attrs.delete("created_at")
-  attrs.delete("updated_at")
-  Site.create(attrs)
+  site = Site.new(domain: domain, source: :fixture)
+  site.send(:write_to_redis)
 end
 
 def create_sites
   YAML.load_file("#{Rails.root}/spec/fixtures/sites/manifest.yml").each do |domain|
-    attrs = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{domain.gsub(".","--")}.yml").attributes
-    attrs.delete("id")
-    attrs.delete("created_at")
-    attrs.delete("updated_at")
-    Site.create(attrs)
+    Site.new(domain: domain, source: :fixture).send(:write_to_redis)
   end
 end

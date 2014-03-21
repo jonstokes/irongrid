@@ -1,13 +1,8 @@
 class LinkSet
   attr_reader :set_name, :domain
 
-  def self.connect!
-    pool_size = Figaro.env.redis_pool_size rescue 10
-    @@pool = ConnectionPool.new(timeout: 5, size: pool_size) { Redis.new(url: Figaro.env.irongrid_redis_url) }
-  end
-
   def self.redis_pool
-    @@pool
+    IRONGRID_REDIS_POOL
   end
 
   def initialize(opts)

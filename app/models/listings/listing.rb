@@ -46,19 +46,16 @@ class Listing < ActiveRecord::Base
   index.add_alias "classified_listings"
 
   belongs_to :geo_data
-  belongs_to :site
 
   after_save :update_es_index
   after_destroy :update_es_index
 
   validate :url, :uniqueness => true
   validate :digest, :uniqueness => true
-  validate :site_id, :presence => true
 
-  attr_accessible :type, :url, :digest, :inactive, :item_data, :geo_data_id, :site_id, :update_count
+  attr_accessible :type, :url, :digest, :inactive, :item_data, :geo_data_id, :update_count
 
   delegate *GeoData::DATA_KEYS, to: :geo_data
-  delegate :domain, :name, to: :site, prefix: :seller
 
   scope :ended_auctions, -> { where("type = ? AND item_data->>'auction_ends' < ?", "AuctionListing", (Time.now.utc - 1.day).to_s) }
 
@@ -72,6 +69,8 @@ class Listing < ActiveRecord::Base
     grains
   )
   COMMON_ATTRIBUTES = %w(
+    seller_name
+    seller_domain
     description
     keywords
     image
@@ -126,8 +125,6 @@ class Listing < ActiveRecord::Base
     :url,
     :created_at,
     :updated_at,
-    :seller_name,
-    :seller_domain,
     :coordinates,
     GeoData::DATA_KEYS
   ].flatten

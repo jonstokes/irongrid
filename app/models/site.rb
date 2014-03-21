@@ -19,26 +19,25 @@
 #  commit_sha          :string(255)
 #
 
-class Site < ActiveRecord::Base
-  include ConnectionWrapper
+class Site
   include Retryable
   include Notifier
 
-  has_many :listings
+  attr_accessor :domain, :site_data
 
-  attr_accessible :name, :domain, :adapter_source, :read_at, :engine, :scrape_with_service, :service_options
-  attr_accessible :size, :active, :read_interval, :commit_sha, :rate_limits
-
-  serialize :service_options, Hash
-  serialize :rate_limits, Hash
-
-
-  def adapter
-    @adapter ||= YAML.load(adapter_source)
-  end
-
-  def respond_to?(method_id, include_private = false)
-    @respond_to && @respond_to.include?(method_id) ? true : super
+  def initialize(opts)
+    @domain = opts[:domain]
+    @site_data = {}
+    case opts[:source]
+    when :redis
+      @site_data = IRONGRID_REDIS_POOL.with { |conn| JSON.load(conn.get("site--#{domain}")) }.symbolize_keys
+    when :local
+      load_local_source
+    when :git
+      #load_github_source
+    when :fixture
+      load_fixture
+    end
   end
 
   def digest_attributes(defaults)
@@ -72,7 +71,12 @@ class Site < ActiveRecord::Base
   end
 
   def mark_read!
-    db { self.update_attribute(:read_at, Time.now) }
+    update_attribute(:read_at, Time.now)
+  end
+
+  def read_at
+    return Time.parse(@site_data["read_at"]) if @site_data["read_at"]
+    10.days.ago
   end
 
   def default_seller_timezone
@@ -81,20 +85,18 @@ class Site < ActiveRecord::Base
     self.seller_defaults["timezone"]
   end
 
-  def self.get_all_classifieds_sites
-    db { Site.all.select { |site| site.validation["classified"] } }
-  end
-
-  def self.get_all_sites_for_service(service)
-    db { Site.where(scrape_with_service: [service.to_s], active: true) }
+  def respond_to?(method_id, include_private = false)
+    @respond_to && @respond_to.include?(method_id) ? true : super
   end
 
   private
 
   def method_missing(method_id, *arguments, &block)
-    super unless adapter
     @respond_to ||= Set.new
-    if adapter.has_key?(method_id.to_s)
+    if @site_data.has_key?(method_id)
+      @respond_to << method_id
+      @site_data[method_id]
+    elsif adapter.has_key?(method_id.to_s)
       @respond_to << method_id
       adapter[method_id.to_s]
     elsif method_id.to_s["default_"] && self.seller_defaults
@@ -106,4 +108,54 @@ class Site < ActiveRecord::Base
     end
   end
 
+  def load_local_source
+    branch = ENV['SITE_BRANCH'] || "master"
+    site_dir = domain.gsub(".","--")
+    directory = "../ironsights-sites/sites/#{site_dir}"
+
+    @site_data[:adapter] = YAML.load_file("#{directory}/adapter_source.yml")
+    @site_data[:service_options] = YAML.load_file("#{directory}/service_options.yml")
+    @site_data[:rate_limits] = YAML.load_file("#{directory}/rate_limits.yml")
+    YAML.load_file("#{directory}/rate_limits.yml").each do |k, v|
+      @site_data[k.to_sym] == v
+    end
+  end
+
+  def load_fixture
+    filename = domain.gsub(".","--") + ".yml"
+    @site_data = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}").attributes
+    @site_data.delete("id")
+    @site_data.delete("created_at")
+    @site_data.delete("updated_at")
+  end
+
+  def load_github_source
+    branch = ENV['SITE_BRANCH'] || "master"
+    site_dir = domain.gsub(".","--")
+    url_prefix = "https://raw.github.com/jonstokes/ironsights-sites/#{branch}/sites/#{site_dir}"
+    site_data_hash = {}
+
+    filenames.each do |filename|
+      begin
+        file = open("#{url_prefix}/#{filename}", http_basic_authentication: ["jonstokes", "2bdb479801fc520e3ae90a2aecd53be3a89cc2e1"]).read
+        site_data_hash.merge!(YAML.load(file))
+      rescue OpenURI::HTTPError
+        return nil
+      end
+    end
+    site_data_hash
+  end
+
+  def update_attribute(attr, value)
+    @site_data[attr] = value
+    write_to_redis
+  end
+
+  def write_to_redis
+    IRONGRID_REDIS_POOL.with { |conn| conn.set("site--#{domain}", @site_data.to_json) }
+  end
+
+  def filenames
+    %w(adapter_source.yml attributes.yml service_options.yml rate_limits.yml)
+  end
 end
