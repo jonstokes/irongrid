@@ -3,16 +3,28 @@ require 'spec_helper'
 describe ScrapePagesWorker do
 
   describe "#perform" do
-    it "pulls a block of listings from the site's LinkSet" do
+    it "spawns a CreateCdnImagesWorker" do
       pending "Example"
     end
 
-    it "transitions to self if the site's LinkSet is not empty" do
-      pending "Example"
+    describe "blocking" do
+      it "blocks if the LinkSet is empty but there are ReadListingLinkWorker jobs in flight" do
+        pending "example"
+      end
+
+      it "can time out when blocking for too long" do
+        pending "example"
+      end
     end
 
-    it "transitions to RefreshLinksWorker if the site's LinkSet and ImageSet are empty" do
-      pending "Example"
+    describe "#transition" do
+      it "transitions to self if it times out while the site's LinkSet is not empty" do
+        pending "Example"
+      end
+
+      it "transitions to RefreshLinksWorker if the site's sets are empty and there are no read jobs in flight" do
+        pending "Example"
+      end
     end
 
     describe "possible new listings" do

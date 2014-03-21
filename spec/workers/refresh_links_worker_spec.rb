@@ -12,13 +12,14 @@ describe RefreshLinksWorker do
 
   describe "#perform" do
     it "adds links to the LinkSet for stale listings" do
-      FactoryGirl.create(:retail_listing, site_id: @site.id, updated_at: Time.now - 10.hours)
+      listing = FactoryGirl.create(:retail_listing, site_id: @site.id, updated_at: Time.now - 10.hours)
       FactoryGirl.create(:retail_listing, site_id: @site.id, updated_at: Time.now)
       RefreshLinksWorker.new.perform(domain: "www.retailer.com")
       ls = LinkSet.new(domain: "www.retailer.com")
       ls.size.should == 1
       link = ls.pop
-      expect(link).to match(/retailer\.com/)
+      expect(link[:url]).to match(/retailer\.com/)
+      expect(link[:id]).to eq(listing.id)
       expect(CreateLinksWorker.jobs.count).to eq(1)
     end
   end

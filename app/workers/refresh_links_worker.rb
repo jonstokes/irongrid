@@ -1,5 +1,4 @@
 class RefreshLinksWorker < CoreWorker
-  include Sidekiq::Worker
   include PageUtils
 
   sidekiq_options :queue => :db_read, :retry => false

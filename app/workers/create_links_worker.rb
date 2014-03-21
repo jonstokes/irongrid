@@ -1,7 +1,5 @@
 class CreateLinksWorker < CoreWorker
-  include Sidekiq::Worker
   include PageUtils
-  include Trackable
 
   attr_reader :site, :http, :domain
   sidekiq_options :queue => :crawls, :retry => false

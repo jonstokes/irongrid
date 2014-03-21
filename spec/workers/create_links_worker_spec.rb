@@ -24,16 +24,30 @@ include SidekiqUtils
   end
 
   describe "#perform" do
-    it "adds links to a site's LinkSet and transitions to ScrapePagesWorker" do
+    it "generates a ReadListingLinkWorker for every link not already in the site's LinkSet" do
+      pending "populate LinkSet with 36 link/id pairs"
       CreateLinksWorker.new.perform(domain: @site.domain)
-      ls = LinkSet.new(domain: @site.domain)
-      ls.size.should == 436
-      expect(ls.pop).to match(/http.*retailer\.com/)
+      expect(ReadListingLinkWorker.jobs.count).to eq(400)
+    end
+
+    it "transitions to ScrapePagesWorker if there are links in the LinkSet" do
+      pending "populate LinkSet with 436 link/id pairs"
+      CreateLinksWorker.new.perform(domain: @site.domain)
       expect(ScrapePagesWorker.jobs.count).to eq(1)
     end
 
-    it "does not transition to ScrapePagesWorker if no links were added to the link store" do
-      pending "Example"
+    it "transitions to ScrapePagesWorker if there are ReadListingLinkWorker jobs in flight" do
+      pending "Finish CreateLinksWorker"
+      CreateLinksWorker.new.perform(domain: @site.domain)
+      expect(ReadListingLinkWorker.jobs_in_flight.count).to eq(436)
+      expect(ScrapePagesWorker.jobs.count).to eq(1)
+    end
+
+    it "does not transition to ScrapePagesWorker if LinkSet is empty and no ReadListingWorker jobs are in flight" do
+      pending "Mock product page with zero links?"
+      expect(LinkSet.new(domain: @site.domain).size).to eq(0)
+      expect(ReadListingLinkWorker.jobs_in_flight.count).to eq(0)
+      expect(ScrapePagesWorker.jobs.count).to eq(0)
     end
   end
 

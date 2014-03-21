@@ -1,5 +1,4 @@
 class ScrapePagesWorker < CoreWorker
-  include Sidekiq::Worker
   include PageUtils
 
   attr_reader :domain, :site

@@ -1,13 +1,21 @@
 class CoreWorker < CoreModel
-  include SidekiqUtils
+  include Sidekiq::Worker
   include Trackable
+  include SidekiqUtils
 
-  def i_am_alone?(domain=nil)
-    return true if Rails.env.test?
-    if domain
-      workers_for_class("#{self.class}").select { |w| worker_domain(w) == domain }.count < 2
-    else
-      workers_for_class("#{self.class}").count < 2
-    end
+  def perform(opts)
+    # override
+  end
+
+  def jobs_with_domain(domain)
+    # self.class.jobs.select {  }
+  end
+
+  def workers_with_domain(domain)
+    # self.class.workers.select {  }
+  end
+
+  def jobs_in_flight_with_domain(domain)
+    jobs_with_domain(domain) + workers_with_domain(domain)
   end
 end
