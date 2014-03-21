@@ -10,7 +10,7 @@ class CreateLinksWorker < CoreWorker
     return false unless (@domain = opts[:domain])
 
     @http = PageUtils::HTTP.new
-    @links_to_add_to_store = Set.new
+    @links_to_read_from_database = Set.new
     @site = opts[:site] || Site.new(domain: domain, source: :redis)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @link_store = opts[:link_store] || LinkSet.new(domain: domain)
@@ -26,13 +26,12 @@ class CreateLinksWorker < CoreWorker
     return unless init(opts)
     notify "Running #{link_list.size} links with rate limit #{@site.rate_limit}..."
     link_list.each do |link|
-      pull_product_links_from_seed(link).each { |url| @links_to_add_to_store << url }
+      pull_product_links_from_seed(link).each { |url| @links_to_read_from_database << url unless @link_store.has_key?(url) }
     end
-    notify "Adding #{@links_to_add_to_store.size} product links to link store..."
-    record_set :links_created, @link_store.add(links_to_add_to_store)
-    notify "#{@record.links_created} links added to link store."
+    notify "Found #{@links_to_read_from_database.size} product links to read from database..."
+    record_set :links_created, links_to_read_from_database.count
     clean_up
-    transition unless @link_store.empty?
+    transition
   end
 
   def clean_up
@@ -41,7 +40,8 @@ class CreateLinksWorker < CoreWorker
   end
 
   def transition
-    ScrapePagesWorker.perform_async(domain: domain)
+    links_to_read_from_database.each { |link| ReadListingLinkWorker.perform_async(link) }
+    ScrapePagesWorker.perform_async(domain: domain) if @link_store.any? # || ReadListingLinkWorker.jobs_in_flight_for_domain(domain).any?
   end
 
   def pull_product_links_from_seed(link)
@@ -53,8 +53,8 @@ class CreateLinksWorker < CoreWorker
     links.flatten.compact.map { |product_link| "#{links_with_attrs[link]["link_prefix"]}#{product_link}".sub(/^https/, "http") }.uniq
   end
 
-  def links_to_add_to_store
-    @links_to_add_to_store.to_a
+  def links_to_read_from_database
+    @links_to_read_from_database
   end
 
   def link_list

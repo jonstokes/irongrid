@@ -45,6 +45,10 @@ class LinkSet
     end
   end
 
+  def any?
+    !empty?
+  end
+
   def clear
     redis_pool.with do |conn|
       urls = conn.smembers(set_name)
