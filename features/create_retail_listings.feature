@@ -12,9 +12,9 @@ Feature: Create Retail Listings
 
     When I drain CreateLinksWorker
     Then the LinkSet for www.retailer.com should have 2 links
-    And Sidekiq should have 1 ParsePagesWorker
+    And Sidekiq should have 1 ScrapePagesWorker
 
-    When I drain ParsePagesWorker
+    When I drain ScrapePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 1 link
     And Sidekiq should have 1 WriteListingWorker with action "create"
@@ -39,7 +39,7 @@ Feature: Create Retail Listings
     Given the LinkSet for test-site.com is seeded with 1 valid link
     And the LinkSet for test-site.com is seeded with 1 404 link
 
-    When I drain ParsePagesWorker
+    When I drain ScrapePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 1 link
     And Sidekiq should have 1 WriteListingWorker with action "create"

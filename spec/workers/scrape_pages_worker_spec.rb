@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ParsePagesWorker do
+describe ScrapePagesWorker do
 
   describe "#perform" do
     it "pulls a block of listings from the site's LinkSet" do

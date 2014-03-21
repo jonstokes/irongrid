@@ -43,7 +43,7 @@ class CreateLinksWorker < CoreWorker
   end
 
   def transition
-    ParsePagesWorker.perform_async(domain: domain)
+    ScrapePagesWorker.perform_async(domain: domain)
   end
 
   def pull_product_links_from_seed(link)

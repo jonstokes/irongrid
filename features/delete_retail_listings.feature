@@ -36,9 +36,9 @@ Feature: Delete or Deactivate Listings
 
     When I drain RefreshLinksWorker
     Then the LinkSet for retailer.com should have 1 link
-    And Sidekiq should have 1 ParsePagesWorker
+    And Sidekiq should have 1 ScrapePagesWorker
 
-    When I drain ParsePagesWorker
+    When I drain ScrapePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "delete"
@@ -64,9 +64,9 @@ Feature: Delete or Deactivate Listings
 
     When I drain RefreshLinksWorker
     Then the LinkSet for retailer.com should have 1 link
-    And Sidekiq should have 1 ParsePagesWorker
+    And Sidekiq should have 1 ScrapePagesWorker
 
-    When I drain ParsePagesWorker
+    When I drain ScrapePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "delete"
@@ -91,9 +91,9 @@ Feature: Delete or Deactivate Listings
 
     When I drain RefreshLinksWorker
     Then the LinkSet for retailer.com should have 1 link
-    And Sidekiq should have 1 ParsePagesWorker
+    And Sidekiq should have 1 ScrapePagesWorker
 
-    When I drain ParsePagesWorker
+    When I drain ScrapePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "delete"
@@ -120,9 +120,9 @@ Feature: Delete or Deactivate Listings
 
     When I drain RefreshLinksWorker
     Then the LinkSet for retailer.com should have 1 link
-    And Sidekiq should have 1 ParsePagesWorker
+    And Sidekiq should have 1 ScrapePagesWorker
 
-    When I drain ParsePagesWorker
+    When I drain ScrapePagesWorker
     Then the LinkSet for www.retailer.com should have 0 links
     And the ImageSet for www.retailer.com should have 0 links
     And Sidekiq should have 1 WriteListingWorker with action "deactivate"

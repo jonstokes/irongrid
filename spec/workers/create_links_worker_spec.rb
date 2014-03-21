@@ -24,15 +24,15 @@ include SidekiqUtils
   end
 
   describe "#perform" do
-    it "adds links to a site's LinkSet and transitions to ParsePagesWorker" do
+    it "adds links to a site's LinkSet and transitions to ScrapePagesWorker" do
       CreateLinksWorker.new.perform(domain: @site.domain)
       ls = LinkSet.new(domain: @site.domain)
       ls.size.should == 436
       expect(ls.pop).to match(/http.*retailer\.com/)
-      expect(ParsePagesWorker.jobs.count).to eq(1)
+      expect(ScrapePagesWorker.jobs.count).to eq(1)
     end
 
-    it "does not transition to ParsePagesWorker if no links were added to the link store" do
+    it "does not transition to ScrapePagesWorker if no links were added to the link store" do
       pending "Example"
     end
   end

@@ -1,4 +1,4 @@
-class ParsePagesWorker < CoreWorker
+class ScrapePagesWorker < CoreWorker
   include Sidekiq::Worker
   include PageUtils
 
