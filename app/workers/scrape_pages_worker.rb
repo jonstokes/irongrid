@@ -14,7 +14,7 @@ class ScrapePagesWorker < CoreWorker
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
 
-    @site = db { Site.find_by_domain(@domain) }
+    @site = Site.new(domain: domain, source: :redis)
     @scraper = ListingScraper.new(@site)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timeout ||= ((60.0 / site.rate_limit.to_f) * 60).to_i

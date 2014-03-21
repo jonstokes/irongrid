@@ -10,7 +10,7 @@ class RefreshLinksWorker < CoreWorker
     return unless opts
     opts.symbolize_keys!
     return false unless (@domain = opts[:domain])
-    @site = Site.find_by_domain(domain)
+    @site = Site.new(domain: domain, source: :redis)
     record_opts = {
       append_record:    true,
       listings_deleted: 0,

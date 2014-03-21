@@ -11,7 +11,7 @@ class CreateLinksWorker < CoreWorker
 
     @http = PageUtils::HTTP.new
     @links_to_add_to_store = Set.new
-    @site = opts[:site] || db { Site.find_by_domain(domain) }
+    @site = opts[:site] || Site.new(domain: domain, source: :redis)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @link_store = opts[:link_store] || LinkSet.new(domain: domain)
     record_opts = opts[:record] || {
