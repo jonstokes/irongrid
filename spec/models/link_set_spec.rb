@@ -8,9 +8,9 @@ describe LinkSet do
 
   before :each do
     @links = [
-      "http://www.rspec.com/1",
-      "http://www.rspec.com/2",
-      "http://www.rspec.com/3"
+      { url: "http://www.rspec.com/1" },
+      { url: "http://www.rspec.com/2" },
+      { url: "http://www.rspec.com/3" }
     ]
   end
 
@@ -26,29 +26,52 @@ describe LinkSet do
     end
 
     it "adds a single key" do
-      link = "http://www.rspec.com/1"
+      link = { url: "http://www.rspec.com/1" }
       @store.add(link)
       @store.size.should == 1
     end
 
+    it "adds links with database ids and digests" do
+      links = [
+        { url: "http://www.rspec.com/1", id: 1, digest: "abc" },
+        { url: "http://www.rspec.com/2", id: 2, digest: "efg" },
+        { url: "http://www.rspec.com/3", id: 3, digest: "hij" }
+      ]
+      @store.add(links)
+      @store.size.should == 3
+      link = @store.pop
+      link[:url].should_not be_nil
+      link[:id].should be_in(1..3)
+      link[:digest].should be_in(["abc", "efg", "hij"])
+    end
+
+    it "adds a single link with a database id" do
+      link = { url: "http://www.rspec.com/1", id: 1  }
+      @store.add(link)
+      @store.size.should == 1
+      link = @store.pop
+      link[:url].should_not be_nil
+      link[:id].should be_a(Integer)
+    end
+
     it "does not add a key twice" do
-      link = "http://www.rspec.com/1"
+      link = { url: "http://www.rspec.com/1" }
       @store.add(link)
       @store.add(link)
       @store.size.should == 1
     end
 
     it "should not allow the same key to be added twice in the same array" do
-      links = @links + ["http://www.rspec.com/1"]
+      links = @links + [{ url: "http://www.rspec.com/1" }]
       @store.add(links).should == 3
       @store.size.should == 3
     end
 
     it "will not add a link from a different domain" do
       links = [
-        "http://www.rspec.com/1",
-        "http://www.rspec.com/2",
-        "http://www.foo.com/3"
+        { url: "http://www.rspec.com/1" },
+        { url: "http://www.rspec.com/2" },
+        { url: "http://www.foo.com/3" }
       ]
       @store.add(links).should == 2
       @store.size.should == 2

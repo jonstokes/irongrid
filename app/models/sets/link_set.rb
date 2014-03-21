@@ -11,30 +11,30 @@ class LinkSet
   end
 
   def push(keys)
-    return 0 unless keys
-    return 0 if keys.is_a?(String) && keys.blank?
+    keys = [keys] unless keys.is_a?(Array)
+    keys.compact!
+    return 0 if keys.empty?
 
-    if keys.is_a?(Array)
-      return 0 if keys.empty?
-      keys = keys.uniq.select { |key| !key.empty? && is_valid_url?(key) }
-    else
-      keys = [keys]
+    urls = keys.map { |k| k[:url] if k[:url] && is_valid_url?(k[:url]) }.compact.uniq
+
+    redis_pool.with do |conn|
+      conn.sadd(set_name, urls)
+      keys.select { |k| k[:id] }.each do |key|
+        key_json = key.reject { |k| k == :url }.to_json
+        conn.set key[:url], key_json
+      end
     end
-
-    redis_pool.with { |conn| conn.sadd(set_name, keys) }
-    keys.count
+    urls.count
   end
 
   def pop
     redis_pool.with do |conn|
       return unless conn.exists(set_name)
-      conn.spop(set_name)
-    end
-  end
-
-  def clear
-    redis_pool.with do |conn|
-      conn.del(set_name)
+      url = conn.spop(set_name)
+      hash_json = conn.get(url)
+      return { url: url } unless hash_json
+      hash = JSON.parse(hash_json)
+      { url: url, id: hash["id"].to_i, digest: hash["digest"] }
     end
   end
 
@@ -42,6 +42,14 @@ class LinkSet
     redis_pool.with do |conn|
       return true unless conn.exists(set_name)
       conn.scard(set_name) == 0
+    end
+  end
+
+  def clear
+    redis_pool.with do |conn|
+      urls = conn.smembers(set_name)
+      urls.each { |url| conn.del(url) }
+      conn.del(set_name)
     end
   end
 
