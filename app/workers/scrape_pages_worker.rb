@@ -31,7 +31,7 @@ class ScrapePagesWorker < CoreWorker
     return unless init(opts)
 
     notify "Emptying link store..."
-    while !timed_out? && (link = @link_store.pop) do
+    while !timed_out? && ((link = @link_store.pop) || ReadListingLinkWorker.jobs_in_flight_for_domain(domain).any?) do
       record_incr(:links_deleted)
       @rate_limiter.with_limit { pull_and_process(link) }
     end
@@ -62,8 +62,8 @@ class ScrapePagesWorker < CoreWorker
 
   def pull_and_process(url)
     page = get_page(url)
-    if listing = Listing.find_by_url(url)
-      process_existing_listing(listing: listing, url: url, page: page)
+    if page[:id]
+      process_existing_listing(url: url, page: page)
     else
       process_possible_new_listing(url: url, page: page)
     end
@@ -74,7 +74,7 @@ class ScrapePagesWorker < CoreWorker
     page, url = opts[:page], opts[:url]
     return if page.nil?
     scraper.parse(doc: page.doc, url: url)
-    return if page_is_a_duplicate?(scraper)
+    return if page_is_a_duplicate?(scraper, page)
     update_image(scraper)
     WriteListingWorker.perform_async(attributes: scraper.listing, action: :create)
   end
@@ -85,6 +85,7 @@ class ScrapePagesWorker < CoreWorker
     scraper.parse(doc: page.doc, url: url)
     if scraper.is_valid?
       if page_is_a_duplicate(scraper, listing)
+        #FIXME: Can't do this. See below
         WriteListingWorker.perform_async(id: listing.id, action: :delete)
       else
         update_image(scraper)
@@ -105,6 +106,7 @@ class ScrapePagesWorker < CoreWorker
   end
 
   def page_is_a_duplicate?(scraper, listing=nil)
+    #FIXME: Can't do this now!. Will have to enqueue it via WLW & let WLW discard it later.
     if listing
       !!Listing.find("id != ? AND digest = ?", listing.id, scraper.listing["digest"])
     else
