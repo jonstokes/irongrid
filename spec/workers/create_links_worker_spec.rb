@@ -23,32 +23,17 @@ describe CreateLinksWorker do
   end
 
   describe "#perform" do
-    it "generates a ReadListingLinkWorker for every link not already in the site's LinkSet" do
-      links = (100..135).map { |i| {url: "http://www.retailer.com/products/#{i}", id: i, digest: "abcdefg#{i}"} }
-      LinkSet.new(domain: @site.domain).add links
-      CreateLinksWorker.new.perform(domain: @site.domain)
-      expect(ReadListingLinkWorker.jobs.count).to eq(408)
-    end
 
     it "transitions to ScrapePagesWorker if there are links in the LinkSet" do
-      links = (0..445).map { |i| {url: "http://www.retailer.com/products/#{i}", id: i, digest: "abcdefg#{i}"} }
+      links = (0..445).map { |i| { "http://www.retailer.com/products/#{i}" => {id: i, digest: "abcdefg#{i}"} }
       LinkSet.new(domain: @site.domain).add links
       CreateLinksWorker.new.perform(domain: @site.domain)
-      expect(ReadListingLinkWorker.jobs.count).to eq(0)
       expect(ScrapePagesWorker.jobs.count).to eq(1)
     end
 
-    it "transitions to ScrapePagesWorker if there are ReadListingLinkWorker jobs in flight" do
-      pending "Finish CreateLinksWorker"
-      CreateLinksWorker.new.perform(domain: @site.domain)
-      expect(ReadListingLinkWorker.jobs_in_flight.count).to eq(436)
-      expect(ScrapePagesWorker.jobs.count).to eq(1)
-    end
-
-    it "does not transition to ScrapePagesWorker if LinkSet is empty and no ReadListingWorker jobs are in flight" do
+    it "does not transition to ScrapePagesWorker if LinkSet is empty" do
       pending "Mock product page with zero links?"
       expect(LinkSet.new(domain: @site.domain).size).to eq(0)
-      expect(ReadListingLinkWorker.jobs_in_flight.count).to eq(0)
       expect(ScrapePagesWorker.jobs.count).to eq(0)
     end
   end
