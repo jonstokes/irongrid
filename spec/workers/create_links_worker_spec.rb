@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'mocktra'
 
 describe CreateLinksWorker do
-include SidekiqUtils
 
   before :all do
     @site = create_site_from_repo "www.retailer.com"
