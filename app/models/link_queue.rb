@@ -1,9 +1,5 @@
-class LinkSet
+class LinkQueue
   attr_reader :set_name, :domain
-
-  def self.redis_pool
-    IRONGRID_REDIS_POOL
-  end
 
   def initialize(opts)
     raise "Domain required!" unless @domain = opts[:domain]
@@ -11,30 +7,31 @@ class LinkSet
   end
 
   def push(keys)
-    keys = [keys] unless keys.is_a?(Array)
-    keys.compact!
-    return 0 if keys.empty?
+    return 0 unless keys
+    return 0 if keys.is_a?(String) && keys.blank?
 
-    urls = keys.map { |k| k[:url] if k[:url] && is_valid_url?(k[:url]) }.compact.uniq
-
-    redis_pool.with do |conn|
-      conn.sadd(set_name, urls)
-      keys.select { |k| k[:id] }.each do |key|
-        key_json = key.reject { |k| k == :url }.to_json
-        conn.set key[:url], key_json
-      end
+    if keys.is_a?(Array)
+      return 0 if keys.empty?
+      keys = keys.uniq.select { |key| !key.empty? && is_valid_url?(key) }
+    else
+      keys = [keys]
     end
-    urls.count
+
+
+    redis_pool.with { |conn| conn.sadd(set_name, keys) }
+    keys.count
   end
 
   def pop
     redis_pool.with do |conn|
       return unless conn.exists(set_name)
-      url = conn.spop(set_name)
-      hash_json = conn.get(url)
-      return { url: url } unless hash_json
-      hash = JSON.parse(hash_json)
-      { url: url, id: hash["id"].to_i, digest: hash["digest"] }
+      conn.spop(set_name)
+    end
+  end
+
+  def clear
+    redis_pool.with do |conn|
+      conn.del(set_name)
     end
   end
 
@@ -47,14 +44,6 @@ class LinkSet
 
   def any?
     !empty?
-  end
-
-  def clear
-    redis_pool.with do |conn|
-      urls = conn.smembers(set_name)
-      urls.each { |url| conn.del(url) }
-      conn.del(set_name)
-    end
   end
 
   def has_key?(key)
@@ -78,11 +67,11 @@ class LinkSet
   private
 
   def is_valid_url?(key)
-    return unless host = URI.parse(key).host rescue nil
+    return unless host = URI.parse(key).host rescue false
     !!@domain[host.sub("www.", "")]
   end
 
   def redis_pool
-    LinkSet.redis_pool
+    IRONGRID_REDIS_POOL
   end
 end

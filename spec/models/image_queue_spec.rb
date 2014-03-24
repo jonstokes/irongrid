@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe ImageSet do
+describe ImageQueue do
 
   before :all do
-    @store = ImageSet.new(domain: "www.rspec.com")
+    @store = ImageQueue.new(domain: "www.rspec.com")
   end
 
   after :each do
