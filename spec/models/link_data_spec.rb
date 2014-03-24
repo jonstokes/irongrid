@@ -56,6 +56,13 @@ describe LinkData do
       expect(ld.listing_id).to be_a(Integer)
       expect(LinkData.find(ld.url)).not_to be_nil
     end
+
+    it "does not create a new LinkData object in redis if that url already exists" do
+      listing = FactoryGirl.create(:retail_listing)
+      LinkData.create(listing)
+      expect(LinkData.create(listing)).to be_nil
+      expect(LinkData.size).to eq(1)
+    end
   end
 
   describe "::find" do

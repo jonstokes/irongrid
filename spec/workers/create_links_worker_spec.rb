@@ -15,25 +15,22 @@ describe CreateLinksWorker do
   end
 
   before :each do
+    LinkQueue.new(domain: @site.domain).clear
+    LinkData.delete_all
     @worker = CreateLinksWorker.new
   end
 
-  after :each do
-    LinkSet.new(domain: @site.domain).clear
-  end
-
   describe "#perform" do
-
-    it "transitions to ScrapePagesWorker if there are links in the LinkSet" do
-      links = (0..445).map { |i| { "http://www.retailer.com/products/#{i}" => {id: i, digest: "abcdefg#{i}"} }
-      LinkSet.new(domain: @site.domain).add links
+    it "transitions to ScrapePagesWorker if there are links in the LinkQueue" do
       CreateLinksWorker.new.perform(domain: @site.domain)
+      expect(LinkData.size).to eq(444)
+      expect(LinkQueue.new(domain: @site.domain).size).to eq(444)
       expect(ScrapePagesWorker.jobs.count).to eq(1)
     end
 
-    it "does not transition to ScrapePagesWorker if LinkSet is empty" do
+    it "does not transition to ScrapePagesWorker if LinkQueue is empty" do
       pending "Mock product page with zero links?"
-      expect(LinkSet.new(domain: @site.domain).size).to eq(0)
+      expect(LinkQueue.new(domain: @site.domain).size).to eq(0)
       expect(ScrapePagesWorker.jobs.count).to eq(0)
     end
   end

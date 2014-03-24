@@ -36,9 +36,7 @@ class LinkData
 
   def save
     with_redis do |conn|
-      retval = conn.set(@url, @data.to_json)
-      conn.sadd(LINK_DATA_INDEX, @url)
-      retval
+      conn.set(@url, @data.to_json)
     end
   end
 
@@ -53,9 +51,18 @@ class LinkData
     !!@data[:listing_id]
   end
 
+  def self.count
+    with_redis { |conn| conn.scard(LINK_DATA_INDEX) }
+  end
+
+  class << self
+    alias :size :count
+    alias :length :count
+  end
+
   def self.create(attrs)
     ld = LinkData.new(attrs)
-    ld.save ? ld : nil
+    ld.send(:create_in_redis) ? ld : nil
   end
 
   def self.find(url)
@@ -73,6 +80,12 @@ class LinkData
   end
 
   private
+
+  def create_in_redis
+    with_redis do |conn|
+      conn.set(@url, @data.to_json) if conn.sadd(LINK_DATA_INDEX, @url)
+    end
+  end
 
   def new_from_hash(attrs)
     attrs.symbolize_keys!

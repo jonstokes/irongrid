@@ -10,10 +10,10 @@ class CreateLinksWorker < CoreWorker
     return false unless (@domain = opts[:domain])
 
     @http = PageUtils::HTTP.new
-    @links_to_read_from_database = Set.new
+    @link_count = 0
     @site = opts[:site] || Site.new(domain: domain, source: :redis)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
-    @link_store = opts[:link_store] || LinkSet.new(domain: domain)
+    @link_store = opts[:link_store] || LinkQueue.new(domain: domain)
     record_opts = opts[:record] || {
       links_crawled: 0,
       links_created: 0,
@@ -26,10 +26,14 @@ class CreateLinksWorker < CoreWorker
     return unless init(opts)
     notify "Running #{link_list.size} links with rate limit #{@site.rate_limit}..."
     link_list.each do |link|
-      pull_product_links_from_seed(link).each { |url| @links_to_read_from_database << url unless @link_store.has_key?(url) }
+      pull_product_links_from_seed(link).each do |url|
+        next unless LinkData.create(url: url)
+        @link_store.push url
+        @link_count += 1
+      end
     end
-    notify "Found #{@links_to_read_from_database.size} product links to read from database..."
-    record_set :links_created, links_to_read_from_database.count
+    notify "Found #{@link_count} product links to read from database..."
+    record_set :links_created, @link_count
     clean_up
     transition
   end
@@ -40,8 +44,7 @@ class CreateLinksWorker < CoreWorker
   end
 
   def transition
-    links_to_read_from_database.each { |link| ReadListingLinkWorker.perform_async(link) }
-    ScrapePagesWorker.perform_async(domain: domain) if @link_store.any? # || ReadListingLinkWorker.jobs_in_flight_for_domain(domain).any?
+    ScrapePagesWorker.perform_async(domain: domain) if @link_store.any?
   end
 
   def pull_product_links_from_seed(link)
@@ -51,10 +54,6 @@ class CreateLinksWorker < CoreWorker
     xpaths = links_with_attrs[link]["link_xpaths"]
     xpaths.each { |xpath| links += page.doc.xpath(xpath) unless page.doc.at_xpath(xpath).nil? }
     links.flatten.compact.map { |product_link| "#{links_with_attrs[link]["link_prefix"]}#{product_link}".sub(/^https/, "http") }.uniq
-  end
-
-  def links_to_read_from_database
-    @links_to_read_from_database
   end
 
   def link_list
