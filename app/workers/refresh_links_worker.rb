@@ -19,7 +19,7 @@ class RefreshLinksWorker < CoreWorker
       write_interval:   5
     }
     track(record_opts)
-    @link_store = LinkSet.new(domain: domain)
+    @link_store = LinkQueue.new(domain: domain)
     @query_conditions = {
       site_id: site.id,
       type:    ["RetailListing", "ClassifiedListing"],
@@ -36,7 +36,10 @@ class RefreshLinksWorker < CoreWorker
     return unless init(opts)
     return unless listings.any?
 
-    @link_store.add(listings.map { |l| {url: l.url, digest: l.digest, id: l.id} })
+    listings.each do |listing|
+      LinkData.create(listing)
+      @link_store.add(listing.url)
+    end
 
     clean_up
     transition
