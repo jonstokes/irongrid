@@ -1,4 +1,6 @@
 class LinkQueue
+  include Retryable
+
   attr_reader :set_name, :domain
 
   def initialize(opts)
@@ -18,25 +20,25 @@ class LinkQueue
     end
 
 
-    redis_pool.with { |conn| conn.sadd(set_name, keys) }
+    with_redis { |conn| conn.sadd(set_name, keys) }
     keys.count
   end
 
   def pop
-    redis_pool.with do |conn|
+    with_redis do |conn|
       return unless conn.exists(set_name)
       conn.spop(set_name)
     end
   end
 
   def clear
-    redis_pool.with do |conn|
+    with_redis do |conn|
       conn.del(set_name)
     end
   end
 
   def empty?
-    redis_pool.with do |conn|
+    with_redis do |conn|
       return true unless conn.exists(set_name)
       conn.scard(set_name) == 0
     end
@@ -47,14 +49,14 @@ class LinkQueue
   end
 
   def has_key?(key)
-    redis_pool.with do |conn|
+    with_redis do |conn|
       return false unless key.present? && conn.exists(set_name)
       return true if conn.sismember(set_name, key)
     end
   end
 
   def size
-    redis_pool.with do |conn|
+    with_redis do |conn|
       return 0 unless conn.exists(set_name)
       conn.scard(set_name)
     end
@@ -71,7 +73,13 @@ class LinkQueue
     !!@domain[host.sub("www.", "")]
   end
 
-  def redis_pool
-    IRONGRID_REDIS_POOL
+  def with_redis(&block)
+    LinkData.with_redis(&block)
+  end
+
+  def self.with_redis(&block)
+    retryable(sleep: 0.5) do
+      IRONGRID_REDIS_POOL.with &block
+    end
   end
 end

@@ -1,4 +1,8 @@
 module Retryable
+  def self.included(klass)
+    klass.extend(self)
+  end
+
   # Options:
   # * :tries - Number of retries to perform. Defaults to 1.
   # * :on - The Exception on which a retry will be performed. Defaults to Exception, which retries on any Exception.
@@ -56,31 +60,24 @@ module Retryable
     yield
   end
 
-  def self.included(klass)
-    klass.extend ClassMethods
-  end
-
-  module ClassMethods
-    def retryable_with_connection
-      retval = nil
-      begin
-        tries ||= 10
-        ActiveRecord::Base.connection_pool.with_connection { retval = yield }
-        return retval
-      rescue ActiveRecord::JDBCError, ActiveRecord::StatementInvalid => e
-        ActiveRecord::Base.connection_pool.clear_stale_cached_connections!
-        if e.message =~ /This connection has been closed/
-          ActiveRecord::Base.connection.reconnect!
-        end
-        sleep 1
-        retry unless (tries -= 1).zero?
-      rescue Exception
-        sleep 1
-        retry unless (tries -= 1).zero?
+  def retryable_with_connection
+    retval = nil
+    begin
+      tries ||= 10
+      ActiveRecord::Base.connection_pool.with_connection { retval = yield }
+      return retval
+    rescue ActiveRecord::JDBCError, ActiveRecord::StatementInvalid => e
+      ActiveRecord::Base.connection_pool.clear_stale_cached_connections!
+      if e.message =~ /This connection has been closed/
+        ActiveRecord::Base.connection.reconnect!
       end
-      yield
+      sleep 1
+      retry unless (tries -= 1).zero?
+    rescue Exception
+      sleep 1
+      retry unless (tries -= 1).zero?
     end
+    yield
   end
-
 
 end
