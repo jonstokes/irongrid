@@ -28,7 +28,8 @@ class Site
   def initialize(opts)
     @domain = opts[:domain]
     @site_data = {}
-    case opts[:source]
+    source = opts[:source] || :redis
+    case source
     when :redis
       @site_data = IRONGRID_REDIS_POOL.with { |conn| JSON.load(conn.get("site--#{domain}")) }.symbolize_keys
     when :local
