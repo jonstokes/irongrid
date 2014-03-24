@@ -37,7 +37,8 @@ class RefreshLinksWorker < CoreWorker
     return unless listings.any?
 
     listings.each do |listing|
-      next unless LinkData.create(listing)
+      next unless ld = LinkData.create(listing)
+      ld.update(jid: jid)
       @link_store.add(listing.url)
     end
 

@@ -54,7 +54,7 @@ describe ScrapePagesWorker do
       pending "Example"
     end
 
-    it "transitions to RefreshLinksWorker if the site's LinkSet is empty" do
+    it "transitions to RefreshLinksWorker if the site's LinkSet is empty and the site hasn't been read recently" do
       pending "Example"
     end
   end

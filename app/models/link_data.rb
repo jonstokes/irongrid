@@ -5,6 +5,7 @@ class LinkData
 
   LINK_DATA_INDEX = "link-data-index"
   LINK_DATA_KEYS = [
+    :jid,
     :page_attributes,
     :page_is_valid,
     :page_not_found,
@@ -66,7 +67,7 @@ class LinkData
   end
 
   def self.find(url)
-    return unless value = with_redis { |conn| conn.get(url) }
+    return unless url.present? && (value = with_redis { |conn| conn.get(url) })
     attrs = JSON.parse(value).merge(url: url)
     LinkData.new(attrs)
   end

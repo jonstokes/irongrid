@@ -27,7 +27,7 @@ class CreateLinksWorker < CoreWorker
     notify "Running #{link_list.size} links with rate limit #{@site.rate_limit}..."
     link_list.each do |link|
       pull_product_links_from_seed(link).each do |url|
-        next unless LinkData.create(url: url)
+        next unless LinkData.create(url: url, jid: jid)
         @link_store.push url
         @link_count += 1
       end
