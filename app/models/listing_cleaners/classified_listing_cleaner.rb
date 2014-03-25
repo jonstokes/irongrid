@@ -29,6 +29,6 @@ class ClassifiedListingCleaner < ListingCleaner
   end
 
   def default_digest_attributes
-    %w(title image description keywords type seller_domain item_condition item_location current_price_in_cents stock_status)
+    %w(title image_source description keywords type seller_domain item_condition item_location current_price_in_cents stock_status)
   end
 end

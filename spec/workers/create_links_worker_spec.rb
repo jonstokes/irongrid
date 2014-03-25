@@ -21,6 +21,10 @@ describe CreateLinksWorker do
   end
 
   describe "#perform" do
+    it "does not add links to the LinkQueue if they're already there" do
+      pending "Example"
+    end
+
     it "transitions to ScrapePagesWorker if there are links in the LinkQueue" do
       CreateLinksWorker.new.perform(domain: @site.domain)
       expect(LinkData.size).to eq(444)

@@ -48,8 +48,8 @@ class LinkData
     end
   end
 
-  def listing_exists?
-    !!@data[:listing_id]
+  def to_h
+    @data
   end
 
   def self.count

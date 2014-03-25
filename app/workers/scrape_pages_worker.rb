@@ -2,6 +2,7 @@ class ScrapePagesWorker < CoreWorker
   include PageUtils
 
   attr_reader :domain, :site
+  attr_accessor :timeout if Rails.env.test?
 
   sidekiq_options :queue => :crawls, :retry => false
 
@@ -31,9 +32,10 @@ class ScrapePagesWorker < CoreWorker
     return unless init(opts)
 
     notify "Emptying link store..."
-    while !timed_out? && (link = LinkData.find(@link_store.pop)) do
+    while !timed_out? && (link_data = LinkData.find(@link_store.pop)) do
       link_data.update(jid: self.jid)
       record_incr(:links_deleted)
+      @scraper.empty!
       @rate_limiter.with_limit { pull_and_process(link_data) }
     end
     clean_up
@@ -43,6 +45,7 @@ class ScrapePagesWorker < CoreWorker
   def clean_up
     notify "Added #{@record.pages_created} from link store."
     stop_tracking
+    @site.mark_read!
   end
 
   def transition
@@ -65,25 +68,25 @@ class ScrapePagesWorker < CoreWorker
     url = link_data.url
     if page = get_page(url)
       @scraper.parse(doc: page.doc, url: url)
+      update_image(@scraper) if @scraper.is_valid?
       link_data.update(
         page_is_valid:   @scraper.is_valid?,
         page_not_found:  @scraper.not_found?,
         page_attributes: @scraper.listing
       )
       WriteListingWorker.perform_async(url)
-      update_image(scraper) if @scraper.is_valid?
     else
-      link_data.update(not_found: true)
+      link_data.update(page_not_found: true)
       WriteListingWorker.perform_async(url)
     end
   end
 
   def update_image(scraper)
-    if image = CDN.url_for_image(scraper.listing["image_source_url"])
-      scraper.listing["image"] == image
+    return unless image_source = scraper.listing["item_data"]["image_source"]
+    if CDN.has_image?(image_source)
+      scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
     else
-      iq = ImageQueue.new(domain: listing.seller_domain)
-      iq.add scraper.listing["image_source_url"]
+      ImageQueue.new(domain: domain).push image_source
     end
   end
 end

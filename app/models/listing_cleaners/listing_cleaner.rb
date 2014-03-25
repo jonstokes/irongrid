@@ -68,7 +68,7 @@ class ListingCleaner < CoreModel
         data.merge!(attr => json(es_objects[attr.to_sym]))
       end
       Listing::COMMON_ATTRIBUTES.each do |attr|
-        data.merge!(attr => send(attr))
+        data.merge!(attr => send(attr)) unless attr == "image"
       end
       data.merge(type_item_data)
     end
@@ -118,7 +118,7 @@ class ListingCleaner < CoreModel
     stock_status.parameterize("_")
   end
 
-  def image
+  def image_source
     return nil unless @raw_listing['image']
     return unless image_source = clean_up_image_url(@raw_listing['image'])
     unless is_valid_image_url?(image_source)

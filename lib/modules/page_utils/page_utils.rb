@@ -36,7 +36,7 @@ module PageUtils
     begin
       tries ||= 5
       page = @http.fetch_page(link)
-      page.headers.merge!("content-type" => ["text/html"]) if Rails.env.test?
+      #page.headers.merge!("content-type" => ["text/html"]) if Rails.env.test?
       sleep 0.5
     end until (page && page.doc) || (tries -= 1).zero?
     return nil unless page && page.doc && page.body && !page.not_found?

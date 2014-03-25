@@ -74,6 +74,7 @@ class Listing < ActiveRecord::Base
     description
     keywords
     image
+    image_source
     item_condition
     item_location
     availability

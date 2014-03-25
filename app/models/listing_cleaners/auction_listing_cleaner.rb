@@ -38,7 +38,7 @@ class AuctionListingCleaner < ListingCleaner
   end
 
   def default_digest_attributes
-    %w(title image description keywords type seller_domain item_condition item_location stock_status auction_ends)
+    %w(title image_source description keywords type seller_domain item_condition item_location stock_status auction_ends)
   end
 
   def current_price_in_cents

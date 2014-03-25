@@ -40,7 +40,6 @@ group :development, :test do
 end
 
 group :test do
-  gem "rspec-sidekiq"
   gem 'cucumber-rails', :require => false
   gem 'capybara'
   gem 'database_cleaner'
