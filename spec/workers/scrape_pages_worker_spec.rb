@@ -80,6 +80,16 @@ describe ScrapePagesWorker do
       expect(ld.page_attributes["digest"]).to eq("b97637eba1fab547c75bd6ba372fb1ed")
     end
 
+    describe "WriteListingWorker transitions" do
+      it "generates a WriteListingWorker for every listing that has changed" do
+        pending "Example"
+      end
+
+      it "does not generate a WriteListingWorker for a listing that is unchanged" do
+        pending "Example"
+      end
+    end
+
     describe "where image_source exists on CDN already" do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
         url = "http://#{@site.domain}/1"

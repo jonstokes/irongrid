@@ -68,13 +68,15 @@ class ScrapePagesWorker < CoreWorker
     url = link_data.url
     if page = get_page(url)
       @scraper.parse(doc: page.doc, url: url)
-      update_image(@scraper) if @scraper.is_valid?
-      link_data.update(
-        page_is_valid:   @scraper.is_valid?,
-        page_not_found:  @scraper.not_found?,
-        page_attributes: @scraper.listing
-      )
-      WriteListingWorker.perform_async(url)
+      unless link_data.listing_digest && (@scraper.listing["digest"] == link_data.listing_digest)
+        update_image(@scraper) if @scraper.is_valid?
+        link_data.update(
+          page_is_valid:   @scraper.is_valid?,
+          page_not_found:  @scraper.not_found?,
+          page_attributes: @scraper.listing
+        )
+        WriteListingWorker.perform_async(url)
+      end
     else
       link_data.update(page_not_found: true)
       WriteListingWorker.perform_async(url)
