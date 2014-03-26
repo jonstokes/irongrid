@@ -1,4 +1,5 @@
 module PageUtils
+  MAX_RETRIES = 5
 
   def open_link(raw_url, source=true)
     #FIXME: This is hideous. At the very least the args should be an opts hash.
@@ -19,14 +20,13 @@ module PageUtils
   end
 
   def fetch_link(url)
-    retries = 0
+    retries = MAX_RETRIES
     begin
       open(url)
     rescue Exception => e
       Rails.logger.debug "Failed to open #{url} Retries: #{retries}. Message: #{e.message}"
-      retries += 1
       sleep 1
-      retry if retries < MAX_RETRIES
+      retry if (retries -= 1).zero?
       nil
     end
   end
