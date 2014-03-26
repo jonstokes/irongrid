@@ -1,17 +1,26 @@
 require 'spec_helper'
+require 'mocktra'
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!
 
 describe AvantlinkWorker do
-  describe "#perform" do
-    before :each do
-      LinkData.delete_all
-      create_site_from_repo "www.brownells.com"
-      @worker = AvantlinkWorker.new
-    end
+  before :each do
+    LinkData.delete_all
+    create_site_from_repo "www.brownells.com"
+  end
 
+  describe "#perform" do
     describe "LinkData output" do
       it "should add new listings to the LinkData table with proper attributes" do
-        worker = AvantlinkWorker.new
-        worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed.xml")
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        AvantlinkWorker.new.perform(domain: "www.brownells.com")
         expect(LinkData.size).to eq(4)
         ld = LinkData.pop
         expect(ld.url).to match(/avantlink\.com/)
@@ -21,8 +30,15 @@ describe AvantlinkWorker do
       end
 
       it "should add modified listings to the LinkData table with proper attributes" do
-        worker = AvantlinkWorker.new
-        worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed_update.xml")
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed_update.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        AvantlinkWorker.new.perform(domain: "www.brownells.com")
         expect(LinkData.size).to eq(4)
         ld = LinkData.pop
         expect(ld.url).to match(/avantlink\.com/)
@@ -33,8 +49,15 @@ describe AvantlinkWorker do
       end
 
       it "should add removed listings to the LinkData table with the attributes" do
-        worker = AvantlinkWorker.new
-        worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed_remove.xml")
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed_remove.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        AvantlinkWorker.new.perform(domain: "www.brownells.com")
         expect(LinkData.size).to eq(4)
         ld = LinkData.pop
         expect(ld.url).to match(/avantlink\.com/)
@@ -48,24 +71,6 @@ describe AvantlinkWorker do
       it "should populate the db from a local file" do
         worker = AvantlinkWorker.new
         worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed.xml")
-        LinkData.size.should == 4
-        #JobRecord.first.pages_created.should == 4
-      end
-
-      it "should populate the db from a feed url" do
-        service_options = {
-          "feeds" => [
-            {
-              "url" => populate_link(File.join(Rails.root, "spec/fixtures/avantlink_feeds/test_feed.xml"), "test-feed"),
-              "product_list_xpath" => '//Products/Product',
-              "product_link_xpath" => '//Buy_Link'
-            }
-          ]
-        }
-        site = Site.new(domain: "www.brownells.com")
-        site.update_attribute(:service_options, service_options)
-        worker = AvantlinkWorker.new
-        worker.perform(domain: "www.brownells.com")
         LinkData.size.should == 4
         #JobRecord.first.pages_created.should == 4
       end

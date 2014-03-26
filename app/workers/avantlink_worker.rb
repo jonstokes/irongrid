@@ -47,7 +47,6 @@ class AvantlinkWorker < CoreWorker
 
     def xml_data
       @xml_data ||= begin
-        raise "Can't access live feed in test env!" if feed_url && feed_url.to_s[/avantlink/] && Rails.env.test?
         notify "  Downloading #{feed_url || @filename}..."
         data = @filename ? File.open(@filename).read : open_link(feed_url, true)
         notify "  Feed downloaded from #{feed_url || @filename}!"

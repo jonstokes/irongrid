@@ -28,18 +28,6 @@ def create_scraper_double(new_attrs)
   new_page
 end
 
-def populate_link(filename, cdn_name)
-  s3 = AWS::S3.new(AWS_CREDENTIALS)
-  file = File.open(filename)
-  s3.buckets['scoperrific-rspec'].objects[cdn_name].delete if s3.buckets['scoperrific-rspec'].objects[filename].exists?
-  s3.buckets['scoperrific-rspec'].objects[cdn_name].write(:file => file, :acl => :public_read, :reduced_redundancy => true)
-  s3.buckets['scoperrific-rspec'].objects[cdn_name].public_url.to_s
-end
-
-def write_page_queue_to_database()
-  CreateListingsWorker.new.perform
-end
-
 def create_parser_tests
   YAML.load_file("#{Rails.root}/spec/fixtures/parser_tests/manifest.yml").each do |filename|
     attrs = YAML.load_file("#{Rails.root}/spec/fixtures/parser_tests/#{filename}.yml").attributes
