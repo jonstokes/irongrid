@@ -29,16 +29,11 @@ def create_scraper_double(new_attrs)
 end
 
 def populate_link(filename, cdn_name)
-  config = YAML.load(File.read('config/aws.yml'))[Rails.env]
-  aws_options = {
-    :aws_access_key_id     => config["access_key_id"],
-    :aws_secret_access_key => config["secret_access_key"],
-  }
-  s3 = AWS::S3.new(aws_options)
+  s3 = AWS::S3.new(AWS_CREDENTIALS)
   file = File.open(filename)
   s3.buckets['scoperrific-rspec'].objects[cdn_name].delete if s3.buckets['scoperrific-rspec'].objects[filename].exists?
   s3.buckets['scoperrific-rspec'].objects[cdn_name].write(:file => file, :acl => :public_read, :reduced_redundancy => true)
-  s3.buckets['scoperrific-rspec'].objects[cdn_name].public_url
+  s3.buckets['scoperrific-rspec'].objects[cdn_name].public_url.to_s
 end
 
 def write_page_queue_to_database()

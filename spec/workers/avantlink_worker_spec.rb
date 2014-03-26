@@ -3,76 +3,72 @@ require 'spec_helper'
 describe AvantlinkWorker do
   describe "#perform" do
     before :each do
+      LinkData.delete_all
+      create_site_from_repo "www.brownells.com"
       @worker = AvantlinkWorker.new
-      @pq = PageQueue.new
     end
 
-    it "should add new listings to the PageQueue with proper :format" do
-      pending "Example"
-      # PQ << { url: url, source: xml, format: :xml }
+    describe "LinkData output" do
+      it "should add new listings to the LinkData table with proper attributes" do
+        worker = AvantlinkWorker.new
+        worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed.xml")
+        expect(LinkData.size).to eq(4)
+        ld = LinkData.pop
+        expect(ld.url).to match(/avantlink\.com/)
+        expect(ld.page_attributes["digest"]).not_to be_nil
+        expect(ld.page_is_valid?).to be_true
+        expect(ld.page_not_found?).to be_false
+      end
+
+      it "should add modified listings to the LinkData table with proper attributes" do
+        worker = AvantlinkWorker.new
+        worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed_update.xml")
+        expect(LinkData.size).to eq(4)
+        ld = LinkData.pop
+        expect(ld.url).to match(/avantlink\.com/)
+        expect(ld.page_attributes["digest"]).not_to be_nil
+        expect(ld.page_attributes["item_data"]["price_in_cents"]).to eq(109)
+        expect(ld.page_is_valid?).to be_true
+        expect(ld.page_not_found?).to be_false
+      end
+
+      it "should add removed listings to the LinkData table with the attributes" do
+        worker = AvantlinkWorker.new
+        worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed_remove.xml")
+        expect(LinkData.size).to eq(4)
+        ld = LinkData.pop
+        expect(ld.url).to match(/avantlink\.com/)
+        expect(ld.page_attributes).to be_nil
+        expect(ld.page_is_valid?).to be_false
+        expect(ld.page_not_found?).to be_true
+      end
     end
 
-    it "should add modified listings to the PageQueue with proper :format and :id" do
-      pending "Example"
-      # PQ << { url: url, source: xml, format: :xml, id: :lookup }
+    describe "internals" do
+      it "should populate the db from a local file" do
+        worker = AvantlinkWorker.new
+        worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed.xml")
+        LinkData.size.should == 4
+        #JobRecord.first.pages_created.should == 4
+      end
 
-      # @worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed.xml")
-      # write_page_queue_to_database
-      worker = AffiliatesWorker.new
-      worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed_update.xml")
-      @pq.size.should == 10
-      @pq.pop[:id].should == :lookup
-      @page.pop[:source].should_not be_nil
+      it "should populate the db from a feed url" do
+        service_options = {
+          "feeds" => [
+            {
+              "url" => populate_link(File.join(Rails.root, "spec/fixtures/avantlink_feeds/test_feed.xml"), "test-feed"),
+              "product_list_xpath" => '//Products/Product',
+              "product_link_xpath" => '//Buy_Link'
+            }
+          ]
+        }
+        site = Site.new(domain: "www.brownells.com")
+        site.update_attribute(:service_options, service_options)
+        worker = AvantlinkWorker.new
+        worker.perform(domain: "www.brownells.com")
+        LinkData.size.should == 4
+        #JobRecord.first.pages_created.should == 4
+      end
     end
-
-    it "should add removed listings to the PageQueue with the proper :id and :source" do
-      pending "Example"
-      # if status == "REMOVED"
-      #   PQ { url: url, source: nil, id: :lookup }
-      worker = AffiliatesWorker.new
-      worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed_remove.xml")
-      @pq.size.should == 10
-      page = @pq.pop
-      page[:id].should == :lookup
-      page[:source].should be_nil
-    end
-
-    it "should populate the db from a local file" do
-      worker = AffiliatesWorker.new
-      worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed.xml")
-      PageQueue.new("www.brownells.com").size.should == 4
-      JobRecord.first.pages_created.should == 4
-    end
-
-    it "should populate the db from a feed url" do
-      service_options = {
-        "feeds" => [
-          {
-            "url" => populate_link(File.join(Rails.root, "spec/fixtures/test_feed.xml"), "test-feed"),
-            "product_list_xpath" => '//Products/Product',
-            "product_link_xpath" => '//Buy_Link'
-          }
-        ]
-      }
-      #Site.find_by_domain("www.brownells.com").update_attribute(:service_options, service_options)
-      worker = AffiliatesWorker.new
-      worker.perform(domain: "www.brownells.com")
-      PageQueue.new("www.brownells.com").size.should == 4
-      JobRecord.first.pages_created.should == 4
-    end
-
-    it "should modify listings that are marked as modified" do
-    end
-
-    it "should delete listings that are marked as deleted" do
-      worker = AffiliatesWorker.new
-      worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed.xml")
-      write_page_queue_to_database
-      worker = AffiliatesWorker.new
-      worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/test_feed_remove.xml")
-      JobRecord.last.listings_deleted.should == 4
-    end
-  end
-
   end
 end

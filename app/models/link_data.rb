@@ -66,6 +66,15 @@ class LinkData
     ld.send(:create_in_redis) ? ld : nil
   end
 
+  def self.pop
+    with_redis do |conn|
+      link = conn.spop(LINK_DATA_INDEX)
+      ld = find(link)
+      ld.destroy
+      ld
+    end
+  end
+
   def self.find(url)
     return unless url.present? && (value = with_redis { |conn| conn.get(url) })
     attrs = JSON.parse(value).merge(url: url)
