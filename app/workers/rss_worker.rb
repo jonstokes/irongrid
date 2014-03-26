@@ -31,10 +31,9 @@ class RssWorker < CoreWorker
         record_incr(:links_created)
       end
     end
-  end
 
-  def feed_urls
-    site.service_options["feed_urls"] || [site.service_options["feed_url"]]
+    clean_up
+    transition
   end
 
   def clean_up
@@ -42,4 +41,15 @@ class RssWorker < CoreWorker
     stop_tracking
     notify "Added #{@record.links_created} links from feed."
   end
+
+  def transition
+    ScrapePagesWorker.perform_async(domain: @site.domain)
+  end
+
+  private
+  def feed_urls
+    site.service_options["feed_urls"] || [site.service_options["feed_url"]]
+  end
+
+
 end

@@ -5,8 +5,12 @@ Sidekiq::Testing.fake!
 
 describe AvantlinkWorker do
   before :each do
+    @site = create_site_from_repo "www.brownells.com"
+    LinkQueue.new(domain: @site.domain).clear
     LinkData.delete_all
-    create_site_from_repo "www.brownells.com"
+    ImageQueue.new(domain: @site.domain).clear
+    CDN.clear!
+    Sidekiq::Worker.clear_all
   end
 
   describe "#perform" do
@@ -22,6 +26,7 @@ describe AvantlinkWorker do
 
         AvantlinkWorker.new.perform(domain: "www.brownells.com")
         expect(LinkData.size).to eq(4)
+        expect(WriteListingWorker.jobs.count).to eq(4)
         ld = LinkData.pop
         expect(ld.url).to match(/avantlink\.com/)
         expect(ld.page_attributes["digest"]).not_to be_nil
@@ -40,6 +45,7 @@ describe AvantlinkWorker do
 
         AvantlinkWorker.new.perform(domain: "www.brownells.com")
         expect(LinkData.size).to eq(4)
+        expect(WriteListingWorker.jobs.count).to eq(4)
         ld = LinkData.pop
         expect(ld.url).to match(/avantlink\.com/)
         expect(ld.page_attributes["digest"]).not_to be_nil
@@ -58,6 +64,7 @@ describe AvantlinkWorker do
         end
 
         AvantlinkWorker.new.perform(domain: "www.brownells.com")
+        expect(WriteListingWorker.jobs.count).to eq(4)
         expect(LinkData.size).to eq(4)
         ld = LinkData.pop
         expect(ld.url).to match(/avantlink\.com/)
@@ -73,6 +80,12 @@ describe AvantlinkWorker do
         worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed.xml")
         LinkData.size.should == 4
         #JobRecord.first.pages_created.should == 4
+      end
+    end
+
+    describe "CDN and image functions" do
+      it "should add a link to the ImageQueue for each new or updated listing" do
+        pending "Example"
       end
     end
   end

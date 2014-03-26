@@ -11,6 +11,9 @@ describe RefreshLinksWorker do
   before :each do
     LinkQueue.new(domain: "www.retailer.com").clear
     LinkData.delete_all
+    ImageQueue.new(domain: @site.domain).clear
+    CDN.clear!
+    Sidekiq::Worker.clear_all
   end
 
   describe "#perform" do

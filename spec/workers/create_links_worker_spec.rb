@@ -19,6 +19,9 @@ describe CreateLinksWorker do
   before :each do
     LinkQueue.new(domain: @site.domain).clear
     LinkData.delete_all
+    ImageQueue.new(domain: @site.domain).clear
+    CDN.clear!
+    Sidekiq::Worker.clear_all
     @worker = CreateLinksWorker.new
   end
 
