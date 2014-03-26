@@ -143,11 +143,11 @@ class Listing < ActiveRecord::Base
   end
 
   def activate!
-    db { self.update_attribute(:inactive, false) }
+    db { update_attribute(:inactive, false) }
   end
 
   def deactivate!
-    db { self.update_attribute(:inactive, true) }
+    db { update_attribute(:inactive, true) }
   end
 
   def image_is_shared?
@@ -156,7 +156,7 @@ class Listing < ActiveRecord::Base
   end
 
   def active?
-    !self.inactive
+    !inactive
   end
 
   def created_at
@@ -168,7 +168,11 @@ class Listing < ActiveRecord::Base
   end
 
   def self.find_by_image(image)
-    Listing.where("item_data->>'image' = ?", image).first
+    db { Listing.where("item_data->>'image' = ?", image).first }
+  end
+
+  def self.duplicate_digest?(listing, digest)
+    db { Listing.where("id != ? AND digest = ?", listing.id, digest).any? }
   end
 
   #

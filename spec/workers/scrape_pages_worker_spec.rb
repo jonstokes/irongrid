@@ -1,5 +1,7 @@
 require 'spec_helper'
-require 'webmock/rspec'
+require 'mocktra'
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!
 
 describe ScrapePagesWorker do
   before :each do

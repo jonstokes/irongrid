@@ -1,5 +1,7 @@
 require 'spec_helper'
-include SidekiqUtils
+require 'mocktra'
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!
 
 describe RefreshLinksWorker do
   before :all do

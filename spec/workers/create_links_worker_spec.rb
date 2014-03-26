@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'mocktra'
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!
 
 describe CreateLinksWorker do
 
