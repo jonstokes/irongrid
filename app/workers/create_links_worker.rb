@@ -1,8 +1,9 @@
 class CreateLinksWorker < CoreWorker
   include PageUtils
 
+  sidekiq_options :queue => :crawls, :retry => true
+
   attr_reader :site, :http, :domain
-  sidekiq_options :queue => :crawls, :retry => false
 
   def init(opts)
     return unless opts

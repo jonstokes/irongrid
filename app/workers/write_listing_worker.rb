@@ -1,4 +1,5 @@
 class WriteListingWorker < CoreWorker
+  sidekiq_options :queue => :fast_db, :retry => true
 
   def perform(url)
     return unless ld = LinkData.find(url)

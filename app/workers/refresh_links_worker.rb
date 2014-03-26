@@ -1,7 +1,7 @@
 class RefreshLinksWorker < CoreWorker
   include PageUtils
 
-  sidekiq_options :queue => :db_read, :retry => false
+  sidekiq_options :queue => :fast_db, :retry => true
 
   attr_reader :domain, :site, :query_conditions, :record, :deleted_listing_count, :updated_listing_count
   attr_accessor :scraper

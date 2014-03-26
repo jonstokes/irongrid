@@ -1,10 +1,10 @@
 class ScrapePagesWorker < CoreWorker
   include PageUtils
 
+  sidekiq_options :queue => :crawls, :retry => true
+
   attr_reader :domain, :site
   attr_accessor :timeout if Rails.env.test?
-
-  sidekiq_options :queue => :crawls, :retry => false
 
   def initialize
     @http = PageUtils::HTTP.new

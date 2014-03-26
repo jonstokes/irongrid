@@ -1,8 +1,7 @@
 class RssWorker < CoreWorker
-  include Sidekiq::Worker
   include PageUtils
 
-  sidekiq_options :queue => :crawls, :retry => false
+  sidekiq_options :queue => :crawls, :retry => true
 
   attr_reader :site
 
