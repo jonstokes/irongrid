@@ -19,7 +19,8 @@ class ScrapePagesWorker < CoreWorker
     @scraper = ListingScraper.new(@site)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timeout ||= ((60.0 / site.rate_limit.to_f) * 60).to_i
-    @link_store = LinkQueue.new(domain: domain)
+    @link_store = LinkQueue.new(domain: @site.domain)
+    @image_store = ImageQueue.new(domain: @site.domain)
     record_opts = {
       pages_created: 0,
       links_deleted: 0
@@ -69,7 +70,7 @@ class ScrapePagesWorker < CoreWorker
     if page = get_page(url)
       @scraper.parse(doc: page.doc, url: url)
       unless link_data.listing_digest && (@scraper.listing["digest"] == link_data.listing_digest)
-        update_image(@scraper) if @scraper.is_valid?
+        update_image if @scraper.is_valid?
         link_data.update(
           page_is_valid:   @scraper.is_valid?,
           page_not_found:  @scraper.not_found?,
@@ -83,12 +84,12 @@ class ScrapePagesWorker < CoreWorker
     end
   end
 
-  def update_image(scraper)
-    return unless image_source = scraper.listing["item_data"]["image_source"]
+  def update_image
+    return unless image_source = @scraper.listing["item_data"]["image_source"]
     if CDN.has_image?(image_source)
-      scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
+      @scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
     else
-      ImageQueue.new(domain: domain).push image_source
+      @image_store.push image_source
     end
   end
 end

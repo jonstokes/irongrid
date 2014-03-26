@@ -24,7 +24,7 @@ describe AvantlinkWorker do
           end
         end
 
-        AvantlinkWorker.new.perform(domain: "www.brownells.com")
+        AvantlinkWorker.new.perform(domain: @site.domain)
         expect(LinkData.size).to eq(4)
         expect(WriteListingWorker.jobs.count).to eq(4)
         ld = LinkData.pop
@@ -43,7 +43,7 @@ describe AvantlinkWorker do
           end
         end
 
-        AvantlinkWorker.new.perform(domain: "www.brownells.com")
+        AvantlinkWorker.new.perform(domain: @site.domain)
         expect(LinkData.size).to eq(4)
         expect(WriteListingWorker.jobs.count).to eq(4)
         ld = LinkData.pop
@@ -63,7 +63,7 @@ describe AvantlinkWorker do
           end
         end
 
-        AvantlinkWorker.new.perform(domain: "www.brownells.com")
+        AvantlinkWorker.new.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(4)
         expect(LinkData.size).to eq(4)
         ld = LinkData.pop
@@ -77,7 +77,7 @@ describe AvantlinkWorker do
     describe "internals" do
       it "should populate the db from a local file" do
         worker = AvantlinkWorker.new
-        worker.perform(domain: "www.brownells.com", filename: "spec/fixtures/avantlink_feeds/test_feed.xml")
+        worker.perform(domain: @site.domain, filename: "spec/fixtures/avantlink_feeds/test_feed.xml")
         LinkData.size.should == 4
         #JobRecord.first.pages_created.should == 4
       end
@@ -85,7 +85,18 @@ describe AvantlinkWorker do
 
     describe "CDN and image functions" do
       it "should add a link to the ImageQueue for each new or updated listing" do
-        pending "Example"
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        AvantlinkWorker.new.perform(domain: @site.domain)
+        iq = ImageQueue.new(domain: @site.domain)
+        expect(iq.size).to eq(4)
+        expect(iq.pop).to match(/brownells\.com/)
       end
     end
   end

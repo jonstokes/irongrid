@@ -96,6 +96,7 @@ class AvantlinkWorker < CoreWorker
     track(record_opts)
     @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
+    @image_store = ImageQueue.new(domain: @site.domain)
     notify "Checking affiliate feed urls for #{@site.name}..."
     true
   end
@@ -133,6 +134,7 @@ class AvantlinkWorker < CoreWorker
     return :invalid unless @scraper.is_valid?
     url = opts[:url]
     record_incr(:listings_updated)
+    update_image
     LinkData.create(
       url: url,
       page_is_valid: true,
@@ -153,6 +155,15 @@ class AvantlinkWorker < CoreWorker
     )
     WriteListingWorker.perform_async(url)
     :deleted
+  end
+
+  def update_image
+    return unless image_source = @scraper.listing["item_data"]["image_source"]
+    if CDN.has_image?(image_source)
+      @scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
+    else
+      @image_store.push image_source
+    end
   end
 
   def feeds
