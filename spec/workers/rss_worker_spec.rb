@@ -30,6 +30,7 @@ describe RssWorker do
       expect(LinkData.find(url)).not_to be_nil
       expect(LinkQueue.new(domain: @site.domain).has_key?(url)).to be_true
       expect(ScrapePagesWorker.jobs.count).to eq(1)
+      expect(LogRecordWorker.jobs.count).to eq(2)
     end
   end
 end

@@ -2,6 +2,14 @@ require 'ostruct'
 
 class AvantlinkWorker < CoreWorker
   include Sidekiq::Worker
+  include Trackable
+
+  LOG_RECORD_SCHEMA = {
+    db_writes:        Integer,
+    images_added:     Integer,
+    listings_deleted: Integer
+  }
+
 
   sidekiq_options :queue => :affiliates, :retry => false
 
@@ -88,12 +96,7 @@ class AvantlinkWorker < CoreWorker
     @feed_url = opts[:feed_url]
     @site = opts[:site] || Site.new(domain: @domain)
     @service_options = @site.service_options
-    record_opts = opts[:record] || {
-        pages_created:    0,
-        listings_updated: 0,
-        listings_deleted: 0
-    }
-    track(record_opts)
+    track
     @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)
@@ -110,7 +113,7 @@ class AvantlinkWorker < CoreWorker
   end
 
   def clean_up
-    notify "Added #{@record.pages_created} links from feed."
+    notify "Added #{record[:data][:db_writes]} links from feed."
     @site.mark_read!
     stop_tracking
   end
@@ -120,6 +123,7 @@ class AvantlinkWorker < CoreWorker
     feed.each_product do |product|
       next unless product[:xml]
       action = :no_action
+      record_incr(:db_writes)
       if (product[:status] == "Removed")
         action = delete_listing(product[:url])
       else (product[:status] == "Modified")
@@ -133,7 +137,6 @@ class AvantlinkWorker < CoreWorker
     @scraper.parse(opts)
     return :invalid unless @scraper.is_valid?
     url = opts[:url]
-    record_incr(:listings_updated)
     update_image
     LinkData.create(
       url: url,
@@ -163,6 +166,7 @@ class AvantlinkWorker < CoreWorker
       @scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
     else
       @image_store.push image_source
+      record_incr(:images_added)
     end
   end
 

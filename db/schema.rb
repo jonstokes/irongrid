@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140205163412) do
+ActiveRecord::Schema.define(version: 20140327132319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
   enable_extension "hstore"
 
   create_table "geo_data", force: true do |t|
@@ -46,39 +45,31 @@ ActiveRecord::Schema.define(version: 20140205163412) do
   end
 
   create_table "listings", force: true do |t|
-    t.text     "title"
-    t.text     "description"
-    t.text     "keywords"
-    t.string   "digest",                 null: false
-    t.string   "type",                   null: false
-    t.string   "seller_domain"
-    t.string   "seller_name"
-    t.text     "url",                    null: false
-    t.string   "item_condition"
-    t.string   "image"
-    t.string   "stock_status"
-    t.string   "item_location"
-    t.integer  "price_in_cents"
-    t.integer  "sale_price_in_cents"
-    t.integer  "buy_now_price_in_cents"
-    t.integer  "current_bid_in_cents"
-    t.integer  "minimum_bid_in_cents"
-    t.integer  "reserve_in_cents"
-    t.datetime "auction_ends"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "price_on_request"
-    t.string   "engine"
+    t.string   "digest",       null: false
+    t.string   "type",         null: false
+    t.text     "url",          null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.boolean  "inactive"
     t.integer  "update_count"
     t.integer  "geo_data_id"
-    t.hstore   "category_data"
     t.json     "item_data"
     t.integer  "site_id"
   end
 
   add_index "listings", ["digest"], name: "index_listings_on_digest", unique: true, using: :btree
   add_index "listings", ["url"], name: "index_listings_on_url", unique: true, using: :btree
+
+  create_table "log_records", force: true do |t|
+    t.json     "data",       null: false
+    t.string   "agent",      null: false
+    t.string   "jid",        null: false
+    t.boolean  "archived"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "log_records", ["jid"], name: "index_job_records_on_jid", unique: true, using: :btree
 
   create_table "parser_tests", force: true do |t|
     t.string   "engine"
@@ -114,7 +105,7 @@ ActiveRecord::Schema.define(version: 20140205163412) do
     t.integer  "number_of_rounds"
     t.integer  "grains"
     t.string   "manufacturer"
-    t.string   "caliber_category"
+    t.string   "model"
   end
 
   create_table "service_records", force: true do |t|

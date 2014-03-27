@@ -1,5 +1,10 @@
 class RssWorker < CoreWorker
   include PageUtils
+  include Trackable
+
+  LOG_RECORD_SCHEMA = {
+    links_created: Integer
+  }
 
   sidekiq_options :queue => :crawls, :retry => true
 
@@ -10,7 +15,7 @@ class RssWorker < CoreWorker
     return false unless @domain = opts[:domain]
 
     @site = Site.new(domain: @domain)
-    track(links_created: 0)
+    track
     @link_store = LinkQueue.new(domain: @domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @links = Set.new
@@ -37,18 +42,16 @@ class RssWorker < CoreWorker
 
   def clean_up
     @site.mark_read!
-    stop_tracking
-    notify "Added #{@record.links_created} links from feed."
+    notify "Added #{@record[:data][:links_created]} links from feed."
   end
 
   def transition
     ScrapePagesWorker.perform_async(domain: @site.domain)
+    stop_tracking
   end
 
   private
   def feed_urls
     site.service_options["feed_urls"] || [site.service_options["feed_url"]]
   end
-
-
 end

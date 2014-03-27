@@ -1,51 +1,56 @@
 class CreateLinksWorker < CoreWorker
   include PageUtils
+  include Trackable
+
+  LOG_RECORD_SCHEMA = {
+    links_crawled: Integer,
+    links_created: Integer,
+    transition:    String
+  }
 
   sidekiq_options :queue => :crawls, :retry => true
 
   attr_reader :site, :http, :domain
 
   def init(opts)
-    return unless opts
-    opts.symbolize_keys!
-    return false unless (@domain = opts[:domain])
+    return false unless opts && (@domain = opts[:domain])
 
     @http = PageUtils::HTTP.new
     @link_count = 0
     @site = opts[:site] || Site.new(domain: domain, source: :redis)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @link_store = opts[:link_store] || LinkQueue.new(domain: domain)
-    record_opts = opts[:record] || {
-      links_crawled: 0,
-      links_created: 0,
-    }
-    track(record_opts)
+    track
     true
   end
 
   def perform(opts)
+    opts.symbolize_keys!
     return unless init(opts)
+
     notify "Running #{link_list.size} links with rate limit #{@site.rate_limit}..."
     link_list.each do |link|
       pull_product_links_from_seed(link).each do |url|
+        status_update
         next unless LinkData.create(url: url, jid: jid)
         @link_store.push url
-        @link_count += 1
+        record_incr(:links_created)
       end
     end
-    notify "Found #{@link_count} product links to read from database..."
-    record_set :links_created, @link_count
     clean_up
     transition
   end
 
   def clean_up
-    stop_tracking
     @site.mark_read!
+    notify "Created #{@record[:data][:links_created]} product links in LinkQueue..."
   end
 
   def transition
-    ScrapePagesWorker.perform_async(domain: domain) if @link_store.any?
+    return unless @link_store.any?
+    ScrapePagesWorker.perform_async(domain: domain)
+    record_set(:transition, "ScrapePagesWorker")
+    stop_tracking
   end
 
   def pull_product_links_from_seed(link)

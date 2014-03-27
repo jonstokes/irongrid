@@ -1,7 +1,6 @@
 class CoreWorker < CoreModel
   include Sidekiq::Worker
-  include Trackable
-  include SidekiqUtils
+  include Notifier
 
   def perform(opts)
     # override

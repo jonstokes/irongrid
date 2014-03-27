@@ -27,6 +27,7 @@ describe AvantlinkWorker do
         AvantlinkWorker.new.perform(domain: @site.domain)
         expect(LinkData.size).to eq(4)
         expect(WriteListingWorker.jobs.count).to eq(4)
+        expect(LogRecordWorker.jobs.count).to eq(2)
         ld = LinkData.pop
         expect(ld.url).to match(/avantlink\.com/)
         expect(ld.page_attributes["digest"]).not_to be_nil

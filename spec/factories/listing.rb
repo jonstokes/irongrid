@@ -29,7 +29,7 @@ FactoryGirl.define do
   factory :listing do
     sequence(:url) { |i| "http://www.retailer.com/#{i}" }
     sequence(:digest) { |i| "digest-#{i}" }
-    item_data { retail_item_data.merge(seller_domain: URI.parse(url).host) }
+    item_data { retail_item_data.merge("seller_domain" => URI.parse(url).host) }
     updated_at Time.current
     created_at Time.current
 
@@ -73,10 +73,10 @@ FactoryGirl.define do
       end
 
       type "AuctionListing"
-      item_data { auction_item_data}
+      item_data { auction_item_data.merge("seller_domain" => URI.parse(url).host) }
 
       trait :ended do
-        item_data { auction.merge("auction_ends" => 1.day.ago) }
+        item_data { auction_item_data.merge("auction_ends" => 1.day.ago) }
       end
     end
 
@@ -86,7 +86,7 @@ FactoryGirl.define do
       end
 
       type "ClassifiedListing"
-      item_data { classified_item_data }
+      item_data { classified_item_data.merge("seller_domain" => URI.parse(url).host) }
     end
 
     factory :retail_listing do
@@ -95,7 +95,7 @@ FactoryGirl.define do
       end
 
       type "RetailListing"
-      item_data { retail_item_data }
+      item_data { retail_item_data.merge("seller_domain" => URI.parse(url).host) }
     end
   end
 end

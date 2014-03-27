@@ -29,6 +29,7 @@ describe RefreshLinksWorker do
       lq.size.should == 1
       expect(lq.pop).to match(/retailer\.com/)
       expect(CreateLinksWorker.jobs.count).to eq(1)
+      expect(LogRecordWorker.jobs.count).to eq(2)
     end
   end
 end
