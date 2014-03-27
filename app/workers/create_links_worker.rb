@@ -47,9 +47,10 @@ class CreateLinksWorker < CoreWorker
   end
 
   def transition
-    return unless @link_store.any?
-    ScrapePagesWorker.perform_async(domain: domain)
-    record_set(:transition, "ScrapePagesWorker")
+    if @link_store.any?
+      ScrapePagesWorker.perform_async(domain: domain)
+      record_set(:transition, "ScrapePagesWorker")
+    end
     stop_tracking
   end
 
