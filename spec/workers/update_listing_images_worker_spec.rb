@@ -1,10 +1,23 @@
 require 'spec_helper'
+require 'mocktra'
 
 describe UpdateListingImagesWorker do
-  it "updates listings that have nil images when their images are on the CDN" do
-    pending "Example"
-    # Listing.where("item_data->>'image' = ?, updated_at < ?", nil, 2.days.ago).each do |listing|
-    #   listing.image = CDN.url_for_image(listing.image) [this returns nil if the image isn't on the CDN]
-    # end
+  before :all do
+    @site = create_site_from_repo "www.retailer.com"
+    Mocktra(@site.domain) do
+      get '/images/1.png' do
+        send_file "#{Rails.root}/spec/fixtures/images/test-image.png"
+      end
+    end
+  end
+
+  it "updates listings that have nil images when their images are on the CDN without stepping on updated_at timestamp" do
+    listing = FactoryGirl.create(:retail_listing, :no_image)
+    CDN.upload_image(listing.image)
+    sleep 1
+    UpdateListingImagesWorker.new.perform
+    same_listing = Listing.first
+    expect(same_listing.image).to eq(CDN.url_for_image(listing.image_source))
+    expect(same_listing.updated_at).to eq(listing.updated_at)
   end
 end

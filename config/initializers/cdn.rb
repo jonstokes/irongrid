@@ -8,4 +8,3 @@ ENV_BUCKET_POSTFIX = case Rails.env
 
 IMAGE_PREFIX = "http://cache.scoperrific.com/"
 TEST_IMAGE = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
-

@@ -1,22 +1,24 @@
 def retail_item_data
   {
-    "title" => [{"title" => "title"}],
-    "availability" => "in_stock",
-    "image" => "http://scoperrific.com/bogus_image.png",
-    "category1" => [{"category1" => "Guns"}, {"category1_type" => "hard" }],
-    "price_in_cents" => 1999,
+    "title"               => [{"title" => "title"}],
+    "availability"        => "in_stock",
+    "image"               => "http://scoperrific.com/bogus_image.png",
+    "image_source"        => "http://www.retailer.com/images/1.png",
+    "category1"           => [{"category1" => "Guns"}, {"category1_type" => "hard" }],
+    "price_in_cents"      => 1999,
     "sale_price_in_cents" => 1999,
-    "item_condition" => "New"
+    "item_condition"      => "New"
   }
 end
 
 def auction_item_data
   data = retail_item_data.merge(
     "buy_now_price_in_cents" => 1999,
-    "minimum_bid_in_cents" => 1999,
-    "current_bid_in_cents" => 1999,
-    "reserve_in_cents" => 1999,
-    "auction_ends" => 10.days.from_now)
+    "minimum_bid_in_cents"   => 1999,
+    "current_bid_in_cents"   => 1999,
+    "reserve_in_cents"       => 1999,
+    "auction_ends"           => 10.days.from_now
+  )
 
   data.reject { |k| ["price_in_cents", "sale_price_in_cents"].include? k }
 end
@@ -64,7 +66,7 @@ FactoryGirl.define do
     end
 
     trait :no_image do
-      item_data { retail_item_data.merge("image" => "http://assets.scoperrific.com/no-image-200x140.png") }
+      item_data { retail_item_data.merge("image" => CDN::DEFAULT_IMAGE_URL) }
     end
 
     factory :auction_listing do
