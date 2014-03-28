@@ -13,7 +13,7 @@ describe UpdateListingImagesWorker do
 
   it "updates listings that have nil images when their images are on the CDN without stepping on updated_at timestamp" do
     listing = FactoryGirl.create(:retail_listing, :no_image)
-    CDN.upload_image(listing.image)
+    CDN.upload_image(listing.image_source)
     sleep 1
     UpdateListingImagesWorker.new.perform
     same_listing = Listing.first

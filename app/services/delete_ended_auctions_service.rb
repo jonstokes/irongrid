@@ -6,8 +6,6 @@ class DeleteEndedAuctionsService < CoreService
     begin
       db do
         Listing.ended_auctions.find_in_batches do |batch|
-          puts "Batch size is #{batch.size}"
-          puts "Batch ids are #{batch.map(&:id)}"
           DeleteEndedAuctionsWorker.perform_async(batch.map(&:id))
           record_incr(:jobs_started) unless Rails.env.test?
         end

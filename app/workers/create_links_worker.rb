@@ -1,6 +1,5 @@
 class CreateLinksWorker < CoreWorker
   include PageUtils
-  include Trackable
 
   LOG_RECORD_SCHEMA = {
     links_crawled: Integer,
@@ -13,11 +12,11 @@ class CreateLinksWorker < CoreWorker
   attr_reader :site, :http, :domain
 
   def init(opts)
-    return false unless opts && (@domain = opts[:domain])
+    return false unless opts && @domain = opts[:domain]
 
     @http = PageUtils::HTTP.new
     @link_count = 0
-    @site = opts[:site] || Site.new(domain: domain, source: :redis)
+    @site = Site.new(domain: @domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @link_store = opts[:link_store] || LinkQueue.new(domain: domain)
     track

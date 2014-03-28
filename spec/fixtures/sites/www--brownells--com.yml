@@ -1,4 +1,4 @@
---- !ruby/object:Site
+---
 attributes:
   id: 19
   name: Brownells
@@ -25,10 +25,10 @@ attributes:
   created_at: 2013-11-15 13:08:05.576771000 Z
   updated_at: 2014-01-28 20:15:52.175000000 Z
   engine: www.ironsights.com
-  scrape_with_service: AffiliatesService
+  read_with: AvantlinkWorker
   service_options:
     feeds:
-    - url: https://scoperrific-rspec.s3.amazonaws.com/test-feed
+    - url: http://datafeed.avantlink.com/download_feed.php
       product_list_xpath: //Products/Product
       product_link_xpath: //Buy_Link
       product_status_xpath: //Status

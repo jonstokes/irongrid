@@ -47,7 +47,7 @@ class ScrapePagesWorker < CoreWorker
   end
 
   def clean_up
-    notify "Added #{@record.pages_created} from link store."
+    notify "Added #{@record[:db_writes]} from link store."
     @site.mark_read!
   end
 

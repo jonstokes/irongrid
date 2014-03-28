@@ -4,11 +4,8 @@ require 'sidekiq/testing'
 Sidekiq::Testing.fake!
 
 describe RefreshLinksWorker do
-  before :all do
-    @site = create_site_from_repo "www.retailer.com"
-  end
-
   before :each do
+    @site = create_site_from_repo "www.retailer.com"
     LinkQueue.new(domain: "www.retailer.com").clear
     LinkData.delete_all
     ImageQueue.new(domain: @site.domain).clear

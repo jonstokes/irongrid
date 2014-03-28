@@ -1,5 +1,4 @@
 class CreateCdnImagesWorker < CoreWorker
-  include Trackable
 
   LOG_RECORD_SCHEMA = {
     images_created: Integer,

@@ -1,4 +1,4 @@
---- !ruby/object:Site
+---
 attributes:
   id: 13
   name: Center Mass Firearms
@@ -35,7 +35,7 @@ attributes:
   created_at: 2013-06-25 23:16:44.226536000 Z
   updated_at: 2013-12-04 16:46:00.109815000 Z
   engine: www.ironsights.com
-  scrape_with_service: CreateLinksService
+  read_with: RefreshLinksWorker
   service_options:
     seed_links:
       http://centermassfirearms.com/index.php/rifles.html?limit=30:

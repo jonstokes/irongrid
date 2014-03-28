@@ -1,5 +1,4 @@
 class DeleteEndedAuctionsWorker < CoreWorker
-  include Trackable
 
   sidekiq_options queue: :fast_db
 

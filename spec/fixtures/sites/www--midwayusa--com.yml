@@ -1,4 +1,4 @@
---- !ruby/object:Site
+---
 attributes:
   id: 11
   name: MidwayUSA
@@ -34,7 +34,7 @@ attributes:
   created_at: 2013-06-13 18:56:59.525530000 Z
   updated_at: 2014-01-27 21:20:47.298000000 Z
   engine: www.ironsights.com
-  scrape_with_service: CreateLinksService
+  read_with: RefreshLinksWorker
   service_options:
     compressed_links:
       http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13950&pageNumber=PAGENUM:

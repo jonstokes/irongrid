@@ -39,7 +39,7 @@ describe ListingCleaner do
       doc = Nokogiri.parse(page[:html], page[:url])
       scraper = ListingScraper.new(Site.new(domain: "www.impactguns.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
-      scraper.listing["item_data"]["image"].should == "http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg"
+      scraper.listing["item_data"]["image_source"].should == "http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg"
     end
 
     it "should return the page image when no prefix is needed" do
@@ -47,7 +47,7 @@ describe ListingCleaner do
       doc = Nokogiri.parse(page[:html], page[:url])
       scraper = ListingScraper.new(Site.new(domain: "www.budsgunshop.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
-      scraper.listing["item_data"]["image"].should == "http://www.budsgunshop.com/catalog/images/15118.jpg"
+      scraper.listing["item_data"]["image_source"].should == "http://www.budsgunshop.com/catalog/images/15118.jpg"
     end
 
     it "should return nil when the image is invalid" do
@@ -56,7 +56,7 @@ describe ListingCleaner do
       scraper = ListingScraper.new(Site.new(domain: "www.budsgunshop.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
       scraper.raw_listing['image'] = "http://www.budsgunshop.com/catalog/images/"
-      scraper.listing["item_data"]["image"].should be_nil
+      scraper.listing["item_data"]["image_source"].should be_nil
     end
   end
 

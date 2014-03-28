@@ -1,8 +1,4 @@
-require 'ostruct'
-
 class AvantlinkWorker < CoreWorker
-  include Sidekiq::Worker
-  include Trackable
 
   LOG_RECORD_SCHEMA = {
     db_writes:        Integer,

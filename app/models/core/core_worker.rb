@@ -1,6 +1,7 @@
 class CoreWorker < CoreModel
   include Sidekiq::Worker
   include Notifier
+  include Trackable
   extend SidekiqUtils
 
   def init(opts)

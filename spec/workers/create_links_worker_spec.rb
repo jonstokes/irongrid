@@ -5,8 +5,9 @@ Sidekiq::Testing.fake!
 
 describe CreateLinksWorker do
 
-  before :all do
+  before :each do
     @site = create_site_from_repo "www.retailer.com"
+    @worker = CreateLinksWorker.new
     Mocktra(@site.domain) do
       get '/products' do
         File.open("#{Rails.root}/spec/fixtures/web_pages/www--retailer--com/products.html") do |file|
@@ -14,15 +15,11 @@ describe CreateLinksWorker do
         end
       end
     end
-  end
-
-  before :each do
     LinkQueue.new(domain: @site.domain).clear
     LinkData.delete_all
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
     Sidekiq::Worker.clear_all
-    @worker = CreateLinksWorker.new
   end
 
   describe "#perform" do
@@ -31,7 +28,7 @@ describe CreateLinksWorker do
     end
 
     it "transitions to ScrapePagesWorker if there are links in the LinkQueue" do
-      CreateLinksWorker.new.perform(domain: @site.domain)
+      @worker.perform(domain: @site.domain)
       expect(LinkData.size).to eq(444)
       expect(LinkQueue.new(domain: @site.domain).size).to eq(444)
       expect(ScrapePagesWorker.jobs.count).to eq(1)

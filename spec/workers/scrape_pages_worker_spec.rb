@@ -46,6 +46,7 @@ describe ScrapePagesWorker do
       LinkData.create(url: url)
       @worker.perform(domain: @site.domain)
       WebMock.should have_requested(:get, "www.retailer.com/1")
+      expect(WriteListingWorker.jobs.count).to eq(1)
     end
 
     it "correctly tags a 404 link in Redis" do
@@ -56,6 +57,7 @@ describe ScrapePagesWorker do
       @worker.perform(domain: @site.domain)
       ld = LinkData.find(url)
       expect(ld.page_not_found?).to be_true
+      expect(WriteListingWorker.jobs.count).to eq(1)
     end
 
     it "correctly tags a not_found link in Redis" do
@@ -70,6 +72,7 @@ describe ScrapePagesWorker do
       @worker.perform(domain: @site.domain)
       ld = LinkData.find(url)
       expect(ld.page_is_valid?).to be_false
+      expect(WriteListingWorker.jobs.count).to eq(1)
     end
 
     it "correctly tags a valid link in Redis" do
@@ -81,16 +84,7 @@ describe ScrapePagesWorker do
       ld = LinkData.find(url)
       expect(ld.page_is_valid?).to be_true
       expect(ld.page_attributes["digest"]).to eq("b97637eba1fab547c75bd6ba372fb1ed")
-    end
-
-    describe "WriteListingWorker transitions" do
-      it "generates a WriteListingWorker for every listing that has changed" do
-        pending "Example"
-      end
-
-      it "does not generate a WriteListingWorker for a listing that is unchanged" do
-        pending "Example"
-      end
+      expect(WriteListingWorker.jobs.count).to eq(1)
     end
 
     describe "where image_source exists on CDN already" do
@@ -111,7 +105,7 @@ describe ScrapePagesWorker do
     end
 
     describe "where image_source does not exist on CDN already" do
-      it "adds the image_source url to the ImageQueue and nils 'image' attribute" do
+      it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
         url = "http://#{@site.domain}/1"
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
         LinkQueue.new(domain: @site.domain).add(url)
@@ -121,7 +115,7 @@ describe ScrapePagesWorker do
         iq = ImageQueue.new(domain: @site.domain)
 
         expect(ld.page_attributes["item_data"]["image_source"]).to eq(image_source)
-        expect(ld.page_attributes["item_data"]["image"]).to be_nil
+        expect(ld.page_attributes["item_data"]["image"]).to eq(CDN::DEFAULT_IMAGE_URL)
         expect(iq.pop).to eq(image_source)
       end
     end
@@ -141,8 +135,6 @@ describe ScrapePagesWorker do
 
     it "transitions to RefreshLinksWorker if the site's LinkQueue is empty and the site should be read again" do
       @site.update(read_interval: 0, read_at: 10.days.ago)
-      puts "Read at:       #{@site.read_at}"
-      puts "Read interval: #{@site.read_interval}"
       @worker.perform(domain: @site.domain)
       expect(RefreshLinksWorker.jobs.count).to eq(1)
     end

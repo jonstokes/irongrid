@@ -63,7 +63,7 @@ class Site
     when :git
       #load_from_github
     when :fixture
-      #load_from_fixture
+      load_from_fixture
     when :db
       #load_from_db
     end
@@ -162,7 +162,9 @@ class Site
   end
 
   def load_from_redis
-    @site_data = IRONGRID_REDIS_POOL.with { |conn| YAML.load(conn.get("site--#{domain}")) }.symbolize_keys
+    @site_data = IRONGRID_REDIS_POOL.with do |conn|
+      YAML.load(conn.get("site--#{domain}"))
+    end.symbolize_keys
   end
 
   def load_from_local
@@ -180,7 +182,8 @@ class Site
 
   def load_from_fixture
     filename = domain.gsub(".","--") + ".yml"
-    @site_data = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}").attributes
+    @site_data = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}")["attributes"].symbolize_keys
+    @site_data[:adapter] = YAML.load(@site_data[:adapter_source])
     @site_data.delete("id")
     @site_data.delete("created_at")
     @site_data.delete("updated_at")

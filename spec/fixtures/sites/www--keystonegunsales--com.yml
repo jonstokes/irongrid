@@ -1,4 +1,4 @@
---- !ruby/object:Site
+---
 attributes:
   id: 33
   name: Keystone Gun Sales
@@ -25,7 +25,7 @@ attributes:
   created_at: 2014-01-23 13:55:53.248443000 Z
   updated_at: 2014-01-27 22:14:35.254000000 Z
   engine: www.ironsights.com
-  scrape_with_service: CreateLinksService
+  read_with: RefreshLinksWorker
   service_options:
     compressed_links:
       http://www.keystonegunsales.com/inventory/rifles?page=PAGENUM:

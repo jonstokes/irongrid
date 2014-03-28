@@ -1,4 +1,4 @@
---- !ruby/object:Site
+---
 attributes:
   id: 6
   name: Hyatt Gun Store
@@ -53,7 +53,7 @@ attributes:
   created_at: 2012-10-23 21:12:23.044000000 Z
   updated_at: 2014-01-28 01:09:34.457000000 Z
   engine: www.ironsights.com
-  scrape_with_service: CreateLinksService
+  read_with: RefreshLinksWorker
   service_options:
     compressed_links:
       http://www.hyattgunstore.com/used-firearms/indexPAGENUM.html:

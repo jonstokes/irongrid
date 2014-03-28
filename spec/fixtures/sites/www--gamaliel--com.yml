@@ -1,4 +1,4 @@
---- !ruby/object:Site
+---
 attributes:
   id: 29
   name: Gamaliel Shooting Supply
@@ -46,7 +46,7 @@ attributes:
   created_at: 2014-01-23 11:44:56.194894000 Z
   updated_at: 2014-01-27 22:20:38.210000000 Z
   engine: www.ironsights.com
-  scrape_with_service: CreateLinksService
+  read_with: RefreshLinksWorker
   service_options:
     compressed_links:
       ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Ammunition)&search_prod=(searchexact~p.searchfield1~Ammunition)&searchfield1=Ammunition&page=PAGENUM

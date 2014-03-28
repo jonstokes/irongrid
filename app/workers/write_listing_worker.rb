@@ -1,4 +1,6 @@
 class WriteListingWorker < CoreWorker
+  include ConnectionWrapper
+
   sidekiq_options :queue => :fast_db, :retry => true
 
   def perform(url)
