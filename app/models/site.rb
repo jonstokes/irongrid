@@ -103,7 +103,7 @@ class Site
   end
 
   def mark_read!
-    update_attribute(:read_at, Time.now)
+    update_attribute(:read_at, Time.now.utc)
   end
 
   def default_seller_timezone
@@ -114,7 +114,7 @@ class Site
 
   def should_read?
     return true unless read_at && read_interval
-    Time.now > read_at + read_interval
+    Time.now.utc > read_at + read_interval
   end
 
   def active?
