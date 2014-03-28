@@ -69,6 +69,10 @@ FactoryGirl.define do
       item_data { retail_item_data.merge("image" => CDN::DEFAULT_IMAGE_URL) }
     end
 
+    trait :stale do
+      updated_at 10.days.ago
+    end
+
     factory :auction_listing do
       initialize_with do
         AuctionListing.new

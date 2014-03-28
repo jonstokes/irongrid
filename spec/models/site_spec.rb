@@ -51,4 +51,14 @@ describe Site do
       expect(site.read_at).to eq(time)
     end
   end
+
+  describe "::active" do
+    it "returns an array of all sites currently active in redis" do
+      create_site_from_repo "www.retailer.com"
+      site = create_site_from_repo "www.budsgunshop.com"
+      site.update(active: false)
+      expect(Site.active.count).to eq(1)
+      expect(Site.active.first).to be_a(Site)
+    end
+  end
 end

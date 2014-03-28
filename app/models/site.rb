@@ -9,7 +9,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  engine              :string(255)
-#  scrape_with_service :string(255)
+#  read_with :string(255)
 #  service_options     :text
 #  size                :integer
 #  active              :boolean
@@ -32,7 +32,7 @@ class Site
     :updated_at,
     :read_at,
     :adapter,
-    :scrape_with_service,
+    :read_with,
     :service_options,
     :size,
     :active,
@@ -103,7 +103,7 @@ class Site
   end
 
   def mark_read!
-    update_attribute(:read_at, Time.now)
+    update_attribute(:read_at, Time.now.utc)
   end
 
   def default_seller_timezone
@@ -114,7 +114,7 @@ class Site
 
   def should_read?
     return true unless read_at && read_interval
-    Time.now > read_at + read_interval
+    Time.now.utc > read_at + read_interval
   end
 
   def active?
@@ -123,6 +123,17 @@ class Site
 
   def respond_to?(method_id, include_private = false)
     @respond_to && @respond_to.include?(method_id) ? true : super
+  end
+
+  def self.domains
+    with_redis { |conn| conn.smembers "site--index" }
+  end
+
+  def self.active
+    domains.map do |domain|
+      site = Site.new(domain: domain)
+      site.active? ? site : nil
+    end.compact
   end
 
   private
@@ -197,6 +208,15 @@ class Site
   end
 
   def write_to_redis
-    IRONGRID_REDIS_POOL.with { |conn| conn.set("site--#{domain}", @site_data.to_yaml) }
+    IRONGRID_REDIS_POOL.with do |conn|
+      conn.set("site--#{domain}", @site_data.to_yaml)
+      conn.sadd("site--index", @site_data[:domain])
+    end
+  end
+
+  def self.with_redis(&block)
+    retryable(sleep: 0.5) do
+      IRONGRID_REDIS_POOL.with &block
+    end
   end
 end
