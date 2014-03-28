@@ -1,0 +1,2 @@
+class DeleteCdnImagesWorker < CoreWorker
+end

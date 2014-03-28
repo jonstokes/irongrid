@@ -7,6 +7,7 @@ describe DeleteCdnImagesWorker do
     # Needs to Listing.find_by_image
     #
     # It only delete images whose last_modified was over a week ago
+  end
 
   it "does not delete an image from the CDN if the image is still in use" do
     pending "Example"
