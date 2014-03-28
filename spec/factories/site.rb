@@ -4,7 +4,7 @@ FactoryGirl.define do
     sequence(:domain) { |i| "www.seller-#{i}.com" }
     adapter_source "---"
     engine "www.ironsights.com"
-    scrape_with_service "crawler"
+    read_with "RefreshLinksWorker"
     service_options {}
     active true
     rate_limits {}
