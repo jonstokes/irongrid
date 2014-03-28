@@ -9,7 +9,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  engine              :string(255)
-#  scrape_with_service :string(255)
+#  read_with :string(255)
 #  service_options     :text
 #  size                :integer
 #  active              :boolean
@@ -32,7 +32,7 @@ class Site
     :updated_at,
     :read_at,
     :adapter,
-    :scrape_with_service,
+    :read_with,
     :service_options,
     :size,
     :active,

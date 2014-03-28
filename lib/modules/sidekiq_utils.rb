@@ -90,8 +90,7 @@ module SidekiqUtils
   end
 
   def queues
-    queue_list = Sidekiq.redis { |conn| conn.smembers('queues') }
-    queue_list.empty? ? YAML.load(File.read(File.join('config', 'sidekiq_queues.yml')))[Rails.env].keys : queue_list
+    Sidekiq.redis { |conn| conn.smembers('queues') }
   end
 
   def scalable?(q)

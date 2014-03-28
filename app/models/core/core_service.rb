@@ -2,7 +2,7 @@ class CoreService < CoreModel
   include SidekiqUtils
   include Trackable
 
-  SLEEP_INTERVAL = 1
+  SLEEP_INTERVAL = Rails.env.test? ? 1 : 3600
   LOG_RECORD_SCHEMA = { jobs_started: Integer }
 
   attr_reader :thread, :thread_error, :jid
@@ -36,8 +36,10 @@ class CoreService < CoreModel
     track
     begin
       jobs.each do |job|
-        jid = job[:class].perform_async(job[:arguments])
-        notify "Starting job #{jid} #{job[:class]} with #{job[:arguments]}."
+        klass = Object.const_get job[:klass]
+        jid = klass.perform_async(job[:arguments])
+        notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
+        record_incr(:jobs_started)
       end
       sleep SLEEP_INTERVAL
       status_update
