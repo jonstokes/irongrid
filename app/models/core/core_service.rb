@@ -41,8 +41,8 @@ class CoreService < CoreModel
         notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
         record_incr(:jobs_started)
       end
-      sleep SLEEP_INTERVAL
       status_update
+      sleep SLEEP_INTERVAL
     end until @done
     stop_tracking
   end

@@ -14,11 +14,13 @@ describe DeleteEndedAuctionsService do
     5.times { FactoryGirl.create(:auction_listing) }
     auctions = []
     5.times { auctions << FactoryGirl.create(:auction_listing, :ended) }
+    puts "Spec found #{Listing.ended_auctions.count} ended auctions"
+
     @service.start
+    sleep 1
     @service.stop
     workers = Sidekiq::Workers.new
-
-    expect(DeleteEndedAuctionsWorker.queued_jobs.count).to eq(1)
+    expect(workers.size).to eq(1)
     workers.each do |name, work, started_at|
       expect(work['queue']).to eq('fast_db')
       expect(work['payload']).to eq('foo')
