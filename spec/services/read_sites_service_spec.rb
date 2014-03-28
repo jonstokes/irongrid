@@ -44,6 +44,14 @@ describe ReadSitesService do
       @service.stop
       expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
     end
+
+    it "should not generate a RefreshLinksWorker for a site if that site is already being read" do
+      @site.update(read_at: 10.days.ago)
+      CreateLinksWorker.perform_async(domain: @site.domain)
+      @service.start
+      @service.stop
+      expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
+    end
   end
 
   describe "CreateLinksWorker sites" do
@@ -68,6 +76,14 @@ describe ReadSitesService do
       @service.start
       @service.stop
       expect(CreateLinksWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
+    end
+
+    it "should not generate a CreateLinksWorker for a site if that site is already being read" do
+      @site.update(read_at: 10.days.ago)
+      CreateLinksWorker.perform_async(domain: @site.domain)
+      @service.start
+      @service.stop
+      expect(CreateLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
     end
   end
 
