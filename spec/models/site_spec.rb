@@ -52,13 +52,13 @@ describe Site do
     end
   end
 
-  describe "::active_domains" do
-    it "lists all of the domains of the sites currently active in redis" do
+  describe "::active" do
+    it "returns an array of all sites currently active in redis" do
       create_site_from_repo "www.retailer.com"
       site = create_site_from_repo "www.budsgunshop.com"
-      site.active = false
-      site.send(:write_to_redis)
-      expect(Site.active_domains.count).to eq(2)
+      site.update(active: false)
+      expect(Site.active.count).to eq(1)
+      expect(Site.active.first).to be_a(Site)
     end
   end
 end

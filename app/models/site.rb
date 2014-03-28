@@ -125,15 +125,15 @@ class Site
     @respond_to && @respond_to.include?(method_id) ? true : super
   end
 
-  def self.active_domains
-    with_redis do |conn|
-      domains = conn.smembers "site--index"
-      domains.map do |domain|
-        site_data = YAML.load(conn.get("site--#{domain}"))
-        next unless site_data[:active]
-        domain
-      end.compact
-    end
+  def self.domains
+    with_redis { |conn| conn.smembers "site--index" }
+  end
+
+  def self.active
+    domains.map do |domain|
+      site = Site.new(domain: domain)
+      site.active? ? site : nil
+    end.compact
   end
 
   private
