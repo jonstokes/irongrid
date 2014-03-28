@@ -82,7 +82,7 @@ FactoryGirl.define do
       item_data { auction_item_data.merge("seller_domain" => URI.parse(url).host) }
 
       trait :ended do
-        item_data { auction_item_data.merge("auction_ends" => 1.day.ago) }
+        item_data { auction_item_data.merge("auction_ends" => 10.days.ago) }
       end
     end
 
