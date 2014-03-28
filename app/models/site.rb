@@ -125,6 +125,10 @@ class Site
     @respond_to && @respond_to.include?(method_id) ? true : super
   end
 
+  def self.domains
+    with_redis { |conn| conn.smembers "site--index" }
+  end
+
   private
 
   def check_attributes(obj)
@@ -197,6 +201,15 @@ class Site
   end
 
   def write_to_redis
-    IRONGRID_REDIS_POOL.with { |conn| conn.set("site--#{domain}", @site_data.to_yaml) }
+    IRONGRID_REDIS_POOL.with do |conn|
+      conn.set("site--#{domain}", @site_data.to_yaml)
+      conn.sadd("site--index", @site_data[:domain])
+    end
+  end
+
+  def self.with_redis(&block)
+    retryable(sleep: 0.5) do
+      IRONGRID_REDIS_POOL.with &block
+    end
   end
 end

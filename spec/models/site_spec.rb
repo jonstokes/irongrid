@@ -51,4 +51,13 @@ describe Site do
       expect(site.read_at).to eq(time)
     end
   end
+
+  describe "::domains" do
+    it "lists all of the domains of the sites currently in redis" do
+      %w(www.retailer.com www.budsgunshop.com).each do |domain|
+        create_site_from_repo domain
+      end
+      expect(Site.domains.count).to eq(2)
+    end
+  end
 end
