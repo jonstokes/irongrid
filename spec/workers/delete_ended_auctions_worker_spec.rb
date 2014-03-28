@@ -8,6 +8,11 @@ describe DeleteEndedAuctionsWorker do
     2. times { auctions << FactoryGirl.create(:auction_listing, :ended) }
     DeleteEndedAuctionsWorker.new.perform(auctions)
     expect(AuctionListing.all.count).to eq(5)
-    expect(Listing.find listing.id).to be_nil
+    expect {
+      Listing.find auctions.first.id
+    }.to raise_error(ActiveRecord::RecordNotFound)
+    expect {
+      Listing.find auctions.last.id
+    }.to raise_error(ActiveRecord::RecordNotFound)
   end
 end
