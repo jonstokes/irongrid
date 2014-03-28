@@ -35,16 +35,20 @@ class CoreService < CoreModel
     notify "Starting #{self.class} service."
     track
     begin
-      jobs.each do |job|
-        klass = Object.const_get job[:klass]
-        jid = klass.perform_async(job[:arguments])
-        notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
-        record_incr(:jobs_started)
-      end
-      sleep SLEEP_INTERVAL
+      start_jobs
       status_update
+      sleep SLEEP_INTERVAL
     end until @done
     stop_tracking
+  end
+
+  def start_jobs
+    jobs.each do |job|
+      klass = Object.const_get job[:klass]
+      jid = klass.perform_async(job[:arguments])
+      notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
+      record_incr(:jobs_started)
+    end
   end
 
   def jobs
