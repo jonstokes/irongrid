@@ -6,10 +6,8 @@ module Trackable
     @log_record_schema = self.class::LOG_RECORD_SCHEMA
     opts.symbolize_keys!
     @write_interval = opts[:write_interval] || 50
-    opts.delete(:write_interval)
     @count = 0
-    validate(opts)
-    initialize_log_record(opts)
+    initialize_log_record
     status_update(true)
   end
 
@@ -48,7 +46,7 @@ module Trackable
     end
   end
 
-  def initialize_log_record(opts={})
+  def initialize_log_record
     @record ||= {}
     @record[:data] ||= {}
     data = {}
@@ -61,7 +59,6 @@ module Trackable
       end
     end
 
-    data.merge!(opts)
     data.merge!(domain: @domain, complete: false)
 
     @record.merge!(

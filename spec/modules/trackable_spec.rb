@@ -24,26 +24,12 @@ describe Trackable do
   end
 
   describe "#track" do
-    it "should properly initialize the log record with no opts" do
+    it "should properly initialize the log record" do
       @worker.track
       expect(@worker.record[:data][:links_created]).to eq(0)
       expect(@worker.record[:data][:listings_updated]).to eq(0)
       expect(@worker.record[:data][:errors]).to be_empty
       expect(@worker.record[:jid]).to eq("abc123")
-    end
-
-    it "should properly initialize the log record with opts" do
-      opts = {
-        links_created: 1,
-        errors: [
-          { timestamp: Time.now.utc },
-          { message: "Error!" }
-        ]
-      }
-      @worker.track(opts)
-      expect(@worker.record[:data][:links_created]).to eq(1)
-      expect(@worker.record[:data][:listings_updated]).to eq(0)
-      expect(@worker.record[:data][:errors]).to include(message: "Error!")
     end
   end
 
