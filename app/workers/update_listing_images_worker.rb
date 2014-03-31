@@ -8,7 +8,8 @@ class UpdateListingImagesWorker < CoreWorker
 
   def perform
     track
-    Listing.where("item_data->>'image' = ? AND updated_at > ?", CDN::DEFAULT_IMAGE_URL, 1.days.ago).limit(500).each do |listing|
+    listings = db { Listing.where("item_data->>'image' = ? AND updated_at > ?", CDN::DEFAULT_IMAGE_URL, 1.days.ago).limit(500) }
+    listings.each do |listing|
       next unless CDN.has_image?(listing.image_source)
       listing.image = CDN.url_for_image(listing.image_source)
       listing.item_data_will_change!
@@ -20,7 +21,7 @@ class UpdateListingImagesWorker < CoreWorker
   end
 
   def transition
-    if Listing.where("item_data->>'image' = ? AND updated_at > ?", CDN::DEFAULT_IMAGE_URL, 1.days.ago).limit(1).any?
+    if db { Listing.where("item_data->>'image' = ? AND updated_at > ?", CDN::DEFAULT_IMAGE_URL, 1.days.ago).limit(1).any? }
       UpdateListingImagesWorker.perform_async
       record_set(:transition, "UpdateListingImagesWorker")
     end
