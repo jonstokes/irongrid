@@ -58,7 +58,7 @@ class Listing < ActiveRecord::Base
   delegate *GeoData::DATA_KEYS, to: :geo_data
 
   scope :ended_auctions, -> { where("type = ? AND item_data->>'auction_ends' < ?", "AuctionListing", (Time.now.utc - 1.day).to_s) }
-  scope :no_image, -> { where("item_data->>'image' = ? AND updated_at > ?", CDN::DEFAULT_IMAGE_URL, 1.days.ago) }
+  scope :no_image, -> { where("item_data->>'image_download_attempted' = ? AND updated_at > ?", 'false', 1.days.ago) }
 
   ES_OBJECTS = %w(
     title

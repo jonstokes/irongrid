@@ -1,4 +1,5 @@
 class AvantlinkWorker < CoreWorker
+  include UpdateImage
 
   LOG_RECORD_SCHEMA = {
     db_writes:        Integer,
@@ -154,17 +155,6 @@ class AvantlinkWorker < CoreWorker
     )
     WriteListingWorker.perform_async(url)
     :deleted
-  end
-
-  def update_image
-    return unless image_source = @scraper.listing["item_data"]["image_source"]
-    if CDN.has_image?(image_source)
-      @scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
-    else
-      @scraper.listing["item_data"]["image"] = CDN::DEFAULT_IMAGE_URL
-      @image_store.push image_source
-      record_incr(:images_added)
-    end
   end
 
   def feeds

@@ -4,6 +4,7 @@ def retail_item_data
     "availability"        => "in_stock",
     "image"               => "http://scoperrific.com/bogus_image.png",
     "image_source"        => "http://www.retailer.com/images/1.png",
+    "image_download_attempted" => true,
     "category1"           => [{"category1" => "Guns"}, {"category1_type" => "hard" }],
     "price_in_cents"      => 1999,
     "sale_price_in_cents" => 1999,
@@ -66,7 +67,11 @@ FactoryGirl.define do
     end
 
     trait :no_image do
-      item_data { retail_item_data.merge("image" => CDN::DEFAULT_IMAGE_URL) }
+      item_data { retail_item_data.merge(
+        "image"                    => CDN::DEFAULT_IMAGE_URL,
+        "image_source"             => SPEC_IMAGE_1,
+        "image_download_attempted" => false
+      ) }
     end
 
     trait :stale do

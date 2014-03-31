@@ -1,5 +1,6 @@
 class ScrapePagesWorker < CoreWorker
   include PageUtils
+  include UpdateImage
 
   LOG_RECORD_SCHEMA = {
     db_writes:     Integer,
@@ -89,17 +90,6 @@ class ScrapePagesWorker < CoreWorker
       link_data.update(page_not_found: true)
       WriteListingWorker.perform_async(url)
       record_incr(:db_writes)
-    end
-  end
-
-  def update_image
-    return unless image_source = @scraper.listing["item_data"]["image_source"]
-    if CDN.has_image?(image_source)
-      @scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
-    else
-      @image_store.push image_source
-      @scraper.listing["item_data"]["image"] = CDN::DEFAULT_IMAGE_URL
-      record_incr(:images_added)
     end
   end
 end

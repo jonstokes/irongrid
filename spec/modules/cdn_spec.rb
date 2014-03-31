@@ -19,7 +19,9 @@ describe CDN do
         ],
         "description"         => Faker::Lorem.paragraph,
         "keywords"            => Faker::Lorem.sentence,
-        "image"               => SPEC_IMAGE_1,
+        "image"               => CDN::DEFAULT_IMAGE_URL,
+        "image_source"        => SPEC_IMAGE_1,
+        "image_download_attempted" => false,
         "item_location"       => geo_data.key,
         "seller_domain"       => "www.rspec.com",
         "seller_name"         => "rspec",
@@ -29,7 +31,7 @@ describe CDN do
           { "score"  => "1" }
         ],
         "item_condition"      => "New",
-        "stock_status"        => "In Stock",
+        "availability"        => "in_stock",
         "price_in_cents"      => 1099,
         "sale_price_in_cents" => 999
       }
@@ -43,18 +45,18 @@ describe CDN do
 
   describe "#upload_image" do
     it "should upload a new https image to S3 for a new listing with a new image" do
-      image = CDN.upload_image(@listing_attrs["item_data"]["image"])
+      image = CDN.upload_image(@listing_attrs['item_data']['image_source'])
       image.should == "https://s3.amazonaws.com/scoperrific-index-test/75f7a54c58bc2e392b56f46897ad2e68.png"
-      CDN.has_image?(@listing_attrs["item_data"]["image"]).should be_true
+      CDN.has_image?(@listing_attrs['item_data']['image_source']).should be_true
       CDN.image_width(image).should == 200
       CDN.count.should == 1
     end
 
     it "should upload a new http image to S3 for a new listing with a new image" do
-      @listing_attrs["item_data"]["image"].sub!("https","http")
-      image = CDN.upload_image(@listing_attrs["item_data"]["image"].sub("https","http"))
+      @listing_attrs['item_data']['image_source'].sub!("https","http")
+      image = CDN.upload_image(@listing_attrs['item_data']['image_source'].sub("https","http"))
       image.should == "https://s3.amazonaws.com/scoperrific-index-test/9d5e27121cc8ee8bd8c8347b4b8909a7.png"
-      CDN.has_image?(@listing_attrs["item_data"]["image"]).should be_true
+      CDN.has_image?(@listing_attrs['item_data']['image_source']).should be_true
       CDN.image_width(image).should == 200
       CDN.count.should == 1
     end
@@ -70,9 +72,9 @@ describe CDN do
     end
 
     it "should return the CDN url if that image already exists on S3" do
-      image = CDN.upload_image(@listing_attrs["item_data"]["image"])
+      image = CDN.upload_image(@listing_attrs['item_data']['image_source'])
       new_attrs = @listing_attrs.merge(:digest => "bbbb", :url => "http://rspec.com/bazqux") 
-      CDN.upload_image(new_attrs["item_data"]["image"]).should == image
+      CDN.upload_image(new_attrs['item_data']['image_source']).should == image
       CDN.count.should == 1
     end
 
