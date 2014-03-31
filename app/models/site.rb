@@ -22,6 +22,7 @@
 class Site
   include Retryable
   include Notifier
+  include Github
 
   attr_accessor :site_data
 
@@ -61,7 +62,7 @@ class Site
     when :local
       load_from_local
     when :git
-      #load_from_github
+      load_from_github
     when :fixture
       load_from_fixture
     when :db
@@ -190,20 +191,13 @@ class Site
   end
 
   def load_from_github
-    branch = ENV['SITE_BRANCH'] || "master"
     site_dir = domain.gsub(".","--")
-    url_prefix = "https://raw.github.com/jonstokes/ironsights-sites/#{branch}/sites/#{site_dir}"
-    site_data_hash = {}
-    filenames = %w(adapter_source.yml attributes.yml service_options.yml rate_limits.yml)
-    filenames.each do |filename|
-      begin
-        file = open("#{url_prefix}/#{filename}", http_basic_authentication: ["jonstokes", "2bdb479801fc520e3ae90a2aecd53be3a89cc2e1"]).read
-        site_data_hash.merge!(YAML.load(file))
-      rescue OpenURI::HTTPError
-        return nil
-      end
+    @site_data[:adapter]         = YAML.load(fetch_file_from_github("sites/#{site_dir}/adapter_source.yml"))
+    @site_data[:service_options] = YAML.load(fetch_file_from_github("sites/#{site_dir}/service_options.yml"))
+    @site_data[:rate_limits]     = YAML.load(fetch_file_from_github("sites/#{site_dir}/rate_limits.yml"))
+    YAML.load(fetch_file_from_github("sites/#{site_dir}/attributes.yml")).each do |k, v|
+      @site_data[k.to_sym] = v
     end
-    site_data_hash
   end
 
   def load_from_db
