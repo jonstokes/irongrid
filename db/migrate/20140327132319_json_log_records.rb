@@ -1,4 +1,4 @@
-class JsonJobRecords < ActiveRecord::Migration
+class JsonLogRecords < ActiveRecord::Migration
   def change
     create_table :log_records do |t|
       t.json    :data,     null: false
@@ -8,6 +8,6 @@ class JsonJobRecords < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :log_records, [:jid], name: :index_job_records_on_jid, unique: true, using: :btree
+    add_index :log_records, [:jid], name: :index_log_records_on_jid, unique: true, using: :btree
   end
 end
