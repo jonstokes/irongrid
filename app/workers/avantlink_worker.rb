@@ -8,7 +8,7 @@ class AvantlinkWorker < CoreWorker
   }
 
 
-  sidekiq_options :queue => :affiliates, :retry => false
+  sidekiq_options :queue => :crawls, :retry => false
 
   attr_reader :site, :page_queue
 

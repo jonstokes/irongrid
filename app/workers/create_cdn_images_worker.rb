@@ -1,5 +1,7 @@
 class CreateCdnImagesWorker < CoreWorker
 
+  sidekiq_options :queue => :crawls, :retry => false
+
   LOG_RECORD_SCHEMA = {
     images_created: Integer,
     transition:     String

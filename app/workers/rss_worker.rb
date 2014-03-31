@@ -5,7 +5,7 @@ class RssWorker < CoreWorker
     links_created: Integer
   }
 
-  sidekiq_options :queue => :crawls, :retry => true
+  sidekiq_options :queue => :crawls, :retry => false
 
   attr_reader :site
 

@@ -1,6 +1,8 @@
 class UpdateListingImagesWorker < CoreWorker
   include ConnectionWrapper
 
+  sidekiq_options queue: :fast_db, retry: true
+
   LOG_RECORD_SCHEMA = {
     listings_updated: Integer,
     transition:       String

@@ -1,7 +1,7 @@
 class WriteListingWorker < CoreWorker
   include ConnectionWrapper
 
-  sidekiq_options :queue => :fast_db, :retry => true
+  sidekiq_options queue: :fast_db, retry: true
 
   def perform(url)
     return unless ld = LinkData.find(url)

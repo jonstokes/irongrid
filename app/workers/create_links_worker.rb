@@ -7,7 +7,7 @@ class CreateLinksWorker < CoreWorker
     transition:    String
   }
 
-  sidekiq_options :queue => :crawls, :retry => true
+  sidekiq_options :queue => :crawls, :retry => false
 
   attr_reader :site, :http, :domain
 

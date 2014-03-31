@@ -5,7 +5,7 @@ class RefreshLinksWorker < CoreWorker
     links_created: Integer,
   }
 
-  sidekiq_options :queue => :fast_db, :retry => true
+  sidekiq_options queue: :fast_db, retry: true
 
   attr_reader :domain, :site
   attr_accessor :scraper
