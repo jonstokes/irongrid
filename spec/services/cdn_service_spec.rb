@@ -5,9 +5,6 @@ Sidekiq::Testing.disable!
 
 describe CdnService do
   before :each do
-    Sidekiq.redis do |conn|
-      conn.flushdb
-    end
     @service = CdnService.new
     @site = create_site_from_repo "www.retailer.com"
     @iq = ImageQueue.new(domain: @site.domain)

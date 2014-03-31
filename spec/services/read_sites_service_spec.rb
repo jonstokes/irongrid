@@ -4,12 +4,6 @@ Sidekiq::Testing.disable!
 
 
 describe ReadSitesService do
-  before :each do
-    Sidekiq.redis do |conn|
-      conn.flushdb
-    end
-  end
-
   it "should use DMS" do
     pending "Example"
   end
