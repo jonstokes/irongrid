@@ -32,7 +32,7 @@ describe Site do
       create_site_from_repo "www.retailer.com"
       site = Site.new(domain: "www.retailer.com", source: :redis)
       expect(site.domain).to eq("www.retailer.com")
-      expect(site.name).to eq("Test Retailer")
+      expect(site.name).to eq("Retailer")
       expect(site.read_with).to eq("RefreshLinksWorker")
       expect(site.active).to eq(true)
       expect(site.read_interval).to eq(86400)
