@@ -83,30 +83,4 @@ describe CDN do
       CDN.count.should be_zero
     end
   end
-
-  describe "#delete_image_for_listing" do
-    it "should delete an image for a listing" do
-      Listing.create_with_cdn(@listing_attrs)
-      CDN.count.should == 1
-      CDN.delete_image_for_listing(Listing.last)
-      CDN.count.should == 0
-    end
-  end
-
-  describe "#update_image_for_listing" do
-    it "should upload a new image, and delete the old one if the old one is unshared" do
-      Listing.create_with_cdn(@listing_attrs)
-      CDN.update_image_for_listing(SPEC_IMAGE_2, Listing.last).should == CDN.url_for_image(SPEC_IMAGE_2)
-      CDN.has_image?(SPEC_IMAGE_1).should be_false
-      CDN.has_image?(SPEC_IMAGE_2).should be_true
-    end
-
-    it "should upload a new image, and not delete the old one if the old one is shared" do
-      Listing.create_with_cdn(@listing_attrs)
-      Listing.create_with_cdn(@listing_attrs.merge("digest" => "bbbb", "url" => "http://rspec.com/slkdjf"))
-      CDN.update_image_for_listing(SPEC_IMAGE_2, Listing.last)
-      CDN.has_image?(SPEC_IMAGE_1).should be_true
-      CDN.has_image?(SPEC_IMAGE_2).should be_true
-    end
-  end
 end

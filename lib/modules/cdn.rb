@@ -18,14 +18,6 @@ module CDN
       @s3 = AWS::S3.new(AWS_CREDENTIALS)
     end
 
-    def delete_image_for_listing(listing)
-      cdn_name = listing.image.sub(cdn_image_prefix,"")
-      retryable_with_aws { s3.buckets[index_bucket_name].objects[cdn_name].delete }
-    ensure
-      # Ensure the HTTP pool is emptied after each write.
-      AWS.config.http_handler.pool.empty!
-    end
-
     def upload_image(image_url)
       return DEFAULT_IMAGE_URL unless image_url
       cdn_name = get_cdn_name(image_url)
@@ -34,15 +26,14 @@ module CDN
       upload_image_to_s3(source_image_url, cdn_name)
     end
 
-    def update_image_for_listing(image, listing)
-      cdn_url = upload_image(image)
-      delete_image_for_listing(listing) if (listing.image != cdn_url) && !listing.image_is_shared?
-      cdn_url
-    end
-
     def has_image?(image_url)
       cdn_name = get_cdn_name(image_url)
       has_asset?(cdn_name)
+    end
+
+    def url_for_image(image)
+      cdn_name = get_cdn_name(image)
+      get_cdn_image_url(cdn_name)
     end
 
     def count
@@ -68,10 +59,6 @@ module CDN
     #
     # Private
     #
-    def url_for_image(image)
-      cdn_name = get_cdn_name(image)
-      get_cdn_image_url(cdn_name)
-    end
 
     def has_asset?(cdn_name)
       retryable_with_aws { s3.buckets[index_bucket_name].objects[cdn_name].exists? }
@@ -152,16 +139,8 @@ module CDN
     end
   end
 
-  def self.delete_image_for_listing(listing)
-    CDN::S3.new.delete_image_for_listing(listing)
-  end
-
   def self.upload_image(image_url)
     CDN::S3.new.upload_image(image_url)
-  end
-
-  def self.update_image_for_listing(image, listing)
-    CDN::S3.new.update_image_for_listing(image, listing)
   end
 
   def self.use_test_image!
