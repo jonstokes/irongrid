@@ -42,7 +42,6 @@ describe Listing do
   end
 
   before :each do
-    pending "Needs refactor of create_with_cdn"
     site = create_site_from_repo "www.armslist.com"
     geo_data = FactoryGirl.create(:geo_data)
     @listing_attrs =  {
@@ -70,7 +69,7 @@ describe Listing do
           { "score"  => "1" }
         ],
         "item_condition"      => "New",
-        "stock_status"        => "In Stock",
+        "availability"        => "in_stock",
         "price_in_cents"      => 1099,
         "sale_price_in_cents" => 999
       }
@@ -87,77 +86,38 @@ describe Listing do
     CDN.clear!
   end
 
-  describe "#latitude", no_es: true do
-    it "should return the correct latitude for a new listing" do
-      Listing.create_with_cdn(@listing_attrs).should == :success
-      Listing.last.latitude.should == "34.9457089"
-    end
-  end
-
-  describe "#longitude", no_es: true do
-    it "should return the correct longitude for a new listing" do
-      Listing.create_with_cdn(@listing_attrs).should == :success
-      Listing.last.longitude.should == "-82.9716617"
-    end
-  end
-
-  describe "#state_code", no_es: true do
-    it "should return the correct state code" do
-      Listing.create_with_cdn(@listing_attrs).should == :success
-      Listing.last.state_code.should == "SC"
-    end
-  end
-
-  describe "#country_code", no_es: true do
-    it "should return the correct country code" do
-      Listing.create_with_cdn(@listing_attrs).should == :success
-      Listing.last.country_code.should == "US"
-    end
-  end
-
-  describe "#zip_code", no_es: true do
-    it "should return the correct zip code" do
-      Listing.create_with_cdn(@listing_attrs).should == :success
-      Listing.last.postal_code.should == "29676"
+  describe "#create" do
+    it "should create a new listing in the db and index" do
+      Listing.create(@listing_attrs)
+      listing = Listing.last
+      listing.price_in_cents.should == 1099
+      listing.availability.should == "in_stock"
+      listing.latitude.should == "34.9457089"
+      listing.longitude.should == "-82.9716617"
+      listing.state_code.should == "SC"
+      listing.country_code.should == "US"
+      listing.postal_code.should == "29676"
+      Listing.index.retrieve("retail_listing", Listing.last.id).should_not be_nil
     end
   end
 
   describe "#deactivate!" do
     it "should deactivate a listing and remove it from the index" do
-      Listing.create_with_cdn(@listing_attrs)
+      Listing.create(@listing_attrs)
       Listing.last.deactivate!
       Listing.last.should_not be_active
       Listing.index.retrieve("retail_listing", Listing.last.id).should be_nil
     end
-
-    it "should populate a retail listing's geo_data with a site default if it was previously nil" do
-      temp = @listing_attrs["item_data"]
-      temp.merge!("seller_domain" => "www.impactguns.com", "item_location" => nil)
-      @listing_attrs["item_data"] = temp
-      Listing.create_with_cdn(@listing_attrs)
-      Listing.last.deactivate!
-      Listing.last.should_not be_active
-      Listing.last.geo_data.should_not be_nil
-    end
   end
 
-  describe "#delete_with_cdn" do
-    it "should delete the listing and the image if the image is unshared" do
-      Listing.create_with_cdn(@listing_attrs)
+  describe "#destroy" do
+    it "should delete the listing from the db and index" do
+      Listing.create(@listing_attrs)
       listing = Listing.last
-      CDN.count.should == 1
-      listing.delete_with_cdn
+      listing.destroy
       Listing.count.should == 0
       CDN.count.should == 0
       Listing.index.retrieve("retail_listing", listing.id).should be_nil
-    end
-
-    it "should delete the listing but not the image if the image is shared" do
-      Listing.create_with_cdn(@listing_attrs)
-      Listing.create_with_cdn(@listing_attrs.merge("digest" => "bbbb", "url" => "http://foo.com/rspec"))
-      Listing.count.should == 2
-      Listing.last.delete_with_cdn
-      Listing.count.should == 1
     end
   end
 end
