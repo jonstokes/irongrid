@@ -12,6 +12,7 @@ class UpdateListingImagesWorker < CoreWorker
     listings.each do |listing|
       next unless CDN.has_image?(listing.image_source)
       listing.image = CDN.url_for_image(listing.image_source)
+      listing.image_download_attempted = true
       listing.item_data_will_change!
       db { listing.update_record_without_timestamping }
       record_incr(:listings_updated)

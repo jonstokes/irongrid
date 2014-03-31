@@ -128,6 +128,10 @@ class ListingCleaner < CoreModel
     image_source
   end
 
+  def image_download_attempted
+    false
+  end
+
   def item_condition
     if ['New', 'Used'].include? raw_listing['item_condition']
       return raw_listing['item_condition']

@@ -77,6 +77,7 @@ class Listing < ActiveRecord::Base
     image
     image_source
     item_condition
+    image_download_attempted
     item_location
     availability
     current_price_in_cents

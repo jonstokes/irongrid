@@ -19,5 +19,6 @@ describe UpdateListingImagesWorker do
     same_listing = Listing.first
     expect(same_listing.image).to eq(CDN.url_for_image(listing.image_source))
     expect(same_listing.updated_at).to eq(listing.updated_at)
+    expect(same_listing.image_download_attempted).to be_true
   end
 end
