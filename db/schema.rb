@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20140327132319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
   enable_extension "hstore"
 
   create_table "geo_data", force: true do |t|
@@ -69,7 +70,7 @@ ActiveRecord::Schema.define(version: 20140327132319) do
     t.datetime "updated_at"
   end
 
-  add_index "log_records", ["jid"], name: "index_job_records_on_jid", unique: true, using: :btree
+  add_index "log_records", ["jid"], name: "index_log_records_on_jid", unique: true, using: :btree
 
   create_table "parser_tests", force: true do |t|
     t.string   "engine"
