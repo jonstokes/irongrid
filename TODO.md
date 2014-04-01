@@ -1,7 +1,6 @@
 # FIRST BOOT
 1. Prepare AWS image
-2. RAILS_ENV="production" rake db:migrate for irongrid and for
-   dashboard (rails_admin)
+2. RAILS_ENV="production" rake db:migrate for irongrid
 3. Commit schema changes from above
 4. Copy over application.yml  and database.yml from scoperrific repos to
    irongrid repos
