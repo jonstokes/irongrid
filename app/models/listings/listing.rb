@@ -86,17 +86,6 @@ class Listing < ActiveRecord::Base
     db { Listing.where("id != ? AND item_data->>'image' = ?", id, image).any? }
   end
 
-  def image_download_count
-    item_data["image_download_count"] || 0
-  end
-
-  def incr_image_download_count
-    item_data["image_download_count"] ||= 0
-    item_data["image_download_count"] += 1
-    item_data_will_change!
-    db { save! }
-  end
-
   def active?
     !inactive
   end
