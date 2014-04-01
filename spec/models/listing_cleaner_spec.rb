@@ -21,6 +21,24 @@ describe ListingCleaner do
     end
   end
 
+  describe "type-specific attributes" do
+    it "is nil when not present" do
+      @url = "http://www.hyattgunstore.com/ammo.html"
+      @raw_listing = {
+        "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420rnds",
+        "url" => @url,
+        "category1" => "Ammunition"
+      }
+      clean_listing = RetailListingCleaner.new(raw_listing: @raw_listing, url: @url, site: @site)
+      clean_listing.item_data.should have_key("auction_ends")
+      clean_listing.auction_ends.should be_nil
+      clean_listing.item_data.should have_key("buy_now_price_in_cents")
+      clean_listing.buy_now_price_in_cents.should be_nil
+      clean_listing.item_data.should have_key("coordinates")
+      clean_listing.coordiantes.should be_nil
+    end
+  end
+
   describe "#title" do
     before :each do
       @url = "http://www.hyattgunstore.com/ammo.html"

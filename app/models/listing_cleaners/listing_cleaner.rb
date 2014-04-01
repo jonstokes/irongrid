@@ -3,16 +3,13 @@ class ListingCleaner < CoreModel
 
   attr_reader :raw_listing, :site, :url, :scrubbed, :normalized, :es_objects, :metadata, :keywords, :description
 
-  Listing::ES_OBJECTS.each do |key|
+  # Rails complains about circular dependencies if I don't do this
+  ITEM_DATA_ATTRIBUTES = Listing::ITEM_DATA_ATTRIBUTES
+  ES_OBJECTS = Listing::ES_OBJECTS
+
+  ES_OBJECTS.each do |key|
     define_method key do
       es_objects[key.to_sym].try(:[], key)
-    end
-  end
-
-  Listing::TYPE_SPECIFIC_ATTRIBUTES.each do |key|
-    #These are overridden on the type-specific cleaners
-    define_method key do
-      return nil
     end
   end
 
@@ -52,8 +49,6 @@ class ListingCleaner < CoreModel
 
   def to_h
     @listing ||= {
-      "site_id"      => site.id,
-      "geo_data_id"  => geo_data,
       "url"          => url,
       "digest"       => digest,
       "type"         => type,
@@ -64,18 +59,14 @@ class ListingCleaner < CoreModel
   def item_data
     @item_data ||= begin
       data = {}
-      Listing::ES_OBJECTS.each do |attr|
+      ES_OBJECTS.each do |attr|
         data.merge!(attr => json(es_objects[attr.to_sym]))
       end
-      Listing::COMMON_ATTRIBUTES.each do |attr|
+      ITEM_DATA_ATTRIBUTES.each do |attr|
         data.merge!(attr => send(attr)) unless attr == "image"
       end
-      data.merge(type_item_data)
+      data
     end
-  end
-
-  def type_item_data
-    Hash[*Listing::TYPE_SPECIFIC_ATTRIBUTES.map { |attr| [attr, send(attr)] }.flatten]
   end
 
   def json(es_object)
@@ -149,11 +140,6 @@ class ListingCleaner < CoreModel
       loc = raw_listing['item_location']
       loc && !loc.blank? ? loc : site.default_item_location
     end
-  end
-
-  def geo_data
-    return GeoData.get("UNKNOWN, UNITED STATES") unless item_location && (!item_location.strip.blank?) && (loc = GeoData.put(item_location))
-    loc.id
   end
 
   #
@@ -315,6 +301,11 @@ class ListingCleaner < CoreModel
 
   def type
     # override
+  end
+
+  def method_missing(method_id, *arguments, &block)
+    return nil if ITEM_DATA_ATTRIBUTES.include?(method_id.to_s)
+    super
   end
 
   # private

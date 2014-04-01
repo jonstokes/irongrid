@@ -48,8 +48,6 @@ describe Listing do
       "url"                   => "http://rspec.com/bogus_url.html",
       "digest"                => "aaaa",
       "type"                  => "RetailListing",
-      "geo_data_id"           => geo_data.id,
-      "site_id"               => site.id,
       "item_data" => {
         "title"               => [
           {"title" => "Foo"},
@@ -74,6 +72,10 @@ describe Listing do
         "sale_price_in_cents" => 999
       }
     }
+    GeoData::DATA_KEYS.each do |key|
+      @listing_attrs["item_data"].merge!(key => geo_data.send(key))
+    end
+
     @page = double()
     @listing_attrs.each do |k, v| 
       @page.stub(k) { v }
@@ -109,6 +111,8 @@ describe Listing do
       Listing.index.refresh
       item = Listing.index.retrieve("retail_listing", listing.id)
       item.type.should == "retail_listing"
+      item.url.should == "http://rspec.com/bogus_url.html"
+      item.digest.should == "aaaa"
       item.seller_domain.should == "www.rspec.com"
       item.seller_name.should == "rspec"
       item.title.first.title.should == "Foo"
@@ -121,6 +125,7 @@ describe Listing do
       item.availability.should == "in_stock"
       item.latitude.should == "34.9457089"
       item.longitude.should == "-82.9716617"
+      item.coordinates.should == "34.9457089,-82.9716617"
       item.state_code.should == "SC"
       item.country_code.should == "US"
       item.postal_code.should == "29676"

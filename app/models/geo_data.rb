@@ -21,24 +21,24 @@ class GeoData < ActiveRecord::Base
 
   has_many :listings
 
-  DATA_KEYS = [
-    :city,
-    :state,
-    :country,
-    :latitude,
-    :longitude,
-    :state_code,
-    :postal_code,
-    :country_code,
-    :coordinates
-  ]
+  DATA_KEYS = %w(
+    city
+    state
+    country
+    latitude
+    longitude
+    state_code
+    postal_code
+    country_code
+    coordinates
+  )
 
   DATA_KEYS.each do |key|
     define_method key do
-      if key == :coordinates
+      if key == "coordinates"
         "#{latitude},#{longitude}"
       else
-        data[key.to_s]
+        data[key]
       end
     end
   end
@@ -78,6 +78,10 @@ class GeoData < ActiveRecord::Base
     }
 
     self.data = attrs
+  end
+
+  def self.default_location
+    @@default_location ||= db { GeoData.get("UNKNOWN, UNITED STATES") }
   end
 
   private
