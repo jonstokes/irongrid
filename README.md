@@ -1,3 +1,7 @@
+# IronGrid
+
+[![Code Climate](https://codeclimate.com/repos/533a34da695680591d00046a/badges/1fffa66023d44fe34379/gpa.png)](https://codeclimate.com/repos/533a34da695680591d00046a/feed)
+
 # Boot grid
 
 ## Services ip-10-29-184-221
