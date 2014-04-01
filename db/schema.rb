@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140401151825) do
+ActiveRecord::Schema.define(version: 20140401172223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
   enable_extension "hstore"
+  enable_extension "pg_stat_statements"
 
   create_table "geo_data", force: true do |t|
     t.string   "key"
@@ -46,33 +46,16 @@ ActiveRecord::Schema.define(version: 20140401151825) do
   end
 
   create_table "listings", force: true do |t|
-    t.text     "title"
-    t.text     "description"
-    t.text     "keywords"
-    t.string   "digest",                 null: false
-    t.string   "type",                   null: false
+    t.string   "digest",        null: false
+    t.string   "type",          null: false
     t.string   "seller_domain"
     t.string   "seller_name"
-    t.text     "url",                    null: false
-    t.string   "item_condition"
-    t.string   "image"
-    t.string   "stock_status"
-    t.string   "item_location"
-    t.integer  "price_in_cents"
-    t.integer  "sale_price_in_cents"
-    t.integer  "buy_now_price_in_cents"
-    t.integer  "current_bid_in_cents"
-    t.integer  "minimum_bid_in_cents"
-    t.integer  "reserve_in_cents"
-    t.datetime "auction_ends"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "price_on_request"
-    t.string   "engine"
+    t.text     "url",           null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.boolean  "inactive"
     t.integer  "update_count"
     t.integer  "geo_data_id"
-    t.hstore   "category_data"
     t.json     "item_data"
     t.integer  "site_id"
   end
