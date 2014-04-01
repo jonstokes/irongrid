@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327132319) do
+ActiveRecord::Schema.define(version: 20140401151825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,14 +46,33 @@ ActiveRecord::Schema.define(version: 20140327132319) do
   end
 
   create_table "listings", force: true do |t|
-    t.string   "digest",       null: false
-    t.string   "type",         null: false
-    t.text     "url",          null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.text     "title"
+    t.text     "description"
+    t.text     "keywords"
+    t.string   "digest",                 null: false
+    t.string   "type",                   null: false
+    t.string   "seller_domain"
+    t.string   "seller_name"
+    t.text     "url",                    null: false
+    t.string   "item_condition"
+    t.string   "image"
+    t.string   "stock_status"
+    t.string   "item_location"
+    t.integer  "price_in_cents"
+    t.integer  "sale_price_in_cents"
+    t.integer  "buy_now_price_in_cents"
+    t.integer  "current_bid_in_cents"
+    t.integer  "minimum_bid_in_cents"
+    t.integer  "reserve_in_cents"
+    t.datetime "auction_ends"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "price_on_request"
+    t.string   "engine"
     t.boolean  "inactive"
     t.integer  "update_count"
     t.integer  "geo_data_id"
+    t.hstore   "category_data"
     t.json     "item_data"
     t.integer  "site_id"
   end
@@ -116,8 +135,8 @@ ActiveRecord::Schema.define(version: 20140327132319) do
     t.string   "table"
     t.integer  "month",      limit: 2
     t.integer  "year",       limit: 8
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", using: :btree
@@ -153,18 +172,19 @@ ActiveRecord::Schema.define(version: 20140327132319) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "admin",                  default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
