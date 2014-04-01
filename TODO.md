@@ -1,9 +1,13 @@
 # FIRST BOOT
-1. Prepare AWS image
-2. RAILS_ENV="production" rake db:migrate for irongrid
-3. Commit schema changes from above
-4. Copy over application.yml  and database.yml from scoperrific repos to
+- Prepare AWS image
+- Copy over application.yml  and database.yml from scoperrific repos to
    irongrid repos
-5. Copy all sites from local to prod redis
-6. Boot services
-7. Boot queues from crawls and fast_db
+
+- RAILS_ENV="production" rake db:migrate for irongrid
+- Commit schema changes from above
+
+- Copy all sites from local to prod redis
+- Boot queues from crawls and fast_db
+- Boot delete_ended_auctions_service and test that for a while. Pay
+  attention to the LogRecords that are being created
+- Boot ReadSitesService and CreateCdnService

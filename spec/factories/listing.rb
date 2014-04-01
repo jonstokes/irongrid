@@ -36,8 +36,6 @@ FactoryGirl.define do
     updated_at Time.current
     created_at Time.current
 
-    geo_data
-
     trait :optics do
       item_data { retail_item_data.merge("category1" => [{"category1" => "Optics"}, {"category1_type" => "hard" }]) }
     end

@@ -46,8 +46,6 @@ class Listing < ActiveRecord::Base
   index.add_alias "auction_listings"
   index.add_alias "classified_listings"
 
-  belongs_to :geo_data
-
   after_save :update_es_index
   after_destroy :update_es_index
 
@@ -55,8 +53,6 @@ class Listing < ActiveRecord::Base
   validate :digest, :uniqueness => true
 
   attr_accessible :type, :url, :digest, :inactive, :item_data, :geo_data_id, :update_count
-
-  delegate *GeoData::DATA_KEYS, to: :geo_data
 
   scope :ended_auctions, -> { where("type = ? AND item_data->>'auction_ends' < ?", "AuctionListing", (Time.now.utc - 1.day).to_s) }
   scope :no_image, -> { where("item_data->>'image_download_attempted' = ? AND updated_at > ?", 'false', 1.days.ago) }
@@ -67,10 +63,6 @@ class Listing < ActiveRecord::Base
     end
 
     Hash[attributes_and_values].merge(item_data).to_json
-  end
-
-  def coordinates
-    "#{latitude},#{longitude}"
   end
 
   def activate!

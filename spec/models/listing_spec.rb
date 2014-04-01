@@ -42,14 +42,12 @@ describe Listing do
   end
 
   before :each do
-    site = create_site_from_repo "www.armslist.com"
-    geo_data = FactoryGirl.create(:geo_data)
+    @site = create_site_from_repo "www.retailer.com"
+    @geo_data = FactoryGirl.create(:geo_data)
     @listing_attrs =  {
       "url"                   => "http://rspec.com/bogus_url.html",
       "digest"                => "aaaa",
       "type"                  => "RetailListing",
-      "geo_data_id"           => geo_data.id,
-      "site_id"               => site.id,
       "item_data" => {
         "title"               => [
           {"title" => "Foo"},
@@ -57,12 +55,12 @@ describe Listing do
           {"normalized" => "qux"},
           {"autocomplete" => "baz"}
         ],
-        "description"         => Faker::Lorem.paragraph,
-        "keywords"            => Faker::Lorem.sentence,
+        "description"         => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
+        "keywords"            => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
         "image"               => SPEC_IMAGE_1,
-        "item_location"       => geo_data.key,
-        "seller_domain"       => "www.rspec.com",
-        "seller_name"         => "rspec",
+        "item_location"       => @geo_data.key,
+        "seller_domain"       => @site.domain,
+        "seller_name"         => @site.name,
         "category1" => [
           { "category1"  => "guns" },
           { "classification_type"  => "hard" },
@@ -74,6 +72,8 @@ describe Listing do
         "sale_price_in_cents" => 999
       }
     }
+    @listing_attrs["item_data"].merge!(@geo_data.to_h)
+
     @page = double()
     @listing_attrs.each do |k, v| 
       @page.stub(k) { v }
@@ -90,6 +90,8 @@ describe Listing do
     it "should create a new listing in the db and index" do
       Listing.create(@listing_attrs)
       listing = Listing.last
+      listing.seller_domain.should == @site.domain
+      listing.seller_name.should == @site.name
       listing.price_in_cents.should == 1099
       listing.availability.should == "in_stock"
       listing.latitude.should == "34.9457089"
@@ -98,6 +100,33 @@ describe Listing do
       listing.country_code.should == "US"
       listing.postal_code.should == "29676"
       Listing.index.retrieve("retail_listing", Listing.last.id).should_not be_nil
+    end
+  end
+
+  describe "#to_indexed_json" do
+    it "generates JSON for storage in the ES index" do
+      listing = Listing.create(@listing_attrs)
+      Listing.index.refresh
+      item = Listing.index.retrieve("retail_listing", listing.id)
+      item.type.should == "retail_listing"
+      item.url.should == "http://rspec.com/bogus_url.html"
+      item.digest.should == "aaaa"
+      item.seller_domain.should == @site.domain
+      item.seller_name.should == @site.name
+      item.title.first.title.should == "Foo"
+      item.image.should == SPEC_IMAGE_1
+      item.description.should == "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut."
+      item.keywords.should == "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut."
+      item.price_in_cents.should == 1099
+      item.sale_price_in_cents.should == 999
+      item.item_condition.should == "New"
+      item.availability.should == "in_stock"
+      item.latitude.should == "34.9457089"
+      item.longitude.should == "-82.9716617"
+      item.coordinates.should == "34.9457089,-82.9716617"
+      item.state_code.should == "SC"
+      item.country_code.should == "US"
+      item.postal_code.should == "29676"
     end
   end
 
