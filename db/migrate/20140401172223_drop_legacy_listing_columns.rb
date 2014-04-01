@@ -1,5 +1,9 @@
 class DropLegacyListingColumns < ActiveRecord::Migration
   def change
+    remove_column :listings, :site_id
+    remove_column :listings, :geo_data_id
+    remove_column :listings, :seller_name
+    remove_column :listings, :seller_domain
     remove_column :listings, :title
     remove_column :listings, :description
     remove_column :listings, :keywords

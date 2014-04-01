@@ -137,6 +137,12 @@ class Site
     end.compact
   end
 
+  def self.all
+    domains.map do |domain|
+      Site.new(domain: domain)
+    end.compact
+  end
+
   private
 
   def check_attributes(obj)

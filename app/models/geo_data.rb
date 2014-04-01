@@ -66,7 +66,7 @@ class GeoData < ActiveRecord::Base
   def fetch_data
     return nil unless result = lookup_location(self.key)
 
-    attrs = {
+    self.data = {
       "latitude"     => result.latitude,
       "longitude"    => result.longitude,
       "city"         => result.city,
@@ -76,8 +76,10 @@ class GeoData < ActiveRecord::Base
       "country"      => result.country,
       "country_code" => result.country_code
     }
+  end
 
-    self.data = attrs
+  def to_h
+    data.merge("coordinates" => coordinates)
   end
 
   def self.default_location

@@ -35,7 +35,7 @@ describe ListingCleaner do
       clean_listing.item_data.should have_key("buy_now_price_in_cents")
       clean_listing.buy_now_price_in_cents.should be_nil
       clean_listing.item_data.should have_key("coordinates")
-      clean_listing.coordiantes.should be_nil
+      clean_listing.coordinates.should be_nil
     end
   end
 

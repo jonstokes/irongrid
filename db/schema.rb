@@ -48,16 +48,12 @@ ActiveRecord::Schema.define(version: 20140401172223) do
   create_table "listings", force: true do |t|
     t.string   "digest",        null: false
     t.string   "type",          null: false
-    t.string   "seller_domain"
-    t.string   "seller_name"
     t.text     "url",           null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.boolean  "inactive"
     t.integer  "update_count"
-    t.integer  "geo_data_id"
     t.json     "item_data"
-    t.integer  "site_id"
   end
 
   add_index "listings", ["digest"], name: "index_listings_on_digest", unique: true, using: :btree

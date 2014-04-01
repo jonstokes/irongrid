@@ -43,9 +43,7 @@ class WriteListingWorker < CoreWorker
 
   def update_geo_data(ld)
     geo_data = lookup_geo_data(ld.page_attributes["item_data"]["item_location"])
-    GEO_DATA::DATA_KEYS.each do |key|
-      ld.page_attributes["item_data"].merge!(key => geo_data.send(key))
-    end
+    ld.page_attributes["item_data"].merge!(geo_data.to_h)
   end
 
   def lookup_geo_data(item_location)

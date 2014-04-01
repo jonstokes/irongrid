@@ -4,12 +4,11 @@ describe WriteListingWorker do
 
   before :each do
     @site = create_site_from_repo "www.retailer.com"
-    geo_data = FactoryGirl.create(:geo_data)
+    @geo_data = FactoryGirl.create(:geo_data)
     @valid_attrs =  {
       "url"                   => "http://www.retailer.com/1",
       "digest"                => "aaaa",
       "type"                  => "RetailListing",
-      "geo_data_id"           => geo_data.id,
       "item_data" => {
         "title"               => [
           {"title" => "Foo"},
@@ -21,7 +20,7 @@ describe WriteListingWorker do
         "keywords"            => Faker::Lorem.sentence,
         "image"               => "http://cdn.ironsights.com/1235.jpg",
         "image_source"        => "http://www.retailer.com/img.jpg",
-        "item_location"       => geo_data.key,
+        "item_location"       => @geo_data.key,
         "seller_domain"       => @site.domain,
         "seller_name"         => @site.name,
         "category1" => [
@@ -53,6 +52,8 @@ describe WriteListingWorker do
       expect(listing.seller_name).to eq(@site.name)
       expect(listing.seller_domain).to eq(@site.domain)
       expect(listing.item_condition).to eq("New")
+      expect(listing.city).to eq(@geo_data.city)
+      expect(listing.coordinates).to eq(@geo_data.coordinates)
     end
 
     it "does not create a duplicate listing" do

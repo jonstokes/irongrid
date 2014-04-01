@@ -42,8 +42,8 @@ describe Listing do
   end
 
   before :each do
-    site = create_site_from_repo "www.armslist.com"
-    geo_data = FactoryGirl.create(:geo_data)
+    @site = create_site_from_repo "www.retailer.com"
+    @geo_data = FactoryGirl.create(:geo_data)
     @listing_attrs =  {
       "url"                   => "http://rspec.com/bogus_url.html",
       "digest"                => "aaaa",
@@ -58,9 +58,9 @@ describe Listing do
         "description"         => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
         "keywords"            => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
         "image"               => SPEC_IMAGE_1,
-        "item_location"       => geo_data.key,
-        "seller_domain"       => "www.rspec.com",
-        "seller_name"         => "rspec",
+        "item_location"       => @geo_data.key,
+        "seller_domain"       => @site.domain,
+        "seller_name"         => @site.name,
         "category1" => [
           { "category1"  => "guns" },
           { "classification_type"  => "hard" },
@@ -72,9 +72,7 @@ describe Listing do
         "sale_price_in_cents" => 999
       }
     }
-    GeoData::DATA_KEYS.each do |key|
-      @listing_attrs["item_data"].merge!(key => geo_data.send(key))
-    end
+    @listing_attrs["item_data"].merge!(@geo_data.to_h)
 
     @page = double()
     @listing_attrs.each do |k, v| 
@@ -92,8 +90,8 @@ describe Listing do
     it "should create a new listing in the db and index" do
       Listing.create(@listing_attrs)
       listing = Listing.last
-      listing.seller_domain.should == "www.rspec.com"
-      listing.seller_name.should == "rspec"
+      listing.seller_domain.should == @site.domain
+      listing.seller_name.should == @site.name
       listing.price_in_cents.should == 1099
       listing.availability.should == "in_stock"
       listing.latitude.should == "34.9457089"
@@ -113,8 +111,8 @@ describe Listing do
       item.type.should == "retail_listing"
       item.url.should == "http://rspec.com/bogus_url.html"
       item.digest.should == "aaaa"
-      item.seller_domain.should == "www.rspec.com"
-      item.seller_name.should == "rspec"
+      item.seller_domain.should == @site.domain
+      item.seller_name.should == @site.name
       item.title.first.title.should == "Foo"
       item.image.should == SPEC_IMAGE_1
       item.description.should == "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut."
