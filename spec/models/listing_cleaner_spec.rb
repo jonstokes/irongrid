@@ -7,6 +7,20 @@ describe ListingCleaner do
     @site.validation["retail"] = "true"
   end
 
+  describe "#seller_domain and #seller_name" do
+    it "pulls the seller info" do
+      @url = "http://www.hyattgunstore.com/ammo.html"
+      @raw_listing = {
+        "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420rnds",
+        "url" => @url,
+        "category1" => "Ammunition"
+      }
+      clean_listing = RetailListingCleaner.new(raw_listing: @raw_listing, url: @url, site: @site)
+      clean_listing.item_data["seller_name"].should == @site.name
+      clean_listing.item_data["seller_domain"].should == @site.domain
+    end
+  end
+
   describe "#title" do
     before :each do
       @url = "http://www.hyattgunstore.com/ammo.html"
@@ -33,7 +47,7 @@ describe ListingCleaner do
     end
   end
 
-  describe "#image" do
+  describe "#image_source" do
     it "should return a prefixed image url when appropriate" do
       page = load_listing_source("Retail", "www.impactguns.com", 'Remington 22LR CYCLONE 36HP 5000 CAS')
       doc = Nokogiri.parse(page[:html], page[:url])
