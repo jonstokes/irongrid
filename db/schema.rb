@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140401172223) do
+ActiveRecord::Schema.define(version: 20140403134235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,24 +26,6 @@ ActiveRecord::Schema.define(version: 20140401172223) do
   end
 
   add_index "geo_data", ["key"], name: "index_geo_data_on_key", unique: true, using: :btree
-
-  create_table "job_records", force: true do |t|
-    t.string   "domain"
-    t.integer  "links_crawled"
-    t.integer  "pages_created"
-    t.integer  "pages_deleted"
-    t.boolean  "complete"
-    t.integer  "listings_created"
-    t.integer  "listings_updated"
-    t.integer  "listings_deleted"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.string   "worker"
-    t.integer  "listings_read"
-    t.boolean  "archived"
-    t.integer  "links_created"
-    t.integer  "links_deleted"
-  end
 
   create_table "listings", force: true do |t|
     t.string   "digest",       null: false
@@ -119,19 +101,6 @@ ActiveRecord::Schema.define(version: 20140401172223) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_rails_admin_histories", using: :btree
-
-  create_table "service_records", force: true do |t|
-    t.string   "service"
-    t.string   "main_thread_status"
-    t.string   "tracker_thread_status"
-    t.text     "batch_status"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.string   "host"
-    t.text     "thread_error"
-    t.text     "tracker_error"
-    t.boolean  "archived"
-  end
 
   create_table "sites", force: true do |t|
     t.string   "name",                null: false
