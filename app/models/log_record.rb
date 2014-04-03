@@ -9,7 +9,7 @@ class LogRecord < ActiveRecord::Base
 
   def self.archive_all
     db do
-      JobRecord.where(:archived => [false, nil]).each do |record |
+      LogRecord.active.each do |record |
         record.update_attribute(:archived, true)
       end
     end
