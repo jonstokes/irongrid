@@ -1,7 +1,7 @@
 class LogRecordWorker < CoreWorker
   include ConnectionWrapper
 
-  sidekiq_options queue: :fast_db, retry: true
+  sidekiq_options queue: :logs, retry: true
 
   def perform(record)
     record.symbolize_keys!
