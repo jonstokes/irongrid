@@ -9,7 +9,8 @@ class DeleteEndedAuctionsWorker < CoreWorker
   def perform(listing_ids)
     track
     listing_ids.each do |id|
-      record_incr(:listings_deleted) if Listing.find(id).try(:destroy)
+      listing = Listing.find(id) rescue nil
+      record_incr(:listings_deleted) if listing.try(:destroy)
     end
     stop_tracking
   end
