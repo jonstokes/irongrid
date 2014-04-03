@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20140401172223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
   enable_extension "pg_stat_statements"
+  enable_extension "hstore"
 
   create_table "geo_data", force: true do |t|
     t.string   "key"
@@ -46,11 +46,11 @@ ActiveRecord::Schema.define(version: 20140401172223) do
   end
 
   create_table "listings", force: true do |t|
-    t.string   "digest",        null: false
-    t.string   "type",          null: false
-    t.text     "url",           null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "digest",       null: false
+    t.string   "type",         null: false
+    t.text     "url",          null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.boolean  "inactive"
     t.integer  "update_count"
     t.json     "item_data"
