@@ -2,6 +2,7 @@ class DeleteEndedAuctionsService < CoreService
   include ConnectionWrapper
 
   def start_jobs
+    return if DeleteEndedAuctionsWorker.queued_jobs.any?
     listing_ids = []
     begin
       db do

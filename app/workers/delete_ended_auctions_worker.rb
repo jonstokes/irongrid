@@ -13,4 +13,8 @@ class DeleteEndedAuctionsWorker < CoreWorker
     end
     stop_tracking
   end
+
+  def self.queued_jobs
+    jobs_for_class("DeleteEndedAuctionsWorker")
+  end
 end

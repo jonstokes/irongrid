@@ -19,10 +19,10 @@ RAILS_ENV="production" DB_POOL=1 jruby -Xcompile.invokedynamic=true -J-server -J
 ## ip-10-182-164-47
 RAILS_ENV="production" DB_POOL=1 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawl_images,2 -q crawls -c 10 2>&1 | logger -t sidekiq
 
-## Medium fast_db
+## ip-10-118-14-33 fast_db
 RAILS_ENV="production" DB_POOL=35 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q fast_db -c 25 2>&1 | logger -t sidekiq
 
-## Medium crawls
+## ip-10-118-14-33 crawls
 RAILS_ENV="production" DB_POOL=1 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls -c 25 2>&1 | logger -t sidekiq
 
 
