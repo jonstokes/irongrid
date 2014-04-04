@@ -47,7 +47,7 @@ namespace :service do
     end
     puts "All services booted!"
     while !(dead_service = services.find { |s| s.thread.status.nil? }) do
-      service.each {|s| puts "#{s.class}: #{s.thread.status}"}
+      services.each {|s| puts "#{s.class}: #{s.thread.status}"}
       sleep 10
     end
     Airbrake.notify(dead_service.thread_error)
