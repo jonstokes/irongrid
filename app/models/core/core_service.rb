@@ -13,6 +13,7 @@ class CoreService < CoreModel
   end
 
   def start
+    @mutex = Mutex.new
     @thread = Thread.new do
       begin
         run
@@ -33,22 +34,24 @@ class CoreService < CoreModel
 
   def run
     notify "Starting #{self.class} service."
-    track
+    @mutex.synchronize { track }
     begin
       start_jobs
-      status_update
+      @mutex.synchronize { status_update }
       sleep SLEEP_INTERVAL
     end until @done
-    stop_tracking
+    @mutex.synchronize { stop_tracking }
   end
 
   def start_jobs
-    jobs.each do |job|
-      klass = Object.const_get job[:klass]
-      jid = klass.perform_async(job[:arguments])
-      notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
-      record_incr(:jobs_started)
-    end
+    @mutex.synchronize {
+      jobs.each do |job|
+        klass = Object.const_get job[:klass]
+        jid = klass.perform_async(job[:arguments])
+        notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
+        record_incr(:jobs_started)
+      end
+    }
   end
 
   def jobs

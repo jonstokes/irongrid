@@ -13,7 +13,7 @@ module Trackable
 
   def status_update(force = false)
     return unless force || ((@count += 1) % @write_interval) == 0
-    retryable { LogRecordWorker.perform_async(@record) }
+    LogRecordWorker.perform_async(@record)
     initialize_log_record
   end
 
