@@ -44,6 +44,18 @@ describe Site do
     end
   end
 
+  describe "#refresh_only?" do
+    it "is false when a site is not refresh_only" do
+      site = create_site_from_repo "www.retailer.com"
+      expect(site.refresh_only?).to be_false
+    end
+
+    it "is true when a site is refresh_only" do
+      site = Site.new(domain: "www.impactguns.com", source: :local)
+      expect(site.refresh_only?).to be_true
+    end
+  end
+
   describe "#udpate" do
     it "should update a string of attributes in redis" do
       site = create_site_from_repo "www.retailer.com"

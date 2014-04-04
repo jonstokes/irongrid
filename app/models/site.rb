@@ -120,6 +120,10 @@ class Site < CoreModel
     active
   end
 
+  def refresh_only?
+    !!self.service_options["refresh_only"]
+  end
+
   def respond_to?(method_id, include_private = false)
     @respond_to && @respond_to.include?(method_id) ? true : super
   end

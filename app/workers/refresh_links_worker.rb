@@ -52,6 +52,6 @@ class RefreshLinksWorker < CoreWorker
   end
 
   def transition
-    CreateLinksWorker.perform_async(domain: domain)
+    CreateLinksWorker.perform_async(domain: domain) unless @site.refresh_only?
   end
 end
