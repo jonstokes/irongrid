@@ -1,4 +1,6 @@
 class CdnService < CoreService
+  SLEEP_INTERVAL = Rails.env.test? ? 1 : 10
+
   def jobs
     Site.active.map do |site|
       next unless should_add_job?(site)

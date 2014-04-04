@@ -47,10 +47,7 @@ namespace :service do
       services << start_service(svc)
     end
     puts "All services booted!"
-    while !(dead_service = services.find { |s| s.thread.status.nil? }) do
-      services.each {|s| puts "#{s.class}: #{s.thread.status}"}
-      sleep 10
-    end
+    sleep 1 while !(dead_service = services.find { |s| s.thread.status.nil? })
     Airbrake.notify(dead_service.thread_error)
     raise dead_service.thread_error
   end
