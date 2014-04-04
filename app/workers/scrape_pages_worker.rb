@@ -43,6 +43,7 @@ class ScrapePagesWorker < CoreWorker
     while !timed_out? && (link_data = LinkData.find(@link_store.pop)) do
       link_data.update(jid: self.jid)
       record_incr(:links_deleted)
+      status_update
       @scraper.empty!
       @rate_limiter.with_limit { pull_and_process(link_data) }
     end
