@@ -4,6 +4,7 @@ class LogRecordWorker < CoreWorker
   sidekiq_options queue: :logs, retry: true
 
   def perform(record)
+    retries = 5
     record.symbolize_keys!
     if lr = db { LogRecord.find_by_jid(record[:jid]) }
       return if lr.archived?
@@ -11,6 +12,8 @@ class LogRecordWorker < CoreWorker
     else
       db { LogRecord.create(record) }
     end
+  rescue ActiveRecord::RecordNotUnique, ActiveRecord::JDBCError
+    LogRecordWorker.perform_async(record)
   end
 
   def update_record(lr, record)
