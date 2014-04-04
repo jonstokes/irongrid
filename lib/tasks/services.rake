@@ -36,6 +36,22 @@ namespace :service do
     raise dead_service.thread_error
   end
 
+  task :reboot_all => :environment do
+    puts "Rebooting services for #{Rails.env.upcase} environment:"
+
+    dead_service = nil
+    services = []
+    %w(DeleteEndedAuctionsService ReadSitesService CdnService).each do |svc|
+      puts "  booting #{svc}"
+      services << start_service(svc)
+    end
+    puts "All services booted!"
+    sleep 1 while !(dead_service = services.find { |s| s.thread.status.nil? })
+    Airbrake.notify(dead_service.thread_error)
+    raise dead_service.thread_error
+  end
+
+
   task :reset_state => :environment do
     reset_state
   end
