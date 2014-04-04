@@ -8,12 +8,12 @@ class CoreService < CoreModel
   attr_reader :thread, :thread_error, :jid
 
   def initialize
+    $mutex ||= Mutex.new
     @done = false
     @jid = Digest::MD5.hexdigest(Time.now.utc.to_s + Thread.current.object_id.to_s)
   end
 
   def start
-    @mutex = Mutex.new
     @thread = Thread.new do
       begin
         run
@@ -34,17 +34,17 @@ class CoreService < CoreModel
 
   def run
     notify "Starting #{self.class} service."
-    @mutex.synchronize { track }
+    $mutex.synchronize { track }
     begin
       start_jobs
-      @mutex.synchronize { status_update }
+      $mutex.synchronize { status_update }
       sleep SLEEP_INTERVAL
     end until @done
-    @mutex.synchronize { stop_tracking }
+    $mutex.synchronize { stop_tracking }
   end
 
   def start_jobs
-    @mutex.synchronize {
+    $mutex.synchronize {
       jobs.each do |job|
         klass = Object.const_get job[:klass]
         jid = klass.perform_async(job[:arguments])
