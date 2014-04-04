@@ -4,6 +4,7 @@ def start_service(svc)
   service = service_class.new
   service.start
   puts "#{service_class} started!"
+  sleep 10
   service
 end
 
