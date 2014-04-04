@@ -46,7 +46,7 @@ class RssWorker < CoreWorker
   end
 
   def transition
-    ScrapePagesWorker.perform_async(domain: @site.domain)
+    ScrapePagesWorker.perform_async(domain: @site.domain) if @link_store.any?
     stop_tracking
   end
 

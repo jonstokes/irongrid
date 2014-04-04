@@ -59,7 +59,7 @@ class ScrapePagesWorker < CoreWorker
     if @link_store.empty? && @site.should_read?
       RefreshLinksWorker.perform_async(domain: domain)
       record_set(:transition, "RefreshLinksWorker")
-    else
+    elsif @link_store.any?
       self.class.perform_async(domain: domain)
       record_set(:transition, "#{self.class.to_s}")
     end
