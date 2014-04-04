@@ -1,5 +1,6 @@
 class AvantlinkWorker < CoreWorker
   include UpdateImage
+  include Trackable
 
   LOG_RECORD_SCHEMA = {
     db_writes:        Integer,

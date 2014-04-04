@@ -19,9 +19,7 @@
 #  commit_sha          :string(255)
 #
 
-class Site
-  include Retryable
-  include Notifier
+class Site < CoreModel
   include Github
 
   attr_accessor :site_data

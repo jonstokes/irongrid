@@ -1,6 +1,7 @@
 class ScrapePagesWorker < CoreWorker
   include PageUtils
   include UpdateImage
+  include Trackable
 
   LOG_RECORD_SCHEMA = {
     db_writes:     Integer,

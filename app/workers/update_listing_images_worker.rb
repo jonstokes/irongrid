@@ -1,5 +1,6 @@
 class UpdateListingImagesWorker < CoreWorker
   include ConnectionWrapper
+  include Trackable
 
   sidekiq_options queue: :fast_db, retry: true
 

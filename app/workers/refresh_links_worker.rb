@@ -1,5 +1,6 @@
 class RefreshLinksWorker < CoreWorker
   include ConnectionWrapper
+  include Trackable
 
   LOG_RECORD_SCHEMA = {
     links_created: Integer,

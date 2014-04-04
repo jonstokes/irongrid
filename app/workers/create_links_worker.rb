@@ -1,5 +1,6 @@
 class CreateLinksWorker < CoreWorker
   include PageUtils
+  include Trackable
 
   LOG_RECORD_SCHEMA = {
     links_crawled: Integer,

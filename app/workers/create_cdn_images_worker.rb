@@ -1,4 +1,5 @@
 class CreateCdnImagesWorker < CoreWorker
+  include Trackable
 
   sidekiq_options :queue => :crawl_images, :retry => false
 
