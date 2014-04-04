@@ -36,8 +36,11 @@ class CoreService < CoreModel
     notify "Starting #{self.class} service."
     $mutex.synchronize { track }
     begin
+      puts "#{self.class} starting #{jobs.count} jobs..."
       start_jobs
+      puts "#{self.class} updating status..."
       $mutex.synchronize { status_update }
+      puts "#{self.class} going to sleep."
       sleep SLEEP_INTERVAL
     end until @done
     $mutex.synchronize { stop_tracking }
