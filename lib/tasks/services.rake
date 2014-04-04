@@ -27,7 +27,7 @@ namespace :service do
 
     dead_service = nil
     services = []
-    %w(DeleteEndedAuctionsService ReadSitesService CdnService).each do |svc|
+    %w(CdnService ReadSitesService DeleteEndedAuctionsService).each do |svc|
       puts "  booting #{svc}"
       services << start_service(svc)
     end
