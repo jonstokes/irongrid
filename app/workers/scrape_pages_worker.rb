@@ -22,6 +22,7 @@ class ScrapePagesWorker < CoreWorker
 
   def init(opts)
     return false unless opts && (@domain = opts[:domain])
+    return false unless @link_store.any?
 
     @site = Site.new(domain: domain)
     @scraper = ListingScraper.new(@site)
