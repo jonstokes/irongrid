@@ -6,7 +6,7 @@ class WriteListingWorker < CoreWorker
   def perform(url)
     return unless ld = LinkData.find(url)
     ld.destroy
-    listing = db { ld.listing_id ? Listing.find(id) : Listing.find_by_url(ld.url) }
+    listing = db { ld.listing_id ? Listing.find(ld.listing_id) : Listing.find_by_url(ld.url) }
 
     if listing
       existing_listing(ld, listing)
