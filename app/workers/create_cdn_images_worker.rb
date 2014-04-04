@@ -15,7 +15,7 @@ class CreateCdnImagesWorker < CoreWorker
     @image_store = ImageQueue.new(domain: domain)
     @site = Site.new(domain: domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
-    @timeout ||= ((60.0 / @site.rate_limit.to_f) * 60).to_i
+    @timeout ||= opts[:timeout] || ((60.0 / @site.rate_limit.to_f) * 60).to_i
     true
   end
 
@@ -34,7 +34,7 @@ class CreateCdnImagesWorker < CoreWorker
 
   def transition
     if @image_store.any?
-      CreateCdnImagesWorker.perform(domain: domain)
+      CreateCdnImagesWorker.perform_async(domain: domain)
       record_set(:transition, "CreateCdnImagesWorker")
     end
   end
