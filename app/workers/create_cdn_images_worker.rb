@@ -13,7 +13,6 @@ class CreateCdnImagesWorker < CoreWorker
   def init(opts)
     return false unless opts && @domain = opts[:domain]
     @image_store = ImageQueue.new(domain: domain)
-    return false if @image_store.empty?
     @site = Site.new(domain: domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timeout ||= ((60.0 / @site.rate_limit.to_f) * 60).to_i
@@ -21,6 +20,7 @@ class CreateCdnImagesWorker < CoreWorker
   end
 
   def perform(opts)
+    opts.symbolize_keys!
     return unless init(opts)
     track
     while (image_source = @image_store.pop) && !timed_out? do
