@@ -15,7 +15,7 @@ def reset_state
     Sidekiq::Queue.new(q).clear
   end
   Sidekiq::RetrySet.new.clear
-  puts "Archiving existing Service Records..."
+  puts "Archiving existing Log Records..."
   LogRecord.archive_all
 end
 
