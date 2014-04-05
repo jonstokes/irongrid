@@ -87,7 +87,7 @@ class Listing < ActiveRecord::Base
   end
 
   def stale?
-    self[:updated_at].utc < Time.now.utc - 4.hours
+    self[:updated_at].utc < Listing.stale_threshold
   end
 
   def created_at
@@ -100,6 +100,11 @@ class Listing < ActiveRecord::Base
 
   def self.find_by_image(image)
     db { Listing.where("item_data->>'image' = ?", image).first }
+  end
+
+  def self.stale_listings_for_domain(domain)
+    query_conditions = "item_data->>'seller_domain' = '#{domain}'"
+    db { Listing.where(query_conditions).where("updated_at < ?", stale_threshold).order("updated_at ASC").limit(400) }
   end
 
   def self.duplicate_digest?(listing, digest)
@@ -134,6 +139,10 @@ class Listing < ActiveRecord::Base
   #
   #FIXME: Move the logic below to an interactor
   #
+
+  def self.stale_threshold
+    Time.now - 24.hours
+  end
 
   private
 

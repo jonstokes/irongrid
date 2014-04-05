@@ -17,7 +17,6 @@ class RefreshLinksWorker < CoreWorker
     @link_store = LinkQueue.new(domain: domain)
     @threshold = Time.now.utc - 4.hours
     track(write_interval: 1)
-    notify "Found #{listings.count} stale listings for #{domain}."
     true
   end
 
@@ -25,7 +24,7 @@ class RefreshLinksWorker < CoreWorker
     opts.symbolize_keys!
     return unless init(opts)
 
-    listings.each do |listing|
+    Listing.stale_listings_for_domain(@domain).each do |listing|
       next unless ld = LinkData.create(listing)
       ld.update(jid: jid)
       @link_store.add(listing.url)
@@ -34,16 +33,6 @@ class RefreshLinksWorker < CoreWorker
 
     clean_up
     transition
-  end
-
-  def listings
-    @listings ||= db do
-      Listing.where(query_conditions).where("updated_at < ?", @threshold).order("updated_at ASC").limit(400)
-    end
-  end
-
-  def query_conditions
-    "item_data->>'seller_domain' = '#{domain}'"
   end
 
   def clean_up

@@ -15,7 +15,7 @@ describe RefreshLinksWorker do
 
   describe "#perform" do
     it "adds links to the LinkQueue for stale listings" do
-      listing = FactoryGirl.create(:retail_listing, updated_at: Time.now - 10.hours)
+      listing = FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days)
       FactoryGirl.create(:retail_listing, updated_at: Time.now)
       RefreshLinksWorker.new.perform(domain: "www.retailer.com")
       ld = LinkData.find(listing.url)
