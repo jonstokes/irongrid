@@ -15,7 +15,7 @@ class RefreshLinksWorker < CoreWorker
     return false unless opts && (@domain = opts[:domain])
     @site = Site.new(domain: domain, source: :redis)
     @link_store = LinkQueue.new(domain: domain)
-    @threshold = Time.now - 4.hours
+    @threshold = Time.now.utc - 4.hours
     track(write_interval: 1)
     notify "Found #{listings.count} stale listings for #{domain}."
     true

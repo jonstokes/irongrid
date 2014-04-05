@@ -82,6 +82,14 @@ class Listing < ActiveRecord::Base
     !inactive
   end
 
+  def fresh?
+    !stale?
+  end
+
+  def stale?
+    self[:updated_at].utc < Time.now.utc - 4.hours
+  end
+
   def created_at
     self[:created_at].strftime("%Y-%m-%dT%H:%M:%S") if self[:created_at]
   end
