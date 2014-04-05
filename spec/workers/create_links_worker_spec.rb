@@ -27,18 +27,18 @@ describe CreateLinksWorker do
       pending "Example"
     end
 
-    it "transitions to ScrapePagesWorker if there are links in the LinkQueue" do
+    it "transitions to PruneLinksWorker if there are links in the LinkQueue" do
       @worker.perform(domain: @site.domain)
       expect(LinkData.size).to eq(444)
       expect(LinkQueue.new(domain: @site.domain).size).to eq(444)
-      expect(ScrapePagesWorker.jobs.count).to eq(1)
+      expect(PruneLinksWorker.jobs.count).to eq(1)
       expect(LogRecordWorker.jobs.count).to eq(10)
     end
 
     it "does not transition to ScrapePagesWorker if LinkQueue is empty" do
       pending "Mock product page with zero links?"
       expect(LinkQueue.new(domain: @site.domain).size).to eq(0)
-      expect(ScrapePagesWorker.jobs.count).to eq(0)
+      expect(PruneLinksWorker.jobs.count).to eq(0)
     end
   end
 
