@@ -11,6 +11,7 @@ class CreateCdnImagesWorker < CoreWorker
   attr_reader :domain
 
   def init(opts)
+    opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
     @image_store = ImageQueue.new(domain: domain)
     @site = Site.new(domain: domain)
@@ -20,8 +21,7 @@ class CreateCdnImagesWorker < CoreWorker
   end
 
   def perform(opts)
-    opts.symbolize_keys!
-    return unless init(opts)
+    return unless opts && init(opts)
     track
     while (image_source = @image_store.pop) && !timed_out? do
       @rate_limiter.with_limit { CDN.upload_image(image_source) }
@@ -33,10 +33,9 @@ class CreateCdnImagesWorker < CoreWorker
   end
 
   def transition
-    if @image_store.any?
-      CreateCdnImagesWorker.perform_async(domain: domain)
-      record_set(:transition, "CreateCdnImagesWorker")
-    end
+    return if @image_store.empty?
+    CreateCdnImagesWorker.perform_async(domain: domain)
+    record_set(:transition, "CreateCdnImagesWorker")
   end
 
   def timed_out?

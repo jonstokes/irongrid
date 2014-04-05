@@ -13,6 +13,7 @@ class CreateLinksWorker < CoreWorker
   attr_reader :site, :http, :domain
 
   def init(opts)
+    opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
 
     @http = PageUtils::HTTP.new
@@ -20,14 +21,12 @@ class CreateLinksWorker < CoreWorker
     @site = Site.new(domain: @domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @link_store = opts[:link_store] || LinkQueue.new(domain: domain)
-    track
     true
   end
 
   def perform(opts)
-    opts.symbolize_keys!
-    return unless init(opts)
-
+    return unless opts && init(opts)
+    track
     notify "Running #{link_list.size} links with rate limit #{@site.rate_limit}..."
     link_list.each do |link|
       pull_product_links_from_seed(link).each do |url|
@@ -39,6 +38,7 @@ class CreateLinksWorker < CoreWorker
     end
     clean_up
     transition
+    stop_tracking
   end
 
   def clean_up
@@ -47,11 +47,9 @@ class CreateLinksWorker < CoreWorker
   end
 
   def transition
-    if @link_store.any?
-      PruneLinksWorker.perform_async(domain: domain)
-      record_set(:transition, "PruneLinksWorker")
-    end
-    stop_tracking
+    return if @link_store.empty?
+    PruneLinksWorker.perform_async(domain: domain)
+    record_set(:transition, "PruneLinksWorker")
   end
 
   def pull_product_links_from_seed(link)

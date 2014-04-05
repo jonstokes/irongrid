@@ -11,14 +11,14 @@ class PruneLinksWorker < CoreWorker
   }
 
   def init(opts)
+    opts.symbolize_keys!
     return false unless @domain = opts[:domain]
     @link_store = LinkQueue.new(domain: @domain)
     @temp_store = Set.new
   end
 
   def perform(opts)
-    opts.symbolize_keys!
-    return unless init(opts)
+    return unless opts && init(opts)
     track
     while link = @link_store.pop do
       ld = LinkData.find(link)
@@ -36,9 +36,8 @@ class PruneLinksWorker < CoreWorker
   end
 
   def transition
-    if @link_store.any?
-      ScrapePagesWorker.perform_async(domain: @domain)
-      record_set(:transition, "ScrapePagesWorker")
-    end
+    return if @link_store.empty?
+    ScrapePagesWorker.perform_async(domain: @domain)
+    record_set(:transition, "ScrapePagesWorker")
   end
 end

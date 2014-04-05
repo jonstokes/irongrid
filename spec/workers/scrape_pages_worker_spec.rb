@@ -134,8 +134,13 @@ describe ScrapePagesWorker do
     end
 
     it "transitions to RefreshLinksWorker if the site's LinkQueue is empty and the site should be read again" do
+      lq = LinkQueue.new(domain: @site.domain)
+      links = (1..10).map { |i| "http://www.retailer.com/#{i}" }
+      lq.add links
+      links.each { |link| LinkData.create(url: link) }
       @site.update(read_interval: 0, read_at: 10.days.ago)
       @worker.perform(domain: @site.domain)
+      expect(lq.size).to be_zero
       expect(RefreshLinksWorker.jobs.count).to eq(1)
     end
 

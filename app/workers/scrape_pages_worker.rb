@@ -21,6 +21,7 @@ class ScrapePagesWorker < CoreWorker
   end
 
   def init(opts)
+    opts.symbolize_keys!
     return false unless opts && (@domain = opts[:domain])
 
     @site = Site.new(domain: domain)
@@ -36,9 +37,7 @@ class ScrapePagesWorker < CoreWorker
   end
 
   def perform(opts)
-    opts.symbolize_keys!
-    return unless init(opts)
-
+    return unless opts && init(opts)
     notify "Emptying link store..."
     while !timed_out? && (link_data = LinkData.find(@link_store.pop)) do
       link_data.update(jid: self.jid)
@@ -49,6 +48,7 @@ class ScrapePagesWorker < CoreWorker
     end
     clean_up
     transition
+    stop_tracking
   end
 
   def clean_up
@@ -64,7 +64,6 @@ class ScrapePagesWorker < CoreWorker
       self.class.perform_async(domain: domain)
       record_set(:transition, "#{self.class.to_s}")
     end
-    stop_tracking
   end
 
   #

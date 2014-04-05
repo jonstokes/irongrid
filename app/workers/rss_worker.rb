@@ -3,7 +3,8 @@ class RssWorker < CoreWorker
   include Trackable
 
   LOG_RECORD_SCHEMA = {
-    links_created: Integer
+    links_created: Integer,
+    transition: String
   }
 
   sidekiq_options :queue => :crawls, :retry => false
@@ -38,6 +39,7 @@ class RssWorker < CoreWorker
 
     clean_up
     transition
+    stop_tracking
   end
 
   def clean_up
@@ -46,8 +48,9 @@ class RssWorker < CoreWorker
   end
 
   def transition
-    ScrapePagesWorker.perform_async(domain: @site.domain) if @link_store.any?
-    stop_tracking
+    return if @link_store.empty?
+    ScrapePagesWorker.perform_async(domain: @site.domain)
+    record_set(:transition, "ScrapePagesWorker")
   end
 
   private

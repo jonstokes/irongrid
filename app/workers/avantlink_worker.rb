@@ -94,7 +94,6 @@ class AvantlinkWorker < CoreWorker
     @feed_url = opts[:feed_url]
     @site = opts[:site] || Site.new(domain: @domain)
     @service_options = @site.service_options
-    track
     @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)
@@ -104,16 +103,17 @@ class AvantlinkWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
+    track
     feeds.each do |feed|
       create_update_or_delete_products(feed) unless feed.empty?
     end
     clean_up
+    stop_tracking
   end
 
   def clean_up
     notify "Added #{record[:data][:db_writes]} links from feed."
     @site.mark_read!
-    stop_tracking
   end
 
   def create_update_or_delete_products(feed)
