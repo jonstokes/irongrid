@@ -11,8 +11,8 @@ class UpdateListingImagesWorker < CoreWorker
   def perform(listing_ids)
     track
     listing_ids.each do |id|
-      next unless listing = Listing.find(id)
-      next unless listing.image_source && CDN.has_image?(listing.image_source)
+      listing = Listing.find(id) rescue nil
+      next unless listing && listing.image_source.present? && CDN.has_image?(listing.image_source)
       listing.image = CDN.url_for_image(listing.image_source)
       listing.image_download_attempted = true
       listing.item_data_will_change!
