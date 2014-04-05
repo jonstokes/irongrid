@@ -21,4 +21,12 @@ describe UpdateListingImagesWorker do
     expect(same_listing.updated_at).to eq(listing.updated_at)
     expect(same_listing.image_download_attempted).to be_true
   end
+
+  it "does nothing if the listing has no image_source" do
+    pending "Example"
+  end
+
+  it "does nothing if the listing has been deleted" do
+    pending "Example"
+  end
 end
