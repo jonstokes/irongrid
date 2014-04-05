@@ -11,11 +11,11 @@ describe UpdateListingImagesWorker do
     end
   end
 
-  it "updates listings that have nil images when their images are on the CDN without stepping on updated_at timestamp" do
+  it "updates listings that have no images when their images are on the CDN without stepping on updated_at timestamp" do
     listing = FactoryGirl.create(:retail_listing, :no_image)
     CDN.upload_image(listing.image_source)
     sleep 1
-    UpdateListingImagesWorker.new.perform
+    UpdateListingImagesWorker.new.perform([listing.id])
     same_listing = Listing.first
     expect(same_listing.image).to eq(CDN.url_for_image(listing.image_source))
     expect(same_listing.updated_at).to eq(listing.updated_at)
