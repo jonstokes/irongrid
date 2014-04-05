@@ -30,8 +30,11 @@ describe PruneLinksWorker do
       @lq.push stale_listing.url
       @worker.perform(domain: @site.domain)
       expect(@lq.has_key?(stale_listing.url)).to be_true
+      expect(LinkData.find(stale_listing.url)).not_to be_nil
       expect(@lq.has_key?(ld.url)).to be_true
+      expect(LinkData.find(ld.url)).not_to be_nil
       expect(@lq.has_key?(fresh_listing.url)).to be_false
+      expect(LinkData.find(ld.url)).not_to be_nil
       expect(@lq.size).to eq(6)
     end
   end

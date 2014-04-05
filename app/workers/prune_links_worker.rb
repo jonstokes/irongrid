@@ -21,8 +21,9 @@ class PruneLinksWorker < CoreWorker
     return unless init(opts)
     track
     while link = @link_store.pop do
-      if (listing = db { Listing.find_by_url(link) }) && listing.try(:fresh?)
-        LinkData.find(link).destroy
+      ld = LinkData.find(link)
+      if !ld.listing_id && (listing = db { Listing.find_by_url(link) }) && listing.try(:fresh?)
+        ld.destroy
         record_incr(:links_pruned)
       else
         @temp_store << link
