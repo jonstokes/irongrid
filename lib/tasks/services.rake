@@ -1,10 +1,13 @@
+def service_list
+  %w(DeleteEndedAuctionsService ReadSitesService CdnService UpdateListingImagesService)
+end
+
 def start_service(svc)
   service_class = Object.const_get svc
   puts "Starting service #{service_class}..."
   service = service_class.new
   service.start
   puts "#{service_class} started!"
-  sleep 10
   service
 end
 
@@ -21,15 +24,16 @@ def reset_state
 end
 
 namespace :service do
-  task :boot_all => :environment do
+  task :boot_clean_grid => :environment do
     reset_state
     puts "Booting services for #{Rails.env.upcase} environment:"
 
     dead_service = nil
     services = []
-    %w(CdnService ReadSitesService DeleteEndedAuctionsService).each do |svc|
+    service_list.each do |svc|
       puts "  booting #{svc}"
       services << start_service(svc)
+      sleep 10
     end
     puts "All services booted!"
     sleep 1 while !(dead_service = services.find { |s| s.thread.status.nil? })
@@ -37,14 +41,19 @@ namespace :service do
     raise dead_service.thread_error
   end
 
-  task :reboot_all => :environment do
+  task :reboot_services => :environment do
     puts "Rebooting services for #{Rails.env.upcase} environment:"
+
+    puts "  clearing Sidekiq stats and retry set..."
+    Sidekiq::Stats.new.reset
+    Sidekiq::RetrySet.new.clear
 
     dead_service = nil
     services = []
-    %w(DeleteEndedAuctionsService ReadSitesService CdnService).each do |svc|
+    service_list.each do |svc|
       puts "  booting #{svc}"
       services << start_service(svc)
+      sleep 10
     end
     puts "All services booted!"
     sleep 1 while !(dead_service = services.find { |s| s.thread.status.nil? })
