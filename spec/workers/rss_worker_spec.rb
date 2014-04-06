@@ -29,8 +29,18 @@ describe RssWorker do
       url = "http://www.armslist.com/posts/2858994"
       expect(LinkData.find(url)).not_to be_nil
       expect(LinkQueue.new(domain: @site.domain).has_key?(url)).to be_true
-      expect(ScrapePagesWorker.jobs.count).to eq(1)
       expect(LogRecordWorker.jobs.count).to eq(2)
+    end
+  end
+
+  describe "#transition" do
+    it "transitions to PruneLinksWorker if it has added any links" do
+      RssWorker.new.perform(domain: "www.armslist.com")
+      expect(LinkData.size).to eq(26)
+      url = "http://www.armslist.com/posts/2858994"
+      expect(LinkData.find(url)).not_to be_nil
+      expect(LinkQueue.new(domain: @site.domain).has_key?(url)).to be_true
+      expect(PruneLinksWorker.jobs.count).to eq(1)
     end
   end
 end

@@ -49,8 +49,8 @@ class RssWorker < CoreWorker
 
   def transition
     return if @link_store.empty?
-    ScrapePagesWorker.perform_async(domain: @site.domain)
-    record_set(:transition, "ScrapePagesWorker")
+    PruneLinksWorker.perform_async(domain: @site.domain)
+    record_set(:transition, "PruneLinksWorker")
   end
 
   private
