@@ -16,4 +16,13 @@ namespace :site do
     raise "Must set DOMAIN" unless domain = ENV['DOMAIN']
     copy_site(domain)
   end
+
+  desc "Jumpstart scrapes on sites with link_data"
+  task :scrape_all => :environment do
+    Site.all.each do |site|
+      if LinkQueue.new(domain: site.domain).any?
+        PruneLinksWorker.perform_async(domain: site.domain)
+      end
+    end
+  end
 end
