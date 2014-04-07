@@ -9,6 +9,6 @@ class SiteStatsService < CoreService
   end
 
   def should_add_jobs?
-    SiteStatsWorker.workers.empty?
+    SiteStatsWorker.workers.empty? && SiteStatsWorker.queued_jobs.empty?
   end
 end

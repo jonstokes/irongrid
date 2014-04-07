@@ -53,13 +53,23 @@ namespace :service do
     notify "Booting services for #{Rails.env.upcase} environment:"
     reset_sidekiq_stats
     clear_sidekiq_queues
+    SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
     archive_log_Records
     boot_services
   end
 
   task :reboot_all => :environment do
     notify "Rebooting services for #{Rails.env.upcase} environment:"
+    SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
     reset_sidekiq_stats
+    boot_services
+  end
+
+  task :wipe_then_clean_boot_all => :environment do
+    notify "Wiping all redis state..."
+    Sidekiq.redis.flushdb
+    SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
+    archive_log_Records
     boot_services
   end
 
