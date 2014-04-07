@@ -65,12 +65,10 @@ namespace :service do
     boot_services
   end
 
-  task :wipe_then_clean_boot_all => :environment do
+  task :clear_all_grid_state => :environment do
     notify "Wiping all redis state..."
-    Sidekiq.redis.flushdb
-    SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
-    archive_log_Records
-    boot_services
+    Sidekiq.redis { |c| c.flushall }
+    notify "Done!"
   end
 
   task :reset_sidekiq_stats => :environment do
