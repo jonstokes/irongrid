@@ -51,7 +51,7 @@ end
 namespace :service do
   task :clean_boot_all => :environment do
     notify "Booting services for #{Rails.env.upcase} environment:"
-    reset_stats
+    reset_sidekiq_stats
     clear_sidekiq_queues
     archive_log_Records
     boot_services
