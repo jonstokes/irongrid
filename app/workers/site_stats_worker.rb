@@ -1,6 +1,6 @@
 class SiteStatsWorker < CoreWorker
 
-  sidekiq_options queue: :fast_db
+  sidekiq_options queue: :slow_db
 
   attr_reader :domain
 
@@ -16,7 +16,8 @@ class SiteStatsWorker < CoreWorker
     stats = {
       active_listings: Listing.active_count_for_domain(domain),
       inactive_listings: Listing.inactive_count_for_domain(domain),
-      stalest_listing: Listing.stalest_for_domain(domain).id,
+      stale_listings: Listing.stale_count_for_domain(domain),
+      stalest_listing: Listing.stalest_for_domain(domain).try(:id),
       updated_at: Time.now.utc
     }
 

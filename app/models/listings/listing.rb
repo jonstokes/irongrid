@@ -114,7 +114,7 @@ class Listing < ActiveRecord::Base
   end
 
   def self.stalest_for_domain(domain)
-    db { Listing.where("item_data->>'seller_domain' = ?", domain).order("updated_at ASC").limit(1).first }
+    db { Listing.where("item_data->>'seller_domain' = ?", domain).order("updated_at ASC").limit(1).try(:first) }
   end
 
   def self.active_count_for_domain(domain)
@@ -123,6 +123,10 @@ class Listing < ActiveRecord::Base
 
   def self.inactive_count_for_domain(domain)
     db { Listing.inactive.where("item_data->>'seller_domain' = ?", domain).count }
+  end
+
+  def self.stale_count_for_domain(domain)
+    db { Listing.where("item_data->>'seller_domain' = ? AND updated_at < ?", domain, stale_threshold).count }
   end
 
   #
