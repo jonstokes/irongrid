@@ -14,7 +14,7 @@ class PruneLinksWorker < CoreWorker
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
     @link_store = LinkQueue.new(domain: @domain)
-    @temp_store = Set.new
+    @temp_store = []
   end
 
   def perform(opts)
@@ -30,7 +30,7 @@ class PruneLinksWorker < CoreWorker
         record_incr(:links_checked)
       end
     end
-    @temp_store.each { |link| @link_store.push link }
+    @link_store.push @temp_store
     transition
     stop_tracking
   end
