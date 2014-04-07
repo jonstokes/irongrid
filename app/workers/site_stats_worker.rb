@@ -23,5 +23,9 @@ class SiteStatsWorker < CoreWorker
 
     Site.new(domain: domain).update(stats: stats)
   end
+
+  def self.workers
+    workers_for_class("#{self.name}")
+  end
 end
 
