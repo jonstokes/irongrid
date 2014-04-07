@@ -37,7 +37,8 @@ class Site < CoreModel
     :active,
     :rate_limits,
     :read_interval,
-    :commit_sha
+    :commit_sha,
+    :stats
   ]
 
   SITE_ATTRIBUTES.each do |key|

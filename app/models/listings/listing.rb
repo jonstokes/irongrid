@@ -56,6 +56,8 @@ class Listing < ActiveRecord::Base
 
   scope :ended_auctions, -> { where("type = ? AND item_data->>'auction_ends' < ?", "AuctionListing", (Time.now.utc - 1.day).to_s) }
   scope :no_image, -> { where("item_data->>'image_download_attempted' = ? AND updated_at > ?", 'false', 1.days.ago) }
+  scope :active, -> { where(inactive: [nil, false]) }
+  scope :inactive, -> { where(inactive: true) }
 
   def to_indexed_json
     attributes_and_values = INDEXED_ATTRIBUTES.map do |attr|
@@ -109,6 +111,18 @@ class Listing < ActiveRecord::Base
 
   def self.duplicate_digest?(listing, digest)
     db { Listing.where("id != ? AND digest = ?", listing.id, digest).any? }
+  end
+
+  def self.stalest_for_domain(domain)
+    db { Listing.where("item_data->>'seller_domain' = ?", domain).order("updated_at ASC").limit(1).first }
+  end
+
+  def self.active_count_for_domain(domain)
+    db { Listing.active.where("item_data->>'seller_domain' = ?", domain).count }
+  end
+
+  def self.inactive_count_for_domain(domain)
+    db { Listing.inactive.where("item_data->>'seller_domain' = ?", domain).count }
   end
 
   #
