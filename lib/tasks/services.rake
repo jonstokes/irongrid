@@ -49,7 +49,7 @@ def boot_services
 end
 
 namespace :service do
-  task :clean_boot_grid => :environment do
+  task :clean_boot_all => :environment do
     notify "Booting services for #{Rails.env.upcase} environment:"
     reset_stats
     clear_sidekiq_queues
@@ -57,7 +57,7 @@ namespace :service do
     boot_services
   end
 
-  task :reboot_services => :environment do
+  task :reboot_all => :environment do
     notify "Rebooting services for #{Rails.env.upcase} environment:"
     reset_sidekiq_stats
     boot_services
