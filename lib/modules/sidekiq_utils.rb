@@ -93,10 +93,6 @@ module SidekiqUtils
     Sidekiq.redis { |conn| conn.smembers('queues') }
   end
 
-  def scalable?(q)
-    SCALABLE_QUEUES.include?(q)
-  end
-
   def empty_queue?(name)
     Sidekiq.redis { |conn| conn.llen("queue:#{name}") == 0 }
   end
@@ -117,30 +113,5 @@ module SidekiqUtils
         conn.lpop("queue:#{name}")
       end
     end
-  end
-
-  def any_active_queues?
-    queues.detect { |q| active?(q) }
-  end
-
-  def active?(q)
-    (scalable?(q) && (queue_size(q) + number_of_active_workers(q) + dedicated_processors(q) + servers[q].size > 0)) || (!scalable?(q) && (queue_size(q) + number_of_active_workers(q) > 0))
-  end
-
-  def processors_per_server_for(queue)
-    YAML.load(File.read(File.join('config', 'sidekiq_queues.yml')))[Rails.env][queue]['processors_per_server']
-  end
-
-  def maximum_instances_for(queue)
-    YAML.load(File.read(File.join('config', 'sidekiq_queues.yml')))[Rails.env][queue]['max_live_instances']
-  end
-
-  def aws_options
-    aws_config = YAML.load(File.read(File.join('config', 'aws.yml')))[Rails.env]
-    {
-      :provider => 'AWS', 
-      :aws_access_key_id => aws_config['access_key_id'], 
-      :aws_secret_access_key => aws_config['secret_access_key']
-    }
   end
 end
