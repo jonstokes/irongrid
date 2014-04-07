@@ -39,7 +39,7 @@ class CoreService < CoreModel
       puts "[#{Time.now.utc}] #{self.class} starting #{jobs.count} jobs..." if jobs.any?
       start_jobs
       $mutex.synchronize { status_update }
-      sleep SLEEP_INTERVAL
+      sleep self.class::SLEEP_INTERVAL
     end until @done
     $mutex.synchronize { stop_tracking }
   end

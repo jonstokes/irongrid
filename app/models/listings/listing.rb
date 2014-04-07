@@ -104,13 +104,13 @@ class Listing < ActiveRecord::Base
     db { Listing.where("item_data->>'image' = ?", image).first }
   end
 
+  def self.duplicate_digest?(listing, digest)
+    db { Listing.where("id != ? AND digest = ?", listing.id, digest).any? }
+  end
+
   def self.stale_listings_for_domain(domain)
     query_conditions = "item_data->>'seller_domain' = '#{domain}'"
     db { Listing.where(query_conditions).where("updated_at < ?", stale_threshold).order("updated_at ASC").limit(400) }
-  end
-
-  def self.duplicate_digest?(listing, digest)
-    db { Listing.where("id != ? AND digest = ?", listing.id, digest).any? }
   end
 
   def self.stalest_for_domain(domain)
