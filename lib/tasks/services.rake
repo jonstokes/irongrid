@@ -2,67 +2,68 @@ def service_list
   %w(DeleteEndedAuctionsService ReadSitesService CdnService UpdateListingImagesService)
 end
 
+def notify(string)
+  puts "[#{Time.now.utc}] #{string}"
+end
+
 def start_service(svc)
   service_class = Object.const_get svc
-  puts "Starting service #{service_class}..."
+  notify "Starting service #{service_class}..."
   service = service_class.new
   service.start
-  puts "#{service_class} started!"
+  notify "#{service_class} started!"
   service
 end
 
-def reset_state
-  puts "Resetting Sidekiq..."
+def reset_sidekiq_stats
+  notify "Resetting Sidekiq stats..."
   Sidekiq::Stats.new.reset
   Sidekiq::RetrySet.new.clear
+end
+
+def clear_sidekiq_queues
+  notify "Clearing Sidekiq queues..."
   %w(fast_db crawls).each do |q|
     Sidekiq::Queue.new(q).clear
   end
-  Sidekiq::RetrySet.new.clear
-  puts "Archiving existing Log Records..."
+end
+
+def archive_log_Records
+  notify "Archiving Log Records..."
   LogRecord.archive_all
 end
 
-namespace :service do
-  task :boot_clean_grid => :environment do
-    reset_state
-    puts "Booting services for #{Rails.env.upcase} environment:"
+def boot_services
+  services = []
+  service_list.each do |svc|
+    notify "  booting #{svc}"
+    services << start_service(svc)
+    sleep 10
+  end
+  notify "All services booted!"
+  services
+  dead_service = nil
+  sleep 1 while !(dead_service = services.find { |s| s.thread.status.nil? })
+  Airbrake.notify(dead_service.thread_error)
+  raise dead_service.thread_error
+end
 
-    dead_service = nil
-    services = []
-    service_list.each do |svc|
-      puts "  booting #{svc}"
-      services << start_service(svc)
-      sleep 10
-    end
-    puts "All services booted!"
-    sleep 1 while !(dead_service = services.find { |s| s.thread.status.nil? })
-    Airbrake.notify(dead_service.thread_error)
-    raise dead_service.thread_error
+namespace :service do
+  task :clean_boot_grid => :environment do
+    notify "Booting services for #{Rails.env.upcase} environment:"
+    reset_stats
+    clear_sidekiq_queues
+    archive_log_Records
+    boot_services
   end
 
   task :reboot_services => :environment do
-    puts "Rebooting services for #{Rails.env.upcase} environment:"
-
-    puts "  clearing Sidekiq stats and retry set..."
-    Sidekiq::Stats.new.reset
-    Sidekiq::RetrySet.new.clear
-
-    dead_service = nil
-    services = []
-    service_list.each do |svc|
-      puts "  booting #{svc}"
-      services << start_service(svc)
-      sleep 10
-    end
-    puts "All services booted!"
-    sleep 1 while !(dead_service = services.find { |s| s.thread.status.nil? })
-    Airbrake.notify(dead_service.thread_error)
-    raise dead_service.thread_error
+    notify "Rebooting services for #{Rails.env.upcase} environment:"
+    reset_sidekiq_stats
+    boot_services
   end
 
-
-  task :reset_state => :environment do
-    reset_state
+  task :reset_sidekiq_stats => :environment do
+    reset_sidekiq_stats
   end
 end
