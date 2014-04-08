@@ -79,20 +79,24 @@ class ScrapePagesWorker < CoreWorker
     if page = get_page(url)
       record_incr(:pages_read)
       @scraper.parse(doc: page.doc, url: url)
-      unless link_data.listing_digest && (@scraper.listing["digest"] == link_data.listing_digest)
+      if listing_is_unchanged?(link_data)
+        link_data.update(dirty_only: true)
+      else
         update_image if @scraper.is_valid?
         link_data.update(
           page_is_valid:   @scraper.is_valid?,
           page_not_found:  @scraper.not_found?,
           page_attributes: @scraper.listing
         )
-        WriteListingWorker.perform_async(url)
-        record_incr(:db_writes)
       end
     else
       link_data.update(page_not_found: true)
-      WriteListingWorker.perform_async(url)
-      record_incr(:db_writes)
     end
+    WriteListingWorker.perform_async(url)
+    record_incr(:db_writes)
+  end
+
+  def listing_is_unchanged?(link_data)
+    link_data.listing_digest && (@scraper.listing["digest"] == link_data.listing_digest)
   end
 end

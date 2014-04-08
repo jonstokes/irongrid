@@ -11,13 +11,14 @@ class LinkData
     :page_not_found,
     :listing_digest,
     :listing_dupe,
-    :listing_id
+    :listing_id,
+    :dirty_only
   ]
 
   LINK_DATA_KEYS.each do |key|
     define_method(key) { @data[key] } #getters
     define_method("#{key}=") { |value| @data[key] = value } #setters
-    if [:page_is_valid, :page_not_found, :listing_dupe].include?(key) #status
+    if [:page_is_valid, :page_not_found, :listing_dupe, :dirty_only].include?(key) #status
       define_method("#{key}?") { @data[key] }
     end
   end

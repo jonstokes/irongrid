@@ -87,6 +87,28 @@ describe ScrapePagesWorker do
       expect(WriteListingWorker.jobs.count).to eq(1)
     end
 
+    it "sends a :dirty_only directive to WriteListingsWorker if the digest is unchanged" do
+      lq = LinkQueue.new(domain: @site.domain)
+      url = "http://#{@site.domain}/1"
+      lq.add(url)
+      LinkData.create(url: url)
+      @worker.perform(domain: @site.domain)
+      ld = LinkData.find(url)
+      expect(ld.page_is_valid?).to be_true
+      expect(ld.page_attributes["digest"]).to eq("b97637eba1fab547c75bd6ba372fb1ed")
+      WriteListingWorker.drain
+      listing = Listing.all.first
+      expect(listing.digest).to eq("b97637eba1fab547c75bd6ba372fb1ed")
+
+      lq = LinkQueue.new(domain: @site.domain)
+      url = "http://#{@site.domain}/1"
+      lq.add(url)
+      LinkData.create(listing)
+      @worker.perform(domain: @site.domain)
+      ld = LinkData.find(url)
+      expect(ld.dirty_only?).to be_true
+    end
+
     describe "where image_source exists on CDN already" do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
         url = "http://#{@site.domain}/1"

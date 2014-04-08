@@ -92,7 +92,7 @@ describe WriteListingWorker do
       expect(listing.url).to eq(url)
     end
 
-    it "does nothing if the listing hasn't changed" do
+    it "dirties the listing if the listing hasn't changed and was seeded by RefreshLinksWorker" do
       url = @valid_attrs["url"]
       LinkData.create(
         url:             url,
@@ -102,6 +102,18 @@ describe WriteListingWorker do
       )
       expect(Listing).not_to receive(:duplicate_digest?)
       WriteListingWorker.new.perform(url)
+      expect(Listing.first.update_count).to eq(1)
+    end
+
+    it "dirties the listing if the listing hasn't changed and was seeded by CreateLinksWorker" do
+      url = @valid_attrs["url"]
+      LinkData.create(
+        url:             url,
+        dirty_only: true
+      )
+      expect(Listing).not_to receive(:duplicate_digest?)
+      WriteListingWorker.new.perform(url)
+      expect(Listing.first.update_count).to eq(1)
     end
 
     it "deletes a not_found listing" do

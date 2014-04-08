@@ -27,10 +27,10 @@ class WriteListingWorker < CoreWorker
   end
 
   def existing_listing(ld,listing)
-    return if ld.page_attributes && (listing.digest == ld.page_attributes["digest"])
-
     if ld.page_not_found?
       db { listing.destroy }
+    elsif dirty_only?(ld, listing)
+      listing.dirty!
     elsif !ld.page_is_valid?
       listing.deactivate!
     elsif Listing.duplicate_digest?(listing, ld.page_attributes["digest"])
@@ -52,5 +52,9 @@ class WriteListingWorker < CoreWorker
     else
       GeoData.default_location
     end
+  end
+
+  def dirty_only?(ld, listing)
+    ld.dirty_only? || (ld.page_attributes && (listing.digest == ld.page_attributes["digest"]))
   end
 end
