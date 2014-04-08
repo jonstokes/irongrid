@@ -81,6 +81,12 @@ class Site < CoreModel
     write_to_redis
   end
 
+  def update_stats(attrs)
+    @site_data[:stats] ||= {}
+    @site_data[:stats].merge!(attrs)
+    write_to_redis
+  end
+
   def digest_attributes(defaults)
     return defaults unless attrs = adapter["digest_attributes"]
     return attrs unless attrs.include?("defaults")
