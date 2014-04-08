@@ -83,6 +83,7 @@ class Site < CoreModel
 
   def update_stats(attrs)
     @site_data[:stats] ||= {}
+    attrs.merge!(updated_at: Time.now)
     @site_data[:stats].merge!(attrs)
     write_to_redis
   end

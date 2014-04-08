@@ -7,30 +7,32 @@ class SiteStatsWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
+    @site = Site.new(domain: domain, source: :redis)
     true
   end
 
   def perform(opts)
     return unless opts && init(opts)
+    notify "Updating site stats for #{domain}..."
+    notify "Current stats for #{domain} are #{@site.stats || 'nil'}"
 
     active_listings = Listing.active_count_for_domain(domain)
     notify "Found #{active_listings} active listings for #{domain}"
+    @site.update_stats(active_listings: active_listings)
+
     inactive_listings = Listing.inactive_count_for_domain(domain)
     notify "Found #{inactive_listings} inactive listings for #{domain}"
+    @site.update_stats(inactive_listings: inactive_listings)
+
     stale_listings = Listing.stale_count_for_domain(domain)
     notify "Found #{stale_listings} stale listings for #{domain}"
+    @site.update_stats(stale_listings: stale_listings)
+
     stalest_listing = Listing.stalest_for_domain(domain).try(:id)
     notify "Stalest listing for #{domain} is #{stalest_listing}"
+    @site.update_stats(stalest_listing: stalest_listing)
 
-    stats = {
-      active_listings: active_listings,
-      inactive_listings: inactive_listings,
-      stale_listings: stale_listings,
-      stalest_listing: stalest_listing,
-      updated_at: Time.now.utc
-    }
-
-    Site.new(domain: domain, source: :redis).update_stats(stats)
+    notify "Site stats for #{domain} are now #{@site.stats}"
   end
 end
 
