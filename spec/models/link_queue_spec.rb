@@ -62,6 +62,14 @@ describe LinkQueue do
     end
   end
 
+  describe "#rem" do
+    it "removes a link" do
+      @store.add(@links).should == 3
+      @store.rem(@links.first)
+      expect(@store.has_key?(@links.first)).to be_false
+    end
+  end
+
   describe "#clear", no_es: true do
     it "should clear the store" do
       @store.add(@links).should == 3

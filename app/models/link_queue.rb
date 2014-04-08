@@ -31,6 +31,21 @@ class LinkQueue
     end
   end
 
+  def rem(keys)
+    return 0 unless keys
+    return 0 if keys.is_a?(String) && keys.blank?
+
+    if keys.is_a?(Array)
+      return 0 if keys.empty?
+      keys = keys.uniq.select { |key| !key.empty? }
+    else
+      keys = [keys]
+    end
+
+    with_redis { |conn| conn.srem(set_name, keys) }
+    keys.count
+  end
+
   def clear
     with_redis do |conn|
       conn.del(set_name)
@@ -41,6 +56,12 @@ class LinkQueue
     with_redis do |conn|
       return true unless conn.exists(set_name)
       conn.scard(set_name) == 0
+    end
+  end
+
+  def members
+    with_redis do |conn|
+      conn.smembers(set_name)
     end
   end
 

@@ -5,7 +5,7 @@ class PruneLinksWorker < CoreWorker
   sidekiq_options queue: :fast_db, retry: true
 
   LOG_RECORD_SCHEMA = {
-    links_checked: Integer,
+    links_passed: Integer,
     links_pruned: Integer,
     transition: String
   }
@@ -14,23 +14,28 @@ class PruneLinksWorker < CoreWorker
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
     @link_store = LinkQueue.new(domain: @domain)
-    @temp_store = []
+    @temp_store = @link_store.members
+    @pruned_links = []
   end
 
   def perform(opts)
     return unless opts && init(opts)
     track
-    while link = @link_store.pop do
+    while link = @temp_store.shift do
       ld = LinkData.find(link)
       if !ld.listing_id && (listing = db { Listing.find_by_url(link) }) && listing.try(:fresh?)
-        ld.destroy
+        @pruned_links << ld
         record_incr(:links_pruned)
       else
-        @temp_store << link
-        record_incr(:links_checked)
+        record_incr(:links_passed)
       end
     end
-    @link_store.push @temp_store
+
+    @pruned_links.each do |ld|
+      ld.destroy
+      @link_store.rem(ld.url)
+    end
+
     transition
     stop_tracking
   end
