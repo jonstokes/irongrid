@@ -18,7 +18,7 @@ describe RefreshLinksWorker do
       stale_listing = FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days)
       5.times { FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days) }
       FactoryGirl.create(:retail_listing, updated_at: Time.now)
-      RefreshLinksWorker.new.perform(domain: "www.retailer.com")
+      RefreshLinksWorker.new.perform(domain: @site.domain)
       ld = LinkData.find(stale_listing.url)
       expect(ld.listing_id).to eq(stale_listing.id)
       expect(ld.listing_digest).to eq(stale_listing.digest)
@@ -28,6 +28,15 @@ describe RefreshLinksWorker do
       expect(lq.pop).to match(/retailer\.com/)
       expect(CreateLinksWorker.jobs.count).to eq(1)
       expect(LogRecordWorker.jobs.count).to eq(2)
+    end
+
+    it "transitions to CreateLinksWorker without blowing up if there are no stale listings" do
+      5.times { FactoryGirl.create(:retail_listing) }
+      expect {
+        RefreshLinksWorker.new.perform(domain: @site.domain)
+      }.not_to raise_error
+      expect(CreateLinksWorker.jobs.count).to eq(1)
+      expect(LogRecordWorker.jobs.count).to eq(0)
     end
   end
 end
