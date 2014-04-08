@@ -103,6 +103,17 @@ describe Listing do
     end
   end
 
+  describe "#dirty!" do
+    it "dirties a listing by incrementing its update_count" do
+      listing = FactoryGirl.create(:retail_listing)
+      updated_at = listing.updated_at
+      sleep 1
+      listing.dirty!
+      expect(Listing.first.update_count).to eq(1)
+      expect(Listing.first.updated_at).to be > updated_at
+    end
+  end
+
   describe "#to_indexed_json" do
     it "generates JSON for storage in the ES index" do
       listing = Listing.create(@listing_attrs)

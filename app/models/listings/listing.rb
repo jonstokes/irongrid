@@ -75,6 +75,11 @@ class Listing < ActiveRecord::Base
     db { update_attribute(:inactive, true) }
   end
 
+  def dirty!
+    new_update_count = (update_count || 0) + 1
+    db { update_attribute(:update_count, new_update_count) }
+  end
+
   def image_is_shared?
     return false unless image
     db { Listing.where("id != ? AND item_data->>'image' = ?", id, image).any? }
