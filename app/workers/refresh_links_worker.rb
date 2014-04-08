@@ -24,7 +24,8 @@ class RefreshLinksWorker < CoreWorker
   def perform(opts)
     return unless opts && init(opts)
     Listing.stale_listings_for_domain(@domain).each do |listing|
-      track(write_interval: 1)
+      track(write_interval: 1) unless @tracking
+      @tracking = true
       next unless ld = LinkData.create(listing)
       ld.update(jid: jid)
       @link_store.add(listing.url)
@@ -32,7 +33,7 @@ class RefreshLinksWorker < CoreWorker
     end
     clean_up
     transition
-    stop_tracking
+    stop_tracking if @tracking
   end
 
   def clean_up
@@ -42,6 +43,6 @@ class RefreshLinksWorker < CoreWorker
   def transition
     return if @site.refresh_only?
     CreateLinksWorker.perform_async(domain: domain)
-    record_set(:transition, "CreateLinksworker")
+    record_set(:transition, "CreateLinksworker") if @tracking
   end
 end
