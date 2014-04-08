@@ -17,6 +17,13 @@ namespace :site do
     copy_site(domain)
   end
 
+  desc "Run stats for all active sites"
+  task :stats => :environment do
+    Site.active.each do |site|
+      SiteStatsWorker.perform_async(domain: site.domain) unless SiteStatsWorker.jobs_in_flight_with_domain(site.domain).any?
+    end
+  end
+
   desc "Jumpstart scrapes on sites with link_data"
   task :scrape_all => :environment do
     Site.all.each do |site|
