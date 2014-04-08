@@ -23,6 +23,7 @@ class Site < CoreModel
   include Github
 
   attr_accessor :site_data
+  attr_reader :source
 
   SITE_ATTRIBUTES = [
     :name,
@@ -48,7 +49,7 @@ class Site < CoreModel
   end
 
   def initialize(opts)
-    source = opts[:source] || :redis
+    @source = opts[:source] || :redis
     opts.delete(:source)
     check_attributes(opts)
     raise "Domain required!" unless opts[:domain]
@@ -71,17 +72,20 @@ class Site < CoreModel
 
   def update_attribute(attr, value)
     check_attributes(attr)
+    load_data!
     @site_data[attr] = value
     write_to_redis
   end
 
   def update(attrs)
     check_attributes(attrs)
+    load_data!
     @site_data.merge!(attrs)
     write_to_redis
   end
 
   def update_stats(attrs)
+    load_data!
     @site_data[:stats] ||= {}
     attrs.merge!(updated_at: Time.now)
     @site_data[:stats].merge!(attrs)
@@ -154,6 +158,10 @@ class Site < CoreModel
   end
 
   private
+
+  def load_data!
+    load_from_redis
+  end
 
   def check_attributes(obj)
     if obj.is_a?(Hash)

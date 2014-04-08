@@ -14,7 +14,7 @@ describe Site do
       expect(site.name).to eq("Test Retailer")
       expect(site.read_with).to eq("RefreshLinksWorker")
       expect(site.active).to eq(true)
-      expect(site.read_interval).to eq(86400)
+      expect(site.read_interval).to eq(1440)
       expect(site.adapter.keys).to include("title")
     end
 
