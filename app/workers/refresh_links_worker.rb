@@ -23,8 +23,8 @@ class RefreshLinksWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
-    track(write_interval: 1)
     Listing.stale_listings_for_domain(@domain).each do |listing|
+      track(write_interval: 1)
       next unless ld = LinkData.create(listing)
       ld.update(jid: jid)
       @link_store.add(listing.url)
