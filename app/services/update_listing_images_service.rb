@@ -2,7 +2,7 @@ class UpdateListingImagesService < CoreService
   include ConnectionWrapper
 
   def start_jobs
-    $mutex.synchronize {
+    CoreService.mutex.synchronize {
       begin
         db do
           Listing.no_image.find_in_batches do |batch|

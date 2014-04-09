@@ -2,7 +2,7 @@ class DeleteEndedAuctionsService < CoreService
   include ConnectionWrapper
 
   def start_jobs
-    $mutex.synchronize {
+    CoreService.mutex.synchronize {
       return if DeleteEndedAuctionsWorker.queued_jobs.any?
       begin
         db do
