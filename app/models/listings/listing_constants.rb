@@ -25,6 +25,7 @@ module ListingConstants
     'image',
     'image_source',
     'image_download_attempted',
+    'affiliate_link_tag',
     'item_condition',
     'item_location',
     'availability',

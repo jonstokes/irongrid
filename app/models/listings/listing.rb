@@ -67,6 +67,10 @@ class Listing < ActiveRecord::Base
     Hash[attributes_and_values].merge(item_data).to_json
   end
 
+  def url
+    "#{self[:url]}#{affiliate_link_tag}"
+  end
+
   def activate!
     db { update_attribute(:inactive, false) }
   end

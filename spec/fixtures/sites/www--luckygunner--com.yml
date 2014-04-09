@@ -61,4 +61,5 @@ attributes:
       rate: 7
   read_at: 2014-01-28 00:12:56.216000000 Z
   read_interval: 86400
+  affiliate_link_tag: '#rid=ironsights&amp;chan=search'
   commit_sha:

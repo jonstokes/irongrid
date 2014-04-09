@@ -7,6 +7,33 @@ describe ListingCleaner do
     @site.validation["retail"] = "true"
   end
 
+  describe "#affiliate_link_tag" do
+    it "adds an affiliate_link_tag field to item_data if the site has one" do
+      site = Site.new(domain: "www.luckygunner.com", source: :fixture)
+      site.send(:write_to_redis)
+
+      url = "http://www.luckygunner.com/product1"
+      raw_listing = {
+        "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420rnds",
+        "url" => url,
+        "category1" => "Ammunition"
+      }
+      clean_listing = RetailListingCleaner.new(raw_listing: raw_listing, url: url, site: site)
+      expect(clean_listing.item_data['affiliate_link_tag']).to eq("#rid=ironsights&amp;chan=search")
+    end
+
+    it "does not add an affiliate_link_tag for a site that doesn't have one" do
+      @url = "http://www.hyattgunstore.com/ammo.html"
+      @raw_listing = {
+        "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420rnds",
+        "url" => @url,
+        "category1" => "Ammunition"
+      }
+      clean_listing = RetailListingCleaner.new(raw_listing: @raw_listing, url: @url, site: @site)
+      expect(clean_listing.item_data['affiliate_link_tag']).to be_nil
+    end
+  end
+
   describe "#seller_domain and #seller_name" do
     it "pulls the seller info" do
       @url = "http://www.hyattgunstore.com/ammo.html"

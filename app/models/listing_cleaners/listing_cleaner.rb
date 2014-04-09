@@ -93,6 +93,10 @@ class ListingCleaner < CoreModel
     site.name
   end
 
+  def affiliate_link_tag
+    site.affiliate_link_tag
+  end
+
   def price_per_round_in_cents
     return nil unless current_price_in_cents && number_of_rounds
     (current_price_in_cents.to_f / number_of_rounds.to_f).round

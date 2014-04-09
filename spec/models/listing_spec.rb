@@ -103,6 +103,40 @@ describe Listing do
     end
   end
 
+  describe "#url" do
+    it "returns the untagged url for a site without a link tag" do
+      Listing.create(@listing_attrs)
+      listing = Listing.last
+      expect(listing.url).to eq(@listing_attrs["url"])
+    end
+
+    it "returns the tagged url for a site with a link tag" do
+      site = Site.new(domain: "www.luckygunner.com", source: :fixture)
+      site.send(:write_to_redis)
+      item_data = @listing_attrs['item_data'].merge!(
+        'seller_name' => site.name,
+        'seller_domain' => site.domain,
+        'affiliate_link_tag' => site.affiliate_link_tag
+      )
+      attrs = @listing_attrs.merge!(
+        'url' => "http://#{site.domain}/product",
+        'item_data' => item_data
+      )
+      tagged_url = "#{attrs['url']}#{site.affiliate_link_tag}"
+
+      Listing.create(attrs)
+      Listing.index.refresh
+      listing = Listing.last
+      expect(listing.url).to eq(tagged_url)
+
+      # Also make sure that the listing's url is properly represented
+      # in both the db and search index
+      expect(Listing.find_by_url(attrs['url'])).not_to be_nil
+      item = Listing.index.retrieve('retail_listing', listing.id)
+      expect(item.url).to eq(tagged_url)
+    end
+  end
+
   describe "#dirty!" do
     it "dirties a listing by incrementing its update_count" do
       listing = FactoryGirl.create(:retail_listing)
