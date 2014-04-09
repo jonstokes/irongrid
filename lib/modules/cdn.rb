@@ -12,6 +12,7 @@ module CDN
 
     def initialize
       aws_connect!
+      @http = PageUtils::HTTP.new
     end
 
     def aws_connect!
@@ -31,8 +32,8 @@ module CDN
       has_asset?(cdn_name)
     end
 
-    def url_for_image(image)
-      cdn_name = get_cdn_name(image)
+    def url_for_image(image_url)
+      cdn_name = get_cdn_name(image_url)
       get_cdn_image_url(cdn_name)
     end
 
@@ -71,9 +72,9 @@ module CDN
       @index_bucket_name ||= "scoperrific-index" + ENV_BUCKET_POSTFIX
     end
 
-    def get_cdn_name(image_name)
-      base = Digest::MD5.hexdigest(image_name)
-      extension = image_name.split(".").last
+    def get_cdn_name(image_url)
+      base = Digest::MD5.hexdigest(image_url)
+      extension = image_url.split(".").last
       "#{base}.#{extension}"
     end
 
@@ -82,21 +83,15 @@ module CDN
     end
 
     def upload_image_to_s3(source_image_url, cdn_name)
-      return DEFAULT_IMAGE_URL unless image_file = retryable_with_aws { open_link(source_image_url, false) }
-      if (image_file.length == 0) || (image_file.is_a?(StringIO) && !!image_file.read[/html/])
-        image_file.close
-        return DEFAULT_IMAGE_URL
-      end
+      return DEFAULT_IMAGE_URL unless image_file = get_image(source_image_url)
 
-      image_file.rewind
-      image_file = resize(image_file, cdn_name) unless image_file.is_a?(StringIO)
-
+      image_file = resize(image_file, cdn_name)
       success = false
       success = retryable_with_success do
         s3.buckets[index_bucket_name].objects[cdn_name].write(:file => image_file, :acl => :public_read, :reduced_redundancy => true)
       end
       image_file.close
-      File.delete(image_file.path) unless image_file.is_a?(StringIO)
+      File.delete(image_file.path)
       return success ? get_cdn_image_url(cdn_name) : DEFAULT_IMAGE_URL
     ensure
       # Ensure the HTTP pool is emptied after each write.
