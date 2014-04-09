@@ -60,7 +60,7 @@ module PageUtils
     # or nil if no such option is set
     #
     def user_agent
-      @opts[:user_agent]
+      "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36"
     end
 
     #
