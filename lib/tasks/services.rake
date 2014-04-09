@@ -66,8 +66,15 @@ namespace :service do
   end
 
   task :clear_all_grid_state => :environment do
-    notify "Wiping all redis state..."
-    Sidekiq.redis { |c| c.flushall }
+    notify "Clearing LinkData table..."
+    LinkData.delete_all
+    notify "Clearing Image and Link Queues for all sites..."
+    Site.all.each do |site|
+      ImageQueue.new(domain: site.domain).clear!
+      LinkQueue.new(domain: site.doman).clear!
+    end
+    reset_sidekiq_stats
+    clear_sidekiq_queues
     notify "Done!"
   end
 
