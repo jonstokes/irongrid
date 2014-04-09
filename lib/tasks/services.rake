@@ -34,6 +34,7 @@ def archive_log_Records
 end
 
 def boot_services
+  CoreService.mutex { puts "Initializing mutex..." }
   services = []
   service_list.each do |svc|
     notify "  booting #{svc}"
