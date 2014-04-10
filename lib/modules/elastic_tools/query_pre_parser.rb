@@ -14,13 +14,13 @@ module ElasticTools
       str.gsub!(/(.*)"(.*)/, '\1\"\3') if quote_count % 2 == 1
 
       # Escape logical operators
-      str.gsub!(/\sAND\s/m) do |match|
+      str.gsub!(/^AND\s|\sAND\s|\sAND$/m) do |match|
         match = match.downcase
       end
-      str.gsub!(/\sOR\s/m) do |match|
+      str.gsub!(/^OR\s|\sOR\s|\sOR$/m) do |match|
         match = match.downcase
       end
-      str.gsub!(/\sNOT\s/m) do |match|
+      str.gsub!(/^NOT\s|\sNOT\s|\sNOT$/m) do |match|
         match = match.downcase
       end
 
