@@ -8,7 +8,8 @@ class ScrapePagesWorker < CoreWorker
     links_deleted: Integer,
     pages_read:    Integer,
     images_added:  Integer,
-    transition:    String
+    transition:    String,
+    next_jid:      String
   }
 
   sidekiq_options :queue => :crawls, :retry => true
@@ -58,11 +59,13 @@ class ScrapePagesWorker < CoreWorker
 
   def transition
     if @link_store.empty? && @site.should_read?
-      RefreshLinksWorker.perform_async(domain: domain)
+      jid = RefreshLinksWorker.perform_async(domain: domain)
       record_set(:transition, "RefreshLinksWorker")
+      record_set(:next_jid, jid)
     elsif @link_store.any?
-      self.class.perform_async(domain: domain)
+      jid = self.class.perform_async(domain: domain)
       record_set(:transition, "#{self.class.to_s}")
+      record_set(:next_jid, jid)
     end
   end
 

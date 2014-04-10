@@ -5,7 +5,8 @@ class CreateCdnImagesWorker < CoreWorker
 
   LOG_RECORD_SCHEMA = {
     images_created: Integer,
-    transition:     String
+    transition:     String,
+    next_jid:       String
   }
 
   attr_reader :domain
@@ -34,8 +35,9 @@ class CreateCdnImagesWorker < CoreWorker
 
   def transition
     return if @image_store.empty?
-    CreateCdnImagesWorker.perform_async(domain: domain)
+    jid = CreateCdnImagesWorker.perform_async(domain: domain)
     record_set(:transition, "CreateCdnImagesWorker")
+    record_set(:next_jid, jid)
   end
 
   def timed_out?

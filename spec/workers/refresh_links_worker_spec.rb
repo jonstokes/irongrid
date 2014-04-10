@@ -36,7 +36,7 @@ describe RefreshLinksWorker do
         RefreshLinksWorker.new.perform(domain: @site.domain)
       }.not_to raise_error
       expect(CreateLinksWorker.jobs.count).to eq(1)
-      expect(LogRecordWorker.jobs.count).to eq(0)
+      expect(LogRecordWorker.jobs.count).to eq(2)
     end
   end
 end

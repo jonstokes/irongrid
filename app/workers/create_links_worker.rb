@@ -5,7 +5,8 @@ class CreateLinksWorker < CoreWorker
   LOG_RECORD_SCHEMA = {
     links_crawled: Integer,
     links_created: Integer,
-    transition:    String
+    transition:    String,
+    next_jid:      String
   }
 
   sidekiq_options :queue => :crawls, :retry => false

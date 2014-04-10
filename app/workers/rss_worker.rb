@@ -4,7 +4,8 @@ class RssWorker < CoreWorker
 
   LOG_RECORD_SCHEMA = {
     links_created: Integer,
-    transition: String
+    transition:    String,
+    next_jid:      String
   }
 
   sidekiq_options :queue => :crawls, :retry => false
@@ -49,8 +50,9 @@ class RssWorker < CoreWorker
 
   def transition
     return if @link_store.empty?
-    PruneLinksWorker.perform_async(domain: @site.domain)
+    jid = PruneLinksWorker.perform_async(domain: @site.domain)
     record_set(:transition, "PruneLinksWorker")
+    record_set(:next_jid, jid)
   end
 
   private

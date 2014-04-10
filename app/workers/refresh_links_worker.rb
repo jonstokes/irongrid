@@ -4,7 +4,8 @@ class RefreshLinksWorker < CoreWorker
 
   LOG_RECORD_SCHEMA = {
     links_created: Integer,
-    transition: String
+    transition:    String,
+    next_jid:      String
   }
 
   sidekiq_options queue: :fast_db, retry: true
@@ -23,9 +24,8 @@ class RefreshLinksWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
+    track(write_interval: 1)
     Listing.stale_listings_for_domain(@domain).each do |listing|
-      track(write_interval: 1) unless @tracking
-      @tracking = true
       next unless ld = LinkData.create(listing)
       ld.update(jid: jid)
       @link_store.add(listing.url)
@@ -33,7 +33,7 @@ class RefreshLinksWorker < CoreWorker
     end
     clean_up
     transition
-    stop_tracking if @tracking
+    stop_tracking
   end
 
   def clean_up
@@ -42,7 +42,8 @@ class RefreshLinksWorker < CoreWorker
 
   def transition
     return if @site.refresh_only?
-    CreateLinksWorker.perform_async(domain: domain)
-    record_set(:transition, "CreateLinksworker") if @tracking
+    jid = CreateLinksWorker.perform_async(domain: domain)
+    record_set(:transition, "CreateLinksworker")
+    record_set(:next_jid, jid)
   end
 end

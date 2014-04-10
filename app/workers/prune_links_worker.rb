@@ -7,7 +7,8 @@ class PruneLinksWorker < CoreWorker
   LOG_RECORD_SCHEMA = {
     links_passed: Integer,
     links_pruned: Integer,
-    transition: String
+    transition:   String,
+    next_jid:     String
   }
 
   def init(opts)
@@ -42,7 +43,8 @@ class PruneLinksWorker < CoreWorker
 
   def transition
     return if @link_store.empty?
-    ScrapePagesWorker.perform_async(domain: @domain)
+    jid = ScrapePagesWorker.perform_async(domain: @domain)
     record_set(:transition, "ScrapePagesWorker")
+    record_set(:next_jid, jid)
   end
 end
