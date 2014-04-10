@@ -24,6 +24,18 @@ namespace :site do
     end
   end
 
+  desc "Update site attributes without overwriting stats"
+  task :update_all => :environment do
+    Site.active.each do |site|
+      gh_site = Site.new(domain: site.domain, source: :git)
+      Site::SITE_ATTRIBUTES.each do |attr|
+        next if [:read_at, :stats].include?(attr)
+        site.site_data[attr] = gh_site.site_data[attr]
+      end
+      site.send(:write_to_redis)
+    end
+  end
+
   desc "Jumpstart scrapes on sites with link_data"
   task :scrape_all => :environment do
     Site.all.each do |site|
