@@ -43,7 +43,7 @@ class SiteStatsWorker < CoreWorker
     stalest_listing = Listing.stalest_for_domain(domain).try(:id)
     notify "Stalest listing for #{domain} is #{stalest_listing}"
     @site.update_stats(stalest_listing: stalest_listing)
-    record_set(:stalest_listing, stalest_listing)
+    record_set(:stalest_listing, stalest_listing) if stalest_listing
 
     notify "Site stats for #{domain} are now #{@site.stats}"
     stop_tracking
