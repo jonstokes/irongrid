@@ -1,30 +1,8 @@
-# == Schema Information
-#
-# Table name: sites
-#
-#  id                  :integer          not null, primary key
-#  name                :string(255)      not null
-#  domain              :string(255)      not null
-#  adapter_source      :text             not null
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  engine              :string(255)
-#  read_with :string(255)
-#  service_options     :text
-#  size                :integer
-#  active              :boolean
-#  rate_limits         :text
-#  read_at             :datetime
-#  read_interval       :integer
-#  commit_sha          :string(255)
-#
-
 class Site < CoreModel
   include Github
   include IrongridRedisPool
 
   attr_accessor :site_data
-  attr_reader :source
 
   SITE_ATTRIBUTES = [
     :name,
@@ -51,32 +29,9 @@ class Site < CoreModel
   end
 
   def initialize(opts)
-    @source = opts[:source] || :redis
-    opts.delete(:source)
-    check_attributes(opts)
     raise "Domain required!" unless opts[:domain]
-    @site_data = {}
-    @site_data.merge!(opts)
-
-    case source
-    when :redis
-      load_from_redis
-    when :local
-      load_from_local
-    when :git
-      load_from_github
-    when :fixture
-      load_from_fixture
-    when :db
-      #load_from_db
-    end
-  end
-
-  def update_attribute(attr, value)
-    check_attributes(attr)
-    load_data!
-    @site_data[attr] = value
-    write_to_redis
+    @site_data = { domain: opts[:domain] }
+    load_data!(opts[:source] || :redis)
   end
 
   def update(attrs)
@@ -116,11 +71,12 @@ class Site < CoreModel
   end
 
   def mark_read!
-    update_attribute(:read_at, Time.now.utc)
+    update(read_at: Time.now.utc)
   end
 
   def default_seller_timezone
-    # This is necessary because ActiveRecord::Base has a default_timezone method
+    # This was originally necessary when Site was an AR model,
+    # because ActiveRecord::Base has a default_timezone method
     return nil unless seller_defaults
     self.seller_defaults["timezone"]
   end
@@ -149,6 +105,7 @@ class Site < CoreModel
   def self.active
     domains.map do |domain|
       site = Site.new(domain: domain)
+      puts "Loaded site #{site.domain}, and it's active: #{site.active?}"
       site.active? ? site : nil
     end.compact
   end
@@ -161,8 +118,17 @@ class Site < CoreModel
 
   private
 
-  def load_data!
-    load_from_redis
+  def load_data!(source=:redis)
+    case source
+    when :redis
+      load_from_redis
+    when :local
+      load_from_local
+    when :git
+      load_from_github
+    when :fixture
+      load_from_fixture
+    end
   end
 
   def check_attributes(obj)
@@ -224,10 +190,6 @@ class Site < CoreModel
     YAML.load(fetch_file_from_github("sites/#{site_dir}/attributes.yml")).each do |k, v|
       @site_data[k.to_sym] = v
     end
-  end
-
-  def load_from_db
-    # Be sure to copy over timestamps, read_at, and commit_sha
   end
 
   def write_to_redis
