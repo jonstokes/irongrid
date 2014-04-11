@@ -39,6 +39,7 @@ class WriteListingWorker < CoreWorker
       db { listing.destroy }
     else
       update_geo_data(ld)
+      listing.item_data_will_change!
       db { listing.update(ld.page_attributes) }
     end
   end
