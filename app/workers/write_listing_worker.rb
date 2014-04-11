@@ -40,6 +40,7 @@ class WriteListingWorker < CoreWorker
     else
       update_geo_data(ld)
       listing.item_data_will_change!
+      listing.dirty
       db { listing.update(ld.page_attributes) }
     end
   end

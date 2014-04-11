@@ -106,6 +106,7 @@ describe WriteListingWorker do
       listing = Listing.first
       expect(listing.digest).to eq("bbbb")
       expect(listing.url).to eq(url)
+      expect(listing.update_count).to eq(1)
     end
 
     it "dirties the listing if the listing hasn't changed and was seeded by RefreshLinksWorker" do

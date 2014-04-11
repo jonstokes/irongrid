@@ -79,9 +79,13 @@ class Listing < ActiveRecord::Base
     db { update_attribute(:inactive, true) }
   end
 
+  def dirty
+    self.update_count = (self.update_count || 0) + 1
+  end
+
   def dirty!
-    new_update_count = (update_count || 0) + 1
-    db { update_attribute(:update_count, new_update_count) }
+    self.dirty
+    db { self.save! }
   end
 
   def image_is_shared?
