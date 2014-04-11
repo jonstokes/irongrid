@@ -1,0 +1,22 @@
+production:
+  adapter: jdbcpostgresql
+  encoding: unicode
+  url: "jdbc:postgresql://REDACTED/REDACTED?user=REDACTED&password=REDACTED&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory"
+
+staging:
+  adapter: jdbcpostgresql
+  encoding: unicode
+  url: "jdbc:postgresql://REDACTED/REDACTED?user=REDACTED&password=REDACTED&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory"
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  pool: 15
+  database: irongrid_development
+
+test: &test
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: irongrid_development
+
