@@ -23,7 +23,7 @@ end
 
 def clear_sidekiq_queues
   notify "Clearing Sidekiq queues..."
-  %w(fast_db crawls).each do |q|
+  %w(fast_db slow_db crawls crawl_images).each do |q|
     Sidekiq::Queue.new(q).clear
   end
 end
