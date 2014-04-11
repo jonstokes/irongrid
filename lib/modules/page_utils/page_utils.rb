@@ -38,8 +38,7 @@ module PageUtils
       page = @http.fetch_page(link)
       sleep 0.5
     end until page.try(:body) || page.try(:not_found?) || (tries -= 1).zero?
-    return if page.not_found? && !page.try(:body)
-    return if page.body.length.zero? || page.body[/html/]
+    return if page.not_found? || !page.body.present? || page.body[/html/]
 
     tempfile_name = "tmp/#{Digest::MD5.hexdigest(Time.now.utc.to_s + Thread.current.object_id.to_s)}"
     file = File.open(tempfile_name, "wb")
