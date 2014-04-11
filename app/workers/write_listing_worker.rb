@@ -13,6 +13,8 @@ class WriteListingWorker < CoreWorker
     else
       new_listing(ld)
     end
+  rescue ActiveRecord::RecordNotFound
+    return
   end
 
   private

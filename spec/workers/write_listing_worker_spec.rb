@@ -77,6 +77,22 @@ describe WriteListingWorker do
       Listing.create(@valid_attrs)
     end
 
+    it "does not blow up if the listing id is not present" do
+      listing = Listing.first
+      LinkData.create(
+        url:             @valid_attrs["url"],
+        page_attributes: @valid_attrs,
+        page_is_valid:   true,
+        page_not_found:  false,
+        listing_id:      listing.id
+      )
+      listing.destroy
+      expect {
+        WriteListingWorker.new.perform(@valid_attrs["url"])
+      }.not_to raise_error
+    end
+
+
     it "updates a listing with new attributes" do
       url = @valid_attrs["url"]
       LinkData.create(
