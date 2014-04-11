@@ -67,6 +67,16 @@ describe Site do
     end
   end
 
+  describe "::domains" do
+    it "returns an array of all the current Site domains in redis" do
+      create_site_from_repo "www.retailer.com"
+      site = create_site_from_repo "www.budsgunshop.com"
+      domains = Site.domains
+      expect(domains).to include("www.retailer.com")
+      expect(domains).to include("www.budsgunshop.com")
+    end
+  end
+
   describe "::active" do
     it "returns an array of all sites currently active in redis" do
       create_site_from_repo "www.retailer.com"
