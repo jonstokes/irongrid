@@ -83,9 +83,9 @@ module CDN
     end
 
     def upload_image_to_s3(source_image_url, cdn_name)
-      return DEFAULT_IMAGE_URL unless image_file = get_image(source_image_url)
+      return DEFAULT_IMAGE_URL unless image_file_name = get_image(source_image_url)
 
-      image_file = resize(image_file, cdn_name)
+      image_file = resize(image_file_name, cdn_name)
       success = false
       success = retryable_with_success do
         s3.buckets[index_bucket_name].objects[cdn_name].write(:file => image_file, :acl => :public_read, :reduced_redundancy => true)
@@ -98,7 +98,8 @@ module CDN
       AWS.config.http_handler.pool.empty!
     end
 
-    def resize(file, cdn_name)
+    def resize(file_name, cdn_name)
+      file = File.open(file_name, "rb")
       tempfile_name = "tmp/#{cdn_name}"
       begin
         ImageVoodoo.with_image(file.path) do |img|

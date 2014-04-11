@@ -41,9 +41,10 @@ module PageUtils
     return if page.not_found? || !page.body.present? || page.body[/html/]
 
     tempfile_name = "tmp/#{Digest::MD5.hexdigest(Time.now.utc.to_s + Thread.current.object_id.to_s)}"
-    file = File.open(tempfile_name, "wb")
-    file.write(page.body)
-    file
+    File.open(tempfile_name, "wb") do |f|
+      f.syswrite(page.body)
+    end
+    tempfile_name
   end
 
   def get_page(link)
