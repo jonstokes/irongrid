@@ -82,4 +82,9 @@ namespace :service do
   task :reset_sidekiq_stats => :environment do
     reset_sidekiq_stats
   end
+
+  task :reset_sidekiq => :environment do
+    reset_sidekiq_stats
+    clear_sidekiq_queues
+  end
 end
