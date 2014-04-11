@@ -117,9 +117,13 @@ class Listing < ActiveRecord::Base
     db { Listing.where("id != ? AND digest = ?", listing.id, digest).any? }
   end
 
-  def self.stale_listings_for_domain(domain)
+  def self.with_each_stale_listing_for_domain(domain)
     query_conditions = "item_data->>'seller_domain' = '#{domain}'"
-    db { Listing.where(query_conditions).where("updated_at < ?", stale_threshold).order("updated_at ASC").limit(400) }
+    db do
+      Listing.where(query_conditions).where("updated_at < ?", stale_threshold).order("updated_at ASC").find_each do |listing|
+        yield listing
+      end
+    end
   end
 
   def self.stalest_for_domain(domain)

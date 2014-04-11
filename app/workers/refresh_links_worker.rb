@@ -8,7 +8,7 @@ class RefreshLinksWorker < CoreWorker
     next_jid:      String
   }
 
-  sidekiq_options queue: :fast_db, retry: true
+  sidekiq_options queue: :slow_db, retry: true
 
   attr_reader :domain, :site
   attr_accessor :scraper
@@ -24,12 +24,13 @@ class RefreshLinksWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
-    track(write_interval: 1)
-    Listing.stale_listings_for_domain(@domain).each do |listing|
+    track
+    Listing.with_each_stale_listing_for_domain(@domain) do |listing|
       next unless ld = LinkData.create(listing)
       ld.update(jid: jid)
       @link_store.add(listing.url)
       record_incr(:links_created)
+      status_update
     end
     clean_up
     transition
