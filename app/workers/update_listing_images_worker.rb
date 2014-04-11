@@ -2,7 +2,7 @@ class UpdateListingImagesWorker < CoreWorker
   include ConnectionWrapper
   include Trackable
 
-  sidekiq_options queue: :fast_db, retry: true
+  sidekiq_options queue: :slow_db, retry: true
 
   LOG_RECORD_SCHEMA = {
     listings_updated: Integer,
