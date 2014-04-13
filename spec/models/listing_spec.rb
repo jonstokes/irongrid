@@ -103,6 +103,17 @@ describe Listing do
     end
   end
 
+  describe "#update_and_dirty!" do
+    it "increments a listings update_count as part of an update" do
+      listing = Listing.create(@listing_attrs)
+      attrs = @listing_attrs.merge("digest" => "bbbb")
+      listing.update_and_dirty!(attrs)
+      listing = Listing.last
+      expect(listing.digest).to eq("bbbb")
+      expect(listing.update_count).to eq(1)
+    end
+  end
+
   describe "#url" do
     it "returns the untagged url for a site without a link tag" do
       Listing.create(@listing_attrs)
