@@ -48,6 +48,6 @@ class PruneLinksWorker < CoreWorker
 
   def troubleshoot(ld)
     notify "TROUBLESHOOT: Missing linkdata: #{ld.to_h}"
-    notify "TROUBLESHOOT: Number of jobs for ScrapePagesWorker in flight with domain #{domain}: #{ScrapePagesWorker.jobs_in_flight_with_domain(@domain).count}"
+    notify "TROUBLESHOOT: Number of jobs for ScrapePagesWorker in flight with domain #{@domain}: #{ScrapePagesWorker.jobs_in_flight_with_domain(@domain).count}"
   end
 end
