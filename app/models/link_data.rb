@@ -65,16 +65,25 @@ class LinkData
   end
 
   def self.pop
-    # Use only in tests!
+    # Use only in test or dev
     with_redis do |conn|
       LinkData.find(conn.keys("http*").first)
     end
   end
 
   def self.count
-    # Use only in tests!
+    # Use only in test or dev
     with_redis do |conn|
       conn.keys("http*").size
+    end
+  end
+
+  def self.delete_all!
+    # Use only in test or dev
+    with_redis do |conn|
+      conn.keys("http*").each do |key|
+        conn.rem(key)
+      end
     end
   end
 

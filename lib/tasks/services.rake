@@ -67,8 +67,13 @@ namespace :service do
   end
 
   task :clear_all_grid_state => :environment do
-    notify "Clearing LinkData table..."
-    LinkData.delete_all
+    notify "Clearing redis of everything but sites..."
+    domains = Site.domains
+    IRONGRID_REDIS_POOL.with do |conn|
+      conn.keys.each do |key|
+        conn.rem(key) unless key["site--"]
+      end
+    end
     notify "Clearing Image and Link Queues for all sites..."
     Site.all.each do |site|
       ImageQueue.new(domain: site.domain).clear!
