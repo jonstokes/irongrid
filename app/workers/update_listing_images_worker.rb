@@ -11,14 +11,22 @@ class UpdateListingImagesWorker < CoreWorker
   def perform(listing_ids)
     track
     listing_ids.each do |id|
-      listing = Listing.find(id) rescue nil
-      next unless listing && listing.image_source.present? && CDN.has_image?(listing.image_source)
-      listing.image = CDN.url_for_image(listing.image_source)
-      listing.image_download_attempted = true
-      listing.item_data_will_change!
-      db { listing.update_record_without_timestamping }
-      record_incr(:listings_updated)
+      next unless listing = Listing.find(id) rescue nil
+      update_listing(listing) && next unless listing.image_source.present?
+
+      image = CDN::Image.new(source: listing.image_source)
+      if image.exists?
+        listing.image = image.cdn_url
+        update_listing(listing)
+      end
     end
     stop_tracking
+  end
+
+  def update_listing(listing)
+    listing.image_download_attempted = true
+    listing.item_data_will_change!
+    db { listing.update_record_without_timestamping }
+    record_incr(:listings_updated)
   end
 end

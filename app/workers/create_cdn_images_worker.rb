@@ -18,6 +18,7 @@ class CreateCdnImagesWorker < CoreWorker
     @site = Site.new(domain: domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timeout ||= opts[:timeout] || ((60.0 / @site.rate_limit.to_f) * 60).to_i
+    @http = PageUtils::HTTP.new
     true
   end
 
@@ -25,7 +26,9 @@ class CreateCdnImagesWorker < CoreWorker
     return unless opts && init(opts)
     track
     while (image_source = @image_store.pop) && !timed_out? do
-      @rate_limiter.with_limit { CDN.upload_image(image_source) }
+      @rate_limiter.with_limit do
+        CDN::Image.create(source: image_source, http: @http)
+      end
       record_incr(:images_created)
       status_update
     end

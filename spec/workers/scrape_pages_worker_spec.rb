@@ -113,7 +113,7 @@ describe ScrapePagesWorker do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
         url = "http://#{@site.domain}/1"
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
-        CDN.upload_image(image_source)
+        CDN::Image.create(source: image_source, http: PageUtils::HTTP.new)
         LinkQueue.new(domain: @site.domain).add(url)
         LinkData.create(url: url)
         @worker.perform(domain: @site.domain)

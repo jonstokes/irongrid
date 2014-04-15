@@ -13,17 +13,27 @@ describe UpdateListingImagesWorker do
 
   it "updates listings that have no images when their images are on the CDN without stepping on updated_at timestamp" do
     listing = FactoryGirl.create(:retail_listing, :no_image)
-    CDN.upload_image(listing.image_source)
+    CDN::Image.create(source: listing.image_source, http: PageUtils::HTTP.new)
     sleep 1
     UpdateListingImagesWorker.new.perform([listing.id])
     same_listing = Listing.first
-    expect(same_listing.image).to eq(CDN.url_for_image(listing.image_source))
+    expect(same_listing.image).to eq(CDN::Image.new(source: listing.image_source).cdn_url)
     expect(same_listing.updated_at).to eq(listing.updated_at)
     expect(same_listing.image_download_attempted).to be_true
   end
 
-  it "does nothing if the listing has no image_source" do
-    pending "Example"
+  it "marks the listing as image_download_attempted if the listing has no image_source" do
+    # This takes the image out of the Listing.no_image scope, so that the platform doesn't keep trying to
+    # update it with this worker
+    listing = FactoryGirl.create(:retail_listing, :no_image)
+    listing.image_source = nil
+    listing.item_data_will_change!
+    listing.save!
+    UpdateListingImagesWorker.new.perform([listing.id])
+    same_listing = Listing.first
+    expect(same_listing.image_source).to be_nil
+    expect(same_listing.image).to eq(CDN::DEFAULT_IMAGE_URL)
+    expect(same_listing.image_download_attempted).to be_true
   end
 
   it "does nothing if the listing has been deleted" do
