@@ -18,7 +18,6 @@ class RefreshLinksWorker < CoreWorker
     return false unless opts && (@domain = opts[:domain])
     @site = Site.new(domain: domain, source: :redis)
     @link_store = LinkQueue.new(domain: domain)
-    @threshold = Time.now.utc - 4.hours
     true
   end
 
