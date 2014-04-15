@@ -36,6 +36,10 @@ describe PruneLinksWorker do
       expect(LinkData.find(ld.url)).not_to be_nil
       expect(@lq.size).to eq(6)
     end
+
+    it "exits early if the site is being read by another worker" do
+    end
+
   end
 
   describe "#transition" do

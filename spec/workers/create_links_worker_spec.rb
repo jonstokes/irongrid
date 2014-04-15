@@ -26,6 +26,12 @@ describe CreateLinksWorker do
       pending "Example"
     end
 
+    it "exits early if the site is being read by another worker" do
+      pending "Example"
+    end
+  end
+
+  describe "#transition" do
     it "transitions to PruneLinksWorker if there are links in the LinkQueue" do
       @worker.perform(domain: @site.domain)
       expect(LinkData.size).to eq(444)

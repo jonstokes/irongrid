@@ -29,6 +29,15 @@ describe RefreshLinksWorker do
       expect(LogRecordWorker.jobs.count).to eq(2)
     end
 
+    it "exits early if the site is being read by another worker" do
+      Sidekiq::Testing.disable!
+      ScrapePagesWorker.perform_async(domain: @site.domain)
+      5.times { FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days) }
+      RefreshLinksWorker.new.perform(domain: @site.domain)
+      expect(LinkData.size).to eq(0)
+      Sidekiq::Testing.fake!
+    end
+
     it "transitions to CreateLinksWorker without blowing up if there are no stale listings" do
       5.times { FactoryGirl.create(:retail_listing) }
       expect {

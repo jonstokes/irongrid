@@ -14,6 +14,7 @@ class PruneLinksWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
+    return false if ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any?
     @link_store = LinkQueue.new(domain: @domain)
     @temp_store = @link_store.members
   end
