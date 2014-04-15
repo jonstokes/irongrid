@@ -39,10 +39,12 @@ class AvantlinkWorker < CoreWorker
     end
 
     def product_count
+      return 0 unless parsed_xml
       parsed_xml.xpath(list_xpath).count
     end
 
     def empty?
+      return true unless parsed_xml
       parsed_xml.xpath(list_xpath).empty?
     end
 
@@ -54,18 +56,15 @@ class AvantlinkWorker < CoreWorker
     def xml_data
       @xml_data ||= begin
         notify "  Downloading #{feed_url || @filename}..."
-        data = @filename ? File.open(@filename).read : get_page(feed_url).body
+        data = @filename ? File.open(@filename).read : get_page(feed_url).try(:body)
         notify "  Feed downloaded from #{feed_url || @filename}!"
         data
       end
     end
 
     def parsed_xml
-      return @parsed_xml if @parsed_xml
-      notify "  Parsing #{feed_url || @filename}..."
+      return unless xml_data
       @parsed_xml ||= Nokogiri::XML(xml_data)
-      notify "  Feed parsed from #{feed_url || @filename}!"
-      @parsed_xml
     end
 
     def list_xpath

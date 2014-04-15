@@ -82,6 +82,17 @@ describe AvantlinkWorker do
         LinkData.size.should == 4
         #JobRecord.first.pages_created.should == 4
       end
+
+      it "does not blow up if the feed errors" do
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            "You have reached the maximum number of downloads for this feed in a 24-hour period."
+          end
+        end
+        expect {
+          AvantlinkWorker.new.perform(domain: @site.domain)
+        }.not_to raise_error
+      end
     end
 
     describe "CDN and image functions" do
