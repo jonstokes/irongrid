@@ -54,7 +54,7 @@ class AvantlinkWorker < CoreWorker
     def xml_data
       @xml_data ||= begin
         notify "  Downloading #{feed_url || @filename}..."
-        data = @filename ? File.open(@filename).read : open_link(feed_url, true)
+        data = @filename ? File.open(@filename).read : get_page(feed_url).body
         notify "  Feed downloaded from #{feed_url || @filename}!"
         data
       end

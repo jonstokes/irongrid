@@ -19,11 +19,11 @@ class ParserTest < ActiveRecord::Base
   def send_html_to_s3
     return unless should_send_to_s3
     s3 = AWS::S3.new(AWS_CREDENTIALS)
-    file = open_link(url, false)
+    html = get_page(url).body
     base_name = 'scoperrific-test-pages'
     bucket_name = Rails.env.production? ? base_name : base_name + "-#{Rails.env}"
     s3_object = s3.buckets[bucket_name].objects["#{@page.listing["seller_domain"].gsub(".","-")}-#{@page.listing["title"].gsub(" ","_")}.html"]
-    s3_object.write(:file => file, :acl => :public_read) unless s3_object.exists?
+    s3_object.write(html, :acl => :public_read) unless s3_object.exists?
     self[:html_on_s3] = s3_object.public_url.to_s
   end
 
@@ -62,10 +62,9 @@ class ParserTest < ActiveRecord::Base
     domain = URI(url).host
     site = Site.new(domain: domain, source: :local)
     source_location = html_on_s3 && !html_on_s3.blank? ? html_on_s3 : url
-    source = open_link(source_location)
-    doc = parse_source(html: source, url: source_location)
+    source = get_page(source_location)
     @page = ListingScraper.new(site)
-    @page.parse(doc: doc, url: url)
+    @page.parse(doc: source.doc, url: url)
   end
 
   def field_list
