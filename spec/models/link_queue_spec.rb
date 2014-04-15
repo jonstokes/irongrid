@@ -27,15 +27,15 @@ describe LinkQueue do
 
     it "adds a single key" do
       link =  "http://www.rspec.com/1"
-      @store.add(link)
+      expect(@store.add(link)).to be_true
       @store.size.should == 1
     end
 
     it "does not add a key twice" do
       link =  "http://www.rspec.com/1"
       @store.add(link)
-      @store.add(link)
-      @store.size.should == 1
+      expect(@store.add(link)).to be_false
+      expect(@store.size).to eq(1)
     end
 
     it "should not allow the same key to be added twice in the same array" do
@@ -55,10 +55,10 @@ describe LinkQueue do
     end
 
     it "should add a previously popped link" do
-      @store.add(@links).should == 3
+      expect(@store.add(@links)).to eq(3)
       link = @store.pop
-      @store.add(link).should == 1
-      @store.size.should == 3
+      expect(@store.add(link)).to be_true
+      expect(@store.size).to eq(3)
     end
   end
 

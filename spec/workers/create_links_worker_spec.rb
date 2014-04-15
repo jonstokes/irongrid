@@ -16,7 +16,6 @@ describe CreateLinksWorker do
       end
     end
     LinkQueue.new(domain: @site.domain).clear
-    LinkData.delete_all
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
     Sidekiq::Worker.clear_all

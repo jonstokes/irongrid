@@ -3,7 +3,6 @@ class LinkData
 
   attr_reader :url
 
-  LINK_DATA_INDEX = "link-data-index"
   LINK_DATA_KEYS = [
     :jid,
     :page_attributes,
@@ -44,7 +43,6 @@ class LinkData
 
   def destroy
     with_redis do |conn|
-      conn.srem(LINK_DATA_INDEX, @url)
       conn.del(@url)
     end
   end
@@ -53,31 +51,11 @@ class LinkData
     @data
   end
 
-  def self.count
-    with_redis { |conn| conn.scard(LINK_DATA_INDEX) }
-  end
-
-  def self.all
-    with_redis { |conn| conn.smembers(LINK_DATA_INDEX) }
-  end
-
-  class << self
-    alias :size :count
-    alias :length :count
-  end
-
   def self.create(attrs)
+    raise "LinkData for #{attrs[:url]} already exists!" if LinkData.find(attrs[:url])
     ld = LinkData.new(attrs)
-    ld.send(:create_in_redis) ? ld : nil
-  end
-
-  def self.pop
-    with_redis do |conn|
-      link = conn.spop(LINK_DATA_INDEX)
-      ld = find(link)
-      ld.destroy
-      ld
-    end
+    ld.send(:create_in_redis)
+    ld
   end
 
   def self.find(url)
@@ -86,19 +64,30 @@ class LinkData
     LinkData.new(attrs)
   end
 
-  def self.delete_all
+  def self.pop
+    # Use only in tests!
     with_redis do |conn|
-      while link = conn.spop(LINK_DATA_INDEX) do
-        conn.del(link)
-      end
+      LinkData.find(conn.keys("http*").first)
     end
+  end
+
+  def self.count
+    # Use only in tests!
+    with_redis do |conn|
+      conn.keys("http*").size
+    end
+  end
+
+  class << self
+    alias :size :count
+    alias :length :count
   end
 
   private
 
   def create_in_redis
     with_redis do |conn|
-      conn.set(@url, @data.to_json) if conn.sadd(LINK_DATA_INDEX, @url)
+      conn.set(@url, @data.to_json)
     end
   end
 

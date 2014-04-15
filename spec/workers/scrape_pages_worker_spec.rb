@@ -33,7 +33,6 @@ describe ScrapePagesWorker do
     @worker = ScrapePagesWorker.new
     LinkQueue.new(domain: @site.domain).clear
     ImageQueue.new(domain: @site.domain).clear
-    LinkData.delete_all
     CDN.clear!
     Sidekiq::Worker.clear_all
   end

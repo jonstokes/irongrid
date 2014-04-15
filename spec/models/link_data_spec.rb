@@ -6,7 +6,6 @@ describe LinkData do
   end
 
   before :each do
-    LinkData.delete_all
     @attrs = {
       url:             "http://www.retailer.com/1",
       page_attributes: { "digest" => "abc123", "title" => "Product 1"},
@@ -57,11 +56,9 @@ describe LinkData do
       expect(LinkData.find(ld.url)).not_to be_nil
     end
 
-    it "does not create a new LinkData object in redis if that url already exists" do
-      listing = FactoryGirl.create(:retail_listing)
-      LinkData.create(listing)
-      expect(LinkData.create(listing)).to be_nil
-      expect(LinkData.size).to eq(1)
+    it "raises an error if that url already exists in redis" do
+      LinkData.create(@attrs)
+      expect { LinkData.create(@attrs) }.to raise_error(RuntimeError)
     end
   end
 
@@ -93,7 +90,6 @@ describe LinkData do
       ld.destroy
       IRONGRID_REDIS_POOL.with do |conn|
         expect(conn.get(ld.url)).to be_nil
-        expect(conn.scard(LinkData::LINK_DATA_INDEX)).to be_zero
       end
     end
   end

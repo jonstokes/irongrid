@@ -32,8 +32,8 @@ class RssWorker < CoreWorker
       (xml / "link").each do |link|
         url = link.text
         next if ["https://#{site.domain}/", "http://#{site.domain}"].include?(url)
-        next unless LinkData.create(url: url)
-        @link_store.push(url)
+        next unless @link_store.add(url)
+        LinkData.create(url: url)
         record_incr(:links_created)
       end
     end

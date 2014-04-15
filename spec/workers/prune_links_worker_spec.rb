@@ -8,7 +8,6 @@ describe PruneLinksWorker do
     @worker = PruneLinksWorker.new
     @lq = LinkQueue.new(domain: @site.domain)
     @lq.clear
-    LinkData.delete_all
     Sidekiq::Worker.clear_all
   end
 

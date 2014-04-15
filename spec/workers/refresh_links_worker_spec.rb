@@ -7,7 +7,6 @@ describe RefreshLinksWorker do
   before :each do
     @site = create_site_from_repo "www.retailer.com"
     LinkQueue.new(domain: "www.retailer.com").clear
-    LinkData.delete_all
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
     Sidekiq::Worker.clear_all

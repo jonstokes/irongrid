@@ -15,13 +15,9 @@ class LinkQueue
     if keys.is_a?(Array)
       return 0 if keys.empty?
       keys = keys.uniq.select { |key| !key.empty? && is_valid_url?(key) }
-    else
-      keys = [keys]
     end
 
-
     with_redis { |conn| conn.sadd(set_name, keys) }
-    keys.count
   end
 
   def pop

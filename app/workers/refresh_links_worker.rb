@@ -25,9 +25,9 @@ class RefreshLinksWorker < CoreWorker
     return unless opts && init(opts)
     track
     Listing.with_each_stale_listing_for_domain(@domain) do |listing|
-      next unless ld = LinkData.create(listing)
+      next unless @link_store.add(listing.url)
+      ld = LinkData.create(listing)
       ld.update(jid: jid)
-      @link_store.add(listing.url)
       record_incr(:links_created)
       status_update
     end
