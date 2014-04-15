@@ -105,6 +105,14 @@ module PageUtils
     end
 
     #
+    # Returns +true+ if the page is an image, returns +false+
+    # otherwise.
+    #
+    def image?
+      !!(content_type =~ %r{^(image/)\b})
+    end
+
+    #
     # Returns +true+ if the page is a HTML document, returns +false+
     # otherwise.
     #

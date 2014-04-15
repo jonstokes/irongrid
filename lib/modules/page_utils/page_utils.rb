@@ -31,31 +31,16 @@ module PageUtils
     end
   end
 
-  def get_image(link)
-    page = nil
-    begin
-      tries ||= 5
-      page = @http.fetch_page(link)
-      sleep 0.5
-    end until page.try(:body) || page.try(:not_found?) || (tries -= 1).zero?
-    return if page.not_found? || !page.body.present? || page.body[/html/]
-
-    tempfile_name = "tmp/#{Digest::MD5.hexdigest(Time.now.utc.to_s + Thread.current.object_id.to_s)}"
-    File.open(tempfile_name, "wb") do |f|
-      f.syswrite(page.body)
-    end
-    tempfile_name
-  end
-
   def get_page(link)
+    @http ||= PageUtils::HTTP.new
     page = nil
     begin
       tries ||= 5
       page = @http.fetch_page(link)
       #page.headers.merge!("content-type" => ["text/html"]) if Rails.env.test?
       sleep 0.5
-    end until (page && page.doc) || (tries -= 1).zero?
-    return nil unless page && page.doc && page.body && !page.not_found?
+    end until page.try(:doc) || (tries -= 1).zero?
+    return if page.nil? || page.not_found? || !page.body.present? || !page.doc
     page
   end
 
