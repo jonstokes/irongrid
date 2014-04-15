@@ -57,6 +57,10 @@ class LinkData
     with_redis { |conn| conn.scard(LINK_DATA_INDEX) }
   end
 
+  def self.all
+    with_redis { |conn| conn.smembers(LINK_DATA_INDEX) }
+  end
+
   class << self
     alias :size :count
     alias :length :count
