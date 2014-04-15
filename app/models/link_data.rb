@@ -82,7 +82,7 @@ class LinkData
     # Use only in test or dev
     with_redis do |conn|
       conn.keys("http*").each do |key|
-        conn.rem(key)
+        conn.del(key)
       end
     end
   end
