@@ -67,17 +67,10 @@ namespace :service do
   end
 
   task :clear_all_grid_state => :environment do
-    notify "Clearing redis of everything but sites..."
+    notify "Clearing redis of everything, including sites..."
     domains = Site.domains
     LinkData.with_redis do |conn|
-      conn.keys("*").each do |key|
-        conn.del(key) unless key["site--"]
-      end
-    end
-    notify "Clearing Image and Link Queues for all sites..."
-    Site.all.each do |site|
-      ImageQueue.new(domain: site.domain).clear
-      LinkQueue.new(domain: site.doman).clear
+      conn.flushdb
     end
     reset_sidekiq_stats
     clear_sidekiq_queues
