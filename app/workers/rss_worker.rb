@@ -28,7 +28,7 @@ class RssWorker < CoreWorker
   def perform(opts)
     return unless opts && init(opts)
     feed_urls.each do |feed_url|
-      next unless xml = @rate_limiter.with_limit { Nokogiri::XML(get_page(feed_url).body) }
+      next unless xml = @rate_limiter.with_limit { Nokogiri::XML(get_page(feed_url).body) rescue nil }
       (xml / "link").each do |link|
         url = link.text
         next if ["https://#{site.domain}/", "http://#{site.domain}"].include?(url)
