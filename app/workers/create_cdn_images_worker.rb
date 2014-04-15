@@ -38,9 +38,9 @@ class CreateCdnImagesWorker < CoreWorker
 
   def transition
     return if @image_store.empty?
-    jid = CreateCdnImagesWorker.perform_async(domain: domain)
+    next_jid = CreateCdnImagesWorker.perform_async(domain: domain)
     record_set(:transition, "CreateCdnImagesWorker")
-    record_set(:next_jid, jid)
+    record_set(:next_jid, next_jid)
   end
 
   def timed_out?

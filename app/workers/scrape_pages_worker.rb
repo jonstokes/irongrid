@@ -59,13 +59,13 @@ class ScrapePagesWorker < CoreWorker
 
   def transition
     if @link_store.empty? && @site.should_read?
-      jid = RefreshLinksWorker.perform_async(domain: domain)
+      next_jid = RefreshLinksWorker.perform_async(domain: domain)
       record_set(:transition, "RefreshLinksWorker")
-      record_set(:next_jid, jid)
+      record_set(:next_jid, next_jid)
     elsif @link_store.any?
-      jid = self.class.perform_async(domain: domain)
+      next_jid = self.class.perform_async(domain: domain)
       record_set(:transition, "#{self.class.to_s}")
-      record_set(:next_jid, jid)
+      record_set(:next_jid, next_jid)
     end
   end
 

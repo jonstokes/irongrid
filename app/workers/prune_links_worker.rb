@@ -27,8 +27,8 @@ class PruneLinksWorker < CoreWorker
         next
       end
       if !ld.listing_id && (listing = db { Listing.find_by_url(link) }) && listing.try(:fresh?)
-        ld.destroy
         @link_store.rem(ld.url)
+        ld.destroy
         record_incr(:links_pruned)
       else
         record_incr(:links_passed)
@@ -41,9 +41,9 @@ class PruneLinksWorker < CoreWorker
 
   def transition
     return if @link_store.empty?
-    jid = ScrapePagesWorker.perform_async(domain: @domain)
+    next_jid = ScrapePagesWorker.perform_async(domain: @domain)
     record_set(:transition, "ScrapePagesWorker")
-    record_set(:next_jid, jid)
+    record_set(:next_jid, next_jid)
   end
 
   def troubleshoot(ld)

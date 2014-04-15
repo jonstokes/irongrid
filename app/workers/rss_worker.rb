@@ -50,9 +50,9 @@ class RssWorker < CoreWorker
 
   def transition
     return if @link_store.empty?
-    jid = PruneLinksWorker.perform_async(domain: @site.domain)
+    next_jid = PruneLinksWorker.perform_async(domain: @site.domain)
     record_set(:transition, "PruneLinksWorker")
-    record_set(:next_jid, jid)
+    record_set(:next_jid, next_jid)
   end
 
   private

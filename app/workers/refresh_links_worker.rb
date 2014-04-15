@@ -42,8 +42,8 @@ class RefreshLinksWorker < CoreWorker
 
   def transition
     return if @site.refresh_only?
-    jid = CreateLinksWorker.perform_async(domain: domain)
+    next_jid = CreateLinksWorker.perform_async(domain: domain)
     record_set(:transition, "CreateLinksworker")
-    record_set(:next_jid, jid)
+    record_set(:next_jid, next_jid)
   end
 end

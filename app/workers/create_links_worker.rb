@@ -49,8 +49,9 @@ class CreateLinksWorker < CoreWorker
 
   def transition
     return if @link_store.empty?
-    PruneLinksWorker.perform_async(domain: domain)
+    next_jid = PruneLinksWorker.perform_async(domain: domain)
     record_set(:transition, "PruneLinksWorker")
+    record_set(:next_jid, next_jid)
   end
 
   def pull_product_links_from_seed(link)
