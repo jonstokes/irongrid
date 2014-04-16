@@ -52,6 +52,12 @@ class LinkMessageQueue
     end
   end
 
+  def links
+    with_redis do |conn|
+      conn.smembers(set_name)
+    end
+  end
+
   def all
     links.map do |link|
       LinkMessageQueue.find(link)
@@ -90,12 +96,6 @@ class LinkMessageQueue
   end
 
   private
-
-  def links
-    with_redis do |conn|
-      conn.smembers(set_name)
-    end
-  end
 
   def add_keys_to_redis(keys)
     count = 0

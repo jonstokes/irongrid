@@ -16,13 +16,14 @@ class PruneLinksWorker < CoreWorker
     return false unless @domain = opts[:domain]
     return false if ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any?
     @link_store = LinkMessageQueue.new(domain: @domain)
-    @temp_store = @link_store.all
+    @temp_store = @link_store.links
   end
 
   def perform(opts)
     return unless opts && init(opts)
     track
-    while msg = @temp_store.shift do
+    while link = @temp_store.shift do
+      msg = LinkMessageQueue.find(link)
       if msg.listing_id.nil? && (listing = db { Listing.find_by_url(msg.url) }) && listing.try(:fresh?)
         @link_store.rem(msg.url)
         record_incr(:links_pruned)
