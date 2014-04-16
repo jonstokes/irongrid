@@ -12,6 +12,9 @@ module CDN
 
     def destroy!
       retryable_with_aws { s3_objects[cdn_name].delete }
+    ensure
+      # Ensure the HTTP pool is emptied after each write.
+      AWS.config.http_handler.pool.empty!
     end
 
     def exists?
@@ -19,6 +22,9 @@ module CDN
         s3_objects[cdn_name].exists? &&
           !s3_objects[cdn_name].content_length.zero?
       end
+    ensure
+      # Ensure the HTTP pool is emptied after each write.
+      AWS.config.http_handler.pool.empty!
     end
 
     def cdn_url
