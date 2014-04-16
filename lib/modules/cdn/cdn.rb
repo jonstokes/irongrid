@@ -10,16 +10,19 @@ module CDN
 
   def self.count
     retryable do
-      s3 = AWS::S3.new(AWS_CREDENTIALS)
-      s3.buckets[index_bucket_name].objects.count
+      s3_objects.count
     end
   end
 
   def self.clear!
     retryable do
-      s3 = AWS::S3.new(AWS_CREDENTIALS)
-      s3.buckets[index_bucket_name].objects.each { |item| item.delete }
+      s3_objects.each { |item| item.delete }
     end
+  end
+
+  def self.s3_objects
+      s3 = AWS::S3.new(AWS_CREDENTIALS)
+      s3.buckets[index_bucket_name].objects
   end
 
   def self.index_bucket_name
