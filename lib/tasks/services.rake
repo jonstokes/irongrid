@@ -28,6 +28,20 @@ def clear_sidekiq_queues
   end
 end
 
+def clear_link_messages
+  notify "Clearing all LinkMessages..."
+  LinkMessageQueue.with_redis do |conn|
+    cursor = 0
+    begin
+      results = conn.scan(cursor)
+      cursor, keys = results.first, results.last
+      keys.each do |key|
+        conn.del(key) unless !!key[/^site--/]
+      end
+    end until cursor.zero?
+  end
+end
+
 def archive_log_Records
   notify "Archiving Log Records..."
   LogRecord.archive_all
@@ -75,13 +89,10 @@ namespace :service do
   end
 
   task :clear_all_grid_state => :environment do
-    notify "Clearing redis of everything, including sites..."
-    domains = Site.domains
-    LinkMessageQueue.with_redis do |conn|
-      conn.flushdb
-    end
+    clear_link_messages
     reset_sidekiq_stats
     clear_sidekiq_queues
+    archive_log_Records
     notify "Done!"
   end
 
