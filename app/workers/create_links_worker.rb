@@ -21,7 +21,7 @@ class CreateLinksWorker < CoreWorker
     @link_count = 0
     @site = Site.new(domain: @domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
-    @link_store = opts[:link_store] || LinkQueue.new(domain: domain)
+    @link_store = opts[:link_store] || LinkMessageQueue.new(domain: domain)
     true
   end
 
@@ -44,7 +44,7 @@ class CreateLinksWorker < CoreWorker
 
   def clean_up
     @site.mark_read!
-    notify "Created #{@record[:data][:links_created]} product links in LinkQueue..."
+    notify "Created #{@record[:data][:links_created]} product links in LinkMessageQueue..."
   end
 
   def transition

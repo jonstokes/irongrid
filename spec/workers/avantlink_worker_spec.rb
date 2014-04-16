@@ -6,7 +6,7 @@ Sidekiq::Testing.fake!
 describe AvantlinkWorker do
   before :each do
     @site = create_site_from_repo "www.brownells.com"
-    LinkQueue.new(domain: @site.domain).clear
+    LinkMessageQueue.new(domain: @site.domain).clear
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
     Sidekiq::Worker.clear_all

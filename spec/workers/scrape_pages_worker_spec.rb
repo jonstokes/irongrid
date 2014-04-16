@@ -31,15 +31,15 @@ describe ScrapePagesWorker do
       end
     end
     @worker = ScrapePagesWorker.new
-    LinkQueue.new(domain: @site.domain).clear
+    LinkMessageQueue.new(domain: @site.domain).clear
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
     Sidekiq::Worker.clear_all
   end
 
   describe "#perform" do
-    it "pops links from the LinkQueue and pulls the page" do
-      lq = LinkQueue.new(domain: @site.domain)
+    it "pops links from the LinkMessageQueue and pulls the page" do
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/1"
       lq.add(url)
       LinkData.create(url: url)
@@ -49,7 +49,7 @@ describe ScrapePagesWorker do
     end
 
     it "correctly tags a 404 link in Redis" do
-      lq = LinkQueue.new(domain: @site.domain)
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/4"
       lq.add(url)
       LinkData.create(url: url)
@@ -64,7 +64,7 @@ describe ScrapePagesWorker do
     end
 
     it "correctly tags an invalid link in Redis" do
-      lq = LinkQueue.new(domain: @site.domain)
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/4"
       lq.add(url)
       LinkData.create(url: url)
@@ -75,7 +75,7 @@ describe ScrapePagesWorker do
     end
 
     it "correctly tags a valid link in Redis" do
-      lq = LinkQueue.new(domain: @site.domain)
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/1"
       lq.add(url)
       LinkData.create(url: url)
@@ -87,7 +87,7 @@ describe ScrapePagesWorker do
     end
 
     it "sends a :dirty_only directive to WriteListingsWorker if the digest is unchanged" do
-      lq = LinkQueue.new(domain: @site.domain)
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/1"
       lq.add(url)
       LinkData.create(url: url)
@@ -99,7 +99,7 @@ describe ScrapePagesWorker do
       listing = Listing.all.first
       expect(listing.digest).to eq("b97637eba1fab547c75bd6ba372fb1ed")
 
-      lq = LinkQueue.new(domain: @site.domain)
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/1"
       lq.add(url)
       LinkData.create(listing)
@@ -113,7 +113,7 @@ describe ScrapePagesWorker do
         url = "http://#{@site.domain}/1"
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
         CDN::Image.create(source: image_source, http: PageUtils::HTTP.new)
-        LinkQueue.new(domain: @site.domain).add(url)
+        LinkMessageQueue.new(domain: @site.domain).add(url)
         LinkData.create(url: url)
         @worker.perform(domain: @site.domain)
         ld = LinkData.find(url)
@@ -129,7 +129,7 @@ describe ScrapePagesWorker do
       it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
         url = "http://#{@site.domain}/1"
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
-        LinkQueue.new(domain: @site.domain).add(url)
+        LinkMessageQueue.new(domain: @site.domain).add(url)
         LinkData.create(url: url)
         @worker.perform(domain: @site.domain)
         ld = LinkData.find(url)
@@ -143,8 +143,8 @@ describe ScrapePagesWorker do
   end
 
   describe "#transition" do
-    it "transitions to self if it times out while the site's LinkQueue is not empty" do
-      lq = LinkQueue.new(domain: @site.domain)
+    it "transitions to self if it times out while the site's LinkMessageQueue is not empty" do
+      lq = LinkMessageQueue.new(domain: @site.domain)
       links = (1..10).map { |i| "http://www.retailer.com/#{i}" }
       lq.add links
       links.each { |link| LinkData.create(url: link) }
@@ -154,8 +154,8 @@ describe ScrapePagesWorker do
       expect(ScrapePagesWorker.jobs.count).to eq(1)
     end
 
-    it "transitions to RefreshLinksWorker if the site's LinkQueue is empty and the site should be read again" do
-      lq = LinkQueue.new(domain: @site.domain)
+    it "transitions to RefreshLinksWorker if the site's LinkMessageQueue is empty and the site should be read again" do
+      lq = LinkMessageQueue.new(domain: @site.domain)
       links = (1..10).map { |i| "http://www.retailer.com/#{i}" }
       lq.add links
       links.each { |link| LinkData.create(url: link) }
@@ -165,7 +165,7 @@ describe ScrapePagesWorker do
       expect(RefreshLinksWorker.jobs.count).to eq(1)
     end
 
-    it "does not transition to RefreshLinksWorker if the site's LinkQueue is empty and the site should not be read again" do
+    it "does not transition to RefreshLinksWorker if the site's LinkMessageQueue is empty and the site should not be read again" do
       @site.update(read_interval: 100000)
       @worker.perform(domain: @site.domain)
       expect(RefreshLinksWorker.jobs.count).to be_zero

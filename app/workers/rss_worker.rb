@@ -18,7 +18,7 @@ class RssWorker < CoreWorker
 
     @site = Site.new(domain: @domain)
     track
-    @link_store = LinkQueue.new(domain: @domain)
+    @link_store = LinkMessageQueue.new(domain: @domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @links = Set.new
     notify "Checking RSS feed urls with rate limit #{@site.rate_limit}..."

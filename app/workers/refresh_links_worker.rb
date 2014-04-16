@@ -18,7 +18,7 @@ class RefreshLinksWorker < CoreWorker
     return false unless opts && (@domain = opts[:domain])
     return false if ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any?
     @site = Site.new(domain: domain, source: :redis)
-    @link_store = LinkQueue.new(domain: domain)
+    @link_store = LinkMessageQueue.new(domain: domain)
     true
   end
 

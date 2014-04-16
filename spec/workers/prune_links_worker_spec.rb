@@ -6,13 +6,13 @@ describe PruneLinksWorker do
   before :each do
     @site = create_site_from_repo "www.retailer.com"
     @worker = PruneLinksWorker.new
-    @lq = LinkQueue.new(domain: @site.domain)
+    @lq = LinkMessageQueue.new(domain: @site.domain)
     @lq.clear
     Sidekiq::Worker.clear_all
   end
 
   describe "#perform" do
-    it "should remove a link from the LinkQueue if it's fresh, and leave it if it's stale" do
+    it "should remove a link from the LinkMessageQueue if it's fresh, and leave it if it's stale" do
       fresh_listing = nil
       ld = nil
       5.times do |i|

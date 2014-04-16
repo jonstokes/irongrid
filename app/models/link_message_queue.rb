@@ -1,4 +1,4 @@
-class LinkQueue
+class LinkMessageQueue
   include Retryable
 
   attr_reader :set_name, :domain
@@ -8,35 +8,35 @@ class LinkQueue
     @set_name = "#linkset--#{domain}"
   end
 
-  def push(keys)
-    return 0 if keys.empty?
-    if keys.is_a?(Array)
-      keys = keys.uniq.select { |key| !key.empty? && key[:url] && is_valid_url?(key[:url]) }
+  def push(messages)
+    return 0 if messages.empty?
+    if messages.is_a?(Array)
+      messages = messages.uniq.select { |msg| !msg.is_a?(LinkMessage) && is_valid_url?(msg.url) }.map(&:to_h)
     else
-      keys = [keys]
+      messages = [messages]
     end
-    add_keys_to_redis(keys)
+    add_keys_to_redis(messages)
   end
 
   def pop
     return unless url = with_redis { |conn| conn.spop(set_name) }
     data = with_redis { |conn| JSON.parse(conn.get(url)) }
     with_redis { |conn| conn.del(url) }
-    data.symbolize_keys
+    LinkMessage.new(data.symbolize_keys)
   end
 
-  def rem(keys)
-    return 0 unless keys
-    return 0 if keys.is_a?(String) && keys.blank?
+  def rem(links)
+    return 0 unless links
+    return 0 if links.is_a?(String) && links.blank?
 
-    if keys.is_a?(Array)
-      return 0 if keys.empty?
-      keys = keys.uniq.select { |key| !key.empty? }
+    if links.is_a?(Array)
+      return 0 if links.empty?
+      links = links.uniq.select { |key| !key.empty? }
     else
-      keys = [keys]
+      links = [links]
     end
 
-    remove_keys_from_redis(keys)
+    remove_keys_from_redis(links)
   end
 
   def clear
@@ -52,7 +52,7 @@ class LinkQueue
     end
   end
 
-  def members
+  def links
     with_redis do |conn|
       conn.smembers(set_name)
     end
@@ -81,9 +81,9 @@ class LinkQueue
   alias count size
 
 
-  def self.find(url)
+  def self.find(link)
     # This makes specs easier
-    return unless url.present? && (value = with_redis { |conn| conn.get(url) })
+    return unless link.present? && (value = with_redis { |conn| conn.get(link) })
     JSON.parse(value)
   end
 

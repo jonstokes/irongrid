@@ -168,7 +168,7 @@ describe WriteListingWorker do
       # 3. After a crawl, this newer version of Listing 1 will exist in the db alongside
       #    the original listing 1, so there will be two different versions of the same
       #    listing at two different urls and db rows.
-      # 4. When Listing 1's url is put back into the LinkQueue to be refreshed, its page
+      # 4. When Listing 1's url is put back into the LinkMessageQueue to be refreshed, its page
       #    will now have the same digest and attributes as the new version, so Listing 1
       #    can now be identified as a dupe and deleted, leaving only the newer version
       #    in the db.

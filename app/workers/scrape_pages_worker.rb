@@ -29,7 +29,7 @@ class ScrapePagesWorker < CoreWorker
     @scraper = ListingScraper.new(@site)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timeout ||= ((60.0 / site.rate_limit.to_f) * 60).to_i
-    @link_store = LinkQueue.new(domain: @site.domain)
+    @link_store = LinkMessageQueue.new(domain: @site.domain)
     return false unless @link_store.any?
 
     @image_store = ImageQueue.new(domain: @site.domain)

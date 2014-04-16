@@ -1,4 +1,4 @@
-class ImageQueue < LinkQueue
+class ImageQueue < LinkMessageQueue
   include Retryable
 
   attr_reader :domain, :set_name
