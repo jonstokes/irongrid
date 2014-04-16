@@ -68,9 +68,7 @@ class ScrapePagesWorker < CoreWorker
     end
   end
 
-  #
-  # private
-  #
+  private
 
   def timed_out?
     (@timeout -= 1).zero?

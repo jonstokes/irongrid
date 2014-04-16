@@ -87,8 +87,8 @@ describe ScrapePagesWorker do
 
     it "sends a :dirty_only directive to WriteListingsWorker if the digest is unchanged" do
       lq = LinkMessageQueue.new(domain: @site.domain)
-      url = "http://#{@site.domain}/1"
-      lq.add(LinkMessage.new(url: url))
+      msg = LinkMessage.new(url: "http://#{@site.domain}/1")
+      lq.add(msg)
       @worker.perform(domain: @site.domain)
       job = WriteListingWorker.jobs.first
       msg = LinkMessage.new(job["args"].first)
@@ -98,10 +98,9 @@ describe ScrapePagesWorker do
       listing = Listing.all.first
       expect(listing.digest).to eq("b97637eba1fab547c75bd6ba372fb1ed")
 
-      lq = LinkMessageQueue.new(domain: @site.domain)
-      url = "http://#{@site.domain}/1"
-      lq.add(LinkMessage.new(url: url))
-      @worker.perform(domain: @site.domain)
+      msg = LinkMessage.new(listing)
+      lq.add(msg)
+      ScrapePagesWorker.new.perform(domain: @site.domain)
       job = WriteListingWorker.jobs.first
       msg = LinkMessage.new(job["args"].first)
       expect(msg.dirty_only?).to be_true

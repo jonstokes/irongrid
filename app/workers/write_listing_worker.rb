@@ -27,7 +27,7 @@ class WriteListingWorker < CoreWorker
     end
   end
 
-  def existing_listing(msg,listing)
+  def existing_listing(msg, listing)
     if msg.page_not_found?
       db { listing.destroy }
     elsif dirty_only?(msg, listing)
