@@ -134,7 +134,7 @@ class Listing < ActiveRecord::Base
   def self.with_each_stale_listing_for_domain(domain)
     query_conditions = "item_data->>'seller_domain' = '#{domain}'"
     db do
-      Listing.where(query_conditions).where("updated_at < ?", stale_threshold).order("updated_at ASC").find_each do |listing|
+      Listing.where(query_conditions).where("updated_at < ?", stale_threshold).order("updated_at ASC").find_each(batch_size: 200) do |listing|
         yield listing
       end
     end
