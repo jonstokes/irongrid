@@ -80,6 +80,13 @@ class LinkQueue
   alias length size
   alias count size
 
+
+  def self.find(url)
+    # This makes specs easier
+    return unless url.present? && (value = with_redis { |conn| conn.get(url) })
+    JSON.parse(value)
+  end
+
   private
 
   def add_keys_to_redis(keys)

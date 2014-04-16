@@ -18,13 +18,13 @@ describe RefreshLinksWorker do
       5.times { FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days) }
       FactoryGirl.create(:retail_listing, updated_at: Time.now)
       RefreshLinksWorker.new.perform(domain: @site.domain)
-      ld = LinkData.find(stale_listing.url)
-      expect(ld.listing_id).to eq(stale_listing.id)
-      expect(ld.listing_digest).to eq(stale_listing.digest)
+      attrs = LinkQueue.find(stale_listing.url)
+      expect(attrs[:listing_id]).to eq(stale_listing.id)
+      expect(attrs[:listing_digest]).to eq(stale_listing.digest)
 
       lq = LinkQueue.new(domain: "www.retailer.com")
       lq.size.should == 6
-      expect(lq.pop).to match(/retailer\.com/)
+      expect(lq.pop[:url]).to match(/retailer\.com/)
       expect(CreateLinksWorker.jobs.count).to eq(1)
       expect(LogRecordWorker.jobs.count).to eq(2)
     end

@@ -26,9 +26,14 @@ class RefreshLinksWorker < CoreWorker
     return unless opts && init(opts)
     track
     Listing.with_each_stale_listing_for_domain(@domain) do |listing|
-      next unless @link_store.add(listing.url)
-      ld = LinkData.create(listing)
-      ld.update(jid: jid)
+      next if @link_store.has_key?(listing.url)
+      ld = LinkData.new(
+        url:            listing.url,
+        listing_digest: listing.digest,
+        listing_id:     listing.id,
+        jid:            jid
+      )
+      @link_store.add(ld.to_h)
       record_incr(:links_created)
       status_update
     end
