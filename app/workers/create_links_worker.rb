@@ -32,8 +32,7 @@ class CreateLinksWorker < CoreWorker
     link_list.each do |link|
       pull_product_links_from_seed(link).each do |url|
         status_update
-        next unless @link_store.add(url)
-        LinkData.create(url: url, jid: jid)
+        next unless @link_store.add(LinkMessage.new(url: url)).zero?
         record_incr(:links_created)
       end
     end

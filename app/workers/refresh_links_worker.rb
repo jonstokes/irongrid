@@ -33,7 +33,7 @@ class RefreshLinksWorker < CoreWorker
         listing_id:     listing.id,
         jid:            jid
       )
-      record_incr(:links_created) if @link_store.add(msg) > 0
+      record_incr(:links_created) unless @link_store.add(msg).zero?
       status_update
     end
     clean_up
