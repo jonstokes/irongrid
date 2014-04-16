@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe LinkMessage do
-  before :all do
-    IRONGRID_REDIS_POOL.with { |conn| conn.flushdb }
-  end
-
   before :each do
     @attrs = {
       url:             "http://www.retailer.com/1",
@@ -12,33 +8,32 @@ describe LinkMessage do
       page_is_valid:   true,
       page_not_found:  false
     }
-    @db_attrs = { listing_id: 1, listing_digest: "124abc"}
   end
 
   describe "::new" do
     it "creates a new LinkMessage object from an opts hash" do
-      ld = LinkMessage.new(@attrs)
-      expect(ld).to be_a(LinkMessage)
-      expect(ld.url).to match(/www\.retailer\.com\/\d/)
-      expect(ld.page_attributes.keys).to include("digest")
-      expect(ld.page_is_valid).to be_true
+      msg = LinkMessage.new(@attrs)
+      expect(msg).to be_a(LinkMessage)
+      expect(msg.url).to match(/www\.retailer\.com\/\d/)
+      expect(msg.page_attributes.keys).to include("digest")
+      expect(msg.page_is_valid).to be_true
     end
 
     it "creates a new LinkMessage object from a Listing object" do
       listing = FactoryGirl.create(:retail_listing)
-      ld = LinkMessage.new(listing)
-      expect(ld).to be_a(LinkMessage)
-      expect(ld.url).to match(/www\.retailer\.com\/\d/)
-      expect(ld.listing_digest).to match(/digest\-\d/)
-      expect(ld.listing_id).to be_a(Integer)
+      msg = LinkMessage.new(listing)
+      expect(msg).to be_a(LinkMessage)
+      expect(msg.url).to match(/www\.retailer\.com\/\d/)
+      expect(msg.listing_digest).to match(/digest\-\d/)
+      expect(msg.listing_id).to be_a(Integer)
     end
   end
 
   describe "#update" do
     it "updates the link's data" do
-      ld = LinkMessage.new(@attrs)
-      ld.update(page_is_valid: false)
-      expect(ld.page_is_valid?).to eq(false)
+      msg = LinkMessage.new(@attrs)
+      msg.update(page_is_valid: false)
+      expect(msg.page_is_valid?).to eq(false)
     end
   end
 

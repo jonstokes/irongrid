@@ -27,13 +27,13 @@ class RefreshLinksWorker < CoreWorker
     track
     Listing.with_each_stale_listing_for_domain(@domain) do |listing|
       next if @link_store.has_key?(listing.url)
-      ld = LinkData.new(
+      msg = LinkMessage.new(
         url:            listing.url,
         listing_digest: listing.digest,
         listing_id:     listing.id,
         jid:            jid
       )
-      @link_store.add(ld.to_h)
+      @link_store.add(msg)
       record_incr(:links_created)
       status_update
     end
