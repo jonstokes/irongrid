@@ -18,13 +18,13 @@ describe RefreshLinksWorker do
       5.times { FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days) }
       FactoryGirl.create(:retail_listing, updated_at: Time.now)
       RefreshLinksWorker.new.perform(domain: @site.domain)
-      attrs = LinkMessageQueue.find(stale_listing.url)
-      expect(attrs[:listing_id]).to eq(stale_listing.id)
-      expect(attrs[:listing_digest]).to eq(stale_listing.digest)
+      msg = LinkMessageQueue.find(stale_listing.url)
+      expect(msg.listing_id).to eq(stale_listing.id)
+      expect(msg.listing_digest).to eq(stale_listing.digest)
 
       lq = LinkMessageQueue.new(domain: "www.retailer.com")
       lq.size.should == 6
-      expect(lq.pop[:url]).to match(/retailer\.com/)
+      expect(lq.pop.url).to match(/retailer\.com/)
       expect(CreateLinksWorker.jobs.count).to eq(1)
       expect(LogRecordWorker.jobs.count).to eq(2)
     end
@@ -34,7 +34,7 @@ describe RefreshLinksWorker do
       ScrapePagesWorker.perform_async(domain: @site.domain)
       5.times { FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days) }
       RefreshLinksWorker.new.perform(domain: @site.domain)
-      expect(LinkData.size).to eq(0)
+      expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(0)
       Sidekiq::Testing.fake!
     end
 
