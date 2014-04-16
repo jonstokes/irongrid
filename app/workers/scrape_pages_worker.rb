@@ -80,6 +80,7 @@ class ScrapePagesWorker < CoreWorker
       record_incr(:pages_read)
       @scraper.parse(doc: page.doc, url: url)
       if listing_is_unchanged?(msg)
+        update_image
         msg.update(dirty_only: true)
       else
         update_image if @scraper.is_valid?
