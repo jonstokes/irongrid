@@ -13,8 +13,8 @@ describe AvantlinkWorker do
   end
 
   describe "#perform" do
-    describe "LinkData output" do
-      it "should add new listings to the LinkData table with proper attributes" do
+    describe "Write to listings table" do
+      it "should create WriteListingWorkers for new listings with proper payload" do
         Mocktra("datafeed.avantlink.com") do
           get '/download_feed.php' do
             File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed.xml") do |file|
@@ -24,17 +24,17 @@ describe AvantlinkWorker do
         end
 
         AvantlinkWorker.new.perform(domain: @site.domain)
-        expect(LinkData.size).to eq(4)
         expect(WriteListingWorker.jobs.count).to eq(4)
         expect(LogRecordWorker.jobs.count).to eq(2)
-        ld = LinkData.pop
-        expect(ld.url).to match(/avantlink\.com/)
-        expect(ld.page_attributes["digest"]).not_to be_nil
-        expect(ld.page_is_valid?).to be_true
-        expect(ld.page_not_found?).to be_false
+        job = WriteListingWorker.jobs.first
+        msg = LinkMessage.new(job["args"].first)
+        expect(msg.url).to match(/avantlink\.com/)
+        expect(msg.page_attributes["digest"]).not_to be_nil
+        expect(msg.page_is_valid?).to be_true
+        expect(msg.page_not_found?).to be_false
       end
 
-      it "should add modified listings to the LinkData table with proper attributes" do
+      it "should create WriteListingWorkers for modified listings with proper payload" do
         Mocktra("datafeed.avantlink.com") do
           get '/download_feed.php' do
             File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed_update.xml") do |file|
@@ -44,17 +44,17 @@ describe AvantlinkWorker do
         end
 
         AvantlinkWorker.new.perform(domain: @site.domain)
-        expect(LinkData.size).to eq(4)
         expect(WriteListingWorker.jobs.count).to eq(4)
-        ld = LinkData.pop
-        expect(ld.url).to match(/avantlink\.com/)
-        expect(ld.page_attributes["digest"]).not_to be_nil
-        expect(ld.page_attributes["item_data"]["price_in_cents"]).to eq(109)
-        expect(ld.page_is_valid?).to be_true
-        expect(ld.page_not_found?).to be_false
+        job = WriteListingWorker.jobs.first
+        msg = LinkMessage.new(job["args"].first)
+        expect(msg.url).to match(/avantlink\.com/)
+        expect(msg.page_attributes["digest"]).not_to be_nil
+        expect(msg.page_attributes["item_data"]["price_in_cents"]).to eq(109)
+        expect(msg.page_is_valid?).to be_true
+        expect(msg.page_not_found?).to be_false
       end
 
-      it "should add removed listings to the LinkData table with the attributes" do
+      it "should create WriteListingWorkers for removed listings proper payload" do
         Mocktra("datafeed.avantlink.com") do
           get '/download_feed.php' do
             File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed_remove.xml") do |file|
@@ -65,12 +65,12 @@ describe AvantlinkWorker do
 
         AvantlinkWorker.new.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(4)
-        expect(LinkData.size).to eq(4)
-        ld = LinkData.pop
-        expect(ld.url).to match(/avantlink\.com/)
-        expect(ld.page_attributes).to be_nil
-        expect(ld.page_is_valid?).to be_false
-        expect(ld.page_not_found?).to be_true
+        job = WriteListingWorker.jobs.first
+        msg = LinkMessage.new(job["args"].first)
+        expect(msg.url).to match(/avantlink\.com/)
+        expect(msg.page_attributes).to be_nil
+        expect(msg.page_is_valid?).to be_false
+        expect(msg.page_not_found?).to be_true
       end
     end
 
@@ -78,8 +78,7 @@ describe AvantlinkWorker do
       it "should populate the db from a local file" do
         worker = AvantlinkWorker.new
         worker.perform(domain: @site.domain, filename: "spec/fixtures/avantlink_feeds/test_feed.xml")
-        LinkData.size.should == 4
-        #JobRecord.first.pages_created.should == 4
+        expect(WriteListingWorker.jobs.count).to eq(4)
       end
 
       it "does not blow up if the feed errors" do

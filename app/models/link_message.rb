@@ -53,7 +53,6 @@ class LinkMessage
   end
 
   def new_from_listing(listing)
-    @url = listing.url
     @data = {
       url:            listing.url,
       listing_id:     listing.id,
