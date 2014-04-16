@@ -82,13 +82,13 @@ describe LinkQueue do
 
   describe "#pop", no_es: true do
     it "should return a link and remove it from the queue" do
-      @store.add(@links.first.merge(data: "foo"))
+      @store.add(@links.first.merge(data: {'foo' => 1, 'bar' => 2}))
       link = @store.pop
       expect(link).not_to be_nil
       expect(@store.has_key?(link)).to be_false
       expect(link).to be_a(Hash)
       expect(link[:url]['http']).not_to be_nil
-      expect(link[:data]).to eq("foo")
+      expect(link[:data]).to eq({'foo' => 1, 'bar' => 2})
     end
   end
 end
