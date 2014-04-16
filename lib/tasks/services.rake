@@ -51,9 +51,17 @@ end
 
 namespace :service do
   task :clean_boot_all => :environment do
-    notify "Booting services for #{Rails.env.upcase} environment:"
+    notify "Clean booting services for #{Rails.env.upcase} environment:"
     reset_sidekiq_stats
     clear_sidekiq_queues
+    SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
+    archive_log_Records
+    boot_services
+  end
+
+  task :boot_all => :environment do
+    notify "Booting services for #{Rails.env.upcase} environment:"
+    reset_sidekiq_stats
     SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
     archive_log_Records
     boot_services
