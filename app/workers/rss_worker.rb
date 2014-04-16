@@ -18,7 +18,7 @@ class RssWorker < CoreWorker
 
     @site = Site.new(domain: @domain)
     track
-    @link_store = LinkQueue.new(domain: @domain)
+    @link_store = LinkMessageQueue.new(domain: @domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @links = Set.new
     notify "Checking RSS feed urls with rate limit #{@site.rate_limit}..."
@@ -32,8 +32,7 @@ class RssWorker < CoreWorker
       (xml / "link").each do |link|
         url = link.text
         next if ["https://#{site.domain}/", "http://#{site.domain}"].include?(url)
-        next unless @link_store.add(url)
-        LinkData.create(url: url)
+        next if @link_store.add(LinkMessage.new(url: url)).zero?
         record_incr(:links_created)
       end
     end

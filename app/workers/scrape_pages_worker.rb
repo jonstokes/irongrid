@@ -29,7 +29,7 @@ class ScrapePagesWorker < CoreWorker
     @scraper = ListingScraper.new(@site)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timeout ||= ((60.0 / site.rate_limit.to_f) * 60).to_i
-    @link_store = LinkQueue.new(domain: @site.domain)
+    @link_store = LinkMessageQueue.new(domain: @site.domain)
     return false unless @link_store.any?
 
     @image_store = ImageQueue.new(domain: @site.domain)
@@ -40,12 +40,11 @@ class ScrapePagesWorker < CoreWorker
   def perform(opts)
     return unless opts && init(opts)
     notify "Emptying link store..."
-    while !timed_out? && (link_data = LinkData.find(@link_store.pop)) do
-      link_data.update(jid: self.jid)
+    while !timed_out? && (msg = @link_store.pop) do
       record_incr(:links_deleted)
       status_update
       @scraper.empty!
-      @rate_limiter.with_limit { pull_and_process(link_data) }
+      @rate_limiter.with_limit { pull_and_process(msg) }
     end
     clean_up
     transition
@@ -69,37 +68,35 @@ class ScrapePagesWorker < CoreWorker
     end
   end
 
-  #
-  # private
-  #
+  private
 
   def timed_out?
     (@timeout -= 1).zero?
   end
 
-  def pull_and_process(link_data)
-    url = link_data.url
+  def pull_and_process(msg)
+    url = msg.url
     if page = get_page(url)
       record_incr(:pages_read)
       @scraper.parse(doc: page.doc, url: url)
-      if listing_is_unchanged?(link_data)
-        link_data.update(dirty_only: true)
+      if listing_is_unchanged?(msg)
+        msg.update(dirty_only: true)
       else
         update_image if @scraper.is_valid?
-        link_data.update(
+        msg.update(
           page_is_valid:   @scraper.is_valid?,
           page_not_found:  @scraper.not_found?,
           page_attributes: @scraper.listing
         )
       end
     else
-      link_data.update(page_not_found: true)
+      msg.update(page_not_found: true)
     end
-    WriteListingWorker.perform_async(url)
+    WriteListingWorker.perform_async(msg.to_h)
     record_incr(:db_writes)
   end
 
-  def listing_is_unchanged?(link_data)
-    link_data.listing_digest && (@scraper.listing["digest"] == link_data.listing_digest)
+  def listing_is_unchanged?(msg)
+    msg.listing_digest && (@scraper.listing["digest"] == msg.listing_digest)
   end
 end

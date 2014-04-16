@@ -18,7 +18,7 @@ class RefreshLinksWorker < CoreWorker
     return false unless opts && (@domain = opts[:domain])
     return false if ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any?
     @site = Site.new(domain: domain, source: :redis)
-    @link_store = LinkQueue.new(domain: domain)
+    @link_store = LinkMessageQueue.new(domain: domain)
     true
   end
 
@@ -26,10 +26,10 @@ class RefreshLinksWorker < CoreWorker
     return unless opts && init(opts)
     track
     Listing.with_each_stale_listing_for_domain(@domain) do |listing|
-      next unless @link_store.add(listing.url)
-      ld = LinkData.create(listing)
-      ld.update(jid: jid)
-      record_incr(:links_created)
+      next if @link_store.has_key?(listing.url)
+      msg = LinkMessage.new(listing)
+      msg.update(jid: jid)
+      record_incr(:links_created) unless @link_store.add(msg).zero?
       status_update
     end
     clean_up

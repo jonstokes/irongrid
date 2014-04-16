@@ -31,32 +31,31 @@ describe ScrapePagesWorker do
       end
     end
     @worker = ScrapePagesWorker.new
-    LinkQueue.new(domain: @site.domain).clear
+    LinkMessageQueue.new(domain: @site.domain).clear
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
     Sidekiq::Worker.clear_all
   end
 
   describe "#perform" do
-    it "pops links from the LinkQueue and pulls the page" do
-      lq = LinkQueue.new(domain: @site.domain)
+    it "pops links from the LinkMessageQueue and pulls the page" do
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/1"
-      lq.add(url)
-      LinkData.create(url: url)
+      lq.add(LinkMessage.new(url: url))
       @worker.perform(domain: @site.domain)
       WebMock.should have_requested(:get, "www.retailer.com/1")
       expect(WriteListingWorker.jobs.count).to eq(1)
     end
 
-    it "correctly tags a 404 link in Redis" do
-      lq = LinkQueue.new(domain: @site.domain)
+    it "correctly tags a 404 link" do
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/4"
-      lq.add(url)
-      LinkData.create(url: url)
+      lq.add(LinkMessage.new(url: url))
       @worker.perform(domain: @site.domain)
-      ld = LinkData.find(url)
-      expect(ld.page_not_found?).to be_true
       expect(WriteListingWorker.jobs.count).to eq(1)
+      job = WriteListingWorker.jobs.first
+      msg = LinkMessage.new(job["args"].first)
+      expect(msg.page_not_found?).to be_true
     end
 
     it "correctly tags a not_found link in Redis" do
@@ -64,48 +63,47 @@ describe ScrapePagesWorker do
     end
 
     it "correctly tags an invalid link in Redis" do
-      lq = LinkQueue.new(domain: @site.domain)
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/4"
-      lq.add(url)
-      LinkData.create(url: url)
+      lq.add(LinkMessage.new(url: url))
       @worker.perform(domain: @site.domain)
-      ld = LinkData.find(url)
-      expect(ld.page_is_valid?).to be_false
       expect(WriteListingWorker.jobs.count).to eq(1)
+      job = WriteListingWorker.jobs.first
+      msg = LinkMessage.new(job["args"].first)
+      expect(msg.page_is_valid?).to be_false
     end
 
     it "correctly tags a valid link in Redis" do
-      lq = LinkQueue.new(domain: @site.domain)
+      lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/1"
-      lq.add(url)
-      LinkData.create(url: url)
+      lq.add(LinkMessage.new(url: url))
       @worker.perform(domain: @site.domain)
-      ld = LinkData.find(url)
-      expect(ld.page_is_valid?).to be_true
-      expect(ld.page_attributes["digest"]).to eq("b97637eba1fab547c75bd6ba372fb1ed")
       expect(WriteListingWorker.jobs.count).to eq(1)
+      job = WriteListingWorker.jobs.first
+      msg = LinkMessage.new(job["args"].first)
+      expect(msg.page_is_valid?).to be_true
+      expect(msg.page_attributes["digest"]).to eq("b97637eba1fab547c75bd6ba372fb1ed")
     end
 
     it "sends a :dirty_only directive to WriteListingsWorker if the digest is unchanged" do
-      lq = LinkQueue.new(domain: @site.domain)
-      url = "http://#{@site.domain}/1"
-      lq.add(url)
-      LinkData.create(url: url)
+      lq = LinkMessageQueue.new(domain: @site.domain)
+      msg = LinkMessage.new(url: "http://#{@site.domain}/1")
+      lq.add(msg)
       @worker.perform(domain: @site.domain)
-      ld = LinkData.find(url)
-      expect(ld.page_is_valid?).to be_true
-      expect(ld.page_attributes["digest"]).to eq("b97637eba1fab547c75bd6ba372fb1ed")
+      job = WriteListingWorker.jobs.first
+      msg = LinkMessage.new(job["args"].first)
+      expect(msg.page_is_valid?).to be_true
+      expect(msg.page_attributes["digest"]).to eq("b97637eba1fab547c75bd6ba372fb1ed")
       WriteListingWorker.drain
       listing = Listing.all.first
       expect(listing.digest).to eq("b97637eba1fab547c75bd6ba372fb1ed")
 
-      lq = LinkQueue.new(domain: @site.domain)
-      url = "http://#{@site.domain}/1"
-      lq.add(url)
-      LinkData.create(listing)
-      @worker.perform(domain: @site.domain)
-      ld = LinkData.find(url)
-      expect(ld.dirty_only?).to be_true
+      msg = LinkMessage.new(listing)
+      lq.add(msg)
+      ScrapePagesWorker.new.perform(domain: @site.domain)
+      job = WriteListingWorker.jobs.first
+      msg = LinkMessage.new(job["args"].first)
+      expect(msg.dirty_only?).to be_true
     end
 
     describe "where image_source exists on CDN already" do
@@ -113,14 +111,14 @@ describe ScrapePagesWorker do
         url = "http://#{@site.domain}/1"
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
         CDN::Image.create(source: image_source, http: PageUtils::HTTP.new)
-        LinkQueue.new(domain: @site.domain).add(url)
-        LinkData.create(url: url)
+        LinkMessageQueue.new(domain: @site.domain).add(LinkMessage.new(url: url))
         @worker.perform(domain: @site.domain)
-        ld = LinkData.find(url)
+        job = WriteListingWorker.jobs.first
+        msg = LinkMessage.new(job["args"].first)
         iq = ImageQueue.new(domain: @site.domain)
 
-        expect(ld.page_attributes["item_data"]["image_source"]).to eq(image_source)
-        expect(ld.page_attributes["item_data"]["image"]).to eq("https://s3.amazonaws.com/scoperrific-index-test/c8f0568ee6c444af95044486351932fb.JPG")
+        expect(msg.page_attributes["item_data"]["image_source"]).to eq(image_source)
+        expect(msg.page_attributes["item_data"]["image"]).to eq("https://s3.amazonaws.com/scoperrific-index-test/c8f0568ee6c444af95044486351932fb.JPG")
         expect(iq.pop).to be_nil
       end
     end
@@ -129,43 +127,41 @@ describe ScrapePagesWorker do
       it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
         url = "http://#{@site.domain}/1"
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
-        LinkQueue.new(domain: @site.domain).add(url)
-        LinkData.create(url: url)
+        LinkMessageQueue.new(domain: @site.domain).add(LinkMessage.new(url: url))
         @worker.perform(domain: @site.domain)
-        ld = LinkData.find(url)
+        job = WriteListingWorker.jobs.first
+        msg = LinkMessage.new(job["args"].first)
         iq = ImageQueue.new(domain: @site.domain)
 
-        expect(ld.page_attributes["item_data"]["image_source"]).to eq(image_source)
-        expect(ld.page_attributes["item_data"]["image"]).to eq(CDN::DEFAULT_IMAGE_URL)
+        expect(msg.page_attributes["item_data"]["image_source"]).to eq(image_source)
+        expect(msg.page_attributes["item_data"]["image"]).to eq(CDN::DEFAULT_IMAGE_URL)
         expect(iq.pop).to eq(image_source)
       end
     end
   end
 
   describe "#transition" do
-    it "transitions to self if it times out while the site's LinkQueue is not empty" do
-      lq = LinkQueue.new(domain: @site.domain)
-      links = (1..10).map { |i| "http://www.retailer.com/#{i}" }
+    it "transitions to self if it times out while the site's LinkMessageQueue is not empty" do
+      lq = LinkMessageQueue.new(domain: @site.domain)
+      links = (1..10).map { |i| LinkMessage.new(url: "http://www.retailer.com/#{i}") }
       lq.add links
-      links.each { |link| LinkData.create(url: link) }
       @worker.timeout = 5
       @worker.perform(domain: @site.domain)
       expect(lq.size).to eq(6)
       expect(ScrapePagesWorker.jobs.count).to eq(1)
     end
 
-    it "transitions to RefreshLinksWorker if the site's LinkQueue is empty and the site should be read again" do
-      lq = LinkQueue.new(domain: @site.domain)
-      links = (1..10).map { |i| "http://www.retailer.com/#{i}" }
+    it "transitions to RefreshLinksWorker if the site's LinkMessageQueue is empty and the site should be read again" do
+      lq = LinkMessageQueue.new(domain: @site.domain)
+      links = (1..10).map { |i| LinkMessage.new(url: "http://www.retailer.com/#{i}") }
       lq.add links
-      links.each { |link| LinkData.create(url: link) }
       @site.update(read_interval: 0, read_at: 10.days.ago)
       @worker.perform(domain: @site.domain)
       expect(lq.size).to be_zero
       expect(RefreshLinksWorker.jobs.count).to eq(1)
     end
 
-    it "does not transition to RefreshLinksWorker if the site's LinkQueue is empty and the site should not be read again" do
+    it "does not transition to RefreshLinksWorker if the site's LinkMessageQueue is empty and the site should not be read again" do
       @site.update(read_interval: 100000)
       @worker.perform(domain: @site.domain)
       expect(RefreshLinksWorker.jobs.count).to be_zero

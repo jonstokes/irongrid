@@ -77,7 +77,7 @@ namespace :service do
   task :clear_all_grid_state => :environment do
     notify "Clearing redis of everything, including sites..."
     domains = Site.domains
-    LinkData.with_redis do |conn|
+    LinkMessageQueue.with_redis do |conn|
       conn.flushdb
     end
     reset_sidekiq_stats

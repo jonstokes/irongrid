@@ -38,13 +38,13 @@ describe WriteListingWorker do
 
   describe "#new_listing" do
     it "creates a new valid listing" do
-      LinkData.create(
+      msg = {
         url:             @valid_attrs["url"],
         page_attributes: @valid_attrs,
         page_is_valid:   true,
         page_not_found:  false,
-      )
-      WriteListingWorker.new.perform(@valid_attrs["url"])
+      }
+      WriteListingWorker.new.perform(msg)
       expect(Listing.count).to eq(1)
       listing = Listing.first
       expect(listing.digest).to eq("aaaa")
@@ -59,13 +59,13 @@ describe WriteListingWorker do
     it "does not create a duplicate listing" do
       Listing.create(@valid_attrs)
       attrs = @valid_attrs.merge("url" => "http://www.retailer.com/2")
-      LinkData.create(
+      msg = {
         url:             attrs["url"],
         page_attributes: attrs,
         page_is_valid:   true,
         page_not_found:  false
-      )
-      WriteListingWorker.new.perform(attrs["url"])
+      }
+      WriteListingWorker.new.perform(msg)
       expect(Listing.count).to eq(1)
       listing = Listing.first
       expect(listing.url).to eq(@valid_attrs["url"])
@@ -79,29 +79,29 @@ describe WriteListingWorker do
 
     it "does not blow up if the listing id is not present" do
       listing = Listing.first
-      LinkData.create(
+      msg = {
         url:             @valid_attrs["url"],
         page_attributes: @valid_attrs,
         page_is_valid:   true,
         page_not_found:  false,
         listing_id:      listing.id
-      )
+      }
       listing.destroy
       expect {
-        WriteListingWorker.new.perform(@valid_attrs["url"])
+        WriteListingWorker.new.perform(msg)
       }.not_to raise_error
     end
 
 
     it "updates a listing with new attributes" do
       url = @valid_attrs["url"]
-      LinkData.create(
+      msg = {
         url:             url,
         page_attributes: @valid_attrs.merge("digest" => "bbbb"),
         page_is_valid:   true,
         page_not_found:  false,
-      )
-      WriteListingWorker.new.perform(url)
+      }
+      WriteListingWorker.new.perform(msg)
       expect(Listing.count).to eq(1)
       listing = Listing.first
       expect(listing.digest).to eq("bbbb")
@@ -111,49 +111,49 @@ describe WriteListingWorker do
 
     it "dirties the listing if the listing hasn't changed and was seeded by RefreshLinksWorker" do
       url = @valid_attrs["url"]
-      LinkData.create(
+      msg = {
         url:             url,
         page_attributes: @valid_attrs,
         page_is_valid:   true,
         page_not_found:  false,
-      )
+      }
       expect(Listing).not_to receive(:duplicate_digest?)
-      WriteListingWorker.new.perform(url)
+      WriteListingWorker.new.perform(msg)
       expect(Listing.first.update_count).to eq(1)
     end
 
     it "dirties the listing if the listing hasn't changed and was seeded by CreateLinksWorker" do
       url = @valid_attrs["url"]
-      LinkData.create(
+      msg = {
         url:             url,
         dirty_only: true
-      )
+      }
       expect(Listing).not_to receive(:duplicate_digest?)
-      WriteListingWorker.new.perform(url)
+      WriteListingWorker.new.perform(msg)
       expect(Listing.first.update_count).to eq(1)
     end
 
     it "deletes a not_found listing" do
       url = @valid_attrs["url"]
-      LinkData.create(
+      msg = {
         url:             url,
         page_attributes: nil,
         page_is_valid:   false,
         page_not_found:  true,
-      )
-      WriteListingWorker.new.perform(url)
+      }
+      WriteListingWorker.new.perform(msg)
       expect(Listing.count).to eq(0)
     end
 
     it "deactivates an invalid listing" do
       url = @valid_attrs["url"]
-      LinkData.create(
+      msg = {
         url:             url,
         page_attributes: @valid_attrs.merge("digest" => "bbbb"),
         page_is_valid:   false,
         page_not_found:  false,
-      )
-      WriteListingWorker.new.perform(url)
+      }
+      WriteListingWorker.new.perform(msg)
       expect(Listing.count).to eq(1)
       expect(Listing.first.inactive).to be_true
     end
@@ -168,7 +168,7 @@ describe WriteListingWorker do
       # 3. After a crawl, this newer version of Listing 1 will exist in the db alongside
       #    the original listing 1, so there will be two different versions of the same
       #    listing at two different urls and db rows.
-      # 4. When Listing 1's url is put back into the LinkQueue to be refreshed, its page
+      # 4. When Listing 1's url is put back into the LinkMessageQueue to be refreshed, its page
       #    will now have the same digest and attributes as the new version, so Listing 1
       #    can now be identified as a dupe and deleted, leaving only the newer version
       #    in the db.
@@ -184,16 +184,16 @@ describe WriteListingWorker do
       # Now let's pretend we refreshed the original (but now stale) listing by running
       # RefreshLinksWorker and CreateLinksWorker on the domain, resulting
       # in the new version of the page in redis.
-      LinkData.create(
+      msg = {
         url:             @valid_attrs["url"],
         page_attributes: @valid_attrs.merge("digest" => "bbbb"),
         page_is_valid:   true,
         page_not_found:  false,
-      )
+      }
 
       # The worker should delete the original, stale listing and leave
       # only the newer updated listing at the new url
-      WriteListingWorker.new.perform(@valid_attrs["url"])
+      WriteListingWorker.new.perform(msg)
       expect(Listing.count).to eq(1)
       listing = Listing.first
       expect(listing.digest).to eq("bbbb")

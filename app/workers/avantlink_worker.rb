@@ -135,25 +135,25 @@ class AvantlinkWorker < CoreWorker
     return :invalid unless @scraper.is_valid?
     url = opts[:url]
     update_image
-    LinkData.create(
+    msg = LinkMessage.new(
       url: url,
       page_is_valid: true,
       page_not_found: false,
       page_attributes: @scraper.listing
     )
-    WriteListingWorker.perform_async(url)
+    WriteListingWorker.perform_async(msg.to_h)
     :created_or_updated
   end
 
   def delete_listing(url)
     record_incr(:listings_deleted)
-    LinkData.create(
+    msg = LinkMessage.new(
       url: url,
       page_is_valid: false,
       page_not_found: true,
       page_attributes: nil
     )
-    WriteListingWorker.perform_async(url)
+    WriteListingWorker.perform_async(msg.to_h)
     :deleted
   end
 

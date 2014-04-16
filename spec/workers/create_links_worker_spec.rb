@@ -15,14 +15,14 @@ describe CreateLinksWorker do
         end
       end
     end
-    LinkQueue.new(domain: @site.domain).clear
+    LinkMessageQueue.new(domain: @site.domain).clear
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
     Sidekiq::Worker.clear_all
   end
 
   describe "#perform" do
-    it "does not add links to the LinkQueue if they're already there" do
+    it "does not add links to the LinkMessageQueue if they're already there" do
       pending "Example"
     end
 
@@ -32,17 +32,16 @@ describe CreateLinksWorker do
   end
 
   describe "#transition" do
-    it "transitions to PruneLinksWorker if there are links in the LinkQueue" do
+    it "transitions to PruneLinksWorker if there are links in the LinkMessageQueue" do
       @worker.perform(domain: @site.domain)
-      expect(LinkData.size).to eq(444)
-      expect(LinkQueue.new(domain: @site.domain).size).to eq(444)
+      expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(444)
       expect(PruneLinksWorker.jobs.count).to eq(1)
       expect(LogRecordWorker.jobs.count).to eq(10)
     end
 
-    it "does not transition to ScrapePagesWorker if LinkQueue is empty" do
+    it "does not transition to ScrapePagesWorker if LinkMessageQueue is empty" do
       pending "Mock product page with zero links?"
-      expect(LinkQueue.new(domain: @site.domain).size).to eq(0)
+      expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(0)
       expect(PruneLinksWorker.jobs.count).to eq(0)
     end
   end

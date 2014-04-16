@@ -13,7 +13,7 @@ describe ReadSitesService do
       @site = create_site_from_repo "www.retailer.com"
       @site.update(read_with: "RefreshLinksWorker")
       @service = ReadSitesService.new
-      @lq = LinkQueue.new(domain: @site.domain)
+      @lq = LinkMessageQueue.new(domain: @site.domain)
       @lq.clear
     end
 
@@ -37,7 +37,7 @@ describe ReadSitesService do
       @site = create_site_from_repo "www.retailer.com"
       @site.update(read_with: "CreateLinksWorker")
       @service = ReadSitesService.new
-      @lq = LinkQueue.new(domain: @site.domain)
+      @lq = LinkMessageQueue.new(domain: @site.domain)
       @lq.clear
     end
 
@@ -61,7 +61,7 @@ describe ReadSitesService do
     before :each do
       @site = create_site_from_repo "www.retailer.com"
       @service = ReadSitesService.new
-      @lq = LinkQueue.new(domain: @site.domain)
+      @lq = LinkMessageQueue.new(domain: @site.domain)
       @lq.clear
     end
 
