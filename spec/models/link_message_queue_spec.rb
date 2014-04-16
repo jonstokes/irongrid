@@ -39,8 +39,8 @@ describe LinkMessageQueue do
     end
 
     it "will not add a link from a different domain" do
-      links = @links + [@links.first.dup.update(url: "http://www.foo.com/")]
-      @store.add(links).should == 3
+      @links << LinkMessage.new(url: "http://www.foo.com/")
+      @store.add(@links).should == 3
       @store.size.should == 3
     end
 

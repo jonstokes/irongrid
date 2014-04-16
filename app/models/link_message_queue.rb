@@ -11,9 +11,9 @@ class LinkMessageQueue
   def push(messages)
     return 0 if messages.empty?
     if messages.is_a?(Array)
-      messages = messages.uniq.select { |msg| !msg.is_a?(LinkMessage) && is_valid_url?(msg.url) }.map(&:to_h)
+      messages = messages.select { |msg| msg.is_a?(LinkMessage) && is_valid_url?(msg.url) }.map(&:to_h)
     else
-      messages = [messages]
+      messages = [messages.to_h]
     end
     add_keys_to_redis(messages)
   end
@@ -31,7 +31,7 @@ class LinkMessageQueue
 
     if links.is_a?(Array)
       return 0 if links.empty?
-      links = links.uniq.select { |key| !key.empty? }
+      links = links.uniq.select(&:present?)
     else
       links = [links]
     end
@@ -84,7 +84,7 @@ class LinkMessageQueue
   def self.find(link)
     # This makes specs easier
     return unless link.present? && (value = with_redis { |conn| conn.get(link) })
-    JSON.parse(value)
+    LinkMessage.new(JSON.parse(value))
   end
 
   private

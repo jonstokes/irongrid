@@ -33,12 +33,15 @@ class LinkMessage
   def update(attrs)
     attrs.symbolize_keys!
     check_attributes(attrs)
-    raise "Can't update url!" if attrs.keys.include?(:url)
     @data.merge!(attrs)
   end
 
   def to_h
     @data
+  end
+
+  def empty?
+    @data.empty?
   end
 
   private
