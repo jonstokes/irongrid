@@ -9,22 +9,20 @@ class LinkQueue
   end
 
   def push(keys)
-    return 0 unless keys
-    return 0 if keys.is_a?(String) && keys.blank?
-
+    return 0 if keys.empty?
     if keys.is_a?(Array)
-      return 0 if keys.empty?
-      keys = keys.uniq.select { |key| !key.empty? && is_valid_url?(key) }
+      keys = keys.uniq.select { |key| !key.empty? && key[:url] && is_valid_url?(key[:url]) }
+    else
+      keys = [keys]
     end
-
-    with_redis { |conn| conn.sadd(set_name, keys) }
+    add_keys_to_redis(keys)
   end
 
   def pop
-    with_redis do |conn|
-      return unless conn.exists(set_name)
-      conn.spop(set_name)
-    end
+    return unless url = with_redis { |conn| conn.spop(set_name) }
+    data = with_redis { |conn| JSON.parse(conn.get(url)) }
+    with_redis { |conn| conn.del(url) }
+    data.symbolize_keys
   end
 
   def rem(keys)
@@ -38,8 +36,7 @@ class LinkQueue
       keys = [keys]
     end
 
-    with_redis { |conn| conn.srem(set_name, keys) }
-    keys.count
+    remove_keys_from_redis(keys)
   end
 
   def clear
@@ -85,13 +82,38 @@ class LinkQueue
 
   private
 
+  def add_keys_to_redis(keys)
+    count = 0
+    keys.each do |key|
+      with_redis do |conn|
+        if conn.sadd(set_name, key[:url])
+          conn.set(key[:url], key.to_json)
+          count += 1
+        end
+      end
+    end
+    count
+  end
+
+  def remove_keys_from_redis(keys)
+    keys.each do |key|
+      with_redis do |conn|
+        conn.srem(set_name, key)
+        conn.del(key)
+      end
+    end
+    keys.count
+  end
+
   def is_valid_url?(key)
     return unless host = URI.parse(key).host rescue false
     !!@domain[host.sub("www.", "")]
   end
 
   def with_redis(&block)
-    LinkData.with_redis(&block)
+    retryable(sleep: 0.5) do
+      IRONGRID_REDIS_POOL.with &block
+    end
   end
 
   def self.with_redis(&block)
