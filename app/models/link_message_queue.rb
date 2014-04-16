@@ -52,9 +52,9 @@ class LinkMessageQueue
     end
   end
 
-  def links
-    with_redis do |conn|
-      conn.smembers(set_name)
+  def all
+    links.map do |link|
+      LinkMessageQueue.find(link)
     end
   end
 
@@ -80,14 +80,22 @@ class LinkMessageQueue
   alias length size
   alias count size
 
-
+  #
+  # This is cheating on the queue abstraction, but it
+  # makes specs and pruning links easier
+  #
   def self.find(link)
-    # This makes specs easier
     return unless link.present? && (value = with_redis { |conn| conn.get(link) })
     LinkMessage.new(JSON.parse(value))
   end
 
   private
+
+  def links
+    with_redis do |conn|
+      conn.smembers(set_name)
+    end
+  end
 
   def add_keys_to_redis(keys)
     count = 0
