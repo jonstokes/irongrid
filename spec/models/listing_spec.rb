@@ -103,17 +103,6 @@ describe Listing do
     end
   end
 
-  describe "#update_and_dirty!" do
-    it "increments a listings update_count as part of an update" do
-      listing = Listing.create(@listing_attrs)
-      attrs = @listing_attrs.merge("digest" => "bbbb")
-      listing.update_and_dirty!(attrs)
-      listing = Listing.last
-      expect(listing.digest).to eq("bbbb")
-      expect(listing.update_count).to eq(1)
-    end
-  end
-
   describe "#url" do
     it "returns the untagged url for a site without a link tag" do
       Listing.create(@listing_attrs)
@@ -148,6 +137,17 @@ describe Listing do
     end
   end
 
+  describe "#update_and_dirty!" do
+    it "increments a listings update_count as part of an update" do
+      listing = Listing.create(@listing_attrs)
+      attrs = @listing_attrs.merge("digest" => "bbbb")
+      listing.update_and_dirty!(attrs)
+      listing = Listing.last
+      expect(listing.digest).to eq("bbbb")
+      expect(listing.update_count).to eq(1)
+    end
+  end
+
   describe "#dirty!" do
     it "dirties a listing by incrementing its update_count" do
       listing = FactoryGirl.create(:retail_listing)
@@ -156,6 +156,20 @@ describe Listing do
       listing.dirty!
       expect(Listing.first.update_count).to eq(1)
       expect(Listing.first.updated_at).to be > updated_at
+    end
+  end
+
+  describe "#notify_on_match" do
+    it "adds the listings id to the proper search alert queue on a percolator match" do
+      query_json = '{"query":{"query_string":{"query":"Foo"}}}'
+      Listing.register_percolator('abcd', query_json)
+
+      SearchAlertQueues.should_receive(:push) do |opts|
+        expect(opts[:percolator_name]).to eq('abcd')
+        expect(opts[:listing_id]).to be_a(Integer)
+      end
+
+      Listing.create(@listing_attrs)
     end
   end
 

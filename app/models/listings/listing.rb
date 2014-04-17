@@ -123,6 +123,14 @@ class Listing < ActiveRecord::Base
     self[:updated_at].strftime("%Y-%m-%dT%H:%M:%S") if self[:updated_at]
   end
 
+  def self.register_percolator(percolator_name, json_query)
+    Listing.index.register_percolator_query_as_json(percolator_name, json_query)
+  end
+
+  def self.unregister_percolator(percolator_name)
+    Listing.index.unregister_percolator_query(percolator_name)
+  end
+
   def self.find_by_image(image)
     db { Listing.where("item_data->>'image' = ?", image).first }
   end
@@ -181,15 +189,17 @@ class Listing < ActiveRecord::Base
     Tire.configure { url original_index }
   end
 
-  #
-  #FIXME: Move the logic below to an interactor
-  #
-
   def self.stale_threshold
     Time.now - 24.hours
   end
 
   private
+
+  def notify_on_match
+    percolate.each do |match|
+      SearchAlertQueues.push(listing_id: self.id, percolator_name: match['_id'])
+    end
+  end
 
   def update_es_index
     return if Listing.index_updates_disabled?
@@ -197,6 +207,7 @@ class Listing < ActiveRecord::Base
       retryable { Listing.index.remove type.downcase.sub("listing","_listing"), id }
     else
       retryable { update_index }
+      notify_on_match
     end
   end
 end
