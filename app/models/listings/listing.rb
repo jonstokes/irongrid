@@ -181,15 +181,18 @@ class Listing < ActiveRecord::Base
     Tire.configure { url original_index }
   end
 
-  #
-  #FIXME: Move the logic below to an interactor
-  #
-
   def self.stale_threshold
     Time.now - 24.hours
   end
 
   private
+
+  def notify_on_match
+    return if Rails.env.test?
+    percolate.each do |match|
+      SearchAlertQueues.push(listing_id: self.id, percolator_name: match)
+    end
+  end
 
   def update_es_index
     return if Listing.index_updates_disabled?
@@ -197,6 +200,7 @@ class Listing < ActiveRecord::Base
       retryable { Listing.index.remove type.downcase.sub("listing","_listing"), id }
     else
       retryable { update_index }
+      notify_on_match
     end
   end
 end
