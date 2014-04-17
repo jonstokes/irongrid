@@ -82,9 +82,14 @@ describe LinkMessageQueue do
       link = @store.pop
       expect(link).not_to be_nil
       expect(@store.has_key?(link.url)).to be_false
+      expect(LinkMessageQueue.find(link.url)).to be_nil
       expect(link).to be_a(LinkMessage)
       expect(link.url['http']).not_to be_nil
       expect(link.page_attributes).to eq({'foo' => 1, 'bar' => 2})
+    end
+
+    it "returns nil if the queue is empty" do
+      expect(@store.pop).to be_nil
     end
   end
 end

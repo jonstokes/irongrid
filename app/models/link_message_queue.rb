@@ -19,10 +19,13 @@ class LinkMessageQueue
   end
 
   def pop
-    return unless url = with_redis { |conn| conn.spop(set_name) }
-    data = with_redis { |conn| JSON.parse(conn.get(url)) }
-    with_redis { |conn| conn.del(url) }
-    LinkMessage.new(data.symbolize_keys)
+    with_redis do |conn|
+      if url = conn.spop(set_name)
+        raise "LinkMessageQueue: missing url #{url}" unless data = conn.get(url)
+        conn.del(url)
+        LinkMessage.new(JSON.parse(data).symbolize_keys)
+      end
+    end
   end
 
   def rem(links)
@@ -41,6 +44,9 @@ class LinkMessageQueue
 
   def clear
     with_redis do |conn|
+      each_link do |link|
+        conn.del(link)
+      end
       conn.del(set_name)
     end
   end
@@ -48,7 +54,7 @@ class LinkMessageQueue
   def empty?
     with_redis do |conn|
       return true unless conn.exists(set_name)
-      conn.scard(set_name) == 0
+      conn.scard(set_name).zero?
     end
   end
 
@@ -111,12 +117,12 @@ class LinkMessageQueue
   def add_keys_to_redis(keys)
     count = 0
     keys.each do |key|
+      next if with_redis { |conn| conn.sismember(set_name, key[:url]) }
       with_redis do |conn|
-        if conn.sadd(set_name, key[:url])
-          conn.set(key[:url], key.to_json)
-          count += 1
-        end
+        conn.set(key[:url], key.to_json)
+        conn.sadd(set_name, key[:url])
       end
+      count += 1
     end
     count
   end
