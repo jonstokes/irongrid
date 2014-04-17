@@ -52,6 +52,17 @@ class LinkMessageQueue
     end
   end
 
+  def each_link
+    cursor = 0
+    begin
+      results = with_redis { |conn| conn.sscan(set_name, cursor) }
+      cursor, keys = results.first.to_i, results.last
+      keys.each do |key|
+        yield key
+      end
+    end until cursor.zero?
+  end
+
   def links
     with_redis do |conn|
       conn.smembers(set_name)
