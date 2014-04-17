@@ -1,5 +1,5 @@
 class ImageQueue < LinkMessageQueue
-  include Retryable
+  include IrongridRedisPool
 
   attr_reader :domain, :set_name
 
@@ -87,17 +87,5 @@ class ImageQueue < LinkMessageQueue
 
   def is_valid_url?(key)
     !!URI.parse(key).host rescue false
-  end
-
-  def with_redis(&block)
-    retryable(sleep: 0.5) do
-      IRONGRID_REDIS_POOL.with &block
-    end
-  end
-
-  def self.with_redis(&block)
-    retryable(sleep: 0.5) do
-      IRONGRID_REDIS_POOL.with &block
-    end
   end
 end

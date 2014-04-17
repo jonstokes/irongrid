@@ -21,6 +21,7 @@
 
 class Site < CoreModel
   include Github
+  include IrongridRedisPool
 
   attr_accessor :site_data
   attr_reader :source
@@ -233,12 +234,6 @@ class Site < CoreModel
     IRONGRID_REDIS_POOL.with do |conn|
       conn.set("site--#{domain}", @site_data.to_yaml)
       conn.sadd("site--index", @site_data[:domain])
-    end
-  end
-
-  def self.with_redis(&block)
-    retryable(sleep: 0.5) do
-      IRONGRID_REDIS_POOL.with &block
     end
   end
 end
