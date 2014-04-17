@@ -6,7 +6,8 @@ end
 namespace :site do
   desc "Copy all sites from github to redis"
   task :copy_all => :environment do
-    YAML.load(Github.fetch_file_from_github("sites/site_manifest.yml")).each do |domain|
+    include Github
+    YAML.load(fetch_file_from_github("sites/site_manifest.yml")).each do |domain|
       copy_site(domain)
     end
   end
