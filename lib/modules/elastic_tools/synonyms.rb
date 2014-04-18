@@ -18,13 +18,24 @@ module ElasticTools
     end
 
     class Synonyms
-      attr_reader :caliber_synonym_lines, :general_synonym_lines, :manufacturer_synonym_lines, :all_synonym_lines
+      def general_synonym_lines
+        @general_synonym_lines ||= File.readlines("#{Rails.root}/lib/elasticsearch/synonyms.txt").map(&:strip).reject(&:blank?)
+      end
 
-      def initialize
-        @general_synonym_lines = File.readlines("#{Rails.root}/lib/elasticsearch/synonyms.txt").map(&:strip).reject(&:blank?)
-        @caliber_synonym_lines = File.readlines("#{Rails.root}/lib/elasticsearch/caliber_synonyms.txt").map(&:strip).reject(&:blank?)
-        @manufacturer_synonym_lines = File.readlines("#{Rails.root}/lib/elasticsearch/manufacturer_synonyms.txt").map(&:strip).reject(&:blank?)
-        @all_synonym_lines = @general_synonym_lines + @caliber_synonym_lines + @manufacturer_synonym_lines
+      def caliber_synonym_lines
+        @caliber_synonym_lines ||= File.readlines("#{Rails.root}/lib/elasticsearch/caliber_synonyms.txt").map(&:strip).reject(&:blank?)
+      end
+
+      def manufacturer_synonym_lines
+        @manufacturer_synonym_lines ||= File.readlines("#{Rails.root}/lib/elasticsearch/manufacturer_synonyms.txt").map(&:strip).reject(&:blank?)
+      end
+
+      def all_synonym_lines
+        general_synonym_lines + caliber_synonym_lines + manufacturer_synonym_lines
+      end
+
+      def equivalent_synonyms
+        @equivalent_synonyms ||= explicit_mappings.map { |line| line.downcase.sub(" => ", ",").gsub("_", " ") }
       end
 
       def explicit_mappings(opt=nil)
@@ -40,10 +51,6 @@ module ElasticTools
         lines.reject do |line|
           (line[0] == "#") || !line["=>"]
         end
-      end
-
-      def equivalent_synonyms
-        @equivalent_synonyms ||= explicit_mappings.map { |line| line.downcase.sub(" => ", ",").gsub("_", " ") }
       end
 
       def category_keywords(category)
