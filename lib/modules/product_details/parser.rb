@@ -12,7 +12,7 @@ module ProductDetails
         keyword_shingle = keyword.gsub(" ", "_")
         keyword_shingle_regexp_string = keyword_shingle.gsub(/(\s|_)/,'(\s|_)')
         keyword_shingle_regexp = Regexp.new(keyword_shingle_regexp_string, true)
-        keyword_regexp_string = "\\A#{keyword_shingle_regexp_string}\\s+|\\s+#{keyword_shingle_regexp_string}\\s+|\\s+#{keyword_shingle_regexp_string}\\z|\\A#{keyword_shingle_regexp_string}\\z"
+        keyword_regexp_string = "\\A#{keyword_shingle_regexp_string}\\W+|\\W+#{keyword_shingle_regexp_string}\\W+|\\W+#{keyword_shingle_regexp_string}\\z|\\A#{keyword_shingle_regexp_string}\\z"
         keyword_regexp = Regexp.new(keyword_regexp_string, true)
         if str[keyword_regexp]
           str.gsub!(keyword_regexp) do |match|
