@@ -10,8 +10,14 @@ module ProductDetails
 
       keyword_list.each do |keyword|
         keyword_shingle = keyword.gsub(" ", "_")
-        keyword_regexp = Regexp.new(keyword.gsub(/(\s|_)/,'(\s|_)'), true)
-        if str.gsub!(keyword_regexp, keyword_shingle)
+        keyword_shingle_regexp_string = keyword_shingle.gsub(/(\s|_)/,'(\s|_)')
+        keyword_shingle_regexp = Regexp.new(keyword_shingle_regexp_string, true)
+        keyword_regexp_string = "\\A#{keyword_shingle_regexp_string}\\s+|\\s+#{keyword_shingle_regexp_string}\\s+|\\s+#{keyword_shingle_regexp_string}\\z"
+        keyword_regexp = Regexp.new(keyword_regexp_string, true)
+        if str[keyword_regexp]
+          str.gsub!(keyword_regexp) do |match|
+            match.sub!(keyword_shingle_regexp, keyword_shingle)
+          end
           keyword_index = str.index(keyword_shingle)
           keywords << [keyword_index, keyword]
         end
