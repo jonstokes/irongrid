@@ -105,7 +105,6 @@ class Site < CoreModel
   def self.active
     domains.map do |domain|
       site = Site.new(domain: domain)
-      puts "Loaded site #{site.domain}, and it's active: #{site.active?}"
       site.active? ? site : nil
     end.compact
   end
