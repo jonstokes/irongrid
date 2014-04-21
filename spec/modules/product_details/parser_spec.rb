@@ -24,6 +24,14 @@ describe ProductDetails::Parser do
       results = parser.parse(text, ProductDetails::Manufacturer.dictionary)
       results[:keywords].should == ["Beretta", "Federal"]
     end
+
+    it "should pull out only keywords that are set off by spaces" do
+      text = "purchasing CCI ammo"
+      parser = ProductDetails::Parser.new
+      results = parser.parse(text, ProductDetails::Manufacturer.dictionary)
+      results[:keywords].should include("CCI")
+      results[:keywords].should_not include("ASI")
+    end
   end
 
   describe "#parse_with_category" do
