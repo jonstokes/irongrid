@@ -7,7 +7,7 @@ A A & E Leathercraft
 A W Deals
 A&G
 a uberti firearms => Uberti
-a.r.m.s => A.R.M.S._Inc.
+a.r.m.s => A.R.M.S._Inc
 AAC
 Accusharp
 ACT-MAG
@@ -15,7 +15,7 @@ Adams Arms
 Adaptive Tactical
 ADCO International
 Adcor Defense
-Advanced Armament Corp.
+Advanced Armament Corp
 Advanced Elements
 Advanced Technology Intl
 Advantage
@@ -73,7 +73,7 @@ barret => Barrett_Rifles
 Barska
 Baserri Shotguns
 Bates & Dittus
-Battenfeld Technologies Inc.
+Battenfeld Technologies Inc
 Bear & Son Cutlery, Inc
 Bear Ammunition
 Bell and Carlson
@@ -176,7 +176,7 @@ Cobra Firearms
 Code Blue
 Cody Range Bags
 Cold Steel
-Collectors Armory Ltd.
+Collectors Armory Ltd
 Colonel Coon
 Colt
 Columbia River & Tool
@@ -234,7 +234,7 @@ Duck Commander
 Dupleks
 dynamit nobel => Ruag_Ammo
 E-Z Pull Trigger Assist
-EdgeCraft Corp.
+EdgeCraft Corp
 Ekol
 El Paso Saddlery
 Elcan
@@ -276,7 +276,7 @@ Flitz International
 fnh,fn => FN_Herstal
 Fobus
 Foodsaver
-Fortune Products Inc.
+Fortune Products Inc
 Fostech Outdoors
 Fox Labs
 Fox-n-Hound
@@ -289,7 +289,7 @@ Frost Cutlery
 Frosts Mora Of Sweden
 Fujifilm
 Fundix
-G-96 Products Co.
+G-96 Products Co
 G. Outdoors
 Galati Gear
 Galco International
@@ -346,7 +346,7 @@ hi-viz,hi viz => Hi-Viz_Sight_Systems
 High Standard
 HKS Products Inc
 HKS Speedloaders
-Hodgdon Powder Co.
+Hodgdon Powder Co
 Hogue
 Home Invasion Signs
 Hoppes
@@ -363,7 +363,7 @@ Hunter Company
 Hunters Specialties
 Huntertown Arms
 Hydrosorbent
-I.O. INC.
+I.O. INC
 ICEtrekkers
 Independence
 Insight Technology
@@ -385,10 +385,10 @@ John Primble
 Johnson Outdoors
 JP Enterprises
 Just Right Carbines
-Ka-Bar Knives, Inc.
+Ka-Bar Knives, Inc
 Kahr Arms
 keltec,kel tec,kel-tec,keltec,kel tec => Kel-Tec
-Kent Cartridge Co.
+Kent Cartridge Co
 kershaw => Kershaw_Knives
 Keystone Manufacturing, Llc
 Keystone Sporting Arms
@@ -417,7 +417,7 @@ larue => LaRue_Tactical
 Laser Devices
 Laser Genetics
 LASERLYTE
-LaserMax Inc.
+LaserMax Inc
 Last Man Standing
 Lawrence Brand
 Leapers, Inc
@@ -443,7 +443,7 @@ Lyman Products Corp
 perfect decept=>Lytle_Mfg
 M+M,INC
 M-Pro 7
-Mace Security Intl.
+Mace Security Intl
 Mag Instrument
 Mag Tactical Systems
 mitac => Magellan
@@ -499,7 +499,7 @@ mossberg_&_sons,mossberg_and_sons => Mossberg
 Mossy Oak Graphics
 Motorola Talkabout
 Moultrie Feeders
-Mr. Heater Corporation
+Mr Heater Corporation
 MTM Molded Products Co
 My Holster
 MYGunDB
@@ -581,7 +581,7 @@ Queen Cutlery Co
 R Guns
 rack em racks => Rack'em_Racks
 Radetec
-Radians Inc.
+Radians Inc
 Ram-Line Stocks
 Ranch Products
 randall adventure training,esee => ESEE_Knives
@@ -624,7 +624,6 @@ sarco inc => SARCO
 savage => Savage_Arms
 Sawmill Cutlery
 SCCY
-SchattandMorgan Cutlery_Co.
 Schrade Cutlery
 devtron => Scopecoat
 Security Equipment Co
@@ -644,7 +643,7 @@ Sierra Bullets
 sig,sig sauer => Sig-Sauer
 Sightmark Optics
 Sightron
-Sigma Impex Inc.
+Sigma Impex Inc
 Silencerco
 Silver Stag
 Silver State Armory
@@ -723,7 +722,7 @@ Texas Weapons System
 Texsport
 TGM
 The Allen Company
-The Hunting Shack, Inc.
+The Hunting Shack, Inc
 ThermaCELL
 Thermold
 Thermos
@@ -792,7 +791,7 @@ wicked ridge => Wicked_Ridge_Crossbows
 Wildgame Innovations
 Wildlife Research Center
 Wiley X
-Williams Gun Sight Co.Inc
+Williams Gun Sight Co Inc
 wilson => Wilson_Combat
 Wilsons
 Winchester
