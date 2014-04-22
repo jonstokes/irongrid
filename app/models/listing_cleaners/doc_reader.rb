@@ -70,6 +70,8 @@ class DocReader
       end
     end
     nil
+  rescue Java::JavaNioCharset::UnsupportedCharsetException
+    return nil
   end
 
   def filter_target_text(filters, target)
