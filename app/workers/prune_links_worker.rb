@@ -21,8 +21,7 @@ class PruneLinksWorker < CoreWorker
   def perform(opts)
     return unless opts && init(opts)
     track
-    @link_store.each_link do |link|
-      msg = LinkMessageQueue.find(link)
+    @link_store.each_message do |msg|
       if msg.listing_id.nil? && (listing = db { Listing.find_by_url(msg.url) }) && listing.try(:fresh?)
         @link_store.rem(msg.url)
         record_incr(:links_pruned)
@@ -30,7 +29,6 @@ class PruneLinksWorker < CoreWorker
         record_incr(:links_passed)
       end
     end
-
     transition
     stop_tracking
   end

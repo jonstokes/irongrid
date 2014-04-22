@@ -1,5 +1,4 @@
-class LinkMessageQueue
-  include Retryable
+class LinkMessageQueue < CoreModel
   include IrongridRedisPool
 
   attr_reader :set_name, :domain
@@ -60,14 +59,23 @@ class LinkMessageQueue
   end
 
   def each_link
-    cursor = 0
-    begin
-      results = with_redis { |conn| conn.sscan(set_name, cursor) }
-      cursor, keys = results.first.to_i, results.last
-      keys.each do |key|
-        yield key
+    with_redis do |conn|
+      conn.sscan_each(set_name) do |link|
+        yield link
       end
-    end until cursor.zero?
+    end
+  end
+
+  def each_message
+    with_redis do |conn|
+      conn.sscan_each(set_name) do |link|
+        if value = conn.get(link)
+          yield LinkMessage.new(JSON.parse(value))
+        else
+          notify "TROUBLESHOOT: Missing content for link #{link}"
+        end
+      end
+    end
   end
 
   def links
