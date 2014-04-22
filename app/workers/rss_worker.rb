@@ -15,9 +15,10 @@ class RssWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
-
-    @site = Site.new(domain: @domain)
-    track
+    @filename = opts[:filename]
+    @feed_url = opts[:feed_url]
+    @site = opts[:site] || Site.new(domain: @domain)
+    @service_options = @site.service_options
     @link_store = LinkMessageQueue.new(domain: @domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @links = Set.new
@@ -27,16 +28,15 @@ class RssWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
-    feed_urls.each do |feed_url|
-      next unless xml = @rate_limiter.with_limit { Nokogiri::XML(get_page(feed_url).body) rescue nil }
-      (xml / "link").each do |link|
-        url = link.text
-        next if ["https://#{site.domain}/", "http://#{site.domain}"].include?(url)
-        next if @link_store.add(LinkMessage.new(url: url)).zero?
+    track
+    feeds.each do |feed|
+      feed.each_product do |product|
+        next unless product[:url]
+        next if ["https://#{site.domain}/", "http://#{site.domain}"].include?(product[:url])
+        next if @link_store.add(LinkMessage.new(url: product[:url])).zero?
         record_incr(:links_created)
       end
     end
-
     clean_up
     transition
     stop_tracking
@@ -55,7 +55,10 @@ class RssWorker < CoreWorker
   end
 
   private
-  def feed_urls
-    site.service_options["feed_urls"] || [site.service_options["feed_url"]]
+  def feeds
+    @feeds ||= @service_options["feeds"].map do |feed_opts|
+      feed_opts.merge!(filename: @filename, feed_url: @feed_url)
+      Feed.new(feed_opts)
+    end
   end
 end

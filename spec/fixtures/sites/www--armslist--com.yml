@@ -45,8 +45,12 @@ attributes:
   engine: www.ironsights.com
   read_with: RssWorker
   service_options:
-    refresh_feed_after_this_many_seconds: 900
-    feed_url: http://www.armslist.com/feed.rss?location=usa
+    feeds:
+      -
+        url: http://www.armslist.com/feed.rss?location=usa
+        refresh_interval:   900
+        product_list_xpath: '//channel/item'
+        product_link_xpath: '//link'
   size:
   active: true
   rate_limits:

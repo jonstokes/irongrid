@@ -91,6 +91,17 @@ describe AvantlinkWorker do
           AvantlinkWorker.new.perform(domain: @site.domain)
         }.not_to raise_error
       end
+
+      it "does not blow up if the feed 404s" do
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            404
+          end
+        end
+        expect {
+          AvantlinkWorker.new.perform(domain: @site.domain)
+        }.not_to raise_error
+      end
     end
 
     describe "CDN and image functions" do

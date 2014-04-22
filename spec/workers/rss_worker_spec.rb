@@ -24,8 +24,8 @@ describe RssWorker do
         end
       end
       RssWorker.new.perform(domain: "www.armslist.com")
-      expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(26)
-      url = "http://www.armslist.com/posts/2858994"
+      expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(25)
+      url = "http://www.armslist.com/posts/2841625"
       expect(LinkMessageQueue.find(url)).not_to be_nil
       expect(LinkMessageQueue.new(domain: @site.domain).has_key?(url)).to be_true
       expect(LogRecordWorker.jobs.count).to eq(2)
@@ -54,7 +54,7 @@ describe RssWorker do
         end
       end
       RssWorker.new.perform(domain: "www.armslist.com")
-      expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(26)
+      expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(25)
       url = "http://www.armslist.com/posts/2858994"
       expect(LinkMessageQueue.find(url)).not_to be_nil
       expect(LinkMessageQueue.new(domain: @site.domain).has_key?(url)).to be_true
