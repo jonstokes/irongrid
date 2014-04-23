@@ -1,11 +1,9 @@
-# FIRST BOOT
-- Prepare AWS image
-- Copy over application.yml  and database.yml from scoperrific repos to
-   irongrid repos
-- RAILS_ENV="production" rake db:migrate for irongrid
-- Commit schema changes from above
-- Copy all sites from local to prod redis
-- Boot queues from crawls and fast_db
-- Boot delete_ended_auctions_service and test that for a while. Pay
-  attention to the LogRecords that are being created
-- Boot ReadSitesService and CreateCdnService
+# Launch New Feed format
+- merge js-parser-test-refactor to irongrid/master and push
+- Bring down grid and git pull
+- Update sites in production from ironsights/master
+  (use site:update_all rake task!)
+- Bring grid back up
+
+*Note*: This deploy will also deploy the totally refactored site YAML,
+so keep an eye on it.

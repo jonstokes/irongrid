@@ -17,9 +17,10 @@ module PageUtils
   class Test
     extend PageUtils
 
-    def self.scrape_page(url)
+    def self.scrape_page(opts)
+      url = opts[:url]
+      domain = opts[:domain] || URI(url).host
       page = get_page(url)
-      domain = URI(url).host
       site = Site.new(domain: domain, source: :local)
       scraper = ListingScraper.new(site)
       scraper.parse(doc: page.doc, url: url)
