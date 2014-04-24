@@ -1,14 +1,6 @@
 require 'spec_helper'
 
 describe ProductDetails::Scrubber do
-
-  describe "#scrub_rounds" do
-    it "scrubs rounds from a string" do
-      text = "9mm FMJ 200rnds"
-      ProductDetails::Scrubber.scrub(text, :rounds).should == "9mm FMJ 200 rounds"
-    end
-  end
-
   describe "#scrub_grains" do
     it "scrubs grains from a string" do
       text = "9mm FMJ 62gr"
@@ -52,6 +44,7 @@ describe ProductDetails::Scrubber do
 
   describe "#scrub_rounds" do
     it "scrubs rounds" do
+      ProductDetails::Scrubber.scrub("9mm FMJ 200rnds", :rounds).should == "9mm FMJ 200 rounds"
       ProductDetails::Scrubber.scrub("100rd", :rounds).should == "100 round"
       ProductDetails::Scrubber.scrub("100rds", :rounds).should == "100 rounds"
       ProductDetails::Scrubber.scrub("100rnd", :rounds).should == "100 round"
@@ -77,6 +70,14 @@ describe ProductDetails::Scrubber do
       ProductDetails::Scrubber.scrub("box of 500", :rounds).should == "500 rounds"
       ProductDetails::Scrubber.scrub("box of 5,000", :rounds).should == "5000 rounds"
       ProductDetails::Scrubber.scrub("Federal XM855 .22 LR 62 Grain FMJ, box of 4,000", :rounds).should == "Federal XM855 .22 LR 62 Grain FMJ, 4000 rounds"
+    end
+
+    it "scrubs 'per box' type entries" do
+      ProductDetails::Scrubber.scrub("500 per box", :rounds).should == "500 rounds"
+      ProductDetails::Scrubber.scrub("500/box", :rounds).should == "500 rounds"
+      ProductDetails::Scrubber.scrub("500 / box", :rounds).should == "500 rounds"
+      ProductDetails::Scrubber.scrub("5,000 per box", :rounds).should == "5000 rounds"
+      ProductDetails::Scrubber.scrub("Federal XM855 .22 LR 62 Grain FMJ, 4,000 per box", :rounds).should == "Federal XM855 .22 LR 62 Grain FMJ, 4000 rounds"
     end
 
     it "does not modify the input string" do

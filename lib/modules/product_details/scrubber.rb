@@ -78,6 +78,12 @@ module ProductDetails
         match = "#{match[/\d+/]} rounds"
       end
 
+      str.gsub!(/[0-9]+(\,[0-9]+)?(\s{0,1}|\-)(per|\/)\s?box(\.|\,|\/|\-|\s)/i) do |match|
+        match = match.delete(",")
+        match = match.delete("per").delete("/").delete("box")
+        match = "#{match[/\d+/]} rounds"
+      end
+
       str.gsub!(/\s+/," ")
       str.strip.squeeze(" ")
     end
