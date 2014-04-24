@@ -29,6 +29,7 @@ namespace :site do
   task :update_all => :environment do
     Site.active.each do |site|
       gh_site = Site.new(domain: site.domain, source: :git)
+      puts "Updating #{site.domain}..."
       Site::SITE_ATTRIBUTES.each do |attr|
         next if [:read_at, :stats].include?(attr)
         site.site_data[attr] = gh_site.site_data[attr]
