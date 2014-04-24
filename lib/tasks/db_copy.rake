@@ -109,5 +109,20 @@ namespace :db do
       copy_table(opts)
       puts "Found #{ParserTest.count} parser tests in #{target_env} database."
     end
+
+    desc "Copy Parser Tests to fixtures"
+    task :parser_tests_to_fixtures => :environment do
+      manifest = ParserTest.all.map(&:id)
+      File.open("spec/fixtures/parser_tests/manifest.yml", "w") do |f|
+        YAML.dump(manifest, f)
+      end
+
+      ParserTest.all.each do |pt|
+        File.open("spec/fixtures/parser_tests/#{pt.id}.yml", "w") do |f|
+          YAML.dump(pt, f)
+        end
+      end
+    end
+
   end
 end
