@@ -38,7 +38,7 @@ describe LogRecordWorker do
      expect(lr.data["links_created"]).to eq(10)
    end
 
-   it "does not update an inactive LogRecord" do
+   it "updates and unarchives an archived LogRecord" do
      data = {
        links_created: 10,
        transition:    "ChildWorker"
@@ -53,8 +53,8 @@ describe LogRecordWorker do
      LogRecord.create(attrs)
      LogRecordWorker.new.perform(attrs.merge(archived: false))
      lr = LogRecord.find_by_jid("abc123")
-     expect(lr.data["links_created"]).to eq(10)
-     expect(lr.archived).to be_true
+     expect(lr.data["links_created"]).to eq(20)
+     expect(lr.archived).to be_false
    end
  end
 end

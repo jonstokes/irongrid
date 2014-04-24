@@ -7,6 +7,10 @@ class LogRecord < ActiveRecord::Base
 
   scope :active, -> { where(:archived => [nil, false]) }
 
+  def unarchive
+    self.update_attribute(:archived, false)
+  end
+
   def self.archive_all
     db do
       LogRecord.active.each do |record |

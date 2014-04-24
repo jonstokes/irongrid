@@ -7,7 +7,7 @@ class LogRecordWorker < CoreWorker
     retries = 5
     record.symbolize_keys!
     if lr = db { LogRecord.find_by_jid(record[:jid]) }
-      return if lr.archived?
+      lr.unarchive if lr.archived?
       update_record(lr, record)
     else
       db { LogRecord.create(record) }
