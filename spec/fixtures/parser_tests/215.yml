@@ -1,0 +1,76 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 215
+  engine:
+  source_url: http://shop.tropgun.com/servlet/-strse-958/CCI%2CAMMO%2C17HMR%2CVMAX%2C0049%2C0049/Detail
+  seller_domain: shop.tropgun.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/shop-tropgun-com-CCI_AMMO_17HMR_VMAX_0049_%7C_Trop_Elite_Equipment.html
+  is_valid: true
+  created_at: 2014-03-06 16:48:24.856408000 Z
+  updated_at: 2014-04-23 21:29:06.919510000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/shop-tropgun-com-CCI_AMMO_17HMR_VMAX_0049_%7C_Trop_Elite_Equipment.html
+    digest: 43ea913f6d0dab1163a023269d7bced9
+    type: RetailListing
+    item_data:
+      title:
+      - title: CCI AMMO 17HMR VMAX 0049 | Trop Elite Equipment
+      - autocomplete: CCI AMMO 17HMR VMAX 0049 | Trop Elite Equipment
+      - scrubbed: CCI AMMO .17 HMR VMAX 0049 | Trop Elite Equipment
+      - normalized: CCI ammo .17 HMR vmax 0049 | trop elite equipment
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: CCI
+      - classification_type: hard
+      caliber:
+      - caliber: .17 HMR
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 50
+      - classification_type: hard
+      grains:
+      - grains: 17
+      - classification_type: hard
+      seller_name: Trop Elite Equipment
+      seller_domain: shop.tropgun.com
+      description: "CCI's varmint lineup offers several loads in a variety of calibers\
+        \ that utilize unique bullet technologies to deliver what we covet most: devastating\
+        \ performance on varmints, time after time. If you can't find your ideal rimfire\
+        \ varmint load on these pages, it doesn't exist. \n17 grain V-MAX polymer-tipped\
+        \ bullet \nSub-MOA accuracy \n2550 ft/sec velocity \nReusable 50-count plastic\
+        \ box that protects and dispenses five cartridges at one time\nRounds: Caliber:\
+        \ Grain: Bullet Type: \n50 Box 17 HMR 17 gr Poly-Tip V-Max"
+      keywords:
+      image_source: http://shop.tropgun.com/media/00/452bc895143c4dd9d58f3b3_m.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 910 North Hanover St., Elizabethtown, PA US 17022
+      availability: in_stock
+      current_price_in_cents: 1599
+      price_per_round_in_cents: 32
+      price_on_request:
+      price_in_cents: 1599
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

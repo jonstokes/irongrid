@@ -1,0 +1,14 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 108
+  engine: ''
+  source_url: http://www.armslist.com/posts/1098614/dallas-texas-rifles-for-sale--lmt-lm8mws--308
+  seller_domain: www.armslist.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-armslist-com-LMT_LM8MWS_.308.html
+  is_valid: false
+  created_at: 2014-02-28 19:01:04.007000000 Z
+  updated_at: 2014-04-21 21:18:20.501823000 Z
+  not_found: false
+  classified_sold: true
+  listing_data:

@@ -1,0 +1,75 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 199
+  engine: ''
+  source_url: http://www.gunsamerica.com/938323411/Non-Guns/Gun-Parts/Grips/Cowboy/Ruger_Vaquero_XR3_Red_Ivory_Like_Floral_Grips.htm
+  seller_domain: www.gunsamerica.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsamerica-com-Ruger_Vaquero_XR3_Red_Ivory-Like_Floral_Grips.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:59.892000000 Z
+  updated_at: 2014-04-23 21:28:39.905658000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsamerica-com-Ruger_Vaquero_XR3_Red_Ivory-Like_Floral_Grips.html
+    digest: 1b142c4ecaf2e17afd7a374534103279
+    type: ClassifiedListing
+    item_data:
+      title:
+      - title: Ruger Vaquero XR3 Red Ivory-Like Floral Grips
+      - autocomplete: Ruger Vaquero XR3 Red Ivory-Like Floral Grips
+      - scrubbed: Ruger Vaquero XR3 Red Ivory-Like Floral Grips
+      - normalized: Ruger vaquero xr3 red ivory-like floral grips
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Ruger
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Guns America
+      seller_domain: www.gunsamerica.com
+      description: "Ruger Vaquero XR3 RED \r\nFLORAL PATTERN\r\nAlso Fits Blackhawk\
+        \ and Single-Six Revolvers\r\nClassic Ivory-Like Reproduction Grips\r\nNOT\
+        \ GUARANTEED TO FIT STAINLESS STEEL FRAMES\r\nThe Ruger Vaquero made from\
+        \ 1972-2004 is refered to as the XR3-RED Model. This is easily determined\
+        \ as XR3-RED is stamped in the grip frame under the grips. Simply remove the\
+        \ grips to determine if your Model applies."
+      keywords: ruger vaquero xr3 red ivorylike floral grips gun parts > cowboy
+      image_source: http://www.gunsamerica.com/userimages/137428/938323411/wm_md_3972401.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: NC
+      availability: in_stock
+      current_price_in_cents: 3500
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 3500
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

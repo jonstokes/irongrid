@@ -1,0 +1,112 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 202
+  engine: www.ironsights.com
+  source_url: http://www.classicfirearms.com/long-guns/mmcar15-529
+  seller_domain: www.classicfirearms.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-classicfirearms-com-AR-15_M4_Carbine_Rifle_by_MMC.html
+  is_valid: true
+  created_at: 2014-02-28 19:02:00.654000000 Z
+  updated_at: 2014-04-23 21:28:44.141467000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-classicfirearms-com-AR-15_M4_Carbine_Rifle_by_MMC.html
+    digest: 64a3430de4e75f7892557d1ed7bf8b17
+    type: RetailListing
+    item_data:
+      title:
+      - title: AR-15 M4 Carbine Rifle by MMC
+      - autocomplete: AR-15 M4 Carbine Rifle by MMC
+      - scrubbed: AR-15 M4 Carbine Rifle by MMC
+      - normalized: ar-15 m4 carbine rifle by mmc
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      grains:
+      seller_name: Classic Firearms
+      seller_domain: www.classicfirearms.com
+      description: "We are proud to re - introduce this high quality AR-15 Rifle by\
+        \ Moore's Machine Company... Never heard of them, well here is the story.\
+        \ Moore's Machine is a very high end manufacturer and full service machine\
+        \ company based right here in North Carolina. We have known about them for\
+        \ years and they are really good folks. Well. About 3 years ago they started\
+        \ building some AR-15 rifles. We watched from afar as they experimented with\
+        \ different tooling and went through the learning curve that comes along with\
+        \ being a firearms manufacturer. We even carried some of their early rifles\
+        \ that were marked as Rocky Point Guns right after they first started manufacturing,\
+        \ with mixed results. When I say mixed results the problem was basically this.\
+        \ They made a great looking rifle, and the price point and customer service\
+        \ was excellent, but in all honesty we did have some returns... Not a lot\
+        \ mind you, maybe one out of 20, and typically due to some type of feed issue\
+        \ that ( the people at Moore's ) quickly resolved, but still to us any return\
+        \ is one too many. So we decided to discontinue the line and wait until they\
+        \ had all of the bugs worked out before jumping back in ... Well, we almost\
+        \ waited too long... Not only have they overcome any issues that they may\
+        \ have had in the past, but the MMC rifles are taking our region by storm...\
+        \ In fact they are now so tied up with Law Enforcement and Distributor Orders\
+        \ that we had to get in line and beg in order to get some rifles... But the\
+        \ payoff was worth it. We have torture tested these rifles and I would put\
+        \ them up against anything being sold for reliability... Now don't get me\
+        \ wrong... There is nothing fancy here... Just a basic M4 AR-15 Carbine...\
+        \ But if you want a great entry level AR, at a really great price.... Give\
+        \ this MMC AR-15 a try. Ships complete with a Carbine Length AR-15 Hard case\
+        \ and 1-30 round magazine.... Standard M4- Flat Top Rifle.... Note : Rifle\
+        \ comes to us as a Flat Top and is sold as such..., at the $699.99 price they\
+        \ ship with one 30 round mag in a hard shell case. Some photo's show rifle\
+        \ with Rear Sight / Carry Handle, Halographic Electro Sight, or Barska 3x9x40\
+        \ Scope Installed. .... These are optional and do not come with the rifle.\
+        \ They are shown here for demonstrative purposes only, but must be purchased\
+        \ seperately... Scopes, Extra Mags, Drum Mags, etc... may also be purchased\
+        \ with the rifle.....Note - The scope you see in the photo's on the rifle\
+        \ is a Barska 3x9x40 Colorado series... This is a great scope for the price\
+        \ and comes with rings and mounts up to this AR-15 right out of the box....\
+        \ The rings it comes with are low profile so it makes for a very low profile\
+        \ scope package.... If you like for your scope to ride higher on the riflejust\
+        \ replace these factory rings with any medium or high ring set. Also, many\
+        \ people ask, do you not see the front sight through the scope??? The answer\
+        \ is no.. You do not... I don't know why, it is right there in front of the\
+        \ lens... but it does not show up though the scope... You have an unobstructed\
+        \ clear as a bell view downrange as far as the eye can see..... It must be\
+        \ magic...Note - We have tested these extensively and they work great, however,\
+        \ for some reason these rifles do not seem to like the Thermold brand mags...\
+        \ We recommend the Tapco, or C-Products mags..... Our Korean Military 100\
+        \ round drum mags work great too.\r\nLooking for owners manual? View the PDF\
+        \ here."
+      keywords: AR-15 M4 Carbine Rifle by MMC
+      image_source: http://classicfirearms-magento.s3.amazonaws.com/catalog/product/cache/1/image/350x/040ec09b1e35df139433887a97daa66f/m/m/mmc-ar-plain.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 510 Morgan Mill Rd, Monroe, NC 28110
+      availability: out_of_stock
+      current_price_in_cents:
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents:
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

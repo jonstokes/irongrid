@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 112
+  engine: ''
+  source_url: http://www.ableammo.com/catalog/beretta-a400-xcel-target-standard-length-shotgun-j40cq12-gauge-chmbrwalnut-stock-blue-finish-pr-128144.html
+  seller_domain: www.ableammo.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-ableammo-com-Beretta_A400_Xcel_Par_Target_KO_Standard_Length_Shotgun_J40CQ12%2C_12_Gauge%2C_32%22%2C_3%22_Chmbr%2CWalnut_Stock%2C_Blue_Finish.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:08.988000000 Z
+  updated_at: 2014-04-23 21:26:52.705443000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-ableammo-com-Beretta_A400_Xcel_Par_Target_KO_Standard_Length_Shotgun_J40CQ12%2C_12_Gauge%2C_32%22%2C_3%22_Chmbr%2CWalnut_Stock%2C_Blue_Finish.html
+    digest: 3cc8d86916740325cd030867c90ae7da
+    type: RetailListing
+    item_data:
+      title:
+      - title: Beretta A400 Xcel Par Target KO Standard Length Shotgun J40CQ12, 12 Gauge, 32", 3" Chmbr,Walnut Stock, Blue Finish
+      - autocomplete: Beretta A400 Xcel Par Target KO Standard Length Shotgun J40CQ12, 12 Gauge, 32", 3" Chmbr,Walnut Stock, Blue Finish
+      - scrubbed: Beretta A400 Xcel Par Target KO Standard Length Shotgun J40CQ12 12 gauge .32 inch 3 inch Chmbr Walnut Stock Blue Finish
+      - normalized: Beretta a400 xcel par target ko standard length shotgun j40cq12 12 gauge .32 inch 3 inch chmbr walnut stock blue finish
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Beretta
+      - classification_type: metadata
+      caliber:
+      - caliber: 12 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Able Ammo
+      seller_domain: www.ableammo.com
+      description:
+      keywords:
+      image_source: http://www.ableammo.com/catalog/images/beretta/2012/medium/J40CP.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 357 Farm to Market Road 1791  Huntsville, TX 77340
+      availability: in_stock
+      current_price_in_cents:
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents:
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,74 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 197
+  engine: ''
+  source_url: http://personalsecurityzone.com/product/Barnes-Tac-xpd-9MM-115GR-HP-20-200-21551-716876135110-55655
+  seller_domain: personalsecurityzone.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/personalsecurityzone-com-Barnes_Tac-xpd_9MM_115GR_HP_20/200.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:59.506000000 Z
+  updated_at: 2014-04-23 21:28:36.411405000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/personalsecurityzone-com-Barnes_Tac-xpd_9MM_115GR_HP_20/200.html
+    digest: 602e2a43a0776420d8eccd129439acba
+    type: RetailListing
+    item_data:
+      title:
+      - title: Barnes Tac-xpd 9MM 115GR HP 20/200
+      - autocomplete: Barnes Tac-xpd 9MM 115GR HP 20/200
+      - scrubbed: Barnes Tac-xpd 9mm 115 grain HP 20/200
+      - normalized: Barnes Bullets tac-xpd Inc 9mm Luger 115 grain hp 20/200
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: 9mm Luger
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains: 115
+      - classification_type: metadata
+      seller_name: PersonalSecurityZone
+      seller_domain: personalsecurityzone.com
+      description: "UPC Code: 716876135110\r\n \r\n \r\n \r\n Manufacturer: Barnes\r\
+        \n \r\n \r\n \r\n Model: TAC-XPD\r\n \r\n \r\n \r\n Caliber: 9MM\r\n \r\n\
+        \ \r\n \r\n Grain Weight: 115Gr\r\n \r\n \r\n Type: Hollow Point\r\n \r\n\
+        \ \r\n \r\n Units per Box: 20\r\n \r\n \r\n \r\n Units per Case: 200\r\n \r\
+        \n \r\n \r\n Manufacturer Part #: 21551"
+      keywords:
+      image_source: http://personalsecurityzone.com//images/BB21551lg.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 502 N. Division St., Carson City, NV 89703
+      availability: in_stock
+      current_price_in_cents: 3400
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 3400
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

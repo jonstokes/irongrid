@@ -1,0 +1,74 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 193
+  engine: ''
+  source_url: http://www.huntingdepot.net/catalog/product.asp?pid=103464&ret_id=1219039
+  seller_domain: www.huntingdepot.net
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-CMMG%2C_Inc_Accessory_Rail%2C_5_Slot%2C_KeyMod.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:58.496000000 Z
+  updated_at: 2014-04-23 21:28:28.865132000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-CMMG%2C_Inc_Accessory_Rail%2C_5_Slot%2C_KeyMod.html
+    digest: 41c2ac17f4c043b48e7afa081b84aee1
+    type: RetailListing
+    item_data:
+      title:
+      - title: CMMG, Inc Accessory Rail, 5 Slot, KeyMod
+      - autocomplete: CMMG, Inc Accessory Rail, 5 Slot, KeyMod
+      - scrubbed: CMMG Inc Accessory Rail 5 Slot KeyMod
+      - normalized: CMMG Inc inc accessory rail 5 slot keymod
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: CMMG Inc
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Hunting Depot
+      seller_domain: www.huntingdepot.net
+      description: "Accessory Rail, 5 Slot, KeyMod Description\r\n For KeyMod hand\
+        \ guard interfaces only.\nThe 5-Slot Accessory Rail is perfect for attaching\
+        \ your 1913 Picatinny lights, bipods and forward grips. This rail is solidly\
+        \ attached using the KeyMod interface and only requires a T-15 Torx wrench\
+        \ to install."
+      keywords:
+      image_source: http://images.dealerease.net/prodpics/cmmgpic55da299.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 23 S Prospect St, Nanticoke, PA 18634
+      availability: in_stock
+      current_price_in_cents: 1684
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 1684
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

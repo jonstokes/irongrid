@@ -1,0 +1,80 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 161
+  engine: ''
+  source_url: http://www.ableammo.com/catalog/bianchi-tuxedo-pouch-wvelcro-model-17040-colt-ruger-1006-10261066-1076-1086-p220r-226r-229r-p-55923.html
+  seller_domain: www.ableammo.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-ableammo-com-Bianchi_Tuxedo_Dbl_Mag_Pouch_w/Velcro%2C_Model_17040%2C_For_Colt_Com%2C_Gov%3B_HK_P7-M8%3B_Ruger_P90%3B_SW_1006%2C_10261066%2C_1076%2C_1086%3B_Sig_P220/R%2C_225%2C_226/R%2C_229/R.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:47.042000000 Z
+  updated_at: 2014-04-23 21:30:08.046906000 Z
+  not_found:
+  classified_sold:
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-ableammo-com-Bianchi_Tuxedo_Dbl_Mag_Pouch_w/Velcro%2C_Model_17040%2C_For_Colt_Com%2C_Gov%3B_HK_P7-M8%3B_Ruger_P90%3B_SW_1006%2C_10261066%2C_1076%2C_1086%3B_Sig_P220/R%2C_225%2C_226/R%2C_229/R.html
+    digest: 9b4a5fb980f63a5fb32e5e1aba3e4542
+    type: RetailListing
+    item_data:
+      title:
+      - title: Bianchi Tuxedo Dbl Mag Pouch w/Velcro, Model 17040, For Colt Com, Gov; HK P7-M8; Ruger P90; SW 1006, 10261066, 1076, 1086; Sig P220/R, 225, 226/R, 229/R
+      - autocomplete: Bianchi Tuxedo Dbl Mag Pouch w/Velcro, Model 17040, For Colt Com, Gov; HK P7-M8; Ruger P90; SW 1006, 10261066, 1076, 1086; Sig P220/R, 225, 226/R, 229/R
+      - scrubbed: Bianchi Tuxedo Dbl Mag Pouch w/Velcro Model 17040 For Colt Com Gov HK P7-M8 Ruger P90 SW 1006 10261066 1076 1086 Sig P220/R 225 226/R 229/R
+      - normalized: Bianchi tuxedo dbl mag pouch w/velcro model 17040 for Colt com gov H&K p7-m8 Ruger p90 Smith & Wesson 1006 10261066 1076 1086 Sig-Sauer p220/r 225 226/r 229/r
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Bianchi
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Able Ammo
+      seller_domain: www.ableammo.com
+      description: 'BIANCHI INTERNATIONAL Model 4620A Tuxedo Double Magazine Pouches
+        Bianchi Tuxedo Double Magazine Pouch w/Velcro Closure Model 4620A Constructed
+        of 420 Denier pack cloth and has a hook and loop closure. Holds two magazines.
+        Available in size 1, 2 and 3 in a black finish.Model 4620P Carries cuffs,
+        clips or speedloaders. Constructed of 420 denier pack cloth. Available in
+        black finish. Model 4620T Secures the holster or offside pouch to your belt
+        for extra stability. Nylon web material available in a black finish. SPECIFICATIONS:Mfg
+        Item Num: 17040 Category: HOLSTERS & ACCESSORIES Type :Mag/Cuff PouchColor
+        :BlackMaterial :420 Denier Pack ClothSize :2Model :Tuxedo DBL Mag Pouch 4620AFinish
+        :TexturedGun Mod :Colt Com,Gov; HK P7-M8;Ruger P90;SW 1006,1026Add Mod :1066,1076,1086;Sigarms
+        P220/R,225,226/R,229/RMount Type :Belt Size :'
+      keywords:
+      image_source: http://www.ableammo.com/catalog/images/ssi/medium/30402.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 357 Farm to Market Road 1791  Huntsville, TX 77340
+      availability: out_of_stock
+      current_price_in_cents:
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents:
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 245
+  engine:
+  source_url: http://personalsecurityzone.com/product/Cobra-Enterprises-Derringer-32ACP-Blue-Wood-C32BR-832716001091-39491
+  seller_domain: personalsecurityzone.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/personalsecurityzone-com-Cobra_Enterprises_Derringer_32ACP_Blue_Wood.html
+  is_valid: true
+  created_at: 2014-04-10 15:05:15.898833000 Z
+  updated_at: 2014-04-23 21:29:56.448149000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/personalsecurityzone-com-Cobra_Enterprises_Derringer_32ACP_Blue_Wood.html
+    digest: d157d7ecc4057ab9fa8297402ca46ac6
+    type: RetailListing
+    item_data:
+      title:
+      - title: Cobra Enterprises Derringer 32ACP Blue Wood
+      - autocomplete: Cobra Enterprises Derringer 32ACP Blue Wood
+      - scrubbed: Cobra Enterprises Derringer .32 ACP Blue Wood
+      - normalized: cobra enterprises derringer .32 ACP blue wood
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: .32 ACP
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: PersonalSecurityZone
+      seller_domain: personalsecurityzone.com
+      description: Cobra Enterprises Derringer 32ACP Blue Wood No. CB32B by Cobra firearms, handguns, pistols, guns, semi automatic, revolvers
+      keywords:
+      image_source: http://personalsecurityzone.com//images/CB32Blg.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 502 N. Division St., Carson City, NV 89703
+      availability: in_stock
+      current_price_in_cents: 17540
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 17540
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

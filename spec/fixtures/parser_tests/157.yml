@@ -1,0 +1,76 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 157
+  engine: ''
+  source_url: http://www.cheaperthandirt.com/product/8-CF-500092
+  seller_domain: www.cheaperthandirt.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-cheaperthandirt-com-Chiappa_Firearms_Little_Badger_Break_Action_Rifle_.22LR_16.5%22_Barrel_1_Round_Wire_Frame_Stock_with_Ammo_Holder_Black_Finish_500.092.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:45.004000000 Z
+  updated_at: 2014-04-23 21:27:44.529532000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-cheaperthandirt-com-Chiappa_Firearms_Little_Badger_Break_Action_Rifle_.22LR_16.5%22_Barrel_1_Round_Wire_Frame_Stock_with_Ammo_Holder_Black_Finish_500.092.html
+    digest: b21c0a96e750bd28a7bfbbeeee82d76c
+    type: RetailListing
+    item_data:
+      title:
+      - title: Chiappa Firearms Little Badger Break Action Rifle .22LR 16.5" Barrel 1 Round Wire Frame Stock with Ammo Holder Black Finish 500.092
+      - autocomplete: Chiappa Firearms Little Badger Break Action Rifle .22LR 16.5" Barrel 1 Round Wire Frame Stock with Ammo Holder Black Finish 500.092
+      - scrubbed: Chiappa Firearms Little Badger Break Action Rifle .22 LR 16.5 inch Barrel 1 Round Wire Frame Stock with Ammo Holder Black Finish 500.092
+      - normalized: Chiappa firearms little badger break action rifle .22lr 16.5 inch barrel 1 round wire frame stock with ammo holder black finish 500.092
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Chiappa
+      - classification_type: metadata
+      caliber:
+      - caliber: .22lr
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Cheaper Than Dirt
+      seller_domain: www.cheaperthandirt.com
+      description: "Chiappa Firearms Little Badger Break Action Rifle is an incredible\
+        \ value for a varmint hunting rifle chambered in .22LR. The Chiappa Firearms\
+        \ Little Badger's innovative design incorporates the ultra lightweight Wire\
+        \ Frame with Ammo Holder, Fiber Optic Front Sight, and a threaded barrel for\
+        \ a deadly accurate, reliable, and lightweight varmint rifle. If you spend\
+        \ anytime plinking or hunting varmints this is an excellent choice. \r\n\r\
+        \n\r\n Specifications and Features: \r\nChiappa Firearms Little Badger Break\
+        \ Action Rifle \r\n.22LR \r\n16.5\" Barrel \r\nFoldable Barrel \r\nFiber Optic\
+        \ Front Sight, Adjustable Rear \r\nThreaded barrel for accessories \r\n32\"\
+        \ Overall Length \r\n3.5 lbs \r\n1 Round \r\nWire Frame Stock with Ammo Holder\
+        \ \r\nBlack Finish"
+      keywords:
+      image_source: http://cdn1.cheaperthandirt.com/ctd_images/mdprod/8-CF-500092.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2058 West University Drive, McKinney, Texas 75071
+      availability: in_stock
+      current_price_in_cents: 16237
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 16237
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

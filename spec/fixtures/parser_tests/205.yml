@@ -1,0 +1,83 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 205
+  engine:
+  source_url: http://www.ammoman.com/556x45mm-pmc-x-tac-green-tip-fmj-62-grain-556k
+  seller_domain: www.ammoman.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammoman-com-5.56x45MM_PMC_X-TAC_GREEN_TIP_NATO_62_GRAIN_FULL_METAL_JACKET.html
+  is_valid: true
+  created_at: 2014-03-04 21:26:05.530957000 Z
+  updated_at: 2014-04-23 21:28:52.416639000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammoman-com-5.56x45MM_PMC_X-TAC_GREEN_TIP_NATO_62_GRAIN_FULL_METAL_JACKET.html
+    digest: 4c4a72869655cce1466c41954c4f4843
+    type: RetailListing
+    item_data:
+      title:
+      - title: 5.56x45MM PMC X-TAC GREEN TIP NATO 62 GRAIN FULL METAL JACKET
+      - autocomplete: 5.56x45MM PMC X-TAC GREEN TIP NATO 62 GRAIN FULL METAL JACKET
+      - scrubbed: 5.56x45MM PMC X-TAC GREEN TIP NATO 62 GRAIN FULL METAL JACKET
+      - normalized: 5.56 NATO PMC Ammunition x-tac green tip nato 62 grain full metal jacket
+      category1:
+      - category1: Ammunition
+      - classification_type: default
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: PMC Ammunition
+      - classification_type: metadata
+      caliber:
+      - caliber: 5.56 NATO
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 1000
+      - classification_type: hard
+      grains:
+      - grains: 62
+      - classification_type: metadata
+      seller_name: AmmoMan
+      seller_domain: www.ammoman.com
+      description: "GREEN TIP PENETRATOR\r\n5.56x45MM PMC X-TAC GREEN TIP NATO 62\
+        \ GRAIN FULL METAL JACKETPMC X-TAC 5.56 Green Tip Penetrator 5.56x45mm NATO\
+        \ 62 Grain Full metal jacket Light Armor Piercing 20 round boxPMC 5.56 PMC\
+        \ X-TAC 62gr. (SS109) Full Metal Jacket Ammo. The PMC X-TAC Line is manufactured\
+        \ to the highest industry and military specifications to ensure its performance,\
+        \ without fail, when your life is on the line. PMC's X-TAC ammunition is powerful,\
+        \ accurate and dependable, because in a life-threatening situation, no other\
+        \ standard is acceptable. PMC's exacting adherence to the precise specifications\
+        \ of military and law-enforcement organizations assures that X-TAC ammunition\
+        \ will perform perfectly in that fraction of a second when a serious threat\
+        \ arises. This ammo comes packed in 20rds. per box. New manufacturer ammunition.Technical\
+        \ Information:Caliber: 5.56x45mm NATO (.223 remington)Bullet Weight: 62 GrainsBullet\
+        \ Style: Full Metal Jacket Boat Tail Steel CoreCase Type: Brass caseMuzzle\
+        \ Energy: 1255 ft lbsMuzzle Velocity: 3020 fpsPackaged: 20 rounds per box"
+      keywords: 5.56x45mm Ammo, 5.56x45mm Ammunition, 62 Grain 5.56x45mm Ammo, 5.56x45mm FMJ Ammo, Free Shipping
+      image_source: http://www.ammoman.com/product-images/image/300x/42ce78bae97a1562ad9c0752cf576eb6/0/0/0001085_556x45mm-pmc-x-tac-green-tip-nato-62-grain-full-metal-jacket.jpeg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: Newark, NJ 07101-3188
+      availability: in_stock
+      current_price_in_cents: 45000
+      price_per_round_in_cents: 45
+      price_on_request:
+      price_in_cents: 45000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

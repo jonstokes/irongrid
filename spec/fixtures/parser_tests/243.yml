@@ -1,0 +1,71 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 243
+  engine:
+  source_url: http://www.smokeymountainmunitions.com/Remington_22LR_Thunderbolt_HV_40gr_50_Rd_Box_p/rem22lr4050hv.htm
+  seller_domain: www.smokeymountainmunitions.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-smokeymountainmunitions-com-Remington_.22LR_Thunderbolt_HV_40gr_50_Rd_Box.html
+  is_valid: true
+  created_at: 2014-03-08 16:33:48.685277000 Z
+  updated_at: 2014-04-23 21:29:50.019126000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-smokeymountainmunitions-com-Remington_.22LR_Thunderbolt_HV_40gr_50_Rd_Box.html
+    digest: 9a34a2190fce4c5f49dc0bdab5be0e69
+    type: RetailListing
+    item_data:
+      title:
+      - title: Remington .22LR Thunderbolt HV 40gr 50 Rd Box
+      - autocomplete: Remington .22LR Thunderbolt HV 40gr 50 Rd Box
+      - scrubbed: Remington .22 LR Thunderbolt HV 40 grain 50 round Box
+      - normalized: Remington .22lr thunderbolt hv 40 grain 50 round box
+      category1:
+      - category1: Ammunition
+      - classification_type: default
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Remington
+      - classification_type: metadata
+      caliber:
+      - caliber: .22lr
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 50
+      - classification_type: metadata
+      grains:
+      - grains: 40
+      - classification_type: metadata
+      seller_name: Smokey Mountain Munitions
+      seller_domain: www.smokeymountainmunitions.com
+      description: "Specifications:\r\n40gr Lead Round Nose 50 rd Box\r\n\r\n1155\
+        \ FPS"
+      keywords: Specifications:40gr Lead Round Nose 50 rd Box1155 FPS
+      image_source: http://www.smokeymountainmunitions.com//v/vspfiles/photos/REM22LR4050HV-2T.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 250 E. Jarrard St., Cleveland, GA 30528
+      availability: in_stock
+      current_price_in_cents: 974
+      price_per_round_in_cents: 19
+      price_on_request:
+      price_in_cents: 974
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

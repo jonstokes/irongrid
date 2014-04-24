@@ -1,0 +1,14 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 172
+  engine: ''
+  source_url: http://www.gunsamerica.com/929785544/Guns/Pistols/Colt-Double-Action-Revolvers-Modern/colt_357_python.htm
+  seller_domain: www.gunsamerica.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-gunsamerica-com-colt_357_python.html
+  is_valid: false
+  created_at: 2014-02-28 19:01:52.841000000 Z
+  updated_at: 2014-04-22 16:13:45.441503000 Z
+  not_found: false
+  classified_sold: true
+  listing_data:

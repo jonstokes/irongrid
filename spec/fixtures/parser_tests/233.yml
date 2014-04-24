@@ -1,0 +1,74 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 233
+  engine:
+  source_url: http://pistolandpawn.com/shop/optics/red-dot-scopes/bsa-rd30-rd30-1x-30mm-obj-unlimited-eye-relief-5-moa-black.html
+  seller_domain: pistolandpawn.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/pistolandpawn-com-BSA_RD30_RD30_1x_30mm_Obj_Unlimited_Eye_Relief_5_MOA_Black_-_Red_Dot_Scopes_-_Optics.html
+  is_valid: true
+  created_at: 2014-03-08 00:09:30.136358000 Z
+  updated_at: 2014-04-23 21:29:34.884193000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/pistolandpawn-com-BSA_RD30_RD30_1x_30mm_Obj_Unlimited_Eye_Relief_5_MOA_Black_-_Red_Dot_Scopes_-_Optics.html
+    digest: 5303bf705a18cbc3f4d02b7a33966617
+    type: RetailListing
+    item_data:
+      title:
+      - title: BSA RD30 RD30 1x 30mm Obj Unlimited Eye Relief 5 MOA Black - Red Dot Scopes - Optics
+      - autocomplete: BSA RD30 RD30 1x 30mm Obj Unlimited Eye Relief 5 MOA Black - Red Dot Scopes - Optics
+      - scrubbed: BSA RD30 RD30 1x 30mm Obj Unlimited Eye Relief 5 MOA Black - Red Dot Scopes - Optics
+      - normalized: bsa rd30 rd30 1x 30mm obj unlimited eye relief 5 moa black - red dot scopes - optics
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: BSA Optics
+      - classification_type: hard
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Larry's Pistol & Pawn
+      seller_domain: pistolandpawn.com
+      description: 'The BSA Multi-Purpose Sighting Systems are a wonderful light weight
+        sight for close quarter and medium range targets. Light enough for small calibers
+        plicking on the range, yet durable enough for larger calibers used by hunters
+        and law enforcement departments. Features: 5/8 Weaver style attachment. 11
+        position rheostat. 5 MOA. One Year limited warranty.'
+      keywords:
+      image_source: http://pistolandpawn.com/shop/media/catalog/product/cache/1/image/265x265/9df78eab33525d08d6e5fb8d27136e95/i/m/img60675_1.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2405 North Memorial Parkway, Huntsville, AL 35810
+      availability: in_stock
+      current_price_in_cents: 1809
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 1809
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

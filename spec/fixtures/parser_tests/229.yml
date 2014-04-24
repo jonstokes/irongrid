@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 229
+  engine:
+  source_url: https://www.gunup.com/shop/american-tactical-imports-fx45-1911-gfx45gi
+  seller_domain: www.gunup.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-gunup-com-American_Tactical_Imports_FX45_1911_%7C_GFX45GI.html
+  is_valid: true
+  created_at: 2014-03-07 22:17:26.253905000 Z
+  updated_at: 2014-04-23 21:29:29.236063000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-gunup-com-American_Tactical_Imports_FX45_1911_%7C_GFX45GI.html
+    digest: d55f6b2c15e3d061fbb215dccf90accb
+    type: RetailListing
+    item_data:
+      title:
+      - title: American Tactical Imports FX45 1911 | GFX45GI
+      - autocomplete: American Tactical Imports FX45 1911 | GFX45GI
+      - scrubbed: American Tactical Imports FX45 1911 | GFX45GI
+      - normalized: American Tactical Imports fx45 1911 | gfx45gi
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: American Tactical Imports
+      - classification_type: metadata
+      caliber:
+      - caliber: .45 ACP
+      - classification_type: hard
+      number_of_rounds:
+      grains:
+      seller_name: GunUp
+      seller_domain: www.gunup.com
+      description: ATI Firepower Xtreme .45ACP caliber 1911 pistol series from Shooters Arms Manufacturing. Available in 5 different models, from classic military, competition and bull barrel designs, the FX 1911 series features all steel parts, solid mahogany grips and a price point that won't break the bank. Compatible with many different brands of 1911 magazine, the FX series is certain to have the 1911 pistol enthusiast set for hours of satisfactory shooting.
+      keywords:
+      image_source: https://www.gunup.com/sites/default/files/styles/product/public/products/gfx45gi_ati_fx45_1911_gi.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: Sioux Falls, SD
+      availability: in_stock
+      current_price_in_cents: 42900
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 42900
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

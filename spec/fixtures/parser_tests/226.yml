@@ -1,0 +1,91 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 226
+  engine:
+  source_url: http://www.manventureoutpost.com/products/Advanced-Armament-Corp-AccuTip-300-AAC-Blackout-125Gr-Ballistic-Tip-20-200-21516.html
+  seller_domain: www.manventureoutpost.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-manventureoutpost-com-Advanced_Armament_Corp_AccuTip_300_AAC_Blackout_125Gr_Ballistic_Tip_20_200_21516.html
+  is_valid: true
+  created_at: 2014-03-07 22:01:02.066019000 Z
+  updated_at: 2014-04-23 21:29:22.349989000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-manventureoutpost-com-Advanced_Armament_Corp_AccuTip_300_AAC_Blackout_125Gr_Ballistic_Tip_20_200_21516.html
+    digest: e1da62594fe732af78b2e6cc94c7d388
+    type: RetailListing
+    item_data:
+      title:
+      - title: Advanced Armament Corp AccuTip 300 AAC Blackout 125Gr Ballistic Tip 20 200 21516
+      - autocomplete: Advanced Armament Corp AccuTip 300 AAC Blackout 125Gr Ballistic Tip 20 200 21516
+      - scrubbed: Advanced Armament Corp AccuTip .300 AAC Blackout 125 grain Ballistic Tip 20 200 21516
+      - normalized: Advanced Armament Corp accutip .300 BLK 125 grain ballistic tip 20 200 21516
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: Advanced Armament Corp
+      - classification_type: hard
+      caliber:
+      - caliber: .300 BLK
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: hard
+      grains:
+      - grains: 125
+      - classification_type: hard
+      seller_name: Manventure Outpost
+      seller_domain: www.manventureoutpost.com
+      description: "Action: \r\n \r\n \r\n \r\n Battery: \r\n \r\n \r\n \r\n Batteries\
+        \ Included: \r\n \r\n \r\n \r\n Battery Type: \r\n \r\n \r\n \r\n Bullet Diameter:\
+        \ \r\n \r\n \r\n \r\n Bullet Type: \r\n \r\n \r\n \r\n Caliber: 300 AAC Blackout\r\
+        \n \r\n \r\n \r\n Capacity: \r\n \r\n \r\n \r\n Chamber: \r\n \r\n \r\n \r\
+        \n Choke Type: \r\n \r\n \r\n \r\n Color: \r\n \r\n \r\n \r\n DieType: \r\n\
+        \ \r\n \r\n \r\n Fit: \r\n \r\n \r\n \r\n Gauge: \r\n \r\n \r\n \r\n Grain:\
+        \ 125Gr\r\n \r\n \r\n \r\n Hand: \r\n \r\n \r\n \r\n Magazine: \r\n \r\n \r\
+        \n \r\n Magnification: \r\n \r\n \r\n \r\n Material: \r\n \r\n \r\n \r\n Maximum\
+        \ Range: \r\n \r\n \r\n \r\n MountType: \r\n \r\n \r\n \r\n Shell Holder Size:\
+        \ \r\n \r\n \r\n \r\n Shell Length: \r\n \r\n \r\n \r\n Shot Size: \r\n \r\
+        \n \r\n \r\n Shot Weight: \r\n \r\n \r\n \r\n Objective: \r\n \r\n \r\n \r\
+        \n Reticle: \r\n \r\n \r\n \r\n Tube Size: \r\n \r\n \r\n \r\n Barrel Type:\
+        \ \r\n \r\n \r\n \r\n Accessories: \r\n \r\n \r\n \r\n Barrel Length: \r\n\
+        \ \r\n \r\n \r\n Dram: \r\n \r\n \r\n \r\n Edge: \r\n \r\n \r\n \r\n Fired\
+        \ Casing: \r\n \r\n \r\n \r\n Fit: \r\n \r\n \r\n \r\n Feet per Second: \r\
+        \n \r\n \r\n \r\n Caliber: \r\n \r\n \r\n \r\n Grips/Stock: GripStock\r\n\
+        \ \r\n \r\n \r\n MOA: \r\n \r\n \r\n \r\n Power: \r\n \r\n \r\n \r\n Safety:\
+        \ \r\n \r\n \r\n \r\n Sights: \r\n \r\n \r\n \r\n Size: \r\n \r\n \r\n \r\n\
+        \ Type: Ballistic Tip\r\n \r\n \r\n \r\n Units Per Box: 20\r\n \r\n \r\n \r\
+        \n Units Per Case: 200\r\n \r\n *The image and details above are a representation\
+        \ only, production variances may exist. For details please contact us or the\
+        \ manufacturer prior to ordering."
+      keywords: Advanced Armament Corp,21516,AccuTip,
+      image_source: http://www.manventureoutpost.com/product_images/tact/std/std_AACO21516_1.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 10722 Fairgrounds Rd, Huntingdon, PA 16652
+      availability: out_of_stock
+      current_price_in_cents: 2970
+      price_per_round_in_cents: 149
+      price_on_request:
+      price_in_cents: 3499
+      sale_price_in_cents: 2970
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,73 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 195
+  engine: ''
+  source_url: http://lowranceprecisionfirearms.com/index.php?main_page=product_info&cPath=4_30&products_id=2202
+  seller_domain: lowranceprecisionfirearms.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/lowranceprecisionfirearms-com-FED_AMMO_AUTOMATCH_.22LR_40GR_RN_325RD.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:59.156000000 Z
+  updated_at: 2014-04-23 21:28:33.839999000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/lowranceprecisionfirearms-com-FED_AMMO_AUTOMATCH_.22LR_40GR_RN_325RD.html
+    digest: bc38326ba6e3b6ea6f50a4c9cc65e838
+    type: RetailListing
+    item_data:
+      title:
+      - title: FED AMMO AUTOMATCH .22LR 40GR RN 325RD
+      - autocomplete: FED AMMO AUTOMATCH .22LR 40GR RN 325RD
+      - scrubbed: FED AMMO AUTOMATCH .22 LR 40 grain RN .325 round
+      - normalized: fed ammo automatch .22lr 40 grain rn .325 round
+      category1:
+      - category1: Ammunition
+      - classification_type: metadata
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: .22lr
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 325
+      - classification_type: metadata
+      grains:
+      - grains: 40
+      - classification_type: metadata
+      seller_name: Lowrance Precision Firearms
+      seller_domain: lowranceprecisionfirearms.com
+      description: "BULLET TYPE LEAD ROUND NOSE\r\nBULLET WEIGHT 40 GRAINS\r\nCALIBER\
+        \ .22 LONG RIFLE\r\nOTHER FEATURES: 10 325RD BOXES PER CASE\r\nROUNDS PER\
+        \ BOX 325.0000\r\nVELOCITY 1200 FPS.\r\n** Product in stock and ready to ship.\r\
+        \n Shipping is 5.00"
+      keywords: FED AMMO AUTOMATCH .22LR 40GR RN 325RD [AUTOMATCH 325 RD Box] Rifles Handguns Shotguns Ammunition Used Guns Specials Gift Certificates SlideFire Scopes/Optics G5/Quest Lasers Holsters ecommerce, open source, shop, online shopping
+      image_source: http://lowranceprecisionfirearms.com/images/FED%20AMMO%20AUTOMATCH%20.22LR%2040GR%20RN%2010-325RD.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2600 36th St, Parkersburg, WV 26102
+      availability: out_of_stock
+      current_price_in_cents: 2000
+      price_per_round_in_cents: 6
+      price_on_request:
+      price_in_cents: 2000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

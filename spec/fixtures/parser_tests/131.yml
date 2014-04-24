@@ -1,0 +1,67 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 131
+  engine: ''
+  source_url: http://palmettostatearmory.com/index.php/firearms/handguns/ruger-lcr-22-22lr-8-shot-revolver-05410.html
+  seller_domain: palmettostatearmory.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Ruger_LCR-22_.22LR_8_Shot_Revolver_05410.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:23.179000000 Z
+  updated_at: 2014-04-23 21:27:10.704162000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Ruger_LCR-22_.22LR_8_Shot_Revolver_05410.html
+    digest: 1f4ab8b6dbdb24b0fd14fadd7d2cee69
+    type: RetailListing
+    item_data:
+      title:
+      - title: Ruger LCR-22 .22LR 8 Shot Revolver 05410
+      - autocomplete: Ruger LCR-22 .22LR 8 Shot Revolver 05410
+      - scrubbed: Ruger LCR-22 .22 LR 8 Shot Revolver 05410
+      - normalized: Ruger lcr-22 .22lr 8 shot revolver 05410
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Ruger
+      - classification_type: metadata
+      caliber:
+      - caliber: .22lr
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Palmetto State Armory
+      seller_domain: palmettostatearmory.com
+      description: 'LCR-22 Model: 5410 Caliber: 22 LRCapacity: 8Grip: Hogue(r) TamerFront
+        Sight: Replaceable, Pinned RampWeight: 14.90 oz.'
+      keywords: Ruger LCR-22 .22LR 8 Shot Revolver 05410
+      image_source: http://palmettostatearmory.com/media/catalog/product/cache/1/image/269x/9df78eab33525d08d6e5fb8d27136e95/5/4/5410_1.png
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 200 Business Park Blvd, Columbia, SC 29203
+      availability: out_of_stock
+      current_price_in_cents:
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents:
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 130
+  engine: ''
+  source_url: http://palmettostatearmory.com/index.php/firearms/handguns/colt-1991-government-45-acp-o1991.html
+  seller_domain: palmettostatearmory.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Colt_1991_Government_.45_ACP_O1991.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:22.407000000 Z
+  updated_at: 2014-04-23 21:27:08.952698000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Colt_1991_Government_.45_ACP_O1991.html
+    digest: 2f62ce9dd071bc053fe7bb38f2b2fc3b
+    type: RetailListing
+    item_data:
+      title:
+      - title: Colt 1991 Government .45 ACP O1991
+      - autocomplete: Colt 1991 Government .45 ACP O1991
+      - scrubbed: Colt 1991 Government .45 ACP O1991
+      - normalized: Colt 1991 government .45 ACP o1991
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Colt
+      - classification_type: metadata
+      caliber:
+      - caliber: .45 ACP
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Palmetto State Armory
+      seller_domain: palmettostatearmory.com
+      description: MODEL O1991BARREL LENGTH (IN.) 5 CALIBER .45 MAGAZINE CAPACITY 7RECEIVER MATERIAL Carbon SteelRECEIVER FINISH BluedSLIDE MATERIAL Carbon Steel SLIDE FINISH BluedSIGHTS High Profile w/DotsHAMMER SpurTRIGGER Solid Aluminum SAFETY LOCK StandardGRIP SAFETY StandardSTOCKS RosewoodEJECTION PORT LoweredACTION Single ActionFIRING SYSTEM Series 80OVERALL LENGTH (IN.) 8.5APPROX. WEIGHT (OZ.) 35.0
+      keywords: Colt 1991 Government .45 ACP O1991
+      image_source: http://palmettostatearmory.com/media/catalog/product/cache/1/image/269x/9df78eab33525d08d6e5fb8d27136e95/o/1/o1991.png
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 200 Business Park Blvd, Columbia, SC 29203
+      availability: in_stock
+      current_price_in_cents: 92899
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 92899
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

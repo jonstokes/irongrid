@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 210
+  engine:
+  source_url: http://www.ammunitiontogo.com/product_info.php/pName/1-md-arms-saiga-12-gauge-20rd-drum-polymer-wclear-black-smoke-cover-plate/cName/magazines-shotgun-magazines
+  seller_domain: www.ammunitiontogo.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammunitiontogo-com-1_-_MD_Arms_Saiga_12_Gauge_20rd._Drum_Polymer_w/Clear%2C_Black_%26_Smoke_Cover_Plate%5DMDASAIGADRUM%5D.html
+  is_valid: true
+  created_at: 2014-03-04 22:39:21.609185000 Z
+  updated_at: 2014-04-23 21:29:00.096856000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammunitiontogo-com-1_-_MD_Arms_Saiga_12_Gauge_20rd._Drum_Polymer_w/Clear%2C_Black_%26_Smoke_Cover_Plate%5DMDASAIGADRUM%5D.html
+    digest: a97d13b0b94592db2f1e823528da5e43
+    type: RetailListing
+    item_data:
+      title:
+      - title: 1 - MD Arms Saiga 12 Gauge 20rd. Drum Polymer w/Clear, Black & Smoke Cover Plate]MDASAIGADRUM]
+      - autocomplete: 1 - MD Arms Saiga 12 Gauge 20rd. Drum Polymer w/Clear, Black & Smoke Cover Plate]MDASAIGADRUM]
+      - scrubbed: 1 - MD Arms Saiga 12 gauge 20 round . Drum Polymer w/Clear Black & Smoke Cover Plate]MDASAIGADRUM]
+      - normalized: 1 - md arms Saiga 12 gauge 20 round . drum polymer w/clear black & smoke cover plate]mdasaigadrum]
+      category1:
+      - category1: Accessories
+      - classification_type: default
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Saiga
+      - classification_type: metadata
+      caliber:
+      - caliber: 12 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: metadata
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Ammunition To Go
+      seller_domain: www.ammunitiontogo.com
+      description: This is the MD Arms Saiga 12 Gauge 20rd. Drum Polymer w/Clear, Black & Smoke Cover Plate. Tried and proven design with real time use. Unequaled reliability and durability. Less friction from moving parts and feedlips. Design Simplicity, 3 moving & 15 total parts. Locks into gun tight with virtually no movement. The MD-20's rear cover is recessed in the drum body protecting its locking points and better reinforcing both cover and body. The clear and smoke covers are usable in much lower light conditions. This drum magazine may require slight modification for best fit, and instructions are included with the magazine.
+      keywords:
+      image_source: http://www.ammunitiontogo.com/images/MDASAIGADRUM.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 6360 FM 50, Brenham, TX 77833
+      availability: in_stock
+      current_price_in_cents: 12995
+      price_per_round_in_cents: 650
+      price_on_request:
+      price_in_cents: 15995
+      sale_price_in_cents: 12995
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

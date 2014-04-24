@@ -1,0 +1,72 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 218
+  engine:
+  source_url: http://www.laxammo.com/ammunition/handgun-reloads/reloaded-40-sw-180gr.-500rds-w--ammo-can/22-15
+  seller_domain: www.laxammo.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-laxammo-com-Reloaded_40_S%26W_180Gr._500rds_W/_Ammo_Can.html
+  is_valid: true
+  created_at: 2014-03-06 18:54:11.334404000 Z
+  updated_at: 2014-04-23 21:29:10.425855000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-laxammo-com-Reloaded_40_S%26W_180Gr._500rds_W/_Ammo_Can.html
+    digest: 12b9a3d0a95c744a31931a1e20286e39
+    type: RetailListing
+    item_data:
+      title:
+      - title: Reloaded 40 S&W 180Gr. 500rds W/ Ammo Can
+      - autocomplete: Reloaded 40 S&W 180Gr. 500rds W/ Ammo Can
+      - scrubbed: Reloaded .40 S&W 180 grain 500 rounds W/ Ammo Can
+      - normalized: reloaded .40 S&W 180 grain 500 rounds w/ ammo can
+      category1:
+      - category1: Ammunition
+      - classification_type: metadata
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: hard
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: .40 S&W
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 500
+      - classification_type: metadata
+      grains:
+      - grains: 180
+      - classification_type: hard
+      seller_name: LAX Ammunition
+      seller_domain: www.laxammo.com
+      description: "Quality Factory Reloads\r\nCaliber: 40 S&W\r\nBullet: Copper-Plated\r\
+        \nGrain Weight: 180 gr.\r\nBrass & Nickel-plated Brass casings\r\nFPS: 980\r\
+        \nAmmunition is packaged in Plastic Ammo Can"
+      keywords:
+      image_source: http://www.laxammo.com/components/com_virtuemart/shop_image/product/Reloaded_40mm_4fe270e07726b.png
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 234 S. Hindry Ave, Inglewood, CA 90301
+      availability: out_of_stock
+      current_price_in_cents: 13599
+      price_per_round_in_cents: 27
+      price_on_request:
+      price_in_cents: 13599
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

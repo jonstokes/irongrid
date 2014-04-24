@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 117
+  engine: ''
+  source_url: http://www.theonlinegunshop.com/shoppingcart/products/CCI-0049--17HMR--17-VMAX---------50%7B47%7D40-%252d-CCI%7B47%7DSPEER.html
+  seller_domain: www.theonlinegunshop.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-theonlinegunshop-com-CCI_0049_17HMR_17_VMAX_50/40_-_CCI/SPEER.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:13.340000000 Z
+  updated_at: 2014-04-23 21:26:47.016085000 Z
+  not_found:
+  classified_sold:
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-theonlinegunshop-com-CCI_0049_17HMR_17_VMAX_50/40_-_CCI/SPEER.html
+    digest: 1b745afdcb0b5b8aa830fd4e33419906
+    type: RetailListing
+    item_data:
+      title:
+      - title: CCI 0049 17HMR 17 VMAX 50/40 - CCI/SPEER
+      - autocomplete: CCI 0049 17HMR 17 VMAX 50/40 - CCI/SPEER
+      - scrubbed: CCI 0049 .17 HMR .17 VMAX 50/40 - CCI/SPEER
+      - normalized: CCI 0049 .17 HMR .17 vmax 50/40 - CCI/speer
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: CCI
+      - classification_type: metadata
+      caliber:
+      - caliber: .17 HMR
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: The Online Gun Shop
+      seller_domain: www.theonlinegunshop.com
+      description: CCI 0049 17HMR 17 VMAX 50/40 - CCI/SPEER RIMFIRE ROUNDS
+      keywords: CCI 0049 17HMR 17 VMAX 50/40 - CCI/SPEER RIMFIRE ROUNDS
+      image_source: http://www.theonlinegunshop.com/shoppingcart/product_images/e/844/12820__23770.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: '13497 U.S. 183 #350  Austin, TX 78750'
+      availability: out_of_stock
+      current_price_in_cents: 1428
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 2284
+      sale_price_in_cents: 1428
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

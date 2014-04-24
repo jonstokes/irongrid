@@ -1,0 +1,73 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 190
+  engine: ''
+  source_url: http://www.huntingdepot.net/catalog/product.asp?pid=72701&ret_id=1219039
+  seller_domain: www.huntingdepot.net
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-Winchester_Ammo_.410_Gauge_PDX1_2.5%22_Personal_Defense.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:57.819000000 Z
+  updated_at: 2014-04-23 21:28:24.794426000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-Winchester_Ammo_.410_Gauge_PDX1_2.5%22_Personal_Defense.html
+    digest: 45fbf6a078dea1194c2c89d8ec23757d
+    type: RetailListing
+    item_data:
+      title:
+      - title: Winchester Ammo .410 Gauge PDX1 2.5" Personal Defense
+      - autocomplete: Winchester Ammo .410 Gauge PDX1 2.5" Personal Defense
+      - scrubbed: Winchester Ammo .410 gauge PDX1 2.5 inch Personal Defense
+      - normalized: Winchester ammo .410 gauge gauge pdx1 2.5 inch personal defense
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Winchester
+      - classification_type: metadata
+      caliber:
+      - caliber: .410 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Hunting Depot
+      seller_domain: www.huntingdepot.net
+      description: "SupremeEl 410ga PDX1 2.5\" PersDef Description\r\n Winchester\
+        \ Supreme Elite Personal Defense Ammunition\n- Caliber: .410 Gauge\n- Length:\
+        \ 2.5\"\n- 12 Plated BB's\n- 3 Plated Cylinder Projectiles\n- PDX1\n- Can\
+        \ use with Taurus Judge\n- Per 10"
+      keywords:
+      image_source: http://images.dealerease.net/prodpics/wincpics410pdx1.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 23 S Prospect St, Nanticoke, PA 18634
+      availability: in_stock
+      current_price_in_cents: 1373
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 1373
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

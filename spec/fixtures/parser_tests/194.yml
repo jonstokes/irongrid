@@ -1,0 +1,78 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 194
+  engine: ''
+  source_url: http://lowranceprecisionfirearms.com/index.php?main_page=product_info&cPath=1_99&products_id=1353
+  seller_domain: lowranceprecisionfirearms.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/lowranceprecisionfirearms-com-BSH_XM15_M4A3_CRB_223.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:58.945000000 Z
+  updated_at: 2014-04-23 21:28:30.180428000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/lowranceprecisionfirearms-com-BSH_XM15_M4A3_CRB_223.html
+    digest: d19a7cc5ca9e514acdbf073e56f7dcc8
+    type: RetailListing
+    item_data:
+      title:
+      - title: BSH XM15 M4A3 CRB 223
+      - autocomplete: BSH XM15 M4A3 CRB 223
+      - scrubbed: BSH XM15 M4A3 CRB .223
+      - normalized: bsh xm15 m4a3 crb .223
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Lowrance Precision Firearms
+      seller_domain: lowranceprecisionfirearms.com
+      description: "Description: BSH XM15 M4A3 CRB 223\r\nManufacturer: Bushmaster\r\
+        \nModel #: XM15 A3 M4 Type Carbine\r\nType: Rifle\r\nFinish: Black Matte\r\
+        \nStock: 6-Position Telescoping Buttstock\r\nSights: Ft: Adjustable Post RR:\
+        \ A2 Adjustable\r\nBarrel Length: 16.5\" Chrome-Lined M4 Type (14.5\" Plus\
+        \ Brake)\r\nOverall Length: 30.875\"\r\nWeight: 6.57 lbs\r\nCaliber: 223\r\
+        \nCapacity: 30+1\r\nAction: Semi-Automatic\r\n# of Mags: 1\r\nChokes: \r\n\
+        Packaging: \r\nReceiver: Black Matte, A3 Upper\r\nChamber: \r\nMuzzle: Izzy\
+        \ Muzzle Brake, Permanently Attached\r\nFeatures: A3 Removable Carry Handle,\
+        \ Bayonet Lug\r\n1\" Black Sling, Black Thermaplastic Pistol Grip"
+      keywords: BSH XM15 M4A3 CRB 223 [XM15 A3 M4 Type Carbine] Rifles Handguns Shotguns Ammunition Used Guns Specials Gift Certificates SlideFire Scopes/Optics G5/Quest Lasers Holsters ecommerce, open source, shop, online shopping
+      image_source: http://lowranceprecisionfirearms.com/images/BSH%20XM15%20M4A3%20CRB%20223.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2600 36th St, Parkersburg, WV 26102
+      availability: in_stock
+      current_price_in_cents: 107500
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 107500
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

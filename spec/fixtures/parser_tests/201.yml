@@ -1,0 +1,72 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 201
+  engine: ''
+  source_url: http://centerfiresystems.com/AM762102BB.aspx
+  seller_domain: centerfiresystems.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/centerfiresystems-com-Brown_Bear_Russian_7.62x39_FMJ_123GR_20_RD_Ammo_%23AM762102BB.html
+  is_valid: true
+  created_at: 2014-02-28 19:02:00.462000000 Z
+  updated_at: 2014-04-23 21:28:42.776153000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/centerfiresystems-com-Brown_Bear_Russian_7.62x39_FMJ_123GR_20_RD_Ammo_%23AM762102BB.html
+    digest: 8c7a7f3d0d2efd7947a52957165d644d
+    type: RetailListing
+    item_data:
+      title:
+      - title: 'Brown Bear Russian 7.62x39 FMJ 123GR 20 RD Ammo #AM762102BB'
+      - autocomplete: 'Brown Bear Russian 7.62x39 FMJ 123GR 20 RD Ammo #AM762102BB'
+      - scrubbed: 'Brown Bear Russian 7.62x39 FMJ 123 grain 20 round Ammo #AM762102BB'
+      - normalized: 'Brown Bear russian 7.62x39mm fmj 123 grain 20 round ammo #am762102bb'
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Brown Bear
+      - classification_type: metadata
+      caliber:
+      - caliber: 7.62x39mm
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: metadata
+      grains:
+      - grains: 123
+      - classification_type: metadata
+      seller_name: Centerfire Systems
+      seller_domain: centerfiresystems.com
+      description: '20 ROUNDSUPC: 4607094860266 * Brown Bear * 7.62X39 * 123 GR *
+        Full Metal Jacket * Non-Corrosive * Non-reloadable * Bimetal Core * Lacquered
+        Steel Case * Berdan Primed * Russian MfgClick here for ammo restrictions.'
+      keywords: Brown Bear Russian 7.62x39 FMJ 123GR 20 RD Ammo, AM762102BB, AM762101BB, AM762100BB, AM762, AM76210, 4607094860266, 7.62X39, 123GR, SP, 123, GR, GRAIN, ammo, ammunition, 20rd, 500rd, 1000rd, rd, rds, round, rounds
+      image_source: http://centerfiresystems.com/images/products/detail/AM762101BBD.2.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 102 Fieldview Dr, Versailles, KY 40383
+      availability: in_stock
+      current_price_in_cents: 699
+      price_per_round_in_cents: 35
+      price_on_request:
+      price_in_cents: 699
+      sale_price_in_cents: 699
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

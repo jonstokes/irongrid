@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 164
+  engine: www.ironsights.com
+  source_url: http://centermassfirearms.com/index.php/rifles/armalite-3-gunner-m-15-stainless-barrel-5-56-nato.html
+  seller_domain: centermassfirearms.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/centermassfirearms-com-Armalite_3-Gunner_M-15_Stainless_Barrel_5.56_NATO.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:49.536000000 Z
+  updated_at: 2014-04-23 21:27:57.445399000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/centermassfirearms-com-Armalite_3-Gunner_M-15_Stainless_Barrel_5.56_NATO.html
+    digest: 1c2c4fbcbd0f0b7b2186bf0ebc7601d0
+    type: RetailListing
+    item_data:
+      title:
+      - title: Armalite 3-Gunner M-15 Stainless Barrel 5.56 NATO
+      - autocomplete: Armalite 3-Gunner M-15 Stainless Barrel 5.56 NATO
+      - scrubbed: Armalite 3-Gunner M-15 Stainless Barrel 5.56 NATO
+      - normalized: Armalite 3-gunner m-15 stainless barrel 5.56 NATO nato
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Armalite
+      - classification_type: metadata
+      caliber:
+      - caliber: 5.56 NATO
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Center Mass Firearms
+      seller_domain: centermassfirearms.com
+      description: Armalite M-15a4t 3-gunner Semi-automatic Ar 223 Rem 556nato 18" Black Black 15" Ss-seris Free Float Tube 1:8 Stainless 30rd
+      keywords: Armalite 3-Gunner M-15 Stainless Barrel 5.56 NATO
+      image_source: http://centermassfirearms.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1281.jpg_1.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2140 S. Boulder Hwy., Henderson, NV 89002
+      availability: in_stock
+      current_price_in_cents: 122500
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 122500
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,72 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 118
+  engine: ''
+  source_url: http://www.gunsamerica.com/967060241/X_Werks_LMT_LM8_MWS_AR_10_7_62x51_Slick_Magpul_FDE.htm
+  seller_domain: www.gunsamerica.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsamerica-com-X-Werks_LMT_LM8_MWS_AR-10_7.62x51_Slick_Magpul_FDE.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:13.775000000 Z
+  updated_at: 2014-04-23 21:28:49.024870000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsamerica-com-X-Werks_LMT_LM8_MWS_AR-10_7.62x51_Slick_Magpul_FDE.html
+    digest: d81b46563200c9d8b99e8155351722ae
+    type: ClassifiedListing
+    item_data:
+      title:
+      - title: X-Werks LMT LM8 MWS AR-10 7.62x51 Slick Magpul FDE
+      - autocomplete: X-Werks LMT LM8 MWS AR-10 7.62x51 Slick Magpul FDE
+      - scrubbed: X-Werks LMT LM8 MWS AR-10 7.62x51 Slick Magpul FDE
+      - normalized: x-werks LMT lm8 mws ar-10 .308 Win slick Magpul fde
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: LMT
+      - classification_type: metadata
+      caliber:
+      - caliber: .308 Win
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Guns America
+      seller_domain: www.gunsamerica.com
+      description: "New in box X-Werks coated Lewis Machine & Tool LM8MWS Slick chambered\
+        \ in 7.62x51mm. This LMT rifle has a Magpul FDE cerakote finish from X-Werks\
+        \ applied to it. Rifle ships with box, 1 magazine, rail segments, and torque\
+        \ wench. Rifle features the following: \r\n* 16\" 1:10 Twist Chrome Lines\
+        \ Barrel 5/8x24 Threaded \r\n* Semi Auto BCG\r\n* Tactical Charging Handle\r\
+        \n* Sopmod Stock\r\n* 2 Stage Trigger\r\n* Ambi Selector\r\n* Ambi Mag release\r\
+        \n* Front and Rear Removable Sights"
+      keywords: xwerks lmt lm8 mws ar10 762x51 slick magpul fde l misc rifles
+      image_source: http://www.gunsamerica.com/userimages/161881/967060241/wm_md_5159436.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: AZ
+      availability: in_stock
+      current_price_in_cents: 329999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 329999
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

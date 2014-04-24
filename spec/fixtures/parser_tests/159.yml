@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 159
+  engine: ''
+  source_url: http://www.hyattgunstore.com/mossberg-12-ga-rifle-bore-24-barrel-w-cantilever-mount-3-9x32-scope-for-mossberg-500.html
+  seller_domain: www.hyattgunstore.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-hyattgunstore-com-Mossberg_12_Ga_Rifle_Bore_24%22_Barrel_w/Cantilever_Mount_%26_3-9X32_Scope_for_Mossberg_500.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:45.825000000 Z
+  updated_at: 2014-04-23 21:27:47.997184000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-hyattgunstore-com-Mossberg_12_Ga_Rifle_Bore_24%22_Barrel_w/Cantilever_Mount_%26_3-9X32_Scope_for_Mossberg_500.html
+    digest: 17e2d232f60c10c215aad4a70e75d2ee
+    type: RetailListing
+    item_data:
+      title:
+      - title: Mossberg 12 Ga Rifle Bore 24" Barrel w/Cantilever Mount & 3-9X32 Scope for Mossberg 500
+      - autocomplete: Mossberg 12 Ga Rifle Bore 24" Barrel w/Cantilever Mount & 3-9X32 Scope for Mossberg 500
+      - scrubbed: Mossberg 12 gauge Rifle Bore 24 inch Barrel w/Cantilever Mount & 3-9X32 Scope for Mossberg 500
+      - normalized: Mossberg 12 gauge rifle bore 24 inch barrel w/cantilever mount & 3-9x32 scope for Mossberg 500
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Mossberg
+      - classification_type: metadata
+      caliber:
+      - caliber: 12 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Hyatt Gun Store
+      seller_domain: www.hyattgunstore.com
+      description: Mossberg 12 Ga Rifle Bore 24" Barrel w/Cantilever Mount & 3-9X32 Scope for Mossberg 500
+      keywords: Mossberg 12 Ga Rifle Bore 24" Barrel w/Cantilever Mount & 3-9X32 Scope for Mossberg 500
+      image_source: http://www.hyattgunstore.com/images/P/21581-P-02.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 3332 Wilkinson Blvd Charlotte, NC 28208
+      availability: in_stock
+      current_price_in_cents: 24299
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents:
+      sale_price_in_cents: 24299
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

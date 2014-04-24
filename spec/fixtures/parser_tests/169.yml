@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 169
+  engine: ''
+  source_url: http://www.cheaperthandirt.com/product/77991
+  seller_domain: www.cheaperthandirt.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-cheaperthandirt-com-Fausti_Side_By_Side_Shotgun.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:51.996000000 Z
+  updated_at: 2014-04-23 21:28:01.984549000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-cheaperthandirt-com-Fausti_Side_By_Side_Shotgun.html
+    digest: 883b164dc4a38d85fe24c3e7ac876f37
+    type: RetailListing
+    item_data:
+      title:
+      - title: Fausti Side By Side Shotgun
+      - autocomplete: Fausti Side By Side Shotgun
+      - scrubbed: Fausti Side By Side Shotgun
+      - normalized: Fausti side by side shotgun
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Fausti
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      grains:
+      seller_name: Cheaper Than Dirt
+      seller_domain: www.cheaperthandirt.com
+      description: FAUSTI SBS 20 26
+      keywords:
+      image_source: http://cdn1.cheaperthandirt.com/ctd_images/mdprod/77991.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2058 West University Drive, McKinney, Texas 75071
+      availability: out_of_stock
+      current_price_in_cents: 149880
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 149880
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

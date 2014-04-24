@@ -1,0 +1,101 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 143
+  engine: ''
+  source_url: http://clydearmory.com/beretta-92a1-9mm.html
+  seller_domain: clydearmory.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages.s3.amazonaws.com/clydearmory-com-Beretta_92A1_9mm.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:32.717000000 Z
+  updated_at: 2014-04-23 21:27:30.306288000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages.s3.amazonaws.com/clydearmory-com-Beretta_92A1_9mm.html
+    digest: e956c3a8749b4315fe47fe6f75750dc1
+    type: RetailListing
+    item_data:
+      title:
+      - title: Beretta 92A1 9mm
+      - autocomplete: Beretta 92A1 9mm
+      - scrubbed: Beretta 92A1 9mm
+      - normalized: Beretta 92a1 9mm Luger
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Beretta
+      - classification_type: metadata
+      caliber:
+      - caliber: 9mm Luger
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Clyde Armory
+      seller_domain: clydearmory.com
+      description: "New for 2010, the Model 92A1 and 96A1 represent Beretta's evolution\
+        \ of the world famous 92FS pistol.Combining the best elements of the 92FS\
+        \ and the 90-Two,these pistols feature:A. Higher capacity magazines: 17 rounds\
+        \ in 9mm available separately. Completely interchangeable with other 92 family\
+        \ magazines. THREE 10-round magazines included per pistol.B. Removable front\
+        \ sight: Allows the user to easily replace a damaged sight or replace it with\
+        \ an accessory sight.C. Accessory rail: The frame of the A1's have an integral\
+        \ MIL-STD-1913 rail for rapid attachment of tactical lights and laser aiming\
+        \ devices.D. Internal recoil buffer: Increases service life by reducing stress\
+        \ on the receiver created by the more powerful .40 S&W caliber ammunition.E.\
+        \ Captive recoil spring assembly: The single-piece design simplifies the assembly\
+        \ and disassembly process and minimizes the possibility of spring loss.F.\
+        \ Rounded trigger guard: Updated styling to conform with current pistol gripping\
+        \ practices.92 FS. A LEGENDARY FIREARMS. The most tested and trusted personal\
+        \ defense weapon in history.The 92FS, designated M9 by the U.S. Military,\
+        \ not only meets or exceeds all U.S. Military testing guidelines, it totally\
+        \ rewrites them.BERETTA U.S.A. RELIABILITY AND DURABILITY STATISTICS FOR THE\
+        \ BERETTA 9mm PISTOL.* The average reliability of all M9 pistols tested at\
+        \ Beretta U.S.A. is 17,500 rounds without a stoppage. * During one test of\
+        \ twelve pistols fired at Beretta U.S.A. before Army supervision, Beretta-made\
+        \ M9 pistols shot 168,000 rounds without a single malfunction. * The Beretta\
+        \ 9mm pistol was the most reliable of all pistols tested in the 1984 competition\
+        \ which resulted in the award of the M9 contract to Beretta. * Two-thirds\
+        \ of all M9 pistols endurance tested at Beretta U.S.A. fired 5,000 rounds\
+        \ without a single mal function or, at most, with only one malfunction. *\
+        \ The average durability of Beretta M9 slides is over 35,000 rounds, the point\
+        \ at which U.S. Army testing ceases. * The average durability of M9 frames\
+        \ is over 30,000 rounds. The average durability of M9 locking blocks is 22,000\
+        \ rounds. \r\nCaliber\r\n9mm\r\nAcgtion\r\nDuoble/Single\r\nOverall Length\r\
+        \n8.5\"\r\nOverall Height\r\n5.4\"\r\nBarrel Length\r\n4.9\"\r\nSight Radius\r\
+        \n6.1\"\r\nOverall Width\r\n1.5\"\r\nGrip Width\r\n1.3\"\r\nWeight Unloaded\r\
+        \n33.9 oz \r\nMagazine Capacity\r\n15\r\n\n \n UPC\n 0082442111094\n decorateTable('product-attribute-specs-table')"
+      keywords:
+      image_source: http://clydearmory.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/9/2/92a15.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 4800 Atlanta Hwy, Bogart, GA 30622
+      availability: in_stock
+      current_price_in_cents: 64995
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 65000
+      sale_price_in_cents: 64995
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

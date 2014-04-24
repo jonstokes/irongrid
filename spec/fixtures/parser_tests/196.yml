@@ -1,0 +1,73 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 196
+  engine: ''
+  source_url: http://lowranceprecisionfirearms.com/index.php?main_page=product_info&cPath=9_224&products_id=2076
+  seller_domain: lowranceprecisionfirearms.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/lowranceprecisionfirearms-com-BUS_1X8_RED/GREEN_DOT_4-RET_RD.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:59.339000000 Z
+  updated_at: 2014-04-23 21:28:35.141122000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/lowranceprecisionfirearms-com-BUS_1X8_RED/GREEN_DOT_4-RET_RD.html
+    digest: ea314ed94f13e8d7a1ed9ecd259271c5
+    type: RetailListing
+    item_data:
+      title:
+      - title: BUS 1X8 RED/GREEN DOT 4-RET RD
+      - autocomplete: BUS 1X8 RED/GREEN DOT 4-RET RD
+      - scrubbed: BUS 1X8 RED/GREEN DOT 4-RET RD
+      - normalized: bus 1x8 red/green dot 4-ret rd
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Lowrance Precision Firearms
+      seller_domain: lowranceprecisionfirearms.com
+      description: "Multicoated optics. 4 interchangeable reticles. Red reticles for\
+        \ bright light. Green reticles for low light. Waterproof/fogproof/shockproof.\
+        \ Amber-Bright high contrast lens coating. Dry-nitrogen filled. \r\nCatalog\
+        \ Ref: BUS730135"
+      keywords: BUS 1X8 RED/GREEN DOT 4-RET RD [BUS730135] Rifles Handguns Shotguns Ammunition Used Guns Specials Gift Certificates SlideFire Scopes/Optics G5/Quest Lasers Holsters ecommerce, open source, shop, online shopping
+      image_source: http://lowranceprecisionfirearms.com/images/BUS%201X8%20RED:GREEN%20DOT%204-RET%20RD.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2600 36th St, Parkersburg, WV 26102
+      availability: in_stock
+      current_price_in_cents: 13999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 13999
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

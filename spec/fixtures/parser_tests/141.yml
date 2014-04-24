@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 141
+  engine: www.ironsights.com
+  source_url: http://www.freedommunitions.com/357-MAG-125-gr-FP-New-p/fm357f125n-b0050.htm
+  seller_domain: www.freedommunitions.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-freedommunitions-com-357_MAG_125_gr._FP_New.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:30.975000000 Z
+  updated_at: 2014-04-23 21:29:59.561383000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-freedommunitions-com-357_MAG_125_gr._FP_New.html
+    digest: 995e76a9b591899cf6874eb86894a907
+    type: RetailListing
+    item_data:
+      title:
+      - title: 357 MAG 125 gr. FP New
+      - autocomplete: 357 MAG 125 gr. FP New
+      - scrubbed: .357 Mag 125 grain FP New
+      - normalized: .357 Mag 125 grain fp new
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: .357 Mag
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains: 125
+      - classification_type: metadata
+      seller_name: Freedom Munitions
+      seller_domain: www.freedommunitions.com
+      description: '357 MAG 125 gr. FP NEW Box of 50 Product Code: FM357F125N-B0050'
+      keywords:
+      image_source: http://cdn3.volusion.com/flupx.oauzh/v/vspfiles/photos/FM357F125R-B0050-2.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 17482-B Northwest Freeway, Jersey Village, TX 77040-1024
+      availability: out_of_stock
+      current_price_in_cents: 2172
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 2172
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

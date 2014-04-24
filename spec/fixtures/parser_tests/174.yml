@@ -1,0 +1,73 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 174
+  engine: ''
+  source_url: http://www.copesdistributing.com/4x32-dual-tactical-compact-scope-wfiber-optic-sights-p-5261.html
+  seller_domain: www.copesdistributing.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-copesdistributing-com-AIM_4X32_DUAL_ILL._TACTICAL_COMPACT_SCOPE_W/FIBER_OPTIC_SIGHTS.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:53.203000000 Z
+  updated_at: 2014-04-23 21:28:08.021386000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-copesdistributing-com-AIM_4X32_DUAL_ILL._TACTICAL_COMPACT_SCOPE_W/FIBER_OPTIC_SIGHTS.html
+    digest: 9cd08e58ac1a5453abe6920e60fe4351
+    type: RetailListing
+    item_data:
+      title:
+      - title: AIM 4X32 DUAL ILL. TACTICAL COMPACT SCOPE W/FIBER OPTIC SIGHTS
+      - autocomplete: AIM 4X32 DUAL ILL. TACTICAL COMPACT SCOPE W/FIBER OPTIC SIGHTS
+      - scrubbed: AIM 4X32 DUAL ILL. TACTICAL COMPACT SCOPE W/FIBER OPTIC SIGHTS
+      - normalized: aim 4x32 dual ill. tactical compact scope w/fiber optic sights
+      category1:
+      - category1: Optics
+      - classification_type: hard
+      caliber_category:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      number_of_rounds:
+      grains:
+      seller_name: Cope's Distributing
+      seller_domain: www.copesdistributing.com
+      description: '* Magnification 4X * Objective Diameter 32mm * Eye Relief 4.5
+        Inches * Exit Pupil 1.90 Inches * Fov Degree 7 * FOV @ 100 Yards: 36.6 Feet
+        * Moa 1/4 * Reticle Rapid Range * Reticle Glass Eched * Multi Coated Lenses
+        * Lens Coating Green * Sharp Bright Field Of Veiw * Heavy Duty Recoil Resistant
+        * Fog Proof * Nitrogen Purged * Length 5.5 Inches * 2 Integral Picatinny Slot
+        Side Rails * Base Fits Weaver/Picatinny Rails * Limited lifetime warranty
+        * Universal Tactical Laser Sight Specs * All Aluminum Construction * 635-655Nm
+        Red Laser Beam * Power Output 5Mw * Weaver / Picatinny Style Mount * Standard
+        On/Off Cap Switch * Batteries (AG-13 Button Cell Type Included * Mounting
+        Tool * Color: Black * Dimensions (Inches): 2.04Lx.93Wx1.09HThis item is out
+        of stock - Please click the "Notify me of updates..." icon to the left to
+        receive an email when we restock this item.'
+      keywords:
+      image_source: http://www.copesdistributing.com/images/0_AIM_JTDF0432G.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 640 Markwith Ave, Greenville, OH, 45331
+      availability: out_of_stock
+      current_price_in_cents: 9999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 12499
+      sale_price_in_cents: 9999
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

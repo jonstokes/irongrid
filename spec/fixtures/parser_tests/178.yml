@@ -1,0 +1,63 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 178
+  engine: ''
+  source_url: http://www.luckygunner.com/rifle-scope-3x-9x-40mm-849990-weaver-1
+  seller_domain: www.luckygunner.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-luckygunner-com-Rifle_Scope_-_3x-9x_-_40mm_Weaver_-_Dual-X_-_Black_Matte_-_1.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:53.918000000 Z
+  updated_at: 2014-04-23 21:28:12.476575000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-luckygunner-com-Rifle_Scope_-_3x-9x_-_40mm_Weaver_-_Dual-X_-_Black_Matte_-_1.html
+    digest: cc41d9da39c43692177cbb32616d27b0
+    type: RetailListing
+    item_data:
+      title:
+      - title: Rifle Scope - 3x-9x - 40mm Weaver - Dual-X - Black Matte - 1
+      - autocomplete: Rifle Scope - 3x-9x - 40mm Weaver - Dual-X - Black Matte - 1
+      - scrubbed: Rifle Scope - 3x-9x - 40mm Weaver - Dual-X - Black Matte - 1
+      - normalized: rifle scope - 3x-9x - 40mm Weaver - dual-x - black matte - 1
+      category1:
+      - category1: Optics
+      - classification_type: hard
+      caliber_category:
+      manufacturer:
+      - manufacturer: Weaver
+      - classification_type: metadata
+      caliber:
+      number_of_rounds:
+      grains:
+      seller_name: Lucky Gunner
+      seller_domain: www.luckygunner.com
+      description: "Manufacturer - Weaver\r\nManufacturer sku - 849990\r\nMagnification\
+        \ - 3x-9x \r\nObjective - 40mm\r\nDual-X Reticle"
+      keywords: scope, scopes, rifle scopes, 3x, 9x, 40mm, 3-9x, weaver, 849990, magnification, Tacticle, dual-x, dual x Reticle, weaver scopes, mounting rings, weaver 849990
+      image_source: http://cdn5.luckygunner.com/media/catalog/product/cache/1/image/2da9827f2ca8fee3e7f2af19d95a1b6e/o/p/opticscope39rings849990weaver-1-13.jpg
+      image_download_attempted:
+      affiliate_link_tag: '#rid=ironsights&amp;chan=search'
+      item_condition: New
+      item_location: 448 N Cedar Bluff Rd, Knoxville, TN 37923
+      availability: in_stock
+      current_price_in_cents: 3800
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 3800
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

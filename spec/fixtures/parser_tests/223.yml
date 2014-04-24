@@ -1,0 +1,72 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 223
+  engine:
+  source_url: http://www.bulkammo.com/bulk-45-acp-ammo-45acp230fmjpmc-1000
+  seller_domain: www.bulkammo.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-bulkammo-com-1000_Rounds_of_Bulk_.45_ACP_Ammo_by_PMC_-_230gr_FMJ.html
+  is_valid: true
+  created_at: 2014-03-06 19:46:58.454088000 Z
+  updated_at: 2014-04-23 21:29:18.304555000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-bulkammo-com-1000_Rounds_of_Bulk_.45_ACP_Ammo_by_PMC_-_230gr_FMJ.html
+    digest: 97baaf478518161e73ba330a82b16c72
+    type: RetailListing
+    item_data:
+      title:
+      - title: 1000 Rounds of Bulk .45 ACP Ammo by PMC - 230gr FMJ
+      - autocomplete: 1000 Rounds of Bulk .45 ACP Ammo by PMC - 230gr FMJ
+      - scrubbed: 1000 Rounds of Bulk .45 ACP Ammo by PMC - 230 grain FMJ
+      - normalized: 1000 rounds of bulk .45 ACP ammo by PMC Ammunition - 230 grain fmj
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: PMC Ammunition
+      - classification_type: hard
+      caliber:
+      - caliber: .45 ACP
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 1000
+      - classification_type: metadata
+      grains:
+      - grains: 230
+      - classification_type: hard
+      seller_name: BulkAmmo.com
+      seller_domain: www.bulkammo.com
+      description: "Quantity - 50 rounds per box, 20 boxes per case\r\nManufacturer\
+        \ - PMC\r\nBullets - 230 grain full metal jacket (FMJ)\r\nCasings - Boxer\
+        \ primed brass\r\nManufacturer Item # - 45A"
+      keywords: bulk, .45 ACP, ammo, ammunition, PMC, 230gr, FMJ, for sale, online, available, buy
+      image_source: http://cdn6.bulkammo.com/picture-gallery/image/101e16ea6662161996ec7e3881ffa37b/p/m/pmc-45-2.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: Saint Louis, MO 63166-6738
+      availability: in_stock
+      current_price_in_cents: 47900
+      price_per_round_in_cents: 48
+      price_on_request:
+      price_in_cents: 47900
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

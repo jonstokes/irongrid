@@ -1,0 +1,84 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 231
+  engine:
+  source_url: http://www.midsouthshooterssupply.com/item.asp?sku=0000391000
+  seller_domain: www.midsouthshooterssupply.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-midsouthshooterssupply-com-9x18_Makarov_90_Grain_FTX_25_Rounds.html
+  is_valid: true
+  created_at: 2014-03-08 00:05:29.810258000 Z
+  updated_at: 2014-04-23 21:29:31.355804000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-midsouthshooterssupply-com-9x18_Makarov_90_Grain_FTX_25_Rounds.html
+    digest: 162a267fcba0277e692e1f1f95e631a2
+    type: RetailListing
+    item_data:
+      title:
+      - title: 9x18 Makarov 90 Grain FTX 25 Rounds
+      - autocomplete: 9x18 Makarov 90 Grain FTX 25 Rounds
+      - scrubbed: 9x18 Makarov 90 Grain FTX 25 Rounds
+      - normalized: 9x18mm Makarov 90 grain ftx 25 rounds
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: 9x18mm Makarov
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 25
+      - classification_type: metadata
+      grains:
+      - grains: 90
+      - classification_type: metadata
+      seller_name: Midsouth Shooters
+      seller_domain: www.midsouthshooterssupply.com
+      description: "9x18 Makarov 90 Grain FTX 25 Rounds\r\n Hornady Critical Defense\
+        \ is the most effective, consistent and reliable self-defense ammunition on\
+        \ the market. \r\n\r\nFeatures:\r\n High Performance Hornady FTX(r) Bullets\
+        \ - Unaffected by thick and heavy clothing, the 95 gr. FTX bullet delivers\
+        \ superior controlled expansion and large, deep wound cavities over a wide\
+        \ range of velocities.\r\n Powder - Clean burning and efficient propellants\
+        \ reduce recoil in lightweight handguns and perform consistently at all temperatures.\
+        \ Minimal muzzle ash protects night vision.\r\n Highest Quality Cases - Silver\
+        \ nickel-plated cases prevent corrosion and are greatly enhance low-light\
+        \ chamber checks.\r\n\r\nSpecficiations:\r\nMuzzle Velocity 1000 fps\r\nMuzzle\
+        \ Energy 211 ft/lbs\r\nBallistic Coefficient 0.135 \r\nSectional Density 0.102\r\
+        \n \r\n \r\n \r\n This item may have additional shipping charges if shipped\
+        \ by air. Due to shipping regulations this item can not be shipped through\
+        \ the postal service. Regulations may not allow this item to be shipped to\
+        \ specific states."
+      keywords: Buy 9x18 Makarov 90 GrainFTX here at MidsouthShootersSupply.com. We offer all of your AMMUNITION needs at low prices.
+      image_source: https://www.midsouthshooterssupply.com/product_images/003-91000/003-91000.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 770 Economy Dr, Clarksville, TN 37043
+      availability: out_of_stock
+      current_price_in_cents: 1836
+      price_per_round_in_cents: 73
+      price_on_request:
+      price_in_cents: 1836
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

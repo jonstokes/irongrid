@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 155
+  engine: ''
+  source_url: http://www.cheaperthandirt.com/product/2-GLSP03570
+  seller_domain: www.cheaperthandirt.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-cheaperthandirt-com-GLOCK_OEM_Factory_17_Barrel_9MM_4.49%22.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:44.106000000 Z
+  updated_at: 2014-04-23 21:27:41.606875000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-cheaperthandirt-com-GLOCK_OEM_Factory_17_Barrel_9MM_4.49%22.html
+    digest: 2a148139b1e6420099e7cd1cf1e8dc1d
+    type: RetailListing
+    item_data:
+      title:
+      - title: GLOCK OEM Factory 17 Barrel 9MM 4.49"
+      - autocomplete: GLOCK OEM Factory 17 Barrel 9MM 4.49"
+      - scrubbed: GLOCK OEM Factory .17 Barrel 9mm 4.49 inch
+      - normalized: Glock oem factory .17 barrel 9mm Luger 4.49 inch
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Glock
+      - classification_type: metadata
+      caliber:
+      - caliber: 9mm Luger
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Cheaper Than Dirt
+      seller_domain: www.cheaperthandirt.com
+      description: This is the factory GLOCK 9mm barrel that comes stock in the GLOCK model 17. It can also be used to convert the 17C to shoot as a non-compensated. Using it to convert the 22 or 31 to shoot 9mm is not recommended and unsafe as it is not a 100% fit. This barrel will not work extended in the 19 or 26 due to the difference in the locking blocks.
+      keywords:
+      image_source: http://cdn1.cheaperthandirt.com/ctd_images/mdprod/2-GLSP03570.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2058 West University Drive, McKinney, Texas 75071
+      availability: in_stock
+      current_price_in_cents: 15000
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 15000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

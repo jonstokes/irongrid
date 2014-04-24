@@ -1,0 +1,77 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 236
+  engine:
+  source_url: http://www.blucoreshootingcenter.com/p-54326-cent-arms-mosin-nagant-9130-762x54r.aspx
+  seller_domain: www.blucoreshootingcenter.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-blucoreshootingcenter-com-CENTURY_ARMS_MOSIN_NAGANT_91/30_762X54R.html
+  is_valid: true
+  created_at: 2014-03-08 00:34:29.830743000 Z
+  updated_at: 2014-04-23 21:29:39.691853000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-blucoreshootingcenter-com-CENTURY_ARMS_MOSIN_NAGANT_91/30_762X54R.html
+    digest: 8491d18262027f7c0f1db4820fba3073
+    type: RetailListing
+    item_data:
+      title:
+      - title: CENTURY ARMS MOSIN NAGANT 91/30 762X54R
+      - autocomplete: CENTURY ARMS MOSIN NAGANT 91/30 762X54R
+      - scrubbed: CENTURY ARMS MOSIN NAGANT 91/30 762X54R
+      - normalized: century arms mosin nagant 91/30 762x54r
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: BluCore Shooting Center
+      seller_domain: www.blucoreshootingcenter.com
+      description: "Century Arms 91/30 Bolt 762X54R 28.75 Blue Wood Good 5Rd Surplus\
+        \ Adjustable Sights RI660-X\r\n \r\n Specifications:Fulfillable:\r\n 0\r\n\
+        \ Stock Number:\r\n CARI660X\r\n Manufacturer id:\r\n CENTAR\r\n Action:\r\
+        \n Bolt\r\n Barrel Length:\r\n 28.75\r\n Condition:\r\n Good\r\n Capacity:\r\
+        \n 5Rd\r\n Description:\r\n Surplus\r\n Finish/Color:\r\n Blue\r\n Caliber:\r\
+        \n 762X54R\r\n Grips/Stock:\r\n Wood\r\n Manufacturer:\r\n Century Arms\r\n\
+        \ Manufacturer part #:\r\n RI660-X\r\n Model:\r\n 91/30\r\n Sights:\r\n Adjustable\
+        \ Sights"
+      keywords:
+      image_source: http://www.blucoreshootingcenter.com/images/product/large/CARI660X_1.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 7860 West Jewell Avenue, Lakewood, CO  80232
+      availability: out_of_stock
+      current_price_in_cents: 14215
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 17200
+      sale_price_in_cents: 14215
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

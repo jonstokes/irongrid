@@ -1,0 +1,73 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 222
+  engine:
+  source_url: http://www.bulkammo.com/1000-rounds-of-9mm-ammo-by-mbi-124gr-fmj
+  seller_domain: www.bulkammo.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-bulkammo-com-1000_Rounds_of_Bulk_9mm_Ammo_by_MBI_-_124gr_FMJ.html
+  is_valid: true
+  created_at: 2014-03-06 19:45:49.555405000 Z
+  updated_at: 2014-04-23 21:29:16.503163000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-bulkammo-com-1000_Rounds_of_Bulk_9mm_Ammo_by_MBI_-_124gr_FMJ.html
+    digest: 737140b1dff83f09a6206f3f6971d9fc
+    type: RetailListing
+    item_data:
+      title:
+      - title: 1000 Rounds of Bulk 9mm Ammo by MBI - 124gr FMJ
+      - autocomplete: 1000 Rounds of Bulk 9mm Ammo by MBI - 124gr FMJ
+      - scrubbed: 1000 Rounds of Bulk 9mm Ammo by MBI - 124 grain FMJ
+      - normalized: 1000 rounds of bulk 9mm Luger ammo by Military Ballistics Industries - 124 grain fmj
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Military Ballistics Industries
+      - classification_type: hard
+      caliber:
+      - caliber: 9mm Luger
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 1000
+      - classification_type: metadata
+      grains:
+      - grains: 124
+      - classification_type: hard
+      seller_name: BulkAmmo.com
+      seller_domain: www.bulkammo.com
+      description: "Ammo Quantity - 100 rounds per pack; 10 packs per case\r\nAmmo\
+        \ Manufacturer - Military Ballistics Industries\r\nBullets - 124 grain full\
+        \ metal jacket (FMJ)\r\nAmmo Casings - once fired boxer primed brassREMANUFACTURED\
+        \ AMMO"
+      keywords: bulk, 9mm, ammo, ammunition, MBI, 124gr, FMJ, for sale, online, available, buy
+      image_source: http://cdn6.bulkammo.com/picture-gallery/image/101e16ea6662161996ec7e3881ffa37b/9/m/9mm124fmjmbi-bag-1.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: Saint Louis, MO 63166-6738
+      availability: in_stock
+      current_price_in_cents: 31000
+      price_per_round_in_cents: 31
+      price_on_request:
+      price_in_cents: 34000
+      sale_price_in_cents: 31000
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

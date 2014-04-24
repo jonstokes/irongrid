@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 168
+  engine: ''
+  source_url: http://www.budsgunshop.com/catalog/product_info.php/cPath/26_748/products_id/15118/Silva+Olive+Drab+Compass
+  seller_domain: www.budsgunshop.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-budsgunshop-com-Silva_Olive_Drab_Compass.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:51.164000000 Z
+  updated_at: 2014-04-23 21:28:00.526908000 Z
+  not_found:
+  classified_sold:
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-budsgunshop-com-Silva_Olive_Drab_Compass.html
+    digest: 24b7907e2f85c47583bc04aff8181d62
+    type: RetailListing
+    item_data:
+      title:
+      - title: Silva Olive Drab Compass
+      - autocomplete: Silva Olive Drab Compass
+      - scrubbed: Silva Olive Drab Compass
+      - normalized: silva olive drab compass
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Bud's Gun Shop
+      seller_domain: www.budsgunshop.com
+      description: Make hunting and fishing easier and safer with this contoured, ruggedly designed compass. Heavy duty locking pin can attach the Huntsman to clothing for hands free use. May be used as a sighting compass with the large sighting mirror, or it can be clipped to clothing to view the capsule at a glance by rotating the cover 270 degrees.
+      keywords: Silva, Olive, Drab, Compass, 2801102
+      image_source: http://www.budsgunshop.com/catalog/images/15118.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1105 Industry Road Lexington, KY 40505
+      availability: in_stock
+      current_price_in_cents: 1509
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 1554
+      sale_price_in_cents: 1509
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 156
+  engine: ''
+  source_url: http://www.cheaperthandirt.com/product/ARR-1860
+  seller_domain: www.cheaperthandirt.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-cheaperthandirt-com-AR-15_Complete_Armor_Tool_Tapco.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:44.641000000 Z
+  updated_at: 2014-04-23 21:27:43.069029000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-cheaperthandirt-com-AR-15_Complete_Armor_Tool_Tapco.html
+    digest: 861286b3156cb94a8f6d1a652747bce2
+    type: RetailListing
+    item_data:
+      title:
+      - title: AR-15 Complete Armor Tool Tapco
+      - autocomplete: AR-15 Complete Armor Tool Tapco
+      - scrubbed: AR-15 Complete Armor Tool Tapco
+      - normalized: ar-15 complete armor tool Tapco
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Tapco
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Cheaper Than Dirt
+      seller_domain: www.cheaperthandirt.com
+      description: Truly the ultimate tool to build, customize or maintain your AR-15. This is an all-in-one tool that features a hammer, barrel nut, muzzle device, spanner wrench, forearm wrench, flat tipped screwdriver, beverage opener and more functions. Constructed of heat treated alloy steel and powder coated with a matte Olive Drab finish. Made in the USA, includes a lifetime warranty.
+      keywords:
+      image_source: http://cdn1.cheaperthandirt.com/ctd_images/mdprod/ARR-1860.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2058 West University Drive, McKinney, Texas 75071
+      availability: in_stock
+      current_price_in_cents: 3997
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 3997
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 149
+  engine: ''
+  source_url: http://www.ableammo.com/catalog/browning-bolt-long-action-magnum-round-blue-magazine-112044601-p-110682.html
+  seller_domain: www.ableammo.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ableammo-com-Browning_X-Bolt_Long_Action_Magnum_3_Round_Blue_Magazine_%28112044601%29.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:38.687000000 Z
+  updated_at: 2014-04-23 21:27:55.990235000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ableammo-com-Browning_X-Bolt_Long_Action_Magnum_3_Round_Blue_Magazine_%28112044601%29.html
+    digest: b8d9bc828f0795efdebe7ab41561c8d5
+    type: RetailListing
+    item_data:
+      title:
+      - title: Browning X-Bolt Long Action Magnum 3 Round Blue Magazine (112044601)
+      - autocomplete: Browning X-Bolt Long Action Magnum 3 Round Blue Magazine (112044601)
+      - scrubbed: Browning X-Bolt Long Action Magnum 3 Round Blue Magazine (112044601)
+      - normalized: Browning x-bolt long action magnum 3 round blue magazine (112044601)
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Browning
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Able Ammo
+      seller_domain: www.ableammo.com
+      description: A detachable rotary magazine is incorporated into the X-Bolt, Browning’s latest bolt-action rifle. Constructed from a durable lightweight polymer, the magazine is designed to feed cartridges directly in line with the bolt, instead of offset as with traditional leaf-spring magazines, for a straight path right into the chamber. An ergonomic magazine-mounted release lets the magazine rotate directly downward and into the hand. The magazine sits flush with the bottom of the rifle for a sleeker appearance. Additional magazines can be kept loaded and carried in a pocket or pack for easy and safe access. Magazines are designed to handle multiple calibers to simplify ordering and inventory.
+      keywords: Browning X-Bolt Long Action Magnum 3 Round Blue Magazine (112044601)
+      image_source: http://www.ableammo.com/catalog/images/browning/2013/accessories/medium/11244304.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 357 Farm to Market Road 1791  Huntsville, TX 77340
+      availability: in_stock
+      current_price_in_cents: 4295
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 4295
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

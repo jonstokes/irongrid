@@ -1,0 +1,95 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 241
+  engine:
+  source_url: http://www.blucoreshootingcenter.com/p-47394-adcor-201-3140-bear-223-16-opt-rdy.aspx
+  seller_domain: www.blucoreshootingcenter.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-blucoreshootingcenter-com-Adcor_Defense_2013140_B.E.A.R._AR-15_GI_With_Forward_Chrg_Hndl_Optic_Ready_223/5.html
+  is_valid: true
+  created_at: 2014-03-08 16:19:35.935792000 Z
+  updated_at: 2014-04-23 21:29:46.746529000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-blucoreshootingcenter-com-Adcor_Defense_2013140_B.E.A.R._AR-15_GI_With_Forward_Chrg_Hndl_Optic_Ready_223/5.html
+    digest: 64ea0328372b1426d015d334c97caeb8
+    type: RetailListing
+    item_data:
+      title:
+      - title: Adcor Defense 2013140 B.E.A.R. AR-15 GI With Forward Chrg Hndl Optic Ready 223/5
+      - autocomplete: Adcor Defense 2013140 B.E.A.R. AR-15 GI With Forward Chrg Hndl Optic Ready 223/5
+      - scrubbed: Adcor Defense 2013140 B.E.A.R. AR-15 GI With Forward Chrg Hndl Optic Ready 223/5
+      - normalized: Adcor Defense 2013140 b.e.a.r. ar-15 gi with forward chrg hndl optic ready 223/5
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: Adcor Defense
+      - classification_type: hard
+      caliber:
+      - caliber: 5.56 NATO
+      - classification_type: hard
+      number_of_rounds:
+      grains:
+      seller_name: BluCore Shooting Center
+      seller_domain: www.blucoreshootingcenter.com
+      description: "Adcor Defense 2013140 B.E.A.R. GI Semi-Auto 223 Rem 16\" 30+1\
+        \ Adj Stk Black B.E.A.R. (Brown Enhanced Automatic Rifle) models from Adcor\
+        \ Defense feature a toolless field strip design, so a B.E.A.R. requires nothing\
+        \ more than a firing pin to disassemble, yet remains strong. The GI offers\
+        \ a gas impingement system coupled with Adcor's innovative designs. The GI\
+        \ has a multi-position gas regulator with a removable gas tube. The ejection\
+        \ port wiper prevents the entry of dust, sand and other debris by moving into\
+        \ the ejection port opening flush with the inside geometry of the upper receiver.\
+        \ The spring-loaded shield allows the bolt carrier to return to ready position.\
+        \ Being made of a highly-durable, self-lubricating polymer helps the shield\
+        \ withstand temperature extremes. The B.E.A.R. GI series features a 16\" chrome-lined\
+        \ barrel from Green Mountain, button-broached with a 1:7 twist. It has a two-piece\
+        \ key-locked, highly-rigid quad-rail system made of aircraft-grade 7075-T6\
+        \ aluminum alloy that seamlessly mounts to the upper receiver which is made\
+        \ from the same aircraft-grade 7075-T6 aluminum alloy. The upper and lower\
+        \ rails separate with the push of a button - no special tools required. The\
+        \ B.E.A.R. GI series features a stock adjustable from 36.25\" down to 32.5,\"\
+        \ and total weight with Magpul magazine loaded with 30 rounds of M855 ammo\
+        \ is 7.9 lbs. These models both come optics-ready and are available with (3040)\
+        \ or without (3140) the forward-placed, ambidextrous charging handle.\r\n\
+        \ \r\n Specifications:Unit of Measure:\r\n GN\r\n Weight Per Box:\r\n 0.000\r\
+        \n UPC:\r\n 0\r\n Action:\r\n Semi-Automatic\r\n Caliber:\r\n 223 Remington/5.56\
+        \ NATO\r\n Barrel Length:\r\n 16\"\r\n Capacity:\r\n 30+1\r\n Trigger:\r\n\
+        \ Standard\r\n Safety:\r\n Lever\r\n OAL:\r\n 36.25\"\r\n Weight:\r\n 7.06\
+        \ lbs\r\n Stock:\r\n Adjustable\r\n Finish:\r\n Black\r\n Manufacturer Item\
+        \ Number:\r\n 2013140\r\n Brand:\r\n Adcor Defense\r\n Item Type:\r\n Long\
+        \ Gun\r\n Length:\r\n 0.0\r\n Width:\r\n 0.0\r\n Height:\r\n 0.0\r\n Weight\
+        \ Per Box:\r\n 8.250\r\n UPC:\r\n 816310010208\r\n Length:\r\n 40.5\r\n Width:\r\
+        \n 10.7\r\n Height:\r\n 3.7\r\n Stock:\r\n Black Adjustable\r\n Weight:\r\n\
+        \ 8.250"
+      keywords:
+      image_source: http://media.server.theshootingwarehouse.com/large/82403.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 7860 West Jewell Avenue, Lakewood, CO  80232
+      availability: in_stock
+      current_price_in_cents: 155038
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 183227
+      sale_price_in_cents: 155038
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

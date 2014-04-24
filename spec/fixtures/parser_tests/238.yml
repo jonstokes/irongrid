@@ -1,0 +1,78 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 238
+  engine:
+  source_url: http://www.blucoreshootingcenter.com/p-64661-pg-performance-ammunition-9mm-reman-115gr-rntcp-1000rnd.aspx
+  seller_domain: www.blucoreshootingcenter.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-blucoreshootingcenter-com-P%26G_PERFORMANCE_AMMUNITION_9MM_REMAN_115GR_RNTCP_1000RND.html
+  is_valid: true
+  created_at: 2014-03-08 15:29:05.283927000 Z
+  updated_at: 2014-04-23 21:29:41.652469000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-blucoreshootingcenter-com-P%26G_PERFORMANCE_AMMUNITION_9MM_REMAN_115GR_RNTCP_1000RND.html
+    digest: 258182c1b41e754aeb9dd9f1b212acf6
+    type: RetailListing
+    item_data:
+      title:
+      - title: P&G PERFORMANCE AMMUNITION 9MM REMAN 115GR RNTCP 1000RND
+      - autocomplete: P&G PERFORMANCE AMMUNITION 9MM REMAN 115GR RNTCP 1000RND
+      - scrubbed: P&G PERFORMANCE AMMUNITION 9mm REMAN 115 grain RNTCP 1000 round
+      - normalized: P&G Performance Ammunition ammunition 9mm Luger reman 115 grain rntcp 1000 round
+      category1:
+      - category1: Ammunition
+      - classification_type: metadata
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: P&G Performance Ammunition
+      - classification_type: metadata
+      caliber:
+      - caliber: 9mm Luger
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 1000
+      - classification_type: metadata
+      grains:
+      - grains: 115
+      - classification_type: hard
+      seller_name: BluCore Shooting Center
+      seller_domain: www.blucoreshootingcenter.com
+      description: "P&G (Pride & Glory) Performance Ammunition is a Veteran-owned\
+        \ and operated company, located in Littleton, Colorado. P&G uses only US made\
+        \ components in all their ammunition. All P&G ammo uses remanufactured brass\
+        \ and Total Copper Plated bullets (Full Metal Jacket in .223). Each round\
+        \ is hand inspected before packaging and shipping. All 1000 round boxes of\
+        \ P&G are packed loose.9mm 115gr RNTCP 1000rnd box\r\n \r\n Specifications:Ammo\
+        \ Type:\r\n Centerfire\r\n Ammo Type:\r\n All Pistol\r\n Bullet Type:\r\n\
+        \ Total Metal Jacket Round Nose\r\n Bullet Weight:\r\n 115 GR\r\n Caliber:\r\
+        \n 9mm"
+      keywords:
+      image_source: http://www.blucoreshootingcenter.com/images/product/large/64661.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 7860 West Jewell Avenue, Lakewood, CO  80232
+      availability: out_of_stock
+      current_price_in_cents: 23499
+      price_per_round_in_cents: 23
+      price_on_request:
+      price_in_cents: 24000
+      sale_price_in_cents: 23499
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

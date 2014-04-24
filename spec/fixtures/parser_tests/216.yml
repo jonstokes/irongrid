@@ -1,0 +1,74 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 216
+  engine:
+  source_url: http://shop.tropgun.com/servlet/-strse-7136/SIG%2CSAUER%2C716%2CSEMI-dsh-AUTOMATIC%2CR71616BP/Detail
+  seller_domain: shop.tropgun.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/shop-tropgun-com-SIG_SAUER_716_SEMI-AUTOMATIC_%7C_Trop_Elite_Equipment.html
+  is_valid: true
+  created_at: 2014-03-06 17:05:28.189564000 Z
+  updated_at: 2014-04-23 21:29:08.734221000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/shop-tropgun-com-SIG_SAUER_716_SEMI-AUTOMATIC_%7C_Trop_Elite_Equipment.html
+    digest: ba7ee256ea235694ff77665435e7bafc
+    type: RetailListing
+    item_data:
+      title:
+      - title: SIG SAUER 716 SEMI-AUTOMATIC | Trop Elite Equipment
+      - autocomplete: SIG SAUER 716 SEMI-AUTOMATIC | Trop Elite Equipment
+      - scrubbed: SIG SAUER 716 SEMI-AUTOMATIC | Trop Elite Equipment
+      - normalized: Sig-Sauer 716 semi-automatic | trop elite equipment
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: Sig-Sauer
+      - classification_type: hard
+      caliber:
+      - caliber: .308 Win
+      - classification_type: hard
+      number_of_rounds:
+      grains:
+      seller_name: Trop Elite Equipment
+      seller_domain: shop.tropgun.com
+      description: "Familiar Handling, Unfamiliar Power, SIG SAUER(r) has taken the\
+        \ proven features of the SIG516 and applied them into a potent AR-based rifle\
+        \ chambered in 7.62 x 51mm. Utilizing the short stroke pushrod operating system,\
+        \ an M1913 Mil-Std rail, free-floating barrel, aluminum forend, telescoping\
+        \ stock, and Magpul(r) PMAG(r), the SIG716 is the rifle of choice when you\
+        \ require the power of a larger caliber carbine. \n\nManufacturer: Model:\
+        \ Caliber: Finish: Appx. Barrel Length: Appx. Weight: Appx. Length of Pull:\
+        \ Capacity: Condition: Items Included: \nSig Sauer SIG716 Patrol 7.62x51MM\
+        \ NATO Matte 16\" 7.6 lbs Adjustable 20 Rounds Factory New Factory Box, Manual"
+      keywords:
+      image_source: http://shop.tropgun.com/media/01/452bc895142ba9b121c5b96_m.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 910 North Hanover St., Elizabethtown, PA US 17022
+      availability: in_stock
+      current_price_in_cents: 172999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 172999
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

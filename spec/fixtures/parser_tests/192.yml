@@ -1,0 +1,65 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 192
+  engine: ''
+  source_url: http://www.huntingdepot.net/catalog/product.asp?pid=90916&ret_id=1219039
+  seller_domain: www.huntingdepot.net
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-Bushnell_Equinox_I-Beam_IR_Flashlight%2C_NV%2C6L_Box.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:58.210000000 Z
+  updated_at: 2014-04-23 21:28:27.000481000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-Bushnell_Equinox_I-Beam_IR_Flashlight%2C_NV%2C6L_Box.html
+    digest: 098e38e959814d52bc94dc4402a45717
+    type: RetailListing
+    item_data:
+      title:
+      - title: Bushnell Equinox I-Beam IR Flashlight, NV,6L Box
+      - autocomplete: Bushnell Equinox I-Beam IR Flashlight, NV,6L Box
+      - scrubbed: Bushnell Equinox I-Beam IR Flashlight NV 6L Box
+      - normalized: Bushnell equinox i-beam ir flashlight nv 6l box
+      category1:
+      - category1: Optics
+      - classification_type: hard
+      caliber_category:
+      manufacturer:
+      - manufacturer: Bushnell
+      - classification_type: metadata
+      caliber:
+      number_of_rounds:
+      grains:
+      seller_name: Hunting Depot
+      seller_domain: www.huntingdepot.net
+      description: "Equinox I-Beam IR Flashlight, NV,6L Box Description\r\n The ultimate\
+        \ performance enhancer for your monocular, powerful flashlight extends range\
+        \ and battery life. Designed to fit on the rail of Bushnell Equinox Night\
+        \ Vision optics."
+      keywords:
+      image_source: http://images.dealerease.net/prodpics/bushpic267100.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 23 S Prospect St, Nanticoke, PA 18634
+      availability: in_stock
+      current_price_in_cents: 8556
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 8556
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

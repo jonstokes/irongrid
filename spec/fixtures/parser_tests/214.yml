@@ -1,0 +1,76 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 214
+  engine:
+  source_url: http://lvammo.com/collections/ammunition/products/american-eagle-40-s-w-180-gr-ae40r1-50-rounds
+  seller_domain: lvammo.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/lvammo-com-Next_Product_%3E%3E_American_Eagle_40_S%26W_180_Gr._%23AE40R1_-_50_Rounds_%2419.95.html
+  is_valid: true
+  created_at: 2014-03-05 00:12:12.426567000 Z
+  updated_at: 2014-04-23 21:29:04.945083000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/lvammo-com-Next_Product_%3E%3E_American_Eagle_40_S%26W_180_Gr._%23AE40R1_-_50_Rounds_%2419.95.html
+    digest: 61e865f77f414593e9ef2197fa783af7
+    type: RetailListing
+    item_data:
+      title:
+      - title: 'American Eagle 40 S&W 180 Gr. #AE40R1 - 50 Rounds $19.95'
+      - autocomplete: 'American Eagle 40 S&W 180 Gr. #AE40R1 - 50 Rounds $19.95'
+      - scrubbed: 'American Eagle .40 S&W 180 grain #AE40R1 - 50 Rounds $19.95'
+      - normalized: 'American Eagle .40 S&W 180 grain #ae40r1 - 50 rounds $19.95'
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: American Eagle
+      - classification_type: hard
+      caliber:
+      - caliber: .40 S&W
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 50
+      - classification_type: metadata
+      grains:
+      - grains: 180
+      - classification_type: hard
+      seller_name: LVAmmo
+      seller_domain: lvammo.com
+      description: "American Eagle is designed specifically for target shooting, training\
+        \ and practice. It's loaded to the same specifications as Federal's Premium\
+        \ loads, but at a more practical price for plinking. This ammunition is new\
+        \ production in reloadable brass cases. Technical Information\nCaliber: 40\
+        \ S&W\nBullet Weight: 180 Grain\nBullet Style: Full Metal Jacket\nCase Type:\
+        \ Brass Ballistics Information: \nMuzzle Velocity: 990 fps\nMuzzle Energy:\
+        \ 392 ft. lbs."
+      keywords:
+      image_source: http://cdn.shopify.com/s/files/1/0241/5727/products/AE_40_180gr_grande.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 4699 S. Dean Martin Dr., Las Vegas, NV 89103
+      availability: in_stock
+      current_price_in_cents: 1995
+      price_per_round_in_cents: 40
+      price_on_request:
+      price_in_cents: 1995
+      sale_price_in_cents: 1995
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

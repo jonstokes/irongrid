@@ -1,0 +1,74 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 224
+  engine:
+  source_url: http://www.ammoforsale.com/remington-40-s-w-ammo-for-sale-40sw180bjhpremgs-25
+  seller_domain: www.ammoforsale.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammoforsale-com-25_Rounds_of_Discount_180gr_JHP_.40_S%26W_Ammo_For_Sale_by_Remington.html
+  is_valid: true
+  created_at: 2014-03-06 20:08:45.732013000 Z
+  updated_at: 2014-04-23 21:29:53.382917000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammoforsale-com-25_Rounds_of_Discount_180gr_JHP_.40_S%26W_Ammo_For_Sale_by_Remington.html
+    digest: 3cb5df0a6f2bd6bdbdd67aff85e030da
+    type: RetailListing
+    item_data:
+      title:
+      - title: 25 Rounds of Discount 180gr JHP .40 S&W Ammo For Sale by Remington
+      - autocomplete: 25 Rounds of Discount 180gr JHP .40 S&W Ammo For Sale by Remington
+      - scrubbed: 25 Rounds of Discount 180 grain JHP .40 S&W Ammo For Sale by Remington
+      - normalized: 25 rounds of discount 180 grain jhp .40 S&W ammo for sale by Remington
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Remington
+      - classification_type: metadata
+      caliber:
+      - caliber: .40 S&W
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 25
+      - classification_type: metadata
+      grains:
+      - grains: 180
+      - classification_type: metadata
+      seller_name: AmmoForSale.com
+      seller_domain: www.ammoforsale.com
+      description: "AmmoForSale.com is pleased to offer this \n .40 S&W ammo for sale\
+        \ \n by Remington. These 25 rounds of\n nickel-plated brass cased ammunition\
+        \ are boxer \n primed and include a 180gr JHP projectile. \n Please be sure\
+        \ to read our reviews of this \n Remington .40 S&W ammo below, or add your\
+        \ own!"
+      keywords: for sale, .40 S&W, ammo, ammunition, Remington, 180gr, JHP, discount, online, available, buy
+      image_source: http://cdn4.ammoforsale.com/media/catalog/product/cache/7/image/300x/f5d2e33595ffc1829f2046ee08f9d5f8/4/0/40sw180bjhpremgs-25-a.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: Richmond, VA 23285-5073
+      availability: in_stock
+      current_price_in_cents: 1875
+      price_per_round_in_cents: 75
+      price_on_request:
+      price_in_cents: 1875
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

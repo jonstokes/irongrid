@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 204
+  engine: ''
+  source_url: http://www.emf-company.com/store/pc/CITADEL-1911-COMPACT-45ACP-3-1-2-HOGUE-BLACK-379p1626.htm
+  seller_domain: www.emf-company.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-emf-company-com-CITADEL_1911_COMPACT_.45ACP_3_1/2%22_HOGUE_BLACK.html
+  is_valid: true
+  created_at: 2014-02-28 19:02:01.372000000 Z
+  updated_at: 2014-04-23 21:28:47.353252000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-emf-company-com-CITADEL_1911_COMPACT_.45ACP_3_1/2%22_HOGUE_BLACK.html
+    digest: 693bddfb21372da6dba4cad4524e830e
+    type: RetailListing
+    item_data:
+      title:
+      - title: CITADEL 1911 COMPACT .45ACP 3 1/2" HOGUE BLACK
+      - autocomplete: CITADEL 1911 COMPACT .45ACP 3 1/2" HOGUE BLACK
+      - scrubbed: CITADEL 1911 COMPACT .45 ACP 3 1/2 inch HOGUE BLACK
+      - normalized: Citadel 1911 compact .45 ACP 3 1/2 inch Hogue black
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Citadel
+      - classification_type: metadata
+      caliber:
+      - caliber: .45 ACP
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: E.M.F. Company Inc.
+      seller_domain: www.emf-company.com
+      description: .45ACP, 3 1/2" BARREL, HOGUE BLACK GRIPS
+      keywords: CITADEL 1911 COMPACT .45ACP 3 1/2 HOGUE BLACK,Citadel 1911,Early Modern Firearms, Firearms, pistols, rilfes, Alchimista, Pony Express, Cowboy guns,EMF Company
+      image_source: http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705
+      availability: in_stock
+      current_price_in_cents: 65000
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 65000
+      sale_price_in_cents: 65000
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

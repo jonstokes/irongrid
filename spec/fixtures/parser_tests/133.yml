@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 133
+  engine: www.ironsights.com
+  source_url: http://www.gunsinternational.com/Thompson-Center-Contender-22-LR.cfm?gun_id=100351658
+  seller_domain: www.gunsinternational.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsinternational-com-Thompson_Center_Contender_.22_LR.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:24.385000000 Z
+  updated_at: 2014-04-23 21:27:17.445802000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsinternational-com-Thompson_Center_Contender_.22_LR.html
+    digest: 876329f44d0f3b09cd9ba0e0d09aa148
+    type: ClassifiedListing
+    item_data:
+      title:
+      - title: Thompson Center Contender .22 LR
+      - autocomplete: Thompson Center Contender .22 LR
+      - scrubbed: Thompson Center Contender .22 LR
+      - normalized: Thompson center contender .22lr
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Thompson
+      - classification_type: metadata
+      caliber:
+      - caliber: .22lr
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Guns International
+      seller_domain: www.gunsinternational.com
+      description: Guns International - Thompson Center Contender .22 LR, Thompson Center Contender Pistols and more at Guns International! Connecting guns for sale with buyers from around the world. Antique Guns, Collectible Firearms & Used Guns For Sale.
+      keywords: Thompson Center Contender .22 LR - Thompson Center Contender Pistols
+      image_source: http://images.gunsinternational.com/listings/100351658-1-s.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: Used
+      item_location: '63042'
+      availability: in_stock
+      current_price_in_cents: 61999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 61999
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

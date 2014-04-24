@@ -1,0 +1,78 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 129
+  engine: www.ironsights.com
+  source_url: http://palmettostatearmory.com/index.php/firearms/handguns/beretta-nano-9mm-pistol-jmn9s15.html
+  seller_domain: palmettostatearmory.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Beretta_Nano_9mm_Pistol_JMN9S15.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:21.590000000 Z
+  updated_at: 2014-04-23 21:27:07.227653000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Beretta_Nano_9mm_Pistol_JMN9S15.html
+    digest: 793e7e887f395a62e982d013fa28f5ee
+    type: RetailListing
+    item_data:
+      title:
+      - title: Beretta Nano 9mm Pistol JMN9S15
+      - autocomplete: Beretta Nano 9mm Pistol JMN9S15
+      - scrubbed: Beretta Nano 9mm Pistol JMN9S15
+      - normalized: Beretta nano 9mm Luger pistol jmn9s15
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Beretta
+      - classification_type: metadata
+      caliber:
+      - caliber: 9mm Luger
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Palmetto State Armory
+      seller_domain: palmettostatearmory.com
+      description: "MFR# JMN9S15UPC: 082442189543\r\nThe Beretta Nano is the ultimate\
+        \ evolution of the micro compact carry pistol.\r\nUtilizing a removable, serialized\
+        \ sub-chassis the Nano pistol can be easily modified with replaceable grip\
+        \ frames and is simple to disassemble and maintain.\r\nEase of use and concealment\
+        \ were key drivers in the development of the Nano.\r\nThe Nano's extremely\
+        \ low profile, snag free design makes it easy to carry and draw from concealment.\r\
+        \nTo accommodate right or left-handed use, the Nano's magazine release button\
+        \ can be easily reversed.\r\nThe light, durable, frame employs modern thermoplastic\
+        \ technology through the use of fiberglass reinforced technopolymer.\r\nThe\
+        \ Nano's sights are user adjustable with a 1.3mm hexwrench and your fingers.\
+        \ This allows anyone to adjust their sights without the assistance of a gunsmith.\r\
+        \nModular structure, ergonomics and ease of use make the Beretta Nano the\
+        \ ideal firearm for concealed carry.\r\nMade in The U.S.A."
+      keywords: Beretta Nano 9mm Pistol JMN9S15
+      image_source: http://palmettostatearmory.com/media/catalog/product/cache/1/image/269x/9df78eab33525d08d6e5fb8d27136e95/n/a/nano-002.png
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 200 Business Park Blvd, Columbia, SC 29203
+      availability: in_stock
+      current_price_in_cents: 39800
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 44500
+      sale_price_in_cents: 39800
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

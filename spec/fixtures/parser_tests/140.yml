@@ -1,0 +1,68 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 140
+  engine: ''
+  source_url: http://www.gunsamerica.com/958992982/HK_MK23_German_Use.htm
+  seller_domain: www.gunsamerica.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsamerica-com-HK_MK23_German_Used.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:30.020000000 Z
+  updated_at: 2014-04-23 21:28:50.676217000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsamerica-com-HK_MK23_German_Used.html
+    digest: cbdb3290a8874ae877ca8657cb296d97
+    type: ClassifiedListing
+    item_data:
+      title:
+      - title: HK MK23 German Used
+      - autocomplete: HK MK23 German Used
+      - scrubbed: HK MK23 German Used
+      - normalized: H&K mk23 german used
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: H&K
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      grains:
+      seller_name: Guns America
+      seller_domain: www.gunsamerica.com
+      description: "HK MK23 comes with threaded barrel and addtional compensator if\
+        \ I have another laying around you'd get that free too. \r\nThe best mix of\
+        \ caliber and gun combination ever. German excellence shooting American rounds!"
+      keywords: hk mk23 german used heckler & koch pistols > polymer frame
+      image_source: http://www.gunsamerica.com/userimages/156555/958992982/wm_md_4864284.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: Used
+      item_location: MI
+      availability: in_stock
+      current_price_in_cents: 234900
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 234900
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -4,7 +4,6 @@ class ParserTest < ActiveRecord::Base
 
   attr_accessible :source_url, :seller_domain, :is_valid, :not_found, :classified_sold, :html_on_s3, :should_send_to_s3
   attr_accessible :listing_data
-  serialize :listing_data, JSON
   attr_reader :scraper
 
   before_save :send_html_to_s3

@@ -1,0 +1,101 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 186
+  engine: ''
+  source_url: http://www.rockwellarms.com/Store/ProductDetails/LWRC-M6A2-5-56-16-Piston-Special-Teams-Rifle-M6A2R5CK16
+  seller_domain: www.rockwellarms.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-rockwellarms-com-LWRC_M6A2_5.56_16%22_Piston_-_Special_Teams_Rifle_-_30rd_-_Tan_LWM6A2R5CK16.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:56.140000000 Z
+  updated_at: 2014-04-23 21:28:23.461516000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-rockwellarms-com-LWRC_M6A2_5.56_16%22_Piston_-_Special_Teams_Rifle_-_30rd_-_Tan_LWM6A2R5CK16.html
+    digest: 601768535f89b9f0bf12baef650d5921
+    type: RetailListing
+    item_data:
+      title:
+      - title: LWRC M6A2 5.56 16" Piston - Special Teams Rifle - 30rd - Tan LWM6A2R5CK16
+      - autocomplete: LWRC M6A2 5.56 16" Piston - Special Teams Rifle - 30rd - Tan LWM6A2R5CK16
+      - scrubbed: LWRC M6A2 5.56 16 inch Piston - Special Teams Rifle - 30 round - Tan LWM6A2R5CK16
+      - normalized: LWRC International m6a2 5.56 NATO 16 inch piston - special teams rifle - 30 round - tan lwm6a2r5ck16
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: LWRC International
+      - classification_type: metadata
+      caliber:
+      - caliber: 5.56 NATO
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 30
+      - classification_type: metadata
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Rockwell Arms
+      seller_domain: www.rockwellarms.com
+      description: "LWRC M6A2 5.56 16\" Piston - Special Teams Rifle: M6A2R5CK16\r\
+        \n\r\n The M6A2 rifle is a standard carbine available in various barrel lengths\
+        \ and in either 5.56mm NATO or 6.8mm SPC. The M6A2 rifle is ideal for those\
+        \ who utilize optical sights as it employs a low- profile gas block. There\
+        \ is no A-frame front sight to obscure the field of view of the optical device.\
+        \ The M6A2 rifle also features a longer midlength free float rail system with\
+        \ a removable return-to-zero top. Any M4 MIL Std 1913 accessory can be mounted\
+        \ to the rail, and because the rail has a monolithic profile, you can bridge\
+        \ devices from the receiver to the rail seamlessly. The longer rail also affords\
+        \ more 1913 \"real estate\" to mount your accessories.\r\n\r\n The M6A2 rifle's\
+        \ edge in capability, reliability, accuracy and long service life is the result\
+        \ of advanced technology materials and manufacturing processes, combined with\
+        \ progressive patented designs. All LWRCI carbine systems feature our short-stroke\
+        \ gas-piston operating system. The operating system is lightweight, self-regulating,\
+        \ and self-scraping. This system of operation does not foul the moving parts\
+        \ of the weapon with carbon or heat, greatly enhancing service life and reliability\
+        \ while decreasing both user and armorer maintenance. All M6A2 rifles feature\
+        \ a match grade, cold rotary hammer forged barrel with a target crown. The\
+        \ barrel is treated with NiCorr surface conversion technology that extends\
+        \ service life, enhances accuracy, and increases the effective range of the\
+        \ weapon. As in all of our rifles, the bolt carrier group and the barrel extension\
+        \ of the M6A2 rifle is coated with EXO's patented nickel-boron surface conversion\
+        \ technology that provides a hard permanent lubrication to the moving parts.\r\
+        \n\r\n The M6A2 rifle defines itself as the most modern and incrementally\
+        \ evolved carbine in the world. At the same time it also presents the best\
+        \ value. Service life is extended to four times that of a legacy M4, accuracy\
+        \ is 100 percent better, and our M6 rifles are many times more reliable than\
+        \ the legacy gas-impingement design.\r\n \r\n \r\n Features\r\n\r\n \r\n Short-Stroke\
+        \ gas-piston operating system\r\n \r\n 5.56 / .223\r\n \r\n M1913 Picatinny\
+        \ flat top upper\r\n \r\n Cold Rotary Hammer Forged Barrell with a target\
+        \ crown\r\n \r\n (1) 30 Round LWRC Magazine\r\n \r\n SOPMOD Stock\r\n \r\n\
+        \ Magpul MIAD (Mission Adaptible) Grip Kit\r\n \r\n Tan CeraKote"
+      keywords: LWRC M6A2 5.56 16" Piston - Special Teams Rifle, lwrc M6A2R5CK16
+      image_source: http://images.rockwellarms.com/ProductImages/LWRC/Rifles/M6A2R5CK16.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: '509 N. 5th Avenue, Sandpoint, ID 83864 '
+      availability: in_stock
+      current_price_in_cents: 248995
+      price_per_round_in_cents: 8300
+      price_on_request:
+      price_in_cents: 239999
+      sale_price_in_cents: 248995
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

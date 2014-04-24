@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 126
+  engine: ''
+  source_url: http://www.gunsinternational.com/SMITH-WESSON-MODEL-19-3-357-Mag-5-INCH-BARREL-Nickel.cfm?gun_id=100352513
+  seller_domain: www.gunsinternational.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsinternational-com-SMITH_%26_WESSON_MODEL_19-3_--_.357_Mag...5-INCH_BARREL%2C_Nickel.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:20.035000000 Z
+  updated_at: 2014-04-23 21:27:15.780705000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsinternational-com-SMITH_%26_WESSON_MODEL_19-3_--_.357_Mag...5-INCH_BARREL%2C_Nickel.html
+    digest: 740c4aa71fb8b84d9cbe2c5749c5df21
+    type: ClassifiedListing
+    item_data:
+      title:
+      - title: SMITH & WESSON MODEL 19-3 -- .357 Mag...5-INCH BARREL, Nickel
+      - autocomplete: SMITH & WESSON MODEL 19-3 -- .357 Mag...5-INCH BARREL, Nickel
+      - scrubbed: SMITH & WESSON MODEL 19-3 -- .357 Mag...5-INCH BARREL Nickel
+      - normalized: Smith & Wesson model 19-3 -- .357 Mag...5-inch barrel nickel
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Smith & Wesson
+      - classification_type: metadata
+      caliber:
+      - caliber: .357 Mag
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Guns International
+      seller_domain: www.gunsinternational.com
+      description: Guns International - SMITH & WESSON MODEL 19-3 -- .357 Mag...5-INCH BARREL, Nickel, .357 Magnum Revolvers and more at Guns International! Connecting guns for sale with buyers from around the world. Antique Guns, Collectible Firearms & Used Guns For Sale.
+      keywords: SMITH & WESSON MODEL 19-3 -- .357 Mag...5-INCH BARREL, Nickel - .357 Magnum Revolvers
+      image_source: http://images.gunsinternational.com/listings/100352513-1-s.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: Unknown
+      item_location: '84660'
+      availability: in_stock
+      current_price_in_cents: 223000
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 223000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

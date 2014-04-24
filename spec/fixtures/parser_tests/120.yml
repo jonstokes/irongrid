@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 120
+  engine: ''
+  source_url: http://www.midwayusa.com/product/650248/remington-slugger-law-enforcement-duty-ammunition-12-gauge-2-3-4-1-oz-rifled-slug-box-of-5
+  seller_domain: www.midwayusa.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-midwayusa-com-Remington_Slugger_Law_Enforcement_Duty_Ammo_12_Ga_2-3/4_1oz_Rifled.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:15.505000000 Z
+  updated_at: 2014-04-23 21:26:55.767774000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-midwayusa-com-Remington_Slugger_Law_Enforcement_Duty_Ammo_12_Ga_2-3/4_1oz_Rifled.html
+    digest: bb4f04d08e509314df4872663229d1d2
+    type: RetailListing
+    item_data:
+      title:
+      - title: Remington Slugger Law Enforcement Duty Ammo 12 Ga 2-3/4 1oz Rifled
+      - autocomplete: Remington Slugger Law Enforcement Duty Ammo 12 Ga 2-3/4 1oz Rifled
+      - scrubbed: Remington Slugger Law Enforcement Duty Ammo 12 gauge 2-3/4 1oz Rifled
+      - normalized: Remington slugger law enforcement duty ammo 12 gauge 2-3/4 1oz rifled
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Remington
+      - classification_type: metadata
+      caliber:
+      - caliber: 12 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: MidwayUSA
+      seller_domain: www.midwayusa.com
+      description: Remington Slugger rifled slugs have set the standard for law enforcement for decades. Recent design improvements including an oversized slug diameter for better gas sealing, and the addition of a high density polymer disk un
+      keywords:
+      image_source: http://media.midwayusa.com/productimages/880x660/primary/650/650248.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 5875 West Van Horn Tavern Rd, Columbia, MO 65203-9274
+      availability: in_stock
+      current_price_in_cents: 599
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 599
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

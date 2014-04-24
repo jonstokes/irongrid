@@ -1,0 +1,91 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 225
+  engine:
+  source_url: http://www.manventureoutpost.com/products/Adams-Arms-Carbine-Semi%252dautomatic-223-Rem-556NATO-16%22-Black-6-Position-M4-Carbine-A2-30Rd-Gas-Piston-Flat-Top-RA%252d16%252dC%252dB%252d556.html
+  seller_domain: www.manventureoutpost.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-manventureoutpost-com-Adams_Arms_Carbine_Semi-automatic_223_Rem_556NATO_16%22_Black_6_Position_M4_Carbine_A2_30Rd_Gas_Piston_Flat_Top_RA-16-C-B-556.html
+  is_valid: true
+  created_at: 2014-03-07 21:50:49.148199000 Z
+  updated_at: 2014-04-23 21:29:24.421587000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-manventureoutpost-com-Adams_Arms_Carbine_Semi-automatic_223_Rem_556NATO_16%22_Black_6_Position_M4_Carbine_A2_30Rd_Gas_Piston_Flat_Top_RA-16-C-B-556.html
+    digest: 419c11e6116c3d3a79e53905b889f0f4
+    type: RetailListing
+    item_data:
+      title:
+      - title: Adams Arms Carbine Semi-automatic 223 Rem 556NATO 16" Black 6 Position M4 Carbine A2 30Rd Gas Piston Flat Top RA-16-C-B-556
+      - autocomplete: Adams Arms Carbine Semi-automatic 223 Rem 556NATO 16" Black 6 Position M4 Carbine A2 30Rd Gas Piston Flat Top RA-16-C-B-556
+      - scrubbed: Adams Arms Carbine Semi-automatic .223 Rem 556NATO 16 inch Black 6 Position M4 Carbine A2 30 round Gas Piston Flat Top RA-16-C-B-556
+      - normalized: Adams Arms carbine semi-automatic .223 Rem 556nato 16 inch black 6 position m4 carbine a2 30 round gas piston flat top ra-16-c-b-556
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: Adams Arms
+      - classification_type: hard
+      caliber:
+      - caliber: .223 Rem
+      - classification_type: hard
+      number_of_rounds:
+      grains:
+      seller_name: Manventure Outpost
+      seller_domain: www.manventureoutpost.com
+      description: "Action: Semi-automaticType of Barrel: M4Barrel Lenth: 16\"Chamber:\
+        \ CarbineChokes: A2Capacity: 30RdDescription: Gas PistonFinish/Color: BlackCaliber:\
+        \ 223 RemCaliber: 556NATOGrips/Stock: 6 PositionManufacturer Part Number:\
+        \ RA-16-C-B-556Model: CarbineSights: Flat Top\r\n Action: Semi-automatic\r\
+        \n \r\n \r\n \r\n Battery: \r\n \r\n \r\n \r\n Batteries Included: \r\n \r\
+        \n \r\n \r\n Battery Type: \r\n \r\n \r\n \r\n Bullet Diameter: \r\n \r\n\
+        \ \r\n \r\n Bullet Type: \r\n \r\n \r\n \r\n Caliber: 223 Rem\r\n \r\n \r\n\
+        \ \r\n Capacity: 30Rd\r\n \r\n \r\n \r\n Chamber: Carbine\r\n \r\n \r\n \r\
+        \n Choke Type: A2\r\n \r\n \r\n \r\n Color: Black\r\n \r\n \r\n \r\n DieType:\
+        \ \r\n \r\n \r\n \r\n Fit: \r\n \r\n \r\n \r\n Gauge: \r\n \r\n \r\n \r\n\
+        \ Grain: \r\n \r\n \r\n \r\n Hand: \r\n \r\n \r\n \r\n Magazine: \r\n \r\n\
+        \ \r\n \r\n Magnification: \r\n \r\n \r\n \r\n Material: \r\n \r\n \r\n \r\
+        \n Maximum Range: \r\n \r\n \r\n \r\n MountType: \r\n \r\n \r\n \r\n Shell\
+        \ Holder Size: \r\n \r\n \r\n \r\n Shell Length: \r\n \r\n \r\n \r\n Shot\
+        \ Size: \r\n \r\n \r\n \r\n Shot Weight: \r\n \r\n \r\n \r\n Objective: \r\
+        \n \r\n \r\n \r\n Reticle: \r\n \r\n \r\n \r\n Tube Size: \r\n \r\n \r\n \r\
+        \n Barrel Type: M4\r\n \r\n \r\n \r\n Accessories: \r\n \r\n \r\n \r\n Barrel\
+        \ Length: 16\"\r\n \r\n \r\n \r\n Dram: \r\n \r\n \r\n \r\n Edge: \r\n \r\n\
+        \ \r\n \r\n Fired Casing: \r\n \r\n \r\n \r\n Fit: \r\n \r\n \r\n \r\n Feet\
+        \ per Second: \r\n \r\n \r\n \r\n Caliber: 556NATO\r\n \r\n \r\n \r\n Grips/Stock:\
+        \ GripStock\r\n \r\n \r\n \r\n MOA: \r\n \r\n \r\n \r\n Power: \r\n \r\n \r\
+        \n \r\n Safety: \r\n \r\n \r\n \r\n Sights: Flat Top\r\n \r\n \r\n \r\n Size:\
+        \ \r\n \r\n \r\n \r\n Type: \r\n \r\n \r\n \r\n Units Per Box: \r\n \r\n \r\
+        \n \r\n Units Per Case: \r\n \r\n *The image and details above are a representation\
+        \ only, production variances may exist. For details please contact us or the\
+        \ manufacturer prior to ordering."
+      keywords: Adams Arms,RA-16-C-B-556,Carbine,
+      image_source: http://www.manventureoutpost.com/product_images/tact/std/std_ADARA-16-C-B-556_1.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 10722 Fairgrounds Rd, Huntingdon, PA 16652
+      availability: in_stock
+      current_price_in_cents: 92309
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 131630
+      sale_price_in_cents: 92309
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

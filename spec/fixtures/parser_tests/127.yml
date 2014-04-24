@@ -1,0 +1,71 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 127
+  engine: ''
+  source_url: http://centerfiresystems.com/SCORED-04.aspx
+  seller_domain: centerfiresystems.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/centerfiresystems-com-NcStar_Red/Green/Blue_Dot_Sight_Scope_w/Cantilever_Mount_%23SCORED-04.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:20.512000000 Z
+  updated_at: 2014-04-23 21:27:03.916165000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/centerfiresystems-com-NcStar_Red/Green/Blue_Dot_Sight_Scope_w/Cantilever_Mount_%23SCORED-04.html
+    digest: 12e7c2e0373189652b5cebf4fc3402d2
+    type: RetailListing
+    item_data:
+      title:
+      - title: 'NcStar Red/Green/Blue Dot Sight Scope w/Cantilever Mount #SCORED-04'
+      - autocomplete: 'NcStar Red/Green/Blue Dot Sight Scope w/Cantilever Mount #SCORED-04'
+      - scrubbed: 'NcStar Red/Green/Blue Dot Sight Scope w/Cantilever Mount #SCORED-04'
+      - normalized: 'NcSTAR red/green/blue dot sight scope w/cantilever mount #scored-04'
+      category1:
+      - category1: Optics
+      - classification_type: hard
+      caliber_category:
+      manufacturer:
+      - manufacturer: NcSTAR
+      - classification_type: metadata
+      caliber:
+      number_of_rounds:
+      grains:
+      seller_name: Centerfire Systems
+      seller_domain: centerfiresystems.com
+      description: "NcStar Red/Green/Blue Dot Sight Scope w/Cantilever Mount #SCORED-04Features:\r\
+        \n\"C/ Unlimited eye relief\r\n\"C/ Black anodized aluminum construction\r\
+        \n\"C/ Three brightness settings for the Red, Green, Blue Dots\r\n\"C/ 30mm\
+        \ Cantilever Weaver Style Mount for mounting onto most Weaver Style/Picatinny\
+        \ rails\r\n\"C/ Red, Green, and Blue LEDs (Light Emitting Diode) 100% safe\
+        \ for the eyesSpecifications:\r\n\r\n\"C/ Length: 5.0'\r\n\"C/ Width: 2.7'\r\
+        \n\"C/ Height: 3.1'\r\n\"C/ Weight: 8.9 oz.\r\n\"C/ Mount Length: 2.68'\r\n\
+        \"C/ Objective Lens Diameter: 35mm\r\n\"C/ Magnification: 1X\r\n\"C/ Reticle:\
+        \ Red, Green, & Blue Dot\r\n\"C/ Dot Size: 3 MOA\r\n\"C/ Click Value: 1 MOA\r\
+        \n\"C/ Lens Coating: Platinum\r\n\"C/ Battery Type: CR2032"
+      keywords: NcStar Red/Green/Blue Dot Sight Scope w/Cantilever Mount, SCORED-04, DRGB135, ncstar, red, green, blue, dot, sight, scope, mount, cantilever, 814108018085
+      image_source: http://centerfiresystems.com/images/products/detail/SCORED041D.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 102 Fieldview Dr, Versailles, KY 40383
+      availability: in_stock
+      current_price_in_cents: 3999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 3999
+      sale_price_in_cents: 3999
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

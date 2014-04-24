@@ -1,0 +1,14 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 144
+  engine: ''
+  source_url: http://www.gunauction.com/buy/12144792/rifles-for-sale/semi-auto-rifle/h-and-k-hk-mp5-sd-22lr-nib
+  seller_domain: www.gunauction.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunauction-com-H%26K_--_HK_MP5-SD_22LR_NIB.html
+  is_valid: false
+  created_at: 2014-02-28 19:01:33.472000000 Z
+  updated_at: 2014-02-28 19:01:33.472000000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:

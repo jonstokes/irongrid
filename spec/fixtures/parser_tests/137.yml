@@ -1,0 +1,107 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 137
+  engine: www.ironsights.com
+  source_url: http://clydearmory.com/beretta-3032-tomcat.html
+  seller_domain: clydearmory.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/clydearmory-com-Beretta_3032_Tomcat.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:27.400000000 Z
+  updated_at: 2014-04-23 21:27:23.973752000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/clydearmory-com-Beretta_3032_Tomcat.html
+    digest: 1943f0113296660246bb330f119f258f
+    type: RetailListing
+    item_data:
+      title:
+      - title: Beretta 3032 Tomcat
+      - autocomplete: Beretta 3032 Tomcat
+      - scrubbed: Beretta 3032 Tomcat
+      - normalized: Beretta 3032 tomcat
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Beretta
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Clyde Armory
+      seller_domain: clydearmory.com
+      description: "The 3032 Tomcat offers all the features of the 21 Bobcat. Both\
+        \ pistols have a snag-proof design that permits quick presentation to the\
+        \ target, a slide blade front sight for fast target acquisition, and a smooth,\
+        \ crisp trigger pull in double/single action.QUALITY POCKET PISTOLS. The same\
+        \ dedication to advanced design, uncompromising quality and strict quality\
+        \ control that make the 92FS, Cougar and Cheetah such international standouts\
+        \ is found in all Beretta small caliber, pocket-size pistols. Simplicity,\
+        \ safety and practical use are their best qualities. PRACTICAL AND SIMPLE.The\
+        \ exclusive tip-up barrel allows the user to easily load a round directly\
+        \ into the chamber. It also assists in the safe clearing of the pistol by\
+        \ allowing a live round to be easily removed from the chamber and the bore\
+        \ quickly checked. Jamming and stovepiping problems are virtually eliminated\
+        \ by the open slide design shared by all small frame Berettas. \r\n\r\n1)\
+        \ Barrel. Forged out of special high-strength steel; precisely rifled for\
+        \ accuracy. The Inox models feature stainless steel barrels.2) Slide. Machined\
+        \ out of high-strength carbon steel and specially heat treated.3) Sights.\
+        \ Notched rear sight and blade front sight for fast target acquisition.4)\
+        \ Frame-mounted. Manual, conveniently thumb operated.5) Contoured Tang. Top\
+        \ of the grip area is precisely curved and relieved to snugly accommodate\
+        \ the shooter's hand, thus protecting the thumb web from being pinched by\
+        \ the slide and increasing the pistol control upon firing.6) Frame. Made of\
+        \ a special alloy, noticeably stronger, lighter and more corrosion resistant\
+        \ than stainless steel. In all other models the frame is made of special aluminum\
+        \ alloy forgings and anodized black or gray.7) Tip-up Barrel Latch.8) Trigger\
+        \ Pull. Smooth, crisp pull in double/single action. 9) Snag Proof Design.\
+        \ Smooth contours permit quick, smooth draw.\r\n 3032 TOMCAT. EXCELLENT POWER\
+        \ VS WEIGHT.Stopping power, concealability and lightweight -- that's what\
+        \ the double-action Tomcat is all about. Using 60-grain .32 ACP (7.65 mm)\
+        \ hollow-point ammunition, this latest addition to Beretta's small frame collection\
+        \ provides firepower equalling the punch of a .380 (9mm Short). Yet, all this\
+        \ serious capability is packed into a compact, lightweight 4.9\" (125 mm),\
+        \ 14.5 ounce (400 gr.) package. A drift-adjustable rear sight provides for\
+        \ superior accuracy. Available in the Tritium version featuring the tritium\
+        \ luminous front sight in some countries. 3032 TOMCAT INOX.This new model\
+        \ has a stainless steel slide and barrel. The alloy frame is gray anodized\
+        \ to match the color and finish of the stainless components. The trigger,\
+        \ hammer, safety, magazine and other parts are blued. All other features are\
+        \ the same as the Tomcat. \n \n UPC\n 0082442111070\n decorateTable('product-attribute-specs-table')"
+      keywords:
+      image_source: http://clydearmory.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/c/l/clyde_armory_beretta_3032_tomcat.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 4800 Atlanta Hwy, Bogart, GA 30622
+      availability: out_of_stock
+      current_price_in_cents: 35495
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 35495
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,81 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 206
+  engine:
+  source_url: http://www.ammoman.com/308-pmc-147-grain-fmjfull-metal-jacket-308b
+  seller_domain: www.ammoman.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammoman-com-.308_PMC_147_GRAIN_FMJ%3DFULL_METAL_JACKET.html
+  is_valid: true
+  created_at: 2014-03-04 21:31:23.508826000 Z
+  updated_at: 2014-04-23 21:28:53.921415000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammoman-com-.308_PMC_147_GRAIN_FMJ%3DFULL_METAL_JACKET.html
+    digest: 35a04d391b914cdfc744b4c5584bbd53
+    type: RetailListing
+    item_data:
+      title:
+      - title: .308 PMC 147 GRAIN FMJ=FULL METAL JACKET
+      - autocomplete: .308 PMC 147 GRAIN FMJ=FULL METAL JACKET
+      - scrubbed: .308 PMC 147 GRAIN FMJ=FULL METAL JACKET
+      - normalized: .308 Win PMC Ammunition 147 grain fmj=full metal jacket
+      category1:
+      - category1: Ammunition
+      - classification_type: default
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: PMC Ammunition
+      - classification_type: metadata
+      caliber:
+      - caliber: .308 Win
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 500
+      - classification_type: hard
+      grains:
+      - grains: 147
+      - classification_type: metadata
+      seller_name: AmmoMan
+      seller_domain: www.ammoman.com
+      description: "308 PMC 147 GRAIN\r\n\r\nFULL METAL JACKET\r\nBRASS CASED AND\
+        \ NON CORROSIVE\r\nRELOADABLE BRASS\r\n \r\n\r\nFor shooters and hunters who\
+        \ appreciate affordable quality ammunition, the PMC Bronze Line offers reliable\
+        \ performance for every shooting application, from target shooting to hunting.\
+        \ This long-popular ammunition line makes it possible for hunters and riflemen\
+        \ to enjoy high volume shooting without emptying their wallets. Bronze ammunition\
+        \ is available in Full Metal Jacket (FMJ) bullet types of .223A Remington,\
+        \ .308B Winchester and .50A in commercial and military packaging. \r\nSPECIFICATIONS:\
+        \ \r\n \r\nMfg Item Number: \r\n308B\r\nCategory: \r\nAMMO CENTERFIRE \r\n\
+        Caliber: \r\n.308 Winchester \r\nBullet Type: \r\nFull Metal JAcket \r\nBullet\
+        \ Weight: \r\n147 Grain \r\nMuzzle Energy: \r\n2522 ft lbs \r\nMuzzle Velocity:\
+        \ \r\n2780 fps \r\nRounds Per Box: \r\n20 Rounds Per Box"
+      keywords: 308 Win Ammo, 308 Win Ammunition, 147 Grain 308 Win Ammo, 308 Win FMJ Ammo, Free Shipping
+      image_source: http://www.ammoman.com/product-images/image/300x/42ce78bae97a1562ad9c0752cf576eb6/p/m/pmc_308.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: Newark, NJ 07101-3188
+      availability: in_stock
+      current_price_in_cents: 35000
+      price_per_round_in_cents: 70
+      price_on_request:
+      price_in_cents: 35000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

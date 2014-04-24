@@ -1,0 +1,76 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 150
+  engine: ''
+  source_url: http://www.ableammo.com/catalog/precision-90600-breech-lock-quick-changin-bush-p-104127.html
+  seller_domain: www.ableammo.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ableammo-com-Lee_Precision_90600_Breech_Lock_Quick_Changin_Bush.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:39.781000000 Z
+  updated_at: 2014-04-23 21:27:54.174521000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ableammo-com-Lee_Precision_90600_Breech_Lock_Quick_Changin_Bush.html
+    digest: a61d7b48997f4a31fbc44dd60a2fcec2
+    type: RetailListing
+    item_data:
+      title:
+      - title: Lee Precision 90600 Breech Lock Quick Changin Bush
+      - autocomplete: Lee Precision 90600 Breech Lock Quick Changin Bush
+      - scrubbed: Lee Precision 90600 Breech Lock Quick Changin Bush
+      - normalized: Lee Precision 90600 breech lock quick changin bush
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Lee Precision
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Able Ammo
+      seller_domain: www.ableammo.com
+      description: 'LEE PRECISION Breech Lock Quick Change Bushing Lee Breech Lock
+        Quick Change Bushing The Quick Change Bushings make changing dies a snap and
+        accomplishes the task in seconds. Once mounted on your die, you''ll never
+        have to adjust the die again unless you want to. It saves time, eliminates
+        guesswork and ensures the consistency of your reloaded product. SPECIFICATIONS:Mfg
+        Item Num: 90600 Category: RELOADING ACCESSORIES Type :Quick Change BushingCaliber
+        :UniversalSize :Lee PressesQuantity :2 PKWeight :N/A'
+      keywords: Lee Precision 90600 Breech Lock Quick Changin Bush
+      image_source: http://www.ableammo.com/catalog/images/ssi-2013/medium/52510.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 357 Farm to Market Road 1791  Huntsville, TX 77340
+      availability: in_stock
+      current_price_in_cents: 798
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 798
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

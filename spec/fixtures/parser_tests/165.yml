@@ -1,0 +1,72 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 165
+  engine: ''
+  source_url: http://www.gunsinternational.com/NOBELSPORT-12GA-MINI-BUCKSHOT-LOADS-2-LONG-1250FPS-00-BUCK.cfm?gun_id=100350913
+  seller_domain: www.gunsinternational.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsinternational-com-NOBELSPORT_12GA_MINI_BUCKSHOT_LOADS_2%22_LONG%2C_1250FPS_%2300_BUCK.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:49.963000000 Z
+  updated_at: 2014-04-23 21:28:05.084873000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-gunsinternational-com-NOBELSPORT_12GA_MINI_BUCKSHOT_LOADS_2%22_LONG%2C_1250FPS_%2300_BUCK.html
+    digest: a010287efbea6c98cec31862dc930b0c
+    type: ClassifiedListing
+    item_data:
+      title:
+      - title: 'NOBELSPORT 12GA MINI BUCKSHOT LOADS 2" LONG, 1250FPS #00 BUCK'
+      - autocomplete: 'NOBELSPORT 12GA MINI BUCKSHOT LOADS 2" LONG, 1250FPS #00 BUCK'
+      - scrubbed: 'NOBELSPORT 12 gauge MINI BUCKSHOT LOADS 2 inch LONG 1250FPS #00
+          BUCK'
+      - normalized: 'nobelsport 12 gauge mini buckshot loads 2 inch long 1250fps #00
+          buck'
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: 12 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Guns International
+      seller_domain: www.gunsinternational.com
+      description: Guns International - NOBELSPORT 12GA MINI BUCKSHOT LOADS 2
+      keywords: NOBELSPORT 12GA MINI BUCKSHOT LOADS 2
+      image_source: http://images.gunsinternational.com/listings/100350913-1-s.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: Unknown
+      item_location: '86322'
+      availability: in_stock
+      current_price_in_cents: 22500
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 22500
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

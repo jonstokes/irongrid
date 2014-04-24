@@ -1,0 +1,75 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 121
+  engine: ''
+  source_url: http://www.armslist.com/posts/1667231/dallas-texas-ammo-for-sale--500-rd-summit-45-acp-230gr-fmj---free-shipping
+  seller_domain: www.armslist.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-armslist-com-500_rd_Summit_45_ACP_230gr_FMJ_-_FREE_SHIPPING.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:16.026000000 Z
+  updated_at: 2014-04-23 21:30:06.522131000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-armslist-com-500_rd_Summit_45_ACP_230gr_FMJ_-_FREE_SHIPPING.html
+    digest: 9389448a5cd93d1dc5b86875b251ee07
+    type: ClassifiedListing
+    item_data:
+      title:
+      - title: 500 rd Summit 45 ACP 230gr FMJ - FREE SHIPPING
+      - autocomplete: 500 rd Summit 45 ACP 230gr FMJ - FREE SHIPPING
+      - scrubbed: 500 round Summit .45 ACP 230 grain FMJ - FREE SHIPPING
+      - normalized: 500 round summit .45 ACP 230 grain fmj - free shipping
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: .45 ACP
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 500
+      - classification_type: metadata
+      grains:
+      - grains: 230
+      - classification_type: metadata
+      seller_name: Armslist
+      seller_domain: www.armslist.com
+      description: "Item (In Stock): 500 rounds Summit .45 ACP Brass 230 grain FMJ\r\
+        \nShipping: Free ground shipping to the 48 contiguous United States.\r\nPackaging:\
+        \ 10x 50 round boxes. See our other listings for additional quantity options.\r\
+        \nAvailability: In Stock (Limited Supply) - Available for Immediate Delivery.\r\
+        \nAbout: Summit manufactures munitions for the Military, DoD, Law Enforcement,\
+        \ and now Civilian Applications."
+      keywords:
+      image_source: http://cdn2.armslist.com/sites/armslist/uploads/posts/2013/05/24/1667231_01_500_rd_summit_45_acp_230gr_fmj_640.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: Unknown
+      item_location: Canton, TX, Dallas, Texas
+      availability: in_stock
+      current_price_in_cents: 24000
+      price_per_round_in_cents: 48
+      price_on_request:
+      price_in_cents: 24000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

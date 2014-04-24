@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 230
+  engine:
+  source_url: http://pistolandpawn.com/shop/federal-f127000-power-shok-buckshot-12-ga-2-75-8-pellets-000-buck-shot-5bx-50cs.html
+  seller_domain: pistolandpawn.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/pistolandpawn-com-Federal_F127000_Power_Shok_Buckshot_12_ga_2.75%22_8_Pellets_000_Buck_Shot_5Bx/50Cs.html
+  is_valid: true
+  created_at: 2014-03-07 22:45:21.669249000 Z
+  updated_at: 2014-04-23 21:29:19.923412000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/pistolandpawn-com-Federal_F127000_Power_Shok_Buckshot_12_ga_2.75%22_8_Pellets_000_Buck_Shot_5Bx/50Cs.html
+    digest: 1692a499c9aac0a53e76a206e36eef07
+    type: RetailListing
+    item_data:
+      title:
+      - title: Federal F127000 Power Shok Buckshot 12 ga 2.75" 8 Pellets 000 Buck Shot 5Bx/50Cs
+      - autocomplete: Federal F127000 Power Shok Buckshot 12 ga 2.75" 8 Pellets 000 Buck Shot 5Bx/50Cs
+      - scrubbed: Federal F127000 Power Shok Buckshot 12 gauge 2.75 inch 8 Pellets 000 Buck Shot 5Bx/50Cs
+      - normalized: Federal f127000 power shok buckshot 12 gauge 2.75 inch 8 pellets 000 buck shot 5bx/50cs
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Federal
+      - classification_type: hard
+      caliber:
+      - caliber: 12 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Larry's Pistol & Pawn
+      seller_domain: pistolandpawn.com
+      description: Many hunters use buckshot to bring home the venison, and with the dramatic power of Federal Ammunition's available loads, it's no wonder. Each load features a Triple Plus wad system that gives you better shot alignment and a granulated plastic buffer to keep shot pellets uniform in shape. Power-Shok Buckshot provides tight downrange patterns and better stopping power.
+      keywords:
+      image_source: http://pistolandpawn.com/shop/media/catalog/product/cache/1/image/265x265/9df78eab33525d08d6e5fb8d27136e95/i/m/img65648_16.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2405 North Memorial Parkway, Huntsville, AL 35810
+      availability: in_stock
+      current_price_in_cents: 439
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 439
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

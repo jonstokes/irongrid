@@ -1,0 +1,96 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 138
+  engine: ''
+  source_url: http://www.classicfirearms.com/long-guns/papriflews
+  seller_domain: www.classicfirearms.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-classicfirearms-com-Yugo_M70_Type_AK_Rifle_-_Model_N-PAP_Gen_II_-_Semi-Auto_%2C_High_Cap_-_7.62x39_caliber.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:28.129000000 Z
+  updated_at: 2014-04-23 21:27:25.502066000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-classicfirearms-com-Yugo_M70_Type_AK_Rifle_-_Model_N-PAP_Gen_II_-_Semi-Auto_%2C_High_Cap_-_7.62x39_caliber.html
+    digest: a480e291c68f9d3ea75844d56b5bd9ad
+    type: RetailListing
+    item_data:
+      title:
+      - title: Yugo M70 Type AK Rifle - Model N-PAP Gen II - Semi-Auto , High Cap - 7.62x39 caliber
+      - autocomplete: Yugo M70 Type AK Rifle - Model N-PAP Gen II - Semi-Auto , High Cap - 7.62x39 caliber
+      - scrubbed: Yugo M70 Type AK Rifle - Model N-PAP Gen II - Semi-Auto High Cap - 7.62x39 caliber
+      - normalized: yugo m70 type ak rifle - model n-pap gen ii - semi-auto high cap - 7.62x39mm caliber
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: 7.62x39mm
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Classic Firearms
+      seller_domain: www.classicfirearms.com
+      description: "Yugo M70 AK-47 Style N-PAP Rifle, 7.62x39, Semi-Auto W / 2 - 30\
+        \ Round MagsMade in the same factory that produced top quality rifles for\
+        \ former Yugoslavia like the M70B1 and M70AB2, our newly manufactured PAP\
+        \ rifles are the semi-auto version of the famous military series M70 rifles.\
+        \ These beauties are the latest imports from the world famous Zastava factory.\
+        \ This one is the HI-CAP PAP Classic and features a full teak wood stock matching\
+        \ fore end wood and an ergonomic pistol grip. It also features a hammer forged\
+        \ barrel, specialized safety lever, and factory buttpad. Unlike the first\
+        \ batch of imports this new second generation rifle also has a built in side\
+        \ rail mount for true hold accuracy when mounting a scope. Rifle features\
+        \ a Beautiful Teakwood Stockand forearm and ergonomically shaped molded and\
+        \ textured pistol grip. Comes complete with Two Original Yugo 30 round steel\
+        \ mags..... Barrel: 16.25\" with a 1:10 twist, Overall: 36.25\", Weight: 7.7\
+        \ lbs. Condition: New. Yugo AK rifles are unique in the industry in that they\
+        \ have a bolt hold open capability and when used with original Yugo mags will\
+        \ lock the bolt back after the last shot is fired. Rifle will of course function\
+        \ properly with any AK mag but only the Yugo mag facilitates the bolt hold\
+        \ open. Rifle also features an exclusive safety lever design that also acts\
+        \ as a bolt lock / hold open for ultimate safety and lightning fast chambering.\
+        \ ( See Image ) Rifle comes complete with 2-30 round mags and cleaning rod.\
+        \ Mags are surplus and cosmetic condition on the mags included with the rifle\
+        \ may vary.Legally accepts all high cap mags and drums regardless of country\
+        \ of origin. Receivers are stamped but slightly heavier than typical stamped\
+        \ receivers. These are built like tanks.... \r\n If you can only have one\
+        \ AK in your Arsenal let me suggest the N-PAP Gen II.\r\nThe Yugo AK's are\
+        \ regarded as some of the finest quality AK rifles in the world and these\
+        \ are no exception. Extremely well made with very tight tolerances - These\
+        \ rifles will feed, function and fire flawlessly for thousands and thousands\
+        \ of rounds. \r\nNote - Some images show rifle with optional scope and mount.\
+        \ These photo's are informational only to demonstate how rifle accepts scope\
+        \ and mount. Scopes, Mounts, and Scope Packages Sold Seperately."
+      keywords: Yugo M70 Type AK Rifle - Model N-PAP Gen II - Semi-Auto , High Cap - 7.62x39 caliber
+      image_source: http://classicfirearms-magento.s3.amazonaws.com/catalog/product/cache/1/image/350x/040ec09b1e35df139433887a97daa66f/p/a/pap-01.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 510 Morgan Mill Rd, Monroe, NC 28110
+      availability: in_stock
+      current_price_in_cents: 51999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 51999
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

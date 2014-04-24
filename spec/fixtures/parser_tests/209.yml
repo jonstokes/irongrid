@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 209
+  engine:
+  source_url: http://www.ammobank.com/cgi-bin/cshop/store/detail.tam?xax=506559&item%2Ectx=AG22WA
+  seller_domain: www.ammobank.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammobank-com-AGUILA_.22_Winchester_Automatic_for_1903_Rifles_%28Not_interchangeable_with_22_Remington_Auto_or_22WRF%29.html
+  is_valid: true
+  created_at: 2014-03-04 22:28:41.298492000 Z
+  updated_at: 2014-04-23 21:28:58.496656000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammobank-com-AGUILA_.22_Winchester_Automatic_for_1903_Rifles_%28Not_interchangeable_with_22_Remington_Auto_or_22WRF%29.html
+    digest: c03aa2bbfac3d17b03ee35c9d3e813c3
+    type: RetailListing
+    item_data:
+      title:
+      - title: AGUILA .22 Winchester Automatic for 1903 Rifles (Not interchangeable with 22 Remington Auto or 22WRF)
+      - autocomplete: AGUILA .22 Winchester Automatic for 1903 Rifles (Not interchangeable with 22 Remington Auto or 22WRF)
+      - scrubbed: AGUILA .22 Winchester Automatic for 1903 Rifles (Not interchangeable with .22 Remington Auto or .22 WRF)
+      - normalized: Aguila Ammunition .22 Winchester automatic for 1903 rifles (not interchangeable with .22 Remington auto or .22 wrf)
+      category1:
+      - category1: Ammunition
+      - classification_type: default
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: Aguila Ammunition
+      - classification_type: hard
+      caliber:
+      - caliber: .22 Win Auto
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 50
+      - classification_type: hard
+      grains:
+      - grains: 45
+      - classification_type: hard
+      seller_name: The Ammo Bank
+      seller_domain: www.ammobank.com
+      description: Limited Supply. AGUILA introduces the 22 Win. Auto for use in 1903 Rifles.
+      keywords:
+      image_source: http://www.ammobank.com/images8/ag22wa.JPG
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2952 W MAIN ST, CALEDONIA, NY 14423
+      availability: in_stock
+      current_price_in_cents: 2995
+      price_per_round_in_cents: 60
+      price_on_request:
+      price_in_cents: 2995
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

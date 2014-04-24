@@ -1,0 +1,84 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 232
+  engine:
+  source_url: http://www.midsouthshooterssupply.com/item.asp?sku=000039096
+  seller_domain: www.midsouthshooterssupply.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-midsouthshooterssupply-com-45_ACP_%2BP_230_Grain_XTP_Jacketed_Hollow_Point_20_Rounds.html
+  is_valid: true
+  created_at: 2014-03-08 00:07:35.041864000 Z
+  updated_at: 2014-04-23 21:29:33.375480000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-midsouthshooterssupply-com-45_ACP_%2BP_230_Grain_XTP_Jacketed_Hollow_Point_20_Rounds.html
+    digest: 7334989e6719b6a886dc5f0368838c7d
+    type: RetailListing
+    item_data:
+      title:
+      - title: 45 ACP +P 230 Grain XTP Jacketed Hollow Point 20 Rounds
+      - autocomplete: 45 ACP +P 230 Grain XTP Jacketed Hollow Point 20 Rounds
+      - scrubbed: .45 ACP +P 230 Grain XTP Jacketed Hollow Point 20 Rounds
+      - normalized: .45 ACP +p 230 grain xtp jacketed hollow point 20 rounds
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: .45 ACP
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: metadata
+      grains:
+      - grains: 230
+      - classification_type: metadata
+      seller_name: Midsouth Shooters
+      seller_domain: www.midsouthshooterssupply.com
+      description: "45 ACP +P 230 Grain XTP Jacketed Hollow Point 20 Rounds\r\n Hornady's\
+        \ Ammuntion Features:\r\n Select Cases - All brass is chosen to ensure it\
+        \ meets Hornady's unusually high standards for reliable feeding, corrosion\
+        \ resistance, proper hardness and the ability to withstand maximum chamber\
+        \ pressures.\r\n Powder - Each cartridge is loaded to ensure optimal pressure,\
+        \ velocity and consistency from lot to lot.\r\n Primers - Like the powder,\
+        \ each primer is carefully matched to individual loads, and specifically selected\
+        \ for their ability to quickly, completely, and reliably ignite the powder\
+        \ charge.\r\n\r\nSpecficiations:\r\nMuzzle Velocity 950 fps\r\nMuzzle Energy\
+        \ 461 ft/lbs\r\nBallistic Coefficient 0.188\r\nSectional Density 0.162\r\n\
+        \ \r\n \r\n \r\n This item may have additional shipping charges if shipped\
+        \ by air. Due to shipping regulations this item can not be shipped through\
+        \ the postal service. This item is regulated by the US STATE DEPARTMENT and\
+        \ may require an EXPORT LICENSE for international orders.Regulations may not\
+        \ allow this item to be shipped to specific states."
+      keywords: Buy 45 ACP +P 230 GrainXTP Jacketed Hollow Point here at MidsouthShootersSupply.com. We offer all of your AMMUNITION needs at low prices.
+      image_source: https://www.midsouthshooterssupply.com/product_images/003-9096/003-9096.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 770 Economy Dr, Clarksville, TN 37043
+      availability: in_stock
+      current_price_in_cents: 1713
+      price_per_round_in_cents: 86
+      price_on_request:
+      price_in_cents: 1713
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

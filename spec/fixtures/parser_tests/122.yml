@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 122
+  engine: ''
+  source_url: http://centermassfirearms.com/index.php/gun-ammo/american-eagle-20rd-85gr-jsp-327-mag.html
+  seller_domain: centermassfirearms.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/centermassfirearms-com-American_Eagle_20rd_85gr_JSP_.327_Mag.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:16.979000000 Z
+  updated_at: 2014-04-23 21:26:57.554167000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/centermassfirearms-com-American_Eagle_20rd_85gr_JSP_.327_Mag.html
+    digest: 810ad666cd69755fb60eb387829a39de
+    type: RetailListing
+    item_data:
+      title:
+      - title: American Eagle 20rd 85gr JSP .327 Mag
+      - autocomplete: American Eagle 20rd 85gr JSP .327 Mag
+      - scrubbed: American Eagle 20 round 85 grain JSP .327 Mag
+      - normalized: American Eagle 20 round 85 grain jsp .327 Federal Mag
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: American Eagle
+      - classification_type: metadata
+      caliber:
+      - caliber: .327 Federal Mag
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: metadata
+      grains:
+      - grains: 85
+      - classification_type: metadata
+      seller_name: Center Mass Firearms
+      seller_domain: centermassfirearms.com
+      description: The .327 Federal Magnum is an excellent and affordable practice and self defense option. Available in a Jacketed Soft Point (JSP). The newest 85-grain allows for consistent practice without going over budget.
+      keywords: American Eagle 20rd 85gr JSP .327 Mag
+      image_source: http://centermassfirearms.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/d/s/dsc00002.jpg_1.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2140 S. Boulder Hwy., Henderson, NV 89002
+      availability: in_stock
+      current_price_in_cents: 3495
+      price_per_round_in_cents: 175
+      price_on_request:
+      price_in_cents: 3495
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 220
+  engine:
+  source_url: https://www.jackrossammo.com/Wolf-Gold-.223-REM.html
+  seller_domain: www.jackrossammo.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-jackrossammo-com-Wolf_Gold_.223_REM_55_gr_FMJ._BRASS%2C_made_in_Taiwan..html
+  is_valid: true
+  created_at: 2014-03-06 19:38:00.693573000 Z
+  updated_at: 2014-04-23 21:29:13.037209000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-jackrossammo-com-Wolf_Gold_.223_REM_55_gr_FMJ._BRASS%2C_made_in_Taiwan..html
+    digest: 308c15ff58d4ad7657fa9075cfbeb166
+    type: RetailListing
+    item_data:
+      title:
+      - title: Wolf Gold .223 REM 55 gr FMJ. BRASS, made in Taiwan.
+      - autocomplete: Wolf Gold .223 REM 55 gr FMJ. BRASS, made in Taiwan.
+      - scrubbed: Wolf Gold .223 REM 55 grain FMJ BRASS made in Taiwan
+      - normalized: Wolf Performance Ammo gold .223 Rem 55 grain fmj brass made in taiwan
+      category1:
+      - category1: Ammunition
+      - classification_type: default
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Wolf Performance Ammo
+      - classification_type: metadata
+      caliber:
+      - caliber: .223 Rem
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: hard
+      grains:
+      - grains: 55
+      - classification_type: metadata
+      seller_name: Jack Ross Ammunition
+      seller_domain: www.jackrossammo.com
+      description: Wolf Gold .223 REM 55 gr FMJ. BRASS, made in Taiwan.
+      keywords:
+      image_source: https://www.jackrossammo.com/images/P/wolf%2520gold%2520223.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 4900 Mill St., Suite 23, Reno, NV 89502
+      availability: out_of_stock
+      current_price_in_cents: 875
+      price_per_round_in_cents: 44
+      price_on_request:
+      price_in_cents: 875
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

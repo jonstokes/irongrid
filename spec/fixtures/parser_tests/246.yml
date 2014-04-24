@@ -1,0 +1,67 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 246
+  engine:
+  source_url: http://www.spotonoptics.com/Redfield-REVENGE-2-7X34MM-4-PLX-MAT-p/rf115204.htm
+  seller_domain: www.spotonoptics.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-spotonoptics-com-Redfield_-_REVENGE_2-7X34MM_4-PLX_MAT.html
+  is_valid: true
+  created_at: 2014-04-18 18:39:04.218680000 Z
+  updated_at: 2014-04-23 21:29:57.966693000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-spotonoptics-com-Redfield_-_REVENGE_2-7X34MM_4-PLX_MAT.html
+    digest: 8b6f630e9fc64c4143d63a883be845ab
+    type: RetailListing
+    item_data:
+      title:
+      - title: Redfield - REVENGE 2-7X34MM 4-PLX MAT
+      - autocomplete: Redfield - REVENGE 2-7X34MM 4-PLX MAT
+      - scrubbed: Redfield - REVENGE 2-7X34MM 4-PLX MAT
+      - normalized: Redfield - revenge 2-7x34mm 4-plx mat
+      category1:
+      - category1: Optics
+      - classification_type: hard
+      caliber_category:
+      manufacturer:
+      - manufacturer: Redfield
+      - classification_type: metadata
+      caliber:
+      number_of_rounds:
+      grains:
+      seller_name: Spot On Optics
+      seller_domain: www.spotonoptics.com
+      description: "Pop-up resettable, 1/4 MOA finger-click adjustments, Fast Focus\
+        \ Eyepiece, Redfield Lifetime Warranty\r\n\r\n \r\n \r\n \r\n \r\n \r\n UPC\
+        \ Code: 030317152048Manufacturer: RedfieldModel: RevengeType: Rifle ScopePower:\
+        \ 2-7XObjective: 34mmReticle: 4-PlexFinish/Color: MatteSize: 1\"Description:\
+        \ Pop-up resettable, 1/4 MOA finger-click adjustments, Fast Focus Eyepiece,\
+        \ Redfield Lifetime WarrantyManufacturer Part #: 115204"
+      keywords: Redfield - REVENGE 2-7X34MM 4-PLX MAT
+      image_source: http://cdn3.volusion.com/wjtvc.desyu/v/vspfiles/photos/RF115204-2T.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 220 Brantley Harbor Dr. , Saint Augustine, FL 32086
+      availability: in_stock
+      current_price_in_cents: 14999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 17499
+      sale_price_in_cents: 14999
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 116
+  engine: ''
+  source_url: http://www.hyattgunstore.com/ruger-new-vaquero-.45-colt-stainless-5.5.html
+  seller_domain: www.hyattgunstore.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-hyattgunstore-com-Ruger_New_Vaquero_.45_Colt_Stainless_5.5%22.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:12.799000000 Z
+  updated_at: 2014-04-23 21:26:45.516857000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-hyattgunstore-com-Ruger_New_Vaquero_.45_Colt_Stainless_5.5%22.html
+    digest: 27a1833f7d899ada95f20ccc19cd43f3
+    type: RetailListing
+    item_data:
+      title:
+      - title: Ruger New Vaquero .45 Colt Stainless 5.5"
+      - autocomplete: Ruger New Vaquero .45 Colt Stainless 5.5"
+      - scrubbed: Ruger New Vaquero .45 Colt Stainless 5.5 inch
+      - normalized: Ruger new vaquero .45 Colt stainless 5.5 inch
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Ruger
+      - classification_type: metadata
+      caliber:
+      - caliber: .45 Colt
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Hyatt Gun Store
+      seller_domain: www.hyattgunstore.com
+      description: Ruger New Vaquero .45 Colt Stainless 5.5"
+      keywords: Ruger New Vaquero .45 Colt Stainless 5.5"
+      image_source: http://www.hyattgunstore.com/images/P/main-3776.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 3332 Wilkinson Blvd Charlotte, NC 28208
+      availability: out_of_stock
+      current_price_in_cents: 61299
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents:
+      sale_price_in_cents: 61299
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

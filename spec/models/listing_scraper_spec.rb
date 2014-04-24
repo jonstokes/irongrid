@@ -130,6 +130,7 @@ describe ListingScraper do
     end
 
     it "should correctly clean up an auction listing from Gunbroker.com" do
+      pending "I need a new parser test for an ended auction on GB"
       page = load_listing_source("Auction", "www.gunbroker.com", 'Aimpoint Micro H-1 4MOA LRP/Sp.39mm Rifle Scope')
       doc = Nokogiri.parse(page[:html], page[:url])
       scraper = ListingScraper.new(create_site_from_repo("www.gunbroker.com"))

@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 188
+  engine: ''
+  source_url: http://www.dixiegunworks.com/product_info.php?cPath=21_154&products_id=623
+  seller_domain: www.dixiegunworks.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-dixiegunworks-com-14134_VON_LENGERKE_AND_DETMOLD/FRANCOTTE_KNOCK-ABOUT_GUN.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:56.988000000 Z
+  updated_at: 2014-04-23 21:30:01.926389000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-dixiegunworks-com-14134_VON_LENGERKE_AND_DETMOLD/FRANCOTTE_KNOCK-ABOUT_GUN.html
+    digest: 1b9e923febfcd274ea395aaec107aacc
+    type: RetailListing
+    item_data:
+      title:
+      - title: 14134 VON LENGERKE AND DETMOLD/FRANCOTTE KNOCK-ABOUT GUN
+      - autocomplete: 14134 VON LENGERKE AND DETMOLD/FRANCOTTE KNOCK-ABOUT GUN
+      - scrubbed: 14134 VON LENGERKE AND DETMOLD/FRANCOTTE KNOCK-ABOUT GUN
+      - normalized: 14134 von lengerke and detmold/francotte knock-about gun
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      grains:
+      seller_name: Dixie Gun Works
+      seller_domain: www.dixiegunworks.com
+      description: Double barrel hammerless side-by-side breechloading shotgun. Barrels are 29 5/8" long. 12 gauge with automatic ejectors and 2 3/4" chambers. Bores are perfect and the barrels are choked full and modified. Action lockup is tight. Externally, the barrels have 90% of the original blue finish and are excellently marked. Right barrel is stamped "THE KNOCK-ABOUT GUN" and the left barrel is marked "VON LENGERKE & DETMOLD, N-YORK." Top rib is slightly concave and matted. Breeches are engraved as is the extension of the top rib. Boxlock style frame is marked on the right side "VOL LENGERKE & DETMOLD/NEW YORK" and on the left side "THE KNOCK-ABOUT GUN." Frame is smooth and has about 30% original color casehardening although it is faint. Top of the frame is hand matted. Engraving surrounds the cross bolt and the hinge pin. Edges and corners are very sharp. Border engraving is present on the floorplate. Serial number 71560. Double triggers. Walnut stocks are present. The pistol grip is nicely checkered. It has been cracked through the wrist and perfectly and professionally repaired. Repair is barely evident. Splinter style forend is extensively checkered with light wear to the checkering there. Deeley's pushbutton style forend release. The buttstock is mounted with a solid red rubber recoil pad. Also, the stock has been expertly extended 9/16". Overall condition is excellent. Dealer or resident only. Original price $1595.00.
+      keywords:
+      image_source: http://www.dixiegunworks.com/images/thumbs/14134.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1412 West Reelfoot Avenue, Union City, TN 38281
+      availability: in_stock
+      current_price_in_cents: 120000
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 120000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

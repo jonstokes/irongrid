@@ -1,0 +1,71 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 154
+  engine: ''
+  source_url: http://centerfiresystems.com/COM1022-BLLONG.aspx
+  seller_domain: centerfiresystems.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/centerfiresystems-com-10/22_Long_Blue_Compensator_%23COM1022-BL_LONG.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:43.493000000 Z
+  updated_at: 2014-04-23 21:27:40.167538000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/centerfiresystems-com-10/22_Long_Blue_Compensator_%23COM1022-BL_LONG.html
+    digest: acf49beb351a4a73caa7880281dc6ad0
+    type: RetailListing
+    item_data:
+      title:
+      - title: '10/22 Long Blue Compensator #COM1022-BL LONG'
+      - autocomplete: '10/22 Long Blue Compensator #COM1022-BL LONG'
+      - scrubbed: '10/22 Long Blue Compensator #COM1022-BL LONG'
+      - normalized: '10/22 long blue compensator #com1022-bl long'
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Centerfire Systems
+      seller_domain: centerfiresystems.com
+      description: "10/22 Long Blue Compensator\r\n\r\nMatte blue finish\r\nPin on\
+        \ type\r\nSlotted and ported"
+      keywords: compensator, 10/22, 1022, 10-22, 10 22, gun, rifle
+      image_source: http://centerfiresystems.com/productimages/misc/COM1022-BL%2520LONG-B2.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 102 Fieldview Dr, Versailles, KY 40383
+      availability: in_stock
+      current_price_in_cents: 999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 999
+      sale_price_in_cents: 999
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

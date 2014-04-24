@@ -1,0 +1,72 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 242
+  engine:
+  source_url: http://www.smokeymountainmunitions.com/Aguila_22LR_40gr_Golden_Eagle_Match_p/aguila22l40grlrn50rd.htm
+  seller_domain: www.smokeymountainmunitions.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-smokeymountainmunitions-com-Aguila_22LR_40gr_Golden_Eagle_Match.html
+  is_valid: true
+  created_at: 2014-03-08 16:32:03.796121000 Z
+  updated_at: 2014-04-23 21:29:48.332021000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-smokeymountainmunitions-com-Aguila_22LR_40gr_Golden_Eagle_Match.html
+    digest: d277f6a8b7e1cf7d11c1c4e85954792b
+    type: RetailListing
+    item_data:
+      title:
+      - title: Aguila 22LR 40gr Golden Eagle Match
+      - autocomplete: Aguila 22LR 40gr Golden Eagle Match
+      - scrubbed: Aguila .22 LR 40 grain Golden Eagle Match
+      - normalized: Aguila Ammunition .22lr 40 grain golden eagle match
+      category1:
+      - category1: Ammunition
+      - classification_type: default
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Aguila Ammunition
+      - classification_type: metadata
+      caliber:
+      - caliber: .22lr
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 50
+      - classification_type: metadata
+      grains:
+      - grains: 40
+      - classification_type: metadata
+      seller_name: Smokey Mountain Munitions
+      seller_domain: www.smokeymountainmunitions.com
+      description: "Specifications: \r\nAguila Match Pistol\r\n40gr Lead Round Nose\
+        \ 50 rd Box\r\n1080 FPS"
+      keywords: 'Specifications: Aguila Match Pistol40gr Lead Round Nose 50 rd Box1080
+        FPS'
+      image_source: http://www.smokeymountainmunitions.com//v/vspfiles/photos/AGUILA22L40GRLRN50RD-2T.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 250 E. Jarrard St., Cleveland, GA 30528
+      availability: out_of_stock
+      current_price_in_cents: 665
+      price_per_round_in_cents: 13
+      price_on_request:
+      price_in_cents: 665
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

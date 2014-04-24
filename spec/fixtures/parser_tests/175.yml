@@ -1,0 +1,72 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 175
+  engine: ''
+  source_url: http://www.luckygunner.com/remington-45-acp-ammo-for-sale-45acpp185jhpremsaber-25
+  seller_domain: www.luckygunner.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-luckygunner-com-45_ACP_%2BP_-_185_gr_JHP_-_Remington_Golden_Saber-_25_Rounds.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:53.388000000 Z
+  updated_at: 2014-04-23 21:28:09.615434000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-luckygunner-com-45_ACP_%2BP_-_185_gr_JHP_-_Remington_Golden_Saber-_25_Rounds.html
+    digest: 37c4b83cd6b29b7b018fed634e5d5830
+    type: RetailListing
+    item_data:
+      title:
+      - title: 45 ACP +P - 185 gr JHP - Remington Golden Saber- 25 Rounds
+      - autocomplete: 45 ACP +P - 185 gr JHP - Remington Golden Saber- 25 Rounds
+      - scrubbed: .45 ACP +P - 185 grain JHP - Remington Golden Saber- 25 Rounds
+      - normalized: .45 ACP +p - 185 grain jhp - Remington golden saber- 25 rounds
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Remington
+      - classification_type: metadata
+      caliber:
+      - caliber: .45 ACP
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 25
+      - classification_type: metadata
+      grains:
+      - grains: 185
+      - classification_type: metadata
+      seller_name: Lucky Gunner
+      seller_domain: www.luckygunner.com
+      description: "Quantity - 25 rounds per box\r\nManufacturer - Remington Golden\
+        \ Saber\r\nBullets - 185 grain +P Jacketed Hollow Point (JHP)\r\nCasings -\
+        \ Nickel-plated boxer-primed brass"
+      keywords: 45 acp, ammo, 45 cal, ammunition, remington, golden saber, 45 auto, 185 grain, 185gr, 185 gr, +P, P, JHP, defense ammo, defense ammunition, jacketed hollow point, hollow point, for sale, in stock, online, brass, bullets, Saber, GS45APC
+      image_source: http://cdn5.luckygunner.com/media/catalog/product/cache/1/image/2da9827f2ca8fee3e7f2af19d95a1b6e/4/5/45acpp185jhpremsaber-25-3.jpg
+      image_download_attempted:
+      affiliate_link_tag: '#rid=ironsights&amp;chan=search'
+      item_condition: New
+      item_location: 448 N Cedar Bluff Rd, Knoxville, TN 37923
+      availability: in_stock
+      current_price_in_cents: 1995
+      price_per_round_in_cents: 80
+      price_on_request:
+      price_in_cents: 2450
+      sale_price_in_cents: 1995
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

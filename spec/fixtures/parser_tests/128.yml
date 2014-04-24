@@ -1,0 +1,78 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 128
+  engine: ''
+  source_url: http://palmettostatearmory.com/index.php/ammunition/handgun-ammunition/speer-44-special-200gr-gold-dot-23980.html
+  seller_domain: palmettostatearmory.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Speer_Gold_Dot_.44_Special_200gr_JHP_20rds_23980.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:20.913000000 Z
+  updated_at: 2014-04-23 21:27:05.638533000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/palmettostatearmory-com-Speer_Gold_Dot_.44_Special_200gr_JHP_20rds_23980.html
+    digest: fd5cb18df60d3fb7ab90e40afd903057
+    type: RetailListing
+    item_data:
+      title:
+      - title: Speer Gold Dot .44 Special 200gr JHP 20rds 23980
+      - autocomplete: Speer Gold Dot .44 Special 200gr JHP 20rds 23980
+      - scrubbed: Speer Gold Dot .44 Special 200 grain JHP 20 rounds 23980
+      - normalized: Speer Bullets gold dot .44 S&W Special 200 grain jhp 20 rounds 23980
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Speer Bullets
+      - classification_type: metadata
+      caliber:
+      - caliber: .44 S&W Special
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: metadata
+      grains:
+      - grains: 200
+      - classification_type: metadata
+      seller_name: Palmetto State Armory
+      seller_domain: palmettostatearmory.com
+      description: 'Speer(r) Gold Dot(r) Ammunition continues dominating the law enforcement
+        community. Its proven reliability for tough jobshas made it the #1 duty ammunition
+        on the market today. To put it simply---it''s the best. We''re reintroducing
+        this fineammunition in three user-friendly categories: Speer Gold Dot Personal
+        Protection, Speer Gold Dot Short Barrel(r) PersonalProtection and Speer Gold
+        Dot Handgun Hunting. Speer also continues its line of training ammunition
+        with Lawman(r) andLawman Clean-Fire(r) ammunition. For Gold Dot-like ballistics
+        and serious training, Lawman remains the best choice.Whatever category fits
+        you, we''ve got the best choice for your needs.'
+      keywords: Speer Gold Dot .44 Special 200gr JHP 20rds 23980
+      image_source: http://palmettostatearmory.com/media/catalog/product/cache/1/image/269x/9df78eab33525d08d6e5fb8d27136e95/2/0/200gr.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 200 Business Park Blvd, Columbia, SC 29203
+      availability: out_of_stock
+      current_price_in_cents:
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents:
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

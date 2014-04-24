@@ -1,0 +1,81 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 237
+  engine:
+  source_url: http://www.blucoreshootingcenter.com/p-42525-mfs-20020-223-55-fmj-2025.aspx
+  seller_domain: www.blucoreshootingcenter.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-blucoreshootingcenter-com-Ruag_Ammotec_USA_Inc_20020_MFS_223_Remington/5.56_Nato_FMJ_55_GR_20Box/25Case.html
+  is_valid: true
+  created_at: 2014-03-08 15:03:56.459806000 Z
+  updated_at: 2014-04-23 21:30:03.670808000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-blucoreshootingcenter-com-Ruag_Ammotec_USA_Inc_20020_MFS_223_Remington/5.56_Nato_FMJ_55_GR_20Box/25Case.html
+    digest: 793f4a03f4a6e0aa656bba419260fc7a
+    type: RetailListing
+    item_data:
+      title:
+      - title: Ruag Ammotec USA Inc 20020 MFS 223 Remington/5.56 Nato FMJ 55 GR 20Box/25Case
+      - autocomplete: Ruag Ammotec USA Inc 20020 MFS 223 Remington/5.56 Nato FMJ 55 GR 20Box/25Case
+      - scrubbed: Ruag Ammotec USA Inc 20020 MFS .223 Remington/5.56 Nato FMJ 55 grain 20Box/25Case
+      - normalized: Ruag Ammotec usa inc 20020 mfs .223 Remington/5.56 NATO fmj 55 grain 20box/25case
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: hard
+      manufacturer:
+      - manufacturer: Ruag Ammotec
+      - classification_type: hard
+      caliber:
+      - caliber: 5.56 NATO
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: hard
+      grains:
+      - grains: 55
+      - classification_type: hard
+      seller_name: BluCore Shooting Center
+      seller_domain: www.blucoreshootingcenter.com
+      description: "Ruag Ammotec USA Inc 20020 MFS 223 Remington/5.56 Nato FMJ 55\
+        \ GR 20Box/25Case The all purpose versions of these cartridges are suitable\
+        \ for both hunting and sports. Good expansivity and shooting accuracy convince\
+        \ the user of the excellence of these cartridges.\r\n \r\n Specifications:Unit\
+        \ of Measure:\r\n BX\r\n Weight Per Box:\r\n 0.200\r\n UPC:\r\n 871004002723\r\
+        \n Caliber:\r\n 223 Remington/5.56 NATO\r\n Bullet Type:\r\n Full Metal Jacket\r\
+        \n Bullet Weight:\r\n 55 GR\r\n Rounds Per Box:\r\n 20 Round Per Box, 25 Boxes\
+        \ Per Case\r\n Casing Material:\r\n Zinc Plated Steel\r\n Manufacturer Item\
+        \ Number:\r\n 20020\r\n Brand:\r\n Ruag Ammotec Usa Inc\r\n Item Type:\r\n\
+        \ Ammunition\r\n Length:\r\n 2.5\r\n Width:\r\n 4.9\r\n Height:\r\n 1.3\r\n\
+        \ Rounds Per Box:\r\n 20 Rounds Per Box, 25 Boxes Per Case\r\n Casing Material:\r\
+        \n Zinc-Plated Steel"
+      keywords:
+      image_source: http://media.server.theshootingwarehouse.com/large/69754.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 7860 West Jewell Avenue, Lakewood, CO  80232
+      availability: out_of_stock
+      current_price_in_cents: 657
+      price_per_round_in_cents: 33
+      price_on_request:
+      price_in_cents: 1294
+      sale_price_in_cents: 657
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

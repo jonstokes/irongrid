@@ -1,0 +1,62 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 115
+  engine: ''
+  source_url: http://www.hyattgunstore.com/aim-sports-scout-2-7x42-scout-rifle-scope-range-finder-reticle.html
+  seller_domain: www.hyattgunstore.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-hyattgunstore-com-Aim_Sports_Scout_2-7X42_Scout_Rifle_Scope%2C_Range_Finder_Reticle.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:12.147000000 Z
+  updated_at: 2014-04-23 21:26:43.667071000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-hyattgunstore-com-Aim_Sports_Scout_2-7X42_Scout_Rifle_Scope%2C_Range_Finder_Reticle.html
+    digest: d5734f56bf6b18509fece8e33fd3c652
+    type: RetailListing
+    item_data:
+      title:
+      - title: Aim Sports Scout 2-7X42 Scout Rifle Scope, Range Finder Reticle
+      - autocomplete: Aim Sports Scout 2-7X42 Scout Rifle Scope, Range Finder Reticle
+      - scrubbed: Aim Sports Scout 2-7X42 Scout Rifle Scope Range Finder Reticle
+      - normalized: Aim Sports scout 2-7x42 scout rifle scope range finder reticle
+      category1:
+      - category1: Optics
+      - classification_type: hard
+      caliber_category:
+      manufacturer:
+      - manufacturer: Aim Sports
+      - classification_type: metadata
+      caliber:
+      number_of_rounds:
+      grains:
+      seller_name: Hyatt Gun Store
+      seller_domain: www.hyattgunstore.com
+      description: Aimsports Scout 2-7X42 Scout Rifle Scope, Range Finder Reticle
+      keywords: Aimsports Scout 2-7X42 Scout Rifle Scope, Range Finder Reticle
+      image_source: http://www.hyattgunstore.com/images/P/main-8650.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 3332 Wilkinson Blvd Charlotte, NC 28208
+      availability: in_stock
+      current_price_in_cents: 5999
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents:
+      sale_price_in_cents: 5999
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,78 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 134
+  engine: ''
+  source_url: http://www.cheaperthandirt.com/product/3-0307867
+  seller_domain: www.cheaperthandirt.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages.s3.amazonaws.com/www-cheaperthandirt-com-Ammo_16_Gauge_Lightfield_Commander_IDS_2-3/4%22_Lead_7/8_Oz_Slug_1630_fps_5_Round_Box_LFCP-16.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:25.160000000 Z
+  updated_at: 2014-04-23 21:27:18.727859000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages.s3.amazonaws.com/www-cheaperthandirt-com-Ammo_16_Gauge_Lightfield_Commander_IDS_2-3/4%22_Lead_7/8_Oz_Slug_1630_fps_5_Round_Box_LFCP-16.html
+    digest: e7d60966a2073adac575b76dff419ebf
+    type: RetailListing
+    item_data:
+      title:
+      - title: Ammo 16 Gauge Lightfield Commander IDS 2-3/4" Lead 7/8 Oz Slug 1630 fps 5 Round Box LFCP-16
+      - autocomplete: Ammo 16 Gauge Lightfield Commander IDS 2-3/4" Lead 7/8 Oz Slug 1630 fps 5 Round Box LFCP-16
+      - scrubbed: Ammo 16 gauge Lightfield Commander IDS 2-3/4 inch Lead 7/8 Oz Slug 1630 fps 5 Round Box LFCP-16
+      - normalized: ammo 16 gauge lightfield commander ids 2-3/4 inch lead 7/8 oz slug 1630 fps 5 round box lfcp-16
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: 16 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Cheaper Than Dirt
+      seller_domain: www.cheaperthandirt.com
+      description: "Lightfield offers many great hunting ammo options such as this\
+        \ 16 Gauge 2-3/4\" shell with a 7/8 ounce of Impact-Discarding Sabot slug\
+        \ at 1500 fps, which is a good choice for most medium, thin-skinned game.\
+        \ \r\n\r\nThe Lightfield IDS Commander was designed as a high velocity, extremely\
+        \ stable, extended range Sabot Slug for use in modern rifled barrel shotguns.\
+        \ The patented design incorporates an impact discarding Sabot that aids stability\
+        \ in the wind and produces a controlled expansion slug for deeper penetration.\
+        \ \r\n\t\r\n 5 Rounds per box. To buy a full case, order 20 boxes. \r\n\r\n\
+        Ammo price is per box."
+      keywords:
+      image_source: http://cdn1.cheaperthandirt.com/ctd_images/mdprod/3-0307867.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 2058 West University Drive, McKinney, Texas 75071
+      availability: in_stock
+      current_price_in_cents: 1221
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 1221
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

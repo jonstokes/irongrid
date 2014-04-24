@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 182
+  engine: ''
+  source_url: http://www.gamaliel.com/Magpul/Magpul_PMag30_GenM2_20_Round_Window.asp
+  seller_domain: www.gamaliel.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-Magpul_PMag30_GenM2_Magazine._30_Round_w/_Window.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:54.730000000 Z
+  updated_at: 2014-04-23 21:28:18.332888000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-Magpul_PMag30_GenM2_Magazine._30_Round_w/_Window.html
+    digest: c88210e0657b3405a31f9a61cfbc7f70
+    type: RetailListing
+    item_data:
+      title:
+      - title: Magpul PMag30 GenM2 Magazine. 30 Round w/ Window
+      - autocomplete: Magpul PMag30 GenM2 Magazine. 30 Round w/ Window
+      - scrubbed: Magpul PMag30 GenM2 Magazine. 30 Round w/ Window
+      - normalized: Magpul pmag30 genm2 magazine. 30 round w/ window
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Magpul
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds: 30
+      - classification_type: metadata
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Gamaliel Shooting Supply
+      seller_domain: www.gamaliel.com
+      description: The PMAG is a lightweight 5.56x45 NATO (.223 Remington) AR15/M16 compatible magazine. It features an advanced impact resistant polymer construction and an easy to disassemble design with a flared floorplate for positive magazine extraction from pouches. The PMAG 30 utilizes a resilient stainless steel spring for corrosion resistance and a anti-tilt, self-lubricating follower for increased reliability.
+      keywords: Magpul PMag30 GenM2 Magazine. 20 Round w/ Window
+      image_source: http://www.gamaliel.com/images/MAG570BLK_N.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1497 Fountain Run Road, Gamaliel, Kentucky 42140
+      availability: in_stock
+      current_price_in_cents: 1595
+      price_per_round_in_cents: 53
+      price_on_request:
+      price_in_cents: 1595
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

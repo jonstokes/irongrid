@@ -1,0 +1,14 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 111
+  engine: ''
+  source_url: http://www.ableammo.com/catalog/reviews.php
+  seller_domain: www.ableammo.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-ableammo-com-Able_Ammo.html
+  is_valid: false
+  created_at: 2014-02-28 19:01:07.664000000 Z
+  updated_at: 2014-04-21 21:19:33.946172000 Z
+  not_found: true
+  classified_sold:
+  listing_data:

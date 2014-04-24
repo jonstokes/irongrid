@@ -1,0 +1,73 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 191
+  engine: ''
+  source_url: http://www.huntingdepot.net/catalog/product.asp?pid=47969&ret_id=1219039
+  seller_domain: www.huntingdepot.net
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-Rossi_M351_.38Special_2%22_Barrel%2C_Blue.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:58.013000000 Z
+  updated_at: 2014-04-23 21:28:25.852860000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-huntingdepot-net-Rossi_M351_.38Special_2%22_Barrel%2C_Blue.html
+    digest: 91435941a0934cfbee1fdffa7c638cb8
+    type: RetailListing
+    item_data:
+      title:
+      - title: Rossi M351 .38Special 2" Barrel, Blue
+      - autocomplete: Rossi M351 .38Special 2" Barrel, Blue
+      - scrubbed: Rossi M351 .38 Special 2 inch Barrel Blue
+      - normalized: rossi m351 .38 Special 2 inch barrel blue
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: .38 Special
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Hunting Depot
+      seller_domain: www.huntingdepot.net
+      description: "M351 .38Special 2\" Barrel, Blue Description\r\n A small frame\
+        \ revolver chambered for .38 Special and capable of handling the more powerful\
+        \ +P loads. This 5-shot with a two inch barrels make it a favorite for concealed\
+        \ carry and home defense. All Rossi revolvers feature the unique Taurus Security\
+        \ System and are covered by our Lifetime Repair Policy.\nModel: R35102\nCaliber:\
+        \ .38 Special\nCapacity: 5 Shot\nAction: Double Action\nRate of Twist: 1:16.5\"\
+        \nBarrel Length: 2\"\nTotal Length: 6.5\"\nGrips: Rubber Grips\nWeight: 24\
+        \ oz\nFrame Size: Small\nFinish: Blue\nFront Sight: Fixed\nRear Sight: None"
+      keywords:
+      image_source: http://images.dealerease.net/prodpics/rosspicr35102.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 23 S Prospect St, Nanticoke, PA 18634
+      availability: in_stock
+      current_price_in_cents: 30670
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 30670
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

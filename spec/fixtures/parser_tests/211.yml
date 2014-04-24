@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 211
+  engine:
+  source_url: http://www.ammunitiontogo.com/product_info.php/pName/20rds-32-auto-buffalo-bore-75gr-p-hardcast-fn-ammo/cName/32-auto-full-metal-jacket
+  seller_domain: www.ammunitiontogo.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammunitiontogo-com-20rds_-_32_Auto_Buffalo_Bore_75gr._%2BP_Hardcast_FN_Ammo%5DBBA30A%5D.html
+  is_valid: true
+  created_at: 2014-03-04 22:42:28.610560000 Z
+  updated_at: 2014-04-23 21:29:01.652984000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammunitiontogo-com-20rds_-_32_Auto_Buffalo_Bore_75gr._%2BP_Hardcast_FN_Ammo%5DBBA30A%5D.html
+    digest: c0b38addc68a02368eae97b029f8fab8
+    type: RetailListing
+    item_data:
+      title:
+      - title: 20rds - 32 Auto Buffalo Bore 75gr. +P Hardcast FN Ammo]BBA30A]
+      - autocomplete: 20rds - 32 Auto Buffalo Bore 75gr. +P Hardcast FN Ammo]BBA30A]
+      - scrubbed: 20 rounds - .32 Auto Buffalo Bore 75 grain +P Hardcast FN Ammo]BBA30A]
+      - normalized: 20 rounds - .32 ACP Buffalo Bore Ammunition 75 grain +p hardcast FN Herstal ammo]bba30a]
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Buffalo Bore Ammunition
+      - classification_type: metadata
+      caliber:
+      - caliber: .32 ACP
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 20
+      - classification_type: metadata
+      grains:
+      - grains: 75
+      - classification_type: metadata
+      seller_name: Ammunition To Go
+      seller_domain: www.ammunitiontogo.com
+      description: This is .32 Auto Buffalo Bore 75gr. +P Hardcast Flat Nose Ammo. Buffalo Bore 27E is a 75gr. hard cast bullet with a flat nose. It is traveling at 1,150 fps.The flat on the nose ensures that the bullet will cut/smash its way through the target and do much more destruction than typical round nose FMJ bullets. Round nosed bullets tend to slip and slide through matter, doing little damage as opposed to a flat nosed bullet. The flat nose actually keeps the bullet penetration straighter and deeper. This ammo is packed in 20rd. boxes.
+      keywords:
+      image_source: http://www.ammunitiontogo.com/images/BBA30A.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 6360 FM 50, Brenham, TX 77833
+      availability: in_stock
+      current_price_in_cents: 2295
+      price_per_round_in_cents: 115
+      price_on_request:
+      price_in_cents: 2295
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

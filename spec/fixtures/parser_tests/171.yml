@@ -1,0 +1,87 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 171
+  engine: ''
+  source_url: http://www.rockwellarms.com/Store/ProductDetails/MSAR-AR-15-Polymer-Magazines-Black-30rd-701-BL
+  seller_domain: www.rockwellarms.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-rockwellarms-com-MSAR_AR-15_Polymer_Magazines_-_Black_-_30rd_MSAR701-BL.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:52.678000000 Z
+  updated_at: 2014-04-23 21:28:03.628144000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-rockwellarms-com-MSAR_AR-15_Polymer_Magazines_-_Black_-_30rd_MSAR701-BL.html
+    digest: 52dc83706d9fac21a223284b889ee98a
+    type: RetailListing
+    item_data:
+      title:
+      - title: MSAR AR-15 Polymer Magazines - Black - 30rd MSAR701-BL
+      - autocomplete: MSAR AR-15 Polymer Magazines - Black - 30rd MSAR701-BL
+      - scrubbed: MSAR AR-15 Polymer Magazines - Black - 30 round MSAR701-BL
+      - normalized: msar ar-15 polymer magazines - black - 30 round msar701-bl
+      category1:
+      - category1: None
+      - classification_type: fall_through
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Microtech
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds: 30
+      - classification_type: metadata
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Rockwell Arms
+      seller_domain: www.rockwellarms.com
+      description: "MSAR AR-15 Polymer Magazines - Black - 30rd: 701-BL\r\n\r\n MSAR\
+        \ knows how important it is to avoid being caught empty handed, which is why\
+        \ we developed the new fifth generation, 30 round magazines. Re-engineered\
+        \ for a precision fit on most rifles* that accept M16/AR-15 mags, the features\
+        \ of this new product speak for themselves. Designed around 5.56/.223 and\
+        \ 300BLK(r) rounds, the mags are drop free whether loaded or unloaded.\r\n\
+        \ \r\n \r\n Features\r\n\r\n \r\n Polymer 30 round magazine\r\n \r\n Unique\
+        \ triangular riser allows for positive contact in all host weapons with a\
+        \ last round hold open.\r\n \r\n Molded ridge present to prevent over travel\
+        \ of the magazine when inserting into host weapon.\r\n \r\n A corrosion resistant\
+        \ body spring is used for maximum durability.\r\n \r\n Floor plate with raised\
+        \ rib for additional grip, designed from impact modified UV resistant polymer.\r\
+        \n \r\n Self adjusting follower designed from impact modified UV resistant\
+        \ polymer.\r\n \r\n The new E4 mag is compatible with most* standard .223/5.56\
+        \ AR-15 style rifles. Flame retardant and chemical resistant, this material\
+        \ also has low moisture absorption, low deformity properties making it ideal\
+        \ in extreme conditions.\r\n \r\n Ribbed for increased grip-ability"
+      keywords: 'MSAR AR-15 Polymer Magazines - Black - 30rd: 701-BL, 30 round magazine,
+        microtech small arms research'
+      image_source: http://images.rockwellarms.com/ProductImages/Microtech/701-BL.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: '509 N. 5th Avenue, Sandpoint, ID 83864 '
+      availability: in_stock
+      current_price_in_cents: 795
+      price_per_round_in_cents: 27
+      price_on_request:
+      price_in_cents: 795
+      sale_price_in_cents: 795
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

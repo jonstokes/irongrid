@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 142
+  engine: www.ironsights.com
+  source_url: http://www.freedommunitions.com/9mm-115-gr-HP-p/fm9j115r-b0500.htm
+  seller_domain: www.freedommunitions.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-freedommunitions-com-9mm_115_gr._HP_Reman.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:31.940000000 Z
+  updated_at: 2014-04-23 21:27:28.627732000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-freedommunitions-com-9mm_115_gr._HP_Reman.html
+    digest: 9268e2ad2ae8ca29c1654c853fe6018f
+    type: RetailListing
+    item_data:
+      title:
+      - title: 9mm 115 gr. HP Reman
+      - autocomplete: 9mm 115 gr. HP Reman
+      - scrubbed: 9mm 115 grain HP Reman
+      - normalized: 9mm Luger 115 grain hp reman
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: 9mm Luger
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains: 115
+      - classification_type: metadata
+      seller_name: Freedom Munitions
+      seller_domain: www.freedommunitions.com
+      description: '9mm 115 gr. HP Reman Box of 500 Product Code: FM9J115R-B0500'
+      keywords:
+      image_source: http://cdn3.volusion.com/flupx.oauzh/v/vspfiles/photos/FM9J115R-B0050-2.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 17482-B Northwest Freeway, Jersey Village, TX 77040-1024
+      availability: out_of_stock
+      current_price_in_cents: 12283
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 12283
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

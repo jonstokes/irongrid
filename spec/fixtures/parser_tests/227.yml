@@ -1,0 +1,120 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 227
+  engine:
+  source_url: http://www.manventureoutpost.com/products/Aimpoint-11403-CompM3-4MOA.html
+  seller_domain: www.manventureoutpost.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-manventureoutpost-com-Aimpoint_11403_CompM3_4MOA.html
+  is_valid: true
+  created_at: 2014-03-07 22:06:18.497207000 Z
+  updated_at: 2014-04-23 21:29:26.152504000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-manventureoutpost-com-Aimpoint_11403_CompM3_4MOA.html
+    digest: 47a7b9c4ef0e793542565da3d33ffaa9
+    type: RetailListing
+    item_data:
+      title:
+      - title: Aimpoint 11403 CompM3 4MOA
+      - autocomplete: Aimpoint 11403 CompM3 4MOA
+      - scrubbed: Aimpoint 11403 CompM3 4MOA
+      - normalized: Aimpoint 11403 compm3 4moa
+      category1:
+      - category1: Optics
+      - classification_type: hard
+      caliber_category:
+      manufacturer:
+      - manufacturer: Aimpoint
+      - classification_type: hard
+      caliber:
+      number_of_rounds:
+      grains:
+      seller_name: Manventure Outpost
+      seller_domain: www.manventureoutpost.com
+      description: "When police and armed forces personnel are on duty, they need\
+        \ their equipment to handle just about any situation, anytime, anywhere. That's\
+        \ why Aimpoint created the CompM3, a revolutionary sight that offers the highest\
+        \ standard available for sight systems technology.Incorporating over 30 years\
+        \ of Aimpoint's internationally recognized design innovations; the CompM3\
+        \ features our latest technology and is even more rugged than Aimpoint's other\
+        \ sights. Featuring our revolutionary Advanced Circuit Efficiency Technology\
+        \ (ACET) that gives the sight unparalleled battery life and ease of use, the\
+        \ CompM3 works with any generation of night vision device (NVD). Built primarily\
+        \ for armed forces and police use to hold up under the roughest physical handling\
+        \ and most severe weather conditions, the CompM3 is also ideal for hunters\
+        \ and sport shooters.The CompM3 comes with a replaceable, outer black rubber\
+        \ cover, which protects it from scratching and adds an additional stealth\
+        \ factor. Features:- Compatible with every generation of NVD - New technology\
+        \ called ACET allows 50,000 hours of operation on one single battery (on setting\
+        \ 7 out of 10) - 500,000 hours of use on NVD setting - Unequalled light transmission\
+        \ - Submersible to 45 meters (135 feet) - Comes with replaceable outer black\
+        \ rubber cover - Unlimited field of view - Parallax-free with unlimited eye\
+        \ relief - Unaffected by extreme weather conditions - Rugged, durable construction\
+        \ - No hazardous materials used - No laser emission that could be harmful\
+        \ to your eyes - Mechanical switch for speed and reliability - Increased aiming\
+        \ confidence - Reduced training time and ammunitionSpecifications:- System:\
+        \ Passive Red Dot Collimator Reflex Sight- Magnification: 1X- Eye Relief:\
+        \ Unlimited- Reticle Size: 4 MOA *- Optical Coating: Anti reflex, 1st, 2nd\
+        \ and 3rd Generation NVD compatible (M2 only) - Battery Type: One 3 Volt Lithium\
+        \ battery type 2L76 or DL1/3N- Battery Life, Typical**: 50,000 hours at setting\
+        \ 7 out of 10- Switch Dot Brightness: 10 settings -- 4 NVD, 6 Daylight (1\
+        \ is Extra Bright)- Housing Material: Extruded, high strength aluminum, hard\
+        \ anodized, black, non-glare finish Sight body and mount protected by a rubber\
+        \ cover, mat black- Surface Finish: Hard anodized, matte, Dark Graphite Gray-\
+        \ Lens Cover Material: Thermoplastic elastomer, black, non-glare finish- Adjustment:\
+        \ 1 click = 10 mm at 80 meters = 13 mm at 100 meters = 1/2\" at 100 yds- Mounting:\
+        \ Aimpoint doesn't sell Scopes with Mounts- Length: 130 mm (5.1\" ) - Width\
+        \ / Height: 55 mm x 55 mm (2.2\" x 2.2 \") - Ring Width: Max 30 mm (1.2\"\
+        )- Weight: 220 grams (7.8 oz) incl. lens covers. Rubber cover 50 grams (1.7\
+        \ oz)- Temperature Range: -45 o C to +71o C (-50 o F to +160 o F) - Water\
+        \ Resistance: 45 meters (135 ft)*MOA (Minute Of Angle) 1 MOA = 30 mm at 100\
+        \ meters = 1\" at 100 yards**NEW ACET technology\n \n \r\n Action: \r\n \r\
+        \n \r\n \r\n Battery: \r\n \r\n \r\n \r\n Batteries Included: \r\n \r\n \r\
+        \n \r\n Battery Type: \r\n \r\n \r\n \r\n Bullet Diameter: \r\n \r\n \r\n\
+        \ \r\n Bullet Type: \r\n \r\n \r\n \r\n Caliber: \r\n \r\n \r\n \r\n Capacity:\
+        \ \r\n \r\n \r\n \r\n Chamber: \r\n \r\n \r\n \r\n Choke Type: \r\n \r\n \r\
+        \n \r\n Color: \r\n \r\n \r\n \r\n DieType: \r\n \r\n \r\n \r\n Fit: \r\n\
+        \ \r\n \r\n \r\n Gauge: \r\n \r\n \r\n \r\n Grain: \r\n \r\n \r\n \r\n Hand:\
+        \ \r\n \r\n \r\n \r\n Magazine: \r\n \r\n \r\n \r\n Magnification: \r\n \r\
+        \n \r\n \r\n Material: \r\n \r\n \r\n \r\n Maximum Range: \r\n \r\n \r\n \r\
+        \n MountType: \r\n \r\n \r\n \r\n Shell Holder Size: \r\n \r\n \r\n \r\n Shell\
+        \ Length: \r\n \r\n \r\n \r\n Shot Size: \r\n \r\n \r\n \r\n Shot Weight:\
+        \ \r\n \r\n \r\n \r\n Objective: \r\n \r\n \r\n \r\n Reticle: \r\n \r\n \r\
+        \n \r\n Tube Size: \r\n \r\n \r\n \r\n Barrel Type: \r\n \r\n \r\n \r\n Accessories:\
+        \ \r\n \r\n \r\n \r\n Barrel Length: \r\n \r\n \r\n \r\n Dram: \r\n \r\n \r\
+        \n \r\n Edge: \r\n \r\n \r\n \r\n Fired Casing: \r\n \r\n \r\n \r\n Fit: \r\
+        \n \r\n \r\n \r\n Feet per Second: \r\n \r\n \r\n \r\n Caliber: \r\n \r\n\
+        \ \r\n \r\n Grips/Stock: GripStock\r\n \r\n \r\n \r\n MOA: \r\n \r\n \r\n\
+        \ \r\n Power: \r\n \r\n \r\n \r\n Safety: \r\n \r\n \r\n \r\n Sights: \r\n\
+        \ \r\n \r\n \r\n Size: \r\n \r\n \r\n \r\n Type: \r\n \r\n \r\n \r\n Units\
+        \ Per Box: \r\n \r\n \r\n \r\n Units Per Case: \r\n \r\n *The image and details\
+        \ above are a representation only, production variances may exist. For details\
+        \ please contact us or the manufacturer prior to ordering."
+      keywords: Aimpoint,Aimpoint 11403,CompM3 CompM3 4OA,11403,Firearm Accessories,Sights, Electronic,7350004381128
+      image_source: http://www.manventureoutpost.com/product_images/out/std/std_aimppic11403.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 10722 Fairgrounds Rd, Huntingdon, PA 16652
+      availability: in_stock
+      current_price_in_cents: 58600
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 58600
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

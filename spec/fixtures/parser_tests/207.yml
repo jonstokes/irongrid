@@ -1,0 +1,74 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 207
+  engine:
+  source_url: http://www.ammoman.com/mag-ak47-762x39-30-round-yugo-3-pack
+  seller_domain: www.ammoman.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammoman-com-7.62x39MM_AK-47_MAGAZINES_-_3_PACK_YUGOSLAVIAN_SURPLUS_-_30_ROUND_STEEL.html
+  is_valid: true
+  created_at: 2014-03-04 21:32:16.350254000 Z
+  updated_at: 2014-04-23 21:28:55.583652000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-ammoman-com-7.62x39MM_AK-47_MAGAZINES_-_3_PACK_YUGOSLAVIAN_SURPLUS_-_30_ROUND_STEEL.html
+    digest: d585c6ee21d607d5e04509084a01add3
+    type: RetailListing
+    item_data:
+      title:
+      - title: 7.62x39MM AK-47 MAGAZINES - 3 PACK YUGOSLAVIAN SURPLUS - 30 ROUND STEEL
+      - autocomplete: 7.62x39MM AK-47 MAGAZINES - 3 PACK YUGOSLAVIAN SURPLUS - 30 ROUND STEEL
+      - scrubbed: 7.62x39MM AK-47 MAGAZINES - 3 PACK YUGOSLAVIAN SURPLUS - 30 ROUND STEEL
+      - normalized: 7.62x39mm ak-47 magazines - 3 pack yugoslavian surplus - 30 round steel
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: hard
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber: 7.62x39mm
+      - classification_type: hard
+      number_of_rounds:
+      - number_of_rounds: 30
+      - classification_type: metadata
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: AmmoMan
+      seller_domain: www.ammoman.com
+      description: "3 PACK OF YUGOSLAVIAN SURPLUS AK-47 MAGS!\r\n30 ROUND 7.62x39MM\
+        \ AK-47 MAGAZINES\r\nThe AmmoMan Found A Lot of High Quality Yugoslavian Surplus\
+        \ Mags, Still In The Cosmoline! (You'll Want To Clean Them Off Before Loading\
+        \ Up)\r\nAvailable in packs of three, these are the best surplus steel mags\
+        \ on the market!Check Local Magazine Capacity Laws Before Ordering!"
+      keywords: 7.62x39mm Mag, 7.62x39mm Magazine, 30 Round 7.62x39mm Magazine, 7.62x39mm AK-47 Mag, Free Shipping
+      image_source: http://www.ammoman.com/product-images/image/300x/42ce78bae97a1562ad9c0752cf576eb6/m/a/magazinem70ak4730rdyugo-3_2.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: Newark, NJ 07101-3188
+      availability: in_stock
+      current_price_in_cents: 10500
+      price_per_round_in_cents: 350
+      price_on_request:
+      price_in_cents: 10500
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

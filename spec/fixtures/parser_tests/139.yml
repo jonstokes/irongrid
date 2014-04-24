@@ -1,0 +1,82 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 139
+  engine: ''
+  source_url: http://www.classicfirearms.com/ammunition/wolfgold308
+  seller_domain: www.classicfirearms.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-classicfirearms-com-Wolf_Gold_.308_Brass_Cased_Soft_Point_Ammunition.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:29.132000000 Z
+  updated_at: 2014-04-23 21:27:26.655753000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-classicfirearms-com-Wolf_Gold_.308_Brass_Cased_Soft_Point_Ammunition.html
+    digest: d47eda9fab449681c8f787184bcb3d2c
+    type: RetailListing
+    item_data:
+      title:
+      - title: Wolf Gold .308 Brass Cased Soft Point Ammunition
+      - autocomplete: Wolf Gold .308 Brass Cased Soft Point Ammunition
+      - scrubbed: Wolf Gold .308 Brass Cased Soft Point Ammunition
+      - normalized: Wolf Performance Ammo gold .308 Win brass cased soft point ammunition
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rifle
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Wolf Performance Ammo
+      - classification_type: metadata
+      caliber:
+      - caliber: .308 Win
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Classic Firearms
+      seller_domain: www.classicfirearms.com
+      description: "Let me tell you about this ammo - Other than the name Wolf on\
+        \ the box, there is nothing steel cased, or Russian made about this ammo.\
+        \ This fine ammunition is actually manufactured by Privi Partizan, one of\
+        \ the most renowned ammo makers in the world. In fact the master cases are\
+        \ all still marked Privi partizan as are the headstamps on the shell casings.\
+        \ It was purchased as a bulk ammo buy by Wolf and then repackaged by them\
+        \ in their commercial boxes as Wolf Gold. This is some really good stuff.\
+        \ Brass Cased in annelled casings, boxer primed and fully reloadable, features\
+        \ a 150 grain soft point bullet. 2805 FPS.This stuff is affordable enough\
+        \ to target shoot but versatile enough to make a fine deer load. Get some\
+        \ and give it a try \r\nWe sell it by the individual box with a price break\
+        \ at 10 boxes, and another price break at 25 boxes which equals a 500 round\
+        \ case."
+      keywords: Wolf Gold .308 Brass Cased Soft Point Ammunition
+      image_source: http://classicfirearms-magento.s3.amazonaws.com/catalog/product/cache/1/image/350x/040ec09b1e35df139433887a97daa66f/w/o/wolf_gold_308.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 510 Morgan Mill Rd, Monroe, NC 28110
+      availability: in_stock
+      current_price_in_cents: 1699
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 1699
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

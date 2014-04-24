@@ -1,0 +1,73 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 183
+  engine: ''
+  source_url: http://www.gamaliel.com/handguns/fnh_fns9_9mm.asp
+  seller_domain: www.gamaliel.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-FNH_FNS-9_9mm_full_size.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:54.915000000 Z
+  updated_at: 2014-04-23 21:28:19.826735000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-FNH_FNS-9_9mm_full_size.html
+    digest: 9c2fb41dc1353ad5f07b7c953620db47
+    type: RetailListing
+    item_data:
+      title:
+      - title: FNH FNS-9 9mm full size
+      - autocomplete: FNH FNS-9 9mm full size
+      - scrubbed: FNH FNS-9 9mm full size
+      - normalized: FN Herstal fns-9 9mm Luger full size
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: FN Herstal
+      - classification_type: metadata
+      caliber:
+      - caliber: 9mm Luger
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Gamaliel Shooting Supply
+      seller_domain: www.gamaliel.com
+      description: "Full size, 9mm FNS-9 with night sights.\r\nStriker-fired autoloader\r\
+        \n Double-action operation with Manual Safety\r\n 5.5 to 7.7 lbs. trigger\
+        \ pull\r\n Stainless steel construction\r\n External extractor with loaded\
+        \ chamber indicator\r\n Front and rear cocking serrations\r\n Cold hammer-forged\
+        \ stainless steel\r\n Polished chamber and feed ramp\r\n Polymer construction\
+        \ with replaceable steel frame/slide rails\r\n Two interchangeable backstraps\
+        \ with lanyard eyelets\r\n MIL-STD 1913 accessory mounting rail\r\n Serrated\
+        \ trigger guard\r\n 9mm"
+      keywords: FNH, FNS-9, 9mm, pistol, gun, night sights
+      image_source: http://www.gamaliel.com/images/FN66927_N.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1497 Fountain Run Road, Gamaliel, Kentucky 42140
+      availability: in_stock
+      current_price_in_cents: 54900
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 79500
+      sale_price_in_cents: 54900
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

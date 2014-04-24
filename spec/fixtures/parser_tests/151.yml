@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 151
+  engine: ''
+  source_url: http://www.budsgunshop.com/catalog/product_info.php/cPath/26_29_595/products_id/711002327
+  seller_domain: www.budsgunshop.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-budsgunshop-com-Model_101_Foldaway_Holster_Size_16_Plain_Tan_Right_Hand.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:40.438000000 Z
+  updated_at: 2014-04-23 21:27:37.086142000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-budsgunshop-com-Model_101_Foldaway_Holster_Size_16_Plain_Tan_Right_Hand.html
+    digest: 029a95e4a8f3a3e35d5a7d9d1e04a92b
+    type: RetailListing
+    item_data:
+      title:
+      - title: Model 101 Foldaway Holster Size 16 Plain Tan Right Hand
+      - autocomplete: Model 101 Foldaway Holster Size 16 Plain Tan Right Hand
+      - scrubbed: Model 101 Foldaway Holster Size 16 Plain Tan Right Hand
+      - normalized: model 101 foldaway holster size 16 plain tan right hand
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Bud's Gun Shop
+      seller_domain: www.budsgunshop.com
+      description: Minimalist design fits many different gun models in few SKUs. Design catches and holds trigger guard to help keep weapon secure and stable. Can be folded away onto belt when not in use for inconspicuo
+      keywords: Model, 101, Foldaway, Holster, Size, 16, Plain, Tan, Right, Hand, 25220
+      image_source: http://www.budsgunshop.com/catalog/images/711002327.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1105 Industry Road Lexington, KY 40505
+      availability: in_stock
+      current_price_in_cents: 1034
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 1034
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 181
+  engine: ''
+  source_url: http://www.gamaliel.com/357Mag/federal_357_magnum_130_gr_hs_jhp.asp
+  seller_domain: www.gamaliel.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-Federal_357_Magnum_130_gr_HS_JHP.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:54.525000000 Z
+  updated_at: 2014-04-23 21:28:16.802782000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-Federal_357_Magnum_130_gr_HS_JHP.html
+    digest: fc1da7c92fb5a6548ef4232f24f57fc2
+    type: RetailListing
+    item_data:
+      title:
+      - title: Federal 357 Magnum 130 gr HS JHP
+      - autocomplete: Federal 357 Magnum 130 gr HS JHP
+      - scrubbed: Federal .357 Mag 130 grain HS JHP
+      - normalized: Federal .357 Mag 130 grain hs jhp
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: handgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Federal
+      - classification_type: metadata
+      caliber:
+      - caliber: .357 Mag
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains: 130
+      - classification_type: metadata
+      seller_name: Gamaliel Shooting Supply
+      seller_domain: www.gamaliel.com
+      description: 357 Mag, 130 gr., Hydra-Shok JHP. 20 rounds per box, 20 boxes per case, 400 rounds per case.
+      keywords: Federal ammo, federal shells, federal shotgun shells, federal hunting loads, federal 357 shells, pistol ammo
+      image_source: http://www.gamaliel.com/images/FEDVitalHandgunBothBoxesP22_N.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1497 Fountain Run Road, Gamaliel, Kentucky 42140
+      availability: out_of_stock
+      current_price_in_cents: 2495
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 2495
+      sale_price_in_cents: 2495
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

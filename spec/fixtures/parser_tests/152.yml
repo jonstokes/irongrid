@@ -1,0 +1,70 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 152
+  engine: ''
+  source_url: http://www.budsgunshop.com/catalog/product_info.php/cPath/26_487_647/products_id/713075054
+  seller_domain: www.budsgunshop.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-budsgunshop-com-BERETTA_MOBILCHOKE_CHOKE_TUBE.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:41.245000000 Z
+  updated_at: 2014-04-23 21:27:38.675645000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-budsgunshop-com-BERETTA_MOBILCHOKE_CHOKE_TUBE.html
+    digest: 9d95a36c995b640276713bd88bdff1a3
+    type: RetailListing
+    item_data:
+      title:
+      - title: BERETTA MOBILCHOKE CHOKE TUBE
+      - autocomplete: BERETTA MOBILCHOKE CHOKE TUBE
+      - scrubbed: BERETTA MOBILCHOKE CHOKE TUBE
+      - normalized: Beretta mobilchoke choke tube
+      category1:
+      - category1: Accessories
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Beretta
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      - number_of_rounds:
+      - classification_type:
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: Bud's Gun Shop
+      seller_domain: www.budsgunshop.com
+      description:
+      keywords: BERETTA, MOBILCHOKE, CHOKE, TUBE, JCTUBE15
+      image_source: http://www.budsgunshop.com/catalog/images/713075054.gif
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1105 Industry Road Lexington, KY 40505
+      availability: in_stock
+      current_price_in_cents: 2340
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 2340
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

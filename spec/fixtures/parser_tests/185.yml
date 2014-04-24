@@ -1,0 +1,75 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 185
+  engine: ''
+  source_url: http://www.gamaliel.com/Bushnell/BUSAR730132C_Bushnell_Ar_Optic_1Xmp_Dot.asp
+  seller_domain: www.gamaliel.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-Bushnell_Ar_Optic_1Xmp_Dot.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:55.797000000 Z
+  updated_at: 2014-04-23 21:28:22.140034000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-gamaliel-com-Bushnell_Ar_Optic_1Xmp_Dot.html
+    digest: abc8b592a18ee300f73de9c5c19c166a
+    type: RetailListing
+    item_data:
+      title:
+      - title: Bushnell Ar Optic 1Xmp Dot
+      - autocomplete: Bushnell Ar Optic 1Xmp Dot
+      - scrubbed: Bushnell Ar Optic 1Xmp Dot
+      - normalized: Bushnell ar optic 1xmp dot
+      category1:
+      - category1: Optics
+      - classification_type: hard
+      caliber_category:
+      manufacturer:
+      - manufacturer: Bushnell
+      - classification_type: metadata
+      caliber:
+      number_of_rounds:
+      grains:
+      seller_name: Gamaliel Shooting Supply
+      seller_domain: www.gamaliel.com
+      description: |-
+        The ultimate low-light performer, with 5 brightness settings and multi-coated optics. Easily fits on tactical rifles and shotguns with an integrated mount and Weaver-style rails.
+         -Illuminated red/green T-dot reticle
+         -1x optics for fast target acquisition in low light
+         -Built-in mount for Weaver-style rail.
+         -Multi-coated optics
+         -Amber-Bright high contrast lens coating
+         -100% waterproof/fogproof/shockproof construction
+         -Dry-nitrogen filled
+         -CR2032 battery
+        -Power / Obj Lens:
+         1x 32mm
+        -Reticle:
+         T Dot
+      keywords: Bushnell Ar Optic 1Xmp Dot
+      image_source: http://www.gamaliel.com/images/BUSAR730132C_N.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1497 Fountain Run Road, Gamaliel, Kentucky 42140
+      availability: in_stock
+      current_price_in_cents: 19995
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 19995
+      sale_price_in_cents: 19995
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

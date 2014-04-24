@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 187
+  engine: ''
+  source_url: http://www.dixiegunworks.com/product_info.php?cPath=21_23_26&products_id=105
+  seller_domain: www.dixiegunworks.com
+  category2: ''
+  html_on_s3: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-dixiegunworks-com-15064_COLT_CLOVERLEAF_REVOLVER.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:56.544000000 Z
+  updated_at: 2014-04-23 21:28:31.355895000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: http://scoperrific-test-pages-staging.s3.amazonaws.com/www-dixiegunworks-com-15064_COLT_CLOVERLEAF_REVOLVER.html
+    digest: 93ee76e61a47df52996242f48512d8f3
+    type: RetailListing
+    item_data:
+      title:
+      - title: 15064 COLT CLOVERLEAF REVOLVER
+      - autocomplete: 15064 COLT CLOVERLEAF REVOLVER
+      - scrubbed: 15064 COLT CLOVERLEAF REVOLVER
+      - normalized: 15064 Colt cloverleaf revolver
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: Colt
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      grains:
+      seller_name: Dixie Gun Works
+      seller_domain: www.dixiegunworks.com
+      description: .41 rimfire caliber. Distinctive four-shot cylinder with 2 7/8" round barrel. Nickel plated overall with about 85% of the somewhat dull plating remaining. Barrel is marked with two line address which is completely legible. Traces of original blue remain on the screw heads and the frame. Action works well. Two piece walnut grips are in very good condition although a little bit dried out. Serial number 2503. Overall condition is very fine
+      keywords:
+      image_source: http://www.dixiegunworks.com/images/thumbs/15064.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 1412 West Reelfoot Avenue, Union City, TN 38281
+      availability: in_stock
+      current_price_in_cents: 195000
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 195000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

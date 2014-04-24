@@ -1,0 +1,79 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 203
+  engine: ''
+  source_url: http://www.copesdistributing.com/model-blackout-bolt-action-p-6966.html
+  seller_domain: www.copesdistributing.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-copesdistributing-com-AAC_Model_7_300_Blackout_Bolt_Action.html
+  is_valid: true
+  created_at: 2014-02-28 19:02:01.072000000 Z
+  updated_at: 2014-04-23 21:28:46.157773000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-copesdistributing-com-AAC_Model_7_300_Blackout_Bolt_Action.html
+    digest: 0448001c0c44c8f9974e7c9bc8080e1e
+    type: RetailListing
+    item_data:
+      title:
+      - title: AAC Model 7 300 Blackout Bolt Action
+      - autocomplete: AAC Model 7 300 Blackout Bolt Action
+      - scrubbed: AAC Model 7 .300 Blackout Bolt Action
+      - normalized: AAC model 7 .300 blackout bolt action
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer: AAC
+      - classification_type: metadata
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      grains:
+      seller_name: Cope's Distributing
+      seller_domain: www.copesdistributing.com
+      description: "AAC's MODEL-7 rifle is chambered in the new 300 AAC BLACKOUT cartridge\
+        \ which offers an accurate, light weight, and compact package for hunting\
+        \ or target shooting.\r\nThe action is made by Remington to AAC's specifications.\
+        \ It has all the features and safety you come to expect from a Model-7 action\
+        \ (a shorter version of the Model-700), A 20 MOA scope rail is mounted to\
+        \ the receiver using M24 type 8-40 screws. The X-Mark Pro trigger is factory\
+        \ set for 3.5 lbs and provides the feel needed for precision shooting. The\
+        \ barrel is a 5R 1:7 twist and threaded 5/8-24. A thread protector is included.\
+        \ The nitride surface of the barrel, bore, and chamber provide maximum service\
+        \ life and durability - longer than even hard-chrome but with the accuracy\
+        \ potential of a stainless barrel. Corrosion and wear resistance of the bore\
+        \ is extreme.\r\n \r\nAttention!\r\n By Federal law, we can only ship firearms\
+        \ to an FFL licensed gun dealer Check all local laws and regulations before\
+        \ purchasing"
+      keywords:
+      image_source: http://www.copesdistributing.com/images/aac-7-lg.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 640 Markwith Ave, Greenville, OH, 45331
+      availability: in_stock
+      current_price_in_cents: 84699
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 84699
+      sale_price_in_cents: 84699
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

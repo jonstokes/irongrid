@@ -1,0 +1,76 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 213
+  engine:
+  source_url: http://lvammo.com/collections/shotgun-ammunition/products/fiocchi-12ga-le-rubber-buckshot
+  seller_domain: lvammo.com
+  category2:
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/lvammo-com-%3C%3C_Previous_Product_Next_Product_%3E%3E_Fiocchi_12GA._LE_Rubber_Buckshot_%2305225_-_25_Round_Box%0A_%0A_%0A_%2425.95.html
+  is_valid: true
+  created_at: 2014-03-04 23:51:13.485886000 Z
+  updated_at: 2014-04-23 21:29:03.402925000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/lvammo-com-%3C%3C_Previous_Product_Next_Product_%3E%3E_Fiocchi_12GA._LE_Rubber_Buckshot_%2305225_-_25_Round_Box%0A_%0A_%0A_%2425.95.html
+    digest: 414abc67371530b00af7ccb73a250d22
+    type: RetailListing
+    item_data:
+      title:
+      - title: 'Fiocchi 12GA. LE Rubber Buckshot #05225 - 25 Round Box $25.95'
+      - autocomplete: 'Fiocchi 12GA. LE Rubber Buckshot #05225 - 25 Round Box $25.95'
+      - scrubbed: 'Fiocchi 12 gauge. LE Rubber Buckshot #05225 - 25 Round Box $25.95'
+      - normalized: 'Fiocchi Ammunition 12 gauge. le rubber buckshot #05225 - 25 round
+          box $25.95'
+      category1:
+      - category1: Ammunition
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: shotgun
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: Fiocchi Ammunition
+      - classification_type: hard
+      caliber:
+      - caliber: 12 gauge
+      - classification_type: metadata
+      number_of_rounds:
+      - number_of_rounds: 25
+      - classification_type: metadata
+      grains:
+      - grains:
+      - classification_type:
+      seller_name: LVAmmo
+      seller_domain: lvammo.com
+      description: "Fiocchi Rubber Buckshot delivers a staggering punch to protect\
+        \ your family and home. Loaded with a rubber substitute, this ammunition still\
+        \ delivers excellent knockdown power without over-penetration. Perfect for\
+        \ law enforcement or military use. \n \nGauge/Bore: 12\nShell Length: 2-3/4\"\
+        \nShot Size: 00 Buckshot\nNumber of Pellets: 15\nBuckshot Type: Rubber Pellets\n\
+        \ \nFiocchi# 05225"
+      keywords:
+      image_source: http://cdn.shopify.com/s/files/1/0241/5727/products/Fiocchi_LE_Rubber_00_Buck_grande.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: 4699 S. Dean Martin Dr., Las Vegas, NV 89103
+      availability: in_stock
+      current_price_in_cents: 2595
+      price_per_round_in_cents: 104
+      price_on_request:
+      price_in_cents: 2595
+      sale_price_in_cents: 2595
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

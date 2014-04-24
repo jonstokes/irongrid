@@ -1,0 +1,14 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 114
+  engine: ''
+  source_url: http://www.armslist.com/posts/1598740/gulfport-mississippi-rifles-want-to-buy--lmt-308-ar10
+  seller_domain: www.armslist.com
+  category2: ''
+  html_on_s3: ''
+  is_valid: false
+  created_at: 2014-02-28 19:01:11.114000000 Z
+  updated_at: 2014-02-28 19:01:11.114000000 Z
+  not_found: false
+  classified_sold: true
+  listing_data:

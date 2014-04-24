@@ -1,0 +1,71 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 198
+  engine: ''
+  source_url: http://www.keystonegunsales.com/inventory/handguns?product_id=204397
+  seller_domain: www.keystonegunsales.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-keystonegunsales-com-North_American_Arms_22_Mag_S/s_Rev_1_5/8%22BBL.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:59.717000000 Z
+  updated_at: 2014-04-23 21:28:37.828612000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages-staging.s3.amazonaws.com/www-keystonegunsales-com-North_American_Arms_22_Mag_S/s_Rev_1_5/8%22BBL.html
+    digest: 7b520d36d15e0520185f0f7a6e837cde
+    type: RetailListing
+    item_data:
+      title:
+      - title: North American Arms 22 Mag S/s Rev 1 5/8"BBL
+      - autocomplete: North American Arms 22 Mag S/s Rev 1 5/8"BBL
+      - scrubbed: North American Arms .22 Mag S/s Rev 1 5/8"BBL
+      - normalized: North American Arms .22 Mag s/s rev 1 5/8"bbl
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category: rimfire
+      - classification_type: metadata
+      manufacturer:
+      - manufacturer: North American Arms
+      - classification_type: metadata
+      caliber:
+      - caliber: .22 Mag
+      - classification_type: metadata
+      number_of_rounds:
+      grains:
+      seller_name: Keystone Gun Sales
+      seller_domain: www.keystonegunsales.com
+      description: "Description\r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\
+        \n \r\n \r\n \r\n http://www.northamericanarms.com\r\n \r\n \r\n \r\n \r\n\
+        \ \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\n \r\
+        \n \r\n Stainless steel construction. Blade front sight, notched rear sight.\
+        \ Half-cock notch hammer safety. Polished/matte contrast finish. Laminated\
+        \ wood grips."
+      keywords:
+      image_source: http://www.keystonegunsales.com/image/cache/data/inventory/744253000133/large_744253000133-228x228.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: New
+      item_location: Keystone Gun SalesCarlisle, PA, 17013
+      availability: in_stock
+      current_price_in_cents: 22812
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 22812
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:

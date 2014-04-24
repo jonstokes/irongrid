@@ -1,0 +1,66 @@
+--- !ruby/object:ParserTest
+attributes:
+  id: 107
+  engine: www.ironsights.com
+  source_url: http://www.armslist.com/posts/1667177/massachusetts-rifles-for-sale--ati---omni-complete-upper
+  seller_domain: www.armslist.com
+  category2: ''
+  html_on_s3: https://scoperrific-test-pages.s3.amazonaws.com/www-armslist-com-ATI_/_OMNI_COMPLETE_LOWER.html
+  is_valid: true
+  created_at: 2014-02-28 19:01:02.887000000 Z
+  updated_at: 2014-04-23 21:30:05.106470000 Z
+  not_found: false
+  classified_sold: false
+  listing_data:
+    url: https://scoperrific-test-pages.s3.amazonaws.com/www-armslist-com-ATI_/_OMNI_COMPLETE_LOWER.html
+    digest: 7148993a70065245dc049b5443c8e248
+    type: ClassifiedListing
+    item_data:
+      title:
+      - title: ATI / OMNI COMPLETE LOWER
+      - autocomplete: ATI / OMNI COMPLETE LOWER
+      - scrubbed: ATI / OMNI COMPLETE LOWER
+      - normalized: ati / omni complete lower
+      category1:
+      - category1: Guns
+      - classification_type: hard
+      caliber_category:
+      - caliber_category:
+      - classification_type:
+      manufacturer:
+      - manufacturer:
+      - classification_type:
+      caliber:
+      - caliber:
+      - classification_type:
+      number_of_rounds:
+      grains:
+      seller_name: Armslist
+      seller_domain: www.armslist.com
+      description: ATI /OMNI complete lower minus buffer and buffer spring. Complete parts kit installed, stock has been pinned and has a CAA cheek rest and but pad installed. $250 firm buyer pays transfer fee.
+      keywords:
+      image_source: http://cdn2.armslist.com/sites/armslist/uploads/posts/2013/05/24/1667177_01_ati_omni_complete_upper_640.jpg
+      image_download_attempted:
+      affiliate_link_tag:
+      item_condition: Unknown
+      item_location: Templeton, Massachusetts, United States
+      availability: in_stock
+      current_price_in_cents: 25000
+      price_per_round_in_cents:
+      price_on_request:
+      price_in_cents: 25000
+      sale_price_in_cents:
+      buy_now_price_in_cents:
+      current_bid_in_cents:
+      minimum_bid_in_cents:
+      reserve_in_cents:
+      auction_ends:
+      city:
+      state:
+      country:
+      latitude:
+      longitude:
+      state_code:
+      postal_code:
+      country_code:
+      coordinates:
