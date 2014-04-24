@@ -42,6 +42,19 @@ describe RssWorker do
       }.not_to raise_error
     end
 
+    it "does not blow up when the feed contains UTF-8 chars that Nokogiri can't translate to ASCII" do
+      Mocktra(@site.domain) do
+        get '/feed.rss' do
+          File.open("#{Rails.root}/spec/fixtures/rss_feeds/armslist2_rss.xml") do |file|
+            file.read
+          end
+        end
+      end
+      expect {
+        RssWorker.new.perform(domain: "www.armslist.com")
+      }.not_to raise_error
+    end
+
   end
 
   describe "#transition" do

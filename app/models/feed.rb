@@ -58,7 +58,11 @@ class Feed
   def xml_data
     @xml_data ||= begin
       notify "  Downloading #{feed_url || @filename}..."
-      @filename ? File.open(@filename).read : get_page(feed_url).try(:body)
+      if @filename
+        File.open(@filename).read
+      else
+        get_page(feed_url).body.encode('ASCII', {:invalid => :replace, :undef => :replace, :replace => '?'}) rescue nil
+      end
     end
   end
 
@@ -74,7 +78,7 @@ class Feed
       xml_prefix + product.to_xml
     rescue Encoding::UndefinedConversionError => e
       File.open("tmp/broken-#{Time.now.to_i}.xml", "w") do |f|
-        f.puts xml_data
+        f.puts @xml_data
       end
       raise e
     end
