@@ -172,7 +172,7 @@ describe Listing do
       Listing.create(@listing_attrs)
     end
 
-    it "does not notify listings that are just dirtied, but not really updated" do
+    it "does not notify for listings that are just dirtied, but not really updated" do
       query_json = '{"query":{"query_string":{"query":"Foo"}}}'
       Listing.register_percolator('abcd', query_json)
       listing = Listing.create(@listing_attrs)
@@ -184,6 +184,20 @@ describe Listing do
 
       listing.dirty!
     end
+
+    it "does not notify for listings that are destroyed" do
+      query_json = '{"query":{"query_string":{"query":"Foo"}}}'
+      Listing.register_percolator('abcd', query_json)
+      listing = Listing.create(@listing_attrs)
+
+      SearchAlertQueues.should_not_receive(:push) do |opts|
+        expect(opts[:percolator_name]).to eq('abcd')
+        expect(opts[:listing_id]).to be_a(Integer)
+      end
+
+      listing.destroy
+    end
+
   end
 
   describe "#to_indexed_json" do
