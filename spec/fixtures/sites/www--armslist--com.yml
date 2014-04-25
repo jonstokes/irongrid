@@ -43,7 +43,7 @@ attributes:
   created_at: 2012-10-23 21:12:19.784000000 Z
   updated_at: 2014-01-21 17:46:22.112427000 Z
   engine: www.ironsights.com
-  read_with: RssWorker
+  read_with: LinkFeedWorker
   service_options:
     feeds:
       -

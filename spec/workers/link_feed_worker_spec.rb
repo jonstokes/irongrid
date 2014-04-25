@@ -4,7 +4,7 @@ require 'sidekiq/testing'
 Sidekiq::Testing.fake!
 
 
-describe RssWorker do
+describe LinkFeedWorker do
 
   before :each do
     @site = create_site_from_repo "www.armslist.com"
@@ -23,7 +23,7 @@ describe RssWorker do
           end
         end
       end
-      RssWorker.new.perform(domain: "www.armslist.com")
+      LinkFeedWorker.new.perform(domain: "www.armslist.com")
       expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(25)
       url = "http://www.armslist.com/posts/2841625"
       expect(LinkMessageQueue.find(url)).not_to be_nil
@@ -38,7 +38,7 @@ describe RssWorker do
         end
       end
       expect {
-        RssWorker.new.perform(domain: "www.armslist.com")
+        LinkFeedWorker.new.perform(domain: "www.armslist.com")
       }.not_to raise_error
     end
 
@@ -51,7 +51,7 @@ describe RssWorker do
         end
       end
       expect {
-        RssWorker.new.perform(domain: "www.armslist.com")
+        LinkFeedWorker.new.perform(domain: "www.armslist.com")
       }.not_to raise_error
     end
 
@@ -66,7 +66,7 @@ describe RssWorker do
           end
         end
       end
-      RssWorker.new.perform(domain: "www.armslist.com")
+      LinkFeedWorker.new.perform(domain: "www.armslist.com")
       expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(25)
       url = "http://www.armslist.com/posts/2858994"
       expect(LinkMessageQueue.find(url)).not_to be_nil

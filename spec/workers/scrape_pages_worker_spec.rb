@@ -96,7 +96,7 @@ describe ScrapePagesWorker do
       expect(msg.page_attributes["digest"]).to eq("f833c7d659edc3a11cc447f59d389874")
       WriteListingWorker.drain
       listing = Listing.all.first
-      expect(listing.digest).to eq("b97637eba1fab547c75bd6ba372fb1ed")
+      expect(listing.digest).to eq("f833c7d659edc3a11cc447f59d389874")
 
       msg = LinkMessage.new(listing)
       lq.add(msg)

@@ -56,7 +56,7 @@ attributes:
   created_at: 2012-10-23 21:12:21.766000000 Z
   updated_at: 2013-12-08 14:34:24.351968000 Z
   engine: www.ironsights.com
-  read_with: RssWorker
+  read_with: LinkFeedWorker
   service_options:
     refresh_feed_after_this_many_seconds: 900
     feed_url: http://www.gunsamerica.com/GunsAmerica.xml

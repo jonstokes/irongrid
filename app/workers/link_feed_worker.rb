@@ -1,4 +1,4 @@
-class RssWorker < CoreWorker
+class LinkFeedWorker < CoreWorker
   include PageUtils
   include Trackable
 

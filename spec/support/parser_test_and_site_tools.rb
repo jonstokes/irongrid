@@ -55,7 +55,7 @@ def create_parser_test(title)
 end
 
 def create_site_from_repo(domain)
-  site = Site.new(domain: domain, source: :fixture)
+  site = Site.new(domain: domain, source: :local)
   site.send(:write_to_redis)
   site
 end

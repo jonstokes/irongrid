@@ -1,4 +1,4 @@
-class AvantlinkWorker < CoreWorker
+class ProductFeedWorker < CoreWorker
   include UpdateImage
   include Trackable
 
@@ -48,11 +48,10 @@ class AvantlinkWorker < CoreWorker
       action = :no_action
       if (product[:status] == "Removed")
         action = delete_listing(product[:url])
-      else (product[:status] == "Modified")
+      else
         action = create_or_update_listing(product)
       end
       record_incr(:db_writes)
-      notify "Product #{product[:url]} | Status #{product[:status]} | Action: #{action}"
     end
   end
 

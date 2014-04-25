@@ -57,7 +57,7 @@ describe ReadSitesService do
     end
   end
 
-  describe "AvantlinkWorker and RssWorker sites" do
+  describe "ProductFeedWorker and LinkFeedWorker sites" do
     before :each do
       @site = create_site_from_repo "www.retailer.com"
       @service = ReadSitesService.new
@@ -65,20 +65,20 @@ describe ReadSitesService do
       @lq.clear
     end
 
-    it "should read an AvantlinkWorker site with the correct worker" do
+    it "should read an ProductFeedWorker site with the correct worker" do
       @site.update(read_at: 10.days.ago)
-      @site.update(read_with: "AvantlinkWorker")
+      @site.update(read_with: "ProductFeedWorker")
       @service.start
       @service.stop
-      expect(AvantlinkWorker.jobs_in_flight_with_domain(@site.domain).size).to eq(1)
+      expect(ProductFeedWorker.jobs_in_flight_with_domain(@site.domain).size).to eq(1)
     end
 
-    it "should read an RssWorker site with the correct worker" do
+    it "should read an LinkFeedWorker site with the correct worker" do
       @site.update(read_at: 10.days.ago)
-      @site.update(read_with: "RssWorker")
+      @site.update(read_with: "LinkFeedWorker")
       @service.start
       @service.stop
-      expect(RssWorker.jobs_in_flight_with_domain(@site.domain).size).to eq(1)
+      expect(LinkFeedWorker.jobs_in_flight_with_domain(@site.domain).size).to eq(1)
     end
   end
 end

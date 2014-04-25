@@ -13,11 +13,11 @@ FactoryGirl.define do
   end
 
   trait :rss do
-    read_with "RssWorker"
+    read_with "LinkFeedWorker"
   end
 
   trait :affiliates do
-    read_with "AvantlinkWorker"
+    read_with "ProductFeedWorker"
   end
 
 end

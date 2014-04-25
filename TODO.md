@@ -1,9 +1,11 @@
-# Launch New Feed format
-- merge js-parser-test-refactor to irongrid/master and push
-- Bring down grid and git pull
-- Update sites in production from ironsights/master
-  (use site:update_all rake task!)
-- Bring grid back up
+# Feed refactor
+- AvanlinkWorker should be renamed ProductFeedWorker everywhere,
+  including ironsights-sites
+- RssWorker should be changed to LinkFeedWorker everywhere, including
+  ironsights-sites
 
-*Note*: This deploy will also deploy the totally refactored site YAML,
-so keep an eye on it.
+- merge js-product-feed to master for irongrid and ironsights-sites
+- Bring down grid && git pull
+  (use site:update_all rake task!)
+- Update sites in prod redis from repo
+- Bring grid back up
