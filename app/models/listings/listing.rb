@@ -208,7 +208,7 @@ class Listing < ActiveRecord::Base
 
   def update_es_index
     return if Listing.index_updates_disabled?
-    if inactive?
+    if inactive? || destroyed?
       retryable { Listing.index.remove type.downcase.sub("listing","_listing"), id }
     else
       retryable { update_index }
