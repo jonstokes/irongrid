@@ -39,6 +39,6 @@ class RetailListingCleaner < ListingCleaner
   end
 
   def default_digest_attributes
-    %w(title image_source description keywords type seller_domain item_condition item_location current_price_in_cents stock_status)
+    DEFAULT_DIGEST_ATTRIBUTES + %w(price_in_cents sale_price_in_cents price_on_request stock_status)
   end
 end

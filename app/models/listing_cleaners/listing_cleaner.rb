@@ -7,6 +7,24 @@ class ListingCleaner < CoreModel
   ITEM_DATA_ATTRIBUTES = Listing::ITEM_DATA_ATTRIBUTES
   ES_OBJECTS = Listing::ES_OBJECTS
 
+  DEFAULT_DIGEST_ATTRIBUTES = %w(
+    title
+    image_source
+    description
+    keywords
+    type
+    seller_domain
+    item_condition
+    item_location
+    category1
+    caliber_category
+    caliber
+    manufacturer
+    grains
+    number_of_rounds
+    current_price_in_cents
+  )
+
   ES_OBJECTS.each do |key|
     define_method key do
       es_objects[key.to_sym].try(:[], key)
@@ -79,7 +97,13 @@ class ListingCleaner < CoreModel
 
   def digest
     digest_string = ""
-    @site.digest_attributes(default_digest_attributes).each { |attr| digest_string << "#{send(attr)}" if send(attr) }
+    @site.digest_attributes(default_digest_attributes).each do |attr|
+      if ES_OBJECTS.include?(attr)
+        digest_string << "#{es_objects[attr.to_sym]}"
+      elsif send(attr)
+        digest_string << "#{send(attr)}"
+      end
+    end
     Digest::MD5.hexdigest(digest_string)
   end
 

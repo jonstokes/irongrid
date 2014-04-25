@@ -125,7 +125,7 @@ describe ListingCleaner do
       doc = Nokogiri.parse(page[:html], page[:url])
       scraper = ListingScraper.new(Site.new(domain: "www.hyattgunstore.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
-      scraper.listing["digest"].should == "291e298cad05c55189c9986d98294ca4"
+      scraper.listing["digest"].should == "600ff2d8e95a7ca170faad192123128e"
     end
 
     it "should add the URL to the digest on a site where that's required" do
@@ -133,7 +133,7 @@ describe ListingCleaner do
       doc = Nokogiri.parse(page[:html], page[:url])
       scraper = ListingScraper.new(Site.new(domain: "www.armslist.com", source: :local))
       scraper.parse(doc: doc, url: page[:url])
-      scraper.listing["digest"].should == "3156d647af022ebc3925a56eacd94f05"
+      scraper.listing["digest"].should == "63d4ba4eb149d90ad1e28ff60dda0be8"
     end
   end
 
