@@ -90,12 +90,17 @@ class Listing < ActiveRecord::Base
   end
 
   def dirty
+    @dirtied = true
     self.update_count = (self.update_count || 0) + 1
   end
 
   def dirty!
     self.dirty
     db { self.save! }
+  end
+
+  def dirtied?
+    !!@dirtied
   end
 
   def image_is_shared?
@@ -207,7 +212,7 @@ class Listing < ActiveRecord::Base
       retryable { Listing.index.remove type.downcase.sub("listing","_listing"), id }
     else
       retryable { update_index }
-      notify_on_match
+      notify_on_match unless dirtied?
     end
   end
 end
