@@ -1,11 +1,11 @@
-if Rails.env.production?
-  Tire.configure do
-    url Figaro.env.elasticsearch_url_remote
-  end
-else
+unless Rails.env.production?
   Tire.configure do
     logger "log/#{Rails.env}.log", :level => 'debug'
   end
+end
+
+Tire.configure do
+  url Figaro.env.elasticsearch_url_remote
 end
 
 
