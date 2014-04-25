@@ -193,7 +193,7 @@ glaser,cor-bon,cor bon => Corbon
 Core 15
 Council Tool
 Crickett
-Crimson Trace Corporation
+Crimson Trace
 Crosman Air Guns
 Cuddeback
 Cyclops Adventure Sports
@@ -339,6 +339,7 @@ Heizer Defense
 Helvetica Trading Usa
 Hen & Roosters
 henry => Henry_Repeating_Arms
+Hera Arms
 Heritage Manufacturing
 hevi shot => Hevi-Shot
 hi-point,hipoint => Hi_Point
