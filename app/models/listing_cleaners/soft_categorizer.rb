@@ -76,6 +76,8 @@ class SoftCategorizer < CoreModel
       {:slop => 1, :category_type => "hard",     :price_range => price_range },
       {:slop => 0, :category_type => "metadata", :price_range => price_range },
       {:slop => 1, :category_type => "metadata", :price_range => price_range },
+      {:slop => 1, :category_type => "hard" },
+      {:slop => 1, :category_type => "metadata" },
     ]
   end
 
