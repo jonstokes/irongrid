@@ -28,7 +28,7 @@ namespace :site do
   desc "Update site attributes without overwriting stats"
   task :update_all => :environment do
     Site.active.each do |site|
-      gh_site = Site.new(domain: site.domain, source: :git)
+      gh_site = Site.new(domain: site.domain, source: :local)
       puts "Updating #{site.domain}..."
       Site::SITE_ATTRIBUTES.each do |attr|
         next if [:read_at, :stats].include?(attr)
