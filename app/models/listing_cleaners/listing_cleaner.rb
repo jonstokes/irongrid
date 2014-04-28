@@ -1,6 +1,4 @@
 class ListingCleaner < CoreModel
-  include ListingCategorizer
-
   attr_reader :raw_listing, :site, :url, :scrubbed, :normalized, :es_objects, :metadata, :keywords, :description
 
   # Rails complains about circular dependencies if I don't do this
@@ -299,11 +297,29 @@ class ListingCleaner < CoreModel
     end
   end
 
+  def hard_categorize(cat)
+    return unless value = raw_listing[cat]
+    { cat => value, "classification_type" => "hard" }
+  end
+
   def metadata_categorize
     return unless grains && number_of_rounds && caliber
     {"category1" => "Ammunition", "classification_type" => "metadata"}
   end
 
+  def default_categorize(cat)
+    return unless value = site.send("default_#{cat}")
+    { cat => value, "classification_type" => "default" }
+  end
+
+  def soft_categorize(cat)
+    return unless scrubbed[:title]
+    SoftCategorizer.new(
+      category_name: cat,
+      price: current_price_in_cents,
+      title: scrubbed[:title]
+    ).categorize
+  end
 
   #
   # Override
