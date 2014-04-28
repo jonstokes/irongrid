@@ -4,7 +4,7 @@ Sidekiq::Testing.fake!
 
 describe PruneLinksWorker do
   before :each do
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     @worker = PruneLinksWorker.new
     @lq = LinkMessageQueue.new(domain: @site.domain)
     @lq.clear

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe WriteListingWorker do
 
   before :each do
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     @geo_data = FactoryGirl.create(:geo_data)
     @valid_attrs =  {
       "url"                   => "http://www.retailer.com/1",

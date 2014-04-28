@@ -1,73 +1,146 @@
 ---
-attributes:
-  id: 9
-  name: Bud's Gun Shop
-  domain: www.budsgunshop.com
-  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price']\
-    \ || raw['out_of_stock_message'] || raw['price_on_request']) && raw['title']\r\
-    \n  auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price'])\
-    \ && raw['title']\r\n  classified: raw['title']\r\nseller_defaults:\r\n  condition:\
-    \ new\r\n  stock_status: in stock\r\n  listing_type: retail\r\n  item_location:\
-    \ \"1105 Industry Road Lexington, KY 40505\"\r\ntitle:\r\n- scraper_method: meta_title\r\
-    \n- scraper_method: meta_og_title\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: .//title\r\ndescription:\r\n- scraper_method: meta_og_description\r\
-    \n- scraper_method: meta_description\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //td[@class=\"main\"]/p\r\nkeywords:\r\n- scraper_method: meta_keywords\r\
-    \nimage_prefix: http://www.budsgunshop.com/catalog/\r\nimage:\r\n- scraper_method:\
-    \ meta_og_image\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ .//div[@style=\"padding:0px 8px 2px 8px;\"]//img/@src\r\n    regexp: !ruby/regexp\
-    \ '/images\\/.*jpg/'\r\nsale_price:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: '//tr[@id=\"x2d\"]/td[2]/div[1]/div[1]/div[2]/strong'\r\n    regexp:\
-    \ !ruby/regexp /^\\$\\d[\\d\\,\\.]+/i\r\nprice:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //a[@id=\"buy\"]/span\r\n    regexp: !ruby/regexp\
-    \ '/^\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: '//tr[@id=\"x2d\"]/td[2]/div[1]/div[1]/div[1]'\r\n    regexp: !ruby/regexp\
-    \ /^\\$\\d[\\d\\,\\.]+/i\r\nprice_on_request:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //a[@id=\"get_price_quote\"]/@alt\r\n    regexp:\
-    \ !ruby/regexp '/Get Quote/'\r\nout_of_stock_message:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: .//span[@style=\"color:red; background:black; padding:3\"\
-    ]\r\n    regexp: !ruby/regexp '/^Currently unavailable/i'\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: .//div/font[@color=\"red\"]\r\n\
-    \    regexp: !ruby/regexp '/OUT OF STOCK/'\r\nlisting_type:\r\n- scraper_method:\
-    \ classify_url_by_regexp\r\n  arguments:\r\n    type: auction\r\n    regexp: !ruby/regexp\
-    \ '/auction_info.*auctions_id/'\r\n- scraper_method: classify_url_by_regexp\r\n\
-    \  arguments:\r\n    type: retail\r\n    regexp: !ruby/regexp '/product_info.*products_id/'\r\
-    \ncondition_new:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ .//span[@style=\"font-size:9pt; color:#990000; font-weight:bold;\"]\r\n    regexp:\
-    \ !ruby/regexp '/Factory New/'\r\ncondition_used:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: .//span[@style=\"font-size:9pt; color:#990000; font-weight:bold;\"\
-    ]\r\n    regexp: !ruby/regexp '/Used/'\r\ncurrent_bid:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //td[@class=\"main\"]/b[. = \"Auction price:\"]/following-sibling::text()\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nauction_ends:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //td[@class=\"main\"]/b[. = \"Auction\
-    \ expires on:\"]/following-sibling::text()\r\ncategory1:\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Guns\r\n    xpath: //a[@class=\"\
-    breadcrumb_sep_link\"][2]\r\n    regexp: !ruby/regexp '/Guns|Rifles|California\
-    \ Compliant|BUDS VIP/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    type: Guns\r\n    xpath: //a[@class=\"breadcrumb_sep_link\"][3]\r\n    regexp:\
-    \ !ruby/regexp '/Guns|Rifles|California Compliant|BUDS VIP/i'\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\n    xpath: //a[@class=\"\
-    breadcrumb_sep_link\"][2]\r\n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\n    xpath: //a[@class=\"\
-    breadcrumb_sep_link\"][3]\r\n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n    xpath: //a[@class=\"\
-    breadcrumb_sep_link\"][2]\r\n    regexp: !ruby/regexp '/Scopes|Optics/i'\r\n-\
-    \ scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n  \
-    \  xpath: //a[@class=\"breadcrumb_sep_link\"][3]\r\n    regexp: !ruby/regexp '/Scope|Optics|Cameras/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\
-    \n    xpath: //a[@class=\"breadcrumb_sep_link\"][3]\r\n    regexp: !ruby/regexp\
-    \ '/Holsters|Magazine|Sights|Lasers|Lights|Rails|Stocks|Choke Tubes|Barrels|Cleaning|Safety|Cases|Mace|Muzzle|Reloading|Targets|Gunsmith|Rests|AR\
-    \ Upper|Parts|Pods|Boss|Boxes|Chronographs|Conversion|Ammo|Pads|Speedloaders|Swivels|Trigger|Wilson|Grips/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\
-    \n    xpath: //a[@class=\"breadcrumb_sep_link\"][2]\r\n    regexp: !ruby/regexp\
-    \ '/Doublestar Accessories/i'\r\nnot_found:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: '//table[@class=\"infoBoxContents\"]/tr[2]/td[@class=\"\
-    boxText\"]'\r\n    regexp: !ruby/regexp '/Product not found/'\r\n"
-  created_at: 2012-10-23 21:12:24.943000000 Z
-  updated_at: 2014-01-28 16:29:46.524000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: www.budsgunshop.com
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price'] || raw['stock_status'] || raw['price_on_request']) && raw['title']
+      auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']
+      classified: raw['title']
+    seller_defaults:
+      condition: new
+      stock_status: in stock
+      listing_type: retail
+      item_location: 1105 Industry Road Lexington, KY 40505
+    title:
+    - scraper_method: meta_title
+    - scraper_method: meta_og_title
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//title
+    description:
+    - scraper_method: meta_og_description
+    - scraper_method: meta_description
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[@class="main"]/p
+    keywords:
+    - scraper_method: meta_keywords
+    image:
+    - scraper_method: meta_og_image
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//div[@style="padding:0px 8px 2px 8px;"]//img/@src
+        regexp: !ruby/regexp '/images\/.*jpg/'
+        filters:
+        - prefix: http://www.budsgunshop.com/catalog/
+    sale_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //tr[@id="x2d"]/td[2]/div[1]/div[1]/div[2]/strong
+        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //a[@id="buy"]/span
+        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //tr[@id="x2d"]/td[2]/div[1]/div[1]/div[1]
+        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+    price_on_request:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //a[@id="get_price_quote"]/@alt
+        regexp: !ruby/regexp '/Get Quote/'
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: .//span[@style="color:red; background:black; padding:3"]
+        regexp: !ruby/regexp '/^Currently unavailable/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: .//div/font[@color="red"]
+        regexp: !ruby/regexp '/OUT OF STOCK/'
+    listing_type:
+    - scraper_method: classify_url_by_regexp
+      arguments:
+        type: auction
+        regexp: !ruby/regexp '/auction_info.*auctions_id/'
+    - scraper_method: classify_url_by_regexp
+      arguments:
+        type: retail
+        regexp: !ruby/regexp '/product_info.*products_id/'
+    item_condition:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: New
+        xpath: .//span[@style="font-size:9pt; color:#990000; font-weight:bold;"]
+        regexp: !ruby/regexp '/Factory New/'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Used
+        xpath: .//span[@style="font-size:9pt; color:#990000; font-weight:bold;"]
+        regexp: !ruby/regexp '/Used/'
+    current_bid:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[@class="main"]/b[. = "Auction price:"]/following-sibling::text()
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    auction_ends:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[@class="main"]/b[. = "Auction expires on:"]/following-sibling::text()
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //a[@class="breadcrumb_sep_link"][2]
+        regexp: !ruby/regexp '/Guns|Rifles|California Compliant|BUDS VIP/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //a[@class="breadcrumb_sep_link"][3]
+        regexp: !ruby/regexp '/Guns|Rifles|California Compliant|BUDS VIP/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //a[@class="breadcrumb_sep_link"][2]
+        regexp: !ruby/regexp '/Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //a[@class="breadcrumb_sep_link"][3]
+        regexp: !ruby/regexp '/Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //a[@class="breadcrumb_sep_link"][2]
+        regexp: !ruby/regexp '/Scopes|Optics/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //a[@class="breadcrumb_sep_link"][3]
+        regexp: !ruby/regexp '/Scope|Optics|Cameras/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Accessories
+        xpath: //a[@class="breadcrumb_sep_link"][3]
+        regexp: !ruby/regexp '/Holsters|Magazine|Sights|Lasers|Lights|Rails|Stocks|Choke
+          Tubes|Barrels|Cleaning|Safety|Cases|Mace|Muzzle|Reloading|Targets|Gunsmith|Rests|AR
+          Upper|Parts|Pods|Boss|Boxes|Chronographs|Conversion|Ammo|Pads|Speedloaders|Swivels|Trigger|Wilson|Grips/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Accessories
+        xpath: //a[@class="breadcrumb_sep_link"][2]
+        regexp: !ruby/regexp '/Doublestar Accessories/i'
+    not_found:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //table[@class="infoBoxContents"]/tr[2]/td[@class="boxText"]
+        regexp: !ruby/regexp '/Product not found/'
+  :service_options:
     seed_links:
       http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1:
         link_xpaths:
@@ -2192,17 +2265,18 @@ attributes:
         stop_at_page: 6
         link_xpaths:
         - //span[@class="productListing-productname"]/a/@href
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
-      rate: 2
+      rate: 1
     peak:
       start: '06:01'
       duration: 17
-      rate: 4
-  read_at: 2014-01-28 16:29:46.522000000 Z
-  read_interval: 86400
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+      rate: 2
+  :name: Bud's Gun Shop
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: true
+  :read_interval: 1440

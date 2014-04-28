@@ -3,7 +3,7 @@ require 'digest/md5'
 
 describe ListingCleaner do
   before :all do
-    @site = create_site_from_repo "www.hyattgunstore.com"
+    @site = create_site "www.hyattgunstore.com"
     @site.validation["retail"] = "true"
   end
 

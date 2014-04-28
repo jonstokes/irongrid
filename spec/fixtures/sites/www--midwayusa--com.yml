@@ -1,41 +1,74 @@
 ---
-attributes:
-  id: 11
-  name: MidwayUSA
-  domain: www.midwayusa.com
-  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price']\
-    \ || raw['out_of_stock_message']) && raw['title']\r\nseller_defaults:\r\n  condition:\
-    \ new\r\n  listing_type: retail\r\n  item_location: \"5875 West Van Horn Tavern\
-    \ Rd, Columbia, MO 65203-9274\"\r\ntitle:\r\n- scraper_method: meta_title\r\n\
-    description:\r\n- scraper_method: meta_description\r\nimage:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id='prod_img']/div[@id='img_wrap']/div[@id='images']/div[@class='default']/a[@id='imageClick']/@href\r\
-    \n- scraper_method: meta_og_image\r\nprice:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@id='priceblock']/div[@id='savingsLine']/div[@id='comparePrice']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@id='priceblock']/div[@id='currentPrice']/span\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nsale_price:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id='priceblock']/div[@id='currentPrice']/span[@class='sale']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nin_stock_message:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id='status_block']/div[@id='productStatus']\r\
-    \n    regexp: !ruby/regexp '/Available/i'\r\nout_of_stock_message:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@id='status_block']/div[@id='productStatus']\r\
-    \n    regexp: !ruby/regexp '/Out of Stock/i'\r\ncategory1:\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n    xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]\r\
-    \n    regexp: !ruby/regexp '/Optics/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Optics\r\n    xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']\r\
-    \n    regexp: !ruby/regexp '/Optics/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]\r\
-    \n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']\r\
-    \n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Accessories\r\n    xpath: //div[@id='product_content']/div[@id='breadcrumbs']\r\
-    \n    regexp: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Reloading|Shooting\
-    \ Gear/i'\r\n"
-  created_at: 2013-06-13 18:56:59.525530000 Z
-  updated_at: 2014-01-27 21:20:47.298000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: www.midwayusa.com
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      item_location: 5875 West Van Horn Tavern Rd, Columbia, MO 65203-9274
+    title:
+    - scraper_method: meta_title
+    description:
+    - scraper_method: meta_description
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@id='prod_img']/div[@id='img_wrap']/div[@id='images']/div[@class='default']/a[@id='imageClick']/@href
+    - scraper_method: meta_og_image
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@id='priceblock']/div[@id='savingsLine']/div[@id='comparePrice']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@id='priceblock']/div[@id='currentPrice']/span
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    sale_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@id='priceblock']/div[@id='currentPrice']/span[@class='sale']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: In Stock
+        xpath: //div[@id='status_block']/div[@id='productStatus']
+        regexp: !ruby/regexp '/Available/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: //div[@id='status_block']/div[@id='productStatus']
+        regexp: !ruby/regexp '/Out of Stock/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
+        regexp: !ruby/regexp '/Optics/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
+        regexp: !ruby/regexp '/Optics/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
+        regexp: !ruby/regexp '/Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
+        regexp: !ruby/regexp '/Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Accessories
+        xpath: //div[@id='product_content']/div[@id='breadcrumbs']
+        regexp: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Reloading|Shooting Gear/i'
+  :service_options:
     compressed_links:
       http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13950&pageNumber=PAGENUM:
         start_at_page: 1
@@ -57,17 +90,18 @@ attributes:
         stop_at_page: 260
         link_xpaths:
         - //div[@id='products']/ol[@id='prodlist']/li[@class='prodlistitem list']//a[@class='description']/@href
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
-      rate: 2
+      rate: 1
     peak:
       start: '06:01'
       duration: 17
-      rate: 4
-  read_at: 2014-01-27 21:20:47.296000000 Z
-  read_interval: 86400
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+      rate: 2
+  :name: MidwayUSA
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: true
+  :read_interval: 14400

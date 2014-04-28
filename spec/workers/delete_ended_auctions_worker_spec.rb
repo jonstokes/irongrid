@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DeleteEndedAuctionsWorker do
   it "deletes all ended auctions" do
-    site = create_site_from_repo "www.gunbroker.com"
+    site = create_site "www.gunbroker.com"
     5.times { FactoryGirl.create(:auction_listing) }
     auctions = []
     2.times { auctions << FactoryGirl.create(:auction_listing, :ended) }
@@ -17,7 +17,7 @@ describe DeleteEndedAuctionsWorker do
   end
 
   it "does not fail when it encounters a listing that has already been deleted" do
-    site = create_site_from_repo "www.gunbroker.com"
+    site = create_site "www.gunbroker.com"
     5.times { FactoryGirl.create(:auction_listing) }
     auctions = []
     2.times { auctions << FactoryGirl.create(:auction_listing, :ended) }

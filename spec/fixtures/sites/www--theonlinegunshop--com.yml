@@ -1,43 +1,78 @@
 ---
-attributes:
-  id: 7
-  name: The Online Gun Shop
-  domain: www.theonlinegunshop.com
-  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price']\
-    \ || raw['out_of_stock_message']) && raw['title']\r\nseller_defaults:\r\n  condition:\
-    \ new\r\n  listing_type: retail\r\n  item_location: \"13497 U.S. 183 #350  Austin,\
-    \ TX 78750\"\r\ntitle:\r\n- scraper_method: meta_og_title\r\ndescription:\r\n\
-    - scraper_method: meta_og_description\r\nkeywords:\r\n- scraper_method: meta_keywords\r\
-    \nimage:\r\n- scraper_method: meta_og_image\r\nsale_price:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: .//em[contains(@class, \"ProductPrice\"\
-    )]\r\nprice:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ .//div[@class=\"Value\"]/strike\r\n    regexp: !ruby/regexp '/^\\$\\d[\\d\\\
-    ,\\.]+/i'\r\nin_stock_message:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: .//span[contains(@class, \"VariationProductInventory\")]\r\n    regexp:\
-    \ !ruby/regexp '/\\d/'\r\nout_of_stock_message:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: .//span[contains(@class, \"VariationProductInventory\"\
-    )]\r\n    regexp: !ruby/regexp '/Sold Out/'\r\ncondition_used:\r\n- scraper_method:\
-    \ classify_url_by_regexp\r\n  arguments:\r\n    type: used\r\n    regexp: !ruby/regexp\
-    \ '/used|condition|like.new/i'\r\ncategory1:\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Guns\r\n    xpath: //div[@id=\"ProductBreadcrumb\"\
-    ]/ul/li[2]\r\n    regexp: !ruby/regexp '/Guns/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Guns\r\n    xpath: //div[@id=\"ProductBreadcrumb\"\
-    ]/ul/li[3]\r\n    regexp: !ruby/regexp '/Guns/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@id=\"ProductBreadcrumb\"\
-    ]/ul/li[2]\r\n    regexp: !ruby/regexp '/Ammunition|ammo|Rimfire|Centerfire|Shotshells|Bullets|Loads|Blanks/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
-    \n    xpath: //div[@id=\"ProductBreadcrumb\"]/ul/li[3]\r\n    regexp: !ruby/regexp\
-    \ '/Ammunition|ammo|Rimfire|Centerfire|Shotshells|Bullets|Loads|Blanks/i'\r\n\
-    - scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n  \
-    \  xpath: //div[@id=\"ProductBreadcrumb\"]/ul/li[2]\r\n    regexp: !ruby/regexp\
-    \ '/Scopes|Optics/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n\
-    \    type: Optics\r\n    xpath: //div[@id=\"ProductBreadcrumb\"]/ul/li[3]\r\n\
-    \    regexp: !ruby/regexp '/Scopes|Optics/i'\r\n"
-  created_at: 2012-10-23 21:12:23.672000000 Z
-  updated_at: 2014-01-28 20:03:21.342000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: www.theonlinegunshop.com
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      item_location: '13497 U.S. 183 #350  Austin, TX 78750'
+    title:
+    - scraper_method: meta_og_title
+    description:
+    - scraper_method: meta_og_description
+    keywords:
+    - scraper_method: meta_keywords
+    image:
+    - scraper_method: meta_og_image
+    sale_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//em[contains(@class, "ProductPrice")]
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//div[@class="Value"]/strike
+        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: In Stock
+        xpath: .//span[contains(@class, "VariationProductInventory")]
+        regexp: !ruby/regexp '/\d/'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: .//span[contains(@class, "VariationProductInventory")]
+        regexp: !ruby/regexp '/Sold Out/'
+    item_condition:
+    - scraper_method: classify_url_by_regexp
+      arguments:
+        type: Used
+        regexp: !ruby/regexp '/used|condition|like.new/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
+        regexp: !ruby/regexp '/Guns/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
+        regexp: !ruby/regexp '/Guns/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
+        regexp: !ruby/regexp '/Ammunition|ammo|Rimfire|Centerfire|Shotshells|Bullets|Loads|Blanks/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
+        regexp: !ruby/regexp '/Ammunition|ammo|Rimfire|Centerfire|Shotshells|Bullets|Loads|Blanks/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
+        regexp: !ruby/regexp '/Scopes|Optics/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
+        regexp: !ruby/regexp '/Scopes|Optics/i'
+  :service_options:
     compressed_links:
       http://www.theonlinegunshop.com/shoppingcart/categories/Hand-Guns/?sort=newest&page=PAGENUM:
         start_at_page: 1
@@ -74,9 +109,7 @@ attributes:
         stop_at_page: 120
         link_xpaths:
         - //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a/@href
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -85,6 +118,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 4
-  read_at: 2014-01-28 20:03:21.341000000 Z
-  read_interval: 3600
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+  :name: The Online Gun Shop
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: false
+  :read_interval: 3600

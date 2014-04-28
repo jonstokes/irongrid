@@ -1,7 +1,7 @@
 def load_listing_source(type, seller, item)
   url = html = nil
   pt = create_parser_test(item)
-  create_site_from_repo(seller)
+  create_site(seller)
   url = pt.source_url
   html = open(pt.html_on_s3).read
   { :url => url, :html => html }
@@ -54,8 +54,8 @@ def create_parser_test(title)
   pt
 end
 
-def create_site_from_repo(domain)
-  site = Site.new(domain: domain, source: :local)
+def create_site(domain)
+  site = Site.new(domain: domain, source: :fixture)
   site.send(:write_to_redis)
   site
 end

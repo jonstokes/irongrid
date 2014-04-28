@@ -1,53 +1,103 @@
 ---
-attributes:
-  id: 29
-  name: Gamaliel Shooting Supply
-  domain: www.gamaliel.com
-  adapter_source: "validation:\r\n  retail: (raw['price'] || raw['sale_price']) &&\
-    \ raw['title'] && raw['image'] && raw['description']\r\nseller_defaults:\r\n \
-    \ condition: new\r\n  listing_type: retail\r\n  stock_status: In Stock\r\n  item_location:\
-    \ \"1497 Fountain Run Road, Gamaliel, Kentucky 42140\"\r\ntitle:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //h1[@id='detail_parent_prod_nm']\r\
-    \n    filters:\r\n      - reject: !ruby/regexp '/Used/i'\r\nkeywords:\r\n  - scraper_method:\
-    \ meta_keywords\r\nimage_prefix: http://www.gamaliel.com/\r\nimage:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //a[@id='detail_large']/img[@id='prodpicthumb']/@src\r\
-    \nprice:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //ul[@class='detail_pricing']/li[@class='listprice']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@id='price_container']\r\n    regexp: !ruby/regexp\
-    \ '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //ul[@class='detail_pricing']/li[@class='saleprice']\r\n    regexp:\
-    \ !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\n\
-    \  arguments:\r\n    xpath: /html\r\n    regexp: !ruby/regexp '/\\\"price\\\"\\\
-    :\\s*\\\"\\$\\d[\\d\\,\\.]+/i'\r\n    filters:\r\n    - reject: !ruby/regexp '/\\\
-    \"price\\\"\\:\\s*\\\"/i'\r\nsale_price:\r\n- scraper_method: find_by_xpath\r\n\
-    \  arguments:\r\n    xpath: //ul[@class='detail_pricing']/li[@class='saleprice']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\ndescription:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='detail_cart']/div[@class='detail_desc']/div[@id='detail_desc_content_0']\r\
-    \n    filters:\r\n      - reject: !ruby/regexp '/Used/i'\r\n- scraper_method:\
-    \ meta_description\r\nstock_status:\r\n- scraper_method: classify_by_xpath\r\n\
-    \  arguments:\r\n    type: In Stock\r\n    xpath: //div[@class='idp_container\
-    \ inv_msg']/span[@class='instock']\r\n    regexp: !ruby/regexp '/In Stock/'\r\n\
-    - scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Out Of Stock\r\
-    \n    xpath: //div[@class='idp_container inv_msg']/span[@class='outstock']\r\n\
-    \    regexp: !ruby/regexp '/Out of Stock/'\r\nitem_condition:\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Used\r\n    xpath: .//h1[@id='detail_parent_prod_nm']\r\
-    \n    regexp: !ruby/regexp '/Used/'\r\ncategory1:\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: None\r\n    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\
-    \n    regexp: !ruby/regexp '/Automotive/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\
-    \n    regexp: !ruby/regexp '/Ammunition|Sabots|Bullets|Caps/i'\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\n    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\
-    \n    regexp: !ruby/regexp '/Accessories|Components|Tubes|Cleaning|Silencers|Targets|Magazines/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n\
-    \    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\n    regexp:\
-    \ !ruby/regexp '/Optics/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    type: Guns\r\n    xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']\r\
-    \n    regexp: !ruby/regexp '/Guns/i'\r\n"
-  created_at: 2014-01-23 11:44:56.194894000 Z
-  updated_at: 2014-01-27 22:20:38.210000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: www.gamaliel.com
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      stock_status: In Stock
+      item_location: 1497 Fountain Run Road, Gamaliel, Kentucky 42140
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //h1[@id='detail_parent_prod_nm']
+        filters:
+        - reject: !ruby/regexp '/Used/i'
+    keywords:
+    - scraper_method: meta_keywords
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //a[@id='detail_large']/img[@id='prodpicthumb']/@src
+        filters:
+        - prefix: http://www.gamaliel.com/
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //ul[@class='detail_pricing']/li[@class='listprice']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@id='price_container']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //ul[@class='detail_pricing']/li[@class='saleprice']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: /html
+        regexp: !ruby/regexp '/\"price\"\:\s*\"\$\d[\d\,\.]+/i'
+        filters:
+        - reject: !ruby/regexp '/\"price\"\:\s*\"/i'
+    sale_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //ul[@class='detail_pricing']/li[@class='saleprice']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='detail_cart']/div[@class='detail_desc']/div[@id='detail_desc_content_0']
+        filters:
+        - reject: !ruby/regexp '/Used/i'
+    - scraper_method: meta_description
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: In Stock
+        xpath: //div[@class='idp_container inv_msg']/span[@class='instock']
+        regexp: !ruby/regexp '/In Stock/'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: //div[@class='idp_container inv_msg']/span[@class='outstock']
+        regexp: !ruby/regexp '/Out of Stock/'
+    item_condition:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Used
+        xpath: .//h1[@id='detail_parent_prod_nm']
+        regexp: !ruby/regexp '/Used/'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: None
+        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+        regexp: !ruby/regexp '/Automotive/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+        regexp: !ruby/regexp '/Ammunition|Sabots|Bullets|Caps/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Accessories
+        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+        regexp: !ruby/regexp '/Accessories|Components|Tubes|Cleaning|Silencers|Targets|Magazines/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+        regexp: !ruby/regexp '/Optics/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+        regexp: !ruby/regexp '/Guns/i'
+  :service_options:
     compressed_links:
       ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Ammunition)&search_prod=(searchexact~p.searchfield1~Ammunition)&searchfield1=Ammunition&page=PAGENUM
       : link_prefix: http://www.gamaliel.com/
@@ -109,9 +159,7 @@ attributes:
         - //div[@class='thumb']/a/@href
         start_at_page: 1
         stop_at_page: 66
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -120,6 +168,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 7
-  read_at: 2014-01-27 22:20:38.209000000 Z
-  read_interval: 86400
-  commit_sha:
+  :name: Gamaliel Shooting Supply
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: true
+  :read_interval: 1440

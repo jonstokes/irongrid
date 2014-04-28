@@ -1,49 +1,81 @@
 ---
-attributes:
-  id: 26
-  name: Cope's Distributing
-  domain: www.copesdistributing.com
-  adapter_source: "validation:\r\n  retail: (raw['price'] || raw['sale_price']) &&\
-    \ raw['title'] && raw['image'] && raw['description']\r\nseller_defaults:\r\n \
-    \ condition: new\r\n  listing_type: retail\r\n  stock_status: In Stock\r\n  item_location:\
-    \ \"640 Markwith Ave, Greenville, OH, 45331\"\r\ntitle:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //ol[@class='masthead']/li[@class='starboard_side\
-    \ right_side_pic-1']/div[@class='info']/h2[1]\r\n    filters:\r\n      - reject:\
-    \ !ruby/regexp '/(\\].*\\])|\\Wused\\W*/i'\r\nsku:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //ol[@class='masthead']/li[@class='starboard_side\
-    \ right_side_pic-1']/div[@class='info']/h2[1]\r\n    filters:\r\n      - accept:\
-    \ !ruby/regexp '/(\\].*\\])/'\r\ncondition_used:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //ol[@class='masthead']/li[@class='starboard_side\
-    \ right_side_pic-1']/div[@class='info']/h2[1]\r\n    regexp: !ruby/regexp '/\\\
-    Wused\\W*/i'\r\nkeywords:\r\n- scraper_method: meta_keywords\r\nimage:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='prods_info decks big']//a[@class='prods_pic_bg']/@href\r\
-    \nsale_price:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[@class='price']/span[@class='productSpecialPrice']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nprice:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //ol[@class='masthead']/li[@class='starboard_side\
-    \ right_side_pic-1']/div[@class='info']/h2[@class='price']/del\r\n    regexp:\
-    \ !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nprice:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //ol[@class='masthead']/li[@class='starboard_side\
-    \ right_side_pic-1']/div[@class='info']/h2[@class='price']\r\n    regexp: !ruby/regexp\
-    \ '/\\$\\d[\\d\\,\\.]+/i'\r\ndescription:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class='info']/div[@class='desc desc_padd']\r\
-    \n- scraper_method: meta_description\r\nout_of_stock_message:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='desc desc_padd']/div\r\
-    \n    regexp: !ruby/regexp '/out of stock/i'\r\ncategory1:\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n    xpath: //div[@class='wrapper']/div[@class='breadcrumb']\r\
-    \n    regexp: !ruby/regexp '/Scopes/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Accessories\r\n    xpath: //div[@class='wrapper']/div[@class='breadcrumb']\r\
-    \n    regexp: !ruby/regexp '/Accessories|Barrels|Bipods|Bags|Slings|Kits|Refinishing|Locks|Cases|Loaders|Targets|Tools|Holsters|Pouches/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Guns\r\n  \
-    \  xpath: //div[@class='wrapper']/div[@class='breadcrumb']\r\n    regexp: !ruby/regexp\
-    \ '/Firearms|Handguns|Revolvers|Rifles|Shotgun|Muzzleloads|Receivers/i'\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@class='wrapper']/div[@class='breadcrumb']\r\
-    \n    regexp: !ruby/regexp '/Ammo|Ammunition/i'\r\n\r\n"
-  created_at: 2014-01-23 11:44:54.452740000 Z
-  updated_at: 2014-01-28 01:28:30.634000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: www.copesdistributing.com
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      stock_status: In Stock
+      item_location: 640 Markwith Ave, Greenville, OH, 45331
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
+        filters:
+        - reject: !ruby/regexp '/(\].*\])|\Wused\W*/i'
+    sku:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
+        filters:
+        - accept: !ruby/regexp '/(\].*\])/'
+    item_condition:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Used
+        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
+        regexp: !ruby/regexp '/\Wused\W*/i'
+    keywords:
+    - scraper_method: meta_keywords
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='prods_info decks big']//a[@class='prods_pic_bg']/@href
+    sale_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[@class='price']/span[@class='productSpecialPrice']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[@class='price']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='info']/div[@class='desc desc_padd']
+    - scraper_method: meta_description
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: //div[@class='desc desc_padd']/div
+        regexp: !ruby/regexp '/out of stock/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@class='wrapper']/div[@class='breadcrumb']
+        regexp: !ruby/regexp '/Scopes/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Accessories
+        xpath: //div[@class='wrapper']/div[@class='breadcrumb']
+        regexp: !ruby/regexp '/Accessories|Barrels|Bipods|Bags|Slings|Kits|Refinishing|Locks|Cases|Loaders|Targets|Tools|Holsters|Pouches/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@class='wrapper']/div[@class='breadcrumb']
+        regexp: !ruby/regexp '/Firearms|Handguns|Revolvers|Rifles|Shotgun|Muzzleloads|Receivers/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@class='wrapper']/div[@class='breadcrumb']
+        regexp: !ruby/regexp '/Ammo|Ammunition/i'
+  :service_options:
     compressed_links:
       http://www.copesdistributing.com/firearms-c-216_217.html?page=PAGENUM:
         link_xpaths:
@@ -118,9 +150,7 @@ attributes:
       http://www.copesdistributing.com/bipodsshooting-bags-c-290_77.html:
         link_xpaths:
         - //div[@class='pic_padd wrapper_pic_div']/a/@href
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -129,6 +159,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 4
-  read_at: 2014-01-28 01:28:30.632000000 Z
-  read_interval: 86400
-  commit_sha:
+  :name: Cope's Distributing
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: true
+  :read_interval: 1440

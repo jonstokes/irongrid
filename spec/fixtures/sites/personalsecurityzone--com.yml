@@ -1,28 +1,76 @@
 ---
-attributes:
-  id: 25
-  name: PersonalSecurityZone
-  domain: personalsecurityzone.com
-  adapter_source: "validation:\r\n  retail: (raw['price'] || raw['sale_price']) &&\
-    \ raw['title'] && raw['image'] && raw['description']\r\nseller_defaults:\r\n \
-    \ condition: new\r\n  listing_type: retail\r\n  stock_status: In Stock\r\n  item_location:\
-    \ \"502 N. Division St., Carson City, NV 89703\"\r\ntitle:\r\n- scraper_method:\
-    \ meta_title\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ //h1[@class='Header2red']\r\nkeywords:\r\n  - scraper_method: meta_keywords\r\
-    \nimage_prefix: http://personalsecurityzone.com/\r\nimage:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //table//tr/td//div/img/@src\r\n\
-    price:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div/p/span[@class='header2red']/span\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nsale_price:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //td[@class='pageHeading'][2]/span[@class='productSpecialPrice']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\ndescription:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //fieldset[@id='product-specifications']\r\
-    \n    filters:\r\n      - reject: !ruby/regexp '/Product Specifications/i'\r\n\
-    - scraper_method: meta_description\r\n"
-  created_at: 2014-01-23 11:44:51.221066000 Z
-  updated_at: 2014-01-28 07:44:51.087000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: personalsecurityzone.com
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      stock_status: In Stock
+      item_location: 502 N. Division St., Carson City, NV 89703
+    title:
+    - scraper_method: meta_title
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //h1[@class='A15b']/span
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //h1[@class='Header2red']
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: In Stock
+        xpath: html/head/meta[@name="in-stock"]/@content
+        regexp: !ruby/regexp '/yes/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: html/head/meta[@name="in-stock"]/@content
+        regexp: !ruby/regexp '/no/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: html/head/meta[@name="out-of-stock"]/@content
+        regexp: !ruby/regexp '/yes/i'
+    keywords:
+    - scraper_method: meta_keywords
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //table//tr/td//div/img/@src
+        filters:
+        - prefix: http://personalsecurityzone.com/
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div/p/span[@class='header2red']/span
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[@class='a12']/table//tr//div
+        regexp: !ruby/regexp '/Price\:\s*\$\d[\d\,\.]+/mi'
+        filters:
+        - accept: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    sale_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[@class='pageHeading'][2]/span[@class='productSpecialPrice']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //fieldset[@id='product-specifications']
+        filters:
+        - reject: !ruby/regexp '/Product Specifications/i'
+    - scraper_method: meta_description
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //h3/a
+        regexp: !ruby/regexp '/How to buy this firearm online/i'
+  :service_options:
     compressed_links:
       ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=handguns-pistols-guns-firearms-for-sale-online&Page=PAGENUM
       : link_xpaths:
@@ -119,9 +167,7 @@ attributes:
         - //h3/a/@href
         start_at_page: 1
         stop_at_page: 25
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -130,6 +176,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 9
-  read_at: 2014-01-28 07:44:51.085000000 Z
-  read_interval: 86400
-  commit_sha:
+  :name: PersonalSecurityZone
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: true
+  :read_interval: 1440

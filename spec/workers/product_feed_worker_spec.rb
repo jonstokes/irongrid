@@ -7,7 +7,7 @@ describe ProductFeedWorker do
   describe "#perform" do
     describe "Write to listings table from generic ammo feed" do
       before :each do
-        @site = create_site_from_repo "ammo.net"
+        @site = create_site "ammo.net"
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
         CDN.clear!
@@ -72,7 +72,7 @@ describe ProductFeedWorker do
 
     describe "Write to listings table from Avanlink feed" do
       before :each do
-        @site = create_site_from_repo "www.brownells.com"
+        @site = create_site "www.brownells.com"
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
         CDN.clear!
@@ -156,7 +156,7 @@ describe ProductFeedWorker do
 
     describe "internals" do
       before :each do
-        @site = create_site_from_repo "www.brownells.com"
+        @site = create_site "www.brownells.com"
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
         CDN.clear!

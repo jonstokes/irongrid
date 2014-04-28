@@ -1,59 +1,87 @@
 ---
-attributes:
-  id: 1
-  name: Armslist
-  domain: www.armslist.com
-  adapter_source: "---\r\nseller_defaults:\r\n  listing_type: classified\r\nvalidation:\r\
-    \n  classified: raw['title'] && raw['item_location'] && raw['price']\r\ndigest_attributes:\r\
-    \n- defaults\r\n- url\r\ntitle:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: .//title\r\n    filters:\r\n      - reject: !ruby/regexp '/^\\s?ARMSLIST\\\
-    s?\\-\\s?|\\s?ARMSLIST\\s?/'\r\n      - reject: !ruby/regexp '/^\\s?For Sale:\\\
-    s?|\\s?For Sale\\/Trade:\\s?|\\s?FS\\s?|\\s?FT\\s?|\\s?FS\\/FT\\s?|\\s?WTB\\s?|\\\
-    s?WANT TO BUY\\s?/'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n   \
-    \ xpath: .//h1[@class=\"title\"]\r\n    filters:\r\n      - reject: !ruby/regexp\
-    \ '/^\\s?ARMSLIST\\s?\\-\\s?|\\s?ARMSLIST\\s?/'\r\n      - reject: !ruby/regexp\
-    \ '/^\\s?For Sale:\\s?|\\s?For Sale\\/Trade:\\s?|\\s?FS\\s?|\\s?FT\\s?|\\s?FS\\\
-    /FT\\s?|\\s?WTB\\s?|\\s?WANT TO BUY\\s?/'\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: .//h1[@class=\"title\"]\r\n    filters:\r\n     \
-    \ - reject: !ruby/regexp '/^\\s?ARMSLIST\\s?\\-\\s?|\\s?ARMSLIST\\s?/'\r\n   \
-    \   - reject: !ruby/regexp '/^\\s?For Sale:\\s?|\\s?For Sale\\/Trade:\\s?|\\s?FS\\\
-    s?|\\s?FT\\s?|\\s?FS\\/FT\\s?|\\s?WTB\\s?|\\s?WANT TO BUY\\s?/'\r\ndescription:\r\
-    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //article[@class='post-details\
-    \ clear-fix']/section[@class='content']\r\nimage:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //section[@class=\"images\"]/figure[1]/img/@src\r\
-    \nprice:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //section[@class='info\
-    \ clear-fix']/div[@class='size-50p'][1]/dl[@class='label-value-list']\r\n    regexp:\
-    \ !ruby/regexp '/\\$\\s*\\d[\\d\\,\\.]+/i'\r\nitem_location:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //article[@class='post-details clear-fix']/section[@class='info\
-    \ clear-fix']/div[@class='size-50p'][2]/dl[@class='label-value-list']/dd[@class='location']\r\
-    \n    regexp: !ruby/regexp '/^.+ [^-Map]/'\r\nitem_sold:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class=\"message warning\"\
-    ]/div[@class=\"message-content\"]\r\n    regexp: !ruby/regexp '/listing/i'\r\n\
-    category1:\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type:\
-    \ Guns\r\n    xpath: //section[@class=\"info clear-fix\"]/div[@class=\"size-50p\"\
-    ][2]/dl[@class=\"label-value-list\"]/dd[2]\r\n    regexp: !ruby/regexp '/Firearms|Handguns|Loaders|Rifles|Shotguns/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
-    \n    xpath: //section[@class=\"info clear-fix\"]/div[@class=\"size-50p\"][2]/dl[@class=\"\
-    label-value-list\"]/dd[2]\r\n    regexp: !ruby/regexp '/Ammo/i'\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n    xpath: //section[@class=\"\
-    info clear-fix\"]/div[@class=\"size-50p\"][2]/dl[@class=\"label-value-list\"]/dd[2]\r\
-    \n    regexp: !ruby/regexp '/Optics/i'\r\nnot_found:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class=\"message error\"]/div[@class=\"message-content\"\
-    ]\r\n    regexp: !ruby/regexp '/This listing been flagged as a scam/i'\r\n"
-  created_at: 2012-10-23 21:12:19.784000000 Z
-  updated_at: 2014-01-21 17:46:22.112427000 Z
-  engine: www.ironsights.com
-  read_with: LinkFeedWorker
-  service_options:
+site_data:
+  :domain: www.armslist.com
+  :adapter:
+    seller_defaults:
+      listing_type: classified
+    validation:
+      classified: raw['title'] && raw['item_location'] && raw['price']
+    digest_attributes:
+    - defaults
+    - url
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//title
+        filters:
+        - reject: !ruby/regexp '/^\s?ARMSLIST\s?\-\s?|\s?ARMSLIST\s?/'
+        - reject: !ruby/regexp '/^\s?For Sale:\s?|\s?For Sale\/Trade:\s?|\s?FS\s?|\s?FT\s?|\s?FS\/FT\s?|\s?WTB\s?|\s?WANT
+            TO BUY\s?/'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//h1[@class="title"]
+        filters:
+        - reject: !ruby/regexp '/^\s?ARMSLIST\s?\-\s?|\s?ARMSLIST\s?/'
+        - reject: !ruby/regexp '/^\s?For Sale:\s?|\s?For Sale\/Trade:\s?|\s?FS\s?|\s?FT\s?|\s?FS\/FT\s?|\s?WTB\s?|\s?WANT
+            TO BUY\s?/'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//h1[@class="title"]
+        filters:
+        - reject: !ruby/regexp '/^\s?ARMSLIST\s?\-\s?|\s?ARMSLIST\s?/'
+        - reject: !ruby/regexp '/^\s?For Sale:\s?|\s?For Sale\/Trade:\s?|\s?FS\s?|\s?FT\s?|\s?FS\/FT\s?|\s?WTB\s?|\s?WANT
+            TO BUY\s?/'
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //article[@class='post-details clear-fix']/section[@class='content']
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //section[@class="images"]/figure[1]/img/@src
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //section[@class='info clear-fix']/div[@class='size-50p'][1]/dl[@class='label-value-list']
+        regexp: !ruby/regexp '/\$\s*\d[\d\,\.]+/i'
+    item_location:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //article[@class='post-details clear-fix']/section[@class='info clear-fix']/div[@class='size-50p'][2]/dl[@class='label-value-list']/dd[@class='location']
+        regexp: !ruby/regexp '/^.+ [^-Map]/'
+    item_sold:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class="message warning"]/div[@class="message-content"]
+        regexp: !ruby/regexp '/listing/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //section[@class="info clear-fix"]/div[@class="size-50p"][2]/dl[@class="label-value-list"]/dd[2]
+        regexp: !ruby/regexp '/Firearms|Handguns|Loaders|Rifles|Shotguns/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //section[@class="info clear-fix"]/div[@class="size-50p"][2]/dl[@class="label-value-list"]/dd[2]
+        regexp: !ruby/regexp '/Ammo/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //section[@class="info clear-fix"]/div[@class="size-50p"][2]/dl[@class="label-value-list"]/dd[2]
+        regexp: !ruby/regexp '/Optics/i'
+    not_found:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class="message error"]/div[@class="message-content"]
+        regexp: !ruby/regexp '/This listing been flagged as a scam/i'
+  :service_options:
     feeds:
-      -
-        url: http://www.armslist.com/feed.rss?location=usa
-        refresh_interval:   900
-        product_list_xpath: '//channel/item'
-        product_link_xpath: '//link'
-  size:
-  active: true
-  rate_limits:
+    - url: http://www.armslist.com/feed.rss?location=usa
+      refresh_interval: 900
+      product_list_xpath: //channel/item
+      product_link_xpath: //link
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -62,6 +90,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 4
-  read_at: 2013-12-02 21:28:41.611000000 Z
-  read_interval: 1800
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+  :name: Armslist
+  :engine: www.ironsights.com
+  :read_with: LinkFeedWorker
+  :size:
+  :active: true
+  :read_interval: 1800

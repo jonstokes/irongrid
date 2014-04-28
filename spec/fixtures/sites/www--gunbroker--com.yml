@@ -1,60 +1,105 @@
 ---
-attributes:
-  id: 5
-  name: GunBroker.com
-  domain: www.gunbroker.com
-  adapter_source: "---\r\nseller_defaults:\r\n  listing_type: auction\r\n  timezone:\
-    \ America/New_York\r\ndigest_attributes:\r\n- defaults\r\n- url\r\nvalidation:\r\
-    \n  auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price'])\
-    \ && raw['title']\r\ntitle:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: .//td[@class=\"llt nw\"]/h1[@id=\"h1T\"]\r\ndescription:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //td[text()[contains(.,'Description\
-    \ for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1]\
-    \ | //td[text()[contains(.,'Characteristics for Item')]]/ancestor::table[@class='tbClean\
-    \ viDesc']/following-sibling::table[1]\r\n    all_nodes: true\r\n- scraper_method:\
-    \ meta_description\r\nimage:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //table[@class='viewitempicfont']//tr[1]//img/@src\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //a/img[@class=\"viTn\"]/@src\r\n\
-    buy_now_price:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ //td[@id=\"ctl00_ctlPagePlaceHolder_tdIsBuyNowSet\"]/b\r\n    regexp: !ruby/regexp\
-    \ '/\\$\\d[\\d\\,\\.]+/i'\r\ncurrent_bid:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //td[@id=\"CurrentBid\"]/b\r\n    regexp: !ruby/regexp\
-    \ '/\\$\\d[\\d\\,\\.]+/i'\r\nauction_ends:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //span[@id=\"ctl00_ctlPagePlaceHolder_lblEndDate\"\
-    ]\r\nitem_location:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n   \
-    \ xpath: //td[@id=\"Location\"]\r\ncondition_used:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //td[@id=\"ItemCondition\"]\r\n    regexp: !ruby/regexp\
-    \ '/used/i'\r\ncondition_new:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //td[@id=\"ItemCondition\"]\r\n    regexp: !ruby/regexp '/new|never|NIB/i'\r\
-    \ncategory1:\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ //td[@class=\"categorynav nw llt f2b\"]/a[3]\r\n    regexp: !ruby/regexp '/Antique\
-    \ Guns|Commemorative Guns|Collectible Guns|Replica Guns|Machine Guns|Shotguns|Firearms|Charity\
-    \ Gun Auctions|Muzzleloaders|Pistols|Rifles|Weapon/i'\r\n    type: Guns\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    xpath: //td[@class=\"categorynav nw\
-    \ llt f2b\"]/a[4]\r\n    regexp: !ruby/regexp '/Antique Guns|Commemorative Guns|Collectible\
-    \ Guns|Replica Guns|Machine Guns|Shotguns|Firearms|Charity Gun Auctions|Muzzleloaders|Pistols|Rifles|Weapon/i'\r\
-    \n    type: Guns\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n  \
-    \  xpath: //td[@class=\"categorynav nw llt f2b\"]/a[3]\r\n    regexp: !ruby/regexp\
-    \ '/Optic|Scope|Sight|Binoculars/i'\r\n    type: Optics\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    xpath: //td[@class=\"categorynav nw llt f2b\"]/a[4]\r\n\
-    \    regexp: !ruby/regexp '/Optic|Scope|Sight|Binoculars/i'\r\n    type: Optics\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    xpath: //td[@class=\"\
-    categorynav nw llt f2b\"]/a[3]\r\n    regexp: !ruby/regexp '/Ammunition|Shells|Vintage\
-    \ Ammo|Cannon Ammo/i'\r\n    type: Ammunition\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    xpath: //td[@class=\"categorynav nw llt f2b\"]/a[4]\r\n\
-    \    regexp: !ruby/regexp '/Ammunition|Shells|Vintage Ammo|Cannon Ammo/i'\r\n\
-    \    type: Ammunition\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    xpath: //td[@class=\"categorynav nw llt f2b\"]/a[3]\r\n    regexp: !ruby/regexp\
-    \ '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'\r\
-    \n    type: Accessories\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    xpath: //td[@class=\"categorynav nw llt f2b\"]/a[4]\r\n    regexp: !ruby/regexp\
-    \ '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'\r\
-    \n    type: Accessories\r\n\r\n"
-  created_at: 2012-10-23 21:12:22.408000000 Z
-  updated_at: 2014-01-28 20:52:45.032000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: www.gunbroker.com
+  :adapter:
+    seller_defaults:
+      listing_type: auction
+      timezone: America/New_York
+    digest_attributes:
+    - defaults
+    - url
+    validation:
+      auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//td[@class="llt nw"]/h1[@id="h1T"]
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[text()[contains(.,'Description for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1] | //td[text()[contains(.,'Characteristics for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1]
+        all_nodes: true
+    - scraper_method: meta_description
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //table[@class='viewitempicfont']//tr[1]//img/@src
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //a/img[@class="viTn"]/@src
+    buy_now_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[@id="ctl00_ctlPagePlaceHolder_tdIsBuyNowSet"]/b
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    current_bid:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[@id="CurrentBid"]/b
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    auction_ends:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[@id="ctl00_ctlPagePlaceHolder_lblEndDate"]
+    item_location:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //td[@id="Location"]
+    item_condition:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Used
+        xpath: //td[@id="ItemCondition"]
+        regexp: !ruby/regexp '/used/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: New
+        xpath: //td[@id="ItemCondition"]
+        regexp: !ruby/regexp '/new|never|NIB/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        xpath: //td[@class="categorynav nw llt f2b"]/a[3]
+        regexp: !ruby/regexp '/Antique Guns|Commemorative Guns|Collectible Guns|Replica
+          Guns|Machine Guns|Shotguns|Firearms|Charity Gun Auctions|Muzzleloaders|Pistols|Rifles|Weapon/i'
+        type: Guns
+    - scraper_method: classify_by_xpath
+      arguments:
+        xpath: //td[@class="categorynav nw llt f2b"]/a[4]
+        regexp: !ruby/regexp '/Antique Guns|Commemorative Guns|Collectible Guns|Replica
+          Guns|Machine Guns|Shotguns|Firearms|Charity Gun Auctions|Muzzleloaders|Pistols|Rifles|Weapon/i'
+        type: Guns
+    - scraper_method: classify_by_xpath
+      arguments:
+        xpath: //td[@class="categorynav nw llt f2b"]/a[3]
+        regexp: !ruby/regexp '/Optic|Scope|Sight|Binoculars/i'
+        type: Optics
+    - scraper_method: classify_by_xpath
+      arguments:
+        xpath: //td[@class="categorynav nw llt f2b"]/a[4]
+        regexp: !ruby/regexp '/Optic|Scope|Sight|Binoculars/i'
+        type: Optics
+    - scraper_method: classify_by_xpath
+      arguments:
+        xpath: //td[@class="categorynav nw llt f2b"]/a[3]
+        regexp: !ruby/regexp '/Ammunition|Shells|Vintage Ammo|Cannon Ammo/i'
+        type: Ammunition
+    - scraper_method: classify_by_xpath
+      arguments:
+        xpath: //td[@class="categorynav nw llt f2b"]/a[4]
+        regexp: !ruby/regexp '/Ammunition|Shells|Vintage Ammo|Cannon Ammo/i'
+        type: Ammunition
+    - scraper_method: classify_by_xpath
+      arguments:
+        xpath: //td[@class="categorynav nw llt f2b"]/a[3]
+        regexp: !ruby/regexp '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'
+        type: Accessories
+    - scraper_method: classify_by_xpath
+      arguments:
+        xpath: //td[@class="categorynav nw llt f2b"]/a[4]
+        regexp: !ruby/regexp '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'
+        type: Accessories
+  :service_options:
     compressed_links:
       http://www.gunbroker.com/Ammunition/BI.aspx?Sort=7&PageIndex=PAGENUM&PageSize=75:
         start_at_page: 1
@@ -104,9 +149,7 @@ attributes:
         link_prefix: http://www.gunbroker.com
         link_xpaths:
         - //a[@class="BItmTLnk"]/@href
-  size: 10
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -115,6 +158,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 3
-  read_at: 2014-01-28 20:52:45.030000000 Z
-  read_interval: 1800
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+  :name: GunBroker.com
+  :engine: www.ironsights.com
+  :read_with: CreateLinksWorker
+  :size: 10
+  :active: true
+  :read_interval: 1800

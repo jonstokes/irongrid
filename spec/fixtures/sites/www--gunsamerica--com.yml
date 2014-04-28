@@ -1,68 +1,121 @@
 ---
-attributes:
-  id: 4
-  name: Guns America
-  domain: www.gunsamerica.com
-  adapter_source: "---\r\nseller_defaults:\r\n  listing_type: classified\r\n  timezone:\
-    \ \"Eastern Time (US & Canada)\"\r\nvalidation:\r\n  auction: (raw['current_bid']\
-    \ || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']\r\n  classified:\
-    \ raw['title'] && raw['item_location'] && raw['price']\r\ntitle:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: .//h1[@id=\"ctl00_MainContent_UCListingDetail1_Title\"\
-    ]\r\ndescription:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ .//span[@id=\"ctl00_MainContent_UCListingDetail1_Description\"]\r\nkeywords:\r\
-    \n- scraper_method: meta_keywords\r\nimage_prefix: http://www.gunsamerica.com\r\
-    \nimage:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //img[@id=\"\
-    ctl00_MainContent_UCListingDetail1_MainPicture1\"]/@src\r\n    prefix: http://www.gunsamerica.com\r\
-    \nprice:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //span[@id=\"\
-    ctl00_MainContent_UCListingDetail1_lblCurrentPriceTop\"]\r\n    regexp: !ruby/regexp\
-    \ '/\\$\\d[\\d\\,\\.]+/i'\r\ncondition_used:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_Condition\"\
-    ]\r\n    regexp: !ruby/regexp '/used/i'\r\ncondition_new:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_Condition\"\
-    ]\r\n    regexp: !ruby/regexp '/new|NIB|Never fired/i'\r\nitem_location:\r\n-\
-    \ scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_lblItemLocation\"\
-    ]\r\nitem_sold:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath:\
-    \ //span[@id=\"ctl00_MainContent_UCListingDetail1_lblListingStatus\"]\r\n    regexp:\
-    \ !ruby/regexp '/has been sold/'\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_lblListingStatus\"\
-    ]\r\n    regexp: !ruby/regexp '/listing has expired/'\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //table[@id=\"ctl00_MainContent_PostingFeedback\"\
-    ]/tr/td/table/tr/td/span[@id=\"ctl00_MainContent_lblFeedback\"]\r\n    regexp:\
-    \ !ruby/regexp '/That Listing ID is not valid/i'\r\nlisting_type:\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: auction\r\n    xpath: //span[@id=\"\
-    ctl00_MainContent_UCListingDetail1_lblListingType\"]\r\n    regexp: !ruby/regexp\
-    \ '/Auction/'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type:\
-    \ classified\r\n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_lblListingType\"\
-    ]\r\n    regexp: !ruby/regexp '/Classified/'\r\ncurrent_bid:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_lblCurrentPriceTop\"\
-    ]\r\n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nminimum_bid:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_lblMinimumBidTop\"\
-    ]\r\n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nbuy_now_price:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_BuyItNow\"\
-    ]\r\n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nauction_ends:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //span[@id=\"ctl00_MainContent_UCListingDetail1_ListingEnds\"\
-    ]\r\ncategory1:\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n   \
-    \ type: Accessories\r\n    xpath: //span[@id=\"ctl00_Header_lblTopBreadcrumb\"\
-    ]/a[@class=\"crumbs\"][2]\r\n    regexp: !ruby/regexp '/Parts|Barrels|Accessories|Lights|Magazines|Safes|Tools|Supply|Grips|Holsters|Equipment|Paintball|Reloading|Targets/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
-    \n    xpath: //span[@id=\"ctl00_Header_lblTopBreadcrumb\"]/a[@class=\"crumbs\"\
-    ][2]\r\n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Optics\r\n    xpath: //span[@id=\"ctl00_Header_lblTopBreadcrumb\"\
-    ]/a[@class=\"crumbs\"][2]\r\n    regexp: !ruby/regexp '/Focal|Optics|Scope|Mounts|Night\
-    \ Vision|oculars|Rangefinders/i'\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    type: Guns\r\n    xpath: //span[@id=\"ctl00_Header_lblTopBreadcrumb\"]/a[@class=\"\
-    crumbs\"][2]\r\n    regexp: !ruby/regexp '/Guns|Rifles|Pistols|Revolver|Muzzleloaders/i'\r\
-    \n"
-  created_at: 2012-10-23 21:12:21.766000000 Z
-  updated_at: 2013-12-08 14:34:24.351968000 Z
-  engine: www.ironsights.com
-  read_with: LinkFeedWorker
-  service_options:
-    refresh_feed_after_this_many_seconds: 900
-    feed_url: http://www.gunsamerica.com/GunsAmerica.xml
-  size:
-  active: true
-  rate_limits:
+site_data:
+  :domain: www.gunsamerica.com
+  :adapter:
+    seller_defaults:
+      listing_type: classified
+      timezone: Eastern Time (US & Canada)
+    validation:
+      auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']
+      classified: raw['title'] && raw['item_location'] && raw['price']
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //h1[contains(@id,'_Title')]
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,'_Description')]
+    - scraper_method: meta_description
+    keywords:
+    - scraper_method: meta_keywords
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //img[contains(@id,'_MainPicture1')]/@src
+        filters:
+        - prefix: http://www.gunsamerica.com
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"_lblCurrentPriceTop")]
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    item_condition:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Used
+        xpath: //span[contains(@id,"_Condition")]
+        regexp: !ruby/regexp '/used/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: New
+        xpath: //span[contains(@id,"_Condition")]
+        regexp: !ruby/regexp '/new|NIB|Never fired/i'
+    item_location:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"ItemLocation")]
+    item_sold:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"_lblListingStatus")]
+        regexp: !ruby/regexp '/has expired/'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"_lblListingStatus")]
+        regexp: !ruby/regexp '/has been sold/'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"MainContent_lblFeedback")]
+        regexp: !ruby/regexp '/That Listing ID is not valid/i'
+    listing_type:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: auction
+        xpath: //span[contains(@id,"_lblListingType")]
+        regexp: !ruby/regexp '/Auction/'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: classified
+        xpath: //span[contains(@id,"_lblListingType")]
+        regexp: !ruby/regexp '/Classified/'
+    current_bid:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"_lblCurrentPriceTop")]
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    minimum_bid:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"_lblMinimumBidTop")]
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    buy_now_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"_BuyItNow")]
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    auction_ends:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[contains(@id,"ListingEnds")]
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Accessories
+        xpath: //span[contains(@id,"_lblTopBreadcrumb")]/a[@class="crumbs"][2]
+        regexp: !ruby/regexp '/Parts|Barrels|Accessories|Lights|Magazines|Safes|Tools|Supply|Grips|Holsters|Equipment|Paintball|Reloading|Targets/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //span[contains(@id,"_lblTopBreadcrumb")]/a[@class="crumbs"][2]
+        regexp: !ruby/regexp '/Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //span[contains(@id,"_lblTopBreadcrumb")]/a[@class="crumbs"][2]
+        regexp: !ruby/regexp '/Focal|Optics|Scope|Mounts|Night Vision|oculars|Rangefinders/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //span[contains(@id,"_lblTopBreadcrumb")]/a[@class="crumbs"][2]
+        regexp: !ruby/regexp '/Guns|Rifles|Pistols|Revolver|Muzzleloaders/i'
+  :service_options:
+    feeds:
+    - url: http://www.gunsamerica.com/GunsAmerica.xml
+      refresh_interval: 900
+      product_list_xpath: //channel/item
+      product_link_xpath: //link
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -71,6 +124,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 2
-  read_at: 2013-12-02 20:53:42.604000000 Z
-  read_interval: 3600
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+  :name: Guns America
+  :engine: www.ironsights.com
+  :read_with: LinkFeedWorker
+  :size:
+  :active: true
+  :read_interval: 3600

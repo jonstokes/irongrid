@@ -3,7 +3,7 @@ require 'mocktra'
 
 describe UpdateListingImagesWorker do
   before :all do
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     Mocktra(@site.domain) do
       get '/images/1.png' do
         send_file "#{Rails.root}/spec/fixtures/images/test-image.png"

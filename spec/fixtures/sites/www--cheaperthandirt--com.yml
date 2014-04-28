@@ -1,48 +1,87 @@
 ---
-attributes:
-  id: 2
-  name: Cheaper Than Dirt
-  domain: www.cheaperthandirt.com
-  adapter_source: "---\r\nseller_defaults:\r\n  condition: new\r\n  listing_type:\
-    \ retail\r\n  stock_status: in stock\r\n  item_location: \"2058 West University\
-    \ Drive, McKinney, Texas 75071\"\r\nvalidation:\r\n  retail: (raw['price'] ||\
-    \ raw['sale_price'] || raw['out_of_stock_message']) && raw['title']\r\ntitle:\r\
-    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //span[@id=\"\
-    ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ProdDesc\"\
-    ]\r\ndescription:\r\n- scraper_method: meta_description\r\nimage:\r\n- scraper_method:\
-    \ meta_image\r\nsale_price:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: .//span[contains(@class, \"product-price-value\")]\r\nprice:\r\n\
-    - scraper_method: meta_price\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //div[@id=\"ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ourLowPricePanel\"\
-    ]\r\n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\nout_of_stock_message:\r\
-    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class=\"\
-    importantMessageItemPage\"]\r\n    regexp: !ruby/regexp '/this product is currently\
-    \ not in stock|no longer available/i'\r\ncondition_used:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: .//table[@class=\"product-properties\"\
-    ]/tr/td[@class=\"property-value\"]\r\n    regexp: !ruby/regexp '/used/i'\r\ncondition_new:\r\
-    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: .//table[@class=\"\
-    product-properties\"]/tr/td[@class=\"property-value\"]\r\n    regexp: !ruby/regexp\
-    \ '/new/i'\r\ncategory1:\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    type: Guns\r\n    xpath: //div[@class=\"itemBreadCrumbs\"]/a\r\n    regexp:\
-    \ !ruby/regexp '/handguns|rifles|shotguns|tactical|firearms/i'\r\n- scraper_method:\
-    \ classify_by_meta_tag\r\n  arguments:\r\n    type: Guns\r\n    regexp: !ruby/regexp\
-    \ '/Gun/'\r\n    name: \"mc-category\"\r\n- scraper_method: classify_by_meta_tag\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    regexp: !ruby/regexp '/Ammo|Ammunition/i'\r\
-    \n    name: \"mc-category\"\r\n- scraper_method: classify_by_meta_tag\r\n  arguments:\r\
-    \n    type: Optics\r\n    regexp: !ruby/regexp '/scopes/i'\r\n    name: \"mc-category\"\
-    \r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
-    \n    xpath: //div[@class=\"itemBreadCrumbs\"]/a\r\n    regexp: !ruby/regexp '/Ammo|Ammunition/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n\
-    \    xpath: //div[@class=\"itemBreadCrumbs\"]/a\r\n    regexp: !ruby/regexp '/scopes/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\
-    \n    xpath: //div[@class=\"itemBreadCrumbs\"]/a\r\n    regexp: !ruby/regexp '/Gun\
-    \ Gear and Parts|Magazines|pods|Black Powder|Protection|Cases|Cleaning|Gunsmithing|Holsters|Lasers|Lights|Range|Targets|Reloading|Slings|loaders|Universal\
-    \ Gun Parts/i'\r\n"
-  created_at: 2012-10-23 21:12:20.487000000 Z
-  updated_at: 2014-01-28 15:09:25.854000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: www.cheaperthandirt.com
+  :adapter:
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      stock_status: in stock
+      item_location: 2058 West University Drive, McKinney, Texas 75071
+    validation:
+      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[@id="ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ProdDesc"]
+    description:
+    - scraper_method: meta_description
+    image:
+    - scraper_method: meta_image
+    sale_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: .//span[contains(@class, "product-price-value")]
+    price:
+    - scraper_method: meta_price
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@id="ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ourLowPricePanel"]
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: //div[@class="importantMessageItemPage"]
+        regexp: !ruby/regexp '/this product is currently not in stock|no longer available/i'
+    item_condition:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: New
+        xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
+        regexp: !ruby/regexp '/used/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Used
+        xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
+        regexp: !ruby/regexp '/new/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@class="itemBreadCrumbs"]/a
+        regexp: !ruby/regexp '/handguns|rifles|shotguns|tactical|firearms/i'
+    - scraper_method: classify_by_meta_tag
+      arguments:
+        type: Guns
+        regexp: !ruby/regexp '/Gun/'
+        name: mc-category
+    - scraper_method: classify_by_meta_tag
+      arguments:
+        type: Ammunition
+        regexp: !ruby/regexp '/Ammo|Ammunition/i'
+        name: mc-category
+    - scraper_method: classify_by_meta_tag
+      arguments:
+        type: Optics
+        regexp: !ruby/regexp '/scopes/i'
+        name: mc-category
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@class="itemBreadCrumbs"]/a
+        regexp: !ruby/regexp '/Ammo|Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@class="itemBreadCrumbs"]/a
+        regexp: !ruby/regexp '/scopes/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Accessories
+        xpath: //div[@class="itemBreadCrumbs"]/a
+        regexp: !ruby/regexp '/Gun Gear and Parts|Magazines|pods|Black Powder|Protection|Cases|Cleaning|Gunsmithing|Holsters|Lasers|Lights|Range|Targets|Reloading|Slings|loaders|Universal
+          Gun Parts/i'
+  :service_options:
     seed_links:
       http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4675&fmp=Y&fml=Y&pagesize=1000:
         link_prefix: http://www.cheaperthandirt.com
@@ -1560,17 +1599,18 @@ attributes:
         link_prefix: http://www.cheaperthandirt.com
         link_xpaths:
         - //div[@class='prodis']/a/@href
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
-      rate: 2
+      rate: 1
     peak:
       start: '06:01'
       duration: 17
-      rate: 4
-  read_at: 2014-01-28 15:09:25.852000000 Z
-  read_interval: 86400
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+      rate: 2
+  :name: Cheaper Than Dirt
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: true
+  :read_interval: 1440

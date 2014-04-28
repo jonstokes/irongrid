@@ -6,7 +6,7 @@ Sidekiq::Testing.fake!
 
 describe ScrapePagesWorker do
   before :each do
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     Mocktra("www.retailer.com") do
       get '/products' do
         File.open("#{Rails.root}/spec/fixtures/web_pages/www--retailer--com/products.html") do |file|

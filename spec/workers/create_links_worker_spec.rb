@@ -6,7 +6,7 @@ Sidekiq::Testing.fake!
 describe CreateLinksWorker do
 
   before :each do
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     @worker = CreateLinksWorker.new
     Mocktra(@site.domain) do
       get '/products' do
@@ -48,14 +48,14 @@ describe CreateLinksWorker do
 
   describe "#seed_links" do
     it "should load any seed links as a hash" do
-      create_site_from_repo("www.budsgunshop.com")
+      create_site("www.budsgunshop.com")
       @worker.init(domain: "www.budsgunshop.com")
       @worker.seed_links.should be_a Hash
       @worker.seed_links.has_key?("http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1000/sort/6a/page/1").should be_true
     end
 
     it "should be empty if there are no seed links" do
-      create_site_from_repo("www.hyattgunstore.com")
+      create_site("www.hyattgunstore.com")
       @worker.init(domain: "www.hyattgunstore.com")
       @worker.seed_links.should be_empty
     end
@@ -63,7 +63,7 @@ describe CreateLinksWorker do
 
   describe "#compressed_links" do
     before :each do
-      create_site_from_repo("www.gunbroker.com")
+      create_site("www.gunbroker.com")
     end
 
     it "should expand compressed links as a hash" do
@@ -82,7 +82,7 @@ describe CreateLinksWorker do
     end
 
     it "should be empty if there are no compressed links" do
-      create_site_from_repo("www.cheaperthandirt.com")
+      create_site("www.cheaperthandirt.com")
       @worker.init(domain: "www.cheaperthandirt.com")
       @worker.compressed_links.should be_empty
     end
@@ -90,7 +90,7 @@ describe CreateLinksWorker do
 
   describe "#link_list" do
     it "should yield an array of all links of the right length" do
-      create_site_from_repo("www.gunbroker.com")
+      create_site("www.gunbroker.com")
       @worker.init(domain: "www.gunbroker.com")
       @worker.link_list.should be_a Array
       @worker.link_list.size.should == 130
@@ -99,7 +99,7 @@ describe CreateLinksWorker do
 
   describe "#links_with_attrs" do
     it "should return a combined hash of seed links and compressed links with all attributes" do
-      create_site_from_repo("www.gunbroker.com")
+      create_site("www.gunbroker.com")
       @worker.init(domain: "www.gunbroker.com")
       @worker.links_with_attrs["http://www.gunbroker.com/Charity-Gun-Auctions/BI.aspx?Sort=7&PageSize=75&PageIndex=10"].should_not be_nil
       @worker.links_with_attrs["http://www.gunbroker.com/Charity-Gun-Auctions/BI.aspx?Sort=7&PageSize=75&PageIndex=10"]["link_xpaths"].first.should == '//a[@class="BItmTLnk"]/@href'

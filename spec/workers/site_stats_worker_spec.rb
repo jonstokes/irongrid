@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SiteStatsWorker do
   describe "#perform" do
     it "generates site stats for a site" do
-      site = create_site_from_repo "www.retailer.com"
+      site = create_site "www.retailer.com"
       FactoryGirl.create(:retail_listing)
       stalest = FactoryGirl.create(:retail_listing, updated_at: Time.now - 10.days)
       FactoryGirl.create(:retail_listing, :inactive)

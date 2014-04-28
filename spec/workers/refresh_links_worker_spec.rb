@@ -5,7 +5,7 @@ Sidekiq::Testing.fake!
 
 describe RefreshLinksWorker do
   before :each do
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     LinkMessageQueue.new(domain: "www.retailer.com").clear
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!

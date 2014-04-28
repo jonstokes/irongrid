@@ -7,7 +7,7 @@ Sidekiq::Testing.fake!
 describe LinkFeedWorker do
 
   before :each do
-    @site = create_site_from_repo "www.armslist.com"
+    @site = create_site "www.armslist.com"
     LinkMessageQueue.new(domain: @site.domain).clear
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!

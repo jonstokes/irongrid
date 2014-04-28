@@ -10,7 +10,7 @@ describe ReadSitesService do
 
   describe "RefreshLinksWorker sites" do
     before :each do
-      @site = create_site_from_repo "www.retailer.com"
+      @site = create_site "www.retailer.com"
       @site.update(read_with: "RefreshLinksWorker")
       @service = ReadSitesService.new
       @lq = LinkMessageQueue.new(domain: @site.domain)
@@ -34,7 +34,7 @@ describe ReadSitesService do
 
   describe "CreateLinksWorker sites" do
     before :each do
-      @site = create_site_from_repo "www.retailer.com"
+      @site = create_site "www.retailer.com"
       @site.update(read_with: "CreateLinksWorker")
       @service = ReadSitesService.new
       @lq = LinkMessageQueue.new(domain: @site.domain)
@@ -59,7 +59,7 @@ describe ReadSitesService do
 
   describe "ProductFeedWorker and LinkFeedWorker sites" do
     before :each do
-      @site = create_site_from_repo "www.retailer.com"
+      @site = create_site "www.retailer.com"
       @service = ReadSitesService.new
       @lq = LinkMessageQueue.new(domain: @site.domain)
       @lq.clear

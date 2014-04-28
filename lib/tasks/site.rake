@@ -46,4 +46,17 @@ namespace :site do
       end
     end
   end
+
+  desc "Create site fixtures from local repo"
+  task :generate_fixtures => :environment do
+    domains = YAML.load_file("spec/fixtures/sites/manifest.yml")
+    domains.each do |domain|
+      site = Site.new(domain: domain, source: :local)
+      filename = "spec/fixtures/sites/#{domain.gsub(".","--")}.yml"
+      puts "Writing #{site.domain} to #{filename}"
+      File.open(filename, "w") do |f|
+        YAML.dump(site.site_data, f)
+      end
+    end
+  end
 end

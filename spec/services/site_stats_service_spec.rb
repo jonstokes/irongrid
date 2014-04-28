@@ -4,8 +4,8 @@ require 'sidekiq/testing'
 describe SiteStatsService do
   describe "#perform" do
     it "generates a SiteStatsWorker for each active site" do
-      create_site_from_repo "www.retailer.com"
-      create_site_from_repo "www.budsgunshop.com"
+      create_site "www.retailer.com"
+      create_site "www.budsgunshop.com"
       service = SiteStatsService.new
       service.start
       service.stop

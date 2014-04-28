@@ -1,54 +1,97 @@
 ---
-attributes:
-  id: 17
-  name: Clyde Armory
-  domain: clydearmory.com
-  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price']\
-    \ || raw['out_of_stock_message']) && raw['title']\r\nseller_defaults:\r\n  condition:\
-    \ new\r\n  listing_type: retail\r\n  item_location: \"4800 Atlanta Hwy, Bogart,\
-    \ GA 30622\"\r\nkeywords:\r\n- scraper_method: meta_keywords\r\ntitle:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='product-shop']/div[@class='product-name']/h1\r\
-    \nout_of_stock_message:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n\
-    \    xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']/span\r\
-    \n    regexp: !ruby/regexp '/Out of stock/i'\r\nimage:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class='product-img-box']/p[@class='product-image\
-    \ product-image-zoom']/img[@id='image']/@src\r\ndescription:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='product-view']/div[@class='product-collateral']\r\
-    \n    filters:\r\n      - reject: !ruby/regexp '/Details/i'\r\n      - reject:\
-    \ !ruby/regexp '/Product Description:/i'\r\n      - reject: !ruby/regexp '/Additional\
-    \ Information/i'\r\n      - reject: !ruby/regexp '/Be the first to review this\
-    \ product/i'\r\nin_stock_message:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //div[@class='product-shop']/p[@class='availability in-stock']/span\r\
-    \n    regexp: !ruby/regexp '/In stock/i'\r\nprice:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class='product-shop']/div[@class='price-box']//span[@class='price']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class='product-shop']/div[@class='price-box']/p[@class='old-price']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class='product-shop']/div[@class='price-box\
-    \ map-info']/span[@class='old-price']/span[@class='price']\r\n    regexp: !ruby/regexp\
-    \ '/\\$\\d[\\d\\,\\.]+/i'\r\nsale_price:\r\n- scraper_method: find_by_xpath\r\n\
-    \  arguments:\r\n    xpath: //div[@class='price-box']/p[@class='special-price']\r\
-    \n    regexp: !ruby/regexp '/\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class='product-shop']/ul[@class='tier-prices\
-    \ product-pricing']/li/span[@class='price']\r\n    regexp: !ruby/regexp '/\\$\\\
-    d[\\d\\,\\.]+/i'\r\ncategory1:\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    type: Optics\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\n  \
-    \  regexp: !ruby/regexp '/Optics/i'\r\n- scraper_method: classify_by_xpath\r\n\
-    \  arguments:\r\n    type: Optics\r\n    xpath: //div[@class='breadcrumbs']/ul/li[3]/a\r\
-    \n    regexp: !ruby/regexp '/Optics/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\
-    \n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@class='breadcrumbs']/ul/li[3]/a\r\
-    \n    regexp: !ruby/regexp '/Ammunition/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Guns\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\
-    \n    regexp: !ruby/regexp '/Firearms/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Guns\r\n    xpath: //div[@class='breadcrumbs']/ul/li[3]/a\r\
-    \n    regexp: !ruby/regexp '/Firearms/i'\r\n"
-  created_at: 2013-07-03 19:38:03.465500000 Z
-  updated_at: 2014-01-28 00:40:03.141000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: clydearmory.com
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      item_location: 4800 Atlanta Hwy, Bogart, GA 30622
+    keywords:
+    - scraper_method: meta_keywords
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-shop']/div[@class='product-name']/h1
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-view']/div[@class='product-collateral']
+        filters:
+        - reject: !ruby/regexp '/Details/i'
+        - reject: !ruby/regexp '/Product Description:/i'
+        - reject: !ruby/regexp '/Additional Information/i'
+        - reject: !ruby/regexp '/Be the first to review this product/i'
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: In Stock
+        xpath: //div[@class='product-shop']/p[@class='availability in-stock']/span
+        regexp: !ruby/regexp '/In stock/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']/span
+        regexp: !ruby/regexp '/Out of stock/i'
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-shop']/div[@class='price-box']//span[@class='price']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-shop']/div[@class='price-box']/p[@class='old-price']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-shop']/div[@class='price-box map-info']/span[@class='old-price']/span[@class='price']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    sale_price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='price-box']/p[@class='special-price']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-shop']/ul[@class='tier-prices product-pricing']/li/span[@class='price']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+        regexp: !ruby/regexp '/Optics/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+        regexp: !ruby/regexp '/Optics/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+        regexp: !ruby/regexp '/Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+        regexp: !ruby/regexp '/Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+        regexp: !ruby/regexp '/Firearms/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+        regexp: !ruby/regexp '/Firearms/i'
+  :service_options:
     compressed_links:
       http://clydearmory.com/firearms.html?SID=edntbtic7st4dgu1j1294gfq06&limit=30&p=PAGENUM&price=-10000:
         start_at_page: 1
@@ -166,9 +209,7 @@ attributes:
       http://clydearmory.com/ammunition/shotgun.html:
         link_xpaths:
         - //h2[@class='product-name']/a/@href
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -177,6 +218,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 4
-  read_at: 2014-01-28 00:40:03.139000000 Z
-  read_interval: 86400
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+  :name: Clyde Armory
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: true
+  :read_interval: 1440

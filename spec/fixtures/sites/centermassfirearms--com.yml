@@ -1,42 +1,79 @@
 ---
-attributes:
-  id: 13
-  name: Center Mass Firearms
-  domain: centermassfirearms.com
-  adapter_source: "validation:\r\n  retail: (raw['price'] || raw['sale_price']) &&\
-    \ raw['title'] && raw['image'] && raw['description']\r\nseller_defaults:\r\n \
-    \ condition: new\r\n  listing_type: retail\r\n  stock_status: In Stock\r\n  item_location:\
-    \ \"2140 S. Boulder Hwy., Henderson, NV 89002\"\r\ntitle:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='product-shop']/div[@class='product-name']/h1\r\
-    \nkeywords:\r\n  - scraper_method: meta_keywords\r\nimage:\r\n- scraper_method:\
-    \ find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='product-img-box']/p[@class='product-image\
-    \ product-image-zoom']/img[@id='image']/@src\r\nprice:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //span[@class='price']\r\n    regexp: !ruby/regexp\
-    \ '/\\$\\d[\\d\\,\\.]+/i'\r\ndescription:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class='product-shop']/div[@class='short-description']\r\
-    \n    filters:\r\n      - reject: !ruby/regexp '/Quick Overview/i'\r\n- scraper_method:\
-    \ meta_description\r\nout_of_stock_message:\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //div[@class='product-shop']/p[@class='availability\
-    \ out-of-stock']\r\n    regexp: !ruby/regexp '/out of stock/i'\r\nin_stock_message:\r\
-    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='product-shop']/p[@class='availability\
-    \ in-stock']\r\n    regexp: !ruby/regexp '/in stock/i'\r\ncategory1:\r\n- scraper_method:\
-    \ classify_by_xpath\r\n  arguments:\r\n    type: Guns\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\
-    \n    regexp: !ruby/regexp '/Guns|Rifles/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Guns\r\n    xpath: //div[@class='breadcrumbs']/ul/li[3]/a\r\
-    \n    regexp: !ruby/regexp '/Guns|Rifles/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\
-    \n    regexp: !ruby/regexp '/Ammo|Ammunition/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Ammunition\r\n    xpath: //div[@class='breadcrumbs']/ul/li[3]/a\r\
-    \n    regexp: !ruby/regexp '/Ammo|Ammunition/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Optics\r\n    xpath: //div[@class='breadcrumbs']/ul/li[2]/a\r\
-    \n    regexp: !ruby/regexp '/Optic/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Optics\r\n    xpath: //div[@class='breadcrumbs']/ul/li[3]/a\r\
-    \n    regexp: !ruby/regexp '/Optic/i'\r\n"
-  created_at: 2013-06-25 23:16:44.226536000 Z
-  updated_at: 2013-12-04 16:46:00.109815000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: centermassfirearms.com
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      stock_status: In Stock
+      item_location: 2140 S. Boulder Hwy., Henderson, NV 89002
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-shop']/div[@class='product-name']/h1
+    keywords:
+    - scraper_method: meta_keywords
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[@class='price']
+        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='product-shop']/div[@class='short-description']
+        filters:
+        - reject: !ruby/regexp '/Quick Overview/i'
+    - scraper_method: meta_description
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']
+        regexp: !ruby/regexp '/out of stock/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: In Stock
+        xpath: //div[@class='product-shop']/p[@class='availability in-stock']
+        regexp: !ruby/regexp '/in stock/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+        regexp: !ruby/regexp '/Guns|Rifles/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+        regexp: !ruby/regexp '/Guns|Rifles/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+        regexp: !ruby/regexp '/Ammo|Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+        regexp: !ruby/regexp '/Ammo|Ammunition/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+        regexp: !ruby/regexp '/Optic/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+        regexp: !ruby/regexp '/Optic/i'
+  :service_options:
     seed_links:
       http://centermassfirearms.com/index.php/rifles.html?limit=30:
         link_xpaths:
@@ -68,9 +105,7 @@ attributes:
         - //div[@class='product-box']/h2[@class='product-name']/a/@href
         start_at_page: 1
         stop_at_page: 6
-  size:
-  active: false
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -79,6 +114,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 7
-  read_at: 2013-10-01 23:09:33.121000000 Z
-  read_interval: 86400
-  commit_sha: 0ea9ceea29b2d2072b12dbe0c9b426eb5891b386
+  :name: Center Mass Firearms
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: false
+  :read_interval: 1440

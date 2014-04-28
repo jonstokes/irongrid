@@ -6,7 +6,7 @@ Sidekiq::Testing.disable!
 describe CdnService do
   before :each do
     @service = CdnService.new
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     @iq = ImageQueue.new(domain: @site.domain)
     @iq.clear
   end

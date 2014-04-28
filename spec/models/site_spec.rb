@@ -29,7 +29,7 @@ describe Site do
     end
 
     it "should load its data from redis when source: is :redis" do
-      create_site_from_repo "www.retailer.com"
+      create_site "www.retailer.com"
       site = Site.new(domain: "www.retailer.com", source: :redis)
       expect(site.domain).to eq("www.retailer.com")
       expect(site.name).to eq("Retailer")
@@ -46,7 +46,7 @@ describe Site do
 
   describe "#refresh_only?" do
     it "is false when a site is not refresh_only" do
-      site = create_site_from_repo "www.retailer.com"
+      site = create_site "www.retailer.com"
       expect(site.refresh_only?).to be_false
     end
 
@@ -58,7 +58,7 @@ describe Site do
 
   describe "#udpate" do
     it "should update a string of attributes in redis" do
-      site = create_site_from_repo "www.retailer.com"
+      site = create_site "www.retailer.com"
       time = Time.now
       site.update(read_interval: 0, read_at: time)
       site = Site.new(domain: "www.retailer.com", source: :redis)
@@ -69,8 +69,8 @@ describe Site do
 
   describe "::domains" do
     it "returns an array of all the current Site domains in redis" do
-      create_site_from_repo "www.retailer.com"
-      site = create_site_from_repo "www.budsgunshop.com"
+      create_site "www.retailer.com"
+      site = create_site "www.budsgunshop.com"
       domains = Site.domains
       expect(domains).to include("www.retailer.com")
       expect(domains).to include("www.budsgunshop.com")
@@ -79,8 +79,8 @@ describe Site do
 
   describe "::active" do
     it "returns an array of all sites currently active in redis" do
-      create_site_from_repo "www.retailer.com"
-      site = create_site_from_repo "www.budsgunshop.com"
+      create_site "www.retailer.com"
+      site = create_site "www.budsgunshop.com"
       site.update(active: false)
       expect(Site.active.count).to eq(1)
       expect(Site.active.first).to be_a(Site)

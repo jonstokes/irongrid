@@ -174,11 +174,7 @@ class Site < CoreModel
 
   def load_from_fixture
     filename = domain.gsub(".","--") + ".yml"
-    @site_data = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}")["attributes"].symbolize_keys
-    @site_data[:adapter] = YAML.load(@site_data[:adapter_source])
-    @site_data.delete("id")
-    @site_data.delete("created_at")
-    @site_data.delete("updated_at")
+    @site_data = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}")['site_data'].symbolize_keys
   end
 
   def load_from_github

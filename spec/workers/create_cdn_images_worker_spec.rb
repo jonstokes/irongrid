@@ -6,7 +6,7 @@ Sidekiq::Testing.fake!
 
 describe CreateCdnImagesWorker do
   before :each do
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     Sidekiq::Worker.clear_all
     CDN.clear!
     ImageQueue.new(domain: @site.domain).clear

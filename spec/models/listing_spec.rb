@@ -42,7 +42,7 @@ describe Listing do
   end
 
   before :each do
-    @site = create_site_from_repo "www.retailer.com"
+    @site = create_site "www.retailer.com"
     @geo_data = FactoryGirl.create(:geo_data)
     @listing_attrs =  {
       "url"                   => "http://rspec.com/bogus_url.html",

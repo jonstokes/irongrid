@@ -1,44 +1,76 @@
 ---
-attributes:
-  id: 30
-  name: Hunting Depot
-  domain: www.huntingdepot.net
-  adapter_source: "---\r\nvalidation:\r\n  retail: (raw['price'] || raw['sale_price']\
-    \ || raw['out_of_stock_message']) && raw['title']\r\nseller_defaults:\r\n  condition:\
-    \ new\r\n  listing_type: retail\r\n  item_location: \"23 S Prospect St, Nanticoke,\
-    \ PA 18634\"\r\ntitle:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\n\
-    \    xpath: //table[@class='prd_bdr']//tr/td[@class='prd_hdr']/h1\r\n- scraper_method:\
-    \ meta_title\r\ndescription:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //table[@class='std prodpage'][1]//tr/td\r\nkeywords:\r\n- scraper_method:\
-    \ meta_keywords\r\nimage:\r\n- scraper_method: find_by_xpath\r\n  arguments:\r\
-    \n    xpath: //div[@class='imgWidgetBox']/img[@id='MainPicX']/@src\r\nprice:\r\
-    \n- scraper_method: find_by_xpath\r\n  arguments:\r\n    xpath: //div[@class='prd_price']\r\
-    \n    regexp: !ruby/regexp '/^\\$\\d[\\d\\,\\.]+/i'\r\n- scraper_method: find_by_xpath\r\
-    \n  arguments:\r\n    xpath: //span[@id=\"ctl00_ctl00_MainContent_uxProduct_lbPrice\"\
-    ]/span[@class=\"RegularPrice\"]\r\n    regexp: !ruby/regexp '/^\\$\\d[\\d\\,\\\
-    .]+/i'\r\nstock_status:\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    type: Out Of Stock\r\n    xpath: //div[@class='alert_box']\r\n    regexp:\
-    \ !ruby/regexp '/Would you like to be notified by email when this comes in/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: In Stock\r\n\
-    \    xpath: //div[@class='alert_box']\r\n    regexp: !ruby/regexp '/\\d+\\s+in\
-    \ stock/i'\r\ncategory1:\r\n- scraper_method: classify_by_xpath\r\n  arguments:\r\
-    \n    type: None\r\n    xpath: //div[@class='breadcrumbs']\r\n    regexp: !ruby/regexp\
-    \ '/Archery|Crossbows|Knives|Tents/i'\r\n- scraper_method: classify_by_xpath\r\
-    \n  arguments:\r\n    type: Guns\r\n    xpath: //div[@class='breadcrumbs']\r\n\
-    \    regexp: !ruby/regexp '/Pistols|Rifles|Frames|Receivers|Revolvers|Sets|Shotguns/'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Optics\r\n\
-    \    xpath: //div[@class='breadcrumbs']\r\n    regexp: !ruby/regexp '/Lasers|Sights|Optics/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Ammunition\r\
-    \n    xpath: //div[@class='breadcrumbs']\r\n    regexp: !ruby/regexp '/Ammunition|Balls|Sabots|Bullets/i'\r\
-    \n- scraper_method: classify_by_xpath\r\n  arguments:\r\n    type: Accessories\r\
-    \n    xpath: //div[@class='breadcrumbs']\r\n    regexp: !ruby/regexp '/Accessories|Cases|Cleaning|Gun\
-    \ Care|Concealment|Gunsmithing|Holsters|Muzzleloading|Reoading|Targets|Throwers/i'\r\
-    \n"
-  created_at: 2014-01-23 11:44:57.419896000 Z
-  updated_at: 2014-01-28 19:00:54.937000000 Z
-  engine: www.ironsights.com
-  read_with: RefreshLinksWorker
-  service_options:
+site_data:
+  :domain: www.huntingdepot.net
+  :adapter:
+    validation:
+      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
+    seller_defaults:
+      condition: new
+      listing_type: retail
+      item_location: 23 S Prospect St, Nanticoke, PA 18634
+    title:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //table[@class='prd_bdr']//tr/td[@class='prd_hdr']/h1
+    - scraper_method: meta_title
+    description:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //table[@class='std prodpage'][1]//tr/td
+    keywords:
+    - scraper_method: meta_keywords
+    image:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='imgWidgetBox']/img[@id='MainPicX']/@src
+    price:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //div[@class='prd_price']
+        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="RegularPrice"]
+        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+    stock_status:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Out Of Stock
+        xpath: //div[@class='alert_box']
+        regexp: !ruby/regexp '/Would you like to be notified by email when this comes
+          in/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: In Stock
+        xpath: //div[@class='alert_box']
+        regexp: !ruby/regexp '/\d+\s+in stock/i'
+    category1:
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: None
+        xpath: //div[@class='breadcrumbs']
+        regexp: !ruby/regexp '/Archery|Crossbows|Knives|Tents/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Guns
+        xpath: //div[@class='breadcrumbs']
+        regexp: !ruby/regexp '/Pistols|Rifles|Frames|Receivers|Revolvers|Sets|Shotguns/'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Optics
+        xpath: //div[@class='breadcrumbs']
+        regexp: !ruby/regexp '/Lasers|Sights|Optics/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Ammunition
+        xpath: //div[@class='breadcrumbs']
+        regexp: !ruby/regexp '/Ammunition|Balls|Sabots|Bullets/i'
+    - scraper_method: classify_by_xpath
+      arguments:
+        type: Accessories
+        xpath: //div[@class='breadcrumbs']
+        regexp: !ruby/regexp '/Accessories|Cases|Cleaning|Gun Care|Concealment|Gunsmithing|Holsters|Muzzleloading|Reoading|Targets|Throwers/i'
+  :service_options:
     seed_links:
       http://www.huntingdepot.net/catalog/subcat.asp?cid=1001&sort=1&numofitems=4:
         link_xpaths:
@@ -319,9 +351,7 @@ attributes:
       http://www.huntingdepot.net/catalog/subcat.asp?cid=100&sort=1&numofitems=4:
         link_xpaths:
         - //table[@class='data_table']//tr/td/p/a/@href
-  size:
-  active: true
-  rate_limits:
+  :rate_limits:
     off_peak:
       start: '23:00'
       duration: 7
@@ -330,6 +360,9 @@ attributes:
       start: '06:01'
       duration: 17
       rate: 7
-  read_at: 2014-01-28 19:00:54.934000000 Z
-  read_interval: 86400
-  commit_sha:
+  :name: Hunting Depot
+  :engine: www.ironsights.com
+  :read_with: RefreshLinksWorker
+  :size:
+  :active: true
+  :read_interval: 1440

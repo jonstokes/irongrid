@@ -8,7 +8,7 @@ end
 
 describe CDN::Image do
   before :each do
-    @site = create_site_from_repo "www.armslist.com"
+    @site = create_site "www.armslist.com"
     Mocktra(@site.domain) do
       get '/images/1.png' do
         send_file "#{Rails.root}/spec/fixtures/images/test-image.png"
