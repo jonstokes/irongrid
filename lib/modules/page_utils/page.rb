@@ -52,9 +52,6 @@ module PageUtils
       end
     end
 
-    def scrub_invalid_chars(raw_body)
-    end
-
     #
     # Nokogiri document for the HTML body
     #

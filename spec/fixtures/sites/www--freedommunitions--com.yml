@@ -49,7 +49,7 @@ site_data:
         type: None
         xpath: //td[@class='vCSS_breadcrumb_td']/b/a[2]
         regexp: !ruby/regexp '/Target|Apparel|Photos/i'
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: Ammunition
         regexp: !ruby/regexp '/.*/'

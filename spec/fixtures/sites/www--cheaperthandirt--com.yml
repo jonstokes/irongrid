@@ -54,17 +54,20 @@ site_data:
       arguments:
         type: Guns
         regexp: !ruby/regexp '/Gun/'
-        name: mc-category
+        attribute: name
+        value: mc-category
     - scraper_method: classify_by_meta_tag
       arguments:
         type: Ammunition
         regexp: !ruby/regexp '/Ammo|Ammunition/i'
-        name: mc-category
+        attribute: name
+        value: mc-category
     - scraper_method: classify_by_meta_tag
       arguments:
         type: Optics
         regexp: !ruby/regexp '/scopes/i'
-        name: mc-category
+        attribute: name
+        value: mc-category
     - scraper_method: classify_by_xpath
       arguments:
         type: Ammunition

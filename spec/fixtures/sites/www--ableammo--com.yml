@@ -9,7 +9,7 @@ site_data:
       listing_type: retail
       item_location: 357 Farm to Market Road 1791  Huntsville, TX 77340
     listing_type:
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: retail
         regexp: !ruby/regexp '/.*/'
@@ -71,11 +71,11 @@ site_data:
         xpath: .//*[@itemprop="availability"]/@content
         regexp: !ruby/regexp '/out_of_stock/'
     item_condition:
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: New
         regexp: !ruby/regexp '/conditioning|conditioner/i'
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: Used
         regexp: !ruby/regexp '/used|condition|like.new/i'

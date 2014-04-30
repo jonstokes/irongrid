@@ -9,7 +9,7 @@ site_data:
       listing_type: retail
       item_location: 2710 South 1900 West, Ogden, UT 84401
     listing_type:
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: retail
         regexp: !ruby/regexp '/.*/'
@@ -80,7 +80,7 @@ site_data:
         xpath: //div[@class="PriceContent"]
         regexp: !ruby/regexp '/Ships On Or Before/i'
     item_condition:
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: Used
         regexp: !ruby/regexp '/used|condition|like.new/i'

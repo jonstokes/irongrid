@@ -64,11 +64,11 @@ site_data:
         xpath: .//div/font[@color="red"]
         regexp: !ruby/regexp '/OUT OF STOCK/'
     listing_type:
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: auction
         regexp: !ruby/regexp '/auction_info.*auctions_id/'
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: retail
         regexp: !ruby/regexp '/product_info.*products_id/'

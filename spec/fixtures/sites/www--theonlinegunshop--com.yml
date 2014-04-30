@@ -37,7 +37,7 @@ site_data:
         xpath: .//span[contains(@class, "VariationProductInventory")]
         regexp: !ruby/regexp '/Sold Out/'
     item_condition:
-    - scraper_method: classify_url_by_regexp
+    - scraper_method: classify_by_url
       arguments:
         type: Used
         regexp: !ruby/regexp '/used|condition|like.new/i'

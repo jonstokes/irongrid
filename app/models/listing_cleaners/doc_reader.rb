@@ -8,20 +8,15 @@ class DocReader
     @respond_to = []
   end
 
-  def at_xpath(args)
-    doc.at_xpath(args)
-  end
-
   def find_by_xpath(arguments)
     nodes = doc.xpath(arguments['xpath'])
-    return nil if nodes.empty?
-    return nil unless target = get_target_text(arguments, nodes)
+    target = get_target_text(arguments, nodes)
     target = asciify_target_text(target)
     return target unless arguments['filters']
     filter_target_text(arguments['filters'], target)
   end
 
-  def classify_url_by_regexp(args)
+  def classify_by_url(args)
     return args['type'] if "#{url}"[args['regexp']]
   end
 
@@ -34,39 +29,63 @@ class DocReader
   end
 
   def classify_by_meta_tag(args)
-    string_methods = [:upcase, :downcase, :capitalize]
-    attribute = args["name"]
-    results = string_methods.map do |method|
-      doc.at_xpath(".//head/meta[@name=\"#{attribute.send(method)}\"]")
+    args['type'] if find_by_meta_tag(args)
+  end
+
+  def meta_property(args)
+    args.merge!('attribute' => 'property')
+    find_by_meta_tag(args)
+  end
+
+  def meta_name(args)
+    args.merge!('attribute' => 'name')
+    find_by_meta_tag(args)
+  end
+
+  def find_by_meta_tag(args)
+    nodes = get_nodes_for_meta_attribute(args)
+    return unless content = get_content_for_meta_nodes(nodes)
+    return content[args['regexp']] if args['regexp']
+    return content
+  end
+
+  def get_nodes_for_meta_attribute(args)
+    attribute = args['attribute']
+    value_variations = [:upcase, :downcase, :capitalize].map { |method| args['value'].send(method) }
+    nodes = value_variations.map do |value|
+      doc.at_xpath(".//head/meta[@#{attribute}=\"#{value}\"]")
     end.compact
-    return nil if results.empty?
-    attributes = results.map { |result| result.attribute("content") }.compact
-    return nil if attributes.empty?
-    attribute = attributes.first.value.strip.squeeze(" ")
-    return nil if attribute.try(:empty?)
-    if args['regexp']
-      return attribute[args['regexp']] ? args['type'] : nil
-    else
-      return args['type']
-    end
+    return if nodes.empty?
+    nodes
+  end
+
+  def get_content_for_meta_nodes(nodes)
+    return unless nodes && nodes.any?
+    contents = nodes.map { |node| node.attribute("content") }.compact
+    return if contents.empty?
+    content = contents.first.value.strip.squeeze(" ")
+    return unless content.present?
+    content
   end
 
   def get_target_text(arguments, nodes)
+    return unless nodes && nodes.any?
+    text_nodes = nodes.map { |node| node.text }.compact
     if regexp = arguments['regexp']
       if arguments['all_nodes']
-        result = nodes.select { |node| node.text && node.text[regexp] }.map(&:text).reduce(&:+)
+        result = text_nodes.select { |node| node[regexp] }.reduce(&:+)
         return result[regexp] if result
       else
-        result = nodes.find { |node| node.text && node.text[regexp] }
-        return result && result.text ? result.text[regexp] : nil
+        result = text_nodes.find { |node| node[regexp] }
+        return result ? result[regexp] : nil
       end
     else
       if arguments['all_nodes']
-        result = nodes.select { |node| node.text && !node.text.strip.empty? }.map(&:text).reduce(&:+)
+        result = text_nodes.select { |node| !node.strip.empty? }.reduce(&:+)
         return result.strip.gsub(/\s+/," ").squeeze(" ") if result
       else
-        result = nodes.find { |node| node.text && !node.text.strip.empty? }
-        return result && result.text ? result.text.strip.squeeze(" ") : nil
+        result = text_nodes.find { |node| !node.strip.empty? }
+        return result ? result.strip.squeeze(" ") : nil
       end
     end
     nil
@@ -75,6 +94,7 @@ class DocReader
   end
 
   def filter_target_text(filters, target)
+    return unless target.present?
     filters.each do |filter|
       break if target.nil?
       if filter["accept"]
@@ -97,55 +117,43 @@ class DocReader
     newstr.to_ascii
   end
 
-  #
-  # Metaprogramming
-  #
   def method_missing(method_id, *arguments, &block)
-    if method_id.to_s['meta_']
-      self.class.send :define_method, method_id do
-        attribute = method_id.to_s.gsub("meta_og_", "")
-        attribute = attribute.gsub("meta_", "")
-        string_methods = [:upcase, :downcase, :capitalize]
-        results = string_methods.map do |method|
-          if method_id.to_s['_og_']
-            doc.at_xpath(".//head/meta[@property=\"og:#{attribute.send(method)}\"]")
-          else
-            doc.at_xpath(".//head/meta[@name=\"#{attribute.send(method)}\"]")
-          end
-        end
-        if results.compact.empty?
-          return nil
-        else
-          attributes = results.compact.map { |result| result.attribute("content") }
-          if attributes.compact.empty?
-            return nil
-          else
-            return_value = attributes.compact.first.value.strip.squeeze(" ")
-            return return_value.empty? ? nil : return_value
-          end
-        end
-      end
-      @respond_to << method_id
-      self.send(method_id)
+    if method_id.to_s[/\Ameta\_/]
+      define_and_call_meta_method(method_id)
     elsif method_id.to_s['schema_']
-      self.class.send :define_method, method_id do
-        attribute = method_id.to_s.gsub("schema_", "")
-        string_methods = [:upcase, :downcase, :capitalize]
-        results = string_methods.map do |method|
-          doc.at_xpath("//*[@itemprop=\"#{attribute.send(method)}\"]")
-        end
-        unless results.compact.empty?
-          result = results.compact.first.text.strip.squeeze(" ")
-          return result.empty? ? nil : result
-        else
-          return nil
-        end
-      end
-      @respond_to << method_id
-      self.send(method_id)
+      define_and_call_schema_method(method_id)
     else
       super
     end
+  end
+
+  def define_and_call_meta_method(method_id)
+    self.class.send :define_method, method_id do
+      value = method_id.to_s.gsub("meta_og_", "").gsub("meta_", "")
+      if method_id.to_s['_og_']
+        meta_property('value' => "og:#{value}")
+      else
+        meta_name('value' => value)
+      end
+    end
+    @respond_to << method_id
+    self.send(method_id)
+  end
+
+  def define_and_call_schema_method(method_id)
+    self.class.send :define_method, method_id do
+      value = method_id.to_s.gsub("schema_", "")
+      string_methods = [:upcase, :downcase, :capitalize]
+      nodes = string_methods.map do |method|
+        doc.at_xpath("//*[@itemprop=\"#{value.send(method)}\"]")
+      end.compact
+      return if nodes.empty?
+      content = nodes.compact.first.text.strip.squeeze(" ")
+      return unless content.present?
+      content
+    end
+    @respond_to << method_id
+    self.send(method_id)
   end
 
   def respond_to?(method_id, include_private = false)
