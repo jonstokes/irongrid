@@ -16,15 +16,16 @@ module PageUtils
     # Fetch a single Page from the response of an HTTP request to *url*.
     # Just gets the final destination page.
     #
-    def fetch_page(url, referer = nil, depth = nil)
-      fetch_pages(url, referer, depth).last
+    def fetch_page(url, opts={})
+      fetch_pages(url, opts).last
     end
 
     #
     # Create new Pages from the response of an HTTP request to *url*,
     # including redirects
     #
-    def fetch_pages(url, referer = nil, depth = nil)
+    def fetch_pages(url, opts={})
+      referer, depth, force_format = opts[:referer], opts[:depth], opts[:force_format]
       begin
         url = URI(url) unless url.is_a?(URI)
         pages = []
@@ -35,7 +36,8 @@ module PageUtils
                                       :referer => referer,
                                       :depth => depth,
                                       :redirect_to => redirect_to,
-                                      :response_time => response_time)
+                                      :response_time => response_time,
+                                      :force_format => force_format)
         end
 
         return pages

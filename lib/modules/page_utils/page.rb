@@ -42,43 +42,40 @@ module PageUtils
       @depth = params[:depth] || 0
       @redirect_to = to_absolute(params[:redirect_to])
       @response_time = params[:response_time]
-      @body = params[:body]
       @error = params[:error]
-
       @fetched = !params[:code].nil?
+      @force_format = params[:force_format]
+      @body = params[:body]
+      if params[:body] && (html? || xml? || @force_format)
+        @body = params[:body].encode('UTF-16', 'UTF-8', {:invalid => :replace, :undef => :replace, :replace => '?'})
+        @body.encode!('UTF-8', 'UTF-16')
+      end
     end
 
-    #
-    # Array of distinct A tag HREFs from the page
-    #
-    def links
-      return @links unless @links.nil?
-      @links = []
-      return @links if !doc
-
-      doc.search("//a[@href]").each do |a|
-        u = a['href']
-        next if u.nil? or u.empty?
-        abs = to_absolute(u) rescue next
-        @links << abs if in_domain?(abs)
-      end
-      @links.uniq!
-      @links
+    def scrub_invalid_chars(raw_body)
     end
 
     #
     # Nokogiri document for the HTML body
     #
     def doc
-      return @doc if @doc
-      @doc = Nokogiri::HTML(@body, @url.to_s) if @body && html? rescue nil
+      @doc ||= begin
+        if image?
+          nil
+        elsif should_parse_as?(:xml)
+          Nokogiri::XML(@body, @url.to_s)
+        elsif should_parse_as?(:html)
+          Nokogiri::HTML(@body, @url.to_s)
+        elsif @body
+          Nokogiri.parse(@body, @url.to_s)
+        end
+      end
     end
 
     #
     # Delete the Nokogiri document and response body to conserve memory
     #
     def discard_doc!
-      links # force parsing of page links before we trash the document
       @doc = @body = nil
     end
 
@@ -118,6 +115,14 @@ module PageUtils
     #
     def html?
       !!(content_type =~ %r{^(text/html|application/xhtml+xml)\b})
+    end
+
+    #
+    # Returns +true+ if the page is a XML document, returns +false+
+    # otherwise.
+    #
+    def xml?
+      !!(content_type =~ %r{^(text/xml|application/xml)\b})
     end
 
     #
@@ -189,7 +194,6 @@ module PageUtils
       {'url' => @url.to_s,
        'headers' => Marshal.dump(@headers),
        'body' => @body,
-       'links' => links.map(&:to_s), 
        'code' => @code,
        'visited' => @visited,
        'depth' => @depth,
@@ -203,7 +207,6 @@ module PageUtils
       page = self.new(URI(hash['url']))
       {'@headers' => Marshal.load(hash['headers']),
        '@body' => hash['body'],
-       '@links' => hash['links'].map { |link| URI(link) },
        '@code' => hash['code'].to_i,
        '@visited' => hash['visited'],
        '@depth' => hash['depth'].to_i,
@@ -215,6 +218,14 @@ module PageUtils
         page.instance_variable_set(var, value)
       end
       page
+    end
+
+    private
+
+    def should_parse_as?(format)
+      return false unless @body
+      return @force_format == format if @force_format
+      send("#{format}?")
     end
   end
 end
