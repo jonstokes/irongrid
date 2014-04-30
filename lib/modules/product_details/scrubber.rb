@@ -195,7 +195,7 @@ module ProductDetails
       end
 
       # S&W
-      str.gsub!(/(\.|\s)(32|38|40|44|460|500)\s{0,1}(s\&w|s & w|s and w|sw)\.?\,?\s+/i) do |match|
+      str.gsub!(/(\.|\s)(32|38|40|44|460|500)\s{0,1}(s\&w|smith \& wesson|smith and wesson|s \& w|s and w|sw)\.?\,?\s+/i) do |match|
         match.sub!(/s\&w|smith \& wesson|smith and wesson|s \& w|s and w|sw/i, " S&W")
       end
       str.squeeze!(" ")
