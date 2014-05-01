@@ -106,7 +106,7 @@ site_data:
       arguments:
         type: Optics
         regexp: !ruby/regexp '/Optic|scope|sight|mount|cantilever|dot/i'
-  :service_options:
+  :link_sources:
     seed_links:
       http://centerfiresystems.com/ammo_brasscase.aspx:
         link_prefix: http://centerfiresystems.com

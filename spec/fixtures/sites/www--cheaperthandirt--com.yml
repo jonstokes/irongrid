@@ -84,7 +84,7 @@ site_data:
         xpath: //div[@class="itemBreadCrumbs"]/a
         regexp: !ruby/regexp '/Gun Gear and Parts|Magazines|pods|Black Powder|Protection|Cases|Cleaning|Gunsmithing|Holsters|Lasers|Lights|Range|Targets|Reloading|Slings|loaders|Universal
           Gun Parts/i'
-  :service_options:
+  :link_sources:
     seed_links:
       http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4675&fmp=Y&fml=Y&pagesize=1000:
         link_prefix: http://www.cheaperthandirt.com

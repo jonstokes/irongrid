@@ -59,7 +59,7 @@ site_data:
         type: Used
         xpath: .//h1[@id='detail_parent_prod_nm']
         regexp: !ruby/regexp '/Used/'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.rockwellarms.com/store/products/firearms/Page/PAGENUM:
         link_prefix: http://www.rockwellarms.com

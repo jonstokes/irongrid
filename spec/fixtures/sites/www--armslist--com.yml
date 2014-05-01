@@ -75,7 +75,7 @@ site_data:
       arguments:
         xpath: //div[@class="message error"]/div[@class="message-content"]
         regexp: !ruby/regexp '/This listing been flagged as a scam/i'
-  :service_options:
+  :link_sources:
     feeds:
     - url: http://www.armslist.com/feed.rss?location=usa
       refresh_interval: 900

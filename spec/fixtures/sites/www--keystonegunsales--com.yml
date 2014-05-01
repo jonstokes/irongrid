@@ -52,7 +52,7 @@ site_data:
         type: Guns
         xpath: //div[@id='content']/div[@class='breadcrumb']/a
         regexp: !ruby/regexp '/Inventory|Rifles|Shotguns|Handguns/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.keystonegunsales.com/inventory/rifles?page=PAGENUM:
         link_xpaths:

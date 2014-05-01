@@ -96,7 +96,7 @@ site_data:
         type: Accessories
         xpath: //div[@class='breadcrumbs']/ul/li[2]/a
         regexp: !ruby/regexp '/AR-15|Reloading/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://palmettostatearmory.com/index.php/ammunition.html?mode=grid&p=PAGENUM:
         start_at_page: 1

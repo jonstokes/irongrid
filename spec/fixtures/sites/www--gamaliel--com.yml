@@ -97,7 +97,7 @@ site_data:
         type: Guns
         xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
         regexp: !ruby/regexp '/Guns/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Ammunition)&search_prod=(searchexact~p.searchfield1~Ammunition)&searchfield1=Ammunition&page=PAGENUM
       : link_prefix: http://www.gamaliel.com/

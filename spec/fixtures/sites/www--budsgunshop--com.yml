@@ -140,7 +140,7 @@ site_data:
       arguments:
         xpath: //table[@class="infoBoxContents"]/tr[2]/td[@class="boxText"]
         regexp: !ruby/regexp '/Product not found/'
-  :service_options:
+  :link_sources:
     seed_links:
       http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1:
         link_xpaths:

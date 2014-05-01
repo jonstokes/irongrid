@@ -68,7 +68,7 @@ site_data:
         type: Accessories
         xpath: //div[@id='product_content']/div[@id='breadcrumbs']
         regexp: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Reloading|Shooting Gear/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13950&pageNumber=PAGENUM:
         start_at_page: 1

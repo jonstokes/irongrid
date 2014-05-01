@@ -51,7 +51,7 @@ describe RefreshLinksWorker do
     end
 
     it "transitions to ScrapePagesWorker if the site is refresh_only" do
-      @site.site_data[:service_options].merge!('refresh_only' => true)
+      @site.site_data[:link_sources].merge!('refresh_only' => true)
       @site.send(:write_to_redis)
       5.times { FactoryGirl.create(:retail_listing) }
       expect {

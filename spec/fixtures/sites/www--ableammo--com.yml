@@ -124,7 +124,7 @@ site_data:
       arguments:
         xpath: //body/table[4]/tr/td[2]/table/tr[1]/td/table/tr/td[@class="pageHeading"][1]
         regexp: !ruby/regexp '/Read What Others Are Saying/'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.ableammo.com/catalog/all-products.php?page=PAGENUM&instock=1&max=200&sort=5a:
         start_at_page: 1

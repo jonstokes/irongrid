@@ -62,7 +62,7 @@ site_data:
         type: Optics
         xpath: //div[@class='breadcrumbs']/ul/li[2]/a
         regexp: !ruby/regexp '/Optic|Scope/i'
-  :service_options:
+  :link_sources:
     seed_links:
       http://www.classicfirearms.com/accessories?cat=34&limit=all:
         link_xpaths:

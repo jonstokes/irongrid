@@ -72,7 +72,7 @@ site_data:
         type: Optics
         xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
         regexp: !ruby/regexp '/Scopes|Optics/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.theonlinegunshop.com/shoppingcart/categories/Hand-Guns/?sort=newest&page=PAGENUM:
         start_at_page: 1

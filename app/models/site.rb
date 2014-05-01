@@ -12,7 +12,7 @@ class Site < CoreModel
     :read_at,
     :adapter,
     :read_with,
-    :service_options,
+    :link_sources,
     :size,
     :active,
     :rate_limits,
@@ -91,7 +91,7 @@ class Site < CoreModel
   end
 
   def refresh_only?
-    !!self.service_options["refresh_only"]
+    !!self.link_sources["refresh_only"]
   end
 
   def respond_to?(method_id, include_private = false)
@@ -164,8 +164,8 @@ class Site < CoreModel
     site_dir = domain.gsub(".","--")
     directory = "../ironsights-sites/sites/#{site_dir}"
 
-    @site_data[:adapter]         = YAML.load_file("#{directory}/adapter_source.yml")
-    @site_data[:service_options] = YAML.load_file("#{directory}/service_options.yml")
+    @site_data[:adapter]         = YAML.load_file("#{directory}/page_adapter.yml")
+    @site_data[:link_sources] = YAML.load_file("#{directory}/link_sources.yml")
     @site_data[:rate_limits]     = YAML.load_file("#{directory}/rate_limits.yml")
     YAML.load_file("#{directory}/attributes.yml").each do |k, v|
       @site_data[k.to_sym] = v
@@ -179,8 +179,8 @@ class Site < CoreModel
 
   def load_from_github
     site_dir = domain.gsub(".","--")
-    @site_data[:adapter]         = YAML.load(fetch_file_from_github("sites/#{site_dir}/adapter_source.yml"))
-    @site_data[:service_options] = YAML.load(fetch_file_from_github("sites/#{site_dir}/service_options.yml"))
+    @site_data[:adapter]         = YAML.load(fetch_file_from_github("sites/#{site_dir}/page_adapter.yml"))
+    @site_data[:link_sources] = YAML.load(fetch_file_from_github("sites/#{site_dir}/link_sources.yml"))
     @site_data[:rate_limits]     = YAML.load(fetch_file_from_github("sites/#{site_dir}/rate_limits.yml"))
     YAML.load(fetch_file_from_github("sites/#{site_dir}/attributes.yml")).each do |k, v|
       @site_data[k.to_sym] = v

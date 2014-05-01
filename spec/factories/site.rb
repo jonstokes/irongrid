@@ -2,10 +2,10 @@ FactoryGirl.define do
   factory :site do
     sequence(:name) { |i| "Seller #{i}" }
     sequence(:domain) { |i| "www.seller-#{i}.com" }
-    adapter_source "---"
+    page_adapter "---"
     engine "www.ironsights.com"
     read_with "RefreshLinksWorker"
-    service_options {}
+    link_sources {}
     active true
     rate_limits {}
     read_at Time.now

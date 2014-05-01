@@ -48,7 +48,7 @@ site_data:
         type: Out Of Stock
         xpath: //div[@id='productGeneral']//ul[@id='productDetailsList']/li[2]
         regexp: !ruby/regexp '/0 Units in Stock/'
-  :service_options:
+  :link_sources:
     compressed_links:
       ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=4&inc_subcat=1&pfrom=0&pto=10000&sort=20a&page=PAGENUM
       : link_xpaths:

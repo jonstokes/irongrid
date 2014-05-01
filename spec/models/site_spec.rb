@@ -4,7 +4,7 @@ describe Site do
 
   # NOTE: Major changes:
   # 1. This now exists entirely in redis as "www.domain.com" => "JSON hash" , and is removed from postgres.
-  # 2. There is no service_options hash. There are only seed_links, some of which
+  # 2. There is no link_sources hash. There are only seed_links, some of which
   #    have a PAGENUM and some don't. The CreateLinksWorker can differentiate between the two.
 
   describe "#initialize" do

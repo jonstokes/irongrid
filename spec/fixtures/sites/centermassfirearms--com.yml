@@ -73,7 +73,7 @@ site_data:
         type: Optics
         xpath: //div[@class='breadcrumbs']/ul/li[3]/a
         regexp: !ruby/regexp '/Optic/i'
-  :service_options:
+  :link_sources:
     seed_links:
       http://centermassfirearms.com/index.php/rifles.html?limit=30:
         link_xpaths:

@@ -19,7 +19,7 @@ class ProductFeedWorker < CoreWorker
     @filename = opts[:filename]
     @feed_url = opts[:feed_url]
     @site = opts[:site] || Site.new(domain: @domain)
-    @service_options = @site.service_options
+    @link_sources = @site.link_sources
     @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)
@@ -83,7 +83,7 @@ class ProductFeedWorker < CoreWorker
   end
 
   def feeds
-    @feeds ||= @service_options["feeds"].map do |feed_opts|
+    @feeds ||= @link_sources["feeds"].map do |feed_opts|
       feed_opts.merge!(filename: @filename, feed_url: @feed_url)
       Feed.new(feed_opts)
     end

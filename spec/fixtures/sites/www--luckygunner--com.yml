@@ -78,7 +78,7 @@ site_data:
         type: Ammunition
         xpath: //div[@class='breadcrumbs']/ul/li[3]/a
         regexp: !ruby/regexp '/Ammo|Ammunition/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.luckygunner.com/catalogsearch/advanced/result?description=&name=&p=PAGENUM&price%5Bfrom%5D=0&price%5Bto%5D=1000000:
         link_xpaths:

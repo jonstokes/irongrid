@@ -65,7 +65,7 @@ site_data:
         type: Guns
         xpath: //div[@class='pcPageNav']/a
         regexp: !ruby/regexp '/Handguns|Rifles|Shotguns|Revolvers|Carbines|Guns|Pistols|Flintlock/i'
-  :service_options:
+  :link_sources:
     seed_links:
       http://www.retailer.com/products:
         link_prefix: http://www.retailer.com/products/

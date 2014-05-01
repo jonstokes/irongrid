@@ -55,7 +55,7 @@ site_data:
         type: Accessories
         xpath: //Category
         regexp: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
-  :service_options:
+  :link_sources:
     feeds:
     - url: http://datafeed.avantlink.com/download_feed.php?id=155991&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status
       product_list_xpath: //Products/Product

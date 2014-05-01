@@ -120,7 +120,7 @@ site_data:
         xpath: //td[@class='breadcrumbs']/a[3]
         regexp: !ruby/regexp '/Gunsmith|Holsters|Laser|Reloading|Slings|Stocks|Stock
           Pads|Software|Cleaning|Cases|Parts|Safes|Sights|Accessories|Actions|Barrels|Bayonets|Chokes|Clips|Magazines/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.gunsinternational.com/gun-classifieds-new-this-week.cfm?start_row=PAGENUM:
         start_at_page: 1

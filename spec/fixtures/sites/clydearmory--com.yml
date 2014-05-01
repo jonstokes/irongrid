@@ -91,7 +91,7 @@ site_data:
         type: Guns
         xpath: //div[@class='breadcrumbs']/ul/li[3]/a
         regexp: !ruby/regexp '/Firearms/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://clydearmory.com/firearms.html?SID=edntbtic7st4dgu1j1294gfq06&limit=30&p=PAGENUM&price=-10000:
         start_at_page: 1

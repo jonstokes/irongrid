@@ -109,7 +109,7 @@ site_data:
         type: Guns
         xpath: //span[contains(@id,"_lblTopBreadcrumb")]/a[@class="crumbs"][2]
         regexp: !ruby/regexp '/Guns|Rifles|Pistols|Revolver|Muzzleloaders/i'
-  :service_options:
+  :link_sources:
     feeds:
     - url: http://www.gunsamerica.com/GunsAmerica.xml
       refresh_interval: 900

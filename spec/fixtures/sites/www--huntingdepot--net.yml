@@ -70,7 +70,7 @@ site_data:
         type: Accessories
         xpath: //div[@class='breadcrumbs']
         regexp: !ruby/regexp '/Accessories|Cases|Cleaning|Gun Care|Concealment|Gunsmithing|Holsters|Muzzleloading|Reoading|Targets|Throwers/i'
-  :service_options:
+  :link_sources:
     seed_links:
       http://www.huntingdepot.net/catalog/subcat.asp?cid=1001&sort=1&numofitems=4:
         link_xpaths:

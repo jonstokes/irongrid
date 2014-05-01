@@ -51,7 +51,7 @@ site_data:
     - scraper_method: find_by_xpath
       arguments:
         xpath: //brand
-  :service_options:
+  :link_sources:
     feeds:
     - url: https://ammo.net/media/feeds/genericammofeed.xml
       refresh_interval: 900

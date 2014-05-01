@@ -70,7 +70,7 @@ site_data:
         type: Guns
         xpath: //h3/a
         regexp: !ruby/regexp '/How to buy this firearm online/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       ? http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=handguns-pistols-guns-firearms-for-sale-online&Page=PAGENUM
       : link_xpaths:

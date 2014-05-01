@@ -99,7 +99,7 @@ site_data:
       arguments:
         xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h3
         regexp: !ruby/regexp '/Unavailable product/'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.hyattgunstore.com/used-firearms/indexPAGENUM.html:
         link_xpaths:

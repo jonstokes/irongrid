@@ -65,7 +65,7 @@ site_data:
         regexp: !ruby/regexp '/Shotguns|Cartridge Handguns|Cartridge Longarms|Muzzleloading
           Handguns|Muzzleloading Longarms|Guns|Cased Guns|Commemorative Guns|Gatling
           Guns|Misc Replica Guns|Reduced Price Guns|Cannons And Kits/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=128&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
       : link_xpaths:

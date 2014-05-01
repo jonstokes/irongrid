@@ -71,14 +71,14 @@ class CreateLinksWorker < CoreWorker
   end
 
   def seed_links
-    @seed_links ||= @site.service_options["seed_links"] || {}
+    @seed_links ||= @site.link_sources["seed_links"] || {}
   end
 
   def compressed_links
     return @compressed_links if @compressed_links
     @compressed_links = {}
-    return @compressed_links unless @site.service_options["compressed_links"]
-    @site.service_options["compressed_links"].each do |link, attrs|
+    return @compressed_links unless @site.link_sources["compressed_links"]
+    @site.link_sources["compressed_links"].each do |link, attrs|
       interval = attrs["step"] || 1
       (attrs["start_at_page"]..attrs["stop_at_page"]).step(interval).each do |page_number|
         @compressed_links.merge!(link.sub("PAGENUM", page_number.to_s) => attrs)

@@ -105,7 +105,7 @@ site_data:
         type: Ammunition
         xpath: //div[@class="breadCrumbs"]/a[3]
         regexp: !ruby/regexp '/Ammo|Ammunition/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.gunauction.com/shop/guns/listed-24hrs/page-PAGENUM:
         start_at_page: 1

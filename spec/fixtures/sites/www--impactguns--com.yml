@@ -111,7 +111,7 @@ site_data:
       arguments:
         xpath: //title
         regexp: !ruby/regexp '/Impact Guns - 404 Error/'
-  :service_options:
+  :link_sources:
     refresh_only: true
   :rate_limits:
     off_peak:

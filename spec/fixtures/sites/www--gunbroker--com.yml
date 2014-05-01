@@ -99,7 +99,7 @@ site_data:
         xpath: //td[@class="categorynav nw llt f2b"]/a[4]
         regexp: !ruby/regexp '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'
         type: Accessories
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.gunbroker.com/Ammunition/BI.aspx?Sort=7&PageIndex=PAGENUM&PageSize=75:
         start_at_page: 1

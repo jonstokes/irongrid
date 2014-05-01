@@ -59,7 +59,7 @@ site_data:
         type: Guns
         xpath: //div[@class='pcPageNav']/a
         regexp: !ruby/regexp '/Handguns|Rifles|Shotguns|Revolvers|Carbines|Guns|Pistols|Flintlock/i'
-  :service_options:
+  :link_sources:
     seed_links:
       ? http://www.emf-company.com/store/pc/showSearchResults.asp?VA=1&ProdSort=&PageStyle=l&customfield=0&SearchValues=&exact=0&keyword=&priceFrom=0&priceUntil=100000&idCategory=0&IdSupplier=0&withStock=&IDBrand=0&order=2
       : link_prefix: http://www.emf-company.com/store/pc/

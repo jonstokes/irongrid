@@ -53,7 +53,7 @@ site_data:
       arguments:
         type: Ammunition
         regexp: !ruby/regexp '/.*/'
-  :service_options:
+  :link_sources:
     seed_links:
       http://extensions.visualmarketing.net/freedom/isinstock?domain=Freedom:
         link_xpaths:

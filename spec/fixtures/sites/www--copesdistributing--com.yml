@@ -75,7 +75,7 @@ site_data:
         type: Ammunition
         xpath: //div[@class='wrapper']/div[@class='breadcrumb']
         regexp: !ruby/regexp '/Ammo|Ammunition/i'
-  :service_options:
+  :link_sources:
     compressed_links:
       http://www.copesdistributing.com/firearms-c-216_217.html?page=PAGENUM:
         link_xpaths:
