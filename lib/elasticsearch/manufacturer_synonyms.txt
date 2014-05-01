@@ -144,7 +144,6 @@ Carbon Express
 Carlisle
 Carlsons
 Carson Optical
-case => Case_&_Sons_Cutlery
 Cass Creek Intl Llc
 Caterpillar
 Cation Choke Tubes
@@ -552,7 +551,7 @@ Phase 5 Tactical
 Phoenix Arms
 Phoenix Technology
 Pioneer Research
-Plano Molding Company
+plano,plano molding => Plano_Molding_Company
 Plinker Tactical
 pmc => PMC_Ammunition
 POF-Usa
