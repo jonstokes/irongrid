@@ -2,7 +2,11 @@ require 'spec_helper'
 require 'sidekiq/testing'
 
 describe SiteStatsService do
-  describe "#perform" do
+  before :each do
+    Sidekiq::Testing.fake!
+  end
+
+  describe "#run", no_es: true do
     it "generates a SiteStatsWorker for each active site" do
       create_site "www.retailer.com"
       create_site "www.budsgunshop.com"

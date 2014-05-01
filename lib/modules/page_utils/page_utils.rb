@@ -1,13 +1,12 @@
 module PageUtils
   MAX_RETRIES = 5
 
-  def get_page(link)
+  def get_page(link, opts={})
     @http ||= PageUtils::HTTP.new
     page = nil
     begin
       tries ||= MAX_RETRIES
-      page = @http.fetch_page(link)
-      #page.headers.merge!("content-type" => ["text/html"]) if Rails.env.test?
+      page = @http.fetch_page(link, opts)
       sleep 0.5
     end until page.try(:doc) || (tries -= 1).zero?
     return if page.nil? || page.not_found? || !page.body.present? || !page.doc

@@ -6,32 +6,105 @@ Sidekiq::Testing.fake!
 describe CreateLinksWorker do
 
   before :each do
-    @site = create_site "www.retailer.com"
     @worker = CreateLinksWorker.new
-    Mocktra(@site.domain) do
-      get '/products' do
-        File.open("#{Rails.root}/spec/fixtures/web_pages/www--retailer--com/products.html") do |file|
-          file.read
-        end
-      end
-    end
-    LinkMessageQueue.new(domain: @site.domain).clear
-    ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
     Sidekiq::Worker.clear_all
   end
 
   describe "#perform" do
-    it "does not add links to the LinkMessageQueue if they're already there" do
-      pending "Example"
+    describe "Product web pages" do
+      before :each do
+        @site = create_site "www.retailer.com"
+        Mocktra(@site.domain) do
+          get '/products' do
+            File.open("#{Rails.root}/spec/fixtures/web_pages/www--retailer--com/products.html") do |file|
+              file.read
+            end
+          end
+        end
+        LinkMessageQueue.new(domain: @site.domain).clear
+        ImageQueue.new(domain: @site.domain).clear
+      end
+
+      it "does not add links to the LinkMessageQueue if they're already there" do
+        pending "Example"
+      end
+
+      it "exits early if the site is being read by another worker" do
+        pending "Example"
+      end
+
+      it "reads a product page and extracts the links into the LinkMessageQueue" do
+        @worker.perform(domain: @site.domain)
+        expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(444)
+      end
     end
 
-    it "exits early if the site is being read by another worker" do
-      pending "Example"
+    describe "RSS and XML link feeds" do
+      before :each do
+        @site = create_site "www.armslist.com"
+        LinkMessageQueue.new(domain: @site.domain).clear
+        ImageQueue.new(domain: @site.domain).clear
+      end
+
+      it "reads an RSS feed and extracts the products into the LinkMessageQueue" do
+        Mocktra(@site.domain) do
+          get '/feed.rss' do
+            File.open("#{Rails.root}/spec/fixtures/rss_feeds/armslist_rss.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        @worker.perform(domain: "www.armslist.com")
+        expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(25)
+        url = "http://www.armslist.com/posts/2841625"
+        expect(LinkMessageQueue.find(url)).not_to be_nil
+        expect(LinkMessageQueue.new(domain: @site.domain).has_key?(url)).to be_true
+        expect(LogRecordWorker.jobs.count).to eq(2)
+      end
+
+      it "does not blow up when the RSS feed 404s" do
+        Mocktra(@site.domain) do
+          get '/feed.rss' do
+            404
+          end
+        end
+        expect {
+          @worker.perform(domain: "www.armslist.com")
+        }.not_to raise_error
+      end
+
+      it "does not blow up when the feed contains UTF-8 chars that Nokogiri can't translate to ASCII" do
+        Mocktra(@site.domain) do
+          get '/feed.rss' do
+            File.open("#{Rails.root}/spec/fixtures/rss_feeds/armslist2_rss.xml") do |file|
+              file.read
+            end
+          end
+        end
+        expect {
+          @worker.perform(domain: "www.armslist.com")
+        }.not_to raise_error
+      end
+
     end
   end
 
   describe "#transition" do
+    before :each do
+      @site = create_site "www.retailer.com"
+      Mocktra(@site.domain) do
+        get '/products' do
+          File.open("#{Rails.root}/spec/fixtures/web_pages/www--retailer--com/products.html") do |file|
+            file.read
+          end
+        end
+      end
+      LinkMessageQueue.new(domain: @site.domain).clear
+      ImageQueue.new(domain: @site.domain).clear
+    end
+
     it "transitions to PruneLinksWorker if there are links in the LinkMessageQueue" do
       @worker.perform(domain: @site.domain)
       expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(444)

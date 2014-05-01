@@ -1,14 +1,22 @@
 require 'spec_helper'
 require 'sidekiq/testing'
-Sidekiq::Testing.disable!
-
 
 describe ReadSitesService do
+  before :each do
+    Sidekiq::Testing.disable!
+    clear_sidekiq
+  end
+
+  after :each do
+    clear_sidekiq
+    Sidekiq::Testing.fake!
+  end
+
   it "should use DMS" do
     pending "Example"
   end
 
-  describe "RefreshLinksWorker sites" do
+  describe "RefreshLinksWorker sites", no_es: true do
     before :each do
       @site = create_site "www.retailer.com"
       @site.update(read_with: "RefreshLinksWorker")
@@ -32,7 +40,7 @@ describe ReadSitesService do
     end
   end
 
-  describe "CreateLinksWorker sites" do
+  describe "CreateLinksWorker sites", no_es: true do
     before :each do
       @site = create_site "www.retailer.com"
       @site.update(read_with: "CreateLinksWorker")
@@ -57,28 +65,17 @@ describe ReadSitesService do
     end
   end
 
-  describe "ProductFeedWorker and LinkFeedWorker sites" do
-    before :each do
+  describe "ProductFeedWorker sites", no_es: true do
+    it "should read an ProductFeedWorker site with the correct worker" do
       @site = create_site "www.retailer.com"
       @service = ReadSitesService.new
       @lq = LinkMessageQueue.new(domain: @site.domain)
       @lq.clear
-    end
-
-    it "should read an ProductFeedWorker site with the correct worker" do
       @site.update(read_at: 10.days.ago)
       @site.update(read_with: "ProductFeedWorker")
       @service.start
       @service.stop
       expect(ProductFeedWorker.jobs_in_flight_with_domain(@site.domain).size).to eq(1)
-    end
-
-    it "should read an LinkFeedWorker site with the correct worker" do
-      @site.update(read_at: 10.days.ago)
-      @site.update(read_with: "LinkFeedWorker")
-      @service.start
-      @service.stop
-      expect(LinkFeedWorker.jobs_in_flight_with_domain(@site.domain).size).to eq(1)
     end
   end
 end

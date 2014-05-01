@@ -2,20 +2,26 @@ require 'spec_helper'
 require 'sidekiq/testing'
 Sidekiq::Testing.disable!
 
-
 describe CdnService do
   before :each do
+    Sidekiq::Testing.disable!
+    clear_sidekiq
     @service = CdnService.new
     @site = create_site "www.retailer.com"
     @iq = ImageQueue.new(domain: @site.domain)
     @iq.clear
   end
 
-  it "should use DMS" do
+  after :each do
+    clear_sidekiq
+    Sidekiq::Testing.fake!
+  end
+
+  it "should use DMS", no_es: true do
     pending "Example"
   end
 
-  describe "#run" do
+  describe "#run", no_es: true do
     it "generates a CreateCdnImagesWorker for a site with a non-empty ImageQueue" do
       5.times { |i| @iq.push "http://www.retailer.com/images/#{i}.png" }
       CreateCdnImagesWorker.perform_async(domain: "www.foo.com")

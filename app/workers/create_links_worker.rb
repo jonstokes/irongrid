@@ -53,17 +53,32 @@ class CreateLinksWorker < CoreWorker
     record_set(:next_jid, next_jid)
   end
 
-  def pull_product_links_from_seed(link)
+  def pull_product_links_from_seed(seed_link)
+    return [] unless page = @rate_limiter.with_limit do
+      get_page(seed_link, force_format: @site.link_list_format)
+    end
     record_incr(:links_crawled)
-    links = []
-    return links unless page = @rate_limiter.with_limit { get_page(link) }
-    xpaths = links_with_attrs[link]["link_xpaths"]
-    xpaths.each { |xpath| links += page.doc.xpath(xpath) unless page.doc.at_xpath(xpath).nil? }
-    links.flatten.compact.map { |product_link| "#{links_with_attrs[link]["link_prefix"]}#{product_link}".sub(/^https/, "http") }.uniq
+    links_in_page(page).flatten.compact.map do |product_link|
+      "#{link_prefix(seed_link)}#{product_link.text}".sub(/^https/, "http")
+    end.uniq
+  end
+
+  def links_in_page(page)
+    link_xpaths(page.url.to_s).map do |xpath|
+      page.doc.xpath(xpath) unless page.doc.at_xpath(xpath).nil?
+    end.compact.flatten
   end
 
   def link_list
     @link_list ||= (seed_links.keys + compressed_links.keys).flatten
+  end
+
+  def link_prefix(link)
+    links_with_attrs[link]["link_prefix"]
+  end
+
+  def link_xpaths(link)
+    links_with_attrs[link]["link_xpaths"]
   end
 
   def links_with_attrs

@@ -1,12 +1,15 @@
 require 'spec_helper'
 require 'sidekiq/testing'
-Sidekiq::Testing.disable!
 
 describe CoreWorker do
   before :each do
-    Sidekiq.redis do |conn|
-      conn.flushdb
-    end
+    Sidekiq::Testing.disable!
+    clear_sidekiq
+  end
+
+  after :each do
+    clear_sidekiq
+    Sidekiq::Testing.fake!
   end
 
   describe "#jobs_in_flight_with_domain" do

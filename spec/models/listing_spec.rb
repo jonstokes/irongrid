@@ -73,12 +73,6 @@ describe Listing do
       }
     }
     @listing_attrs["item_data"].merge!(@geo_data.to_h)
-
-    @page = double()
-    @listing_attrs.each do |k, v| 
-      @page.stub(k) { v }
-    end
-    @page.stub("listing") { @listing_attrs }
     CDN.clear!
   end
 

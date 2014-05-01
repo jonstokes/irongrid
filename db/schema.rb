@@ -82,12 +82,12 @@ ActiveRecord::Schema.define(version: 20140423144800) do
   create_table "sites", force: true do |t|
     t.string   "name",                null: false
     t.string   "domain",              null: false
-    t.text     "page_adapter",      null: false
+    t.text     "adapter_source",      null: false
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.string   "engine"
     t.string   "scrape_with_service"
-    t.text     "link_sources"
+    t.text     "service_options"
     t.integer  "size"
     t.boolean  "active"
     t.text     "rate_limits"

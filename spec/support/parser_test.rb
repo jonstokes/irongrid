@@ -1,3 +1,12 @@
+RSpec.configure do |config|
+  config.before :each do
+    if example.metadata[:parser_tests] == true
+      create_parser_tests
+    end
+  end
+end
+
+
 def load_listing_source(type, seller, item)
   url = html = nil
   pt = create_parser_test(item)
@@ -15,17 +24,6 @@ def pages_from_parser_tests(opts)
       html: open(pt.html_on_s3).read
     }
   end
-end
-
-def create_scraper_double(new_attrs)
-  new_page = double()
-  new_page.stub("listing") { new_attrs }
-  new_page.stub("image") { new_attrs["image"] }
-  new_page.stub("full_image_url") { "http://rspec.com/foobar.jpg" }
-  new_page.stub("cdn_name") { get_cdn_name(new_page.full_image_url) }
-  new_page.stub("cdn_image_url") { get_cdn_image_url(new_page.cdn_name) }
-  new_page.stub("url") { new_attrs["url"] }
-  new_page
 end
 
 def create_parser_tests
@@ -52,16 +50,4 @@ def create_parser_test(title)
     end
   end
   pt
-end
-
-def create_site(domain)
-  site = Site.new(domain: domain, source: :fixture)
-  site.send(:write_to_redis)
-  site
-end
-
-def create_sites
-  YAML.load_file("#{Rails.root}/spec/fixtures/sites/manifest.yml").each do |domain|
-    Site.new(domain: domain, source: :fixture).send(:write_to_redis)
-  end
 end

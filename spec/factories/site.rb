@@ -13,7 +13,7 @@ FactoryGirl.define do
   end
 
   trait :rss do
-    read_with "LinkFeedWorker"
+    read_with "CreateLinksworker"
   end
 
   trait :affiliates do

@@ -110,11 +110,10 @@ site_data:
         xpath: //span[contains(@id,"_lblTopBreadcrumb")]/a[@class="crumbs"][2]
         regexp: !ruby/regexp '/Guns|Rifles|Pistols|Revolver|Muzzleloaders/i'
   :link_sources:
-    feeds:
-    - url: http://www.gunsamerica.com/GunsAmerica.xml
-      refresh_interval: 900
-      product_list_xpath: //channel/item
-      product_link_xpath: //link
+    seed_links:
+      http://www.gunsamerica.com/GunsAmerica.xml:
+        link_xpaths:
+        - '//item/link'
   :rate_limits:
     off_peak:
       start: '23:00'
@@ -126,7 +125,6 @@ site_data:
       rate: 2
   :name: Guns America
   :engine: www.ironsights.com
-  :read_with: LinkFeedWorker
-  :size:
+  :read_with: CreateLinksWorker
   :active: true
   :read_interval: 3600
