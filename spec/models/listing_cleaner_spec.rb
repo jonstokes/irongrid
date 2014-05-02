@@ -4,7 +4,7 @@ require 'digest/md5'
 describe ListingCleaner do
   before :all do
     @site = create_site "www.hyattgunstore.com"
-    @site.validation["retail"] = "true"
+    @site.page_adapter['validation']['retail'] = "true"
     create_parser_tests
   end
 

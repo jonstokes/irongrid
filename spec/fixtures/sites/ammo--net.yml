@@ -1,7 +1,7 @@
 ---
 site_data:
   :domain: ammo.net
-  :adapter:
+  :page_adapter:
     validation:
       retail: raw['price'] && raw['title'] && raw['image']
     seller_defaults:

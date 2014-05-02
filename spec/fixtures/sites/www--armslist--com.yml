@@ -1,7 +1,7 @@
 ---
 site_data:
   :domain: www.armslist.com
-  :adapter:
+  :page_adapter:
     seller_defaults:
       listing_type: classified
     validation:

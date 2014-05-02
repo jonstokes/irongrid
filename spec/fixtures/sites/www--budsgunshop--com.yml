@@ -1,7 +1,7 @@
 ---
 site_data:
   :domain: www.budsgunshop.com
-  :adapter:
+  :page_adapter:
     validation:
       retail: (raw['price'] || raw['sale_price'] || raw['stock_status'] || raw['price_on_request']) && raw['title']
       auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']

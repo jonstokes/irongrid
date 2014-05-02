@@ -1,7 +1,7 @@
 ---
 site_data:
   :domain: palmettostatearmory.com
-  :adapter:
+  :page_adapter:
     validation:
       retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
     seller_defaults:

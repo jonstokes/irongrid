@@ -1,7 +1,7 @@
 ---
 site_data:
   :domain: www.luckygunner.com
-  :adapter:
+  :page_adapter:
     validation:
       retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
     seller_defaults:

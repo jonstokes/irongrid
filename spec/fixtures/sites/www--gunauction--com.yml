@@ -1,12 +1,11 @@
 ---
 site_data:
   :domain: www.gunauction.com
-  :adapter:
+  :page_adapter:
     validation:
       auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']
     seller_defaults:
       listing_type: auction
-      timezone: Pacific Time (US & Canada)
     digest_attributes:
     - defaults
     - url
@@ -131,3 +130,4 @@ site_data:
   :size:
   :active: true
   :read_interval: 3600
+  :timezone: Pacific Time (US & Canada)

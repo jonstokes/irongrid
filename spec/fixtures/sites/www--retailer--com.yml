@@ -7,7 +7,7 @@ site_data:
   :active: true
   :read_interval: 86400
   :domain: www.retailer.com
-  :adapter:
+  :page_adapter:
     validation:
       retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
     seller_defaults:

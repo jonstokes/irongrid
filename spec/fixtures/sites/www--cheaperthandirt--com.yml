@@ -1,7 +1,7 @@
 ---
 site_data:
   :domain: www.cheaperthandirt.com
-  :adapter:
+  :page_adapter:
     seller_defaults:
       condition: new
       listing_type: retail

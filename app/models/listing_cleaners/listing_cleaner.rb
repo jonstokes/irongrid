@@ -1,5 +1,9 @@
 class ListingCleaner < CoreModel
-  attr_reader :raw_listing, :site, :url, :scrubbed, :normalized, :es_objects, :metadata, :keywords, :description
+  attr_reader :raw_listing, :site, :adapter, :url, :scrubbed, :normalized,
+    :es_objects, :metadata, :keywords, :description
+
+  delegate :name, :domain, :timezone, to: :site, prefix: :seller
+  delegate :affiliate_link_tag, to: :site
 
   # Rails complains about circular dependencies if I don't do this
   ITEM_DATA_ATTRIBUTES = Listing::ITEM_DATA_ATTRIBUTES
@@ -31,6 +35,7 @@ class ListingCleaner < CoreModel
 
   def initialize(opts)
     @raw_listing, @site, @url = opts[:raw_listing], opts[:site], opts[:url]
+    @adapter = opts[:adapter] || @site.page_adapter
     @keywords = raw_listing['keywords']
     @description = raw_listing['description']
 
@@ -95,7 +100,7 @@ class ListingCleaner < CoreModel
 
   def digest
     digest_string = ""
-    @site.digest_attributes(default_digest_attributes).each do |attr|
+    adapter.digest_attributes(default_digest_attributes).each do |attr|
       if ES_OBJECTS.include?(attr)
         digest_string << "#{es_objects[attr.to_sym]}"
       elsif send(attr)
@@ -103,20 +108,6 @@ class ListingCleaner < CoreModel
       end
     end
     Digest::MD5.hexdigest(digest_string)
-  end
-
-  def seller_domain
-    #This is needed for some digest calculations
-    site.domain
-  end
-
-  def seller_name
-    #This is used in the Parser Tests
-    site.name
-  end
-
-  def affiliate_link_tag
-    site.affiliate_link_tag
   end
 
   def price_per_round_in_cents
@@ -157,14 +148,14 @@ class ListingCleaner < CoreModel
     elsif raw_listing['condition_used']
       return "Used"
     else
-      site.default_condition.try(:titleize) || "Unknown"
+      adapter.default_condition.try(:titleize) || "Unknown"
     end
   end
 
   def item_location
     @item_location ||= begin
       loc = raw_listing['item_location']
-      loc && !loc.blank? ? loc : site.default_item_location
+      loc && !loc.blank? ? loc : adapter.default_item_location
     end
   end
 
@@ -308,7 +299,7 @@ class ListingCleaner < CoreModel
   end
 
   def default_categorize(cat)
-    return unless value = site.send("default_#{cat}")
+    return unless value = adapter.send("default_#{cat}")
     { cat => value, "classification_type" => "default" }
   end
 
@@ -373,7 +364,7 @@ class ListingCleaner < CoreModel
 
   def validation_string
     validation_type = type.split("Listing").first.downcase
-    site.validation[validation_type].gsub("raw", "raw_listing").gsub("clean", "listing")
+    adapter.validation[validation_type].gsub("raw", "raw_listing").gsub("clean", "listing")
   end
 
   #
@@ -382,14 +373,13 @@ class ListingCleaner < CoreModel
 
   def clean_up_image_url(link)
     return unless retval = URI.encode(link)
-    retval = "#{site.image_prefix}#{retval}" if !is_valid_url?(retval) && site.image_prefix
     return retval unless retval["?"]
     retval.split("?").first
   end
 
   def convert_time(time)
     return unless time
-    Time.zone = site.seller_default_timezone ? site.seller_default_timezone : DEFAULT_LISTING_TIMEZONE
+    Time.zone = seller_timezone || DEFAULT_LISTING_TIMEZONE
     begin
       Time.zone.parse(time).utc || Time.strptime(time, "%m/%d/%Y %H:%M:%S").utc
     rescue ArgumentError

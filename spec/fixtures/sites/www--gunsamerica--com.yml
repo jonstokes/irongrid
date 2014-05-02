@@ -1,10 +1,9 @@
 ---
 site_data:
   :domain: www.gunsamerica.com
-  :adapter:
+  :page_adapter:
     seller_defaults:
       listing_type: classified
-      timezone: Eastern Time (US & Canada)
     validation:
       auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']
       classified: raw['title'] && raw['item_location'] && raw['price']
@@ -128,3 +127,5 @@ site_data:
   :read_with: CreateLinksWorker
   :active: true
   :read_interval: 3600
+  :timezone: Eastern Time (US & Canada)
+

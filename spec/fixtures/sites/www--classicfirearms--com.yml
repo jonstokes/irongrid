@@ -1,7 +1,7 @@
 ---
 site_data:
   :domain: www.classicfirearms.com
-  :adapter:
+  :page_adapter:
     validation:
       retail: (raw['price'] || raw['stock_status']) && raw['title']
     seller_defaults:

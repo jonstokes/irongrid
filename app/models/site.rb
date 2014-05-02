@@ -10,7 +10,8 @@ class Site < CoreModel
     :created_at,
     :updated_at,
     :read_at,
-    :adapter,
+    :page_adapter,
+    :feed_adapter,
     :read_with,
     :link_list_format,
     :link_sources,
@@ -20,12 +21,18 @@ class Site < CoreModel
     :read_interval,
     :commit_sha,
     :stats,
-    :affiliate_link_tag
+    :affiliate_link_tag,
+    :timezone
   ]
 
   SITE_ATTRIBUTES.each do |key|
     define_method key do
-      @site_data[key]
+      if key.to_s[/\_adapter/]
+        var = eval("@#{key}")
+        var ||= Adapter.new(@site_data[key])
+      else
+        @site_data[key]
+      end
     end
   end
 
@@ -50,14 +57,6 @@ class Site < CoreModel
     write_to_redis
   end
 
-  def digest_attributes(defaults)
-    return defaults unless attrs = adapter["digest_attributes"]
-    return attrs unless attrs.include?("defaults")
-    attrs = defaults + attrs # order matters here, so no +=
-    attrs.delete("defaults")
-    attrs
-  end
-
   def rate_limit
     return 5 unless self.rate_limits
     myzone = "America/Chicago"
@@ -75,13 +74,6 @@ class Site < CoreModel
     update(read_at: Time.now.utc)
   end
 
-  def default_seller_timezone
-    # This was originally necessary when Site was an AR model,
-    # because ActiveRecord::Base has a default_timezone method
-    return nil unless seller_defaults
-    self.seller_defaults["timezone"]
-  end
-
   def should_read?
     return true unless read_at && read_interval
     Time.now.utc > read_at + read_interval
@@ -93,10 +85,6 @@ class Site < CoreModel
 
   def refresh_only?
     !!self.link_sources["refresh_only"]
-  end
-
-  def respond_to?(method_id, include_private = false)
-    @respond_to && @respond_to.include?(method_id) ? true : super
   end
 
   def self.domains
@@ -140,20 +128,6 @@ class Site < CoreModel
     end
   end
 
-  def method_missing(method_id, *arguments, &block)
-    @respond_to ||= Set.new
-    if adapter.has_key?(method_id.to_s)
-      @respond_to << method_id
-      adapter[method_id.to_s]
-    elsif method_id.to_s["default_"] && self.seller_defaults
-      @respond_to << method_id
-      default = "#{method_id}".split("default_").last
-      self.seller_defaults[default]
-    else
-      nil
-    end
-  end
-
   def load_from_redis
     @site_data = IRONGRID_REDIS_POOL.with do |conn|
       YAML.load(conn.get("site--#{domain}"))
@@ -165,9 +139,9 @@ class Site < CoreModel
     site_dir = domain.gsub(".","--")
     directory = "../ironsights-sites/sites/#{site_dir}"
 
-    @site_data[:adapter]         = YAML.load_file("#{directory}/page_adapter.yml")
+    @site_data[:page_adapter] = YAML.load_file("#{directory}/page_adapter.yml")
     @site_data[:link_sources] = YAML.load_file("#{directory}/link_sources.yml")
-    @site_data[:rate_limits]     = YAML.load_file("#{directory}/rate_limits.yml")
+    @site_data[:rate_limits]  = YAML.load_file("#{directory}/rate_limits.yml")
     YAML.load_file("#{directory}/attributes.yml").each do |k, v|
       @site_data[k.to_sym] = v
     end
@@ -180,9 +154,9 @@ class Site < CoreModel
 
   def load_from_github
     site_dir = domain.gsub(".","--")
-    @site_data[:adapter]         = YAML.load(fetch_file_from_github("sites/#{site_dir}/page_adapter.yml"))
+    @site_data[:page_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/page_adapter.yml"))
     @site_data[:link_sources] = YAML.load(fetch_file_from_github("sites/#{site_dir}/link_sources.yml"))
-    @site_data[:rate_limits]     = YAML.load(fetch_file_from_github("sites/#{site_dir}/rate_limits.yml"))
+    @site_data[:rate_limits]  = YAML.load(fetch_file_from_github("sites/#{site_dir}/rate_limits.yml"))
     YAML.load(fetch_file_from_github("sites/#{site_dir}/attributes.yml")).each do |k, v|
       @site_data[k.to_sym] = v
     end

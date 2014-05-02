@@ -71,6 +71,10 @@ class Listing < ActiveRecord::Base
     "#{self[:url]}#{affiliate_link_tag}"
   end
 
+  def bare_url
+    self[:url]
+  end
+
   def update_and_dirty!(attrs)
     attrs.merge(update_count: self.dirty)
     self.item_data_will_change!

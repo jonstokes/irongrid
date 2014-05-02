@@ -15,7 +15,7 @@ describe Site do
       expect(site.read_with).to eq("RefreshLinksWorker")
       expect(site.active).to eq(true)
       expect(site.read_interval).to eq(1440)
-      expect(site.adapter.keys).to include("title")
+      expect(site.page_adapter.keys).to include("title")
     end
 
     it "should load its data from fixtures when source: is :fixture" do
@@ -25,7 +25,7 @@ describe Site do
       expect(site.read_with).to eq("RefreshLinksWorker")
       expect(site.active).to eq(true)
       expect(site.read_interval).to eq(86400)
-      expect(site.adapter.keys).to include("title")
+      expect(site.page_adapter.keys).to include("title")
     end
 
     it "should load its data from redis when source: is :redis" do
@@ -36,7 +36,7 @@ describe Site do
       expect(site.read_with).to eq("RefreshLinksWorker")
       expect(site.active).to eq(true)
       expect(site.read_interval).to eq(86400)
-      expect(site.adapter.keys).to include("title")
+      expect(site.page_adapter.keys).to include("title")
     end
 
     it "should load its data from github when source: is :github" do

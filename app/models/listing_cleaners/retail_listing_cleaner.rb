@@ -22,7 +22,7 @@ class RetailListingCleaner < ListingCleaner
     elsif raw_listing['out_of_stock_message']
       return "Out Of Stock"
     else
-      site.default_stock_status.try(:titleize) || "N/A"
+      adapter.default_stock_status.try(:titleize) || "N/A"
     end
   end
 
