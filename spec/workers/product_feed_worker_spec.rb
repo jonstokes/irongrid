@@ -5,7 +5,7 @@ Sidekiq::Testing.fake!
 
 describe ProductFeedWorker do
   describe "#perform" do
-    describe "Write to listings table from generic ammo feed" do
+    describe "Write to listings table from a generic feed" do
       before :each do
         @site = create_site "ammo.net"
         LinkMessageQueue.new(domain: @site.domain).clear
@@ -52,6 +52,22 @@ describe ProductFeedWorker do
         expect(msg.page_attributes["item_data"]["price_in_cents"]).to eq(1150)
         expect(msg.page_is_valid?).to be_true
         expect(msg.page_not_found?).to be_false
+      end
+
+      it "removes a link from the LMQ before updating if the RefreshLinksWorker had added it" do
+        Mocktra(@site.domain) do
+          get '/media/feeds/genericammofeed.xml' do
+            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+        url = "http://ammo.net/prvi-partizan-380-acp-ammo-50-rounds-94-grain-fmj-380-acp-ammunition-from-prvi-partizan"
+        LinkMessageQueue.add(LinkMessage.new(url: url))
+        ProductFeedWorker.new.perform(domain: @site.domain)
+        expect(WriteListingWorker.jobs.count).to eq(18)
+        expect(LogRecordWorker.jobs.count).to eq(2)
+        expect(LinkMessageQueue.has_key?(url)).to be_false
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do

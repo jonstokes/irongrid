@@ -5,9 +5,8 @@ class ProductFeedWorker < CoreWorker
   LOG_RECORD_SCHEMA = {
     db_writes:        Integer,
     images_added:     Integer,
-    listings_deleted: Integer
+    links_created:    Integer
   }
-
 
   sidekiq_options :queue => :crawls, :retry => false
 
@@ -17,9 +16,7 @@ class ProductFeedWorker < CoreWorker
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
     @filename = opts[:filename]
-    @feed_url = opts[:feed_url]
     @site = opts[:site] || Site.new(domain: @domain)
-    @link_sources = @site.link_sources
     @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)
@@ -29,12 +26,21 @@ class ProductFeedWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
+    return transition unless @site.feeds # This hands off to the legacy CreateLinksWorker
     track
-    feeds.each do |feed|
-      create_update_or_delete_products(feed)
-    end
+    check_feeds
     clean_up
     stop_tracking
+  end
+
+  def check_feeds
+    site.feeds.each do |feed|
+      if feed.products.any?
+        create_or_update_products_from_feed(feed)
+      else
+        add_links_from_feed(feed)
+      end
+    end
   end
 
   def clean_up
@@ -42,50 +48,31 @@ class ProductFeedWorker < CoreWorker
     @site.mark_read!
   end
 
-  def create_update_or_delete_products(feed)
-    notify "  Checking feed #{feed.feed_url} with #{feed.product_count} items..."
+  def transition
+    CreateLinksWorker.new(domain: @site.domain)
+  end
+
+  def create_or_update_products_from_feed(feed)
+    notify "  Checking feed #{feed.feed_url} with #{feed.products.count} products..."
     feed.each_product do |product|
-      action = :no_action
-      if (product[:status] == "Removed")
-        action = delete_listing(product[:url])
-      else
-        action = create_or_update_listing(product)
-      end
+      create_or_update_listing(product)
       record_incr(:db_writes)
     end
   end
 
-  def create_or_update_listing(opts)
-    @scraper.parse(opts)
-    return :invalid unless @scraper.is_valid?
-    url = opts[:url]
-    update_image
-    msg = LinkMessage.new(
-      url: url,
-      page_is_valid: true,
-      page_not_found: false,
-      page_attributes: @scraper.listing
-    )
-    WriteListingWorker.perform_async(msg.to_h)
-    :created_or_updated
-  end
-
-  def delete_listing(url)
-    record_incr(:listings_deleted)
-    msg = LinkMessage.new(
-      url: url,
-      page_is_valid: false,
-      page_not_found: true,
-      page_attributes: nil
-    )
-    WriteListingWorker.perform_async(msg.to_h)
-    :deleted
-  end
-
-  def feeds
-    @feeds ||= @link_sources["feeds"].map do |feed_opts|
-      feed_opts.merge!(filename: @filename, feed_url: @feed_url)
-      Feed.new(feed_opts)
+  def add_links_from_feed(feed)
+    notify "  Checking feed #{feed.feed_url} with #{feed.links.count} links..."
+    feed.each_link do |link|
+      record_incr(:links_created) unless @link_store.add(LinkMessage.new(url: link)).zero?
     end
+  end
+
+  def create_or_update_listing(opts)
+    @scraper.parse(opts.merge(adapter_type: :feed))
+    update_image
+    msg = LinkMessage.new(@scraper)
+    @link_store.rem(msg.url) # Just in case RefreshLinksWorker had added this url to the LinkMessageQueue
+    WriteListingWorker.perform_async(msg.to_h)
+    @scraper.empty!
   end
 end

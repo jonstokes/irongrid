@@ -10,7 +10,6 @@ class ListingScraper < CoreModel
 
   def parse(opts)
     empty!
-    url = opts[:url]
     @doc = opts[:doc]
     @adapter = (opts[:adapter_type] == :feed) ? @site.feed_adapter : @site.page_adapter
     @raw_listing = RawListing.new(opts.merge(adapter: @adapter))
@@ -18,7 +17,7 @@ class ListingScraper < CoreModel
     @clean_listing = eval("#{type}Cleaner").new(
       raw_listing: @raw_listing,
       site:        @site,
-      url:         url,
+      url:         opts[:url],
       adapter:     @adapter
     )
   end

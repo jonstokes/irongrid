@@ -28,6 +28,7 @@ class LinkMessage
   def initialize(attrs)
     new_from_hash(attrs) if attrs.is_a?(Hash)
     new_from_listing(attrs) if attrs.is_a?(Listing)
+    new_from_scraper(attrs) if attrs.is_a?(ListingScraper)
   end
 
   def update(attrs)
@@ -57,6 +58,15 @@ class LinkMessage
       url:            listing.bare_url,
       listing_id:     listing.id,
       listing_digest: listing.digest,
+    }
+  end
+
+  def new_from_scraper(scraper)
+    @data = {
+      url:             scraper.url,
+      page_is_valid:   scraper.is_valid?,
+      page_not_found:  scraper.not_found?,
+      page_attributes: scraper.listing
     }
   end
 
