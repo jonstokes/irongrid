@@ -92,6 +92,5 @@ site_data:
   :name: Armslist
   :engine: www.ironsights.com
   :read_with: RefreshLinksWorker
-  :link_list_format: xml
   :active: true
   :read_interval: 1800

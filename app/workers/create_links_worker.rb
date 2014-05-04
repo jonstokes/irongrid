@@ -55,7 +55,7 @@ class CreateLinksWorker < CoreWorker
 
   def pull_product_links_from_seed(seed_link)
     return [] unless page = @rate_limiter.with_limit do
-      get_page(seed_link, force_format: @site.link_list_format)
+      get_page(seed_link)
     end
     record_incr(:links_crawled)
     links_in_page(page).flatten.compact.map do |product_link|

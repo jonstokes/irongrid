@@ -13,7 +13,6 @@ class Site < CoreModel
     :page_adapter,
     :feed_adapter,
     :read_with,
-    :link_list_format,
     :link_sources,
     :size,
     :active,
