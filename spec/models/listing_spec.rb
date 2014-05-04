@@ -140,6 +140,66 @@ describe Listing do
       expect(listing.digest).to eq("bbbb")
       expect(listing.update_count).to eq(1)
     end
+
+    it "does not overwrite existing hard-classified page attributes with metadata- or soft-classified updates" do
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".22LR", "classification_type" => "hard"]
+      )
+      listing = Listing.create(attrs)
+      new_attrs = @listing_attrs.dup
+      new_attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".17WMR", "classification_type" => "soft"]
+      )
+      listing = Listing.first
+      listing.update_and_dirty!(new_attrs)
+      expect(listing.item_data["caliber"]).to eq(["caliber" => ".22LR", "classification_type" => "hard"])
+    end
+
+    it "overwrites existing hard-classified page attributes with hard-classified updates" do
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".22LR", "classification_type" => "hard"]
+      )
+      listing = Listing.create(attrs)
+      new_attrs = @listing_attrs.dup
+      new_attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".17WMR", "classification_type" => "hard"]
+      )
+      listing = Listing.first
+      listing.update_and_dirty!(new_attrs)
+      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "hard"])
+    end
+
+    it "overwrites existing metadata-classified page attributes with hard-classified updates" do
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".22LR", "classification_type" => "metadata"]
+      )
+      listing = Listing.create(attrs)
+      new_attrs = @listing_attrs.dup
+      new_attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".17WMR", "classification_type" => "hard"]
+      )
+      listing = Listing.first
+      listing.update_and_dirty!(new_attrs)
+      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "hard"])
+    end
+
+    it "overwrites existing soft-classified page attributes with metadata-classified updates" do
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".22LR", "classification_type" => "soft"]
+      )
+      listing = Listing.create(attrs)
+      new_attrs = @listing_attrs.dup
+      new_attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".17WMR", "classification_type" => "metadata"]
+      )
+      listing = Listing.first
+      listing.update_and_dirty!(new_attrs)
+      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "metadata"])
+    end
   end
 
   describe "#dirty!" do
