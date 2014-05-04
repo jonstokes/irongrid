@@ -56,6 +56,28 @@ describe Site do
     end
   end
 
+  describe "#feeds" do
+    it "returns an array of Feed objects for the site's feeds" do
+      pending "Example"
+    end
+
+    it "expands links with PAGENUM in the into the correct number of individual feeds" do
+      pending "Example"
+      expect(site.feeds.count).to eq(100)
+    end
+
+    it "should properly expand each link" do
+      pending "Example"
+      feed = site.feeds.detect { |feed| feed.feed_url == "http://foo.com" }
+      expect(feed).to be_a(Feed)
+    end
+
+    it "is empty if there are no feeds" do
+      pending "Example"
+      expect(site.feeds).to be_empty
+    end
+  end
+
   describe "#udpate" do
     it "should update a string of attributes in redis" do
       site = create_site "www.retailer.com"
