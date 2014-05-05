@@ -17,6 +17,7 @@ class ProductFeedWorker < CoreWorker
     return false unless @domain = opts[:domain]
     @filename = opts[:filename]
     @site = opts[:site] || Site.new(domain: @domain)
+    @link_store = LinkMessageQueue.new(domain: @domain)
     @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)

@@ -4,10 +4,14 @@ require 'sidekiq/testing'
 Sidekiq::Testing.fake!
 
 describe ProductFeedWorker do
+  before :each do
+    @worker = ProductFeedWorker.new
+  end
+
   describe "#perform" do
     describe "write to listings table from a generic full product feed" do
       before :each do
-        @site = create_site "ammo.net"
+        @site = create_site "ammo.net", source: :local
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
         CDN.clear!
@@ -23,7 +27,7 @@ describe ProductFeedWorker do
           end
         end
 
-        ProductFeedWorker.new.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(18)
         expect(LogRecordWorker.jobs.count).to eq(2)
         job = WriteListingWorker.jobs.first
@@ -43,7 +47,7 @@ describe ProductFeedWorker do
           end
         end
 
-        ProductFeedWorker.new.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(18)
         job = WriteListingWorker.jobs.first
         msg = LinkMessage.new(job["args"].first)
@@ -63,8 +67,8 @@ describe ProductFeedWorker do
           end
         end
         url = "http://ammo.net/prvi-partizan-380-acp-ammo-50-rounds-94-grain-fmj-380-acp-ammunition-from-prvi-partizan"
-        LinkMessageQueue.add(LinkMessage.new(url: url))
-        ProductFeedWorker.new.perform(domain: @site.domain)
+        LinkMessageQueue.new(domain: @site.domain).add(LinkMessage.new(url: url))
+        @worker.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(18)
         expect(LogRecordWorker.jobs.count).to eq(2)
         expect(LinkMessageQueue.has_key?(url)).to be_false
@@ -79,7 +83,7 @@ describe ProductFeedWorker do
           end
         end
 
-        ProductFeedWorker.new.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain)
         iq = ImageQueue.new(domain: @site.domain)
         expect(iq.size).to eq(18)
         expect(iq.pop).to match(/cloudfront\.net/)
@@ -88,7 +92,7 @@ describe ProductFeedWorker do
 
     describe "write to listings table from Avanlink feed" do
       before :each do
-        @site = create_site "www.brownells.com"
+        @site = create_site "www.brownells.com", source: :local
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
         CDN.clear!
@@ -104,7 +108,7 @@ describe ProductFeedWorker do
           end
         end
 
-        ProductFeedWorker.new.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(4)
         expect(LogRecordWorker.jobs.count).to eq(2)
         job = WriteListingWorker.jobs.first
@@ -124,7 +128,7 @@ describe ProductFeedWorker do
           end
         end
 
-        ProductFeedWorker.new.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(4)
         job = WriteListingWorker.jobs.first
         msg = LinkMessage.new(job["args"].first)
@@ -144,12 +148,12 @@ describe ProductFeedWorker do
           end
         end
 
-        ProductFeedWorker.new.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(4)
         job = WriteListingWorker.jobs.first
         msg = LinkMessage.new(job["args"].first)
         expect(msg.url).to match(/avantlink\.com/)
-        expect(msg.page_attributes).to be_nil
+        expect(msg.page_attributes['item_data']['availability']).to eq('out_of_stock')
         expect(msg.page_is_valid?).to be_false
         expect(msg.page_not_found?).to be_true
       end
@@ -163,7 +167,7 @@ describe ProductFeedWorker do
           end
         end
 
-        ProductFeedWorker.new.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain)
         iq = ImageQueue.new(domain: @site.domain)
         expect(iq.size).to eq(4)
         expect(iq.pop).to match(/brownells\.com/)
@@ -172,7 +176,7 @@ describe ProductFeedWorker do
 
     describe "populate LMQ from web pages" do
       before :each do
-        @site = create_site "www.retailer.com"
+        @site = create_site "www.feed-retailer.com", source: :local
         Mocktra(@site.domain) do
           get '/products' do
             File.open("#{Rails.root}/spec/fixtures/web_pages/www--retailer--com/products.html") do |file|
@@ -200,7 +204,7 @@ describe ProductFeedWorker do
 
     describe "populate LMQ from RSS and XML link feeds" do
       before :each do
-        @site = create_site "www.armslist.com"
+        @site = create_site "www.armslist.com", source: :local
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
       end
@@ -249,7 +253,7 @@ describe ProductFeedWorker do
 
     describe "internals" do
       before :each do
-        @site = create_site "www.brownells.com"
+        @site = create_site "www.brownells.com", source: :local
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
         CDN.clear!
@@ -263,7 +267,7 @@ describe ProductFeedWorker do
           end
         end
         expect {
-          ProductFeedWorker.new.perform(domain: @site.domain)
+          @worker.perform(domain: @site.domain)
         }.not_to raise_error
       end
 
@@ -274,12 +278,12 @@ describe ProductFeedWorker do
           end
         end
         expect {
-          ProductFeedWorker.new.perform(domain: @site.domain)
+          @worker.perform(domain: @site.domain)
         }.not_to raise_error
       end
 
       it "does not blow up when the feed contains UTF-8 chars that Nokogiri can't translate to ASCII" do
-        site = create_site "www.armslist.com"
+        site = create_site "www.armslist.com", source: :local
         Mocktra(site.domain) do
           get '/feed.rss' do
             File.open("#{Rails.root}/spec/fixtures/rss_feeds/armslist2_rss.xml") do |file|

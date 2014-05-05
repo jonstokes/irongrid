@@ -156,7 +156,8 @@ class Site < CoreModel
     site_dir = domain.gsub(".","--")
     directory = "../ironsights-sites/sites/#{site_dir}"
 
-    @site_data[:page_adapter] = YAML.load_file("#{directory}/page_adapter.yml")
+    @site_data[:page_adapter] = YAML.load_file("#{directory}/page_adapter.yml") if File.exists?("#{directory}/page_adapter.yml")
+    @site_data[:feed_adapter] = YAML.load_file("#{directory}/feed_adapter.yml") if File.exists?("#{directory}/feed_adapter.yml")
     @site_data[:link_sources] = YAML.load_file("#{directory}/link_sources.yml")
     @site_data[:rate_limits]  = YAML.load_file("#{directory}/rate_limits.yml")
     YAML.load_file("#{directory}/attributes.yml").each do |k, v|
@@ -171,7 +172,8 @@ class Site < CoreModel
 
   def load_from_github
     site_dir = domain.gsub(".","--")
-    @site_data[:page_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/page_adapter.yml"))
+    @site_data[:page_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/page_adapter.yml")) if File.exists?("sites/#{site_dir}/page_adapter.yml")
+    @site_data[:feed_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/feed_adapter.yml")) if File.exists?("sites/#{site_dir}/feed_adapter.yml")
     @site_data[:link_sources] = YAML.load(fetch_file_from_github("sites/#{site_dir}/link_sources.yml"))
     @site_data[:rate_limits]  = YAML.load(fetch_file_from_github("sites/#{site_dir}/rate_limits.yml"))
     YAML.load(fetch_file_from_github("sites/#{site_dir}/attributes.yml")).each do |k, v|
