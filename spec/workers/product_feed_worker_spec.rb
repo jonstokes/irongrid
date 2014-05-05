@@ -6,6 +6,8 @@ Sidekiq::Testing.fake!
 describe ProductFeedWorker do
   before :each do
     @worker = ProductFeedWorker.new
+    CDN.clear!
+    Sidekiq::Worker.clear_all
   end
 
   describe "#perform" do
@@ -14,8 +16,6 @@ describe ProductFeedWorker do
         @site = create_site "ammo.net", source: :local
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
-        CDN.clear!
-        Sidekiq::Worker.clear_all
       end
 
       it "should create WriteListingWorkers for new listings with proper payload" do
@@ -95,8 +95,6 @@ describe ProductFeedWorker do
         @site = create_site "www.brownells.com", source: :local
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
-        CDN.clear!
-        Sidekiq::Worker.clear_all
       end
 
       it "should create WriteListingWorkers for new listings with proper payload" do
@@ -225,7 +223,7 @@ describe ProductFeedWorker do
         url = "http://www.armslist.com/posts/2841625"
         expect(LinkMessageQueue.find(url)).not_to be_nil
         expect(LinkMessageQueue.new(domain: @site.domain).has_key?(url)).to be_true
-        expect(LogRecordWorker.jobs.count).to eq(4)
+        expect(LogRecordWorker.jobs.count).to eq(2)
       end
 
       it "does not blow up when the RSS feed 404s" do
@@ -253,13 +251,53 @@ describe ProductFeedWorker do
       end
     end
 
+    describe "#transition" do
+      it "transitions to CreateLinksWorker for legacy sites" do
+        site = create_site "www.retailer.com"
+        @worker.perform(domain: site.domain)
+        expect(CreateLinksWorker.jobs.count).to eq(1)
+      end
+
+      it "transitions to ScrapePagesWorker for link-only feeds" do
+        site = create_site "www.feed-retailer.com", source: :local
+        Mocktra(site.domain) do
+          get '/products' do
+            File.open("#{Rails.root}/spec/fixtures/web_pages/www--retailer--com/products.html") do |file|
+              file.read
+            end
+          end
+        end
+        LinkMessageQueue.new(domain: site.domain).clear
+        ImageQueue.new(domain: site.domain).clear
+        @worker.perform(domain: site.domain)
+        link_store = LinkMessageQueue.new(domain: site.domain)
+        expect(link_store.size).to eq(444)
+        expect(ScrapePagesWorker.jobs.count).to eq(1)
+      end
+
+      it "does not trasition to anything for full product feeds" do
+        site = create_site "ammo.net", source: :local
+        LinkMessageQueue.new(domain: site.domain).clear
+        ImageQueue.new(domain: site.domain).clear
+        Mocktra(site.domain) do
+          get '/media/feeds/genericammofeed.xml' do
+            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        @worker.perform(domain: site.domain)
+        expect(ScrapePagesWorker.jobs.count).to be_zero
+        expect(CreateLinksWorker.jobs.count).to be_zero
+      end
+    end
+
     describe "internals" do
       before :each do
         @site = create_site "www.brownells.com", source: :local
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
-        CDN.clear!
-        Sidekiq::Worker.clear_all
       end
 
       it "does not blow up if the feed errors" do

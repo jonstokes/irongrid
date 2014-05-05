@@ -5,7 +5,8 @@ class ProductFeedWorker < CoreWorker
   LOG_RECORD_SCHEMA = {
     db_writes:        Integer,
     images_added:     Integer,
-    links_created:    Integer
+    links_created:    Integer,
+    next_jid:         String
   }
 
   sidekiq_options :queue => :crawls, :retry => false
@@ -21,6 +22,7 @@ class ProductFeedWorker < CoreWorker
     @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)
+    @next_worker = :CreateLinksWorker
     notify "Checking affiliate feed urls for #{@site.name}..."
     true
   end
@@ -31,6 +33,7 @@ class ProductFeedWorker < CoreWorker
     track
     check_feeds
     clean_up
+    transition
     stop_tracking
   end
 
@@ -38,8 +41,10 @@ class ProductFeedWorker < CoreWorker
     site.feeds.each do |feed|
       if feed.products.any?
         create_or_update_products_from_feed(feed)
+        @next_worker = nil
       else
         add_links_from_feed(feed)
+        @next_worker = :ScrapePagesWorker
       end
     end
   end
@@ -50,7 +55,10 @@ class ProductFeedWorker < CoreWorker
   end
 
   def transition
-    CreateLinksWorker.new(domain: @site.domain)
+    return unless @next_worker
+    klass = @next_worker.to_s.constantize
+    next_jid = klass.perform_async(domain: @site.domain)
+    record_set(:next_jid, next_jid) if tracking?
   end
 
   def create_or_update_products_from_feed(feed)
