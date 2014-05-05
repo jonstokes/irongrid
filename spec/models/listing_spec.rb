@@ -135,9 +135,11 @@ describe Listing do
     it "increments a listings update_count as part of an update" do
       listing = Listing.create(@listing_attrs)
       attrs = @listing_attrs.merge("digest" => "bbbb")
+      attrs['item_data'].merge!('price_in_cents' => 9999)
       listing.update_and_dirty!(attrs)
       listing = Listing.last
       expect(listing.digest).to eq("bbbb")
+      expect(listing.price_in_cents).to eq(9999)
       expect(listing.update_count).to eq(1)
     end
 

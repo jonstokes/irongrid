@@ -207,11 +207,22 @@ class Listing < ActiveRecord::Base
   private
 
   def update_item_data(new_item_data)
-    final_item_data = item_data.dup
+    final_item_data = update_es_objects(new_item_data, item_data.dup)
+    udpate_other_item_data(new_item_data, final_item_data)
+  end
+
+  def update_es_objects(new_item_data, final_item_data)
     ES_OBJECTS.each do |attr|
       if should_overwrite_attribute?(new_item_data, attr)
         final_item_data.merge!(attr => new_item_data[attr])
       end
+    end
+    final_item_data
+  end
+
+  def udpate_other_item_data(new_item_data, final_item_data)
+    ITEM_DATA_ATTRIBUTES.each do |attr|
+      final_item_data.merge!(attr => new_item_data[attr])
     end
     final_item_data
   end
