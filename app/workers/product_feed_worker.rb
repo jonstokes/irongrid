@@ -26,7 +26,7 @@ class ProductFeedWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
-    return transition unless @site.feeds # This hands off to the legacy CreateLinksWorker
+    return transition unless @site.feeds.any? # This hands off to the legacy CreateLinksWorker
     track
     check_feeds
     clean_up

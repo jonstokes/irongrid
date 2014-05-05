@@ -57,23 +57,34 @@ describe Site do
   end
 
   describe "#feeds" do
-    it "returns an array of Feed objects for the site's feeds" do
-      pending "Example"
+    it "returns an array of properly formatted Feed objects for the site's feeds" do
+      site = Site.new(domain: "www.armslist.com", source: :local)
+      expect(site.feeds.count).to eq(1)
+      feed = site.feeds.first
+      expect(feed).to be_a(Feed)
+      expect(feed.format).to eq(:xml)
+      expect(feed.url).to eq('http://www.armslist.com/feed.rss?location=usa')
+      expect(feed.feed_url).to eq('http://www.armslist.com/feed.rss?location=usa')
+      expect(feed.product_link_xpath).to eq('//item/link')
     end
 
     it "expands links with PAGENUM in the into the correct number of individual feeds" do
-      pending "Example"
-      expect(site.feeds.count).to eq(100)
+      site = Site.new(domain: "www.blucoreshootingcenter.com", source: :local)
+      feeds = site.feeds
+      expect(feeds.count).to eq(237)
     end
 
-    it "should properly expand each link" do
-      pending "Example"
-      feed = site.feeds.detect { |feed| feed.feed_url == "http://foo.com" }
+    it "should properly expand each PAGENUM link" do
+      site = Site.new(domain: "www.blucoreshootingcenter.com", source: :local)
+      feed = site.feeds.detect { |f| f.feed_url == 'http://www.blucoreshootingcenter.com/c-11-firearms.aspx?pagesize=48&pagenum=100' }
       expect(feed).to be_a(Feed)
+      expect(feed.product_link_prefix).to eq('http://www.blucoreshootingcenter.com/')
+      expect(feed.product_link_xpath).to eq("//td[@class='entityPageProdNameCell']/a/@href")
+      expect(feed.format).to eq(:html)
     end
 
     it "is empty if there are no feeds" do
-      pending "Example"
+      site = Site.new(domain: "www.impactguns.com", source: :local)
       expect(site.feeds).to be_empty
     end
   end

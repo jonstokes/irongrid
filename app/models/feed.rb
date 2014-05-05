@@ -6,7 +6,6 @@ class Feed
   %w(
     url
     filename
-    format
     postfix
     refresh_interval
     product_xpath
@@ -14,7 +13,7 @@ class Feed
     product_link_prefix
   ).each do |key|
     define_method key do
-      @options[key]
+      @options[key.to_sym]
     end
   end
 
@@ -22,7 +21,11 @@ class Feed
     #NOTE: The :filename option is for the affiliate_setup rake task, which is used when
     # a seller's complete inventory is first loaded into the db from
     # a very large local xml file. Later updates come via the feed url.
-    @options = opts
+    @options = opts.symbolize_keys
+  end
+
+  def format
+    @options[:format].try(:to_sym) || :html
   end
 
   def each_product

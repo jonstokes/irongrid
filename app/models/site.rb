@@ -87,23 +87,21 @@ class Site < CoreModel
   end
 
   def feeds
-    return unless link_sources['feeds']
+    return [] unless link_sources['feeds']
     @feeds ||= link_sources['feeds'].map do |feed|
       if feed['start_at_page']
-        expand_links(feed)
+        expand_links(feed.symbolize_keys)
       else
-        feed
+        feed.symbolize_keys
       end
     end.flatten.uniq.map { |f| Feed.new(f) }
   end
 
   def expand_links(feed)
-    interval = feed["step"] || 1
-    links = []
-    (feed["start_at_page"]..feed["stop_at_page"]).step(interval).each do |page_number|
-      links << feed.merge(url: link.sub("PAGENUM", page_number.to_s))
+    interval = feed[:step] || 1
+    (feed[:start_at_page]..feed[:stop_at_page]).step(interval).map do |page_number|
+      feed.merge(url: feed[:url].sub("PAGENUM", page_number.to_s))
     end
-    links
   end
 
   def self.domains
