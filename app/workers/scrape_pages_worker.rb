@@ -76,7 +76,7 @@ class ScrapePagesWorker < CoreWorker
 
   def pull_and_process(msg)
     url = msg.url
-    if @site.page_adapter && @rate_limiter.with_limit { page = get_page(url) }
+    if @site.page_adapter && page = @rate_limiter.with_limit { get_page(url) }
       record_incr(:pages_read)
       @scraper.parse(doc: page.doc, url: url, adapter_type: :page)
       if listing_is_unchanged?(msg)
