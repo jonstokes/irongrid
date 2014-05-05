@@ -222,7 +222,7 @@ class Listing < ActiveRecord::Base
 
   def udpate_other_item_data(new_item_data, final_item_data)
     ITEM_DATA_ATTRIBUTES.each do |attr|
-      final_item_data.merge!(attr => new_item_data[attr])
+      final_item_data.merge!(attr => new_item_data[attr]) if attr[/price/] || new_item_data[attr].present?
     end
     final_item_data
   end

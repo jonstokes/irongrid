@@ -58,6 +58,7 @@ describe Listing do
         "description"         => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
         "keywords"            => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
         "image"               => SPEC_IMAGE_1,
+        "image_source"        => "http://#{@site.domain}/images/1",
         "item_location"       => @geo_data.key,
         "seller_domain"       => @site.domain,
         "seller_name"         => @site.name,
@@ -140,6 +141,29 @@ describe Listing do
       listing = Listing.last
       expect(listing.digest).to eq("bbbb")
       expect(listing.price_in_cents).to eq(9999)
+      expect(listing.update_count).to eq(1)
+    end
+
+    it "cannot overwrite most existing item_data with nils" do
+      listing = Listing.create(@listing_attrs)
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!('image_source' => nil)
+      listing = Listing.last
+      listing.update_and_dirty!(attrs)
+      listing = Listing.last
+      expect(listing.digest).to eq("aaaa")
+      expect(listing.image_source).to eq("http://#{@site.domain}/images/1")
+      expect(listing.update_count).to eq(1)
+    end
+
+    it "can overwrite an existing price attributes with a nil" do
+      listing = Listing.create(@listing_attrs)
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!('sale_price_in_cents' => nil)
+      listing.update_and_dirty!(attrs)
+      listing = Listing.last
+      expect(listing.digest).to eq("aaaa")
+      expect(listing.sale_price_in_cents).to be_nil
       expect(listing.update_count).to eq(1)
     end
 
