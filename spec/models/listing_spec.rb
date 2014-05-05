@@ -167,7 +167,7 @@ describe Listing do
       expect(listing.update_count).to eq(1)
     end
 
-    it "does not overwrite existing hard-classified page attributes with metadata- or soft-classified updates" do
+    it "cannot overwrite existing hard-classified page attributes with metadata- or soft-classified updates" do
       attrs = @listing_attrs.dup
       attrs['item_data'].merge!(
          "caliber" => ["caliber" => ".22LR", "classification_type" => "hard"]
