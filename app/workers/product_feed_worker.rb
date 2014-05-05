@@ -22,14 +22,13 @@ class ProductFeedWorker < CoreWorker
     @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)
-    @next_worker = :CreateLinksWorker
     notify "Checking affiliate feed urls for #{@site.name}..."
     true
   end
 
   def perform(opts)
     return unless opts && init(opts)
-    return transition unless @site.feeds.any? # This hands off to the legacy CreateLinksWorker
+    return CreateLinksWorker.perform_async(domain: @site.domain) unless @site.feeds.any? # Hand off to the legacy CreateLinksWorker
     track
     check_feeds
     clean_up
@@ -41,10 +40,8 @@ class ProductFeedWorker < CoreWorker
     site.feeds.each do |feed|
       if feed.products.any?
         create_or_update_products_from_feed(feed)
-        @next_worker = nil
       else
         add_links_from_feed(feed)
-        @next_worker = :ScrapePagesWorker
       end
     end
   end
@@ -55,9 +52,8 @@ class ProductFeedWorker < CoreWorker
   end
 
   def transition
-    return unless @next_worker
-    klass = @next_worker.to_s.constantize
-    next_jid = klass.perform_async(domain: @site.domain)
+    return if @link_store.empty?
+    next_jid = ScrapePagesWorker.perform_async(domain: @site.domain)
     record_set(:next_jid, next_jid) if tracking?
   end
 
