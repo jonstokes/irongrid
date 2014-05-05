@@ -71,7 +71,7 @@ describe ProductFeedWorker do
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker.jobs.count).to eq(18)
         expect(LogRecordWorker.jobs.count).to eq(2)
-        expect(LinkMessageQueue.has_key?(url)).to be_false
+        expect(LinkMessageQueue.new(domain: @site.domain).has_key?(url)).to be_false
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do
@@ -154,8 +154,8 @@ describe ProductFeedWorker do
         msg = LinkMessage.new(job["args"].first)
         expect(msg.url).to match(/avantlink\.com/)
         expect(msg.page_attributes['item_data']['availability']).to eq('out_of_stock')
-        expect(msg.page_is_valid?).to be_false
-        expect(msg.page_not_found?).to be_true
+        expect(msg.page_is_valid?).to be_true
+        expect(msg.page_not_found?).to be_false
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do
@@ -198,7 +198,9 @@ describe ProductFeedWorker do
 
       it "reads a product page and extracts the links into the LinkMessageQueue" do
         @worker.perform(domain: @site.domain)
-        expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(444)
+        link_store = LinkMessageQueue.new(domain: @site.domain)
+        expect(link_store.size).to eq(444)
+        expect(link_store.has_key?("http://www.retailer.com/products/39")).to be_true
       end
     end
 
