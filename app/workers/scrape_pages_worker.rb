@@ -44,7 +44,7 @@ class ScrapePagesWorker < CoreWorker
       record_incr(:links_deleted)
       status_update
       @scraper.empty!
-      @rate_limiter.with_limit { pull_and_process(msg) }
+      pull_and_process(msg)
     end
     clean_up
     transition
@@ -76,7 +76,7 @@ class ScrapePagesWorker < CoreWorker
 
   def pull_and_process(msg)
     url = msg.url
-    if page = get_page(url)
+    if @site.page_adapter && @rate_limiter.with_limit { page = get_page(url) }
       record_incr(:pages_read)
       @scraper.parse(doc: page.doc, url: url)
       if listing_is_unchanged?(msg)
