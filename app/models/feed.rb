@@ -67,7 +67,7 @@ class Feed
       if filename
         Nokogiri::XML(File.open(filename).read) rescue nil
       else
-        get_page(feed_url, force_format: format).doc rescue nil
+        get_page(feed_url, force_format: format).try(:doc)
       end
     end
   end
@@ -75,7 +75,6 @@ class Feed
   def product_xml(product)
     return unless product
     xml_prefix = '<?xml version="1.0" encoding="us-ascii"?>' + "\n"
-    puts "#{xml_prefix + product.to_xml}"
     begin
       xml_prefix + product.to_xml
     rescue Encoding::UndefinedConversionError => e
