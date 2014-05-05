@@ -45,7 +45,7 @@ class ProductFeedWorker < CoreWorker
   end
 
   def clean_up
-    notify "Added #{record[:data][:db_writes]} links from feed."
+    notify "Added #{record[:data][:db_writes]} products from feed."
     @site.mark_read!
   end
 

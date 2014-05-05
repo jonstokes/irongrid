@@ -75,6 +75,7 @@ class Feed
   def product_xml(product)
     return unless product
     xml_prefix = '<?xml version="1.0" encoding="us-ascii"?>' + "\n"
+    puts "#{xml_prefix + product.to_xml}"
     begin
       xml_prefix + product.to_xml
     rescue Encoding::UndefinedConversionError => e
