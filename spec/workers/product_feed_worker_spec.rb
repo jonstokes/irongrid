@@ -225,7 +225,7 @@ describe ProductFeedWorker do
         url = "http://www.armslist.com/posts/2841625"
         expect(LinkMessageQueue.find(url)).not_to be_nil
         expect(LinkMessageQueue.new(domain: @site.domain).has_key?(url)).to be_true
-        expect(LogRecordWorker.jobs.count).to eq(2)
+        expect(LogRecordWorker.jobs.count).to eq(4)
       end
 
       it "does not blow up when the RSS feed 404s" do
