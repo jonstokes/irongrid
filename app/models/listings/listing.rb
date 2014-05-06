@@ -77,6 +77,8 @@ class Listing < ActiveRecord::Base
 
   def update_and_dirty!(attrs)
     attrs.merge(update_count: self.dirty)
+    new_item_data = update_item_data(attrs['item_data'])
+    attrs.merge!('item_data' => new_item_data)
     self.item_data_will_change!
     db { self.update(attrs) }
   end
@@ -203,6 +205,38 @@ class Listing < ActiveRecord::Base
   end
 
   private
+
+  def update_item_data(new_item_data)
+    final_item_data = update_es_objects(new_item_data, item_data.dup)
+    udpate_other_item_data(new_item_data, final_item_data)
+  end
+
+  def update_es_objects(new_item_data, final_item_data)
+    ES_OBJECTS.each do |attr|
+      if should_overwrite_attribute?(new_item_data, attr)
+        final_item_data.merge!(attr => new_item_data[attr])
+      end
+    end
+    final_item_data
+  end
+
+  def udpate_other_item_data(new_item_data, final_item_data)
+    ITEM_DATA_ATTRIBUTES.each do |attr|
+      final_item_data.merge!(attr => new_item_data[attr]) if attr[/price/] || new_item_data[attr].present?
+    end
+    final_item_data
+  end
+
+  def should_overwrite_attribute?(new_item_data, attr)
+    original_classification_type = read_classification_type(item_data, attr)
+    new_classification_type = read_classification_type(new_item_data, attr)
+    (new_classification_type == 'hard') ||
+      ((original_classification_type == 'soft') && (new_classification_type == 'metadata'))
+  end
+
+  def read_classification_type(item_data_hash, attr)
+    item_data_hash[attr].detect { |v| v['classification_type'] }.try(:[], 'classification_type') rescue nil
+  end
 
   def notify_on_match
     percolate.each do |match|

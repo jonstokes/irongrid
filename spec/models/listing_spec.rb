@@ -58,6 +58,7 @@ describe Listing do
         "description"         => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
         "keywords"            => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
         "image"               => SPEC_IMAGE_1,
+        "image_source"        => "http://#{@site.domain}/images/1",
         "item_location"       => @geo_data.key,
         "seller_domain"       => @site.domain,
         "seller_name"         => @site.name,
@@ -135,10 +136,95 @@ describe Listing do
     it "increments a listings update_count as part of an update" do
       listing = Listing.create(@listing_attrs)
       attrs = @listing_attrs.merge("digest" => "bbbb")
+      attrs['item_data'].merge!('price_in_cents' => 9999)
       listing.update_and_dirty!(attrs)
       listing = Listing.last
       expect(listing.digest).to eq("bbbb")
+      expect(listing.price_in_cents).to eq(9999)
       expect(listing.update_count).to eq(1)
+    end
+
+    it "cannot overwrite most existing item_data with nils" do
+      listing = Listing.create(@listing_attrs)
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!('image_source' => nil)
+      listing = Listing.last
+      listing.update_and_dirty!(attrs)
+      listing = Listing.last
+      expect(listing.digest).to eq("aaaa")
+      expect(listing.image_source).to eq("http://#{@site.domain}/images/1")
+      expect(listing.update_count).to eq(1)
+    end
+
+    it "can overwrite an existing price attributes with a nil" do
+      listing = Listing.create(@listing_attrs)
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!('sale_price_in_cents' => nil)
+      listing.update_and_dirty!(attrs)
+      listing = Listing.last
+      expect(listing.digest).to eq("aaaa")
+      expect(listing.sale_price_in_cents).to be_nil
+      expect(listing.update_count).to eq(1)
+    end
+
+    it "cannot overwrite existing hard-classified page attributes with metadata- or soft-classified updates" do
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".22LR", "classification_type" => "hard"]
+      )
+      listing = Listing.create(attrs)
+      new_attrs = @listing_attrs.dup
+      new_attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".17WMR", "classification_type" => "soft"]
+      )
+      listing = Listing.first
+      listing.update_and_dirty!(new_attrs)
+      expect(listing.item_data["caliber"]).to eq(["caliber" => ".22LR", "classification_type" => "hard"])
+    end
+
+    it "overwrites existing hard-classified page attributes with hard-classified updates" do
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".22LR", "classification_type" => "hard"]
+      )
+      listing = Listing.create(attrs)
+      new_attrs = @listing_attrs.dup
+      new_attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".17WMR", "classification_type" => "hard"]
+      )
+      listing = Listing.first
+      listing.update_and_dirty!(new_attrs)
+      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "hard"])
+    end
+
+    it "overwrites existing metadata-classified page attributes with hard-classified updates" do
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".22LR", "classification_type" => "metadata"]
+      )
+      listing = Listing.create(attrs)
+      new_attrs = @listing_attrs.dup
+      new_attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".17WMR", "classification_type" => "hard"]
+      )
+      listing = Listing.first
+      listing.update_and_dirty!(new_attrs)
+      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "hard"])
+    end
+
+    it "overwrites existing soft-classified page attributes with metadata-classified updates" do
+      attrs = @listing_attrs.dup
+      attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".22LR", "classification_type" => "soft"]
+      )
+      listing = Listing.create(attrs)
+      new_attrs = @listing_attrs.dup
+      new_attrs['item_data'].merge!(
+         "caliber" => ["caliber" => ".17WMR", "classification_type" => "metadata"]
+      )
+      listing = Listing.first
+      listing.update_and_dirty!(new_attrs)
+      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "metadata"])
     end
   end
 
