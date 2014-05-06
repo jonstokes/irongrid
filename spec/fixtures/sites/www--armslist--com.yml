@@ -76,10 +76,11 @@ site_data:
         xpath: //div[@class="message error"]/div[@class="message-content"]
         regexp: !ruby/regexp '/This listing been flagged as a scam/i'
   :link_sources:
-    seed_links:
-      http://www.armslist.com/feed.rss?location=usa:
-        link_xpaths:
-        - //item/link
+    feeds:
+      -
+        url: http://www.armslist.com/feed.rss?location=usa
+        product_link_xpath: '//item/link'
+        format: xml
   :rate_limits:
     off_peak:
       start: '23:00'
@@ -92,6 +93,5 @@ site_data:
   :name: Armslist
   :engine: www.ironsights.com
   :read_with: RefreshLinksWorker
-  :link_list_format: xml
   :active: true
   :read_interval: 1800

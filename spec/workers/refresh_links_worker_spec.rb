@@ -40,12 +40,12 @@ describe RefreshLinksWorker do
   end
 
   describe "#transition" do
-    it "transitions to CreateLinksWorker without blowing up if there are no stale listings" do
+    it "transitions to ProductFeedWorker without blowing up if there are no stale listings" do
       5.times { FactoryGirl.create(:retail_listing) }
       expect {
         RefreshLinksWorker.new.perform(domain: @site.domain)
       }.not_to raise_error
-      expect(CreateLinksWorker.jobs.count).to eq(1)
+      expect(ProductFeedWorker.jobs.count).to eq(1)
       expect(ScrapePagesWorker.jobs.count).to eq(0)
       expect(LogRecordWorker.jobs.count).to eq(2)
     end
