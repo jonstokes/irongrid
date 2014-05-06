@@ -1,5 +1,5 @@
 class ListingScraper < CoreModel
-  attr_reader :site, :doc, :clean_listing, :adapter
+  attr_reader :site, :doc, :clean_listing, :adapter, :url
   attr_accessor :raw_listing, :listing
 
   delegate :name, :domain, to: :site, prefix: :seller
@@ -10,15 +10,15 @@ class ListingScraper < CoreModel
 
   def parse(opts)
     empty!
-    url = opts[:url]
     @doc = opts[:doc]
+    @url = opts[:url]
     @adapter = (opts[:adapter_type] == :feed) ? @site.feed_adapter : @site.page_adapter
     @raw_listing = RawListing.new(opts.merge(adapter: @adapter))
     return if not_found?
     @clean_listing = eval("#{type}Cleaner").new(
       raw_listing: @raw_listing,
       site:        @site,
-      url:         url,
+      url:         @url,
       adapter:     @adapter
     )
   end
