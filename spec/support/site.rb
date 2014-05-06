@@ -1,5 +1,6 @@
-def create_site(domain)
-  site = Site.new(domain: domain, source: :fixture)
+def create_site(domain, opts={})
+  source = opts[:source] || :fixture
+  site = Site.new(domain: domain, source: source)
   site.send(:write_to_redis)
   site
 end
