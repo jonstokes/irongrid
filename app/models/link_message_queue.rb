@@ -96,8 +96,9 @@ class LinkMessageQueue < CoreModel
 
   def has_key?(key)
     with_redis do |conn|
-      return false unless key.present? && conn.exists(set_name)
-      return true if conn.sismember(set_name, key)
+      key.present? &&
+        conn.exists(set_name) &&
+        conn.sismember(set_name, key)
     end
   end
 
