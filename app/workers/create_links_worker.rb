@@ -54,9 +54,8 @@ class CreateLinksWorker < CoreWorker
   end
 
   def pull_product_links_from_seed(seed_link)
-    return [] unless page = @rate_limiter.with_limit do
-      get_page(seed_link)
-    end
+    sleep 0.25
+    return [] unless page = get_page(seed_link)
     record_incr(:links_crawled)
     links_in_page(page).flatten.compact.map do |product_link|
       "#{link_prefix(seed_link)}#{product_link.text}".sub(/^https/, "http")
@@ -74,10 +73,12 @@ class CreateLinksWorker < CoreWorker
   end
 
   def link_prefix(link)
+    return unless links_with_attrs[link]
     links_with_attrs[link]["link_prefix"]
   end
 
   def link_xpaths(link)
+    return [] unless links_with_attrs[link]
     links_with_attrs[link]["link_xpaths"]
   end
 
