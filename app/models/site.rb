@@ -13,7 +13,6 @@ class Site < CoreModel
     :page_adapter,
     :feed_adapter,
     :read_with,
-    :link_list_format,
     :link_sources,
     :size,
     :active,
@@ -87,6 +86,24 @@ class Site < CoreModel
     !!self.link_sources["refresh_only"]
   end
 
+  def feeds
+    return [] unless link_sources['feeds']
+    @feeds ||= link_sources['feeds'].map do |feed|
+      if feed['start_at_page']
+        expand_links(feed.symbolize_keys)
+      else
+        feed.symbolize_keys
+      end
+    end.flatten.uniq.map { |f| Feed.new(f) }
+  end
+
+  def expand_links(feed)
+    interval = feed[:step] || 1
+    (feed[:start_at_page]..feed[:stop_at_page]).step(interval).map do |page_number|
+      feed.merge(url: feed[:url].sub("PAGENUM", page_number.to_s))
+    end
+  end
+
   def self.domains
     with_redis { |conn| conn.smembers "site--index" }
   end
@@ -139,7 +156,8 @@ class Site < CoreModel
     site_dir = domain.gsub(".","--")
     directory = "../ironsights-sites/sites/#{site_dir}"
 
-    @site_data[:page_adapter] = YAML.load_file("#{directory}/page_adapter.yml")
+    @site_data[:page_adapter] = YAML.load_file("#{directory}/page_adapter.yml") if File.exists?("#{directory}/page_adapter.yml")
+    @site_data[:feed_adapter] = YAML.load_file("#{directory}/feed_adapter.yml") if File.exists?("#{directory}/feed_adapter.yml")
     @site_data[:link_sources] = YAML.load_file("#{directory}/link_sources.yml")
     @site_data[:rate_limits]  = YAML.load_file("#{directory}/rate_limits.yml")
     YAML.load_file("#{directory}/attributes.yml").each do |k, v|
@@ -154,7 +172,8 @@ class Site < CoreModel
 
   def load_from_github
     site_dir = domain.gsub(".","--")
-    @site_data[:page_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/page_adapter.yml"))
+    @site_data[:page_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/page_adapter.yml")) if File.exists?("sites/#{site_dir}/page_adapter.yml")
+    @site_data[:feed_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/feed_adapter.yml")) if File.exists?("sites/#{site_dir}/feed_adapter.yml")
     @site_data[:link_sources] = YAML.load(fetch_file_from_github("sites/#{site_dir}/link_sources.yml"))
     @site_data[:rate_limits]  = YAML.load(fetch_file_from_github("sites/#{site_dir}/rate_limits.yml"))
     YAML.load(fetch_file_from_github("sites/#{site_dir}/attributes.yml")).each do |k, v|
