@@ -47,8 +47,8 @@ class RefreshLinksWorker < CoreWorker
       record_set(:transition, "ScrapePagesWorker")
       record_set(:next_jid, next_jid)
     else
-      next_jid = CreateLinksWorker.perform_async(domain: domain)
-      record_set(:transition, "CreateLinksworker")
+      next_jid = ProductFeedWorker.perform_async(domain: domain)
+      record_set(:transition, "ProductFeedWorker")
       record_set(:next_jid, next_jid)
     end
   end

@@ -106,6 +106,17 @@ describe ScrapePagesWorker do
       expect(msg.dirty_only?).to be_true
     end
 
+    it "marks as not_found any link for a site with no page_adapter" do
+      site = create_site "ammo.net", source: :local
+      lq = LinkMessageQueue.new(domain: site.domain)
+      msg = LinkMessage.new(url: "http://#{site.domain}/1")
+      lq.add(msg)
+      @worker.perform(domain: site.domain)
+      job = WriteListingWorker.jobs.first
+      msg = LinkMessage.new(job["args"].first)
+      expect(msg.page_not_found?).to be_true
+    end
+
     describe "where image_source exists on CDN already" do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
         url = "http://#{@site.domain}/1"

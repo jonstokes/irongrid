@@ -9,6 +9,7 @@ module Trackable
     @write_interval = opts[:write_interval] || 50
     @count = 0
     initialize_log_record
+    @tracking = true
     status_update(true)
   end
 
@@ -32,7 +33,12 @@ module Trackable
 
   def stop_tracking
     @record[:data][:complete] = true
+    @tracking = false
     status_update(true)
+  end
+
+  def tracking?
+    !!@tracking
   end
 
   private
