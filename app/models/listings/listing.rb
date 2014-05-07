@@ -76,9 +76,9 @@ class Listing < ActiveRecord::Base
   end
 
   def update_and_dirty!(attrs)
-    attrs.merge(update_count: self.dirty)
+    attrs.merge!(update_count: self.dirty)
     new_item_data = update_item_data(attrs['item_data'])
-    attrs.merge!('item_data' => new_item_data)
+    attrs.merge!(item_data: new_item_data)
     self.item_data_will_change!
     db { self.update(attrs) }
   end
@@ -96,12 +96,12 @@ class Listing < ActiveRecord::Base
   end
 
   def dirty
-    @dirtied = true
     self.update_count = (self.update_count || 0) + 1
   end
 
   def dirty!
     self.dirty
+    @dirtied = true
     db { self.save! }
   end
 
@@ -250,7 +250,7 @@ class Listing < ActiveRecord::Base
       retryable { Listing.index.remove type.downcase.sub("listing","_listing"), id }
     else
       retryable { update_index }
-      retryable { notify_on_match } unless dirtied? || destroyed?
+      retryable { notify_on_match } unless dirtied? || destroyed? || !self.digest_changed?
     end
   end
 end
