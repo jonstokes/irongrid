@@ -31,14 +31,14 @@ class WriteListingWorker < CoreWorker
     if msg.page_not_found?
       db { listing.destroy }
     elsif dirty_only?(msg, listing)
-      listing.dirty!
+      listing.dirty_only!
     elsif !msg.page_is_valid?
       listing.deactivate!
     elsif Listing.duplicate_digest?(listing, msg.page_attributes["digest"])
       db { listing.destroy }
     else
       update_geo_data(msg)
-      listing.update_and_dirty!(msg.page_attributes)
+      listing.update_with_count(msg.page_attributes)
     end
   end
 

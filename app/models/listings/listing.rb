@@ -2,36 +2,17 @@
 #
 # Table name: listings
 #
-#  id                     :integer          not null, primary key
-#  title                  :text             not null
-#  description            :text
-#  keywords               :text
-#  digest                 :string(255)      not null
-#  type                   :string(255)      not null
-#  seller_domain          :string(255)      not null
-#  seller_name            :string(255)      not null
-#  url                    :text             not null
-#  category1              :string(255)
-#  category2              :string(255)
-#  item_condition         :string(255)
-#  image                  :string(255)      not null
-#  stock_status           :string(255)
-#  item_location          :string(255)
-#  price_in_cents         :integer
-#  sale_price_in_cents    :integer
-#  buy_now_price_in_cents :integer
-#  current_bid_in_cents   :integer
-#  minimum_bid_in_cents   :integer
-#  reserve_in_cents       :integer
-#  auction_ends           :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  price_on_request       :string(255)
-#  engine                 :string(255)
-#  inactive               :boolean
-#  update_count           :integer
-#  geo_data_id            :integer
-#  category_data          :hstore
+#  id           :integer          not null, primary key
+#  digest       :string(255)      not null
+#  type         :string(255)      not null
+#  url          :text             not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  inactive     :boolean
+#  update_count :integer
+#  geo_data_id  :integer
+#  item_data    :json
+#  site_id      :integer
 #
 
 class Listing < ActiveRecord::Base
@@ -75,8 +56,8 @@ class Listing < ActiveRecord::Base
     self[:url]
   end
 
-  def update_and_dirty!(attrs)
-    attrs.merge!(update_count: self.dirty)
+  def update_with_count(attrs)
+    attrs.merge!(update_count: self.increment_update_count)
     new_item_data = update_item_data(attrs['item_data'])
     attrs.merge!(item_data: new_item_data)
     self.item_data_will_change!
@@ -85,28 +66,28 @@ class Listing < ActiveRecord::Base
 
   def activate!
     self.inactive = false
-    self.dirty
+    self.increment_update_count
     db { self.save! }
   end
 
   def deactivate!
     self.inactive = true
-    self.dirty
+    self.increment_update_count
     db { self.save! }
   end
 
-  def dirty
+  def increment_update_count
     self.update_count = (self.update_count || 0) + 1
   end
 
-  def dirty!
-    self.dirty
-    @dirtied = true
+  def dirty_only!
+    self.increment_update_count
+    @only_dirtied = true
     db { self.save! }
   end
 
-  def dirtied?
-    !!@dirtied
+  def only_dirtied?
+    !!@only_dirtied
   end
 
   def image_is_shared?
@@ -250,7 +231,11 @@ class Listing < ActiveRecord::Base
       retryable { Listing.index.remove type.downcase.sub("listing","_listing"), id }
     else
       retryable { update_index }
-      retryable { notify_on_match } unless dirtied? || destroyed? || !self.digest_changed?
+      retryable { notify_on_match } if should_notify?
     end
+  end
+
+  def should_notify?
+    !only_dirtied? && !destroyed? && self.digest_changed?
   end
 end

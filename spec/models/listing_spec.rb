@@ -2,36 +2,17 @@
 #
 # Table name: listings
 #
-#  id                     :integer          not null, primary key
-#  title                  :text             not null
-#  description            :text
-#  keywords               :text
-#  digest                 :string(255)      not null
-#  type                   :string(255)      not null
-#  seller_domain          :string(255)      not null
-#  seller_name            :string(255)      not null
-#  url                    :text             not null
-#  category1              :string(255)
-#  category2              :string(255)
-#  item_condition         :string(255)
-#  image                  :string(255)      not null
-#  stock_status           :string(255)
-#  item_location          :string(255)
-#  price_in_cents         :integer
-#  sale_price_in_cents    :integer
-#  buy_now_price_in_cents :integer
-#  current_bid_in_cents   :integer
-#  minimum_bid_in_cents   :integer
-#  reserve_in_cents       :integer
-#  auction_ends           :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  price_on_request       :string(255)
-#  engine                 :string(255)
-#  inactive               :boolean
-#  update_count           :integer
-#  geo_data_id            :integer
-#  category_data          :hstore
+#  id           :integer          not null, primary key
+#  digest       :string(255)      not null
+#  type         :string(255)      not null
+#  url          :text             not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  inactive     :boolean
+#  update_count :integer
+#  geo_data_id  :integer
+#  item_data    :json
+#  site_id      :integer
 #
 
 require 'spec_helper'
@@ -132,15 +113,16 @@ describe Listing do
     end
   end
 
-  describe "#update_and_dirty!" do
+  describe "#update_with_count" do
     it "increments a listings update_count as part of an update" do
       listing = Listing.create(@listing_attrs)
       attrs = @listing_attrs.merge("digest" => "bbbb")
       attrs['item_data'].merge!('price_in_cents' => 9999)
-      listing.update_and_dirty!(attrs)
+      listing.update_with_count(attrs)
       listing = Listing.last
-      expect(listing.digest).to eq("bbbb")
-      expect(listing.price_in_cents).to eq(9999)
+      item = Listing.index.retrieve "retail_listing", listing.id
+      expect(item.digest).to eq("bbbb")
+      expect(item.price_in_cents).to eq(9999)
       expect(listing.update_count).to eq(1)
     end
 
@@ -149,21 +131,23 @@ describe Listing do
       attrs = @listing_attrs.dup
       attrs['item_data'].merge!('image_source' => nil)
       listing = Listing.last
-      listing.update_and_dirty!(attrs)
+      listing.update_with_count(attrs)
       listing = Listing.last
-      expect(listing.digest).to eq("aaaa")
-      expect(listing.image_source).to eq("http://#{@site.domain}/images/1")
+      item = Listing.index.retrieve "retail_listing", listing.id
       expect(listing.update_count).to eq(1)
+      expect(item.digest).to eq("aaaa")
+      expect(item.image_source).to eq("http://#{@site.domain}/images/1")
     end
 
     it "can overwrite an existing price attributes with a nil" do
       listing = Listing.create(@listing_attrs)
       attrs = @listing_attrs.dup
       attrs['item_data'].merge!('sale_price_in_cents' => nil)
-      listing.update_and_dirty!(attrs)
+      listing.update_with_count(attrs)
       listing = Listing.last
-      expect(listing.digest).to eq("aaaa")
-      expect(listing.sale_price_in_cents).to be_nil
+      item = Listing.index.retrieve "retail_listing", listing.id
+      expect(item.digest).to eq("aaaa")
+      expect(item.sale_price_in_cents).to be_nil
       expect(listing.update_count).to eq(1)
     end
 
@@ -178,8 +162,9 @@ describe Listing do
          "caliber" => ["caliber" => ".17WMR", "classification_type" => "soft"]
       )
       listing = Listing.first
-      listing.update_and_dirty!(new_attrs)
-      expect(listing.item_data["caliber"]).to eq(["caliber" => ".22LR", "classification_type" => "hard"])
+      listing.update_with_count(new_attrs)
+      item = Listing.index.retrieve "retail_listing", listing.id
+      expect(item.caliber.to_json).to eq(["caliber" => ".22LR", "classification_type" => "hard"].to_json)
     end
 
     it "overwrites existing hard-classified page attributes with hard-classified updates" do
@@ -193,8 +178,9 @@ describe Listing do
          "caliber" => ["caliber" => ".17WMR", "classification_type" => "hard"]
       )
       listing = Listing.first
-      listing.update_and_dirty!(new_attrs)
-      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "hard"])
+      listing.update_with_count(new_attrs)
+      item = Listing.index.retrieve "retail_listing", listing.id
+      expect(item.caliber.to_json).to eq(["caliber" => ".17WMR", "classification_type" => "hard"].to_json)
     end
 
     it "overwrites existing metadata-classified page attributes with hard-classified updates" do
@@ -208,8 +194,9 @@ describe Listing do
          "caliber" => ["caliber" => ".17WMR", "classification_type" => "hard"]
       )
       listing = Listing.first
-      listing.update_and_dirty!(new_attrs)
-      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "hard"])
+      listing.update_with_count(new_attrs)
+      item = Listing.index.retrieve "retail_listing", listing.id
+      expect(item.caliber.to_json).to eq(["caliber" => ".17WMR", "classification_type" => "hard"].to_json)
     end
 
     it "overwrites existing soft-classified page attributes with metadata-classified updates" do
@@ -223,17 +210,18 @@ describe Listing do
          "caliber" => ["caliber" => ".17WMR", "classification_type" => "metadata"]
       )
       listing = Listing.first
-      listing.update_and_dirty!(new_attrs)
-      expect(listing.item_data["caliber"]).to eq(["caliber" => ".17WMR", "classification_type" => "metadata"])
+      listing.update_with_count(new_attrs)
+      item = Listing.index.retrieve "retail_listing", listing.id
+      expect(item.caliber.to_json).to eq(["caliber" => ".17WMR", "classification_type" => "metadata"].to_json)
     end
   end
 
-  describe "#dirty!" do
+  describe "#dirty_only!" do
     it "dirties a listing by incrementing its update_count" do
       listing = FactoryGirl.create(:retail_listing)
       updated_at = listing.updated_at
       sleep 1
-      listing.dirty!
+      listing.dirty_only!
       expect(Listing.first.update_count).to eq(1)
       expect(Listing.first.updated_at).to be > updated_at
     end
@@ -262,7 +250,7 @@ describe Listing do
         expect(opts[:listing_id]).to be_a(Integer)
       end
 
-      listing.dirty!
+      listing.dirty_only!
     end
 
     it "does not notify for listings that are destroyed" do
