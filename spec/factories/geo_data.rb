@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: geo_data
+#
+#  id         :integer          not null, primary key
+#  key        :string(255)
+#  data       :hstore
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 FactoryGirl.define do
   factory :geo_data do
     sequence(:key) { |i| "key-#{i}"}

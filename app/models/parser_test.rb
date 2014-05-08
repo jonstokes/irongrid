@@ -1,3 +1,44 @@
+# == Schema Information
+#
+# Table name: parser_tests
+#
+#  id                     :integer          not null, primary key
+#  engine                 :string(255)
+#  url                    :string(255)
+#  digest                 :string(255)
+#  title                  :text
+#  description            :text
+#  keywords               :text
+#  listing_type           :string(255)
+#  seller_domain          :string(255)
+#  seller_name            :string(255)
+#  category1              :string(255)
+#  category2              :string(255)
+#  item_condition         :string(255)
+#  image                  :string(255)
+#  stock_status           :string(255)
+#  item_location          :string(255)
+#  price_in_cents         :integer
+#  price_on_request       :string(255)
+#  sale_price_in_cents    :integer
+#  buy_now_price_in_cents :integer
+#  current_bid_in_cents   :integer
+#  minimum_bid_in_cents   :integer
+#  reserve_in_cents       :integer
+#  auction_ends           :datetime
+#  html_on_s3             :string(255)
+#  listing_is_valid       :boolean
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  not_found              :boolean
+#  item_sold              :boolean
+#  caliber                :string(255)
+#  number_of_rounds       :integer
+#  grains                 :integer
+#  manufacturer           :string(255)
+#  model                  :string(255)
+#
+
 class ParserTest < ActiveRecord::Base
   include PageUtils
   include Retryable

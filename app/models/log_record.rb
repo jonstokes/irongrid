@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: log_records
+#
+#  id         :integer          not null, primary key
+#  data       :json             not null
+#  agent      :string(255)      not null
+#  jid        :string(255)      not null
+#  archived   :boolean
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class LogRecord < ActiveRecord::Base
   include Retryable
   include Notifier
