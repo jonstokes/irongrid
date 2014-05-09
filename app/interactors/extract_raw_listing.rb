@@ -3,11 +3,7 @@ class ExtractRawListing
 
   def setup
     context[:raw_listing] = {}
-    if context[:adapter_type] == :feed
-      context[:adapter] = context[:site].feed_adapter
-    else
-      context[:adapter] = context[:site].page_adapter
-    end
+    context[:adapter] = (adapter_type == :feed) ? site.feed_adapter : site.page_adapter
   end
 
   def perform
@@ -31,7 +27,7 @@ class ExtractRawListing
                end
       break value if value
     end
-    result.is_a?(String) ? result.strip.squeeze(" ") : nil
+    result.strip.squeeze(" ") rescue nil
   end
 
   def should_copy_attribute?(attribute)
