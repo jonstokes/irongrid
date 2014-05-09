@@ -16,6 +16,7 @@ class ParsePage
     ExtractMetaDataFromRawListing,
     ExtractMetadataFromSourceAttributes,
     SoftCategorize,
-    GenerateDigest
+    CleanUpTypeDependentAttributes,
+    GenerateListingHash
   ]
 end

@@ -6,6 +6,7 @@ class CleanUpPriceAttributes
     when "RetailListing"
       context[:item_data]['price_in_cents']         = price_in_cents
       context[:item_data]['sale_price_in_cents']    = sale_price_in_cents
+      context[:item_data]['price_on_request']       = price_on_request
     when "ClassifiedListing"
       context[:item_data]['price_in_cents']         = price_in_cents
     when "AuctionListing"
@@ -38,5 +39,9 @@ class CleanUpPriceAttributes
 
   def sale_price_in_cents
     ListingFormat.price(@raw_listing['sale_price'])
+  end
+
+  def price_on_request
+    raw_listing['price_on_request']
   end
 end
