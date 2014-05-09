@@ -12,8 +12,9 @@ class ParsePage
     CleanUpCommonListingAttributes,
     CleanUpPriceAttributes,
     SetCurrentPrice,
+    ScrubMetaDataSourceAttributes,
     ExtractMetaDataFromRawListing,
-    ExtractMetadataFromListingAttributes,
+    ExtractMetadataFromSourceAttributes,
     SoftCategorize,
     GenerateDigest
   ]

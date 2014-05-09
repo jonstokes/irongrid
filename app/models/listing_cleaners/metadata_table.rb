@@ -1,6 +1,10 @@
 class MetadataTable
   METADATA_ATTRIBUTES = [:caliber, :caliber_category, :manufacturer, :grains, :number_of_rounds]
 
+  AMMO_METADATA_ATTRIBUTES = %w(caliber manufacturer grains number_of_rounds)
+  GUN_METADATA_ATTRIBUTES = %w(caliber manufacturer)
+  OPTICS_METADATA_ATTRIBUTES = %w(manufacturer)
+
   attr_reader :table
 
   def initialize
