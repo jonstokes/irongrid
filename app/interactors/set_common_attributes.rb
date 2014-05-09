@@ -1,4 +1,4 @@
-class CleanUpCommonListingAttributes
+class SetCommonAttributes
   include Interactor
 
   def perform

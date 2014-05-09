@@ -9,14 +9,18 @@ class ParsePage
     ValidateListingPresence,
     DetermineListingType,
     ValidateListing,
-    CleanUpCommonListingAttributes,
-    CleanUpPriceAttributes,
+    SetCommonAttributes,
+    SetPriceAttributes,
+    SetAvailability,
     SetCurrentPrice,
+    SetPricePerRound,
     ScrubMetaDataSourceAttributes,
     ExtractMetaDataFromRawListing,
     ExtractMetadataFromSourceAttributes,
     SoftCategorize,
-    CleanUpTypeDependentAttributes,
+    SetDigest,
     GenerateListingHash
   ]
 end
+
+
