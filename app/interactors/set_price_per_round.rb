@@ -6,7 +6,7 @@ class SetPricePerRound
   end
 
   def price_per_round_in_cents
-    return nil unless current_price_in_cents && number_of_rounds
+    return unless current_price_in_cents && number_of_rounds
     (current_price_in_cents.to_f / number_of_rounds.to_f).round
   rescue
     Rails.logger.info "Price per round failed for #{url} with title #{title}"

@@ -5,7 +5,6 @@ class SetCommonAttributes
     context[:item_data] = {
       'category1' => category1,
       'description' => description,
-      'availability' => availability,
       'image_source' => image_source,
       'image_download_attempted' => false,
       'item_condition' => item_condition,
@@ -20,15 +19,11 @@ class SetCommonAttributes
   end
 
   def description
-    @description ||= raw_listing['description']
-  end
-
-  def availability
-    stock_status.parameterize("_")
+    raw_listing['description']
   end
 
   def image_source
-    return nil unless @raw_listing['image']
+    return unless @raw_listing['image']
     return unless image_source = clean_up_image_url(@raw_listing['image'])
     unless is_valid_image_url?(image_source)
       notify "## IMAGE ERROR at #{url}. Image source is #{image_source}"
@@ -43,20 +38,15 @@ class SetCommonAttributes
 
   def item_condition
     if ['New', 'Used'].include? raw_listing['item_condition']
-      return raw_listing['item_condition']
-    elsif raw_listing['condition_new']
-      return "New"
-    elsif raw_listing['condition_used']
-      return "Used"
+      raw_listing['item_condition']
     else
       adapter.default_condition.try(:titleize) || "Unknown"
     end
   end
 
   def item_location
-    @item_location ||= begin
-      loc = raw_listing['item_location']
-      loc && !loc.blank? ? loc : adapter.default_item_location
+      return raw_listing['item_location'] if raw_listing['item_location'].present?
+      adapter.default_item_location
     end
   end
 

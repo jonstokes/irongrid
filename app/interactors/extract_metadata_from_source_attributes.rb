@@ -12,17 +12,17 @@ class ExtractMetadataFromSourceAttributes
       end
 
     attributes_to_be_extracted.each do |attr|
-      if metadata_source_attrs[attr]
-        send("extract_#{attr}")
-      end
+      send("extract_#{attr}", :title)
+      send("extract_#{attr}", :keywords)
     end
-    metadata_source_attrs['title'][:normalized] = ProductDetails::renormalize_all(metadata_source_attrs['title'][:normalized])
+    metadata_source_attrs[:title][:normalized] = ProductDetails::renormalize_all(metadata_source_attrs[:title][:normalized])
   end
 
-  def extract_caliber
-    normalized[field_name] = ProductDetails::Caliber.analyze(scrubbed[field_name])
-    results = ProductDetails::Caliber.parse(normalized[field_name])
-    normalized[field_name] = results[:text]
+  def extract_caliber(field_name)
+    return unless scrubbed_content = metadata_source_attrs[field_name][:scrubbed] rescue nil
+    normalized_content = ProductDetails::Caliber.analyze(scrubbed_content)
+    results = ProductDetails::Caliber.parse(normalized_content)
+    context[:metadata_source_attrs][field_name][:normalized] = results[:text]
     context[:metadata].update(attribute: :caliber, source: field_name, content: results[:keywords].first)
     context[:metadata].update(attribute: :caliber_category, source: field_name, content: results[:category])
   end
