@@ -1,10 +1,6 @@
 class ExtractMetaDataFromRawListing
   include Interactor
 
-  def setup
-    context[:metadata] = MetadataTable.new
-  end
-
   def perform
     attributes_to_be_extracted = case type
       when "Optics"
@@ -24,25 +20,23 @@ class ExtractMetaDataFromRawListing
     str = ProductDetails::Scrubber.scrub(raw_listing['caliber'], :punctuation, :caliber)
     str = ProductDetails::Caliber.analyze(str)
     results = ProductDetails::Caliber.parse(str)
-    context[:metadata].update(
-      attribute: :caliber,
-      source:    :raw,
-      content:   results[:keywords].first
+    context[:caliber] = ElasticSearchObject.new(
+      "caliber",
+      raw: results[:keywords].first
     )
-    context[:metadata].update(
-      attribute: :caliber_category,
-      source:    :raw,
-      content:   results[:category])
+    context[:caliber_category] = ElasticSearchObject.new(
+      "caliber_category",
+      raw: results[:category]
+    )
   end
 
   def extract_caliber_category
     str = ProductDetails::Scrubber.scrub(raw_listing['caliber_category'], :punctuation, :caliber)
     str = ProductDetails::Caliber.analyze(str)
     results = ProductDetails::Caliber.parse_category(str)
-    context[:metadata].update(
-      attribute: :caliber_category,
-      source:    :raw,
-      content:   results[:keywords].first
+    context[:caliber_category] = ElasticSearchObject.new(
+      "caliber_category",
+      raw: results[:keywords].first
     )
   end
 
@@ -50,26 +44,23 @@ class ExtractMetaDataFromRawListing
     str = ProductDetails::Scrubber.scrub(raw_listing['manufacturer'], :punctuation)
     str = ProductDetails::Manufacturer.analyze(str)
     results = ProductDetails::Manufacturer.parse(str)
-    context[:metadata].update(
-      attribute: :manufacturer,
-      source:    :raw,
-      content:   results[:keywords].first
+    context[:manufacturer] = ElasticSearchObject.new(
+      "manufacturer",
+      raw: results[:keywords].first
     )
   end
 
   def extract_grains
-    context[:metadata].update(
-      attribute: :grains,
-      source:    :raw,
-      content:   raw_listing['grains'].delete(",").to_i
+    context[:grains] = ElasticSearchObject.new(
+      "grains",
+      raw: raw_listing['grains'].delete(",").to_i
     )
   end
 
   def extract_number_of_rounds
-    context[:metadata].update(
-      attribute: :number_of_rounds,
-      source:    :raw,
-      content:   raw_listing['number_of_rounds'].delete(",").to_i
+    context[:number_of_rounds] = ElasticSearchObject.new(
+      "number_of_rounds",
+      raw: raw_listing['number_of_rounds'].delete(",").to_i
     )
   end
 end

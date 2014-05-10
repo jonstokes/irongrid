@@ -12,37 +12,37 @@ class ExtractMetadataFromSourceAttributes
       end
 
     attributes_to_be_extracted.each do |attr|
-      send("extract_#{attr}", :title)
+      next if context[attr.to_sym].raw || send("extract_#{attr}", :title)
+      next keywords.raw.nil?
       send("extract_#{attr}", :keywords)
     end
-    metadata_source_attrs[:title][:normalized] = ProductDetails::renormalize_all(metadata_source_attrs[:title][:normalized])
+    context[:title].normalized = ProductDetails::renormalize_all(title.normalized)
   end
 
   def extract_caliber(field_name)
-    return unless scrubbed_content = metadata_source_attrs[field_name][:scrubbed] rescue nil
-    normalized_content = ProductDetails::Caliber.analyze(scrubbed_content)
+    normalized_content = ProductDetails::Caliber.analyze(context[field_name].scrubbed)
     results = ProductDetails::Caliber.parse(normalized_content)
-    context[:metadata_source_attrs][field_name][:normalized] = results[:text]
-    context[:metadata].update(attribute: :caliber, source: field_name, content: results[:keywords].first)
-    context[:metadata].update(attribute: :caliber_category, source: field_name, content: results[:category])
+    context[field_name].normalized = results[:text]
+    context[:caliber].raw = results[:keywords].first
+    context[:caliber_category].raw = results[:category]
   end
 
-  def extract_manufacturer
-    normalized[field_name] = ProductDetails::Manufacturer.analyze(normalized[field_name] || scrubbed[field_name])
-    results = ProductDetails::Manufacturer.parse(normalized[field_name])
-    normalized[field_name] = results[:text]
-    context[:metadata].update(attribute: :manufacturer, source: field_name, content: results[:keywords].first)
+  def extract_manufacturer(field_name)
+    normalized_content = ProductDetails::Manufacturer.analyze(title.normalized || title.scrubbed)
+    results = ProductDetails::Manufacturer.parse(normalized_content)
+    context[field_name].normalized = results[:text]
+    context[:manufacturer.raw] = results[:keywords].first
   end
 
-  def extract_grains
-    results = ProductDetails::Grains.parse(normalized[field_name])
-    normalized[field_name] = results[:text]
-    context[:metadata].update(attribute: :grains, source: field_name, content: results[:keywords].first)
+  def extract_grains(field_name)
+    results = ProductDetails::Grains.parse(title.normalized)
+    context[field_name].normalized = results[:text]
+    context[:grains].raw = results[:keywords].first
   end
 
-  def extract_number_of_rounds
-    results = ProductDetails::Rounds.parse(normalized[field_name])
-    normalized[field_name] = results[:text]
-    context[:metadata].update(attribute: :number_of_rounds, source: field_name, content: results[:keywords].first)
+  def extract_number_of_rounds(field_name)
+    results = ProductDetails::Rounds.parse(title.normalized)
+    context[field_name].normalized = results[:text]
+    context[:number_of_rounds] = results[:keywords].first
   end
 end

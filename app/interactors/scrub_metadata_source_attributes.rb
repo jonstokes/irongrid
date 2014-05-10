@@ -1,19 +1,10 @@
 class ScrubMetadataSourceAttributes
   include Interactor
 
-  def setup
-    context[:metadata_source_attrs] = {}
-  end
-
   def peform
-    %w(title keywords).each do |attr|
-      next unless content = raw_listing[attr]
-      metadata_source_attrs[attr] = {
-        attr.to_sym   => content,
-        :autocomplete => content,
-        :scrubbed     => scrub(content),
-      }
-    end
+    context[:title].scrubbed = scrub(title.raw)
+    context[:title].autocomplete = scrub(title.raw)
+    context[:keywords].scrubbed = scrub(keywords.raw) if keywords.raw
   end
 
   def scrub(content)

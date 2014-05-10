@@ -2,11 +2,24 @@ class SoftCategorize
   include Interactor
 
   def perform
-    if es_objects[:category1]["classification_type"] == "fall_through"
-      es_objects[:category1] = metadata_categorize ||
+    if category1.classification_type == "fall_through"
+      context[:category1] = metadata_categorize ||
         soft_categorize("category1") ||
-        {"category1" => "None", "classification_type" => "fall_through"}
+        ElasticSearchObject.new(
+          "category1",
+          raw:                  "None",
+          classification_type: "fall_through"
+        )
     end
+  end
+
+  def metadata_categorize
+    return unless grains && number_of_rounds && caliber
+      ElasticSearchObject.new(
+        "category1",
+        raw:                  "Ammunition",
+        classification_type:  "metadata"
+      )
   end
 
   def soft_categorize(cat)
@@ -14,7 +27,7 @@ class SoftCategorize
     SoftCategorizer.new(
       category_name: cat,
       price:         current_price_in_cents,
-      title:         metadata_source_attributes['title']['scrubbed']
+      title:         title.scrubbed
     ).categorize
   end
 end

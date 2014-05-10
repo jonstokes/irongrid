@@ -2,7 +2,7 @@ class SetPricePerRound
   include Interactor
 
   def perform
-    context[:item_data]['price_per_round_in_cents'] = price_per_round_in_cents
+    context[:price_per_round_in_cents] = price_per_round_in_cents
   end
 
   def price_per_round_in_cents

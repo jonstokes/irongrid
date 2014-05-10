@@ -12,7 +12,12 @@ class SoftCategorizer < CoreModel
   def categorize
     search_options.each_with_index do |opts, i|
       next unless category = categorize_with_search_index(opts)
-      return { category_name => category, "classification_type" => "soft", "score" => i }
+      return ElasticSearchObject.new(
+        category_name,
+        raw: category,
+        classification_type: "soft",
+        score: i
+      )
     end
     nil
   end

@@ -2,20 +2,33 @@ class SetCommonAttributes
   include Interactor
 
   def perform
-    context[:item_data] = {
-      'category1' => category1,
-      'description' => description,
-      'image_source' => image_source,
-      'image_download_attempted' => false,
-      'item_condition' => item_condition,
-      'item_location' => item_location
-    }
+    context[:title] = title
+    context[:keywords] = keywords
+    context[:category1] = category1
+
+    context[:description] =  description
+    context[:image_source] = image_source
+    context[:image_download_attempted] = false
+    context[:item_condition] = item_condition
+    context[:item_location] = item_location
+  end
+
+  def title
+    ElasticSearchObject.new("title", raw: raw_listing['title'])
+  end
+
+  def keywords
+    ElasticSearchObject.new("keywords", raw: raw_listing['keywords'])
   end
 
   def category1
     hard_categorize("category1") ||
       default_categorize("category1") ||
-      {"category1" => "None", "classification_type" => "fall_through"}
+      ElasticSearchObject.new(
+        "category1",
+        raw:                  "None",
+        classification_type: "fall_through"
+      )
   end
 
   def description
@@ -51,11 +64,19 @@ class SetCommonAttributes
 
   def hard_categorize(cat)
     return unless value = raw_listing[cat]
-    { cat => value, "classification_type" => "hard" }
+    ElasticSearchObject.new(
+      cat,
+      raw: value,
+      classificatio_type: "hard"
+    )
   end
 
   def default_categorize(cat)
     return unless value = adapter.send("default_#{cat}")
-    { cat => value, "classification_type" => "default" }
+    ElasticSearchObject.new(
+      cat,
+      raw: value,
+      classificatio_type: "hard"
+    )
   end
 end
