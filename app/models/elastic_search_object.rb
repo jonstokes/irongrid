@@ -14,9 +14,9 @@ class ElasticSearchObject
     end
   end
 
-  def initialize(name, opts)
+  def initialize(name, opts = {})
     @name = name
-    @data = opts || {}
+    @data = opts
     @respond_to = []
   end
 

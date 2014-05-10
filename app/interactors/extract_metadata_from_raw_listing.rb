@@ -2,17 +2,19 @@ class ExtractMetaDataFromRawListing
   include Interactor
 
   def perform
-    attributes_to_be_extracted = case type
-      when "Optics"
-        MetadataTable::OPTICS_METADATA_ATTRIBUTES + 'caliber_category'
-      when "Guns"
-        MetadataTable::GUN_METADATA_ATTRIBUTES + 'caliber_category'
-      else
-        MetadataTable::AMMO_METADATA_ATTRIBUTES
-      end
-
     attributes_to_be_extracted.each do |attr|
       send("extract_#{attr}") if raw_listing[attr]
+    end
+  end
+
+  def attributes_to_be_extracted
+    case type
+    when "Optics"
+      MetadataTable::OPTICS_METADATA_ATTRIBUTES + 'caliber_category'
+    when "Guns"
+      MetadataTable::GUN_METADATA_ATTRIBUTES + 'caliber_category'
+    else
+      MetadataTable::AMMO_METADATA_ATTRIBUTES
     end
   end
 
