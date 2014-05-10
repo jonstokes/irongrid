@@ -30,19 +30,19 @@ class SetPriceAttributes
   end
 
   def buy_now_price_in_cents
-    ListingFormat.price(@raw_listing['buy_now_price'])
+    ListingFormat.price(raw_listing['buy_now_price'])
   end
 
   def current_bid_in_cents
-    ListingFormat.price(@raw_listing['current_bid'])
+    ListingFormat.price(raw_listing['current_bid'])
   end
 
   def minimum_bid_in_cents
-    ListingFormat.price(@raw_listing['minimum_bid'])
+    ListingFormat.price(raw_listing['minimum_bid'])
   end
 
   def reserve_in_cents
-    ListingFormat.price(@raw_listing['reserve'])
+    ListingFormat.price(raw_listing['reserve'])
   end
 
   def price_in_cents
@@ -50,7 +50,7 @@ class SetPriceAttributes
   end
 
   def sale_price_in_cents
-    ListingFormat.price(@raw_listing['sale_price'])
+    ListingFormat.price(raw_listing['sale_price'])
   end
 
   def price_on_request
