@@ -9,7 +9,7 @@ module ListingFormat
     def time(opts)
       site, time = opts[:site], opts[:time]
       return unless time
-      Time.zone = site.timezone || DEFAULT_LISTING_TIMEZONE
+      Time.zone = site.try(:timezone) || DEFAULT_LISTING_TIMEZONE
       begin
         Time.zone.parse(time).utc || Time.strptime(time, "%m/%d/%Y %H:%M:%S").utc
       rescue ArgumentError
