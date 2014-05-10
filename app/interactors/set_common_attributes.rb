@@ -36,8 +36,8 @@ class SetCommonAttributes
   end
 
   def image_source
-    return unless @raw_listing['image']
-    return unless image_source = clean_up_image_url(@raw_listing['image'])
+    return unless raw_listing['image']
+    return unless image_source = clean_up_image_url(raw_listing['image'])
     unless is_valid_image_url?(image_source)
       notify "## IMAGE ERROR at #{url}. Image source is #{image_source}"
       return nil
@@ -78,5 +78,28 @@ class SetCommonAttributes
       raw: value,
       classificatio_type: "hard"
     )
+  end
+
+  def clean_up_image_url(link)
+    return unless retval = URI.encode(link)
+    return retval unless retval["?"]
+    retval.split("?").first
+  end
+
+  def is_valid_image_url?(link)
+    return false unless is_valid_url?(link)
+    extensions = %w(.png .jpg .jpeg .gif .bmp)
+    extensions.select { |ext| link.downcase[ext] }.any?
+  end
+
+  def is_valid_url?(link)
+    begin
+      uri = URI.parse(link)
+      %w( http https ).include?(uri.scheme)
+    rescue URI::BadURIError
+      return false
+    rescue URI::InvalidURIError
+      return false
+    end
   end
 end
