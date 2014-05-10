@@ -1,4 +1,4 @@
-class ScrubMetaDataSourceAttributes
+class ScrubMetadataSourceAttributes
   include Interactor
 
   def setup

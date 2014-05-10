@@ -45,9 +45,8 @@ class SetCommonAttributes
   end
 
   def item_location
-      return raw_listing['item_location'] if raw_listing['item_location'].present?
-      adapter.default_item_location
-    end
+    return raw_listing['item_location'] if raw_listing['item_location'].present?
+    adapter.default_item_location
   end
 
   def hard_categorize(cat)
@@ -58,5 +57,5 @@ class SetCommonAttributes
   def default_categorize(cat)
     return unless value = adapter.send("default_#{cat}")
     { cat => value, "classification_type" => "default" }
-  endß
+  end
 end

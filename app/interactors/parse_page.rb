@@ -13,10 +13,10 @@ class ParsePage
     SetPriceAttributes,
     SetAvailability,
     SetCurrentPrice,
-    SetPricePerRound,
-    ScrubMetaDataSourceAttributes,
+    ScrubMetadataSourceAttributes,
     ExtractMetaDataFromRawListing,
     ExtractMetadataFromSourceAttributes,
+    SetPricePerRound,
     SoftCategorize,
     SetDigest,
     GenerateListingHash

@@ -1,4 +1,4 @@
-class ExtractRawListing
+class ExtractRawListingFromPage
   include Interactor
 
   def setup
