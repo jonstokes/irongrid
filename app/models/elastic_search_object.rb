@@ -2,7 +2,7 @@ class ElasticSearchObject
 
   attr_reader :name
 
-  FIELDS = %w(raw scrubbed normalized classification_type score).map(&:to_sym)
+  FIELDS = %w(raw scrubbed normalized autocomplete classification_type score).map(&:to_sym)
 
   FIELDS.each do |key|
     define_method key do

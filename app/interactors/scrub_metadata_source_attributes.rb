@@ -1,7 +1,7 @@
 class ScrubMetadataSourceAttributes
   include Interactor
 
-  def peform
+  def perform
     context[:title].scrubbed = scrub(title.raw)
     context[:title].autocomplete = scrub(title.raw)
     context[:keywords].scrubbed = scrub(keywords.raw) if keywords.raw
