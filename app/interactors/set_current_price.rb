@@ -2,14 +2,18 @@ class SetCurrentPrice
   include Interactor
 
   def perform
-    context[:current_price_in_cents] = if type == "AuctionListing"
+    puts "Type: #{type}"
+    context[:current_price_in_cents] = case type
+                                       when "AuctionListing"
                                          auction_current_price_in_cents
-                                       else
-                                         current_price_in_cents
+                                       when "RetailListing"
+                                         retail_current_price_in_cents
+                                       when "ClassifiedListing"
+                                         price_in_cents
                                        end
   end
 
-  def current_price_in_cents
+  def retail_current_price_in_cents
     sale_price_in_cents || price_in_cents
   end
 
