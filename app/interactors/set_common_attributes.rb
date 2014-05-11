@@ -6,6 +6,9 @@ class SetCommonAttributes
     context[:keywords] = keywords
     context[:category1] = category1
 
+    context[:seller_domain] = site.domain
+    context[:seller_name] = site.name
+    context[:affiliate_link_tag] = site.affiliate_link_tag
     context[:description] =  description
     context[:image_source] = image_source
     context[:image_download_attempted] = false

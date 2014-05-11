@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SetCommonAttributes do
   describe "#perform" do
-    before :each do
+    it "correctly sets common attributes" do
       @site = create_site "www.retailer.com"
       @raw_listing = {
         "validation" => {
@@ -24,9 +24,7 @@ describe SetCommonAttributes do
         "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
         "category1" => "Guns"
       }
-    end
 
-    it "correctly sets common attributes" do
       result = SetCommonAttributes.perform(
         site: @site,
         raw_listing: @raw_listing,
@@ -40,6 +38,26 @@ describe SetCommonAttributes do
       expect(result.image_source).to eq(@raw_listing['image'])
       expect(result.item_condition).to eq(@raw_listing['seller_defaults']['item_condition'])
       expect(result.item_location).to eq(@raw_listing['seller_defaults']['item_location'])
+      expect(result.seller_domain).to eq(@site.domain)
+      expect(result.seller_name).to eq(@site.name)
+    end
+
+    it "adds an affiliate link tag if the site has one" do
+      site = Site.new(domain: "www.luckygunner.com", source: :fixture)
+      site.send(:write_to_redis)
+
+      url = "http://www.luckygunner.com/product1"
+      raw_listing = {
+        "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420rnds",
+        "url" => url,
+        "category1" => "Ammunition"
+      }
+      result = SetCommonAttributes.perform(
+        site: site,
+        raw_listing: raw_listing,
+        adapter: site.page_adapter
+      )
+      expect(result.affiliate_link_tag).to eq("#rid=ironsights&amp;chan=search")
     end
   end
 end
