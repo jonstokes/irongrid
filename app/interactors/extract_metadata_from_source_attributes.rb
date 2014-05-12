@@ -4,12 +4,16 @@ class ExtractMetadataFromSourceAttributes
   def perform
     attributes_to_be_extracted.each do |attr|
       next if context[attr.to_sym].try(:raw)
-      send("extract_#{attr}", :title)
-      next if context[attr.to_sym].try(:raw) || !keywords.raw
-      puts "Extracting #{attr} from keywords"
-      send("extract_#{attr}", :keywords)
+      next if extract_attribute(:title, attr)
+      extract_attribute(:keywords, attr)
     end
     context[:title].normalized = ProductDetails.renormalize_all(title.normalized)
+  end
+
+  def extract_attribute(field, attr)
+    source_content = context[field].normalized || context[field].scrubbed
+    send("extract_#{attr}", field)
+    !!context[attr.to_sym].try(:raw)
   end
 
   def attributes_to_be_extracted
