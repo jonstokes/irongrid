@@ -54,6 +54,8 @@ describe ExtractMetadataFromSourceAttributes do
         )
         expect(result.caliber.raw).to eq("5.56 NATO")
         expect(result.caliber.classification_type).to eq("metadata")
+        expect(result.caliber_category.raw).to eq("rifle")
+        expect(result.caliber.classification_type).to eq("metadata")
 
         keywords = ElasticSearchObject.new("keywords")
         title = ElasticSearchObject.new("title")
@@ -66,6 +68,8 @@ describe ExtractMetadataFromSourceAttributes do
         )
         expect(result.caliber.raw).to eq("5.56 NATO")
         expect(result.caliber.classification_type).to eq("metadata")
+        expect(result.caliber_category.raw).to eq("rifle")
+        expect(result.caliber.classification_type).to eq("metadata")
 
         title = ElasticSearchObject.new("title")
         title.raw = "Federal XM855 20ga Ammo FMJ, 420 Rounds"
@@ -76,6 +80,8 @@ describe ExtractMetadataFromSourceAttributes do
           keywords: keywords
         )
         expect(result.caliber.raw).to eq("20 gauge")
+        expect(result.caliber.classification_type).to eq("metadata")
+        expect(result.caliber_category.raw).to eq("shotgun")
         expect(result.caliber.classification_type).to eq("metadata")
 
         title = ElasticSearchObject.new("title")
@@ -88,6 +94,8 @@ describe ExtractMetadataFromSourceAttributes do
         )
         expect(result.caliber.raw).to eq(".45 ACP")
         expect(result.caliber.classification_type).to eq("metadata")
+        expect(result.caliber_category.raw).to eq("handgun")
+        expect(result.caliber.classification_type).to eq("metadata")
 
         title = ElasticSearchObject.new("title")
         title.raw = "Federal XM855 .22 LR 62 Grain FMJ, 420 Rounds"
@@ -98,6 +106,8 @@ describe ExtractMetadataFromSourceAttributes do
           keywords: keywords
         )
         expect(result.caliber.raw).to eq(".22lr")
+        expect(result.caliber.classification_type).to eq("metadata")
+        expect(result.caliber_category.raw).to eq("rimfire")
         expect(result.caliber.classification_type).to eq("metadata")
       end
 
@@ -112,6 +122,8 @@ describe ExtractMetadataFromSourceAttributes do
           keywords: @keywords
         )
         expect(result.caliber.raw).to eq("20 gauge")
+        expect(result.caliber.classification_type).to eq("metadata")
+        expect(result.caliber_category.raw).to eq("shotgun")
         expect(result.caliber.classification_type).to eq("metadata")
       end
     end
