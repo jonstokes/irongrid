@@ -14,7 +14,7 @@ class ParsePage
     SetAvailability,
     SetCurrentPrice,
     ScrubMetadataSourceAttributes,
-    ExtractMetaDataFromRawListing,
+    ExtractMetadataFromRawListing,
     ExtractMetadataFromSourceAttributes,
     SetPricePerRound,
     SoftCategorize,
