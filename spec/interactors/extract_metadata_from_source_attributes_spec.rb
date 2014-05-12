@@ -116,6 +116,49 @@ describe ExtractMetadataFromSourceAttributes do
       end
     end
 
+    describe "number of rounds" do
+      it "correctly extracts the number of rounds from the title" do
+        keywords = ElasticSearchObject.new("keywords")
+        result = ExtractMetadataFromSourceAttributes.perform(
+          category1: @category1,
+          title: @title,
+          keywords: keywords
+        )
+        expect(result.number_of_rounds.raw).to eq(420)
+        expect(result.number_of_rounds.classification_type).to eq("metadata")
+      end
+
+      it "correctly extracts the number of rounds from a 'box of rounds' type title" do
+        keywords = ElasticSearchObject.new("keywords")
+        title = ElasticSearchObject.new("title")
+        title.raw = "Federal XM855 .22 LR 62 Grain FMJ, box of 4,000"
+        title.scrubbed = ProductDetails::Scrubber.scrub_all(title.raw)
+        result = ExtractMetadataFromSourceAttributes.perform(
+          category1: @category1,
+          title: title,
+          keywords: keywords
+        )
+        expect(result.number_of_rounds.raw).to eq(4000)
+        expect(result.number_of_rounds.classification_type).to eq("metadata")
+      end
+
+      it "correctly extracts the number of rounds from the keywords" do
+        title = ElasticSearchObject.new("title")
+        title.raw = "Federal XM855 .22 LR 62 Grain FMJ"
+        title.scrubbed = ProductDetails::Scrubber.scrub_all(title.raw)
+        keywords = ElasticSearchObject.new("keywords")
+        keywords.raw = "420rnd"
+        keywords.scrubbed = ProductDetails::Scrubber.scrub_all(keywords.raw)
+        result = ExtractMetadataFromSourceAttributes.perform(
+          category1: @category1,
+          title: title,
+          keywords: keywords
+        )
+        expect(result.number_of_rounds.raw).to eq(420)
+        expect(result.number_of_rounds.classification_type).to eq("metadata")
+      end
+    end
+
     describe "it can tell the difference between manufacturer and caliber" do
       it "can tell the difference between Federal as mfgr and Remington as caliber" do
         title_string = "Federal .223 Remington Ammo, 400rnds"
