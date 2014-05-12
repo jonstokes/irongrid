@@ -12,7 +12,7 @@ class ExtractMetadataFromSourceAttributes
   end
 
   def attributes_to_be_extracted
-    case type
+    case category1
     when "Optics"
       MetadataTable::OPTICS_METADATA_ATTRIBUTES
     when "Guns"

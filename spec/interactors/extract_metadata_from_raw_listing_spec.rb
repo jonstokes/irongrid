@@ -79,5 +79,32 @@ describe ExtractMetadataFromRawListing do
       expect(result.grains.raw).to eq(62)
       expect(result.grains.classification_type).to eq("hard")
     end
+
+    it "correctly soft classifies the caliber_category as rifle" do
+      @raw_listing.merge!(
+        "title" => "Federal Ammo, 420 Rounds",
+        "caliber" => "Caliber: .223 Remington"
+      )
+      result = ExtractMetadataFromRawListing.perform(
+        raw_listing: @raw_listing,
+        category1: @category1
+      )
+      expect(result.caliber_category.raw).to eq("rifle")
+      expect(result.caliber_category.classification_type).to eq("metadata")
+    end
+
+    it "correctly soft classifies the caliber_category as shotgun" do
+      @raw_listing.merge!(
+        "title" => "Federal Ammo, 420 Rounds",
+        "caliber" => "Caliber: 20ga"
+      )
+      result = ExtractMetadataFromRawListing.perform(
+        raw_listing: @raw_listing,
+        category1: @category1
+      )
+      expect(result.caliber_category.raw).to eq("shotgun")
+      expect(result.caliber_category.classification_type).to eq("metadata")
+    end
+
   end
 end

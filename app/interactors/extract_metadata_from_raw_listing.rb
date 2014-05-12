@@ -30,7 +30,7 @@ class ExtractMetadataFromRawListing
     context[:caliber_category] = ElasticSearchObject.new(
       "caliber_category",
       raw: results[:category],
-      classification_type: "hard"
+      classification_type: "metadata"
     )
   end
 
