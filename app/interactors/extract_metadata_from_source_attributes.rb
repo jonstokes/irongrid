@@ -3,7 +3,7 @@ class ExtractMetadataFromSourceAttributes
 
   def perform
     attributes_to_be_extracted.each do |attr|
-      next if context[attr.to_sym].try(:raw)
+      next if context[attr].try(:raw)
       next if extract_attribute(:title, attr)
       extract_attribute(:keywords, attr)
     end
@@ -11,19 +11,19 @@ class ExtractMetadataFromSourceAttributes
   end
 
   def extract_attribute(field, attr)
-    source_content = context[field].normalized || context[field].scrubbed
+    return unless source_content = context[field].normalized || context[field].scrubbed
     send("extract_#{attr}", field, source_content)
-    !!context[attr.to_sym].try(:raw)
+    !!context[attr].try(:raw)
   end
 
   def attributes_to_be_extracted
     case category1
     when "Optics"
-      MetadataTable::OPTICS_METADATA_ATTRIBUTES
+      MetadataTable::OPTICS_METADATA_ATTRIBUTES.map(&:to_sym)
     when "Guns"
-      MetadataTable::GUN_METADATA_ATTRIBUTES
+      MetadataTable::GUN_METADATA_ATTRIBUTES.map(&:to_sym)
     else
-      MetadataTable::AMMO_METADATA_ATTRIBUTES
+      MetadataTable::AMMO_METADATA_ATTRIBUTES.map(&:to_sym)
     end
   end
 
