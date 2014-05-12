@@ -159,6 +159,35 @@ describe ExtractMetadataFromSourceAttributes do
       end
     end
 
+    describe "grains" do
+      it "correctly extracts the grains from the title" do
+        result = ExtractMetadataFromSourceAttributes.perform(
+          category1: @category1,
+          title: @title,
+          keywords: @keywords
+        )
+        expect(result.grains.raw).to eq(62)
+        expect(result.grains.classification_type).to eq("metadata")
+      end
+
+      it "correctly extracts the grains from the keywords" do
+        title = ElasticSearchObject.new("title")
+        title.raw = "Federal XM855 .44 FMJ"
+        title.scrubbed = ProductDetails::Scrubber.scrub_all(title.raw)
+        keywords = ElasticSearchObject.new("keywords")
+        keywords.raw = "62gr"
+        keywords.scrubbed = ProductDetails::Scrubber.scrub_all(keywords.raw)
+
+        result = ExtractMetadataFromSourceAttributes.perform(
+          category1: @category1,
+          title: title,
+          keywords: keywords
+        )
+        expect(result.grains.raw).to eq(62)
+        expect(result.grains.classification_type).to eq("metadata")
+      end
+    end
+
     describe "it can tell the difference between manufacturer and caliber" do
       it "can tell the difference between Federal as mfgr and Remington as caliber" do
         title_string = "Federal .223 Remington Ammo, 400rnds"
