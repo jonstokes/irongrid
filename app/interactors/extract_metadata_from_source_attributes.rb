@@ -12,7 +12,7 @@ class ExtractMetadataFromSourceAttributes
 
   def extract_attribute(field, attr)
     source_content = context[field].normalized || context[field].scrubbed
-    send("extract_#{attr}", field)
+    send("extract_#{attr}", field, source_content)
     !!context[attr.to_sym].try(:raw)
   end
 
@@ -27,8 +27,8 @@ class ExtractMetadataFromSourceAttributes
     end
   end
 
-  def extract_caliber(field_name)
-    normalized_content = ProductDetails::Caliber.analyze(context[field_name].scrubbed)
+  def extract_caliber(field_name, source_content)
+    normalized_content = ProductDetails::Caliber.analyze(source_content)
     results = ProductDetails::Caliber.parse(normalized_content)
     context[field_name].normalized = results[:text]
     context[:caliber] = ElasticSearchObject.new(
@@ -43,8 +43,8 @@ class ExtractMetadataFromSourceAttributes
     )
   end
 
-  def extract_manufacturer(field_name)
-    normalized_content = ProductDetails::Manufacturer.analyze(context[field_name].normalized || context[field_name].scrubbed)
+  def extract_manufacturer(field_name, source_content)
+    normalized_content = ProductDetails::Manufacturer.analyze(source_content)
     results = ProductDetails::Manufacturer.parse(normalized_content)
     context[field_name].normalized = results[:text]
     context[:manufacturer] = ElasticSearchObject.new(
@@ -54,8 +54,8 @@ class ExtractMetadataFromSourceAttributes
     )
   end
 
-  def extract_grains(field_name)
-    results = ProductDetails::Grains.parse(context[field_name].scrubbed)
+  def extract_grains(field_name, source_content)
+    results = ProductDetails::Grains.parse(source_content)
     context[field_name].normalized = results[:text]
     context[:grains] = ElasticSearchObject.new(
       "grains",
@@ -64,8 +64,8 @@ class ExtractMetadataFromSourceAttributes
     )
   end
 
-  def extract_number_of_rounds(field_name)
-    results = ProductDetails::Rounds.parse(context[field_name].normalized)
+  def extract_number_of_rounds(field_name, source_content)
+    results = ProductDetails::Rounds.parse(source_content)
     context[field_name].normalized = results[:text]
     context[:number_of_rounds] = ElasticSearchObject.new(
       "number_of_rounds",
