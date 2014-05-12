@@ -35,7 +35,7 @@ Alangator
 Alexander Arms
 ALG Defense
 Allen Company Inc
-ALTUS BRANDS
+Altus Brands
 Ambush Tactical
 am defense,am. defense => American_Defense_Manufacturing
 American Eagle
@@ -207,6 +207,7 @@ Dead Ringer
 Decal Grip
 Del-Ton Firearms
 Desantis
+desert tactical,dta => Desert_Tactical_Arms
 Desperate Enterprises
 Dexas
 Diamond Plate
