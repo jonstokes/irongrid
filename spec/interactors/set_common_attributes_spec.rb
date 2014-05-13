@@ -66,15 +66,4 @@ describe SetCommonAttributes do
       pending "Example"
     end
   end
-
-  describe "#digest" do
-    it "should correctly digest a standard, in-stock retail listing from Hyatt Gun Store" do
-      page = load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")
-      doc = Nokogiri.parse(page[:html], page[:url])
-      scraper = ListingScraper.new(Site.new(domain: "www.hyattgunstore.com", source: :local))
-      scraper.parse(doc: doc, url: page[:url])
-      scraper.listing["digest"].should == "600ff2d8e95a7ca170faad192123128e"
-    end
-
-
 end
