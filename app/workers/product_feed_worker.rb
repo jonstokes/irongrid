@@ -20,7 +20,6 @@ class ProductFeedWorker < CoreWorker
     @filename = opts[:filename]
     @site = opts[:site] || Site.new(domain: @domain)
     @link_store = LinkMessageQueue.new(domain: @domain)
-    @scraper = ListingScraper.new(site)
     @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)
     notify "Checking affiliate feed urls for #{@site.name}..."
@@ -74,12 +73,16 @@ class ProductFeedWorker < CoreWorker
     end
   end
 
-  def create_or_update_listing(opts)
-    @scraper.parse(opts.merge(adapter_type: :feed))
-    update_image
-    msg = LinkMessage.new(@scraper)
+  def create_or_update_listing(product)
+    scraper = ParsePage.perform(
+      site: @site,
+      doc: product[:doc],
+      url: product[:url],
+      adapter_type: :feed
+    )
+    update_image(scraper)
+    msg = LinkMessage.new(scraper)
     @link_store.rem(msg.url) # Just in case RefreshLinksWorker had added this url to the LinkMessageQueue
     WriteListingWorker.perform_async(msg.to_h)
-    @scraper.empty!
   end
 end
