@@ -49,6 +49,7 @@ describe ParsePage do
 
       expect(item.category1.map(&:category1).compact.first).to eq("Ammunition")
       expect(item.caliber_category.map(&:caliber_category).compact.first).to eq("rifle")
+      expect(item.manufacturer.map(&:manufacturer).compact.first).to eq("Federal")
       expect(item.title.map(&:title).compact.first.downcase).to eq("federal xm855 5.56 ammo 62 grain fmj, 420 rounds, stripper clips in ammo can")
       expect(item.item_condition).to eq("New")
       expect(item.image_source.downcase).to eq("http://www.hyattgunstore.com/images/p/76472-p.jpg")
