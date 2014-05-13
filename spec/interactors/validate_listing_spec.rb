@@ -43,6 +43,7 @@ describe ValidateListing do
         type: "RetailListing"
       )
       expect(result.success?).to be_false
+      expect(result.status).to eq(:invalid)
     end
 
     it "fails a sold classified" do
@@ -53,6 +54,7 @@ describe ValidateListing do
         type: "ClassifiedListing"
       )
       expect(result.success?).to be_false
+      expect(result.status).to eq(:classified_sold)
     end
 
     it "fails an ended auction" do
@@ -63,6 +65,7 @@ describe ValidateListing do
         type: "AuctionListing"
       )
       expect(result.success?).to be_false
+      expect(result.status).to eq(:auction_ended)
     end
   end
 end

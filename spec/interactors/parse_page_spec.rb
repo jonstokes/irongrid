@@ -10,20 +10,23 @@ describe ParsePage do
 
   describe "#perform" do
 
-    it "returns the proper error message for a not found listing" do
-      pending "Example"
-    end
+    it "fails on an invalid listing" do
+      site = create_site "www.hyattgunstore.com", source: :local
+      url = "http://#{site.domain}/1.html"
+      Mocktra(site.domain) do
+        get '/1.html' do
+          "<html><head></head><body>Invalid Listing!</body></html>"
+        end
+      end
 
-    it "returns the proper error message for an invalid listing" do
-      pending "Example"
-    end
-
-    it "returns the proper error message for a sold classified" do
-      pending "Example"
-    end
-
-    it "returns the proper error message for an ended auction" do
-      pending "Example"
+      page = PageUtils::Test.fetch_page(url)
+      result = ParsePage.perform(
+        site: site,
+        page: page,
+        adapter_type: :page
+      )
+      expect(result.success?).to be_false
+      expect(result.status).to eq(:invalid)
     end
 
     it "should correctly parse a standard, in-stock retail listing from Hyatt Gun Store" do
