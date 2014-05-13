@@ -2,18 +2,24 @@ class GenerateListingHash
   include Interactor
 
   def perform
-    context[:item_data] = convert_es_objects_to_json
     context[:listing] = {
       "url"          => url,
       "digest"       => digest,
       "type"         => type,
-      "item_data"    => item_data
+      "item_data"    => generate_item_data
     }
   end
 
-  def convert_es_objects_to_json
-    # convert title and keywords
-    # convert everything in the metadata table
-    # Make sure that category-inappropriate metadata is NOT included in the final hash
+  def generate_item_data
+    item_data_hash = {}
+    (Listing::ITEM_DATA_ATTRIBUTES + Listing::ES_OBJECTS).each do |attr|
+      attribute = attr.to_sym
+      if context[attribute].is_a?(ElasticSearchObject)
+        item_data_hash.merge!(attr => context[attribute].to_a)
+      else
+        item_data_hash.merge!(attr => context[attribute])
+      end
+    end
+    item_data_hash
   end
 end
