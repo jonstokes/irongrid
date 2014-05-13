@@ -26,7 +26,6 @@ class ScrapePagesWorker < CoreWorker
     return false unless opts && (@domain = opts[:domain])
 
     @site = Site.new(domain: domain)
-    @scraper = ListingScraper.new(@site)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timeout ||= ((60.0 / site.rate_limit.to_f) * 60).to_i
     @link_store = LinkMessageQueue.new(domain: @site.domain)
@@ -43,7 +42,6 @@ class ScrapePagesWorker < CoreWorker
     while !timed_out? && (msg = @link_store.pop) do
       record_incr(:links_deleted)
       status_update
-      @scraper.empty!
       pull_and_process(msg)
     end
     clean_up
@@ -78,16 +76,20 @@ class ScrapePagesWorker < CoreWorker
     url = msg.url
     if @site.page_adapter && page = @rate_limiter.with_limit { get_page(url) }
       record_incr(:pages_read)
-      @scraper.parse(doc: page.doc, url: url, adapter_type: :page)
-      if listing_is_unchanged?(msg)
-        update_image
+      scraper = ParsePage.perform(
+        site: @site,
+        page: page,
+        adapter_type: :page
+      )
+      if listing_is_unchanged?(msg, scraper)
+        update_image(scraper)
         msg.update(dirty_only: true)
       else
-        update_image if @scraper.is_valid?
+        update_image(scraper) if scraper.is_valid?
         msg.update(
-          page_is_valid:   @scraper.is_valid?,
-          page_not_found:  @scraper.not_found?,
-          page_attributes: @scraper.listing
+          page_is_valid:   scraper.is_valid?,
+          page_not_found:  scraper.not_found?,
+          page_attributes: scraper.listing
         )
       end
     else
@@ -97,7 +99,7 @@ class ScrapePagesWorker < CoreWorker
     record_incr(:db_writes)
   end
 
-  def listing_is_unchanged?(msg)
-    msg.listing_digest && (@scraper.listing["digest"] == msg.listing_digest)
+  def listing_is_unchanged?(msg, scraper)
+    msg.listing_digest && (scraper.listing["digest"] == msg.listing_digest)
   end
 end

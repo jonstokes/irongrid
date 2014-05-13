@@ -27,6 +27,7 @@ describe ParsePage do
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
+      expect(result.is_valid?).to be_false
     end
 
     it "should correctly parse a standard, in-stock retail listing from Hyatt Gun Store" do
@@ -46,6 +47,8 @@ describe ParsePage do
         adapter_type: :page
       )
       expect(result.success?).to be_true
+      expect(result.is_valid?).to be_true
+      expect(result.not_found?).to be_false
       listing = Listing.create(result.listing)
       Listing.index.refresh
       item = Listing.index.retrieve "retail_listing", listing.id
@@ -80,6 +83,8 @@ describe ParsePage do
         adapter_type: :page
       )
       expect(result.success?).to be_true
+      expect(result.is_valid?).to be_true
+      expect(result.not_found?).to be_false
       listing = Listing.create(result.listing)
       Listing.index.refresh
       item = Listing.index.retrieve "retail_listing", listing.id
@@ -115,6 +120,8 @@ describe ParsePage do
         adapter_type: :page
       )
       expect(result.success?).to be_true
+      expect(result.is_valid?).to be_true
+      expect(result.not_found?).to be_false
       listing = Listing.create(result.listing)
       Listing.index.refresh
       item = Listing.index.retrieve "classified_listing", listing.id
@@ -149,6 +156,8 @@ describe ParsePage do
         adapter_type: :page
       )
       expect(result.success?).to be_true
+      expect(result.is_valid?).to be_true
+      expect(result.not_found?).to be_false
       listing = Listing.create(result.listing)
       Listing.index.refresh
       item = Listing.index.retrieve "retail_listing", listing.id
@@ -175,6 +184,8 @@ describe ParsePage do
         adapter_type: :page
       )
       expect(result.success?).to be_true
+      expect(result.is_valid?).to be_true
+      expect(result.not_found?).to be_false
       listing = Listing.create(result.listing)
       Listing.index.refresh
       item = Listing.index.retrieve "retail_listing", listing.id

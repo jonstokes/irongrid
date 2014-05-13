@@ -21,6 +21,14 @@ class ParsePage
     SetDigest,
     GenerateListingHash
   ]
+
+  def is_valid?
+    success?
+  end
+
+  def not_found?
+    !success? && status == :not_found
+  end
 end
 
 
