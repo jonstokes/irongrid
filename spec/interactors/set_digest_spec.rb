@@ -8,32 +8,39 @@ describe SetDigest do
       url: "http://www.hyattgunstore.com/federal-xm855-5.56-ammo-62-grain-fmj-420-rounds-on-30-round-stripper-clips.html",
       type: "RetailListing",
       title: ElasticSearchObject.new(
+        "title",
         raw: "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
         autocomplete: "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
         scrubbed: "Federal XM855 5.56 Ammo 62 Grain FMJ 420 Rounds Stripper Clips in Ammo Can",
         normalized: "Federal xm855 5.56 NATO ammo 62 grain fmj 420 rounds stripper clips in ammo can"
       ),
       category1: ElasticSearchObject.new(
+        "category1",
         raw: "Ammunition",
         classification_type: "hard"
       ),
       caliber_category: ElasticSearchObject.new(
+        "caliber_category",
         raw: "rifle",
         classification_type: "metadata"
       ),
       manufacturer: ElasticSearchObject.new(
+        "manufacturer",
         raw: "Federal",
         classification_type: "metadata"
       ),
       caliber: ElasticSearchObject.new(
+        "caliber",
         raw: "5.56 NATO",
         classification_type: "metadata"
       ),
       number_of_rounds: ElasticSearchObject.new(
+        "number_of_rounds",
         raw: 420,
         classification_type: "metadata"
       ),
       grains: ElasticSearchObject.new(
+        "grains",
         raw: 62,
         classification_type: "metadata"
       ),
