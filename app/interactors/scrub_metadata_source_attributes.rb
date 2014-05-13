@@ -3,7 +3,7 @@ class ScrubMetadataSourceAttributes
 
   def perform
     context[:title].scrubbed = scrub(title.raw)
-    context[:title].autocomplete = scrub(title.raw)
+    context[:title].autocomplete = context[:title].scrubbed
     context[:keywords].scrubbed = scrub(keywords.raw) if keywords.raw
   end
 

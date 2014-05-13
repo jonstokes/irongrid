@@ -20,10 +20,10 @@ class SetDigest
   )
 
   def perform
-    context[:digest] = generate_digest
+    context[:digest] = digest
   end
 
-  def generate_digest
+  def digest
     digest_string = ""
     adapter.digest_attributes(default_digest_attributes).each do |attr|
       attribute = attr.to_sym

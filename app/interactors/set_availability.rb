@@ -2,6 +2,7 @@ class SetAvailability
   include Interactor
 
   def perform
+    context[:stock_status] = stock_status
     context[:availability] = stock_status.parameterize("_")
   end
 
