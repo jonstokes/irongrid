@@ -14,7 +14,7 @@ class SoftCategorize
   end
 
   def metadata_categorize
-    return unless grains && number_of_rounds && caliber
+    return unless context[:grains] && context[:number_of_rounds] && context[:caliber]
       ElasticSearchObject.new(
         "category1",
         raw:                  "Ammunition",
@@ -23,7 +23,6 @@ class SoftCategorize
   end
 
   def soft_categorize(cat)
-    return unless scrubbed[:title]
     SoftCategorizer.new(
       category_name: cat,
       price:         current_price_in_cents,
