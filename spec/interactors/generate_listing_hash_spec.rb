@@ -89,7 +89,11 @@ describe GenerateListingHash do
       expect(item.send(attr)).to eq(opts[attr.to_sym])
     end
     Listing::ITEM_DATA_ATTRIBUTES.each do |attr|
-      expect(item.send(attr)).to eq(opts[attr.to_sym])
+      if attr == "keywords"
+        expect(item.keywords).to eq(opts[:keywords].raw)
+      else
+        expect(item.send(attr)).to eq(opts[attr.to_sym])
+      end
     end
     Listing::ES_OBJECTS.each do |attr|
       expect(item.send(attr).map { |k| k.send(attr) }.compact.first).to eq(opts[attr.to_sym].raw)
