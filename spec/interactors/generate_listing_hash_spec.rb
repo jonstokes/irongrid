@@ -15,6 +15,12 @@ describe GenerateListingHash do
         scrubbed: "Federal XM855 5.56 Ammo 62 Grain FMJ 420 Rounds Stripper Clips in Ammo Can",
         normalized: "Federal xm855 5.56 NATO ammo 62 grain fmj 420 rounds stripper clips in ammo can"
       ),
+      keywords: ElasticSearchObject.new(
+        "keywords",
+        raw: "Federal XM855 5.56mm 62 Grain FMJ, 420 Rounds on 30-Round Stripper Clips,",
+        scrubbed: "Federal XM855 5.56mm 62 Grain FMJ, 420 Rounds on 30-Round Stripper Clips,",
+        normalized: "Federal XM855 5.56mm 62 Grain FMJ, 420 Rounds on 30-Round Stripper Clips,"
+      ),
       category1: ElasticSearchObject.new(
         "category1",
         raw: "Ammunition",
@@ -48,7 +54,6 @@ describe GenerateListingHash do
       seller_name: "Hyatt Gun Store",
       seller_domain: "www.hyattgunstore.com",
       description: "Federal 5.56 Ammo in a can is available in 420 round or 840 round ammo cans. The cans are packed with 30 round boxes of (3) 10 shot strip clips. This ammo is 62 grain full metal jacket. Shipped in a 30 caliber military ammo can.",
-      keywords: "Federal XM855 5.56mm 62 Grain FMJ, 420 Rounds on 30-Round Stripper Clips,",
       image_source: "http://www.hyattgunstore.com/images/P/76472-P.jpg",
       image_download_attempted: false,
       affiliate_link_tag: nil,

@@ -21,11 +21,13 @@ class ElasticSearchObject
   end
 
   def to_a
-    @data.map do |k, v|
-      if k == :raw
-        { name => v }
+    attrs = ElasticTools::IndexMapping.index_properties[:properties][name.to_sym][:properties].keys rescue nil
+    return @data[:raw] unless attrs
+    attrs.map do |attr|
+      if attr == name.to_sym
+        { name => @data[:raw] }
       else
-        { k.to_s => v }
+        { attr.to_s => @data[attr] }
       end
     end
   end

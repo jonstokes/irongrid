@@ -31,5 +31,9 @@ module PageUtils
       image.send(:download_image)
       image
     end
+
+    def self.fetch_page(link, opts={})
+      get_page(link, opts)
+    end
   end
 end

@@ -12,7 +12,19 @@ describe ElasticSearchObject do
   describe "#to_a" do
     it "outputs the object in a format that's ready to be converted to json and indexed" do
       title = ElasticSearchObject.new("title", raw: "Foobar", normalized: "foobar")
-      expect(title.to_a).to eq([{"title" => "Foobar"},{"normalized" => "foobar"}])
+      expect(title.to_a).to eq(
+        [
+          {"title" => "Foobar"},
+          {"scrubbed" => nil},
+          {"normalized" => "foobar"},
+          {"autocomplete" => nil}
+        ]
+      )
+    end
+
+    it "outputs as a string an object that's not mapped as an object in the ES index" do
+      keywords = ElasticSearchObject.new("keywords", raw: "Foobar", normalized: "foobar")
+      expect(keywords.to_a).to eq("Foobar")
     end
   end
 
