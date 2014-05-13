@@ -1,6 +1,24 @@
 class SetDigest
   include Interactor
 
+  DEFAULT_DIGEST_ATTRIBUTES = %w(
+    title
+    image_source
+    description
+    keywords
+    type
+    seller_domain
+    item_condition
+    item_location
+    category1
+    caliber_category
+    caliber
+    manufacturer
+    grains
+    number_of_rounds
+    current_price_in_cents
+  )
+
   def perform
     context[:digest] = digest
   end
@@ -8,7 +26,13 @@ class SetDigest
   def digest
     digest_string = ""
     adapter.digest_attributes(default_digest_attributes).each do |attr|
-      digest_string << "#{send(attr)}"
+      if context[attr.to_sym].is_a?(ElasticSearchObject)
+        puts "<< #{attr}: _#{context[attr.to_sym].to_s}_"
+        digest_string << "#{context[attr.to_sym].to_s}"
+      else
+        puts "<< #{attr}: _#{context[attr.to_sym]}_"
+        digest_string << "#{context[attr.to_sym]}"
+      end
     end
     Digest::MD5.hexdigest(digest_string)
   end
