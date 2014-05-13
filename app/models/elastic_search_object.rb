@@ -20,7 +20,7 @@ class ElasticSearchObject
     @respond_to = []
   end
 
-  def to_a
+  def to_index_format
     attrs = ElasticTools::IndexMapping.index_properties[:properties][name.to_sym][:properties].keys rescue nil
     return @data[:raw] unless attrs
     attrs.map do |attr|

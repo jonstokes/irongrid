@@ -15,7 +15,7 @@ class GenerateListingHash
     (Listing::ITEM_DATA_ATTRIBUTES + Listing::ES_OBJECTS).each do |attr|
       attribute = attr.to_sym
       if context[attribute].is_a?(ElasticSearchObject)
-        item_data_hash.merge!(attr => context[attribute].to_a)
+        item_data_hash.merge!(attr => context[attribute].to_index_format)
       else
         item_data_hash.merge!(attr => context[attribute])
       end
