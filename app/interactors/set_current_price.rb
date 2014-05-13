@@ -2,7 +2,6 @@ class SetCurrentPrice
   include Interactor
 
   def perform
-    puts "Type: #{type}"
     context[:current_price_in_cents] = case type
                                        when "AuctionListing"
                                          auction_current_price_in_cents

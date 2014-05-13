@@ -46,7 +46,6 @@ class ExtractMetadataFromRawListing
   end
 
   def extract_manufacturer
-    puts "Extracting manufacturer from #{raw_listing['manufacturer']}"
     str = ProductDetails::Scrubber.scrub(raw_listing['manufacturer'], :punctuation)
     str = ProductDetails::Manufacturer.analyze(str)
     results = ProductDetails::Manufacturer.parse(str)
