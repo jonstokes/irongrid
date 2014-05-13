@@ -1,5 +1,10 @@
 class ExtractMetadataFromRawListing
   include Interactor
+  METADATA_ATTRIBUTES = [:caliber, :caliber_category, :manufacturer, :grains, :number_of_rounds]
+
+  AMMO_METADATA_ATTRIBUTES = 
+  GUN_METADATA_ATTRIBUTES = 
+  OPTICS_METADATA_ATTRIBUTES = %w(manufacturer)
 
   def perform
     attributes_to_be_extracted.each do |attr|
@@ -10,11 +15,11 @@ class ExtractMetadataFromRawListing
   def attributes_to_be_extracted
     case category1.raw
     when "Optics"
-      MetadataTable::OPTICS_METADATA_ATTRIBUTES
+      %w(manufacturer)
     when "Guns"
-      MetadataTable::GUN_METADATA_ATTRIBUTES + ['caliber_category']
+      %w(caliber manufacturer caliber_category)
     else
-      MetadataTable::AMMO_METADATA_ATTRIBUTES + ['caliber_category']
+      %w(caliber manufacturer grains number_of_rounds caliber_category)
     end
   end
 

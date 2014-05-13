@@ -21,9 +21,12 @@ module PageUtils
       domain = opts[:domain] || URI(url).host
       page = get_page(url)
       site = Site.new(domain: domain, source: :local)
-      scraper = ListingScraper.new(site)
-      scraper.parse(doc: page.doc, url: url)
-      scraper
+      ParsePage.perform(
+        site: site,
+        page: page,
+        url: url,
+        adapter_type: :page
+      )
     end
 
     def self.get_image(url)

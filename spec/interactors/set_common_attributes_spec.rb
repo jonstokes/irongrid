@@ -40,6 +40,7 @@ describe SetCommonAttributes do
       expect(result.item_location).to eq(@raw_listing['seller_defaults']['item_location'])
       expect(result.seller_domain).to eq(@site.domain)
       expect(result.seller_name).to eq(@site.name)
+      expect(result.affiliate_link_tag).to be_nil
     end
 
     it "adds an affiliate link tag if the site has one" do

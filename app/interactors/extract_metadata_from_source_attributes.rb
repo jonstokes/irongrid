@@ -17,13 +17,13 @@ class ExtractMetadataFromSourceAttributes
   end
 
   def attributes_to_be_extracted
-    case category1
+    case category1.raw
     when "Optics"
-      MetadataTable::OPTICS_METADATA_ATTRIBUTES.map(&:to_sym)
+      %w(manufacturer).map(&:to_sym)
     when "Guns"
-      MetadataTable::GUN_METADATA_ATTRIBUTES.map(&:to_sym)
+      %w(caliber manufacturer).map(&:to_sym)
     else
-      MetadataTable::AMMO_METADATA_ATTRIBUTES.map(&:to_sym)
+      %w(caliber manufacturer grains number_of_rounds).map(&:to_sym)
     end
   end
 
