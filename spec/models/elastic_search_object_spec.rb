@@ -16,6 +16,13 @@ describe ElasticSearchObject do
     end
   end
 
+  describe "#digest_string" do
+    it "outputs an ordered digest string" do
+      title = ElasticSearchObject.new("title", raw: "Foobar", autocomplete: "barfoo", normalized: "foobar")
+      expect(title.digest_string).to eq("Foobarfoobarbarfoo")
+    end
+  end
+
   describe "#to_s" do
     it "yields the raw value of the object" do
       title = ElasticSearchObject.new("title", raw: "Foobar")

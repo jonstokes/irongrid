@@ -30,6 +30,12 @@ class ElasticSearchObject
     end
   end
 
+  def digest_string
+    ElasticSearchObject::FIELDS.inject("") do |result, field|
+      result + "#{@data[field]}"
+    end
+  end
+
   def to_s
     @data[:raw]
   end

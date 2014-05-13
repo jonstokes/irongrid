@@ -76,11 +76,6 @@ describe SetDigest do
     }
 
     result = SetDigest.perform(opts)
-    expect(result.digest).to eq("600ff2d8e95a7ca170faad192123128e")
+    expect(result.digest).to eq("a0b57db0491562882035e833183d44bb")
   end
-
-  it "should add the URL to the digest on a site where that's required" do
-    pending "Example"
-  end
-
 end

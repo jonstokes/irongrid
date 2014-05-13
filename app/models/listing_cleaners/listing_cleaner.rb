@@ -102,8 +102,10 @@ class ListingCleaner < CoreModel
     digest_string = ""
     adapter.digest_attributes(default_digest_attributes).each do |attr|
       if ES_OBJECTS.include?(attr)
+        puts "<< #{attr}: _#{es_objects[attr.to_sym]}_"
         digest_string << "#{es_objects[attr.to_sym]}"
       elsif send(attr)
+        puts "<< #{attr}: _#{send(attr)}_"
         digest_string << "#{send(attr)}"
       end
     end

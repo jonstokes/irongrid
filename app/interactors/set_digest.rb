@@ -20,18 +20,18 @@ class SetDigest
   )
 
   def perform
-    context[:digest] = digest
+    context[:digest] = generate_digest
   end
 
-  def digest
+  def generate_digest
     digest_string = ""
     adapter.digest_attributes(default_digest_attributes).each do |attr|
-      if context[attr.to_sym].is_a?(ElasticSearchObject)
-        puts "<< #{attr}: _#{context[attr.to_sym].to_s}_"
-        digest_string << "#{context[attr.to_sym].to_s}"
+      attribute = attr.to_sym
+      next unless context[attribute]
+      if context[attribute].is_a?(ElasticSearchObject)
+        digest_string << "#{context[attribute].digest_string}"
       else
-        puts "<< #{attr}: _#{context[attr.to_sym]}_"
-        digest_string << "#{context[attr.to_sym]}"
+        digest_string << "#{context[attribute]}"
       end
     end
     Digest::MD5.hexdigest(digest_string)
