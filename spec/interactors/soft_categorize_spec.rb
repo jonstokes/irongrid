@@ -122,6 +122,4 @@ describe SoftCategorize do
       expect(result.category1.classification_type).to eq("soft")
     end
   end
-
-
 end
