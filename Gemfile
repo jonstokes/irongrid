@@ -28,6 +28,7 @@ gem 'stringex'
 gem 'yell-rails'
 gem 'yell-adapters-syslog'
 gem 'image_voodoo'
+gem 'interactor'
 
 group :development do
   gem 'annotate'

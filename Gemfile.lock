@@ -106,6 +106,7 @@ GEM
     hike (1.2.3)
     i18n (0.6.9)
     image_voodoo (0.8.2)
+    interactor (2.1.0)
     jdbc-postgres (9.3.1100)
     jruby-openssl (0.9.4)
       bouncy-castle-java (>= 1.5.0147)
@@ -243,6 +244,7 @@ DEPENDENCIES
   figaro
   geocoder
   image_voodoo
+  interactor
   jdbc-postgres
   jruby-openssl
   launchy

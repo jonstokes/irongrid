@@ -1,18 +1,40 @@
-class SoftCategorizer < CoreModel
-  attr_reader :category_name, :title, :price
+class SoftCategorize
+  include Interactor
+  include Retryable
+  include Notifier
 
   HIT_THRESHOLD = 2
 
-  def initialize(opts)
-    @category_name = opts[:category_name]
-    @title = opts[:title]
-    @price = opts[:current_price_in_cents] || 0
+  def perform
+    if category1.classification_type == "fall_through"
+      context[:category1] = metadata_categorize ||
+        soft_categorize ||
+        ElasticSearchObject.new(
+          "category1",
+          raw:                  "None",
+          classification_type: "fall_through"
+        )
+    end
   end
 
-  def categorize
+  def metadata_categorize
+    return unless context[:grains] && context[:number_of_rounds] && context[:caliber]
+      ElasticSearchObject.new(
+        "category1",
+        raw:                  "Ammunition",
+        classification_type:  "metadata"
+      )
+  end
+
+  def soft_categorize
     search_options.each_with_index do |opts, i|
       next unless category = categorize_with_search_index(opts)
-      return { category_name => category, "classification_type" => "soft", "score" => i }
+      return ElasticSearchObject.new(
+        "category1",
+        raw: category,
+        classification_type: "soft",
+        score: i
+      )
     end
     nil
   end
@@ -25,7 +47,7 @@ class SoftCategorizer < CoreModel
     search.results.each do |result|
       #> result.category1
       #=> [{'category1' => 'Guns'}, {'classification_type' => 'hard'}]
-      if category = result.send(category_name).detect { |v| v[category_name] }.try(:[], category_name)
+      if category = result.category1.detect { |v| v["category1"] }.try(:[], "category1")
         vote_tally[category] ||= 0
         vote_tally[category] += 1
       end
@@ -39,7 +61,7 @@ class SoftCategorizer < CoreModel
       Tire::Search::Search.new(Listing.index_name, load:false) do |search|
         search.query do |query|
           query_opts = { :default_operator => "AND", :phrase_slop => opts[:slop] }
-          query.string ElasticTools::QueryPreParser.escape_query(title), query_opts
+          query.string ElasticTools::QueryPreParser.escape_query(title.raw), query_opts
         end
         filters(opts).each { |k, v| search.filter k, v }
         search.size 100
@@ -62,9 +84,9 @@ class SoftCategorizer < CoreModel
     end
 
     if category_type
-      filters.merge!( term: { "#{category_name}.classification_type" => category_type })
+      filters.merge!( term: { "category1.classification_type" => category_type })
     else
-      filters.merge!( not: { term: { "#{category_name}.classification_type" => "fall_through" } } )
+      filters.merge!( not: { term: { "category1.classification_type" => "fall_through" } } )
     end
 
     filters
@@ -83,9 +105,9 @@ class SoftCategorizer < CoreModel
 
   def price_range
     @price_range ||= begin
-      price_range_bottom = (price - (price * 0.20)).to_i
-      price_range_bottom = 0 if price < 0
-      price_range_top = (price + (price * 0.20)).to_i
+      price_range_bottom = (current_price_in_cents - (current_price_in_cents * 0.20)).to_i
+      price_range_bottom = 0 if current_price_in_cents < 0
+      price_range_top = (current_price_in_cents + (current_price_in_cents * 0.20)).to_i
       price_range_top = 100000000  if price_range_top <= price_range_bottom
       (price_range_bottom..price_range_top)
     end
@@ -97,7 +119,7 @@ class SoftCategorizer < CoreModel
       return yield
     rescue Exception => e
       if e.message[/REQUEST FAILED/]
-        notify "Bad search request when matching a category for #{@url} with title #{title}"
+        notify "Bad search request when matching a category for #{@url} with title #{title.raw}"
       else
         sleep interval
         retry if (retries -= 1).zero?
@@ -108,6 +130,4 @@ class SoftCategorizer < CoreModel
     end
     return nil
   end
-
 end
-

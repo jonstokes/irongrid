@@ -1,32 +1,17 @@
-class RawListing < CoreModel
-  attr_reader :adapter, :doc, :data
+class ExtractRawListingFromPage
+  include Interactor
 
-  delegate :[]=, to: :data
-  delegate :each, to: :data
-
-  def initialize(opts)
-    @doc = DocReader.new(opts)
-    @adapter = opts[:adapter]
-    @data = {}
-    parse_and_copy_attributes
+  def setup
+    context[:raw_listing] = {}
+    context[:adapter] = (adapter_type == :feed) ? site.feed_adapter : site.page_adapter
   end
 
-  def [](attr)
-    @data[attr].present? ? @data[attr].strip.squeeze(" ") : nil
-  end
-
-  def to_s
-    "#{@data}"
-  end
-
-  private
-
-  def parse_and_copy_attributes
+  def perform
     adapter.each do |attribute, value|
       if should_copy_attribute?(attribute)
-        @data[attribute] = value
+        raw_listing[attribute] = value
       else
-        @data[attribute] = parse_with_scraper_methods(value)
+        raw_listing[attribute] = parse_with_scraper_methods(value)
       end
     end
   end
@@ -42,7 +27,7 @@ class RawListing < CoreModel
                end
       break value if value
     end
-    result.is_a?(String) ? result : nil
+    result.strip.squeeze(" ") rescue nil
   end
 
   def should_copy_attribute?(attribute)
