@@ -90,7 +90,7 @@ describe ExtractMetadataFromRawListing do
         category1: @category1
       )
       expect(result.caliber_category.raw).to eq("rifle")
-      expect(result.caliber_category.classification_type).to eq("metadata")
+      expect(result.caliber_category.classification_type).to eq("hard")
     end
 
     it "correctly soft classifies the caliber_category as shotgun" do
@@ -103,7 +103,7 @@ describe ExtractMetadataFromRawListing do
         category1: @category1
       )
       expect(result.caliber_category.raw).to eq("shotgun")
-      expect(result.caliber_category.classification_type).to eq("metadata")
+      expect(result.caliber_category.classification_type).to eq("hard")
     end
 
   end

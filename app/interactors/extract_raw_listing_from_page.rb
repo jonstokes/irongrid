@@ -9,9 +9,9 @@ class ExtractRawListingFromPage
   def perform
     adapter.each do |attribute, value|
       if should_copy_attribute?(attribute)
-        raw_listing[attribute] = value
+        context[:raw_listing][attribute] = value
       else
-        raw_listing[attribute] = parse_with_scraper_methods(value)
+        context[:raw_listing][attribute] = parse_with_scraper_methods(value)
       end
     end
   end

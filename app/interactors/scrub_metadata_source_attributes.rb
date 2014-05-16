@@ -3,7 +3,7 @@ class ScrubMetadataSourceAttributes
 
   def perform
     context[:title].scrubbed = scrub(title.raw)
-    context[:title].autocomplete = context[:title].scrubbed
+    context[:title].autocomplete = title.raw
     context[:keywords].scrubbed = scrub(keywords.raw) if keywords.raw
   end
 
@@ -13,5 +13,9 @@ class ScrubMetadataSourceAttributes
     else
       ProductDetails::Scrubber.scrub_all(content)
     end
+  end
+
+  def normalize(content)
+    
   end
 end

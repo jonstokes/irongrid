@@ -1,8 +1,15 @@
 class ParsePage
   include Interactor::Organizer
 
-  # Expect context to have site, adapter_type, page
+  CATEGORY1_VALID_ATTRIBUTES = {
+    "Optics" => [:manufacturer],
+    "Guns" => [:caliber, :manufacturer],
+    "Ammunition" => [:caliber, :manufacturer, :grains, :number_of_rounds],
+    "Accessories" => [:caliber, :manufacturer, :number_of_rounds],
+    "None" => [:caliber, :manufacturer]
+  }
 
+  # Expect context to have site, adapter_type, page
   organize [
     DecoratePage,
     ExtractRawListingFromPage,
@@ -16,8 +23,8 @@ class ParsePage
     ScrubMetadataSourceAttributes,
     ExtractMetadataFromRawListing,
     ExtractMetadataFromSourceAttributes,
-    SetPricePerRound,
     SoftCategorize,
+    SetPricePerRound,
     SetDigest,
     GenerateListingHash
   ]
@@ -28,6 +35,10 @@ class ParsePage
 
   def not_found?
     !success? && status == :not_found
+  end
+
+  def classified_sold?
+    !success? && status == :classified_sold
   end
 end
 

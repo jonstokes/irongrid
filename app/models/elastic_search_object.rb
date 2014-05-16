@@ -14,7 +14,9 @@ class ElasticSearchObject
     define_method "#{key}=" do |value|
       validate_fields(key)
       validate_values({key => value})
-      @data[key] = value
+      if (key == :raw) || @data[:raw]
+        @data[key] = value
+      end
     end
   end
 
@@ -23,7 +25,7 @@ class ElasticSearchObject
     validate_name
     validate_fields(opts.keys)
     validate_values(opts)
-    @data = opts
+    @data = opts[:raw] ? opts : {}
     @respond_to = []
   end
 
@@ -33,7 +35,8 @@ class ElasticSearchObject
       if (attr == name.to_sym) && @data[:raw]
         { name => @data[:raw] }
       elsif @data[attr]
-        { attr.to_s => @data[attr] }
+         val = @data[attr].is_a?(String) && !(@data[attr] == "fall_through") ? @data[attr].gsub("_", " ") : @data[attr]
+        { attr.to_s => val }
       end
     end.compact
   end
@@ -69,7 +72,7 @@ class ElasticSearchObject
 
   def validate_values(opts)
     return unless classification_type = opts[:classification_type]
-    unless %w(hard soft metadata fall_through).include?(classification_type)
+    unless %w(default hard soft metadata fall_through).include?(classification_type)
       raise "Invalid classification_type #{classification_type}!"
     end
   end
