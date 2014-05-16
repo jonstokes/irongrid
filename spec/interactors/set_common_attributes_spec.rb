@@ -34,6 +34,7 @@ describe SetCommonAttributes do
       expect(result.title.raw).to eq(@raw_listing['title'])
       expect(result.keywords.raw).to eq(@raw_listing['keywords'])
       expect(result.category1.raw).to eq(@raw_listing['category1'])
+      expect(result.category1.classification_type).to eq("hard")
       expect(result.description).to eq(@raw_listing['description'])
       expect(result.image_source).to eq(@raw_listing['image'])
       expect(result.item_condition).to eq("New")

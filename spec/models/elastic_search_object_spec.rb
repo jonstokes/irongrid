@@ -7,6 +7,47 @@ describe ElasticSearchObject do
       expect(title).to be_a(ElasticSearchObject)
       expect(title.raw).to eq("Foobar")
     end
+
+    it "should blow up if a field is invalid" do
+      expect {
+        ElasticSearchObject.new(
+          "category1",
+          raw: "Guns",
+          classificatio_type: "hard"
+        )
+      }.to raise_error
+    end
+
+    it "should blow up if a classification_type is invalid" do
+      expect {
+        ElasticSearchObject.new(
+          "category1",
+          raw: "Guns",
+          classification_type: "harrrd"
+        )
+      }.to raise_error
+    end
+
+    it "blows up if the name is invalid" do
+      expect {
+        ElasticSearchObject.new("category")
+      }.to raise_error
+    end
+  end
+
+  describe "#field=" do
+    it "assigns a value to a field" do
+      category1 = ElasticSearchObject.new("category1")
+      category1.classification_type = "hard"
+      expect(category1.classification_type).to eq("hard")
+    end
+
+    it "blows up if a field value is invalid" do
+      category1 = ElasticSearchObject.new("category1")
+      expect {
+        category1.classification_type = "harrrd"
+      }.to raise_error
+    end
   end
 
   describe "#to_index_format" do
@@ -15,9 +56,7 @@ describe ElasticSearchObject do
       expect(title.to_index_format).to eq(
         [
           {"title" => "Foobar"},
-          {"scrubbed" => nil},
           {"normalized" => "foobar"},
-          {"autocomplete" => nil}
         ]
       )
     end
