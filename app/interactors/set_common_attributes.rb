@@ -70,7 +70,7 @@ class SetCommonAttributes
     ElasticSearchObject.new(
       cat,
       raw: value,
-      classificatio_type: "hard"
+      classification_type: "hard"
     )
   end
 
@@ -79,7 +79,7 @@ class SetCommonAttributes
     ElasticSearchObject.new(
       cat,
       raw: value,
-      classificatio_type: "hard"
+      classification_type: "hard"
     )
   end
 

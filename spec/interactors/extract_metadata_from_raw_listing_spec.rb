@@ -7,7 +7,7 @@ describe ExtractMetadataFromRawListing do
       @category1 = ElasticSearchObject.new(
         "category1",
         raw: "Ammunition",
-        classificatio_type: "hard"
+        classification_type: "hard"
       )
       @raw_listing = {
         "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
