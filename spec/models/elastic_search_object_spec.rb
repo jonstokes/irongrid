@@ -37,13 +37,13 @@ describe ElasticSearchObject do
 
   describe "#field=" do
     it "assigns a value to a field" do
-      category1 = ElasticSearchObject.new("category1")
+      category1 = ElasticSearchObject.new("category1", raw: "Foobar")
       category1.classification_type = "hard"
       expect(category1.classification_type).to eq("hard")
     end
 
     it "blows up if a field value is invalid" do
-      category1 = ElasticSearchObject.new("category1")
+      category1 = ElasticSearchObject.new("category1", raw: "Foobar")
       expect {
         category1.classification_type = "harrrd"
       }.to raise_error

@@ -87,9 +87,10 @@ class ScrapePagesWorker < CoreWorker
       else
         update_image(scraper) if scraper.is_valid?
         msg.update(
-          page_is_valid:   scraper.is_valid?,
-          page_not_found:  scraper.not_found?,
-          page_attributes: scraper.listing
+          page_is_valid:        scraper.is_valid?,
+          page_not_found:       scraper.not_found?,
+          page_classified_sold: scraper.classified_sold?,
+          page_attributes:      scraper.listing
         )
       end
     else

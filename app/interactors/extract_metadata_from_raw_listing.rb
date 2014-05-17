@@ -1,23 +1,14 @@
 class ExtractMetadataFromRawListing
   include Interactor
-  METADATA_ATTRIBUTES = [:caliber, :caliber_category, :manufacturer, :grains, :number_of_rounds]
-
-  AMMO_METADATA_ATTRIBUTES = 
-  GUN_METADATA_ATTRIBUTES = 
-  OPTICS_METADATA_ATTRIBUTES = %w(manufacturer)
 
   def perform
-    attributes_to_be_extracted.each do |attr|
+    attributes.each do |attr|
       send("extract_#{attr}") if raw_listing[attr]
     end
   end
 
-  def attributes_to_be_extracted
-    if category1.raw == "None"
-      (ParsePage::CATEGORY1_VALID_ATTRIBUTES["Ammunition"] + [:caliber_category]).map(&:to_s)
-    else
-      (ParsePage::CATEGORY1_VALID_ATTRIBUTES[category1.raw] + [:caliber_category]).map(&:to_s)
-    end
+  def attributes
+    @attributes ||= (ProductDetails::Metadata.attributes_to_be_extracted(category1.raw) + ['caliber_category']).map(&:to_s)
   end
 
   def extract_caliber

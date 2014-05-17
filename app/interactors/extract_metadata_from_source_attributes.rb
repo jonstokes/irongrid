@@ -2,7 +2,7 @@ class ExtractMetadataFromSourceAttributes
   include Interactor
 
   def perform
-    attributes_to_be_extracted.each do |attr|
+    ProductDetails::Metadata.attributes_to_be_extracted(category1.raw).each do |attr|
       extract_attribute(:title, attr)
       extract_attribute(:keywords, attr) if context[:keywords].try(:raw)
     end
@@ -13,14 +13,6 @@ class ExtractMetadataFromSourceAttributes
     return unless source_content = context[field].normalized || context[field].scrubbed
     send("extract_#{attr}", field, source_content)
     !!context[attr].try(:raw)
-  end
-
-  def attributes_to_be_extracted
-    if category1.raw == "None"
-      ParsePage::CATEGORY1_VALID_ATTRIBUTES["Ammunition"]
-    else
-      ParsePage::CATEGORY1_VALID_ATTRIBUTES[category1.raw]
-    end
   end
 
   def extract_caliber(field_name, source_content)

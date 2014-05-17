@@ -12,6 +12,7 @@ class LinkMessage
     :page_attributes,
     :page_is_valid,
     :page_not_found,
+    :page_classified_sold,
     :listing_digest,
     :listing_id,
     :dirty_only
@@ -20,7 +21,7 @@ class LinkMessage
   LINK_MESSAGE_KEYS.each do |key|
     define_method(key) { @data[key] } #getters
     define_method("#{key}=") { |value| @data[key] = value } #setters
-    if [:page_is_valid, :page_not_found, :dirty_only].include?(key) #status
+    if [:page_is_valid, :page_not_found, :dirty_only, :page_classified_sold].include?(key) #status
       define_method("#{key}?") { @data[key] }
     end
   end

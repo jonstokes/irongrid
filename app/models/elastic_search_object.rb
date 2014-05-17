@@ -35,8 +35,7 @@ class ElasticSearchObject
       if (attr == name.to_sym) && @data[:raw]
         { name => @data[:raw] }
       elsif @data[attr]
-         val = @data[attr].is_a?(String) && !(@data[attr] == "fall_through") ? @data[attr].gsub("_", " ") : @data[attr]
-        { attr.to_s => val }
+        { attr.to_s => deshingle(@data[attr]) }
       end
     end.compact
   end
@@ -53,6 +52,10 @@ class ElasticSearchObject
 
   def to_s
     @data[:raw]
+  end
+
+  def deshingle(value)
+    value.is_a?(String) && !(value == "fall_through") ? value.gsub("_", " ") : value
   end
 
   def validate_name

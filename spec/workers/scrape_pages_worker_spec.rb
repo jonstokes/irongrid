@@ -58,11 +58,15 @@ describe ScrapePagesWorker do
       expect(msg.page_not_found?).to be_true
     end
 
-    it "correctly tags a not_found link in Redis" do
+    it "correctly tags a classified_sold link in redis" do
       pending "Example"
     end
 
-    it "correctly tags an invalid link in Redis" do
+    it "correctly tags a not_found link in redis" do
+      pending "Example"
+    end
+
+    it "correctly tags an invalid link in redis" do
       lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/4"
       lq.add(LinkMessage.new(url: url))
@@ -73,7 +77,7 @@ describe ScrapePagesWorker do
       expect(msg.page_is_valid?).to be_false
     end
 
-    it "correctly tags a valid link in Redis" do
+    it "correctly tags a valid link in redis" do
       lq = LinkMessageQueue.new(domain: @site.domain)
       url = "http://#{@site.domain}/1"
       lq.add(LinkMessage.new(url: url))
