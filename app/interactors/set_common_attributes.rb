@@ -1,4 +1,4 @@
-class SetCommonAttributes
+class SetCommonAttributes < CoreModel
   include Interactor
 
   def perform

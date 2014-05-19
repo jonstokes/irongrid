@@ -1,7 +1,5 @@
-class SoftCategorize
+class SoftCategorize < CoreModel
   include Interactor
-  include Retryable
-  include Notifier
 
   HIT_THRESHOLD = 2
 
