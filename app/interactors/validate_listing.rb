@@ -9,6 +9,7 @@ class ValidateListing
       context.fail!(status: :classified_sold) if classified_sold?
     end
     context.fail!(status: :invalid) if success? && !is_valid?
+    context[:listing] = {} unless success?
   end
 
   def is_valid?
