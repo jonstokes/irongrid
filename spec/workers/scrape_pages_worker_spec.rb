@@ -86,7 +86,7 @@ describe ScrapePagesWorker do
       job = WriteListingWorker.jobs.first
       msg = LinkMessage.new(job["args"].first)
       expect(msg.page_is_valid?).to be_true
-      expect(msg.page_attributes["digest"]).to eq("ee4d8d6048a6ab63e909c2316f60d821")
+      expect(msg.page_attributes["digest"]).to eq("8f22026bdd4ca89db73e8675b3476c23")
     end
 
     it "sends a :dirty_only directive to WriteListingsWorker if the digest is unchanged" do
@@ -97,10 +97,10 @@ describe ScrapePagesWorker do
       job = WriteListingWorker.jobs.first
       msg = LinkMessage.new(job["args"].first)
       expect(msg.page_is_valid?).to be_true
-      expect(msg.page_attributes["digest"]).to eq("ee4d8d6048a6ab63e909c2316f60d821")
+      expect(msg.page_attributes["digest"]).to eq("8f22026bdd4ca89db73e8675b3476c23")
       WriteListingWorker.drain
       listing = Listing.all.first
-      expect(listing.digest).to eq("ee4d8d6048a6ab63e909c2316f60d821")
+      expect(listing.digest).to eq("8f22026bdd4ca89db73e8675b3476c23")
 
       msg = LinkMessage.new(listing)
       lq.add(msg)
