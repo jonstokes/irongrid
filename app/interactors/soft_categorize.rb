@@ -25,6 +25,7 @@ class SoftCategorize < CoreModel
   end
 
   def soft_categorize
+    return unless current_price_in_cents
     search_options.each_with_index do |opts, i|
       next unless category = categorize_with_search_index(opts)
       return ElasticSearchObject.new(

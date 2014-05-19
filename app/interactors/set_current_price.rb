@@ -10,7 +10,6 @@ class SetCurrentPrice < CoreModel
                                        when "ClassifiedListing"
                                          price_in_cents
                                        end
-    notify "No current price for #{url}\nRaw listing: #{raw_listing}" unless current_price_in_cents
   end
 
   def retail_current_price_in_cents
