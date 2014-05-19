@@ -79,4 +79,8 @@ class ElasticSearchObject
       raise "Invalid classification_type #{classification_type}!"
     end
   end
+
+  def self.is_object_in_index?(name)
+    !!ElasticTools::IndexMapping.index_properties[:properties][name.to_sym][:properties] rescue false
+  end
 end

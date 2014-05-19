@@ -19,7 +19,7 @@ module PageUtils
     def self.scrape_page(opts)
       url = opts[:url]
       domain = opts[:domain] || URI(url).host
-      page = get_page(url)
+      return unless page = get_page(url, force_format: :html)
       site = Site.new(domain: domain, source: :local)
       ParsePage.perform(
         site: site,
