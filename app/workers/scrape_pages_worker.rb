@@ -73,12 +73,12 @@ class ScrapePagesWorker < CoreWorker
   end
 
   def pull_and_process(msg)
-    url = msg.url
-    if @site.page_adapter && page = @rate_limiter.with_limit { get_page(url) }
+    if @site.page_adapter && page = @rate_limiter.with_limit { get_page(msg.url) }
       record_incr(:pages_read)
       scraper = ParsePage.perform(
         site: @site,
         page: page,
+        url: msg.url,
         adapter_type: :page
       )
       if listing_is_unchanged?(msg, scraper)

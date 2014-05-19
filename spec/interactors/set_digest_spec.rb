@@ -76,6 +76,6 @@ describe SetDigest do
     }
 
     result = SetDigest.perform(opts)
-    expect(result.digest).to eq("a0b57db0491562882035e833183d44bb")
+    expect(result.digest).to eq("88652bbf0db73e01bfbb2cb440eb8a60")
   end
 end

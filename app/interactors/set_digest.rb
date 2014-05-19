@@ -3,9 +3,8 @@ class SetDigest
 
   DEFAULT_DIGEST_ATTRIBUTES = %w(
     title
-    image_source
-    description
     keywords
+    image_source
     type
     seller_domain
     item_condition

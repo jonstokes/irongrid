@@ -1,7 +1,8 @@
 class ParsePage
   include Interactor::Organizer
 
-  # Expect context to have site, adapter_type, page
+  # Expect context to have site, adapter_type, page, url
+
   organize [
     DecoratePage,
     ExtractRawListingFromPage,

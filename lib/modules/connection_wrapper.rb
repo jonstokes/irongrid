@@ -25,14 +25,14 @@ module ConnectionWrapper
     ActiveRecord::Base.connection_pool.with_connection &block
   end
 
-  def retryable_with_connection(&block)
+  def retryable_with_db(&block)
     retval = nil
     begin
       tries ||= 5
       retval = db { yield }
     rescue ActiveRecord::JDBCError, ActiveRecord::StatementInvalid => e
-      ActiveRecord::Base.connection_pool.clear_stale_cached_connections!
       if e.message =~ /This connection has been closed/
+        ActiveRecord::Base.connection_pool.clear_stale_cached_connections!
         ActiveRecord::Base.connection.reconnect!
       end
       sleep 1

@@ -59,25 +59,4 @@ module Retryable
     end
     yield
   end
-
-  def retryable_with_connection
-    retval = nil
-    begin
-      tries ||= 10
-      ActiveRecord::Base.connection_pool.with_connection { retval = yield }
-      return retval
-    rescue ActiveRecord::JDBCError, ActiveRecord::StatementInvalid => e
-      ActiveRecord::Base.connection_pool.clear_stale_cached_connections!
-      if e.message =~ /This connection has been closed/
-        ActiveRecord::Base.connection.reconnect!
-      end
-      sleep 1
-      retry unless (tries -= 1).zero?
-    rescue Exception
-      sleep 1
-      retry unless (tries -= 1).zero?
-    end
-    yield
-  end
-
 end
