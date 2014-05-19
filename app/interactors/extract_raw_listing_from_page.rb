@@ -25,9 +25,14 @@ class ExtractRawListingFromPage
                else
                  doc.send(method_name)
                end
-      break value if value
+      break value if value.present?
     end
-    result.strip.squeeze(" ") rescue nil
+    clean_up(result)
+  end
+
+  def clean_up(result)
+    result = result.strip.squeeze(" ") rescue nil
+    result.present? ? result : nil
   end
 
   def should_copy_attribute?(attribute)
