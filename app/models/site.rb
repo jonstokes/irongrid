@@ -80,6 +80,8 @@ class Site < CoreModel
 
   def active?
     active
+  rescue
+    true
   end
 
   def refresh_only?
