@@ -118,6 +118,12 @@ class Site < CoreModel
     end
   end
 
+  def self.remove_domain(domain)
+    with_redis do |conn|
+      conn.srem("site--index", domain)
+    end
+  end
+
   def self.create_site_from_local(domain)
     puts "Creating site #{domain} in redis from local repo..."
     Site.new(domain: domain, source: :local).send(:write_to_redis)
