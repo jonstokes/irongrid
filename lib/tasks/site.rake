@@ -15,14 +15,14 @@ namespace :site do
 
   desc "Run stats for all active sites"
   task :stats => :environment do
-    Site.active.each do |site|
+    Site.all.each do |site|
       SiteStatsWorker.perform_async(domain: site.domain) unless SiteStatsWorker.jobs_in_flight_with_domain(site.domain).any?
     end
   end
 
   desc "Update site attributes without overwriting stats"
   task :update_all => :environment do
-    Site.active.each do |site|
+    Site.all.each do |site|
       Site.update_site_from_local(site)
     end
   end

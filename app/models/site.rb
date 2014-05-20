@@ -125,7 +125,7 @@ class Site < CoreModel
     Site.new(domain: domain, source: :local).send(:write_to_redis)
   end
 
-  def self.udpate_site_from_local(site)
+  def self.update_site_from_local(site)
     local_site = Site.new(domain: site.domain, source: :local)
     puts "Updating #{site.domain}..."
     Site::SITE_ATTRIBUTES.each do |attr|
