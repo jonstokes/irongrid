@@ -3,7 +3,7 @@ class SiteStatsService < CoreService
 
   def jobs
     return [] unless should_add_jobs?
-    Site.active.map do |site|
+    Site.all.map do |site|
       { klass: "SiteStatsWorker", arguments: {domain: site.domain} }
     end.compact
   end

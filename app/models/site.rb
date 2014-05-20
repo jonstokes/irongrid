@@ -78,12 +78,6 @@ class Site < CoreModel
     Time.now.utc > read_at + read_interval
   end
 
-  def active?
-    active
-  rescue
-    true
-  end
-
   def refresh_only?
     !!self.link_sources["refresh_only"]
   end
@@ -139,13 +133,6 @@ class Site < CoreModel
       site.site_data[attr] = local_site.site_data[attr]
     end
     site.send(:write_to_redis)
-  end
-
-  def self.active
-    domains.map do |domain|
-      site = Site.new(domain: domain)
-      site.active? ? site : nil
-    end.compact
   end
 
   def self.all

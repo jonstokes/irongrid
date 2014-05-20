@@ -13,7 +13,6 @@ describe Site do
       expect(site.domain).to eq("www.retailer.com")
       expect(site.name).to eq("Test Retailer")
       expect(site.read_with).to eq("RefreshLinksWorker")
-      expect(site.active).to eq(true)
       expect(site.read_interval).to eq(1440)
       expect(site.page_adapter.keys).to include("title")
     end
@@ -23,7 +22,6 @@ describe Site do
       expect(site.domain).to eq("www.retailer.com")
       expect(site.name).to eq("Retailer")
       expect(site.read_with).to eq("RefreshLinksWorker")
-      expect(site.active).to eq(true)
       expect(site.read_interval).to eq(86400)
       expect(site.page_adapter.keys).to include("title")
     end
@@ -34,7 +32,6 @@ describe Site do
       expect(site.domain).to eq("www.retailer.com")
       expect(site.name).to eq("Retailer")
       expect(site.read_with).to eq("RefreshLinksWorker")
-      expect(site.active).to eq(true)
       expect(site.read_interval).to eq(86400)
       expect(site.page_adapter.keys).to include("title")
     end
@@ -108,16 +105,6 @@ describe Site do
       domains = Site.domains
       expect(domains).to include("www.retailer.com")
       expect(domains).to include("www.budsgunshop.com")
-    end
-  end
-
-  describe "::active" do
-    it "returns an array of all sites currently active in redis" do
-      create_site "www.retailer.com"
-      site = create_site "www.budsgunshop.com"
-      site.update(active: false)
-      expect(Site.active.count).to eq(1)
-      expect(Site.active.first).to be_a(Site)
     end
   end
 end
