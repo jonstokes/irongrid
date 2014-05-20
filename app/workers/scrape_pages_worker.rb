@@ -101,6 +101,6 @@ class ScrapePagesWorker < CoreWorker
   end
 
   def listing_is_unchanged?(msg, scraper)
-    msg.listing_digest && (scraper.listing["digest"] == msg.listing_digest)
+    msg.listing_digest && (scraper.listing.try(:[], 'digest') == msg.listing_digest)
   end
 end
