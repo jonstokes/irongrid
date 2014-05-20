@@ -108,6 +108,31 @@ class Site < CoreModel
     with_redis { |conn| conn.smembers "site--index" }
   end
 
+  def self.add_domains(list)
+    with_redis do |conn|
+      list.each do |domain|
+        if conn.sadd("site--index", domain)
+          create_site_from_local(domain)
+        end
+      end
+    end
+  end
+
+  def self.create_site_from_local(domain)
+    puts "Creating site #{domain} in redis from local repo..."
+    Site.new(domain: domain, source: :local).send(:write_to_redis)
+  end
+
+  def self.udpate_site_from_local(site)
+    local_site = Site.new(domain: site.domain, source: :local)
+    puts "Updating #{site.domain}..."
+    Site::SITE_ATTRIBUTES.each do |attr|
+      next if [:read_at, :stats].include?(attr)
+      site.site_data[attr] = local_site.site_data[attr]
+    end
+    site.send(:write_to_redis)
+  end
+
   def self.active
     domains.map do |domain|
       site = Site.new(domain: domain)

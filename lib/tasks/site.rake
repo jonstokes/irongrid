@@ -1,8 +1,3 @@
-def copy_site(domain)
-  puts "Copying site #{domain} from git to redis..."
-  Site.new(domain: domain, source: :git).send(:write_to_redis)
-end
-
 namespace :site do
   desc "Copy all sites from github to redis"
   task :copy_all => :environment do
@@ -12,10 +7,10 @@ namespace :site do
     end
   end
 
-  desc "Copy a site from github to redis"
+  desc "Copy a site from the local repo to redis"
   task :copy => :environment do
     raise "Must set DOMAIN" unless domain = ENV['DOMAIN']
-    copy_site(domain)
+    Site.create_site_from_local(domain)
   end
 
   desc "Run stats for all active sites"
@@ -28,15 +23,16 @@ namespace :site do
   desc "Update site attributes without overwriting stats"
   task :update_all => :environment do
     Site.active.each do |site|
-      gh_site = Site.new(domain: site.domain, source: :local)
-      puts "Updating #{site.domain}..."
-      Site::SITE_ATTRIBUTES.each do |attr|
-        next if [:read_at, :stats].include?(attr)
-        site.site_data[attr] = gh_site.site_data[attr]
-      end
-      site.send(:write_to_redis)
+      Site.update_site_from_local(site)
     end
   end
+
+  desc "Add new sites from site manifest to redis"
+  task :add_new => :environment do
+    domains = YAML.load_file("../ironsights-sites/sites/site_manifest.yml")
+    Site.add_domains(domains)
+  end
+
 
   desc "Jumpstart scrapes on sites with link_data"
   task :scrape_all => :environment do
