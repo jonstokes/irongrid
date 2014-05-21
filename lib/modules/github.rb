@@ -3,7 +3,7 @@ module Github
     branch = ENV['SITE_BRANCH'] || "master"
     url = "https://raw.githubusercontent.com/jonstokes/ironsights-sites/#{branch}/#{filename}"
     puts "Fetching file from #{url}"
-    open(url, http_basic_authentication: ["jonstokes", "2bdb479801fc520e3ae90a2aecd53be3a89cc2e1"]).read
+    open(url, http_basic_authentication: ["jonstokes", Figaro.env.github_token]).read
   rescue OpenURI::HTTPError
     return nil
   end

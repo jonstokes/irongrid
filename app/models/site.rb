@@ -2,7 +2,7 @@ class Site < CoreModel
   include Github
   include IrongridRedisPool
 
-  attr_accessor :site_data
+  attr_accessor :site_data, :pool
 
   SITE_ATTRIBUTES = [
     :name,
@@ -38,7 +38,8 @@ class Site < CoreModel
   def initialize(opts)
     raise "Domain required!" unless opts[:domain]
     @site_data = { domain: opts[:domain] }
-    load_data!(opts[:source] || :redis)
+    @pool = opts[:pool].try(:to_sym) || :irongrid
+    load_data!(opts[:source].try(:to_sym))
   end
 
   def update(attrs)
@@ -46,6 +47,10 @@ class Site < CoreModel
     load_data!
     @site_data.merge!(attrs)
     write_to_redis
+  end
+
+  def redis_pool
+    pool == :validator ? VALIDATOR_REDIS_POOL : IRONGRID_REDIS_POOL
   end
 
   def update_stats(attrs)
@@ -82,6 +87,10 @@ class Site < CoreModel
     !!self.link_sources["refresh_only"]
   end
 
+  def exists?
+    page_adapter || feed_adapter
+  end
+
   def feeds
     return [] unless link_sources['feeds']
     @feeds ||= link_sources['feeds'].map do |feed|
@@ -97,6 +106,13 @@ class Site < CoreModel
     interval = feed[:step] || 1
     (feed[:start_at_page]..feed[:stop_at_page]).step(interval).map do |page_number|
       feed.merge(url: feed[:url].sub("PAGENUM", page_number.to_s))
+    end
+  end
+
+  def write_to_redis
+    redis_pool.with do |conn|
+      conn.set("site--#{domain}", @site_data.to_yaml)
+      conn.sadd("site--index", domain)
     end
   end
 
@@ -143,16 +159,18 @@ class Site < CoreModel
 
   private
 
-  def load_data!(source=:redis)
+  def load_data!(source=nil)
     case source
-    when :redis
-      load_from_redis
     when :local
       load_from_local
     when :git
       load_from_github
     when :fixture
       load_from_fixture
+    when :form
+      write_to_redis if pool == :validator
+    else
+      load_from_redis
     end
   end
 
@@ -166,15 +184,17 @@ class Site < CoreModel
   end
 
   def load_from_redis
-    @site_data = IRONGRID_REDIS_POOL.with do |conn|
+    @site_data = redis_pool.with do |conn|
       YAML.load(conn.get("site--#{domain}"))
     end.symbolize_keys
+  rescue TypeError
+    raise "Site #{domain} does not exist!"
   end
 
   def load_from_local
     branch = ENV['SITE_BRANCH'] || "master"
     site_dir = domain.gsub(".","--")
-    directory = "../ironsights-sites/sites/#{site_dir}"
+    directory = "#{Figaro.env.sites_repo}/sites/#{site_dir}"
 
     @site_data[:page_adapter] = YAML.load_file("#{directory}/page_adapter.yml") if File.exists?("#{directory}/page_adapter.yml")
     @site_data[:feed_adapter] = YAML.load_file("#{directory}/feed_adapter.yml") if File.exists?("#{directory}/feed_adapter.yml")
@@ -192,19 +212,14 @@ class Site < CoreModel
 
   def load_from_github
     site_dir = domain.gsub(".","--")
-    @site_data[:page_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/page_adapter.yml")) if File.exists?("sites/#{site_dir}/page_adapter.yml")
-    @site_data[:feed_adapter] = YAML.load(fetch_file_from_github("sites/#{site_dir}/feed_adapter.yml")) if File.exists?("sites/#{site_dir}/feed_adapter.yml")
+    page_adapter_source = fetch_file_from_github("sites/#{site_dir}/page_adapter.yml")
+    feed_adapter_source = fetch_file_from_github("sites/#{site_dir}/feed_adapter.yml")
+    @site_data[:page_adapter] = YAML.load(page_adapter_source) if page_adapter_source
+    @site_data[:feed_adapter] = YAML.load(feed_adapter_source) if feed_adapter_source
     @site_data[:link_sources] = YAML.load(fetch_file_from_github("sites/#{site_dir}/link_sources.yml"))
     @site_data[:rate_limits]  = YAML.load(fetch_file_from_github("sites/#{site_dir}/rate_limits.yml"))
     YAML.load(fetch_file_from_github("sites/#{site_dir}/attributes.yml")).each do |k, v|
       @site_data[k.to_sym] = v
-    end
-  end
-
-  def write_to_redis
-    IRONGRID_REDIS_POOL.with do |conn|
-      conn.set("site--#{domain}", @site_data.to_yaml)
-      conn.sadd("site--index", @site_data[:domain])
     end
   end
 end

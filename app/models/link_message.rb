@@ -13,6 +13,7 @@ class LinkMessage
     :page_is_valid,
     :page_not_found,
     :page_classified_sold,
+    :raw_attributes,
     :listing_digest,
     :listing_id,
     :dirty_only
