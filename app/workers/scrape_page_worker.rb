@@ -1,6 +1,5 @@
 class ScrapePageWorker < CoreWorker
   include PageUtils
-  include UpdateImage
 
   sidekiq_options :queue => :scrapes, :retry => false
 
@@ -47,6 +46,7 @@ class ScrapePageWorker < CoreWorker
     else
       msg = LinkMessage.new(url: url, page_not_found: true)
     end
-    ValidatorQueue.add(msg.to_h)
+    notify "### My JID is #{jid}"
+    ValidatorQueue.add(jid, msg.to_h)
   end
 end

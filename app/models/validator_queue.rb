@@ -3,18 +3,18 @@ class ValidatorQueue < CoreModel
 
   PREFIX = "validator--"
 
-  def self.add(opts)
+  def self.add(key, opts)
+    nkey = "#{PREFIX}#{key}"
     opts = opts.symbolize_keys
-    key = "#{PREFIX}#{Digest::MD5.hexdigest(opts[:url])}"
-    Rails.logger.info "### Adding validator queue key #{key} for url #{opts[:url]}"
+    notify "### Adding validator queue key #{nkey} for url #{opts[:url]}"
     with_redis do |conn|
-      conn.set key, opts.to_json
+      conn.set nkey, opts.to_json
     end
   end
 
   def self.get(key)
     nkey = "#{PREFIX}#{key}"
-    Rails.logger.info "### Finding validator queue key #{key}"
+    notify "### Finding validator queue key #{nkey}"
     return unless value = with_redis do |conn|
       conn.get nkey
     end
