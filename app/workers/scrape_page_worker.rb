@@ -46,7 +46,6 @@ class ScrapePageWorker < CoreWorker
     else
       msg = LinkMessage.new(url: url, page_not_found: true)
     end
-    notify "### My JID is #{jid}"
     ValidatorQueue.add(jid, msg.to_h)
   end
 end
