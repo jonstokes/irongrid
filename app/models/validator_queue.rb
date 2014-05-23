@@ -18,7 +18,6 @@ class ValidatorQueue < CoreModel
     return unless value = with_redis do |conn|
       conn.get nkey
     end
-    with_redis { |conn| conn.del nkey }
     JSON.parse(value)
   end
 end
