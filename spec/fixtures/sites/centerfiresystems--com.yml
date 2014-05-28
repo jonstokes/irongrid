@@ -5,7 +5,7 @@ site_data:
     validation:
       retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
     seller_defaults:
-      condition: new
+      item_condition: new
       stock_status: in stock
       listing_type: retail
       item_location: 102 Fieldview Dr, Versailles, KY 40383

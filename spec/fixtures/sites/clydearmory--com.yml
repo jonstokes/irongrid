@@ -5,7 +5,7 @@ site_data:
     validation:
       retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
     seller_defaults:
-      condition: new
+      item_condition: new
       listing_type: retail
       item_location: 4800 Atlanta Hwy, Bogart, GA 30622
     keywords:

@@ -5,7 +5,7 @@ site_data:
     validation:
       retail: raw['price'] && raw['title'] && raw['image']
     seller_defaults:
-      condition: new
+      item_condition: new
       listing_type: retail
       stock_status: In Stock
       category1: Ammunition
