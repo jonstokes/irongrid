@@ -21,7 +21,7 @@ describe ExtractRawListingFromPage do
           "retail" => "(raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']"
         },
         "seller_defaults"=> {
-          "condition"=>"new",
+          "item_condition"=>"new",
           "listing_type"=>"retail",
           "stock_status"=>"In Stock",
           "item_location"=>"1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705"
