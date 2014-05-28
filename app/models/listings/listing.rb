@@ -61,6 +61,7 @@ class Listing < ActiveRecord::Base
     new_item_data = update_item_data(attrs['item_data'])
     attrs.merge!(item_data: new_item_data)
     self.item_data_will_change!
+    self.inactive = false
     db { self.update(attrs) }
   end
 
@@ -82,6 +83,7 @@ class Listing < ActiveRecord::Base
 
   def dirty_only!
     self.increment_update_count
+    self.inactive = false
     @only_dirtied = true
     db { self.save! }
   end

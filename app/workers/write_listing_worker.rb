@@ -30,10 +30,10 @@ class WriteListingWorker < CoreWorker
   def existing_listing(msg, listing)
     if msg.page_not_found? || msg.page_classified_sold?
       db { listing.destroy }
-    elsif dirty_only?(msg, listing)
-      listing.dirty_only!
     elsif !msg.page_is_valid?
       listing.deactivate!
+    elsif dirty_only?(msg, listing)
+      listing.dirty_only!
     elsif Listing.duplicate_digest?(listing, msg.page_attributes["digest"])
       db { listing.destroy }
     else

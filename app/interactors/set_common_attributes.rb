@@ -56,7 +56,7 @@ class SetCommonAttributes < CoreModel
     if ['New', 'Used'].include? raw_listing['item_condition']
       raw_listing['item_condition']
     else
-      adapter.default_condition.try(:titleize) || "Unknown"
+      adapter.default_item_condition.try(:titleize) || "Unknown"
     end
   end
 

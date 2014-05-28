@@ -83,7 +83,10 @@ class ScrapePagesWorker < CoreWorker
       )
       if listing_is_unchanged?(msg, scraper)
         update_image(scraper)
-        msg.update(dirty_only: true)
+        msg.update(
+          dirty_only:    true,
+          page_is_valid: scraper.is_valid?
+        )
       else
         update_image(scraper) if scraper.is_valid?
         msg.update(
