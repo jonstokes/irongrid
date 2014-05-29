@@ -5,22 +5,25 @@ module StretchedTools
       {
         properties: {
           title: {
+            validate: { presence: true }
             properties: {
-              normalized: {
-                extract: {
-                  { source: "extraction.synonyms.title", extractor: :title_extractor }
-                },
-              scrubbed: {
-                extract: {
-                  { source: "extraction.filter.title", extractor: :keyword }
-                },
               autocomplete: {
                 extract: {
-                  { source: "title.normalized", extractor: :title_extractor }
+                  { source: "title.normalized"  extractor: :keyword }
+                }
+              },
+              normalized: {
+                extract: {
+                  { source: :title,             extractor: :title_extractor, progressive: true },
+                }
+              },
+              scrubbed: {
+                extract: {
+                  { source: :title,             extractor: :title_scrubber }
                 },
               }
             }
-          }
+          },
           url: {
             validate: {
               presence: true,
@@ -38,6 +41,26 @@ module StretchedTools
           sale_price_in_cents: {
             extract: {
               { source: :sale_price, extractor: :price_extractor }
+            }
+          },
+          buy_now_price_in_cents: {
+            extract: {
+              { source: :buy_now_price, extractor: :price_extractor }
+            }
+          },
+          reserve_in_cents: {
+            extract: {
+              { source: :reserve, extractor: :price_extractor }
+            }
+          },
+          minimum_bid_in_cents: {
+            extract: {
+              { source: :minimum_bid, extractor: :price_extractor }
+            }
+          },
+          current_bid_in_cents: {
+            extract: {
+              { source: :current_bid, extractor: :price_extractor }
             }
           },
           category1: {
@@ -138,6 +161,10 @@ module StretchedTools
                 filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
               },
               price_extractor: { type: :price, currency: :usd, output: :cents },
+              title_scrubber: {
+                type: :custom,
+                filter: :all,
+              },
               title_extractor: { type: :unshingle }
             }
           },
