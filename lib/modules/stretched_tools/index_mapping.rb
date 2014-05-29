@@ -4,6 +4,23 @@ module StretchedTools
     def self.index_properties
       {
         properties: {
+          title: {
+            properties: {
+              normalized: {
+                extract: {
+                  { source: "extraction.synonyms.title", extractor: :title_extractor }
+                },
+              scrubbed: {
+                extract: {
+                  { source: "extraction.filter.title", extractor: :keyword }
+                },
+              autocomplete: {
+                extract: {
+                  { source: "title.normalized", extractor: :title_extractor }
+                },
+              }
+            }
+          }
           url: {
             validate: {
               presence: true,
@@ -57,7 +74,7 @@ module StretchedTools
           },
           image_source: {
             page_adapter: {
-              filters: [:truncate_query_strings]
+              filters: [ { truncate_query_strings: true } ]
             },
             validate: {
               uri: {
@@ -71,9 +88,9 @@ module StretchedTools
           },
           grains: {
             extract: {
-              { source: :grains,   extractor: :keyword},
-              { source: :title,    extractor: :grains_extractor},
-              { source: :keywords, extractor: :grains_extractor},
+              { source: :grains,   extractor: :keyword },
+              { source: :title,    extractor: :grains_extractor, progressive: true, shingle_terms: true },
+              { source: :keywords, extractor: :grains_extractor, progressive: true, shingle_terms: true },
             },
             validate: {
               range: { gte: 1, lte: 500 }
@@ -81,9 +98,16 @@ module StretchedTools
           },
           caliber: {
             extract: {
-              { source: :caliber,  extractor: :caliber_extractor},
-              { source: :title,    extractor: :caliber_extractor},
-              { source: :keywords, extractor: :caliber_extractor},
+              { source: :caliber,  extractor: :caliber_extractor },
+              { source: :title,    extractor: :caliber_extractor, progressive: true, shingle_terms: true },
+              { source: :keywords, extractor: :caliber_extractor, progressive: true, shingle_terms: true },
+            },
+          },
+          manufacturer: {
+            extract: {
+              { source: :manufacturer, extractor: :manufacturer_extractor },
+              { source: :title,        extractor: :manufacturer_extractor, progressive: true, shingle_terms: true },
+              { source: :keywords,     extractor: :manufacturer_extractor, progressive: true, shingle_terms: true },
             },
           },
         }
@@ -94,25 +118,29 @@ module StretchedTools
       {
         settings: {
           extraction: {
+            stored_sources: [:title, :keywords] # it will store these, and only run each filter once on them
+            sequence:       [:caliber, :manufacturer, :grains, :number_of_rounds]
             extractor: {
               caliber_extractor: {
-                type:            :custom,
-                filter:          [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots, :caliber_synonym],
+                type:   :custom,
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots],
+                synonyms: {
+                  source:  ElasticTools::Synonyms.explicit_mappings(:caliber),
+                  shingle: true
+                }
+                extract_terms: {
+                  source: ElasticTools::Synonyms.calibers
+                  terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
+                }
               },
               grains_extractor: {
-                type:            :custom,
-                filter:          [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
+                type:   :custom,
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
               },
               price_extractor: { type: :price, currency: :usd, output: :cents },
+              title_extractor: { type: :unshingle }
             }
           },
-          filters: {
-            caliber_synonym: {
-              type: :synonym,
-              synonyms: ElasticTools::Synonyms.explicit_mappings(:caliber)
-              terms_vector: :first # other options: :last, :most_popular, :least_popular
-            },
-          }
         },
         mappings: {
           listing: deep_merge(index_mappings, stretched_mappings),

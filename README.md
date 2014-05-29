@@ -122,3 +122,23 @@ per https://gist.github.com/wingdspur/2026107
 wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.9.deb
 sudo dpkg -i elasticsearch-0.90.9.deb
 
+
+## How IronGrid extracts metadata
+
+IronGrid first tries to find metadata in the raw_listing field that
+correspond's to the metadata field's name. So for "grains", IG looks in
+raw_listing["grains"] first for the value.
+
+For grains and number of rounds, when it looks in raw_listing it tries
+to pull the integer value directly, with no cleanup or extraction.
+
+For caliber and manufacturer, IronGrid takes in the text of raw_listing
+and runs its normal extraction routines on it.
+
+Here is how IronGrid would extract a caliber from the title field:
+
+**Step 1: Scrub the title.** The first step in extraction is to scrub the title for 
+
+
+Here is how IG would extract a manufacturer from the title field
+
