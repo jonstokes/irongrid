@@ -6,14 +6,59 @@ module StretchedTools
         properties: {
           url: {
             validate: {
+              presence: true,
               uri: {
                 scheme: :any,
                 restrict_domain: true,
               }
             }
           },
+          price_in_cents: {
+            extract: {
+              { source: :price, extractor: :price_extractor }
+            }
+          },
+          sale_price_in_cents: {
+            extract: {
+              { source: :sale_price, extractor: :price_extractor }
+            }
+          },
+          category1: {
+            validate: {
+              presence: true,
+              keyword: {
+                accept: ["Guns", "Ammunition", "Optics", "Accessories", "None"]
+              }
+            }
+          },
+          availability: {
+            validate: {
+              presence: true,
+              keyword: {
+                accept: ["in_stock", "out_of_stock", "unknown"]
+              }
+            }
+          },
+          item_condition: {
+            validate: {
+              presence: true,
+              keyword: {
+                accept: ["New", "Used", "Unknown"]
+              }
+            }
+          },
+          type: {
+            validate: {
+              presence: true,
+              keyword: {
+                accept: ["RetailListing", "ClassifiedListing", "AuctionListing"]
+              }
+            }
+          },
           image_source: {
-            filter: [ :truncate_query_strings ],
+            page_adapter: {
+              filters: [:truncate_query_strings]
+            },
             validate: {
               uri: {
                 scheme: [:http, :https],
@@ -24,57 +69,22 @@ module StretchedTools
               }
             }
           },
-          category1: {
-            validate: {
-              keyword: {
-                accept: ["Guns", "Ammunition", "Optics", "Accessories", "None"]
-              }
-            }
-          },
-          availability: {
-            validate: {
-              keyword: {
-                accept: ["in_stock", "out_of_stock", "unknown"]
-              }
-            }
-          },
-          item_condition: {
-            validate: {
-              keyword: {
-                accept: ["New", "Used", "Unknown"]
-              }
-            }
-          },
-          type: {
-            validate: {
-              keyword: {
-                accept: ["RetailListing", "ClassifiedListing", "AuctionListing"]
-              }
-            }
-          },
           grains: {
-            validate: {
-              range: { gte: 1, lte: 400 }
+            extract: {
+              { source: :grains,   extractor: :keyword},
+              { source: :title,    extractor: :grains_extractor},
+              { source: :keywords, extractor: :grains_extractor},
             },
-            sources: [:keyword, :grains_analyzer]
-          },
-          number_of_rounds: {
             validate: {
-              range: { gte: 1, lte: 100000 }
+              range: { gte: 1, lte: 500 }
             },
-            sources: [:keyword, :number_of_rounds_analyzer]
           },
           caliber: {
-            validate: {
-              keyword: { accept: ElasticTools::Synonyms.calibers }
+            extract: {
+              { source: :caliber,  extractor: :caliber_extractor},
+              { source: :title,    extractor: :caliber_extractor},
+              { source: :keywords, extractor: :caliber_extractor},
             },
-            sources: [:keyword, :caliber_extractor]
-          },
-          manufacturer: {
-            validate: {
-              keyword: { accept: ElasticTools::Synonyms.manufacturers }
-            },
-            sources: [:keyword, :manufacturer_extractor]
           },
         }
       }
@@ -85,17 +95,23 @@ module StretchedTools
         settings: {
           extraction: {
             extractor: {
-              caliber: {
-                type: :custom,
-                tokenizer: :whitespace,
-                filter: [:scrub_dots, :scrub_calibers, :restore_dots]
-                extract: {
-                  dictionary: ElasticTools::Synonyms.calibers,
-                  terms: :first_match,
-                  output: :shingled
-                }
+              caliber_extractor: {
+                type:            :custom,
+                filter:          [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots, :caliber_synonym],
               },
+              grains_extractor: {
+                type:            :custom,
+                filter:          [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
+              },
+              price_extractor: { type: :price, currency: :usd, output: :cents },
             }
+          },
+          filters: {
+            caliber_synonym: {
+              type: :synonym,
+              synonyms: ElasticTools::Synonyms.explicit_mappings(:caliber)
+              terms_vector: :first # other options: :last, :most_popular, :least_popular
+            },
           }
         },
         mappings: {
