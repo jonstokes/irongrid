@@ -55,24 +55,26 @@ module StretchedTools
           grains: {
             validate: {
               range: { gte: 1, lte: 400 }
-            }
+            },
+            sources: [:keyword, :grains_analyzer]
           },
           number_of_rounds: {
             validate: {
               range: { gte: 1, lte: 100000 }
-            }
+            },
+            sources: [:keyword, :number_of_rounds_analyzer]
           },
           caliber: {
-            analyzer: :calibers
+            validate: {
+              keyword: { accept: ElasticTools::Synonyms.calibers }
+            },
+            sources: [:keyword, :caliber_extractor]
           },
           manufacturer: {
-            analyzer: :manufacturers
-          },
-          grains: {
-            analyzer: :grains
-          },
-          number_of_rounds: {
-            analyzer: :number_of_rounds
+            validate: {
+              keyword: { accept: ElasticTools::Synonyms.manufacturers }
+            },
+            sources: [:keyword, :manufacturer_extractor]
           },
         }
       }
@@ -81,8 +83,8 @@ module StretchedTools
     def self.index_options
       {
         settings: {
-          analysis: {
-            analyzer: {
+          extraction: {
+            extractor: {
               caliber: {
                 type: :custom,
                 tokenizer: :whitespace,
@@ -90,7 +92,7 @@ module StretchedTools
                 extract: {
                   dictionary: ElasticTools::Synonyms.calibers,
                   terms: :first_match,
-                  output: :normalized
+                  output: :shingled
                 }
               },
             }
