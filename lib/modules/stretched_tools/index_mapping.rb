@@ -4,27 +4,20 @@ module StretchedTools
     def self.index_properties
       {
         properties: {
-          title: {
-            validate: { presence: true }
-            properties: {
-              autocomplete: {
-                extract: {
-                  { source: "title.normalized"  extractor: :keyword }
-                }
-              },
-              normalized: {
-                extract: {
-                  { source: :title,             extractor: :title_extractor, progressive: true },
-                }
-              },
-              scrubbed: {
-                extract: {
-                  { source: :title,             extractor: :title_scrubber }
-                },
+          type: {
+            priority: 5,
+            validate: {
+              presence: true,
+              keyword: {
+                accept: ["RetailListing", "ClassifiedListing", "AuctionListing"]
               }
             }
           },
+          title: {
+            validate: { presence: true }
+          },
           url: {
+            priority: 5,
             validate: {
               presence: true,
               uri: {
@@ -34,41 +27,39 @@ module StretchedTools
             }
           },
           price_in_cents: {
+            priority: 4,
             extract: {
               { source: :price, extractor: :price_extractor }
             }
           },
           sale_price_in_cents: {
+            priority: 4,
             extract: {
               { source: :sale_price, extractor: :price_extractor }
             }
           },
           buy_now_price_in_cents: {
+            priority: 4,
             extract: {
               { source: :buy_now_price, extractor: :price_extractor }
             }
           },
           reserve_in_cents: {
+            priority: 4,
             extract: {
               { source: :reserve, extractor: :price_extractor }
             }
           },
           minimum_bid_in_cents: {
+            priority: 4,
             extract: {
               { source: :minimum_bid, extractor: :price_extractor }
             }
           },
           current_bid_in_cents: {
+            priority: 4,
             extract: {
               { source: :current_bid, extractor: :price_extractor }
-            }
-          },
-          category1: {
-            validate: {
-              presence: true,
-              keyword: {
-                accept: ["Guns", "Ammunition", "Optics", "Accessories", "None"]
-              }
             }
           },
           availability: {
@@ -87,14 +78,6 @@ module StretchedTools
               }
             }
           },
-          type: {
-            validate: {
-              presence: true,
-              keyword: {
-                accept: ["RetailListing", "ClassifiedListing", "AuctionListing"]
-              }
-            }
-          },
           image_source: {
             page_adapter: {
               filters: [ { truncate_query_strings: true } ]
@@ -106,6 +89,14 @@ module StretchedTools
                 extension: {
                   accept: [".png", ".jpg", ".jpeg", ".gif", ".bmp"]
                 }
+              }
+            }
+          },
+          category1: {
+            validate: {
+              presence: true,
+              keyword: {
+                accept: ["Guns", "Ammunition", "Optics", "Accessories", "None"]
               }
             }
           },
@@ -161,11 +152,6 @@ module StretchedTools
                 filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
               },
               price_extractor: { type: :price, currency: :usd, output: :cents },
-              title_scrubber: {
-                type: :custom,
-                filter: :all,
-              },
-              title_extractor: { type: :unshingle }
             }
           },
         },
