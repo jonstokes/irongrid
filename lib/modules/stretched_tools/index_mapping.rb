@@ -1,7 +1,7 @@
 module StretchedTools
   module IndexMapping
 
-    def self.index_properties
+    def self.schema
       {
         properties: {
           type: {
@@ -27,7 +27,6 @@ module StretchedTools
             }
           },
           price_in_cents: {
-            priority: 4,
             extract: {
               { source: :price, extractor: :price_extractor }
             }
@@ -45,19 +44,16 @@ module StretchedTools
             }
           },
           reserve_in_cents: {
-            priority: 4,
             extract: {
               { source: :reserve, extractor: :price_extractor }
             }
           },
           minimum_bid_in_cents: {
-            priority: 4,
             extract: {
               { source: :minimum_bid, extractor: :price_extractor }
             }
           },
           current_bid_in_cents: {
-            priority: 4,
             extract: {
               { source: :current_bid, extractor: :price_extractor }
             }
@@ -80,7 +76,7 @@ module StretchedTools
           },
           image_source: {
             page_adapter: {
-              filters: [ { truncate_query_strings: true } ]
+              filters: [:truncate_query_strings]
             },
             validate: {
               uri: {
@@ -101,11 +97,6 @@ module StretchedTools
             }
           },
           grains: {
-            extract: {
-              { source: :grains,   extractor: :keyword },
-              { source: :title,    extractor: :grains_extractor, progressive: true, shingle_terms: true },
-              { source: :keywords, extractor: :grains_extractor, progressive: true, shingle_terms: true },
-            },
             validate: {
               range: { gte: 1, lte: 500 }
             },
@@ -113,37 +104,55 @@ module StretchedTools
           caliber: {
             extract: {
               { source: :caliber,  extractor: :caliber_extractor },
-              { source: :title,    extractor: :caliber_extractor, progressive: true, shingle_terms: true },
-              { source: :keywords, extractor: :caliber_extractor, progressive: true, shingle_terms: true },
             },
           },
           manufacturer: {
             extract: {
               { source: :manufacturer, extractor: :manufacturer_extractor },
-              { source: :title,        extractor: :manufacturer_extractor, progressive: true, shingle_terms: true },
-              { source: :keywords,     extractor: :manufacturer_extractor, progressive: true, shingle_terms: true },
             },
           },
         }
       }
     end
 
-    def self.index_options
+    def self.settings
       {
-        settings: {
-          extraction: {
-            stored_sources: [:title, :keywords] # it will store these, and only run each filter once on them
-            sequence:       [:caliber, :manufacturer, :grains, :number_of_rounds]
+        properties: {
+          filters: {
+            caliber_synonyms: {
+              type: :synonym,
+              synonyms: ElasticTools::Synonyms.explicit_mappings(:caliber)
+            },
+            manufacturer_synonyms: {
+              type: :synonym,
+              synonyms: ElasticTools::Synonyms.explicit_mappings(:manufacturer)
+            },
+          },
+          dictionaries: {
+            caliber_terms: {
+              type: :dictionary,
+              dictionary: ElasticTools::Synonyms.calibers
+            },
+            manufacturer_terms: {
+              type: :dictionary,
+              dictionary: ElasticTools::Synonyms.manufacturers
+            },
+          }
+          extractors: {
             extractor: {
               caliber_extractor: {
                 type:   :custom,
-                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots],
-                synonyms: {
-                  source:  ElasticTools::Synonyms.explicit_mappings(:caliber),
-                  shingle: true
-                }
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots, :caliber_synonyms],
                 extract_terms: {
-                  source: ElasticTools::Synonyms.calibers
+                  dictionary: :caliber_terms
+                  terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
+                }
+              },
+              manufacturer_extractor: {
+                type:   :custom,
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :manufacturer_synonyms],
+                extract_terms: {
+                  dictionary: :manufacturer_terms
                   terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
                 }
               },
@@ -151,13 +160,14 @@ module StretchedTools
                 type:   :custom,
                 filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
               },
+              number_of_rounds_extractor: {
+                type:   :custom,
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_rounds],
+              },
               price_extractor: { type: :price, currency: :usd, output: :cents },
             }
           },
         },
-        mappings: {
-          listing: deep_merge(index_mappings, stretched_mappings),
-        }
       }
     end
   end
