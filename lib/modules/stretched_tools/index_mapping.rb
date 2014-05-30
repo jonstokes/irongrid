@@ -5,6 +5,7 @@ module StretchedTools
       {
         properties: {
           type: {
+            type: :string,
             validate: {
               presence: true,
               keyword: {
@@ -13,9 +14,19 @@ module StretchedTools
             }
           },
           title: {
+            type: :object,
+            properties: {
+              title:        { type: :string },
+              scrubbed:     { type: :string },
+              normalized:   { type: :string },
+              autocomplete: { type: :string }
+            },
             validate: { presence: true },
           },
+          description: { type: :string },
+          keywords: { type: :string },
           url: {
+            type: :string,
             validate: {
               presence: true,
               uri: {
@@ -24,25 +35,37 @@ module StretchedTools
               }
             }
           },
+          seller_name:    { type: :string },
+          seller_domain:  { type: :string },
+          auction_ends:   { type: :date },
           price_in_cents: {
+            type: :integer,
             extract: { source: :price, extractor: :price_extractor }
           },
           sale_price_in_cents: {
+            type: :integer,
             extract: { source: :sale_price, extractor: :price_extractor }
           },
           buy_now_price_in_cents: {
+            type: :integer,
             extract: { source: :buy_now_price, extractor: :price_extractor }
           },
           reserve_in_cents: {
+            type: :integer,
             extract: { source: :reserve, extractor: :price_extractor }
           },
           minimum_bid_in_cents: {
+            type: :integer,
             extract: { source: :minimum_bid, extractor: :price_extractor }
           },
           current_bid_in_cents: {
+            type: :integer,
             extract: { source: :current_bid, extractor: :price_extractor }
           },
+          price_on_request: { type: :string },
+          item_location:    { type: :string },
           availability: {
+            type: :string,
             validate: {
               presence: true,
               keyword: {
@@ -51,6 +74,7 @@ module StretchedTools
             }
           },
           item_condition: {
+            type: :string,
             validate: {
               presence: true,
               keyword: {
@@ -58,7 +82,8 @@ module StretchedTools
               }
             }
           },
-          image_source: {
+          image: {
+            type: :string,
             page_adapter: {
               filters: [:truncate_query_strings]
             },
@@ -73,23 +98,100 @@ module StretchedTools
             }
           },
           category1: {
-            validate: {
-              presence: true,
-              keyword: {
-                accept: ["Guns", "Ammunition", "Optics", "Accessories", "None"]
+            properties: {
+              category1: {
+                type: :string,
+                validate: {
+                  keyword: {
+                    accept: ["Ammunition", "Optics", "Accessories", "Guns", "None"]
+                  }
+                }
+              },
+              classification_type: {
+                type: :string,
+                validate: {
+                  keyword: { accept: :classification_types }
+                }
+              }
+            }
+          },
+          caliber_category: {
+            properties: {
+              caliber_category: {
+                type: :string,
+                validate: {
+                  keyword: {
+                    accept: ["Rimfire", "Shotgun", "Rifle", "Handgun"]
+                  }
+                }
+              },
+              classification_type: {
+                type: :string,
+                validate: {
+                  keyword: { accept: :classification_types }
+                }
+              }
+            }
+          },
+          caliber: {
+            properties: {
+              caliber: {
+                type: :string,
+                extract: { source: :caliber,  extractor: :caliber_extractor },
+              },
+              classification_type: {
+                type: :string,
+                validate: {
+                  keyword: { accept: :classification_types }
+                }
+              }
+            }
+          },
+          manufacturer: {
+            properties: {
+              manufacturer: {
+                type: :string,
+                extract: { source: :manufacturer, extractor: :manufacturer_extractor },
+              },
+              classification_type: {
+                type: :string,
+                validate: {
+                  keyword: { accept: :classification_types }
+                }
               }
             }
           },
           grains: {
-            validate: {
-              range: { gte: 1, lte: 500 }
-            },
+            properties: {
+              grains: {
+                type: :integer,
+                validate: {
+                  range: { gte: 1, lte: 500 }
+                },
+              },
+              classification_type: {
+                type: :string,
+                validate: {
+                  keyword: { accept: :classification_types }
+                }
+              }
+            }
           },
-          caliber: {
-            extract: { source: :caliber,  extractor: :caliber_extractor },
-          },
-          manufacturer: {
-            extract: { source: :manufacturer, extractor: :manufacturer_extractor },
+          number_of_rounds: {
+            properties: {
+              number_of_rounds: {
+                type: :integer,
+                validate: {
+                  range: { gte: 1 }
+                },
+              },
+              classification_type: {
+                type: :string,
+                validate: {
+                  keyword: { accept: :classification_types }
+                }
+              }
+            }
           },
         }
       }
@@ -117,6 +219,10 @@ module StretchedTools
               type: :dictionary,
               dictionary: ElasticTools::Synonyms.manufacturers
             },
+            classification_types: {
+              type: :dictionary,
+              dictionary: ["hard", "soft", "metadata", "fall_through"]
+            }
           },
           extractors: {
             extractor: {
