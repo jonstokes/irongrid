@@ -165,6 +165,7 @@ module StretchedTools
             properties: {
               grains: {
                 type: :integer,
+                extract: { source: :grains, extractor: :grains_extractor },
                 validate: {
                   range: { gte: 1, lte: 500 }
                 },
@@ -181,6 +182,7 @@ module StretchedTools
             properties: {
               number_of_rounds: {
                 type: :integer,
+                extract: { source: :number_of_rounds, extractor: :number_of_rounds_extractor },
                 validate: {
                   range: { gte: 1 }
                 },
