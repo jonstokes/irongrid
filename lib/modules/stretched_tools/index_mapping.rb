@@ -106,12 +106,6 @@ module StretchedTools
                     accept: ["Ammunition", "Optics", "Accessories", "Guns", "None"]
                   }
                 }
-              },
-              classification_type: {
-                type: :string,
-                validate: {
-                  keyword: { accept: :classification_types }
-                }
               }
             }
           },
@@ -124,12 +118,6 @@ module StretchedTools
                     accept: ["Rimfire", "Shotgun", "Rifle", "Handgun"]
                   }
                 }
-              },
-              classification_type: {
-                type: :string,
-                validate: {
-                  keyword: { accept: :classification_types }
-                }
               }
             }
           },
@@ -138,12 +126,6 @@ module StretchedTools
               caliber: {
                 type: :string,
                 extract: { source: :caliber,  extractor: :caliber_extractor },
-              },
-              classification_type: {
-                type: :string,
-                validate: {
-                  keyword: { accept: :classification_types }
-                }
               }
             }
           },
@@ -152,12 +134,6 @@ module StretchedTools
               manufacturer: {
                 type: :string,
                 extract: { source: :manufacturer, extractor: :manufacturer_extractor },
-              },
-              classification_type: {
-                type: :string,
-                validate: {
-                  keyword: { accept: :classification_types }
-                }
               }
             }
           },
@@ -170,12 +146,6 @@ module StretchedTools
                   range: { gte: 1, lte: 500 }
                 },
               },
-              classification_type: {
-                type: :string,
-                validate: {
-                  keyword: { accept: :classification_types }
-                }
-              }
             }
           },
           number_of_rounds: {
@@ -186,12 +156,6 @@ module StretchedTools
                 validate: {
                   range: { gte: 1 }
                 },
-              },
-              classification_type: {
-                type: :string,
-                validate: {
-                  keyword: { accept: :classification_types }
-                }
               }
             }
           },
