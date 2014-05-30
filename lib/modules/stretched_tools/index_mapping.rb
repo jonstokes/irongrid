@@ -5,7 +5,6 @@ module StretchedTools
       {
         properties: {
           type: {
-            priority: 5,
             validate: {
               presence: true,
               keyword: {
@@ -14,10 +13,9 @@ module StretchedTools
             }
           },
           title: {
-            validate: { presence: true }
+            validate: { presence: true },
           },
           url: {
-            priority: 5,
             validate: {
               presence: true,
               uri: {
@@ -27,36 +25,22 @@ module StretchedTools
             }
           },
           price_in_cents: {
-            extract: {
-              { source: :price, extractor: :price_extractor }
-            }
+            extract: { source: :price, extractor: :price_extractor }
           },
           sale_price_in_cents: {
-            priority: 4,
-            extract: {
-              { source: :sale_price, extractor: :price_extractor }
-            }
+            extract: { source: :sale_price, extractor: :price_extractor }
           },
           buy_now_price_in_cents: {
-            priority: 4,
-            extract: {
-              { source: :buy_now_price, extractor: :price_extractor }
-            }
+            extract: { source: :buy_now_price, extractor: :price_extractor }
           },
           reserve_in_cents: {
-            extract: {
-              { source: :reserve, extractor: :price_extractor }
-            }
+            extract: { source: :reserve, extractor: :price_extractor }
           },
           minimum_bid_in_cents: {
-            extract: {
-              { source: :minimum_bid, extractor: :price_extractor }
-            }
+            extract: { source: :minimum_bid, extractor: :price_extractor }
           },
           current_bid_in_cents: {
-            extract: {
-              { source: :current_bid, extractor: :price_extractor }
-            }
+            extract: { source: :current_bid, extractor: :price_extractor }
           },
           availability: {
             validate: {
@@ -102,14 +86,10 @@ module StretchedTools
             },
           },
           caliber: {
-            extract: {
-              { source: :caliber,  extractor: :caliber_extractor },
-            },
+            extract: { source: :caliber,  extractor: :caliber_extractor },
           },
           manufacturer: {
-            extract: {
-              { source: :manufacturer, extractor: :manufacturer_extractor },
-            },
+            extract: { source: :manufacturer, extractor: :manufacturer_extractor },
           },
         }
       }
@@ -137,14 +117,14 @@ module StretchedTools
               type: :dictionary,
               dictionary: ElasticTools::Synonyms.manufacturers
             },
-          }
+          },
           extractors: {
             extractor: {
               caliber_extractor: {
                 type:   :custom,
                 filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots, :caliber_synonyms],
                 extract_terms: {
-                  dictionary: :caliber_terms
+                  dictionary: :caliber_terms,
                   terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
                 }
               },
@@ -152,7 +132,7 @@ module StretchedTools
                 type:   :custom,
                 filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :manufacturer_synonyms],
                 extract_terms: {
-                  dictionary: :manufacturer_terms
+                  dictionary: :manufacturer_terms,
                   terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
                 }
               },
