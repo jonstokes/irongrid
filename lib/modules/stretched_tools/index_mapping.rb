@@ -7,6 +7,10 @@ module StretchedTools
         mappings: {
           listing: listing_mapping,
           feed: feed_mapping
+        },
+        adapters: {
+          page_adapter: page_adapter,
+          feed_adapter: feed_adapter
         }
       }
     end
@@ -25,18 +29,9 @@ module StretchedTools
             },
           },
           dictionaries: {
-            caliber_terms: {
-              type: :dictionary,
-              dictionary: ElasticTools::Synonyms.calibers
-            },
-            manufacturer_terms: {
-              type: :dictionary,
-              dictionary: ElasticTools::Synonyms.manufacturers
-            },
-            classification_types: {
-              type: :dictionary,
-              dictionary: ["hard", "soft", "metadata", "fall_through"]
-            }
+            caliber_terms: ElasticTools::Synonyms.calibers,
+            manufacturer_terms: ElasticTools::Synonyms.manufacturers,
+            classification_types:["hard", "soft", "metadata", "fall_through"]
           },
           extractors: {
             extractor: {
