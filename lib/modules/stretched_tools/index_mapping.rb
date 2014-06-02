@@ -1,7 +1,68 @@
 module StretchedTools
   module IndexMapping
 
-    def self.schema
+
+    def self.settings
+      {
+        properties: {
+          filters: {
+            caliber_synonyms: {
+              type: :synonym,
+              synonyms: ElasticTools::Synonyms.explicit_mappings(:caliber)
+            },
+            manufacturer_synonyms: {
+              type: :synonym,
+              synonyms: ElasticTools::Synonyms.explicit_mappings(:manufacturer)
+            },
+          },
+          dictionaries: {
+            caliber_terms: {
+              type: :dictionary,
+              dictionary: ElasticTools::Synonyms.calibers
+            },
+            manufacturer_terms: {
+              type: :dictionary,
+              dictionary: ElasticTools::Synonyms.manufacturers
+            },
+            classification_types: {
+              type: :dictionary,
+              dictionary: ["hard", "soft", "metadata", "fall_through"]
+            }
+          },
+          extractors: {
+            extractor: {
+              caliber_extractor: {
+                type:   :custom,
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots, :caliber_synonyms],
+                extract_terms: {
+                  dictionary: :caliber_terms,
+                  terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
+                }
+              },
+              manufacturer_extractor: {
+                type:   :custom,
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :manufacturer_synonyms],
+                extract_terms: {
+                  dictionary: :manufacturer_terms,
+                  terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
+                }
+              },
+              grains_extractor: {
+                type:   :custom,
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
+              },
+              number_of_rounds_extractor: {
+                type:   :custom,
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_rounds],
+              },
+              price_extractor: { type: :price, currency: :usd, output: :cents },
+            }
+          },
+        },
+      }
+    end
+
+    def self.listing_schema
       {
         properties: {
           type: {
@@ -163,63 +224,25 @@ module StretchedTools
       }
     end
 
-    def self.settings
+    def self.feed_schema
       {
         properties: {
-          filters: {
-            caliber_synonyms: {
-              type: :synonym,
-              synonyms: ElasticTools::Synonyms.explicit_mappings(:caliber)
+          product_links: {
+            type: :array,
+            validate: {
+              allow_empty: true,
             },
-            manufacturer_synonyms: {
-              type: :synonym,
-              synonyms: ElasticTools::Synonyms.explicit_mappings(:manufacturer)
-            },
-          },
-          dictionaries: {
-            caliber_terms: {
-              type: :dictionary,
-              dictionary: ElasticTools::Synonyms.calibers
-            },
-            manufacturer_terms: {
-              type: :dictionary,
-              dictionary: ElasticTools::Synonyms.manufacturers
-            },
-            classification_types: {
-              type: :dictionary,
-              dictionary: ["hard", "soft", "metadata", "fall_through"]
+            array_element: {
+              type: :string,
+              validate: {
+                uri: {
+                  scheme: :any,
+                  restrict_domain: true,
+                }
+              }
             }
           },
-          extractors: {
-            extractor: {
-              caliber_extractor: {
-                type:   :custom,
-                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots, :caliber_synonyms],
-                extract_terms: {
-                  dictionary: :caliber_terms,
-                  terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
-                }
-              },
-              manufacturer_extractor: {
-                type:   :custom,
-                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :manufacturer_synonyms],
-                extract_terms: {
-                  dictionary: :manufacturer_terms,
-                  terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
-                }
-              },
-              grains_extractor: {
-                type:   :custom,
-                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
-              },
-              number_of_rounds_extractor: {
-                type:   :custom,
-                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_rounds],
-              },
-              price_extractor: { type: :price, currency: :usd, output: :cents },
-            }
-          },
-        },
+        }
       }
     end
   end
