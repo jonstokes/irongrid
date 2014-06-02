@@ -1,6 +1,15 @@
 module StretchedTools
   module IndexMapping
 
+    def self.index_options
+      {
+        settings: settings,
+        mappings: {
+          listing: listing_mapping,
+          feed: feed_mapping
+        }
+      }
+    end
 
     def self.settings
       {
@@ -62,7 +71,7 @@ module StretchedTools
       }
     end
 
-    def self.listing_schema
+    def self.listing_mapping
       {
         properties: {
           type: {
@@ -224,7 +233,7 @@ module StretchedTools
       }
     end
 
-    def self.feed_schema
+    def self.feed_mapping
       {
         properties: {
           product_links: {
