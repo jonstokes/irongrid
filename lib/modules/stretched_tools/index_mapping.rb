@@ -1,9 +1,11 @@
 module StretchedTools
   module IndexMapping
 
-    def self.index_options
+    def self.index
       {
-        settings: settings,
+        settings: {
+          iron_grid: settings,
+        },
         mappings: {
           listing: listing_mapping,
           feed: feed_mapping
@@ -19,9 +21,19 @@ module StretchedTools
       {
         properties: {
           filters: {
+            extract_caliber: {
+              type: :extractor,
+              dictionary: :caliber_terms,
+              output: :first
+            },
             caliber_synonyms: {
               type: :synonym,
               synonyms: ElasticTools::Synonyms.explicit_mappings(:caliber)
+            },
+            extract_manufacturer: {
+              type: :extractor,
+              dictionary: :manufacturer_terms,
+              output: :first
             },
             manufacturer_synonyms: {
               type: :synonym,
@@ -31,35 +43,27 @@ module StretchedTools
           dictionaries: {
             caliber_terms: ElasticTools::Synonyms.calibers,
             manufacturer_terms: ElasticTools::Synonyms.manufacturers,
-            classification_types:["hard", "soft", "metadata", "fall_through"]
+            classification_types: ["hard", "soft", "metadata", "fall_through"]
           },
-          extractors: {
-            extractor: {
-              caliber_extractor: {
+          analyzers: {
+            analyzer: {
+              caliber_analyzer: {
                 type:   :custom,
-                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots, :caliber_synonyms],
-                extract_terms: {
-                  dictionary: :caliber_terms,
-                  terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
-                }
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_dots, :scrub_calibers, :restore_dots, :caliber_synonyms, :extract_caliber],
               },
-              manufacturer_extractor: {
+              manufacturer_analyzer: {
                 type:   :custom,
-                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :manufacturer_synonyms],
-                extract_terms: {
-                  dictionary: :manufacturer_terms,
-                  terms:  :first # other options: :last, :most_popular, :least_popular, :cat_all
-                }
+                filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :manufacturer_synonyms, :extract_manufacturer],
               },
-              grains_extractor: {
+              grains_analyzer: {
                 type:   :custom,
                 filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_grains],
               },
-              number_of_rounds_extractor: {
+              number_of_rounds_analyzer: {
                 type:   :custom,
                 filter: [:lowercase, :scrub_whitespace, :scrub_punctuation, :scrub_rounds],
               },
-              price_extractor: { type: :price, currency: :usd, output: :cents },
+              price_analyzer: { type: :usd_to_cents },
             }
           },
         },
@@ -105,27 +109,27 @@ module StretchedTools
           auction_ends:   { type: :date },
           price_in_cents: {
             type: :integer,
-            extract: { source: :price, extractor: :price_extractor }
+            analyze: { source: :price, analyzer: :price_analyzer }
           },
           sale_price_in_cents: {
             type: :integer,
-            extract: { source: :sale_price, extractor: :price_extractor }
+            analyze: { source: :sale_price, analyzer: :price_analyzer }
           },
           buy_now_price_in_cents: {
             type: :integer,
-            extract: { source: :buy_now_price, extractor: :price_extractor }
+            analyze: { source: :buy_now_price, analyzer: :price_analyzer }
           },
           reserve_in_cents: {
             type: :integer,
-            extract: { source: :reserve, extractor: :price_extractor }
+            analyze: { source: :reserve, analyzer: :price_analyzer }
           },
           minimum_bid_in_cents: {
             type: :integer,
-            extract: { source: :minimum_bid, extractor: :price_extractor }
+            analyze: { source: :minimum_bid, analyzer: :price_analyzer }
           },
           current_bid_in_cents: {
             type: :integer,
-            extract: { source: :current_bid, extractor: :price_extractor }
+            analyze: { source: :current_bid, analyzer: :price_analyzer }
           },
           price_on_request: { type: :string },
           item_location:    { type: :string },
@@ -190,7 +194,7 @@ module StretchedTools
             properties: {
               caliber: {
                 type: :string,
-                extract: { source: :caliber,  extractor: :caliber_extractor },
+                analyze: { source: :caliber,  analyzer: :caliber_analyzer },
               }
             }
           },
@@ -198,7 +202,7 @@ module StretchedTools
             properties: {
               manufacturer: {
                 type: :string,
-                extract: { source: :manufacturer, extractor: :manufacturer_extractor },
+                analyze: { source: :manufacturer, analyzer: :manufacturer_analyzer },
               }
             }
           },
@@ -206,7 +210,7 @@ module StretchedTools
             properties: {
               grains: {
                 type: :integer,
-                extract: { source: :grains, extractor: :grains_extractor },
+                analyze: { source: :grains, analyzer: :grains_analyzer },
                 validate: {
                   range: { gte: 1, lte: 500 }
                 },
@@ -217,7 +221,7 @@ module StretchedTools
             properties: {
               number_of_rounds: {
                 type: :integer,
-                extract: { source: :number_of_rounds, extractor: :number_of_rounds_extractor },
+                analyze: { source: :number_of_rounds, analyzer: :number_of_rounds_analyzer },
                 validate: {
                   range: { gte: 1 }
                 },
