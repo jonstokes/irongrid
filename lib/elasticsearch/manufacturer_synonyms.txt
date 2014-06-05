@@ -357,6 +357,7 @@ houlding precision,houlding =>Houlding_Precision_Firearms
 Howa-Legacy
 Howard Leight
 HPR Ammunition
+HSM
 HTM
 Huglu Armsco
 Humminbird
