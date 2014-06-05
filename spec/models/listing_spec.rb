@@ -304,6 +304,17 @@ describe Listing do
     end
   end
 
+  describe "#update_es_index" do
+    it "should remove an inactive listing from the index" do
+      @listing_attrs["item_data"].merge!("availability" => "out_of_stock")
+      Listing.create(@listing_attrs)
+      listing = Listing.last
+      expect(listing.out_of_stock?).to be_true
+      Listing.index.retrieve("retail_listing", listing.id).should be_nil
+    end
+
+  end
+
   describe "#destroy" do
     it "should delete the listing from the db and index" do
       Listing.create(@listing_attrs)

@@ -109,6 +109,10 @@ class Listing < ActiveRecord::Base
     self[:updated_at].utc < Listing.stale_threshold
   end
 
+  def out_of_stock?
+    item_data["availability"] == "out_of_stock"
+  end
+
   def created_at
     self[:created_at].strftime("%Y-%m-%dT%H:%M:%S") if self[:created_at]
   end
@@ -229,7 +233,7 @@ class Listing < ActiveRecord::Base
 
   def update_es_index
     return if Listing.index_updates_disabled?
-    if inactive?
+    if inactive? || out_of_stock?
       retryable { Listing.index.remove type.downcase.sub("listing","_listing"), id }
     else
       retryable { update_index }
