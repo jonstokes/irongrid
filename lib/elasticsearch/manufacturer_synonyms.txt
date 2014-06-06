@@ -91,6 +91,7 @@ Black Forge Weapons
 Black Rain Ordnance
 Blackhawk
 Blackheart International
+black hills => Black_Hills_Ammunition
 Blazer
 Bling It On
 Blue Book Publications
