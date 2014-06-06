@@ -110,3 +110,15 @@ task :check_test_listing => :environment do
   pt = ParserTest.find ptid
   check_parser_test(pt)
 end
+
+desc "Check image urls"
+task :check_image_urls => :environment do
+  ParserTest.all.each do |pt|
+    next unless pt.listing_data && image = pt.listing_data["item_data"]["image_source"]
+    begin
+      puts "Bad image url #{image} for ParserTest #{pt.id}" unless URI.parse(image).scheme
+    rescue
+      puts "Bad image url #{image} for ParserTest #{pt.id}"
+    end
+  end
+end
