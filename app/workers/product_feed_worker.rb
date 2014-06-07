@@ -80,6 +80,10 @@ class ProductFeedWorker < CoreWorker
       url: product[:url],
       adapter_type: :feed
     )
+    unless scraper.is_valid?
+      notify "Error: Found invalid product: #{product}"
+      return
+    end
     update_image(scraper)
     msg = LinkMessage.new(scraper)
     @link_store.rem(msg.url) # Just in case RefreshLinksWorker had added this url to the LinkMessageQueue
