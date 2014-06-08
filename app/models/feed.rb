@@ -30,12 +30,10 @@ class Feed
 
   def each_product
     products.each do |product|
-      next unless xml = product_xml(product)
-      next unless doc = Nokogiri::XML(xml)
-      url = doc.at_xpath(product_link_xpath).try(:text)
+      url = product.at_xpath(product_link_xpath).try(:text)
       yield(
-        url:    url,
-        doc:    doc
+        url: url,
+        doc: product
       )
     end
   end
