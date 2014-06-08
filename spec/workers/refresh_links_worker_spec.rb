@@ -50,6 +50,18 @@ describe RefreshLinksWorker do
       expect(LogRecordWorker.jobs.count).to eq(2)
     end
 
+    it "does not transition to ProductFeedWorker if there are already ProductFeedWorkers in flight" do
+      Sidekiq::Testing.disable!
+      ProductFeedWorker.perform_async(domain: @site.domain)
+      5.times { FactoryGirl.create(:retail_listing) }
+      expect {
+        RefreshLinksWorker.new.perform(domain: @site.domain)
+      }.not_to raise_error
+      expect(ProductFeedWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
+      expect(ScrapePagesWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(0)
+      Sidekiq::Testing.fake!
+    end
+
     it "transitions to ScrapePagesWorker if the site is refresh_only" do
       @site.site_data[:link_sources].merge!('refresh_only' => true)
       @site.send(:write_to_redis)
@@ -60,6 +72,20 @@ describe RefreshLinksWorker do
       expect(ProductFeedWorker.jobs.count).to eq(0)
       expect(ScrapePagesWorker.jobs.count).to eq(1)
       expect(LogRecordWorker.jobs.count).to eq(2)
+    end
+
+    it "does not transition to ScrapePagesWorker if there are already ScrapePagesWorkers in flight" do
+      Sidekiq::Testing.disable!
+      ScrapePagesWorker.perform_async(domain: @site.domain)
+      @site.site_data[:link_sources].merge!('refresh_only' => true)
+      @site.send(:write_to_redis)
+      5.times { FactoryGirl.create(:retail_listing) }
+      expect {
+        RefreshLinksWorker.new.perform(domain: @site.domain)
+      }.not_to raise_error
+      expect(ProductFeedWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(0)
+      expect(ScrapePagesWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
+      Sidekiq::Testing.fake!
     end
   end
 end
