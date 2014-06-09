@@ -15,7 +15,7 @@ gem 'aws-sdk', '1.36.0'
 gem 'net-http-persistent'
 gem "geocoder"
 gem 'connection_pool'
-gem "tire", :git => "git://github.com/jonstokes/retire.git", :branch => "master"
+gem "tire", :git => "git://github.com/karmi/retire.git", :branch => "master"
 gem 'tire-contrib'
 gem 'stringex'
 gem 'yell-rails'

@@ -1,16 +1,16 @@
 GIT
-  remote: git://github.com/jonstokes/retire.git
-  revision: 06b95da03559c3a25edbf420d33881e8f9130663
+  remote: git://github.com/karmi/retire.git
+  revision: 1016449cd5bcfd52853f1728452e26962c18790e
   branch: master
   specs:
     tire (0.6.2)
-      activemodel
+      activemodel (>= 3.0)
       activesupport
       ansi
       hashr (~> 0.0.19)
-      multi_json
+      multi_json (~> 1.3)
       rake
-      rest-client
+      rest-client (~> 1.6)
 
 GEM
   remote: http://rubygems.org/
