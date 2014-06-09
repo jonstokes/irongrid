@@ -81,6 +81,7 @@ class ScrapePagesWorker < CoreWorker
         url: msg.url,
         adapter_type: :page
       )
+      page = nil
       if listing_is_unchanged?(msg, scraper)
         update_image(scraper)
         msg.update(
@@ -96,6 +97,7 @@ class ScrapePagesWorker < CoreWorker
           page_attributes:      scraper.listing
         )
       end
+      scraper = nil
     else
       msg.update(page_not_found: true)
     end

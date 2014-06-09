@@ -14,6 +14,7 @@ class ExtractRawListingFromPage
         context[:raw_listing][attribute] = parse_with_scraper_methods(value)
       end
     end
+    context[:doc] = nil
   end
 
   def parse_with_scraper_methods(method_arg_pairs)

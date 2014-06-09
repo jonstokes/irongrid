@@ -70,17 +70,8 @@ class Feed
     end
   end
 
-  def product_xml(product)
-    return unless product
-    xml_prefix = '<?xml version="1.0" encoding="us-ascii"?>' + "\n"
-    begin
-      xml_prefix + product.to_xml
-    rescue Encoding::UndefinedConversionError => e
-      File.open("tmp/broken-#{Time.now.to_i}.xml", "w") do |f|
-        f.puts @feed_doc
-      end
-      raise e
-    end
+  def clear!
+    @feed_doc = nil
   end
 end
 

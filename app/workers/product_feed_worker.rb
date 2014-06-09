@@ -43,6 +43,7 @@ class ProductFeedWorker < CoreWorker
       else
         add_links_from_feed(feed)
       end
+      feed.clear!
     end
   end
 
