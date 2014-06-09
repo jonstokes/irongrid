@@ -1,88 +1,59 @@
 module SidekiqUtils
 
   def workers
-    Sidekiq.redis do |conn|
-      conn.smembers('workers').map do |w|
-        msg = conn.get("worker:#{w}")
-        msg ? [w, Sidekiq.load_json(msg)] : nil
-      end.compact.sort { |x| x[1] ? -1 : 1 }
+    Sidekiq::Workers.new.map do |process_id, thread_id, worker|
+      worker
     end
   end
 
   def workers_for_queue(q)
     workers.select do |worker|
-      worker.last["queue"] == q
+      worker_queue(worker) == q
     end
   end
 
-  def workers_for_class(wclass)
+  def workers_for_class(klass)
     workers.select do |worker|
-      worker_class(worker) == wclass
+      worker_class(worker) == klass
     end
-  end
-
-  def clear_workers_for_class(wclass)
-    Sidekiq.redis do |conn|
-      workers_for_class(wclass).each do |w|
-        conn.del("worker:#{w}")
-        conn.srem("workers", w)
-      end
-    end
-  end
-
-  def worker_bid(worker)
-    worker.last["payload"]["bid"]
   end
 
   def worker_jid(worker)
-    worker.last["payload"]["jid"]
+    worker["jid"]
   end
 
   def worker_domain(worker)
-    worker.last["payload"]["args"].first["domain"] if worker.last["payload"]["args"].any?
+    worker["args"].first["domain"] if worker["args"].any?
   end
 
   def worker_time(worker)
-    worker.last["run_at"]
-  end
-
-  def worker_host(worker)
-    return nil unless worker && worker.first
-    return worker.first.split(":").first
+    worker["run_at"]
   end
 
   def worker_class(worker)
-    worker.last["payload"]["class"]
+    worker["class"]
+  end
+
+  def worker_queue(worker)
+    worker["queue"]
   end
 
   def jobs_for_queue(q)
-    Sidekiq.redis do |conn|
-      conn.lrange("queue:#{q}", 0, (conn.llen("queue:#{q}") - 1)).map do |job|
-        Sidekiq.load_json(job)
-      end
-    end
+    Sidekiq::Queue.new(q)
   end
 
-  def jobs_for_class(jclass)
+  def jobs_for_class(klass)
     queues.map do |q|
-      jobs_for_queue(q).select { |job| job["class"] == jclass }
+      jobs_for_queue(q).select { |job| job.klass == klass }
     end.flatten
   end
 
   def job_domain(job)
-    job["args"].first["domain"] if job["args"].any?
-  end
-
-  def job_bid(job)
-    job["bid"]
+    job.args.first["domain"] if job.args.any?
   end
 
   def job_jid(job)
-    job["jid"]
-  end
-
-  def pending_work?(q)
-    !empty_queue?(q)
+    job.jid
   end
 
   def number_of_active_workers(q_name)
@@ -90,28 +61,12 @@ module SidekiqUtils
   end
 
   def queues
-    Sidekiq.redis { |conn| conn.smembers('queues') }
-  end
-
-  def empty_queue?(name)
-    Sidekiq.redis { |conn| conn.llen("queue:#{name}") == 0 }
-  end
-
-  def queue_size(name)
-    Sidekiq.redis { |conn| conn.llen("queue:#{name}") }
+    Sidekiq::Stats.new.queues.keys
   end
 
   def clear_all_queues
     queues.each do |q|
       clear_queue(q)
-    end
-  end
-
-  def clear_queue(name)
-    Sidekiq.redis do |conn|
-      conn.llen("queue:#{name}").times do
-        conn.lpop("queue:#{name}")
-      end
     end
   end
 end

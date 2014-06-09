@@ -23,7 +23,6 @@ class CoreWorker < CoreModel
       {
         :domain => worker_domain(w),
         :jid => worker_jid(w),
-        :host => worker_host(w),
         :time => worker_time(w)
       }
     end
