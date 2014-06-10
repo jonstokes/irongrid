@@ -28,7 +28,7 @@ class Site < CoreModel
     define_method key do
       if key.to_s[/\_adapter/]
         var = eval("@#{key}")
-        var ||= Adapter.new(@site_data[key])
+        var ||= Adapter.new(@site_data[key]) if @site_data[key]
       else
         @site_data[key]
       end
