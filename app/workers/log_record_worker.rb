@@ -13,7 +13,8 @@ class LogRecordWorker < CoreWorker
       db { LogRecord.create(record) }
     end
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::JDBCError
-    LogRecordWorker.perform_async(record)
+    notify "Log record is not unique: #{record}"
+    return
   end
 
   def update_record(lr, record)

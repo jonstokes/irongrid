@@ -5,18 +5,22 @@ class WriteListingWorker < CoreWorker
 
   def perform(msg)
     return unless msg = LinkMessage.new(msg)
-    listing = db { msg.listing_id ? Listing.find(msg.listing_id) : Listing.find_by_url(msg.url) }
+    listing = db { find_listing_by_id(msg.listing_id) || Listing.find_by_url(msg.url) }
 
     if listing
       existing_listing(msg, listing)
     else
       new_listing(msg)
     end
-  rescue ActiveRecord::RecordNotFound
-    return
   end
 
   private
+
+  def find_listing_by_id(id)
+    Listing.find(id)
+  rescue
+    nil
+  end
 
   def new_listing(msg)
     if msg.page_is_valid?
@@ -25,6 +29,8 @@ class WriteListingWorker < CoreWorker
       update_geo_data(msg)
       db { klass.create(msg.page_attributes) }
     end
+  rescue ActiveRecord::RecordNotUnique
+    return
   end
 
   def existing_listing(msg, listing)
@@ -40,6 +46,9 @@ class WriteListingWorker < CoreWorker
       update_geo_data(msg)
       listing.update_with_count(msg.page_attributes)
     end
+  rescue ActiveRecord::RecordNotUnique
+    notify "Error: record #{listing.id} with digest #{listing.digest} and url #{listing.url} is a dupe!"
+    return
   end
 
   def update_geo_data(msg)
