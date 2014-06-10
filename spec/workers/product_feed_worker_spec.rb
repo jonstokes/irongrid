@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'mocktra'
 require 'sidekiq/testing'
-Sidekiq::Testing.fake!
 
 describe ProductFeedWorker do
   before :each do
+    Sidekiq::Testing.fake!
     @worker = ProductFeedWorker.new
     CDN.clear!
     Sidekiq::Worker.clear_all
@@ -294,7 +294,7 @@ describe ProductFeedWorker do
         expect(CreateLinksWorker.jobs.count).to be_zero
       end
 
-      it "does not trasition to anything for full product feeds where LMQ is empty" do
+      it "does not transition to anything for full product feeds where LMQ is empty" do
         site = create_site "ammo.net", source: :local
         LinkMessageQueue.new(domain: site.domain).clear
         ImageQueue.new(domain: site.domain).clear
@@ -309,6 +309,28 @@ describe ProductFeedWorker do
         @worker.perform(domain: site.domain)
         expect(PruneLinksWorker.jobs.count).to be_zero
         expect(CreateLinksWorker.jobs.count).to be_zero
+      end
+
+      it "does not transition to PruneLinksWorker if there's already one in flight for that domain" do
+        Sidekiq::Testing.disable!
+        site = create_site "ammo.net", source: :local
+        link_store = LinkMessageQueue.new(domain: site.domain)
+        link_store.clear
+        ImageQueue.new(domain: site.domain).clear
+        Mocktra(site.domain) do
+          get '/media/feeds/genericammofeed.xml' do
+            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        5.times { |i| link_store.add(LinkMessage.new(url: "http://#{site.domain}/#{i}")) }
+        PruneLinksWorker.perform_async(domain: site.domain)
+        @worker.perform(domain: site.domain)
+        expect(PruneLinksWorker.jobs_in_flight_with_domain(site.domain).count).to eq(1)
+        expect(CreateLinksWorker.jobs_in_flight_with_domain(site.domain).count).to be_zero
+        Sidekiq::Testing.fake!
       end
     end
 
