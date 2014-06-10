@@ -5,9 +5,9 @@ class WriteListingWorker < CoreWorker
 
   def perform(msg)
     return unless msg = LinkMessage.new(msg)
-    listing = db { find_listing_by_id(msg.listing_id) || Listing.find_by_url(msg.url) }
+    return if msg.listing_id && !(listing = find_listing(msg))
 
-    if listing
+    if listing ||= db { Listing.find_by_url(msg.url) }
       existing_listing(msg, listing)
     else
       new_listing(msg)
@@ -16,10 +16,11 @@ class WriteListingWorker < CoreWorker
 
   private
 
-  def find_listing_by_id(id)
-    Listing.find(id)
+  def find_listing(msg)
+    db { Listing.find(msg.listing_id) }
   rescue
-    nil
+    notify "Lost listing #{msg.listing_id} for message #{msg.to_h}", type: :error
+    return nil
   end
 
   def new_listing(msg)
@@ -30,6 +31,7 @@ class WriteListingWorker < CoreWorker
       db { klass.create(msg.page_attributes) }
     end
   rescue ActiveRecord::RecordNotUnique
+    notify "Listing not unique for message #{msg.to_h}", type: :error
     return
   end
 
@@ -47,7 +49,7 @@ class WriteListingWorker < CoreWorker
       listing.update_with_count(msg.page_attributes)
     end
   rescue ActiveRecord::RecordNotUnique
-    notify "Error: record #{listing.id} with digest #{listing.digest} and url #{listing.url} is a dupe!"
+    notify "Listing #{listing.id} with digest #{listing.digest} and url #{listing.url} is not unique, msg is #{msg.to_h}", type: :error
     return
   end
 

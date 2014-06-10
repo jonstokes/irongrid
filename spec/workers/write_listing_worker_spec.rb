@@ -81,9 +81,9 @@ describe WriteListingWorker do
       listing = Listing.first
       msg = {
         url:             @valid_attrs["url"],
-        page_attributes: @valid_attrs,
         page_is_valid:   true,
         page_not_found:  false,
+        dirty_only:      true,
         listing_id:      listing.id
       }
       listing.destroy

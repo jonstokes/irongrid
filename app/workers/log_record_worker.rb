@@ -13,7 +13,7 @@ class LogRecordWorker < CoreWorker
       db { LogRecord.create(record) }
     end
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::JDBCError
-    notify "Log record is not unique: #{record}"
+    notify "Log record is not unique: #{record}", type: :error
     return
   end
 

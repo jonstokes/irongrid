@@ -3,8 +3,9 @@ module Notifier
     klass.extend(self)
   end
 
-  def notify(logline)
+  def notify(logline, opts={})
     domain_insert = @domain ? "[#{@domain}]": ""
-    Rails.logger.info "#{self.class}(#{Thread.current.object_id})#{domain_insert}: #{logline}"
+    error_insert = (opts[:type] == :error) ? "##ERROR## " : ""
+    Rails.logger.info "#{self.class}(#{Thread.current.object_id})#{domain_insert}: #{error_insert}#{logline}"
   end
 end
