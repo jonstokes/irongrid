@@ -47,7 +47,7 @@ class CreateLinksWorker < CoreWorker
   end
 
   def transition
-    return if @link_store.empty?
+    return if @link_store.empty? || PruneLinksWorker.jobs_in_flight_with_domain(@site.domain).any?
     next_jid = PruneLinksWorker.perform_async(domain: domain)
     record_set(:transition, "PruneLinksWorker")
     record_set(:next_jid, next_jid)

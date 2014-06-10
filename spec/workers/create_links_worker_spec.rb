@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'mocktra'
 require 'sidekiq/testing'
-Sidekiq::Testing.fake!
 
 describe CreateLinksWorker do
 
   before :each do
+    Sidekiq::Testing.fake!
     @worker = CreateLinksWorker.new
     CDN.clear!
     Sidekiq::Worker.clear_all
@@ -60,7 +60,17 @@ describe CreateLinksWorker do
       expect(LogRecordWorker.jobs.count).to eq(10)
     end
 
-    it "does not transition to ScrapePagesWorker if LinkMessageQueue is empty" do
+    it "does not transition to PruneLinksWorker if there's already one in flight" do
+      Sidekiq::Testing.disable!
+      PruneLinksWorker.perform_async(domain: @site.domain)
+      @worker.perform(domain: @site.domain)
+      expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(444)
+      expect(PruneLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
+      #expect(LogRecordWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(10)
+      Sidekiq::Testing.fake!
+    end
+
+    it "does not transition to PruneLinksWorker if LinkMessageQueue is empty" do
       pending "Mock product page with zero links?"
       expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(0)
       expect(PruneLinksWorker.jobs.count).to eq(0)
