@@ -40,7 +40,7 @@ class Feed
 
   def each_link
     links.each do |link|
-      yield "#{product_link_prefix}#{link.text}"
+      yield "#{product_link_prefix}#{link.text.strip}"
     end
   end
 
