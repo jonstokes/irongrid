@@ -63,6 +63,24 @@ namespace :site do
     end
   end
 
+  desc "Re-run product feeds"
+  task :rerun_product_feeds => :environment do
+    domains = %w(
+      ammo.net
+      fgammo.com
+      shop.qualitymadecartridges.com
+      www.brownells.com
+      www.guncasket.com
+      www.policestore.com
+      www.sinclairintl.com
+      www.sportsmanswarehouse.com
+    )
+    domains.each do |domain|
+      puts "Rerunning product feed for #{domain}..."
+      ProductFeedWorker.new.perform(domain: domain)
+    end
+  end
+
   desc "Create site fixtures from local repo"
   task :generate_fixtures => :environment do
     domains = YAML.load_file("spec/fixtures/sites/manifest.yml")
