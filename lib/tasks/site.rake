@@ -43,6 +43,26 @@ namespace :site do
     end
   end
 
+  desc "Roll back listing updates from a period of days"
+  task :rollback_listing_updates => :environment do
+    domains = %w(
+      ammo.net
+      fgammo.com
+      shop.qualitymadecartridges.com
+      www.brownells.com
+      www.guncasket.com
+      www.policestore.com
+      www.sinclairintl.com
+      www.sportsmanswarehouse.com
+    )
+    domains.each do |domain|
+      Listing.where("item_data->>'seller_domain' = ? AND updated_at > ?", domain, 4.days.ago).find_each(:batch_size => 100) do |listing|
+        puts "Destroying listing #{listing.url}"
+        listing.destroy
+      end
+    end
+  end
+
   desc "Create site fixtures from local repo"
   task :generate_fixtures => :environment do
     domains = YAML.load_file("spec/fixtures/sites/manifest.yml")
