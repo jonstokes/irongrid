@@ -6,15 +6,20 @@ class DocReader
     @doc = opts[:doc]
     @url = opts[:url]
     @respond_to = []
+    @coder = HTMLEntities.new
   end
 
   def find_by_xpath(arguments)
     nodes = doc.xpath(arguments['xpath'])
     target = get_target_text(arguments, nodes)
     target = asciify_target_text(target)
-    return Sanitize.clean(target, elements: []) unless arguments['filters']
+    return sanitize(target) unless arguments['filters']
     target = filter_target_text(arguments['filters'], target)
-    Sanitize.clean(target, elements: [])
+    sanitize(target)
+  end
+
+  def sanitize(text)
+    @coder.decode(Sanitize.clean(text, elements: []))
   end
 
   def classify_by_url(args)

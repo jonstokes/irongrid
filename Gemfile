@@ -22,6 +22,7 @@ gem 'yell-rails'
 gem 'yell-adapters-syslog'
 gem 'interactor'
 gem 'sanitize'
+gem 'htmlentities'
 
 # JRuby-specific gems
 gem 'execjs'
