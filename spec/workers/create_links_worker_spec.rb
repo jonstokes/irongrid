@@ -57,7 +57,7 @@ describe CreateLinksWorker do
       @worker.perform(domain: @site.domain)
       expect(LinkMessageQueue.new(domain: @site.domain).size).to eq(444)
       expect(PruneLinksWorker.jobs.count).to eq(1)
-      expect(LogRecordWorker.jobs.count).to eq(10)
+      expect(LogRecordWorker.jobs.count).to eq(2)
     end
 
     it "does not transition to PruneLinksWorker if there's already one in flight" do
