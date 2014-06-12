@@ -63,7 +63,7 @@ describe Site do
       expect(feed.url).to eq('http://datafeed.avantlink.com/download_feed.php?id=153279&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status')
       expect(feed.feed_url).to eq("http://datafeed.avantlink.com/download_feed.php?id=153279&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status&from=#{(Time.now - 1.day).strftime("%Y-%m-%d")}")
       expect(feed.product_xpath).to eq('//Products/Product')
-      expect(feed.product_link_xpath).to eq('//Buy_Link')
+      expect(feed.product_link_xpath).to eq('.//Buy_Link')
     end
 
     it "expands links with PAGENUM in the into the correct number of individual feeds" do
