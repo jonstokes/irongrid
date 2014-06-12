@@ -12,8 +12,9 @@ class DocReader
     nodes = doc.xpath(arguments['xpath'])
     target = get_target_text(arguments, nodes)
     target = asciify_target_text(target)
-    return target unless arguments['filters']
-    filter_target_text(arguments['filters'], target)
+    return Sanitize.clean(target, elements: []) unless arguments['filters']
+    target = filter_target_text(arguments['filters'], target)
+    Sanitize.clean(target, elements: [])
   end
 
   def classify_by_url(args)
