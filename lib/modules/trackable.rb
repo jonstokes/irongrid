@@ -6,7 +6,7 @@ module Trackable
     return if @log_record_schema # Ignore repeated calls to #track, as in RefreshLinksWorker
     @log_record_schema = self.class::LOG_RECORD_SCHEMA
     opts.symbolize_keys!
-    @write_interval = opts[:write_interval] || 50
+    @write_interval = opts[:write_interval] || 500
     @count = 0
     initialize_log_record
     @tracking = true
