@@ -59,6 +59,7 @@ namespace :site do
       Listing.where("item_data->>'seller_domain' = ? AND updated_at > ?", domain, 4.days.ago).find_each(:batch_size => 100) do |listing|
         puts "Destroying listing #{listing.url}"
         listing.destroy
+        listing.update_es_index
       end
     end
   end

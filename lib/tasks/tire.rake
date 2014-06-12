@@ -18,7 +18,7 @@ namespace :tire do
       puts "Index rebuilt!"
       batch_total = 0
       batch_count = 0
-      Listing.where(:inactive => [nil, false]).where("item_data->>'availability' = 'in_stock'").find_in_batches(:batch_size => 100) do |batch|
+      Listing.where(:inactive => [nil, false]).where("item_data->>'availability' != 'out_of_stock'").find_in_batches(:batch_size => 100) do |batch|
         puts "Importing listing batch starting at id #{batch.first.id}..."
         start_time = Time.now
         Listing.index.import batch
