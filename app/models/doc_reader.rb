@@ -19,7 +19,8 @@ class DocReader
   end
 
   def sanitize(text)
-    @coder.decode(Sanitize.clean(text, elements: []))
+    return unless str = Sanitize.clean(text, elements: [])
+    @coder.decode(str)
   end
 
   def classify_by_url(args)
