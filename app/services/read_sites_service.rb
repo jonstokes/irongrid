@@ -12,7 +12,7 @@ class ReadSitesService < CoreService
   end
 
   def any_read_jobs_in_flight_with_domain?(domain)
-    %w(CreateLinksWorker ProductFeedWorker PruneLinksWorker ScrapePagesWorker).detect do |class_name|
+    %w(RefreshLinksWorker CreateLinksWorker ProductFeedWorker PruneLinksWorker ScrapePagesWorker).detect do |class_name|
       klass = Object.const_get class_name
       klass.jobs_in_flight_with_domain(domain).any?
     end
