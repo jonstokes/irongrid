@@ -192,7 +192,7 @@ class Site < CoreModel
   end
 
   def load_from_local
-    branch = ENV['SITE_BRANCH'] || "master"
+    branch = Figaro.env.site_branch rescue "master"
     site_dir = domain.gsub(".","--")
     directory = "#{Figaro.env.sites_repo}/sites/#{site_dir}"
 
