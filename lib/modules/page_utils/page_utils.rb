@@ -1,4 +1,9 @@
+require 'capybara-webkit'
+require 'capybara/dsl'
+
 module PageUtils
+  include Capybara::DSL
+
   MAX_RETRIES = 5
 
   def get_page(link, opts={})
@@ -11,6 +16,12 @@ module PageUtils
     end until page.try(:doc) || (tries -= 1).zero?
     return if page.nil? || page.not_found? || !page.body.present? || !page.doc
     page
+  end
+
+  def render_page(link)
+    @session ||= Capybara::Session.new(:webkit)
+    @session.visit(link)
+    return Nokogiri::HTML.parse(@session.html)
   end
 
   class Test
