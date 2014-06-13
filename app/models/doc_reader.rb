@@ -52,8 +52,9 @@ class DocReader
   def find_by_meta_tag(args)
     nodes = get_nodes_for_meta_attribute(args)
     return unless content = get_content_for_meta_nodes(nodes)
-    return content[args['regexp']] if args['regexp']
-    return content
+    content = content[args['regexp']] if args['regexp']
+    return content unless args['filters']
+    filter_target_text(arguments['filters'], content)
   end
 
   def get_nodes_for_meta_attribute(args)
