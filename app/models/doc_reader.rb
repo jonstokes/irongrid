@@ -54,7 +54,7 @@ class DocReader
     return unless content = get_content_for_meta_nodes(nodes)
     content = content[args['regexp']] if args['regexp']
     return content unless args['filters']
-    filter_target_text(arguments['filters'], content)
+    filter_target_text(args['filters'], content)
   end
 
   def get_nodes_for_meta_attribute(args)
