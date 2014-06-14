@@ -17,10 +17,6 @@ class ScrapePagesWorker < CoreWorker
   attr_reader :domain, :site
   attr_accessor :timeout if Rails.env.test?
 
-  def initialize
-    @http = PageUtils::HTTP.new
-  end
-
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && (@domain = opts[:domain])
@@ -73,15 +69,7 @@ class ScrapePagesWorker < CoreWorker
   end
 
   def pull_and_process(msg)
-    if @site.page_adapter && page = @rate_limiter.with_limit { get_page(msg.url) }
-      record_incr(:pages_read)
-      scraper = ParsePage.perform(
-        site: @site,
-        page: page,
-        url: msg.url,
-        adapter_type: :page
-      )
-      page = nil
+    if @site.page_adapter && scraper = scrape_page(msg.url)
       if listing_is_unchanged?(msg, scraper)
         update_image(scraper)
         msg.update(
@@ -97,12 +85,30 @@ class ScrapePagesWorker < CoreWorker
           page_attributes:      scraper.listing
         )
       end
-      scraper = nil
     else
       msg.update(page_not_found: true)
     end
     WriteListingWorker.perform_async(msg.to_h)
     record_incr(:db_writes)
+  end
+
+  def scrape_page(url)
+    return unless page = @rate_limiter.with_limit { fetch_page(url) }
+    record_incr(:pages_read)
+    ParsePage.perform(
+      site: @site,
+      page: page,
+      url: url,
+      adapter_type: :page
+    )
+  end
+
+  def fetch_page(url)
+    if site.page_adapter['format'] == "dhtml"
+      render_page(url)
+    else
+      get_page(url)
+    end
   end
 
   def listing_is_unchanged?(msg, scraper)

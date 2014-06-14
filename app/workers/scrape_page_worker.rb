@@ -5,10 +5,6 @@ class ScrapePageWorker < CoreWorker
 
   attr_reader :domain, :site, :url
 
-  def initialize
-    @http = PageUtils::HTTP.new
-  end
-
   def init(opts)
     opts.to_h.symbolize_keys!
     return false unless opts && (@domain = opts[:domain]) && (@url = opts[:url])
@@ -22,19 +18,14 @@ class ScrapePageWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
+    return unless @site.page_adapter
     pull_and_process(url)
   end
 
   private
 
   def pull_and_process(url)
-    if @site.page_adapter && page = get_page(url)
-      scraper = ParsePage.perform(
-        site: @site,
-        page: page,
-        url: url,
-        adapter_type: :page
-      )
+    if scraper = scrape_page(url)
       msg = LinkMessage.new(
         url:                  url,
         page_is_valid:        scraper.is_valid?,
@@ -47,5 +38,23 @@ class ScrapePageWorker < CoreWorker
       msg = LinkMessage.new(url: url, page_not_found: true)
     end
     ValidatorQueue.add(jid, msg.to_h)
+  end
+
+  def scrape_page(url)
+    return unless page = fetch_page(url)
+    ParsePage.perform(
+      site: @site,
+      page: page,
+      url: url,
+      adapter_type: :page
+    )
+  end
+
+  def fetch_page(url)
+    if @site.page_adapter['format'] == "dhtml"
+      render_page(url)
+    else
+      get_page(url)
+    end
   end
 end

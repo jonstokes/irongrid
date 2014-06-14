@@ -41,6 +41,6 @@ class ExtractRawListingFromPage
     # In other words, the value of these attributes is always declared in-line
     # in the adapter, and is never derived from executing a scraper_method against
     # a DocReader object.
-    %w(seller_defaults validation digest_attributes).include?(attribute)
+    %w(format seller_defaults validation digest_attributes).include?(attribute)
   end
 end
