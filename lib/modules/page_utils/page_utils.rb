@@ -14,8 +14,8 @@ module PageUtils
   end
 
   def render_page(link, opts={})
-    @http ||= PageUtils::DynamicHTTP.new
-    page = @http.fetch_page(link, opts)
+    @dhttp ||= PageUtils::DynamicHTTP.new
+    page = @dhttp.fetch_page(link, opts)
     return if page.nil? || page.not_found? || !page.body.present? || !page.doc
     page
   end
