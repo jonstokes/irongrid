@@ -23,6 +23,8 @@ gem 'yell-adapters-syslog'
 gem 'interactor'
 gem 'sanitize'
 gem 'htmlentities'
+gem 'poltergeist'
+gem 'capybara'
 
 # JRuby-specific gems
 gem 'execjs'
@@ -46,7 +48,6 @@ end
 
 group :test do
   gem 'cucumber-rails', :require => false
-  gem 'capybara'
   gem 'database_cleaner'
   gem 'spork'
   gem 'launchy'
