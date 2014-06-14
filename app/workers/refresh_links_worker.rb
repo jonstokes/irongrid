@@ -16,7 +16,7 @@ class RefreshLinksWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && (@domain = opts[:domain])
-    return false if ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any?
+    return false if site_is_being_read?
     @site = Site.new(domain: domain, source: :redis)
     @link_store = LinkMessageQueue.new(domain: domain)
     true
@@ -41,12 +41,19 @@ class RefreshLinksWorker < CoreWorker
     notify "Refresh links for #{domain} finished."
   end
 
+  def site_is_being_read?
+    ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any? ||
+      PruneLinksWorker.jobs_in_flight_with_domain(@domain).any? ||
+      ProductFeedWorker.jobs_in_flight_with_domain(@domain).any? ||
+      CreateLinksWorker.jobs_in_flight_with_domain(@domain).any?
+  end
+
   def transition
     if @site.refresh_only? && ScrapePagesWorker.jobs_in_flight_with_domain(domain).empty?
       next_jid = ScrapePagesWorker.perform_async(domain: domain)
       record_set(:transition, "ScrapePagesWorker")
       record_set(:next_jid, next_jid)
-    elsif ProductFeedWorker.jobs_in_flight_with_domain(domain).empty?
+    elsif !site_is_being_read?
       next_jid = ProductFeedWorker.perform_async(domain: domain)
       record_set(:transition, "ProductFeedWorker")
       record_set(:next_jid, next_jid)
