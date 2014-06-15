@@ -19,11 +19,11 @@ module SidekiqUtils
   end
 
   def worker_jid(worker)
-    worker["jid"]
+    worker["payload"]["jid"] if worker["payload"]
   end
 
   def worker_domain(worker)
-    worker["args"].first["domain"] if worker["args"].any?
+    worker["payload"]["args"].first["domain"] if worker["payload"] && worker["args"].any?
   end
 
   def worker_time(worker)
@@ -31,7 +31,7 @@ module SidekiqUtils
   end
 
   def worker_class(worker)
-    worker["class"]
+    worker["payload"]["class"] if worker["payload"]
   end
 
   def worker_queue(worker)
@@ -43,7 +43,7 @@ module SidekiqUtils
   end
 
   def jobs_for_class(klass)
-    queues.map do |q|
+    queues.reject{ |q| q == "fast_db" }.map do |q|
       jobs_for_queue(q).select { |job| job.klass == klass }
     end.flatten
   end
