@@ -26,9 +26,7 @@ class LogRecord < ActiveRecord::Base
 
   def self.archive_all
     db do
-      LogRecord.active.each do |record |
-        record.update_attribute(:archived, true)
-      end
+      LogRecord.active.update_all(archived: true)
     end
   end
 end
