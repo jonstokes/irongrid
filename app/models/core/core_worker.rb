@@ -18,8 +18,21 @@ class CoreWorker < CoreModel
     # override
   end
 
+  def i_am_alone_with_this_domain?
+    self.class.jobs_with_domain(@domain).select { |j| jid != j[:jid] }.empty? &&
+      self.class.workers_with_domain(@domain).select { |j| jid != j[:jid] }.empty?
+  end
+
+  def self._workers
+    workers_for_class("#{self.name}")
+  end
+
+  def self._jobs
+    jobs_for_class("#{self.name}")
+  end
+
   def self.active_workers
-    workers_for_class("#{self.name}").map do |w| 
+    _workers.map do |w|
       {
         :domain => worker_domain(w),
         :jid => worker_jid(w),
@@ -29,7 +42,7 @@ class CoreWorker < CoreModel
   end
 
   def self.queued_jobs
-    jobs_for_class("#{self.name}").map { |j| {:domain => job_domain(j), :jid => job_jid(j)} }
+    _jobs.map { |j| {:domain => job_domain(j), :jid => job_jid(j)} }
   end
 
   def self.workers_with_domain(domain)
@@ -37,7 +50,7 @@ class CoreWorker < CoreModel
   end
 
   def self.jobs_with_domain(domain)
-    queued_jobs.select { |w| w[:domain] == domain }
+    queued_jobs.select { |j| j[:domain] == domain }
   end
 
   def self.jobs_in_flight_with_domain(domain)

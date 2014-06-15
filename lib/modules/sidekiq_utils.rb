@@ -23,7 +23,7 @@ module SidekiqUtils
   end
 
   def worker_domain(worker)
-    worker["payload"]["args"].first["domain"] if worker["payload"] && worker["args"].any?
+    worker["payload"]["args"].first["domain"] if worker["payload"] && worker["payload"]["args"].try(:any?)
   end
 
   def worker_time(worker)
@@ -43,7 +43,7 @@ module SidekiqUtils
   end
 
   def jobs_for_class(klass)
-    queues.reject{ |q| q == "fast_db" }.map do |q|
+    queues.map do |q|
       jobs_for_queue(q).select { |job| job.klass == klass }
     end.flatten
   end
@@ -61,7 +61,11 @@ module SidekiqUtils
   end
 
   def queues
-    Sidekiq::Stats.new.queues.keys
+    unless Rails.env.test?
+      Sidekiq::Stats.new.queues.keys.reject{ |q| q == "fast_db" }
+    else
+      Sidekiq::Stats.new.queues.keys
+    end
   end
 
   def clear_all_queues

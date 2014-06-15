@@ -20,6 +20,7 @@ class ScrapePagesWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && (@domain = opts[:domain])
+    return false unless i_am_alone_with_this_domain?
 
     @site = Site.new(domain: domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
