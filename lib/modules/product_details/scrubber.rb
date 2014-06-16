@@ -18,7 +18,7 @@ module ProductDetails
 
     def self.scrub_all(text)
       return unless text.present?
-      scrub(text, :inches, :grains, :rounds, :caliber, :color, :punctuation)
+      scrub(text, :inches, :grains, :rounds, :caliber, :punctuation)
     end
 
     def self.scrub_punctuation(text)
