@@ -261,11 +261,11 @@ module ProductDetails
       str.squeeze!(" ")
 
       # Millimeter
-      str.gsub!(/(\.|\s)(30|75|28|35|25|21|8|9|22|18|23)\s{0,1}(mm|millimeter|milimeter|mil)\.?\,?\s+/i) do |match|
+      str.gsub!(/(\.|\s)(30|75|28|35|25|21|8|9|10|22|18|23)\s{0,1}(mm|millimeter|milimeter|mil)\.?\,?\s+/i) do |match|
         match.sub!(/mm|millimeter|milimeter|mil/i, " mm")
       end
       str.squeeze!(" ")
-      str.gsub!(/(\.|\s)(30|75|28|35|25|21|8|9|22|18|23)\s{0,1}(mm|millimeter|milimeter|mil)\.?\,?\s+/i) do |match|
+      str.gsub!(/(\.|\s)(30|75|28|35|25|21|8|9|10|22|18|23)\s{0,1}(mm|millimeter|milimeter|mil)\.?\,?\s+/i) do |match|
         match.gsub!(/\smm/i,"mm")
       end
       str.squeeze!(" ")
