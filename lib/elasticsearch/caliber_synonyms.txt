@@ -26,7 +26,7 @@
 .380 auto => .380_ACP
 .380 Long
 4.6x30 => 4.6x30mm
-.40 smith and wesson => .40_S&W
+.40 smith and wesson,.40 s &w => .40_S&W
 .40 Super
 .400 Cor-Bon
 .41 Long Colt
