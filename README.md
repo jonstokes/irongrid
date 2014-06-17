@@ -122,3 +122,12 @@ per https://gist.github.com/wingdspur/2026107
 wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.9.deb
 sudo dpkg -i elasticsearch-0.90.9.deb
 
+## Phantomjs
+https://coderwall.com/p/rs63ea
+
+cd /usr/local/share
+sudo wget sudo wget https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2
+sudo tar xjf phantomjs-1.9.0-linux-x86_64.tar.bz2
+sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x8664/bin/phantomjs /usr/local/share/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x8664/bin/phantomjs /usr/local/bin/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+phantomjs --version
+
