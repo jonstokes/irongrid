@@ -112,7 +112,7 @@
 .221 Fireball
 .222 Rem
 .222 Rem Mag
-.223 remington => .223_Rem
+.223,.223 remington => .223_Rem
 .223 winchester super short mag,.223 win super short mag => .223_WSSM
 .224 Wby Mag
 .225 Win
