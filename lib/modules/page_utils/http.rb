@@ -176,7 +176,9 @@ module PageUtils
     # Allowed to connect to the requested url?
     #
     def allowed?(to_url, from_url)
-      to_url.host.nil? || (to_url.host == from_url.host)
+      to_url.host.nil? || (to_url.host.sub("www.","") == from_url.host.sub("www.",""))
+    rescue
+      true
     end
 
   end
