@@ -15,7 +15,11 @@ module PageUtils
 
   def render_page(link, opts={})
     @dhttp ||= PageUtils::DynamicHTTP.new
-    page = @dhttp.fetch_page(link, opts)
+    begin
+      tries ||= 3
+      page = @dhttp.fetch_page(link, opts)
+      sleep 1
+    end until page.try(:doc) || (tries -= 1).zero?
     return if page.nil? || page.not_found? || !page.body.present? || !page.doc
     page
   end

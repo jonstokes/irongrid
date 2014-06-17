@@ -36,6 +36,9 @@ module PageUtils
       rescue Exception => e
         return Page.new(url, :error => e)
       end
+
+    ensure
+      session.reset!
     end
 
     #
