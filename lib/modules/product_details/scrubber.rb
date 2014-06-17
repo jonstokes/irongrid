@@ -173,7 +173,7 @@ module ProductDetails
       end
 
       # Pre-caliber dot 400's
-      str.gsub!(/\s(40\s(s&w|super)|4[145]|400\s?\-?[capn](\w{1,6}|\-)|404|405|416|426|440|445|450|454|455|458|460|470|475|480)\s/i) do |match|
+      str.gsub!(/\s(40\s(s&w|super)|(4[145]|400)\s?\-?[capn][\w\-]{1,7}|404|405|416|426|440|445|450|454|455|458|460|470|475|480)\s/i) do |match|
         i = match.index(/40\s(s&w|super)|4[145]|400\s?\-?[capn](\w{1,6}|\-)|\d{3}\s/i)
         match = match.insert(i,".")
       end
