@@ -1,0 +1,7 @@
+---
+product_link_xpath: //td[@class='mainContent']/table//td[@class='bodyTextSmall']/a/@href
+follow_link_xpath: /html/body/table//table//td[@class='mainContent']/table//font/b/a/@href
+urls:
+  - http://store.thirdgenerationshootingsupply.com/browse.cfm/2,3758.html
+  - http://store.thirdgenerationshootingsupply.com/browse.cfm/2,3458.html
+
