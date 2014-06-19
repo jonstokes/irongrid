@@ -14,6 +14,7 @@ class SetCommonAttributes < CoreModel
     context[:image_download_attempted] = false
     context[:item_condition] = item_condition
     context[:item_location] = item_location
+    context[:auction_ends] = auction_ends
   end
 
   def title
@@ -104,5 +105,10 @@ class SetCommonAttributes < CoreModel
     rescue URI::InvalidURIError
       return false
     end
+  end
+
+  def auction_ends
+    return unless type == "AuctionListing"
+    ListingFormat.time(site: site, time: raw_listing['auction_ends'])
   end
 end

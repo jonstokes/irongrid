@@ -1,4 +1,6 @@
 module ListingFormat
+  DEFAULT_LISTING_TIMEZONE = "Central Time (US & Canada)"
+
   class Formatter
     def image_url(link)
       return unless retval = URI.encode(link)

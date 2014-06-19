@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SetCommonAttributes do
   describe "#perform" do
-    it "correctly sets common attributes" do
+    before :each do
       @site = create_site "www.retailer.com"
       @raw_listing = {
         "validation" => {
@@ -24,10 +24,13 @@ describe SetCommonAttributes do
         "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
         "category1" => "Guns"
       }
+    end
 
+    it "correctly sets common attributes for a retail listing" do
       result = SetCommonAttributes.perform(
         site: @site,
         raw_listing: @raw_listing,
+        type: "RetailListing",
         adapter: @site.page_adapter
       )
 
@@ -57,9 +60,21 @@ describe SetCommonAttributes do
       result = SetCommonAttributes.perform(
         site: site,
         raw_listing: raw_listing,
+        type: "RetailListing",
         adapter: site.page_adapter
       )
       expect(result.affiliate_link_tag).to eq("#rid=ironsights&amp;chan=search")
+    end
+
+    it "correctly sets common attributes for an auction listing" do
+      raw_listing = @raw_listing.merge("auction_ends" => "09/10/2025")
+      result = SetCommonAttributes.perform(
+        site: @site,
+        raw_listing: raw_listing,
+        type: "AuctionListing",
+        adapter: @site.page_adapter
+      )
+      expect(result.auction_ends.to_s).to eq("2025-09-10 05:00:00 UTC")
     end
   end
 

@@ -62,23 +62,23 @@ describe GenerateListingHash do
       stock_status: "In Stock",
       current_price_in_cents: 34999,
       price_per_round_in_cents: 83,
-      price_on_request: nil,
-      price_in_cents: nil,
+      price_on_request: 84,
+      price_in_cents: 84,
       sale_price_in_cents: 34999,
-      buy_now_price_in_cents: nil,
-      current_bid_in_cents: nil,
-      minimum_bid_in_cents: nil,
-      reserve_in_cents: nil,
-      auction_ends: nil,
-      city: nil,
-      state: nil,
-      country: nil,
-      latitude: nil,
-      longitude: nil,
-      state_code: nil,
-      postal_code: nil,
-      country_code: nil,
-      coordinates: nil
+      buy_now_price_in_cents: 101,
+      current_bid_in_cents: 102,
+      minimum_bid_in_cents: 103,
+      reserve_in_cents: 104,
+      city: "Austin",
+      state: "Texas",
+      country: "United States",
+      latitude: 1.000,
+      longitude: 2.000,
+      state_code: "TX",
+      postal_code: "78704",
+      country_code: "US",
+      coordinates: "1.000, 2.000",
+      auction_ends: Time.parse("09/10/2025"),
     }
 
     result = GenerateListingHash.perform(opts)
@@ -91,6 +91,8 @@ describe GenerateListingHash do
     Listing::ITEM_DATA_ATTRIBUTES.each do |attr|
       if attr == "keywords"
         expect(item.keywords).to eq(opts[:keywords].raw)
+      elsif attr == "auction_ends"
+        expect(item.auction_ends).to eq("2025-09-10T00:00:00-05:00")
       else
         expect(item.send(attr)).to eq(opts[attr.to_sym])
       end
