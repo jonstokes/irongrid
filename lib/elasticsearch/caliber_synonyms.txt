@@ -1,6 +1,6 @@
 # handgun calibers - begin
-10mm => 10mm_Auto
-.22 TCM
+.10mm,10mm => 10mm_Auto
+22tcm,.22tcm => .22_TCM
 .25 auto => .25_ACP
 .25 NAA
 .30 Mauser Automatic
