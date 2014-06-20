@@ -27,7 +27,7 @@ module PageUtils
     def fetch_pages(url, opts={})
       referer, depth, force_format = opts[:referer], opts[:depth], opts[:force_format]
       begin
-        url = URI(url) unless url.is_a?(URI)
+        url = convert_to_uri(url) unless url.is_a?(URI)
         pages = []
         get(url, referer) do |response, code, location, redirect_to, response_time|
           pages << Page.new(location, :body => response.body.dup,
@@ -48,6 +48,15 @@ module PageUtils
         end
         return [Page.new(url, :error => e)]
       end
+    end
+
+    #
+    # Convert the link to a valid URI if possible
+    #
+    def convert_to_uri(url)
+      URI(url)
+    rescue URI::InvalidURIError
+      URI(URI.escape(url))
     end
 
     #
