@@ -61,6 +61,9 @@ RAILS_ENV="production" DB_POOL=30 REDIS_POOL=30 jruby -Xcompile.invokedynamic=tr
 ### Emergency xlarge:
 RAILS_ENV="production" DB_POOL=50 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx3584m -J-Xms3584m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q fast_db -c 50 2>&1 | logger -t sidekiq
 
+### xlarge reindex task:
+RAILS_ENV="production" DB_POOL=50 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx3584m -J-Xms3584m -S bundle exec rake tire:index:seed --trace
+
 
 ## Bitnami production enviroment setup
 
