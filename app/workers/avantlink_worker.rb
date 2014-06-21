@@ -1,4 +1,4 @@
-class AvantlinkWorker ProductFeedWorker
+class AvantlinkWorker < ProductFeedWorker
   include UpdateImage
   include Trackable
 
