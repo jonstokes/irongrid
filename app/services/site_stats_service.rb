@@ -8,7 +8,8 @@ class SiteStatsService < CoreService
     end.compact
   end
 
-  def should_add_job?
-    Time.now - site.stats.try(:[],:updated_at) > 86400
+  def should_add_job?(site)
+    return true unless time = site.stats.try(:[],:updated_at)
+    (Time.now - time) > 86400
   end
 end
