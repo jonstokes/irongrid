@@ -1,15 +1,4 @@
 class AvantlinkWorker < ProductFeedWorker
-  include UpdateImage
-  include Trackable
-
-  LOG_RECORD_SCHEMA = {
-    db_writes:        Integer,
-    images_added:     Integer,
-    links_created:    Integer,
-    transition:       String,
-    next_jid:         String
-  }
-
   sidekiq_options :queue => :utils, :retry => false
 
   attr_reader :site, :page_queue
