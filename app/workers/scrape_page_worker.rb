@@ -20,6 +20,7 @@ class ScrapePageWorker < CoreWorker
     return unless opts && init(opts)
     return unless @site.page_adapter
     pull_and_process(url)
+    @dhttp.destroy! if @dhttp
   end
 
   private
@@ -51,7 +52,7 @@ class ScrapePageWorker < CoreWorker
   end
 
   def fetch_page(url)
-    if @site.page_adapter['format'] == "dhtml"
+    if @site.page_adapter['format'] ==  'dhtml'
       render_page(url)
     else
       get_page(url)

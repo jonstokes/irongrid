@@ -3,9 +3,22 @@ require 'capybara/poltergeist'
 
 module PageUtils
   class DynamicHTTP
+    attr_reader :session
 
     def initialize(opts = {})
       @opts = opts
+      Capybara.register_driver :poltergeist do |app|
+        Capybara::Poltergeist::Driver.new(app, js_errors: false)
+      end
+      Capybara.default_driver = :poltergeist
+      Capybara.javascript_driver = :poltergeist
+      @session = Capybara::Session.new(:poltergeist)
+      @session.driver.headers = { 'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X)" }
+      @session
+    end
+
+    def destroy!
+      @session.driver.quit
     end
 
     #
@@ -14,23 +27,21 @@ module PageUtils
     #
     def fetch_page(url, opts={})
       force_format = opts[:force_format]
-      BROWSER_POOL.with do |session|
-        session.reset!
-        begin
-          session.visit(url.to_s)
-          page = PageUtils::Page.new(
-            session.current_url,
-            :body => session.html.dup,
-            :code => session.status_code,
-            :headers => session.response_headers,
-            :force_format => force_format
-          )
-
-          return page
-        rescue Exception => e
-          return Page.new(url, :error => e)
-        end
+      begin
+        session.visit(url.to_s)
+        page = PageUtils::Page.new(
+          session.current_url,
+          :body => session.html.dup,
+          :code => session.status_code,
+          :headers => session.response_headers,
+          :force_format => force_format
+        )
+        return page
+      rescue Exception => e
+        return Page.new(url, :error => e)
       end
+    ensure
+      session.reset!
     end
 
     #
