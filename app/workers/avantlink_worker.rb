@@ -1,4 +1,5 @@
 class AvantlinkWorker < ProductFeedWorker
+  include ConnectionWrapper
   sidekiq_options :queue => :utils, :retry => false
 
   attr_reader :site, :page_queue
