@@ -16,27 +16,21 @@ module PageUtils
       force_format = opts[:force_format]
       BROWSER_POOL.with do |session|
         session.reset!
-        session.visit(url.to_s)
-        page = PageUtils::Page.new(
-          session.current_url,
-          :body => session.html.dup,
-          :code => session.status_code,
-          :headers => session.response_headers,
-          :force_format => force_format
-        )
+        begin
+          session.visit(url.to_s)
+          page = PageUtils::Page.new(
+            session.current_url,
+            :body => session.html.dup,
+            :code => session.status_code,
+            :headers => session.response_headers,
+            :force_format => force_format
+          )
 
-        return page
-      rescue Exception => e
-        return Page.new(url, :error => e)
+          return page
+        rescue Exception => e
+          return Page.new(url, :error => e)
+        end
       end
-    end
-
-    #
-    # The user-agent string which will be sent with each request,
-    # or nil if no such option is set
-    #
-    def user_agent
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X)"
     end
 
     #

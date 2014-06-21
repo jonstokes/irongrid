@@ -7,7 +7,7 @@ BROWSER_POOL = ConnectionPool.new(timeout: 5, size: pool_size) do
   Capybara.default_driver = :poltergeist
   Capybara.javascript_driver = :poltergeist
   session = Capybara::Session.new(:poltergeist)
-  session.driver.headers = { 'User-Agent' => user_agent }
+  session.driver.headers = { 'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X)" }
   session
 end
 
