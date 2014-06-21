@@ -55,4 +55,18 @@ class AvantlinkWorker < ProductFeedWorker
     notify "Listing not unique for message #{msg.to_h}", type: :error
     return
   end
+
+  def update_geo_data(msg)
+    geo_data = lookup_geo_data(msg.page_attributes["item_data"]["item_location"])
+    msg.page_attributes["item_data"].merge!(geo_data.to_h)
+  end
+
+  def lookup_geo_data(item_location)
+    if item_location.present? && (loc = db { GeoData.put(item_location) })
+      loc
+    else
+      GeoData.default_location
+    end
+  end
+
 end
