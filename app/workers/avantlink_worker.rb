@@ -42,6 +42,9 @@ class AvantlinkWorker < ProductFeedWorker
   end
 
   def update_listing(msg, listing)
+    if dupes = db { Listing.where("id != ? AND digest = ?", listing.id, msg.page_attributes["digest"]) }
+      dupes.each { |dupe| dupe.destroy }
+    end
     update_geo_data(msg)
     listing.update_with_count(msg.page_attributes)
   end
