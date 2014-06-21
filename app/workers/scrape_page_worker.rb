@@ -20,7 +20,7 @@ class ScrapePageWorker < CoreWorker
     return unless opts && init(opts)
     return unless @site.page_adapter
     pull_and_process(url)
-    @dhttp.destroy! if @dhttp
+    @dhttp.quit! if @dhttp
   end
 
   private

@@ -17,7 +17,7 @@ module PageUtils
       @session
     end
 
-    def destroy!
+    def quit!
       @session.driver.quit
     end
 
