@@ -59,7 +59,7 @@ RAILS_ENV="production" DB_POOL=30 REDIS_POOL=30 jruby -Xcompile.invokedynamic=tr
 
 
 ### Emergency xlarge:
-RAILS_ENV="production" DB_POOL=50 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx3584m -J-Xms3584m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q fast_db -c 50 2>&1 | logger -t sidekiq
+RAILS_ENV="production" DB_POOL=10 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx5376m -J-Xms5376m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q utils -c 5
 
 ### xlarge reindex task:
 RAILS_ENV="production" DB_POOL=50 LISTINGS_INDEX="listings" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx3584m -J-Xms3584m -S bundle exec rake tire:index:seed --trace
@@ -133,4 +133,14 @@ sudo wget sudo wget https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux
 sudo tar xjf phantomjs-1.9.0-linux-x86_64.tar.bz2
 sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x8664/bin/phantomjs /usr/local/share/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x8664/bin/phantomjs /usr/local/bin/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
 phantomjs --version
+
+sudo rm /usr/local/share/phantomjs
+sudo rm /usr/local/bin/phantomjs
+sudo rm /usr/bin/phantomjs
+cd /usr/local/share
+sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
+sudo tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2
+sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x8664/bin/phantomjs /usr/local/share/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x8664/bin/phantomjs /usr/local/bin/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+phantomjs --version
+
 
