@@ -8,7 +8,7 @@ module PageUtils
     def initialize(opts = {})
       @opts = opts
       Capybara.register_driver :poltergeist do |app|
-        Capybara::Poltergeist::Driver.new(app, js_errors: false)
+        Capybara::Poltergeist::Driver.new(app, js_errors: false, phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes'])
       end
       Capybara.default_driver = :poltergeist
       Capybara.javascript_driver = :poltergeist
