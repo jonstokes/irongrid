@@ -23,7 +23,7 @@ gem 'yell-adapters-syslog'
 gem 'interactor'
 gem 'sanitize'
 gem 'htmlentities'
-gem 'poltergeist'
+gem 'poltergeist', :git => "git://github.com/jonstokes/poltergeist.git", :branch => "master"
 gem 'capybara'
 
 # JRuby-specific gems
