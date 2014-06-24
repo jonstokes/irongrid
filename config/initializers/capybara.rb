@@ -15,3 +15,9 @@ $session_pool = ConnectionPool.new(timeout: 10, size: pool_size) do
   session.driver.headers = { 'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X)" }
   session
 end
+
+at_exit do
+  $session_pool.shutdown do |session|
+    session.driver.quit
+  end
+end
