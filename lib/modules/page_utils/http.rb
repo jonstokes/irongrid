@@ -12,6 +12,14 @@ module PageUtils
       @opts = opts
     end
 
+    def close
+      @connections.each do |host, ports|
+        ports.each do |port, connection|
+          connection.finish
+        end
+      end
+    end
+
     #
     # Fetch a single Page from the response of an HTTP request to *url*.
     # Just gets the final destination page.
