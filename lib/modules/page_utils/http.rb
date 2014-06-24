@@ -165,6 +165,7 @@ module PageUtils
     end
 
     def refresh_connection(url)
+      Rails.logger.info "### PageUtils::Http#refresh_connection called for #{self.object_id} by #{caller}"
       http = Net::HTTP.new(url.host, url.port, proxy_host, proxy_port)
 
       http.read_timeout = read_timeout if !!read_timeout
