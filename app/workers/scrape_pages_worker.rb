@@ -49,7 +49,6 @@ class ScrapePagesWorker < CoreWorker
   def clean_up
     notify "Added #{@record[:data][:db_writes]} from link store."
     @site.mark_read!
-    @dhttp.quit! if @dhttp
   end
 
   def transition
