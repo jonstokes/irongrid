@@ -27,4 +27,21 @@ module Capybara::Poltergeist
       retry unless (tries -= 1).zero?
     end
   end
+
+  WebSocketServer.class_eval do
+    def accept
+      Rails.logger.info "### Called WebSocketServer#accept for object #{self.object_id}"
+      @socket   = server.accept
+      @messages = []
+
+      @driver = ::WebSocket::Driver.server(self)
+      @driver.on(:connect) { |event| @driver.start }
+      @driver.on(:message) { |event| @messages << event.data }
+    end
+
+    def close
+      Rails.logger.info "### Called WebSocketServer#close for object #{self.object_id}"
+      [server, socket].compact.each(&:close)
+    end
+  end
 end
