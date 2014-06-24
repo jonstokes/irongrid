@@ -20,6 +20,8 @@ class ScrapePageWorker < CoreWorker
     return unless opts && init(opts)
     return unless @site.page_adapter
     pull_and_process(url)
+  ensure
+    @http.close if @http
   end
 
   private

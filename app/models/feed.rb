@@ -72,6 +72,7 @@ class Feed
 
   def clear!
     @feed_doc = nil
+    @http.close if @http
   end
 end
 
