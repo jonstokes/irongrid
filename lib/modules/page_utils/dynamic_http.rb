@@ -12,6 +12,7 @@ module PageUtils
       end
       Capybara.default_driver = :poltergeist
       Capybara.javascript_driver = :poltergeist
+      Capybara.run_server = false
       @session = Capybara::Session.new(:poltergeist)
       @session.driver.headers = { 'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X)" }
       @session
