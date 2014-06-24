@@ -16,4 +16,15 @@ module Capybara::Poltergeist
       end
     end
   end
+
+  Browser.class_eval do
+    def find(method, selector)
+      tries = 3
+      result = command('find', method, selector)
+      result['ids'].map { |id| [result['page_id'], id] }
+    rescue NoMethodError
+      restart
+      retry unless (tries -= 1).zero?
+    end
+  end
 end
