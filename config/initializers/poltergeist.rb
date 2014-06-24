@@ -30,7 +30,7 @@ module Capybara::Poltergeist
 
   WebSocketServer.class_eval do
     def accept
-      Rails.logger.info "### Called WebSocketServer#accept for object #{self.object_id}"
+      Rails.logger.info "### Called WebSocketServer#accept for object #{self.object_id}: #{caller}"
       @socket   = server.accept
       @messages = []
 
@@ -40,7 +40,7 @@ module Capybara::Poltergeist
     end
 
     def close
-      Rails.logger.info "### Called WebSocketServer#close for object #{self.object_id}"
+      Rails.logger.info "### Called WebSocketServer#close for object #{self.object_id}: #{caller}"
       [server, socket].compact.each(&:close)
     end
   end
