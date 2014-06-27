@@ -62,13 +62,8 @@ module ProductDetails
       return unless text && !text.blank?
       str = " #{text} "
 
-      str.gsub!(/[0-9]+(\,[0-9]+)?(\s?|\-)(rds|rnds)(\.|\,|\/|\-|\s)/i) do |match|
-        match.sub!(/(\s?|\-)(rds|rnds)/i, " rounds ")
-        match = match.delete(",")
-      end
-
-      str.gsub!(/[0-9]+(\,[0-9]+)?(\s{0,1}|\-)(rd|rnd)(\.|\,|\/|\-|\s)/i) do |match|
-        match.sub!(/(\s{0,1}|\-)(rd|rnd)/i, " round ")
+      str.gsub!(/[0-9]+(\,[0-9]+)?(\s?|\-)ro?u?n?ds?(\.|\,|\/|\-|\s)/i) do |match|
+        match.sub!(/(\s?|\-)ro?u?n?ds?/i, " rounds ")
         match = match.delete(",")
       end
 
@@ -78,9 +73,10 @@ module ProductDetails
         match = "#{match[/\d+/]} rounds"
       end
 
-      str.gsub!(/[0-9]+(\,[0-9]+)?(\s{0,1}|\-)(per|\/)\s?box(\.|\,|\/|\-|\s)/i) do |match|
+      str.gsub!(/[0-9]+(\,[0-9]+)?(\s{0,1}|\-)(per|\/)\s?bo?x(\.|\,|\/|\-|\s)/i) do |match|
         match = match.delete(",")
-        match = match.delete("per").delete("/").delete("box")
+        match = match.gsub(/per|\/|\-|bo?x/, "")
+        match = match.gsub(/per|\/|\-|bo?x/, "")
         match = "#{match[/\d+/]} rounds"
       end
 

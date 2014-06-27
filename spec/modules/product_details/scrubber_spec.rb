@@ -44,26 +44,27 @@ describe ProductDetails::Scrubber do
 
   describe "#scrub_rounds" do
     it "scrubs rounds" do
+      ProductDetails::Scrubber.scrub("1,000 rounds", :rounds).should == "1000 rounds"
       ProductDetails::Scrubber.scrub("9mm FMJ 200rnds", :rounds).should == "9mm FMJ 200 rounds"
-      ProductDetails::Scrubber.scrub("100rd", :rounds).should == "100 round"
+      ProductDetails::Scrubber.scrub("100rd", :rounds).should == "100 rounds"
       ProductDetails::Scrubber.scrub("100rds", :rounds).should == "100 rounds"
-      ProductDetails::Scrubber.scrub("100rnd", :rounds).should == "100 round"
+      ProductDetails::Scrubber.scrub("100rnd", :rounds).should == "100 rounds"
 
-      ProductDetails::Scrubber.scrub("100 rd", :rounds).should == "100 round"
+      ProductDetails::Scrubber.scrub("100 rd", :rounds).should == "100 rounds"
       ProductDetails::Scrubber.scrub("100 rds", :rounds).should == "100 rounds"
-      ProductDetails::Scrubber.scrub("100 rnd", :rounds).should == "100 round"
+      ProductDetails::Scrubber.scrub("100 rnd", :rounds).should == "100 rounds"
 
-      ProductDetails::Scrubber.scrub("100-rd", :rounds).should == "100 round"
+      ProductDetails::Scrubber.scrub("100-rd", :rounds).should == "100 rounds"
       ProductDetails::Scrubber.scrub("100-rds", :rounds).should == "100 rounds"
-      ProductDetails::Scrubber.scrub("100-rnd", :rounds).should == "100 round"
+      ProductDetails::Scrubber.scrub("100-rnd", :rounds).should == "100 rounds"
 
-      ProductDetails::Scrubber.scrub("100 Rd", :rounds).should == "100 round"
+      ProductDetails::Scrubber.scrub("100 Rd", :rounds).should == "100 rounds"
       ProductDetails::Scrubber.scrub("100 Rds", :rounds).should == "100 rounds"
-      ProductDetails::Scrubber.scrub("100 Rnd", :rounds).should == "100 round"
+      ProductDetails::Scrubber.scrub("100 Rnd", :rounds).should == "100 rounds"
     end
 
     it "scrubs rounds with commas" do
-      ProductDetails::Scrubber.scrub("1,000rd", :rounds).should == "1000 round"
+      ProductDetails::Scrubber.scrub("1,000rd", :rounds).should == "1000 rounds"
     end
 
     it "scrubs 'box of rounds' type entries" do
