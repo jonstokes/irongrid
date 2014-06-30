@@ -305,11 +305,11 @@
 7mm BR
 7mm Mauser
 7mm RUM
-7mm Rem Mag
+7mm rem => 7mm_Rem_Mag
 7mm Rem SAUM
 7mm STW
 7mm WSM
-7mm Wby Mag
+7mm weatherby,7mm weatherby mag => 7mm_Wby_Mag
 7mm x 57 Rimmed
 7mm-08 Rem
 7x57 Mauser
