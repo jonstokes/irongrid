@@ -144,7 +144,7 @@
 .30-30 Win
 30-378 Weatherby,30-378 Wby => .30-378_Wby_Mag
 .30-40 Krag
-.300 whisper,.300 blk,.300 aac blackout,.300 blkout,300blk => .300_BLK
+.300 whisper,.300 blk,.300 aac blackout,.300 blkout,300blk,.300 blackout => .300_BLK
 .300 Fireball
 .300 H&H
 .300 Pegasus
