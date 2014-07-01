@@ -176,7 +176,7 @@
 .333 Jeffery
 .338 Excalibur
 .338 Federal
-.338 Lapua Mag
+.338 lap. mag,.338 lap mag => .338_Lapua_Mag
 .338 Marlin Express
 .338 Norma Mag
 .338 RCM
@@ -244,7 +244,7 @@
 .470 Nitro Express
 .475 Turnbull
 5.45x39mm
-.223/5.56,5.56,5.56mm,5.56mm nato,5.56x45mm => 5.56_NATO
+556nato,.223/5.56,5.56,5.56mm,5.56mm nato,5.56x45mm => 5.56_NATO
 5.6 x 50R
 5.6 x 52R
 5.6x39mm
@@ -291,7 +291,7 @@
 7.35x51,7.35x51mm => 7.35x51mm_Carcano
 7.5x54,7.5x54mm => 7.5x54mm_French
 7.5x55,7.5x55mm => 7.5x55mm_Swiss
-7.62x39 => 7.62x39mm
+762x39,7.62x39 => 7.62x39mm
 7.62x45 => 7.62x45mm
 7.62x51, 7.62x51mm,7.62x51mm nato => .308_Win
 7.62x53R
