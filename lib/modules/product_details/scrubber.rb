@@ -62,18 +62,18 @@ module ProductDetails
       return unless text && !text.blank?
       str = " #{text} "
 
-      str.gsub!(/[0-9]+(\,[0-9]+)?(\s?|\-)ro?u?n?ds?(\.|\,|\/|\-|\s)/i) do |match|
-        match.sub!(/(\s?|\-)ro?u?n?ds?/i, " rounds ")
+      str.gsub!(/[0-9]+(\,[0-9]+)?\W{0,3}ro?u?n?ds?/i) do |match|
+        match.sub!(/\W*ro?u?n?ds?/i, " rounds ")
         match = match.delete(",")
       end
 
-      str.gsub!(/box\s+\of\s+[0-9]+(\,[0-9]+)?(\.|\,|\/|\-|\s)/i) do |match|
+      str.gsub!(/box\s+\of\s+[0-9]+(\,[0-9]+)?\W/i) do |match|
         match = match.delete(",")
         match = match.delete("box").delete("of")
         match = "#{match[/\d+/]} rounds"
       end
 
-      str.gsub!(/[0-9]+(\,[0-9]+)?(\s{0,1}|\-)(per|\/)\s?bo?x(\.|\,|\/|\-|\s)/i) do |match|
+      str.gsub!(/[0-9]+(\,[0-9]+)?\W{0,3}(per|\/)\s?bo?x/i) do |match|
         match = match.delete(",")
         match = match.gsub(/per|\/|\-|bo?x/, "")
         match = match.gsub(/per|\/|\-|bo?x/, "")
