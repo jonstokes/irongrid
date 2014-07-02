@@ -82,7 +82,7 @@ class ProductFeedWorker < CoreWorker
       adapter_type: :feed
     )
     unless scraper.is_valid?
-      notify "Error: Found invalid product: #{product}"
+      notify "Error: Found invalid product: #{product}" unless scraper.not_found?
       return
     end
     update_image(scraper)
