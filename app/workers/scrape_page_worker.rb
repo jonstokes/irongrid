@@ -22,6 +22,7 @@ class ScrapePageWorker < CoreWorker
     pull_and_process(url)
   ensure
     @http.close if @http
+    @dhttp.quit! if @dhttp
   end
 
   private
