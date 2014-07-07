@@ -4,12 +4,14 @@ class SetCommonAttributes < CoreModel
   def perform
     context[:title] = title
     context[:keywords] = keywords
+    context[:description] =  raw_listing['description']
     context[:category1] = category1
-
+    context[:model_number] = raw_listing['model_number']
+    context[:upc] = raw_listing['upc']
+    context[:sku] = raw_listing['sku']
     context[:seller_domain] = site.domain
     context[:seller_name] = site.name
     context[:affiliate_link_tag] = site.affiliate_link_tag
-    context[:description] =  description
     context[:image_source] = image_source
     context[:image_download_attempted] = false
     context[:item_condition] = item_condition
@@ -23,20 +25,6 @@ class SetCommonAttributes < CoreModel
 
   def keywords
     ElasticSearchObject.new("keywords", raw: raw_listing['keywords'])
-  end
-
-  def category1
-    hard_categorize("category1") ||
-      default_categorize("category1") ||
-      ElasticSearchObject.new(
-        "category1",
-        raw:                  "None",
-        classification_type: "fall_through"
-      )
-  end
-
-  def description
-    raw_listing['description']
   end
 
   def image_source
@@ -64,6 +52,16 @@ class SetCommonAttributes < CoreModel
   def item_location
     return raw_listing['item_location'] if raw_listing['item_location'].present?
     adapter.default_item_location
+  end
+
+  def category1
+    hard_categorize("category1") ||
+      default_categorize("category1") ||
+      ElasticSearchObject.new(
+        "category1",
+        raw:                  "None",
+        classification_type: "fall_through"
+      )
   end
 
   def hard_categorize(cat)
