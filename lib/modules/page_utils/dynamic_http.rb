@@ -12,6 +12,8 @@ module PageUtils
 
     def quit!
       @session.driver.quit
+    rescue
+      nil
     end
 
     def new_session
@@ -46,15 +48,15 @@ module PageUtils
           :headers => session.response_headers,
           :force_format => force_format
         )
-        return page
-      rescue Capybara::Poltergeist::DeadClient
+      session.reset!
+      return page
+      rescue Capybara::Poltergeist::DeadClient, Errno::EPIPE
+        quit!
         new_session
         retry unless (tries -= 1).zero?
       rescue Exception => e
         return Page.new(url, :error => e)
       end
-    ensure
-      session.reset!
     end
 
     #
