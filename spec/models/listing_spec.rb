@@ -51,7 +51,10 @@ describe Listing do
         "item_condition"      => "New",
         "availability"        => "in_stock",
         "price_in_cents"      => 1099,
-        "sale_price_in_cents" => 999
+        "sale_price_in_cents" => 999,
+        "upc"                 => "000001",
+        "sku"                 => "PF123",
+        "model_number"        => "ABC123"
       }
     }
     @listing_attrs["item_data"].merge!(@geo_data.to_h)
@@ -75,6 +78,9 @@ describe Listing do
       listing.state_code.should == "SC"
       listing.country_code.should == "US"
       listing.postal_code.should == "29676"
+      listing.model_number.should == "ABC123"
+      listing.sku.should == "PF123"
+      listing.upc.should == "000001"
       Listing.index.retrieve("retail_listing", Listing.last.id).should_not be_nil
     end
   end

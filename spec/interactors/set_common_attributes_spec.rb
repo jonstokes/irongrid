@@ -22,7 +22,8 @@ describe SetCommonAttributes do
         "price" => "$650.00",
         "sale_price" => "$650.00",
         "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
-        "category1" => "Guns"
+        "category1" => "Guns",
+        "sku" => "1911-CIT45CSPHB"
       }
     end
 
@@ -40,6 +41,7 @@ describe SetCommonAttributes do
       expect(result.category1.classification_type).to eq("hard")
       expect(result.description).to eq(@raw_listing['description'])
       expect(result.image_source).to eq(@raw_listing['image'])
+      expect(result.sku).to eq(@raw_listing['sku'])
       expect(result.item_condition).to eq("New")
       expect(result.item_location).to eq(@raw_listing['seller_defaults']['item_location'])
       expect(result.seller_domain).to eq(@site.domain)
