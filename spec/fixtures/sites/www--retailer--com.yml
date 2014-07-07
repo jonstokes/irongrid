@@ -37,6 +37,12 @@ site_data:
       arguments:
         xpath: //div[@class='pcShowProductPrice'][1]
         regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
+    sku:
+    - scraper_method: find_by_xpath
+      arguments:
+        xpath: //table[@class='pcMainTable']//tr[4]/td[1]/table//tr[1]/td/div[@class='pcShowProductSku']
+        filters:
+        - reject: !ruby/regexp '/SKU:/i'
     description:
     - scraper_method: find_by_xpath
       arguments:
