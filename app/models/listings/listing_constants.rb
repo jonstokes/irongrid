@@ -39,6 +39,9 @@ module ListingConstants
     'minimum_bid_in_cents',
     'reserve_in_cents',
     'auction_ends',
+    'upc',
+    'model_number',
+    'sku',
     GeoData::DATA_KEYS
   ].flatten
 
