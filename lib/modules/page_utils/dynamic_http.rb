@@ -7,8 +7,22 @@ module PageUtils
 
     def initialize(opts = {})
       @opts = opts
+      new_session
+    end
+
+    def quit!
+      @session.driver.quit
+    rescue
+      nil
+    end
+
+    def new_session
       Capybara.register_driver :poltergeist do |app|
-        Capybara::Poltergeist::Driver.new(app, js_errors: false, phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes'])
+        Capybara::Poltergeist::Driver.new(
+          app,
+          js_errors: false,
+          phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes']
+        )
       end
       Capybara.default_driver = :poltergeist
       Capybara.javascript_driver = :poltergeist
@@ -18,10 +32,6 @@ module PageUtils
       @session
     end
 
-    def quit!
-      @session.driver.quit
-    end
-
     #
     # Create new Pages from the response of an HTTP request to *url*,
     # including redirects
@@ -29,6 +39,7 @@ module PageUtils
     def fetch_page(url, opts={})
       force_format = opts[:force_format]
       begin
+        tries ||= 3
         session.visit(url.to_s)
         page = PageUtils::Page.new(
           session.current_url,
@@ -37,12 +48,15 @@ module PageUtils
           :headers => session.response_headers,
           :force_format => force_format
         )
-        return page
+      session.reset!
+      return page
+      rescue Capybara::Poltergeist::DeadClient, Errno::EPIPE
+        quit!
+        new_session
+        retry unless (tries -= 1).zero?
       rescue Exception => e
         return Page.new(url, :error => e)
       end
-    ensure
-      session.reset!
     end
 
     #
