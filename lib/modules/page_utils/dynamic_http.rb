@@ -50,10 +50,12 @@ module PageUtils
         )
       session.reset!
       return page
-      rescue Capybara::Poltergeist::DeadClient, Errno::EPIPE
+      rescue Capybara::Poltergeist::DeadClient
         quit!
         new_session
         retry unless (tries -= 1).zero?
+      rescue Errno::EPIPE => e
+        raise e
       rescue Exception => e
         return Page.new(url, :error => e)
       end
