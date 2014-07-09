@@ -12,6 +12,7 @@ class SetCommonAttributes < CoreModel
     context[:seller_domain] = site.domain
     context[:seller_name] = site.name
     context[:affiliate_link_tag] = site.affiliate_link_tag
+    context[:affiliate_program] = site.affiliate_program
     context[:image_source] = image_source
     context[:image_download_attempted] = false
     context[:item_condition] = item_condition

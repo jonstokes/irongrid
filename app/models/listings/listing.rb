@@ -49,11 +49,28 @@ class Listing < ActiveRecord::Base
   end
 
   def url
-    "#{self[:url]}#{affiliate_link_tag}"
+    if affiliate_link_tag
+      "#{self[:url]}#{affiliate_link_tag}"
+    elsif share_a_sale?
+      to_share_a_sale_url(self[:url])
+    else
+      bare_url
+    end
   end
 
   def bare_url
     self[:url]
+  end
+
+  def to_share_a_sale_url(link)
+    link = link.split(/https?\:\/\//).last
+    link = link.to_query('urllink')
+    link = link.gsub(".","%2E").gsub("-","%2D")
+    "http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&#{link}"
+  end
+
+  def share_a_sale?
+    affiliate_program == "ShareASale"
   end
 
   def update_with_count(attrs)

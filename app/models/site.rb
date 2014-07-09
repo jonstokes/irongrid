@@ -21,6 +21,7 @@ class Site < CoreModel
     :commit_sha,
     :stats,
     :affiliate_link_tag,
+    :affiliate_program,
     :timezone
   ]
 
