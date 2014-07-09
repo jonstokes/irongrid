@@ -95,7 +95,7 @@
 # rifle calibers - begin
 10.75 x 73mm
 12.7x99mm NATO
-.17 Hornet
+17hrn => .17_Hornet
 .17 Rem
 .17 Rem Fireball
 .20 Tactical
@@ -305,7 +305,7 @@
 7mm BR
 7mm Mauser
 7mm RUM
-7mm rem => 7mm_Rem_Mag
+7mmrem,7mm rem => 7mm_Rem_Mag
 7mm Rem SAUM
 7mm STW
 7mm WSM
