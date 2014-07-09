@@ -27,6 +27,17 @@ describe SetCommonAttributes do
       }
     end
 
+    it "correctly sets affiliate_program attribute for an affiliate" do
+      site = create_site "www.botach.com"
+      result = SetCommonAttributes.perform(
+        site: site,
+        raw_listing: @raw_listing,
+        type: "RetailListing",
+        adapter: @site.page_adapter
+      )
+      expect(result.affiliate_program).to eq("ShareASale")
+    end
+
     it "correctly sets common attributes for a retail listing" do
       result = SetCommonAttributes.perform(
         site: @site,

@@ -92,6 +92,27 @@ describe Listing do
       expect(listing.url).to eq(@listing_attrs["url"])
     end
 
+    it "returns an affiliate url for ShareASale site" do
+      site = create_site "www.botach.com"
+      item_data = @listing_attrs['item_data'].merge!(
+        'seller_name' => site.name,
+        'seller_domain' => site.domain,
+        'affiliate_program' => site.affiliate_program
+      )
+      attrs = @listing_attrs.merge!(
+        'url' => "http://www.botach.com/fnh-scar-17s-7-62mm-battle-rifles-tan/",
+        'item_data' => item_data
+      )
+      sas_link = "http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&urllink=www%2Ebotach%2Ecom%2Ffnh%2Dscar%2D17s%2D7%2D62mm%2Dbattle%2Drifles%2Dtan%2F"
+      Listing.create(attrs)
+      Listing.index.refresh
+      listing = Listing.last
+      expect(listing.url).to eq(sas_link)
+      expect(Listing.find_by_url(attrs['url'])).not_to be_nil
+      item = Listing.index.retrieve('retail_listing', listing.id)
+      expect(item.url).to eq(sas_link)
+    end
+
     it "returns the tagged url for a site with a link tag" do
       site = Site.new(domain: "www.luckygunner.com", source: :fixture)
       site.send(:write_to_redis)
