@@ -32,7 +32,8 @@ describe ExtractRawListingFromPage do
         "price" => "$650.00",
         "sale_price" => "$650.00",
         "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
-        "category1" => "Guns"
+        "category1" => "Guns",
+        "sku" => "1911-CIT45CSPHB"
       }
     end
 

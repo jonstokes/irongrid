@@ -64,6 +64,8 @@ class Feed
       notify "  Downloading #{feed_url || filename}..."
       if filename
         Nokogiri::XML(File.open(filename).read) rescue nil
+      elsif format == :dhtml
+        render_page(feed_url).try(:doc)
       else
         get_page(feed_url, force_format: format).try(:doc)
       end
