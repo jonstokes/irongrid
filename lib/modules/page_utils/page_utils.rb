@@ -24,6 +24,11 @@ module PageUtils
     page
   end
 
+  def close_http_connections
+    @http.close if @http
+    @dhttp.close if @dhttp
+  end
+
   class Test
     extend PageUtils
 

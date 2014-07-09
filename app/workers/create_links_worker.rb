@@ -17,7 +17,6 @@ class CreateLinksWorker < CoreWorker
     opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
     return false if ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any?
-    @http = PageUtils::HTTP.new
     @link_count = 0
     @site = Site.new(domain: @domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
@@ -40,7 +39,7 @@ class CreateLinksWorker < CoreWorker
     transition
     stop_tracking
   ensure
-    @http.close if @http
+    close_http_connections
   end
 
   def clean_up

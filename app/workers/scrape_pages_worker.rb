@@ -45,8 +45,7 @@ class ScrapePagesWorker < CoreWorker
     transition
     stop_tracking
   ensure
-    @http.close if @http
-    @dhttp.quit! if @dhttp
+    close_http_connections
   end
 
   def clean_up

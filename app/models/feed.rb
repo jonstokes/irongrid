@@ -1,7 +1,6 @@
 class Feed
-  include PageUtils
   include Notifier
-  attr_reader :options
+  attr_reader :options, :feed_doc
 
   %w(
     url
@@ -59,22 +58,21 @@ class Feed
     @feed_url ||= postfix ? (url + eval(postfix)) : url
   end
 
-  def feed_doc
+  def download_with_connection(obj)
     @feed_doc ||= begin
       notify "  Downloading #{feed_url || filename}..."
       if filename
         Nokogiri::XML(File.open(filename).read) rescue nil
       elsif format == :dhtml
-        render_page(feed_url).try(:doc)
+        obj.render_page(feed_url).try(:doc)
       else
-        get_page(feed_url, force_format: format).try(:doc)
+        obj.get_page(feed_url, force_format: format).try(:doc)
       end
     end
   end
 
   def clear!
     @feed_doc = nil
-    @http.close if @http
   end
 end
 

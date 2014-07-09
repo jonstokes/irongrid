@@ -1,6 +1,7 @@
 class ProductFeedWorker < CoreWorker
   include UpdateImage
   include Trackable
+  include PageUtils
 
   LOG_RECORD_SCHEMA = {
     db_writes:        Integer,
@@ -20,7 +21,6 @@ class ProductFeedWorker < CoreWorker
     @filename = opts[:filename]
     @site = opts[:site] || Site.new(domain: @domain)
     @link_store = LinkMessageQueue.new(domain: @domain)
-    @http = PageUtils::HTTP.new
     @image_store = ImageQueue.new(domain: @site.domain)
     notify "Checking affiliate feed urls for #{@site.name}..."
     true
@@ -30,21 +30,25 @@ class ProductFeedWorker < CoreWorker
     return unless opts && init(opts)
     return CreateLinksWorker.perform_async(domain: @site.domain) unless @site.feeds.any? # Hand off to the legacy CreateLinksWorker
     track
-    check_feeds
+    site.feeds.each do |feed|
+      check_feed(feed)
+    end
     clean_up
     transition
     stop_tracking
+  ensure
+    close_http_connections
   end
 
-  def check_feeds
-    site.feeds.each do |feed|
-      if feed.products.any?
-        create_or_update_products_from_feed(feed)
-      else
-        add_links_from_feed(feed)
-      end
-      feed.clear!
+  def check_feed(feed)
+    feed.download_with_connection(self)
+    if feed.products.any?
+      create_or_update_products_from_feed(feed)
+    else
+      add_links_from_feed(feed)
     end
+  ensure
+    feed.clear!
   end
 
   def clean_up

@@ -18,7 +18,7 @@ module PageUtils
       @session
     end
 
-    def quit!
+    def close
       @session.driver.quit
     end
 
