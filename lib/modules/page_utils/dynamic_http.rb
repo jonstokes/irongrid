@@ -53,20 +53,10 @@ module PageUtils
       rescue Capybara::Poltergeist::TimeoutError, Capybara::Poltergeist::DeadClient, Errno::EPIPE => e
         quit!
         new_session
-        notify "### Error: #{clean_error(e)}. Retrying with #{phantomjs_count} phantomjs instances running."
         retry unless (tries -= 1).zero?
         quit!
         raise e
       end
-    end
-
-    def clean_error(e)
-      backtrace = e.backtrace.select { |line| !!line["home/bitnami/irongrid"] }
-      "#{e} #{backtrace}"
-    end
-
-    def phantomjs_count
-      `ps aux | grep phantomjs | wc -l`.strip
     end
 
     #
