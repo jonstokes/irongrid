@@ -1,27 +1,24 @@
 class RateLimiter
-  def initialize(actions_per_second=1)
-    @aps = @interval = actions_per_second
-    @samples = []
-    @last_poll = Time.now - @interval
+  attr_reader :limit, :time_of_last_action
+
+  def initialize(seconds_per_action = 1)
+    @limit = seconds_per_action
+    @time_of_last_action = Time.now
   end
 
   def with_limit
-    @samples << Time.now - @last_poll
-    @samples.shift if (@samples.size > 50)
-    @last_poll = Time.now
-    retval = yield
-    if (@aps - average)  > 0
-      @interval += @aps - average
-    elsif (@aps - average) < 0
-      @interval -= average - @aps
-      @interval = 0 if @interval < 0
-    end
-    sleep @interval
-    return retval
+    wait
+    yield
   end
 
-  private
-  def average
-    @samples.inject(0.0) { |sum, el| sum + el } / @samples.size
+  def wait
+    while limit_exceeded? do
+      sleep (limit / 2)
+    end
+    @time_of_last_action = Time.now
+  end
+
+  def limit_exceeded?
+    Time.now - time_of_last_action < limit
   end
 end
