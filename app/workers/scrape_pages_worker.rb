@@ -20,7 +20,7 @@ class ScrapePagesWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && (@domain = opts[:domain])
-    return false unless i_am_alone_with_this_domain?
+    #return false unless i_am_alone_with_this_domain?
 
     @site = Site.new(domain: domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
@@ -37,9 +37,13 @@ class ScrapePagesWorker < CoreWorker
     return unless opts && init(opts)
     notify "Emptying link store..."
     while !timed_out? && (msg = @link_store.pop) do
+      notify "Times out in #{@timeout}"
       record_incr(:links_deleted)
+      notify "Updating status..."
       status_update
+      notify "Pulling and processing..."
       pull_and_process(msg)
+      notify "Pulled and processed!"
     end
     clean_up
     transition
@@ -73,6 +77,7 @@ class ScrapePagesWorker < CoreWorker
 
   def pull_and_process(msg)
     if @site.page_adapter && scraper = scrape_page(msg.url)
+      notify "Checking listing..."
       if listing_is_unchanged?(msg, scraper)
         update_image(scraper)
         msg.update(
@@ -89,15 +94,19 @@ class ScrapePagesWorker < CoreWorker
         )
       end
     else
+      notify "Listing not found..."
       msg.update(page_not_found: true)
     end
+    notify "Writing Listing..."
     WriteListingWorker.perform_async(msg.to_h)
     record_incr(:db_writes)
   end
 
   def scrape_page(url)
+    puts "Fetching page #{url} ..."
     return unless page = @rate_limiter.with_limit { fetch_page(url) }
     record_incr(:pages_read)
+    puts "Parsing page..."
     ParsePage.perform(
       site: @site,
       page: page,
