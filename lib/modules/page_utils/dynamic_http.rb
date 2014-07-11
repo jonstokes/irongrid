@@ -55,7 +55,7 @@ module PageUtils
         )
         session.reset!
         return page
-      rescue Capybara::Poltergeist::TimeoutError, Capybara::Poltergeist::DeadClient, Errno::EPIPE, NoMethodError => e
+      rescue Capybara::Poltergeist::TimeoutError, Capybara::Poltergeist::DeadClient, Errno::EPIPE, NoMethodError, Capybara::Poltergeist::BrowserError => e
         restart_session
         retry unless (tries -= 1).zero?
         close
