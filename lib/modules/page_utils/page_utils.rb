@@ -27,6 +27,7 @@ module PageUtils
   def close_http_connections
     @http.close if @http
     @dhttp.close if @dhttp
+  rescue IOError
   end
 
   class Test
