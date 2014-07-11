@@ -37,13 +37,9 @@ class ScrapePagesWorker < CoreWorker
     return unless opts && init(opts)
     notify "Emptying link store..."
     while !timed_out? && (msg = @link_store.pop) do
-      outlog "Popped message #{msg.to_h}"
       record_incr(:links_deleted)
-      outlog "Updating status"
       status_update
-      outlog "Pull and process"
       pull_and_process(msg)
-      outlog "Pulled and processed! Timeout is #{@timeout}"
     end
     clean_up
     transition
@@ -69,11 +65,6 @@ class ScrapePagesWorker < CoreWorker
     end
   end
 
-  def outlog(str)
-    return unless domain == "www.academy.com"
-    notify "### #{str}"
-  end
-
   private
 
   def timed_out?
@@ -82,16 +73,13 @@ class ScrapePagesWorker < CoreWorker
 
   def pull_and_process(msg)
     if @site.page_adapter && scraper = scrape_page(msg.url)
-      outlog "Url scraped!"
       if listing_is_unchanged?(msg, scraper)
-        outlog "Updating unchanged message"
         update_image(scraper)
         msg.update(
           dirty_only:    true,
           page_is_valid: scraper.is_valid?
         )
       else
-        outlog "Updating new message"
         update_image(scraper) if scraper.is_valid?
         msg.update(
           page_is_valid:        scraper.is_valid?,
@@ -101,20 +89,15 @@ class ScrapePagesWorker < CoreWorker
         )
       end
     else
-      outlog "Updating not_found message"
       msg.update(page_not_found: true)
     end
-    outlog "Writing listing for #{msg.url}"
     WriteListingWorker.perform_async(msg.to_h)
     record_incr(:db_writes)
   end
 
   def scrape_page(url)
-    outlog "Fetching #{url}"
     return unless page = @rate_limiter.with_limit { fetch_page(url) }
-    outlog "Url fetched!"
     record_incr(:pages_read)
-    outlog "Parsing page for #{url}"
     ParsePage.perform(
       site: @site,
       page: page,
