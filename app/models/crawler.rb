@@ -1,7 +1,14 @@
 class Crawler
   include PageUtils
 
-  %w(product_link_xpath follow_link_prefix follow_link_xpaths urls).each do |key|
+  %w(
+    product_link_xpath
+    product_link_prefix
+    catalog_link_postfix
+    follow_link_prefix
+    follow_link_xpaths
+    urls
+  ).each do |key|
     define_method key do
       @sources[key]
     end
@@ -14,19 +21,29 @@ class Crawler
     @url_q = @sources["urls"].uniq
   end
 
+  def write_yaml
+    feed_hash = { "feeds" => feeds }
+    File.open("tmp/link_sources.yml", "w") do |f|
+      f.puts feed_hash.to_yaml
+    end
+  end
+
+  def feeds
+    @final_url_set.map do |url|
+      {
+        "url" => "#{url}#{catalog_link_postfix}",
+        "product_link_xpath" => product_link_xpath,
+        "product_link_prefix" => product_link_prefix
+      }
+    end
+  end
+
   def crawl_links
     while url = @url_q.pop do
       puts "Crawling #{url}"
       next unless page = visit(url)
       @final_url_set << url if is_product_page?(page)
       extract_links(page)
-    end
-  end
-
-  def write_yaml
-    feed_hash = { "feeds" => feeds }
-    File.open("tmp/link_sources.yml", "w") do |f|
-      f.puts feed_hash.to_yaml
     end
   end
 
@@ -50,15 +67,5 @@ class Crawler
 
   def is_product_page?(page)
     page.doc.xpath(product_link_xpath).any?
-  end
-
-
-  def feeds
-    @final_url_set.map do |url|
-      {
-        "url" => url,
-        "product_link_xpath" => product_link_xpath
-      }
-    end
   end
 end
