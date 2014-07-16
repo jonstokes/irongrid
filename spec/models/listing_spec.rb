@@ -29,6 +29,9 @@ describe Listing do
       "url"                   => "http://rspec.com/bogus_url.html",
       "digest"                => "aaaa",
       "type"                  => "RetailListing",
+      "image"                 => SPEC_IMAGE_1,
+      "seller_domain"         => @site.domain,
+      "image_download_attempted" => false,
       "item_data" => {
         "title"               => [
           {"title" => "Foo"},
@@ -38,10 +41,8 @@ describe Listing do
         ],
         "description"         => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
         "keywords"            => "Molestiae pariatur sed assumenda. Accusamus nulla aut laborum voluptates aut sunt ut.",
-        "image"               => SPEC_IMAGE_1,
         "image_source"        => "http://#{@site.domain}/images/1",
         "item_location"       => @geo_data.key,
-        "seller_domain"       => @site.domain,
         "seller_name"         => @site.name,
         "category1" => [
           { "category1"  => "guns" },

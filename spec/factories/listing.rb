@@ -2,7 +2,6 @@ def retail_item_data
   {
     "title"               => [{"title" => "title"}],
     "availability"        => "in_stock",
-    "image"               => "http://scoperrific.com/bogus_image.png",
     "image_source"        => "http://www.retailer.com/images/1.png",
     "image_download_attempted" => true,
     "category1"           => [{"category1" => "Guns"}, {"category1_type" => "hard" }],
@@ -13,15 +12,12 @@ def retail_item_data
 end
 
 def auction_item_data
-  data = retail_item_data.merge(
+  retail_item_data.merge(
     "buy_now_price_in_cents" => 1999,
     "minimum_bid_in_cents"   => 1999,
     "current_bid_in_cents"   => 1999,
     "reserve_in_cents"       => 1999,
-    "auction_ends"           => 10.days.from_now
-  )
-
-  data.reject { |k| ["price_in_cents", "sale_price_in_cents"].include? k }
+  ).reject { |k| ["price_in_cents", "sale_price_in_cents"].include? k }
 end
 
 def classified_item_data
@@ -32,6 +28,7 @@ FactoryGirl.define do
   factory :listing do
     sequence(:url) { |i| "http://www.retailer.com/#{i}" }
     sequence(:digest) { |i| "digest-#{i}" }
+    image { "http://scoperrific.com/bogus_image.png" }
     item_data { retail_item_data.merge("seller_domain" => URI.parse(url).host) }
     updated_at Time.current
     created_at Time.current
@@ -65,11 +62,11 @@ FactoryGirl.define do
     end
 
     trait :no_image do
-      item_data { retail_item_data.merge(
-        "image"                    => CDN::DEFAULT_IMAGE_URL,
-        "image_source"             => SPEC_IMAGE_1,
-        "image_download_attempted" => false
-      ) }
+      image CDN::DEFAULT_IMAGE_URL
+      image_download_attempted { false }
+      item_data {
+        retail_item_data.merge("image_source" => SPEC_IMAGE_1)
+      }
     end
 
     trait :stale do
@@ -82,10 +79,11 @@ FactoryGirl.define do
       end
 
       type "AuctionListing"
-      item_data { auction_item_data.merge("seller_domain" => URI.parse(url).host) }
+      auction_ends 10.days.from_now
+      seller_domain { URI.parse(url).host }
 
       trait :ended do
-        item_data { auction_item_data.merge("auction_ends" => 10.days.ago) }
+        auction_ends 10.days.ago
       end
     end
 
@@ -95,7 +93,7 @@ FactoryGirl.define do
       end
 
       type "ClassifiedListing"
-      item_data { classified_item_data.merge("seller_domain" => URI.parse(url).host) }
+      seller_domain { URI.parse(url).host }
     end
 
     factory :retail_listing do
@@ -104,7 +102,7 @@ FactoryGirl.define do
       end
 
       type "RetailListing"
-      item_data { retail_item_data.merge("seller_domain" => URI.parse(url).host) }
+      seller_domain { URI.parse(url).host }
     end
   end
 end
