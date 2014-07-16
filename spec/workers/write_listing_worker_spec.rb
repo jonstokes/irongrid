@@ -9,6 +9,8 @@ describe WriteListingWorker do
       "url"                   => "http://www.retailer.com/1",
       "digest"                => "aaaa",
       "type"                  => "RetailListing",
+      "seller_domain"         => @site.domain,
+      "image"                 => "http://cdn.ironsights.com/1235.jpg",
       "item_data" => {
         "title"               => [
           {"title" => "Foo"},
@@ -18,10 +20,8 @@ describe WriteListingWorker do
         ],
         "description"         => Faker::Lorem.paragraph,
         "keywords"            => Faker::Lorem.sentence,
-        "image"               => "http://cdn.ironsights.com/1235.jpg",
         "image_source"        => "http://www.retailer.com/img.jpg",
         "item_location"       => @geo_data.key,
-        "seller_domain"       => @site.domain,
         "seller_name"         => @site.name,
         "category1" => [
           { "category1"  => "guns" },

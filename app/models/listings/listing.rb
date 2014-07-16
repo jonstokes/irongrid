@@ -155,7 +155,7 @@ class Listing < ActiveRecord::Base
   end
 
   def self.with_each_stale_listing_for_domain(domain)
-    query_conditions = "domain = '#{domain}'"
+    query_conditions = "seller_domain = '#{domain}'"
     db do
       Listing.where(query_conditions).where("updated_at < ?", stale_threshold).find_each(batch_size: 200) do |listing|
         yield listing
@@ -172,7 +172,7 @@ class Listing < ActiveRecord::Base
   end
 
   def self.inactive_count_for_domain(domain)
-    db { Listing.inactive.where("seller_domai' = ?", domain).count }
+    db { Listing.inactive.where("seller_domain = ?", domain).count }
   end
 
   def self.stale_count_for_domain(domain)

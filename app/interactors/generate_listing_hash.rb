@@ -8,7 +8,6 @@ class GenerateListingHash
       "type"                     => type,
       "seller_domain"            => seller_domain,
       "auction_ends"             => auction_ends,
-      "image"                    => image,
       "item_data"                => generate_item_data
     }
   end
