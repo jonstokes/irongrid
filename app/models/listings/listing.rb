@@ -33,7 +33,7 @@ class Listing < ActiveRecord::Base
   validate :url, :uniqueness => true
   validate :digest, :uniqueness => true
 
-  attr_accessible :type, :url, :digest, :inactive, :item_data, :geo_data_id, :update_count
+  attr_accessible :type, :url, :digest, :inactive, :item_data, :geo_data_id, :update_count, :seller_domain, :auction_ends, :image, :image_download_attempted
 
   scope :ended_auctions, -> { where("type = ? AND auction_ends < ?", "AuctionListing", (Time.now.utc - 1.day).to_s) }
   scope :no_image, -> { where("image_download_attempted = ? AND updated_at > ?", false, 1.days.ago) }
