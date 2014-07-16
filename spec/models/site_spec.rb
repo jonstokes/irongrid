@@ -48,7 +48,7 @@ describe Site do
     end
 
     it "is true when a site is refresh_only" do
-      site = Site.new(domain: "www.impactguns.com", source: :local)
+      site = Site.new(domain: "www.impactguns.com", source: :fixture)
       expect(site.refresh_only?).to be_true
     end
   end
@@ -82,7 +82,7 @@ describe Site do
     end
 
     it "is empty if there are no feeds" do
-      site = Site.new(domain: "www.impactguns.com", source: :local)
+      site = Site.new(domain: "www.impactguns.com", source: :fixture)
       expect(site.feeds).to be_empty
     end
   end

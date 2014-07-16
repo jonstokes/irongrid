@@ -54,6 +54,7 @@ describe ParsePage do
       item = Listing.index.retrieve "retail_listing", listing.id
 
       expect(item.category1.map(&:category1).compact.first).to eq("Ammunition")
+      expect(item.seller_domain).to eq(site.domain)
       expect(item.caliber_category.map(&:caliber_category).compact.first).to eq("rifle")
       expect(item.manufacturer.map(&:manufacturer).compact.first).to eq("Federal")
       expect(item.title.map(&:title).compact.first.downcase).to eq("federal xm855 5.56 ammo 62 grain fmj, 420 rounds, stripper clips in ammo can")
@@ -67,7 +68,7 @@ describe ParsePage do
     end
 
     it "parses a standard, out of stock retail listing from Impact Guns" do
-      site = create_site "www.impactguns.com", source: :local
+      site = create_site "www.impactguns.com", source: :fixture
       page = load_listing_source("Retail", "www.impactguns.com", "Remington 22LR CYCLONE 36HP 5000 CAS")
 
       url = "http://#{site.domain}/1.html"
@@ -87,7 +88,7 @@ describe ParsePage do
       expect(result.not_found?).to be_false
       listing = Listing.create(result.listing)
 
-      expect(listing.item_condition).to eq("New")
+      expect(listing.item_condition).to eq("Unknown")
       expect(listing.image_source).to eq("http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg")
       expect(listing.keywords).to eq("Remington, Remington 22LR CYCLONE 36HP 5000 CAS, 10047700482016")
       expect(listing.description).to include("Remington-Remington")
