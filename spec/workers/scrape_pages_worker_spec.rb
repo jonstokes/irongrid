@@ -178,9 +178,8 @@ describe ScrapePagesWorker do
       lq = LinkMessageQueue.new(domain: @site.domain)
       links = (1..10).map { |i| LinkMessage.new(url: "http://www.retailer.com/#{i}") }
       lq.add links
-      @worker.timeout = 5
-      @worker.perform(domain: @site.domain)
-      expect(lq.size).to eq(6)
+      @worker.perform(domain: @site.domain, timeout: 5)
+      expect(lq.size).not_to be_zero
       expect(ScrapePagesWorker._jobs.count).to eq(1)
     end
 

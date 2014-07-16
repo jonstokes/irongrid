@@ -14,7 +14,7 @@ class ScrapePagesWorker < CoreWorker
 
   sidekiq_options :queue => :crawls, :retry => true
 
-  attr_reader :domain, :site
+  attr_reader :domain, :site, :timer
   attr_accessor :timeout if Rails.env.test?
 
   def init(opts)
@@ -24,7 +24,7 @@ class ScrapePagesWorker < CoreWorker
 
     @site = Site.new(domain: domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
-    @timeout ||= ((60.0 / site.rate_limit.to_f) * 60).to_i
+    @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @link_store = LinkMessageQueue.new(domain: @site.domain)
     return false unless @link_store.any?
 
@@ -36,7 +36,7 @@ class ScrapePagesWorker < CoreWorker
   def perform(opts)
     return unless opts && init(opts)
     notify "Emptying link store..."
-    while !timed_out? && (msg = @link_store.pop) do
+    while !timer.timed_out? && (msg = @link_store.pop) do
       outlog "Popped message #{msg.to_h}"
       record_incr(:links_deleted)
       outlog "Updating status"
@@ -75,10 +75,6 @@ class ScrapePagesWorker < CoreWorker
   end
 
   private
-
-  def timed_out?
-    (@timeout -= 1).zero?
-  end
 
   def pull_and_process(msg)
     if @site.page_adapter && scraper = scrape_page(msg.url)

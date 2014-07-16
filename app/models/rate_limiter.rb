@@ -21,4 +21,8 @@ class RateLimiter
   def limit_exceeded?
     Time.now - time_of_last_action < limit
   end
+
+  def timed_out?
+    Time.now - time_of_last_action > limit
+  end
 end
