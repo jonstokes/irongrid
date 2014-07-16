@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140423144800) do
+ActiveRecord::Schema.define(version: 20140716175129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,17 +28,26 @@ ActiveRecord::Schema.define(version: 20140423144800) do
   add_index "geo_data", ["key"], name: "index_geo_data_on_key", unique: true, using: :btree
 
   create_table "listings", force: true do |t|
-    t.string   "digest",       null: false
-    t.string   "type",         null: false
-    t.text     "url",          null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "digest",                                   null: false
+    t.string   "type",                                     null: false
+    t.text     "url",                                      null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.boolean  "inactive"
     t.integer  "update_count"
     t.json     "item_data"
+    t.string   "seller_domain"
+    t.datetime "auction_ends"
+    t.string   "image"
+    t.boolean  "image_download_attempted", default: false
   end
 
+  add_index "listings", ["auction_ends"], name: "index_listings_on_auction_ends", using: :btree
   add_index "listings", ["digest"], name: "index_listings_on_digest", unique: true, using: :btree
+  add_index "listings", ["image"], name: "index_listings_on_image", using: :btree
+  add_index "listings", ["inactive"], name: "index_listings_on_inactive", using: :btree
+  add_index "listings", ["seller_domain"], name: "index_listings_on_domain", using: :btree
+  add_index "listings", ["updated_at"], name: "index_listings_on_updated_at", using: :btree
   add_index "listings", ["url"], name: "index_listings_on_url", unique: true, using: :btree
 
   create_table "log_records", force: true do |t|
@@ -48,8 +57,11 @@ ActiveRecord::Schema.define(version: 20140423144800) do
     t.boolean  "archived"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "domain"
   end
 
+  add_index "log_records", ["archived"], name: "index_log_records_on_archived", using: :btree
+  add_index "log_records", ["domain"], name: "index_log_records_on_domain", using: :btree
   add_index "log_records", ["jid"], name: "index_log_records_on_jid", unique: true, using: :btree
 
   create_table "parser_tests", force: true do |t|
