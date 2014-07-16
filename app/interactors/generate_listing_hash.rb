@@ -3,10 +3,13 @@ class GenerateListingHash
 
   def perform
     context[:listing] = {
-      "url"          => url,
-      "digest"       => digest,
-      "type"         => type,
-      "item_data"    => generate_item_data
+      "url"                      => url,
+      "digest"                   => digest,
+      "type"                     => type,
+      "seller_domain"            => seller_domain,
+      "auction_ends"             => auction_ends,
+      "image"                    => image,
+      "item_data"                => generate_item_data
     }
   end
 
