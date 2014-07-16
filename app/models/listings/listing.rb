@@ -35,8 +35,8 @@ class Listing < ActiveRecord::Base
 
   attr_accessible :type, :url, :digest, :inactive, :item_data, :geo_data_id, :update_count
 
-  scope :ended_auctions, -> { where("type = ? AND item_data->>'auction_ends' < ?", "AuctionListing", (Time.now.utc - 1.day).to_s) }
-  scope :no_image, -> { where("item_data->>'image_download_attempted' = ? AND updated_at > ?", 'false', 1.days.ago) }
+  scope :ended_auctions, -> { where("type = ? AND auction_ends < ?", "AuctionListing", (Time.now.utc - 1.day).to_s) }
+  scope :no_image, -> { where("image_download_attempted = ? AND updated_at > ?", false, 1.days.ago) }
   scope :active, -> { where(inactive: [nil, false]) }
   scope :inactive, -> { where(inactive: true) }
 
@@ -111,7 +111,7 @@ class Listing < ActiveRecord::Base
 
   def image_is_shared?
     return false unless image
-    db { Listing.where("id != ? AND item_data->>'image' = ?", id, image).any? }
+    db { Listing.where("id != ? AND image = ?", id, image).any? }
   end
 
   def active?
@@ -147,7 +147,7 @@ class Listing < ActiveRecord::Base
   end
 
   def self.find_by_image(image)
-    db { Listing.where("item_data->>'image' = ?", image).first }
+    db { Listing.where("image = ?", image).first }
   end
 
   def self.duplicate_digest?(listing, digest)
@@ -155,28 +155,28 @@ class Listing < ActiveRecord::Base
   end
 
   def self.with_each_stale_listing_for_domain(domain)
-    query_conditions = "item_data->>'seller_domain' = '#{domain}'"
+    query_conditions = "domain = '#{domain}'"
     db do
-      Listing.where(query_conditions).where("updated_at < ?", stale_threshold).order("updated_at ASC").find_each(batch_size: 200) do |listing|
+      Listing.where(query_conditions).where("updated_at < ?", stale_threshold).find_each(batch_size: 200) do |listing|
         yield listing
       end
     end
   end
 
   def self.stalest_for_domain(domain)
-    db { Listing.where("item_data->>'seller_domain' = ?", domain).order("updated_at ASC").limit(1).try(:first) }
+    db { Listing.where("seller_domain = ?", domain).order("updated_at ASC").limit(1).try(:first) }
   end
 
   def self.active_count_for_domain(domain)
-    db { Listing.active.where("item_data->>'seller_domain' = ?", domain).count }
+    db { Listing.active.where("seller_domain = ?", domain).count }
   end
 
   def self.inactive_count_for_domain(domain)
-    db { Listing.inactive.where("item_data->>'seller_domain' = ?", domain).count }
+    db { Listing.inactive.where("seller_domai' = ?", domain).count }
   end
 
   def self.stale_count_for_domain(domain)
-    db { Listing.where("item_data->>'seller_domain' = ? AND updated_at < ?", domain, stale_threshold).count }
+    db { Listing.where("seller_domain = ? AND updated_at < ?", domain, stale_threshold).count }
   end
 
   #

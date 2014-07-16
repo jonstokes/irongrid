@@ -5,6 +5,9 @@ module ListingConstants
     :digest,
     :created_at,
     :updated_at,
+    :seller_domain,
+    :image,
+    :auction_ends
   ]
 
   ES_OBJECTS = %w(
@@ -19,12 +22,9 @@ module ListingConstants
 
   ITEM_DATA_ATTRIBUTES =[
     'seller_name',
-    'seller_domain',
     'description',
     'keywords',
-    'image',
     'image_source',
-    'image_download_attempted',
     'item_condition',
     'item_location',
     'availability',
@@ -37,7 +37,6 @@ module ListingConstants
     'current_bid_in_cents',
     'minimum_bid_in_cents',
     'reserve_in_cents',
-    'auction_ends',
     'upc',
     'model_number',
     'sku',
