@@ -138,6 +138,10 @@ class Listing < ActiveRecord::Base
     self[:updated_at].strftime("%Y-%m-%dT%H:%M:%S") if self[:updated_at]
   end
 
+  def auction_ends
+    self[:auction_ends].strftime("%Y-%m-%dT%H:%M:%S") if self[:auction_ends]
+  end
+
   def self.register_percolator(percolator_name, json_query)
     Listing.index.register_percolator_query_as_json(percolator_name, json_query)
   end
