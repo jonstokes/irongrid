@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140716175129) do
+ActiveRecord::Schema.define(version: 20140718194651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
   enable_extension "hstore"
+  enable_extension "pg_stat_statements"
 
   create_table "geo_data", force: true do |t|
     t.string   "key"
@@ -40,13 +40,19 @@ ActiveRecord::Schema.define(version: 20140716175129) do
     t.datetime "auction_ends"
     t.string   "image"
     t.boolean  "image_download_attempted", default: false
+    t.string   "upc"
+    t.string   "mpn"
+    t.string   "sku"
   end
 
   add_index "listings", ["auction_ends"], name: "index_listings_on_auction_ends", using: :btree
   add_index "listings", ["digest"], name: "index_listings_on_digest", unique: true, using: :btree
   add_index "listings", ["image"], name: "index_listings_on_image", using: :btree
   add_index "listings", ["inactive"], name: "index_listings_on_inactive", using: :btree
+  add_index "listings", ["mpn"], name: "index_listings_on_mpn", using: :btree
   add_index "listings", ["seller_domain"], name: "index_listings_on_domain", using: :btree
+  add_index "listings", ["sku"], name: "index_listings_on_sku", using: :btree
+  add_index "listings", ["upc"], name: "index_listings_on_upc", using: :btree
   add_index "listings", ["updated_at"], name: "index_listings_on_updated_at", using: :btree
   add_index "listings", ["url"], name: "index_listings_on_url", unique: true, using: :btree
 
