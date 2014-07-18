@@ -79,20 +79,25 @@ describe GenerateListingHash do
       country_code: "US",
       coordinates: "1.000, 2.000",
       auction_ends: Time.parse("09/10/2025"),
+      upc: "10001",
+      mpn: "ABCD",
+      sku: "LY123",
     }
 
     result = GenerateListingHash.perform(opts)
     listing = Listing.create(result.listing)
     Listing.index.refresh
     item = Listing.index.retrieve "retail_listing", listing.id
-    %w(url digest).each do |attr|
-      expect(item.send(attr)).to eq(opts[attr.to_sym])
+    %w(url digest upc mpn sku image auction_ends seller_domain).each do |attr|
+      if attr == "auction_ends"
+        expect(item.auction_ends).to eq("2025-09-10T05:00:00")
+      else
+        expect(item.send(attr)).to eq(opts[attr.to_sym])
+      end
     end
     Listing::ITEM_DATA_ATTRIBUTES.each do |attr|
       if attr == "keywords"
         expect(item.keywords).to eq(opts[:keywords].raw)
-      elsif attr == "auction_ends"
-        expect(item.auction_ends).to eq("2025-09-10T00:00:00-05:00")
       else
         expect(item.send(attr)).to eq(opts[attr.to_sym])
       end
