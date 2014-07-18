@@ -7,6 +7,9 @@ module ListingConstants
     :updated_at,
     :seller_domain,
     :image,
+    :upc,
+    :mpn,
+    :sku,
     :auction_ends
   ]
 
@@ -37,9 +40,6 @@ module ListingConstants
     'current_bid_in_cents',
     'minimum_bid_in_cents',
     'reserve_in_cents',
-    'upc',
-    'model_number',
-    'sku',
     'affiliate_link_tag',
     'affiliate_program',
     GeoData::DATA_KEYS

@@ -42,7 +42,7 @@ module ElasticTools
           reserve_in_cents:       { type: :integer },
           price_on_request:       { type: :string, analyzer: :keyword },
           upc:                   { type: :string, analyzer: :keyword },
-          model_number:          { type: :string, analyzer: :keyword },
+          mpn:                   { type: :string, analyzer: :keyword },
           sku:                   { type: :string, analyzer: :keyword },
           city:                  { type: :string, analyzer: :keyword },
           state:                 { type: :string, analyzer: :keyword },

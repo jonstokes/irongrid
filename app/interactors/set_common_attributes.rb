@@ -6,8 +6,8 @@ class SetCommonAttributes < CoreModel
     context[:keywords]                 = keywords
     context[:description]              = raw_listing['description']
     context[:category1]                = category1
-    context[:model_number]             = raw_listing['model_number']
     context[:upc]                      = raw_listing['upc']
+    context[:mpn]                      = raw_listing['mpn']
     context[:sku]                      = raw_listing['sku']
     context[:seller_domain]            = site.domain
     context[:seller_name]              = site.name

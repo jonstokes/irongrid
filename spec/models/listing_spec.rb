@@ -32,6 +32,9 @@ describe Listing do
       "image"                 => SPEC_IMAGE_1,
       "seller_domain"         => @site.domain,
       "image_download_attempted" => false,
+      "upc"                 => "000001",
+      "sku"                 => "PF123",
+      "mpn"                 => "ABC123",
       "item_data" => {
         "title"               => [
           {"title" => "Foo"},
@@ -53,9 +56,6 @@ describe Listing do
         "availability"        => "in_stock",
         "price_in_cents"      => 1099,
         "sale_price_in_cents" => 999,
-        "upc"                 => "000001",
-        "sku"                 => "PF123",
-        "model_number"        => "ABC123"
       }
     }
     @listing_attrs["item_data"].merge!(@geo_data.to_h)
@@ -79,10 +79,23 @@ describe Listing do
       listing.state_code.should == "SC"
       listing.country_code.should == "US"
       listing.postal_code.should == "29676"
-      listing.model_number.should == "ABC123"
+      listing.mpn.should == "ABC123"
       listing.sku.should == "PF123"
       listing.upc.should == "000001"
-      Listing.index.retrieve("retail_listing", Listing.last.id).should_not be_nil
+
+      item = Listing.index.retrieve("retail_listing", Listing.last.id)
+      item.seller_domain.should == @site.domain
+      item.seller_name.should == @site.name
+      item.price_in_cents.should == 1099
+      item.availability.should == "in_stock"
+      item.latitude.should == "34.9457089"
+      item.longitude.should == "-82.9716617"
+      item.state_code.should == "SC"
+      item.country_code.should == "US"
+      item.postal_code.should == "29676"
+      item.mpn.should == "ABC123"
+      item.sku.should == "PF123"
+      item.upc.should == "000001"
     end
   end
 
