@@ -42,25 +42,30 @@ module PageUtils
     # including redirects
     #
     def fetch_page(url, opts={})
-      force_format = opts[:force_format]
       begin
         tries ||= 5
-        session.visit(url.to_s)
-        page = PageUtils::Page.new(
-          session.current_url,
-          :body => session.html.dup,
-          :code => session.status_code,
-          :headers => session.response_headers,
-          :force_format => force_format
-        )
-        session.reset!
-        return page
-      rescue Capybara::Poltergeist::TimeoutError, Capybara::Poltergeist::DeadClient, Errno::EPIPE, NoMethodError, Capybara::Poltergeist::BrowserError => e
+        get_page(url, opts)
+      rescue Capybara::Poltergeist::DeadClient, Errno::EPIPE, NoMethodError, Capybara::Poltergeist::BrowserError => e
         restart_session
         retry unless (tries -= 1).zero?
         close
         raise e
       end
+    end
+
+    def get_page(url, opts)
+      session.visit(url.to_s)
+      return PageUtils::Page.new(
+        session.current_url,
+        :body => session.html.dup,
+        :code => session.status_code,
+        :headers => session.response_headers,
+        :force_format => opts[:force_format]
+      )
+    rescue Capybara::Poltergeist::TimeoutError => e
+      return Page.new(url, :error => e)
+    ensure
+      session.reset!
     end
 
     #

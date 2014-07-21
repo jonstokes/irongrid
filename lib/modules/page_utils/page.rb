@@ -69,6 +69,14 @@ module PageUtils
       end
     end
 
+    def is_valid?
+      (url != "about:blank") && !not_found? && present?
+    end
+
+    def present?
+      !error && code && body.present? && doc
+    end
+
     #
     # Delete the Nokogiri document and response body to conserve memory
     #

@@ -3,25 +3,21 @@ module PageUtils
 
   def get_page(link, opts={})
     @http ||= PageUtils::HTTP.new
-    page = nil
-    begin
-      tries ||= MAX_RETRIES
-      page = @http.fetch_page(link, opts)
-      sleep 0.5
-    end until page.try(:doc) || (tries -= 1).zero?
-    return if page.nil? || page.not_found? || !page.body.present? || !page.doc
-    page
+    fetch_with_connection(@http, link, opts)
   end
 
   def render_page(link, opts={})
     @dhttp ||= PageUtils::DynamicHTTP.new
+    fetch_with_connection(@dhttp, link, opts)
+  end
+
+  def fetch_with_connection(conn, link, opts)
+    page, tries = nil, MAX_RETRIES
     begin
-      tries ||= 3
-      page = @dhttp.fetch_page(link, opts)
+      page = conn.fetch_page(link, opts)
       sleep 1
-    end until page.try(:code) && page.try(:doc) || (tries -= 1).zero?
-    return if page.nil? || (page.url == "about:blank") || page.not_found? || !page.body.present? || !page.doc
-    page
+    end until page.try(:present?) || (tries -= 1).zero?
+    page.is_valid? ? page : nil
   end
 
   def close_http_connections
