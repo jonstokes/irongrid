@@ -5,7 +5,7 @@ class SiteStatsWorker < CoreWorker
     active_listings: Integer,
     inactive_listings: Integer,
     stale_listings: Integer,
-    stalest_listing: Integer
+    stalest_listing: Time
   }
 
   sidekiq_options queue: :slow_db
@@ -35,9 +35,11 @@ class SiteStatsWorker < CoreWorker
     @site.update_stats(stale_listings: stale_listings)
     record_set(:stale_listings, stale_listings)
 
-    stalest_listing = Listing.stalest_for_domain(domain).try(:id)
-    @site.update_stats(stalest_listing: stalest_listing)
-    record_set(:stalest_listing, stalest_listing) if stalest_listing
+    if stalest_listing = Listing.stalest_for_domain(domain)
+      time = stalest_listing.updated_at.to_time
+      @site.update_stats(stalest_listing: time)
+      record_set(:stalest_listing, time)
+    end
 
     stop_tracking
   end

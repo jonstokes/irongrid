@@ -14,7 +14,7 @@ describe SiteStatsWorker do
       s = Site.new(domain: site.domain, source: :redis)
       expect(s.site_data[:stats][:active_listings]).to eq(2)
       expect(s.site_data[:stats][:inactive_listings]).to eq(1)
-      expect(s.site_data[:stats][:stalest_listing]).to eq(stalest.id)
+      expect(s.site_data[:stats][:stalest_listing].strftime("%Y-%m-%dT%H:%M:%S")).to eq(stalest.updated_at)
       expect(s.site_data[:stats][:updated_at]).to be_a(Time)
 
     end
