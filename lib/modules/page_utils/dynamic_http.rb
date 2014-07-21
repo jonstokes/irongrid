@@ -55,17 +55,17 @@ module PageUtils
 
     def get_page(url, opts)
       session.visit(url.to_s)
-      return PageUtils::Page.new(
+      page = PageUtils::Page.new(
         session.current_url,
         :body => session.html.dup,
         :code => session.status_code,
         :headers => session.response_headers,
         :force_format => opts[:force_format]
       )
+      session.reset!
+      page
     rescue Capybara::Poltergeist::TimeoutError => e
       return Page.new(url, :error => e)
-    ensure
-      session.reset!
     end
 
     #
