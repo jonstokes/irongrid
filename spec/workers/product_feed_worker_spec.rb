@@ -90,7 +90,7 @@ describe ProductFeedWorker do
       end
     end
 
-    describe "write to listings table from Avanlink feed" do
+    describe "write to listings table from Avantlink feed" do
       before :each do
         @site = create_site "www.brownells.com", source: :local
         LinkMessageQueue.new(domain: @site.domain).clear

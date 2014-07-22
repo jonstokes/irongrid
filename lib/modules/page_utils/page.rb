@@ -45,11 +45,14 @@ module PageUtils
       @error = params[:error]
       @fetched = !params[:code].nil?
       @force_format = params[:force_format]
-      @body = params[:body]
-      if params[:body] && (html? || xml? || @force_format)
-        @body = params[:body].encode('UTF-16', 'UTF-8', {:invalid => :replace, :undef => :replace, :replace => '?'})
-        @body.encode!('UTF-8', 'UTF-16')
-      end
+      @body = cleanup_encoding(params[:body])
+    end
+
+    def cleanup_encoding(source)
+      return source unless source && (html? || xml? || @force_format)
+      text = source.dup
+      text.encode!('UTF-16', 'UTF-8', {:invalid => :replace, :undef => :replace, :replace => '?'})
+      text.encode('UTF-8', 'UTF-16')
     end
 
     #
