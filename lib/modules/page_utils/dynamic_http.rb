@@ -65,6 +65,7 @@ module PageUtils
       session.reset!
       page
     rescue Capybara::Poltergeist::TimeoutError => e
+      restart_session
       return Page.new(url, :error => e)
     end
 
