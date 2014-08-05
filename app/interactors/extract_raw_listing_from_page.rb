@@ -8,7 +8,7 @@ class ExtractRawListingFromPage
 
   def perform
     adapter.each do |attribute, value|
-      if should_copy_attribute?(attribute)
+      if should_copy_value?(value)
         context[:raw_listing][attribute] = value
       else
         context[:raw_listing][attribute] = parse_with_scraper_methods(value)
@@ -36,11 +36,11 @@ class ExtractRawListingFromPage
     result.present? ? result : nil
   end
 
-  def should_copy_attribute?(attribute)
-    # The value of these three attributes is always copied over directly to the raw_listing.
+  def should_copy_value?(value)
+    # The value of these some attributes is always copied over directly to the raw_listing.
     # In other words, the value of these attributes is always declared in-line
     # in the adapter, and is never derived from executing a scraper_method against
     # a DocReader object.
-    %w(format seller_defaults validation digest_attributes).include?(attribute)
+    !value.is_a?(Array) || !value.detect { |method_arg_pair| method_arg_pair["scraper_method"] }
   end
 end
