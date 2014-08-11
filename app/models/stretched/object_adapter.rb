@@ -1,16 +1,18 @@
 module Stretched
   class ObjectAdapter < Registration
 
-    attr_reader :attribute_setters, :schema, :xpath
+    attr_reader :schema
 
     delegate :validate, to: :schema
 
     def initialize(opts)
       super(opts.merge(type: "ObjectAdapter"))
       @schema = Schema.new(@data["schema"])
-      @xpath = @data["xpath"]
-      @attribute_setters = @data["attribute"]
     end
+
+    def xpath; @data["xpath"]; end
+
+    def attribute_setters; @data["attribute_setters"]; end
 
     def self.find(key)
       super(type: "ObjectAdapter", key: key)
