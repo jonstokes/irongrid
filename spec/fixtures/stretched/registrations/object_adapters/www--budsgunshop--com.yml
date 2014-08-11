@@ -6,8 +6,7 @@ object_adapter:
     xpath: //span[@class="productListing-productname"]/a
     attribute:
       product_link:
-        - method: find_by_xpath
-          arguments:
+        - find_by_xpath:
             xpath: ./@href
       product_adapter_key: www.budsgunshop.com/product_page
   www.budsgunshop.com/product_page:
