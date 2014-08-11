@@ -14,5 +14,9 @@ module Stretched
     def self.find(key)
       super(type: "RateLimit", key: key)
     end
+
+    def self.create(opts)
+      super(opts.merge(type: "RateLimit"))
+    end
   end
 end
