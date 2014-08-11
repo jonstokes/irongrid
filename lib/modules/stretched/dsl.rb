@@ -1,20 +1,5 @@
 module Stretched
-  class QueryDoc
-
-    attr_reader :url
-
-    def initialize(body, url, format=nil)
-      @url = url.to_s
-      @doc = case format
-             when :xml
-               Nokogiri::XML(body, @url)
-             when :html
-               Nokogiri::HTML(body, @url)
-             else
-               Nokogiri.parse(body, @url)
-             end
-      @respond_to = []
-    end
+  module DSL
 
     #
     # DSL methods
