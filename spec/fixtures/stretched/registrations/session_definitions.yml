@@ -1,0 +1,7 @@
+---
+session_definition:
+  global/standard_html_session:
+    page_format: html
+    rate_limits: { $key: global/standard_rate_limits }
+
+

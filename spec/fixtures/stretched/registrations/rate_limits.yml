@@ -1,0 +1,14 @@
+---
+rate_limit:
+  global/standard_rate_limits:
+    timezone: UTC
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 1
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 2
+
+
