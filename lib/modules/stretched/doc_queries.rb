@@ -46,8 +46,8 @@ module Stretched
       filter_target_text(args['filters'], content)
     end
 
-    def filters(arguments, target)
-      target = filter_target_text(arguments, target)
+    def filters(target, arguments)
+      target = filter_target_text(target, arguments)
       sanitize(target)
     end
 
@@ -108,9 +108,9 @@ module Stretched
       return nil
     end
 
-    def filter_target_text(filters, target)
+    def filter_target_text(target, filter_list)
       return unless target.present?
-      filters.each do |filter|
+      filter_list.each do |filter|
         break if target.nil?
         if filter["accept"]
           target = target[filter["accept"]]
