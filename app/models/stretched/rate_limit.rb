@@ -8,7 +8,7 @@ module Stretched
     end
 
     def initialize(opts)
-      @type, @key, @data = "RateLimit", opts[:key], opts[:data]
+      super(opts.merge(type: "RateLimit"))
     end
 
     def self.find(key)
