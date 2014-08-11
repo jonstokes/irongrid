@@ -55,14 +55,15 @@ module Stretched
         if image?
           nil
         elsif should_parse_as?(:xml)
-          Stretched::QueryDoc.new(@body, @url.to_s, :xml)
+          Nokogiri::XML(@body, @url.to_s)
         elsif should_parse_as?(:html)
-          Stretched::QueryDoc.new(@body, @url.to_s, :html)
+          Nokogiri::HTML(@body, @url.to_s)
         elsif @body
-          Stretched::QueryDoc.new(@body, @url.to_s)
+          Nokogiri.parse(@body, @url.to_s)
         end
       end
     end
+
 
     def is_valid?
       (url != "about:blank") && !not_found? && present?
