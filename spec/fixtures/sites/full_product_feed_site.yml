@@ -1,0 +1,76 @@
+---
+session_definition:
+  key: global/standard_xml_session
+  page_format: xml
+  rate_limits: { $key: global/standard_rate_limits }
+
+---
+site:
+  name: Brownells
+  domain: www.brownells.com
+  read_interval: 7200
+  sessions:
+  - session_definition: { $key: global/standard_xml_session }
+    object_adapters: [{ $key: www.brownells.com/product_feed }]
+    urls:
+    - url: http://datafeed.avantlink.com/download_feed.php?id=153279&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status
+  registrations:
+    object_adapter:
+      www.brownells.com/product_feed:
+        $key: globals/adapter
+        scripts:
+        - globals/*
+        - www.brownells.com/link_postfix
+        schema: { $key: Listing }
+        xpath: //Products/Product
+        attribute:
+          listing_condition: [{ value: new }]
+          listing_availability: [{ value: in_stock }]
+          listing_location: [{ value: "200 South Front Street, Montezuma, Iowa 50171" }]
+          listing_type: [{ value: RetailListing }]
+          listing_url:
+            - find_by_xpath:
+                xpath: .//Buy_Link
+          listing_title:
+            - find_by_xpath:
+                xpath: .//Product_Name
+          listing_description:
+            - find_by_xpath:
+                xpath: .//Long_Description
+          listing_image:
+            - find_by_xpath:
+                xpath: .//Image_URL
+          listing_sale_price_in_cents:
+            - find_by_xpath:
+                xpath: .//Sale_Price
+          listing_price_in_cents:
+            - find_by_xpath:
+                xpath: .//Retail_Price
+          listing_availability:
+            - classify_by_xpath:
+                type: out_of_stock
+                xpath: .//Status
+                pattern: !ruby/regexp '/^Removed/i'
+          product_category1:
+            - classify_by_xpath:
+                type: Ammunition
+                xpath: .//Category
+                pattern: !ruby/regexp '/Ammunition/i'
+            - classify_by_xpath:
+                type: Optics
+                xpath: .//Category
+                pattern: !ruby/regexp '/Optics/i'
+            - classify_by_xpath:
+                type: Accessories
+                xpath: .//Category
+                pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
+    script:
+      www.brownells.com/link_postfix:
+        ruby: |
+            def avantlink_feed_link_postfix
+              (Time.now - 1.day).strftime("%Y-%m-%d")
+            end
+
+            set "listing_url" do
+              "#{json_adapter_output['url']}&from=#{avantlink_feed_link_postfix}"
+            end

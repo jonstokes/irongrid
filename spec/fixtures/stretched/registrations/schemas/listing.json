@@ -1,0 +1,109 @@
+{
+  "title": "Listing",
+  "description": "Schema for clean product listing JSON object",
+  "type": "object",
+  "properties": {
+    "valid":       { "type": "boolean" },
+    "not_found":   { "type": "boolean" },
+    "url":         { "type": "url" },
+    "description": { "type": "string" },
+    "keywords":    { "type": "string" },
+    "title": {
+      "type": "object",
+      "properties": {
+        "title":        { "type": "string" },
+        "scrubbed":     { "type": "string" },
+        "normalized":   { "type": "string" },
+        "autocomplete": { "type": "string" },
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": ["RetailListing", "AuctionListing", "ClassifiedListing"]
+    },
+    "item_condition": {
+      "type": "string",
+      "enum": ["New", "Used", "Unknown"]
+    },
+    "stock_status": {
+      "type": "string",
+      "enum": ["In Stock", "Out Of Stock", "Unknown"]
+    },
+    "image":                 { "type": "url" },
+    "seller_name":           { "type": "string" },
+    "seller_domain":         { "type": "string" },
+    "auction_ends":          { "type": "date" },
+    "current_price_in_cents": { "type": "integer" },
+    "price_in_cents":         { "type": "integer" },
+    "sale_price_in_cents":    { "type": "integer" },
+    "buy_now_price_in_cents": { "type": "integer" },
+    "current_bid_in_cents":   { "type": "integer" },
+    "minimum_bid_in_cents":   { "type": "integer" },
+    "reserve_in_cents":       { "type": "integer" },
+    "price_on_request":      { "type": "string" },
+    "upc":                   { "type": "string" },
+    "mpn":                   { "type": "string" },
+    "sku":                   { "type": "string" },
+    "item_location":         { "type": "string" },
+    "category1": {
+      "type": "object",
+      "properties": {
+        "category1": {
+          "type": "string",
+          "enum": ["Guns", "Ammunition", "Optics", "Accessories", "None"]
+        },
+        "classification_type": {
+          "type": "string",
+          "enum": ["hard", "metadata", "soft", "fall_through"]
+        },
+        "score":               { "type": "integer" }
+      }
+    },
+    "caliber_category": {
+      "type": "object",
+      "properties": {
+        "caliber_category": {
+          "type": "string",
+          "enum": ["Handgun", "Rifle", "Rimfire", "Shotgun"]
+        },
+        "classification_type": { "type": "string" },
+      }
+    },
+    "manufacturer": {
+      "type": "object",
+      "properties": {
+        "manufacturer": {
+          "type": "string",
+          "enum": { "$dictionary": "Manufacturers" }
+        },
+        "classification_type": { "type": "string" },
+      }
+    },
+    "caliber": {
+      "type": "object",
+      "properties": {
+        "caliber": {
+          "type": "string",
+          "enum": { "$dictionary": "Calibers" }
+        },
+        "classification_type": { "type": "string" },
+      }
+    },
+    "grains": {
+      "type": "object",
+      "properties": {
+        "grains":              { "type": "integer" },
+        "classification_type": { "type": "string" },
+      }
+    },
+    "number_of_rounds": {
+      "type": "object",
+      "properties": {
+        "number_of_rounds":    { "type": "integer" },
+        "classification_type": { "type": "string" },
+      }
+    },
+    "price_per_round_in_cents": { "type": "integer" }
+  },
+  "required": ["valid", "not_found", "url"]
+}
