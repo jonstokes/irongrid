@@ -4,7 +4,7 @@ module Stretched
     include DocQueries
 
     def perform
-      object_adapter.each do |attr, setters|
+      object_adapter.attribute_setters.each do |attr, setters|
         setters.detect do |setter|
           next unless result = set(attr) { _run_setter(setter) }
         end
