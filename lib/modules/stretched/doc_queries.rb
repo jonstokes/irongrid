@@ -1,8 +1,8 @@
 module Stretched
-  module DSL
+  module DocQueries
 
     #
-    # DSL methods
+    # Doc query methods
     #
 
     def find_by_xpath(arguments)
