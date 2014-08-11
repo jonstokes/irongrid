@@ -1,10 +1,4 @@
 ---
-session_definition:
-  key: global/standard_xml_session
-  page_format: xml
-  rate_limits: { $key: global/standard_rate_limits }
-
----
 site:
   name: Brownells
   domain: www.brownells.com
@@ -66,11 +60,4 @@ site:
                 pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
     script:
       www.brownells.com/link_postfix:
-        ruby: |
-            def avantlink_feed_link_postfix
-              (Time.now - 1.day).strftime("%Y-%m-%d")
-            end
-
-            set "listing_url" do
-              "#{json_adapter_output['url']}&from=#{avantlink_feed_link_postfix}"
-            end
+        $file: link_postfix.rb
