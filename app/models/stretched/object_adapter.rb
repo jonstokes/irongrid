@@ -15,5 +15,10 @@ module Stretched
     def self.find(key)
       super(type: "ObjectAdapter", key: key)
     end
+
+    def self.create(opts)
+      super(opts.merge(type: "ObjectAdapter"))
+    end
+
   end
 end
