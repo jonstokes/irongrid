@@ -15,8 +15,22 @@ module Stretched
       registry[script.key]
     end
 
+    def save
+      with_redis do |conn|
+        conn.sadd "registrations", "#{registration_type}::#{key}"
+        conn.set "registrations::#{registration_type}::#{key}", data
+      end
+    end
+
     def self.find(key)
-      super(type: "Script", key: key)
+      data = with_redis do |conn|
+        conn.get "registrations::Script::#{key}"
+      end
+      if data
+        self.new(data: data)
+      else
+        raise "No such Script registration with key #{key}!"
+      end
     end
 
     def self.create(opts)
