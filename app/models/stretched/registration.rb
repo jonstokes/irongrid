@@ -34,7 +34,7 @@ module Stretched
     end
 
     def self.create(opts)
-      registration = Registration.new(opts)
+      registration = new(opts)
       registration.save
       registration
     end

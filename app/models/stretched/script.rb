@@ -9,17 +9,17 @@ module Stretched
       eval data
     end
 
-    def self.runner(key)
-      script = find(key)
-      script.register_runner
-      registry[script.key]
-    end
-
     def save
       with_redis do |conn|
         conn.sadd "registrations", "#{registration_type}::#{key}"
         conn.set "registrations::#{registration_type}::#{key}", data
       end
+    end
+
+    def self.runner(key)
+      script = find(key)
+      script.register_runner
+      registry[script.key]
     end
 
     def self.find(key)
@@ -43,7 +43,7 @@ module Stretched
 
     def self.register(script_name, runner)
       @registry ||= {}
-      @register[script_name] = runner
+      @registry[script_name] = runner
     end
 
     def self.define(&block)
