@@ -6,7 +6,7 @@ module Stretched
 
     def validate(attribute, value)
       attr = attribute.to_s
-      return false unless property = @data['properties'][attr]
+      return false unless @data['properties'] && property = @data['properties'][attr]
       return false unless type_is_valid?(property['type'], value)
       return true unless property['enum'] && property['enum'].any?
       return property['enum'].include?(value)
