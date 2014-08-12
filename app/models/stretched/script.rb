@@ -27,7 +27,7 @@ module Stretched
         conn.get "registrations::Script::#{key}"
       end
       if data
-        self.new(data: data)
+        self.new(key: key, data: data)
       else
         raise "No such Script registration with key #{key}!"
       end
