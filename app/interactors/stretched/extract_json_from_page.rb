@@ -23,16 +23,16 @@ module Stretched
     #
 
     def read_with_json(instance)
-      factory = AdapterFactory.new
-      factory.set_context(context)
+      runner = ScriptRunner.new
+      runner.set_context(context)
       adapter.attribute_setters.each do |attribute_name, setters|
         setters.each do |setter|
           if setter.is_a?(Hash)
             method = setter.reject("filters").first
             args = setter[method]
-            result = factory.send(method, args)
+            result = runner.send(method, args)
           else
-            result = factory.send(setter)
+            result = runner.send(setter)
           end
           result = filters(result, setter["filters"]) if setter["filters"]
           instance[attribute_name] = result if adapter.validate(attribute_name, result)
@@ -43,9 +43,9 @@ module Stretched
     end
 
     def read_with_script(script_name, instance)
-      factory = AdapterScript.registry[script_name]
-      factory.set_context(context)
-      factory.attributes.each do |attribute_name, value|
+      runner = Script.runner(script_name)
+      runner.set_context(context)
+      runner.attributes.each do |attribute_name, value|
         result = value.is_a?(Proc) ? value.call(instance) : value
         instance[attribute_name] = result if adapter.validate(attribute_name, result)
       end
