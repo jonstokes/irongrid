@@ -1,5 +1,6 @@
 module Stretched
   class ObjectAdapter < Registration
+    extend ScriptSupport
 
     attr_reader :schema
 

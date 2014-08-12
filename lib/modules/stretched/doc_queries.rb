@@ -20,22 +20,8 @@ module Stretched
       return args['type'] if find_by_xpath(args)
     end
 
-    def label_by_meta_keywords(args)
-      return args['type'] if meta_keywords && meta_keywords[args['regexp']]
-    end
-
     def label_by_meta_tag(args)
       args['type'] if find_by_meta_tag(args)
-    end
-
-    def meta_property(args)
-      args.merge!('attribute' => 'property')
-      find_by_meta_tag(args)
-    end
-
-    def meta_name(args)
-      args.merge!('attribute' => 'name')
-      find_by_meta_tag(args)
     end
 
     def find_by_meta_tag(args)
@@ -46,10 +32,60 @@ module Stretched
       filter_target_text(args['filters'], content)
     end
 
+    def find_by_schema_tag(value)
+      string_methods = [:upcase, :downcase, :capitalize]
+      nodes = string_methods.map do |method|
+        doc.at_xpath("//*[@itemprop=\"#{value.send(method)}\"]")
+      end.compact
+      return if nodes.empty?
+      content = nodes.compact.first.text.strip.squeeze(" ")
+      return unless content.present?
+      content
+    end
+
     def filters(target, arguments)
       target = filter_target_text(target, arguments)
       sanitize(target)
     end
+
+    #
+    # Meta tag convenience methods
+    #
+    def meta_property(args)
+      args.merge!('attribute' => 'property')
+      find_by_meta_tag(args)
+    end
+
+    def meta_name(args)
+      args.merge!('attribute' => 'name')
+      find_by_meta_tag(args)
+    end
+
+    def meta_og(value)
+      meta_property('value' => "og:#{value}")
+    end
+
+    def meta_title; meta_name('value' => 'title'); end
+    def meta_keywords; meta_name('value' => 'keywords'); end
+    def meta_description; meta_name('value' => 'description'); end
+    def meta_image; meta_name('value' => 'image'); end
+
+    def meta_og_title; meta_og('title'); end
+    def meta_og_keywords; meta_og('keywords'); end
+    def meta_og_description; meta_og('description'); end
+    def meta_og_image; meta_og('image'); end
+
+    def label_by_meta_keywords(args)
+      return args['type'] if meta_keywords && meta_keywords[args['regexp']]
+    end
+
+    #
+    # Schema.org convenience mthods
+    #
+
+    def schema_price; find_by_schema_tag("price"); end
+    def schema_name; find_by_schema_tag("name"); end
+    def schema_description; find_by_schema_tag("description"); end
 
     #
     # Private
@@ -57,11 +93,7 @@ module Stretched
 
     def sanitize(text)
       return unless str = Sanitize.clean(text, elements: [])
-      coder.decode(str)
-    end
-
-    def coder
-      @coder ||= HTMLEntities.new
+      HTMLEntities.new.decode(str)
     end
 
     def get_nodes_for_meta_attribute(args)
@@ -130,49 +162,6 @@ module Stretched
       newstr = ""
       target.each_char { |chr| newstr << (chr.dump["u{e2}"] ? '"' : chr) }
       newstr.to_ascii
-    end
-
-    def method_missing(method_id, *arguments, &block)
-      if method_id.to_s[/\Ameta\_/]
-        define_and_call_meta_method(method_id)
-      elsif method_id.to_s['schema_']
-        define_and_call_schema_method(method_id)
-      else
-        super
-      end
-    end
-
-    def define_and_call_meta_method(method_id)
-      self.define_singleton_method method_id do
-        value = method_id.to_s.gsub("meta_og_", "").gsub("meta_", "")
-        if method_id.to_s['_og_']
-          meta_property('value' => "og:#{value}")
-        else
-          meta_name('value' => value)
-        end
-      end
-      @respond_to << method_id
-      self.send(method_id)
-    end
-
-    def define_and_call_schema_method(method_id)
-      self.define_singleton_method method_id do
-        value = method_id.to_s.gsub("schema_", "")
-        string_methods = [:upcase, :downcase, :capitalize]
-        nodes = string_methods.map do |method|
-          doc.at_xpath("//*[@itemprop=\"#{value.send(method)}\"]")
-        end.compact
-        return if nodes.empty?
-        content = nodes.compact.first.text.strip.squeeze(" ")
-        return unless content.present?
-        content
-      end
-      @respond_to << method_id
-      self.send(method_id)
-    end
-
-    def respond_to?(method_id, include_private = false)
-      @respond_to && @respond_to.include?(method_id) ? true : super
     end
   end
 end
