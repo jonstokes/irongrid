@@ -62,5 +62,18 @@ describe Stretched::Script do
     end
   end
 
+  describe "::runner" do
+    it "finds an object that has previously been registered and returns a runner for it" do
+      script = Stretched::Script.create(
+        key: "product_page",
+        data: @source
+      )
+      runner = Stretched::Script.runner(script.key)
+      expect(Stretched::Script.registry).not_to be_empty
+      expect(runner).to be_a(Stretched::ScriptRunner)
+    end
+
+  end
+
 end
 
