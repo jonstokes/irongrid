@@ -1,11 +1,11 @@
 module Stretched
   class DefinitionProxy
-    def register_script(script_name, &block)
-      factory = AdapterFactory.new
+    def script(script_name, &block)
+      runner = ScriptRunner.new
       if block_given?
-        factory.instance_eval(&block)
+        runner.instance_eval(&block)
       end
-      AdapterScript.register(script_name, factory)
+      Script.register(script_name, runner)
     end
   end
 end

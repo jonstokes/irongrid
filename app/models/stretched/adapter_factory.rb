@@ -1,5 +1,5 @@
 module Stretched
-  class AdapterFactory
+  class ScriptRunner
     include DocQueries
 
     attr_reader :attributes, :doc, :context
