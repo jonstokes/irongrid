@@ -3,10 +3,10 @@ module Stretched
     include Retryable
     include StretchedRedisPool
 
-    attr_accessor :type, :key, :data
+    attr_accessor :registration_type, :key, :data
 
     def initialize(opts)
-      @type, @key = opts[:type], opts[:key]
+      @registration_type, @key = opts[:type], opts[:key]
       if @keyref = opts["$key"]
         @data = self.class.find(@keyref).data.merge(opts[:data])
       else
@@ -16,15 +16,15 @@ module Stretched
 
     def save
       with_redis do |conn|
-        conn.sadd "registrations", "#{type}::#{key}"
-        conn.set "#{registrations}::#{type}::#{key}", data
+        conn.sadd "registrations", "#{registration_type}::#{key}"
+        conn.set "#{registrations}::#{registration_type}::#{key}", data
       end
     end
 
     def destroy
       with_redis do |conn|
-        conn.srem "registrations", "#{type}::#{key}"
-        conn.del "registrations::#{type}::#{key}"
+        conn.srem "registrations", "#{registration_type}::#{key}"
+        conn.del "registrations::#{registration_type}::#{key}"
       end
     end
 
