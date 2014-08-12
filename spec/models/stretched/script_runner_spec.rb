@@ -18,14 +18,14 @@ describe Stretched::ScriptRunner do
       runner.set_context(price: 100)
       runner.attributes.each do |attribute_name, value|
         result = value.is_a?(Proc) ? value.call(instance) : value
-        instance[attribute_name] = result if adapter.validate(attribute_name, result)
+        instance[attribute_name] = result
       end
 
+      expect(instance[:title]).to eq("This is the title")
+      expect(instance[:description]).to eq("This is the description")
       expect(instance[:price]).to eq(150)
-      expect(instance[:sale_price]).to eq(50)
+      expect(instance[:sale_price]).to eq(140)
     end
   end
-
-
 end
 
