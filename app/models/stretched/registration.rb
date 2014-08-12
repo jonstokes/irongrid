@@ -17,7 +17,7 @@ module Stretched
     def save
       with_redis do |conn|
         conn.sadd "registrations", "#{registration_type}::#{key}"
-        conn.set "#{registrations}::#{registration_type}::#{key}", data
+        conn.set "registrations::#{registration_type}::#{key}", data.to_json
       end
     end
 
@@ -37,7 +37,7 @@ module Stretched
         conn.get "registrations::#{opts[:type]}::#{opts[:key]}"
       end
       if data
-        self.new(opts.merge(data: data))
+        self.new(opts.merge(data: JSON.parse(data)))
       else
         raise "No such #{opts[:type]} registration with key #{opts[:key]}!"
       end
