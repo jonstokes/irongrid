@@ -30,8 +30,16 @@ module Stretched
       end
     end
 
-    def is_valid_url?(str)
-      !!URI.parse(str).scheme rescue false
+    def is_valid_url?(link)
+      begin
+        uri = URI.parse(link)
+        %w( http https ).include?(uri.scheme)
+      rescue URI::BadURIError
+        return false
+      rescue URI::InvalidURIError
+        return false
+      end
     end
+
   end
 end
