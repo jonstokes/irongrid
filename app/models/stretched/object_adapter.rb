@@ -1,7 +1,5 @@
 module Stretched
   class ObjectAdapter < Registration
-    extend ScriptSupport
-
     attr_reader :schema
 
     delegate :validate, to: :schema
@@ -12,7 +10,7 @@ module Stretched
     end
 
     def xpath; @data["xpath"]; end
-
+    def scripts; @data["scripts"]; end
     def attribute_setters; @data["attribute_setters"]; end
 
     def self.find(key)
@@ -22,6 +20,5 @@ module Stretched
     def self.create(opts)
       super(opts.merge(type: "ObjectAdapter"))
     end
-
   end
 end
