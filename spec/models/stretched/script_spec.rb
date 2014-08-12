@@ -19,6 +19,19 @@ describe Stretched::Script do
     end
   end
 
+  describe "#register_runner" do
+    it "evals the script's source and registers a runner" do
+      script = Stretched::Script.create(
+        key: "product_page",
+        data: @source
+      )
+      expect { script.register_runner }.not_to raise_error
+      expect(Stretched::Script.registry).not_to be_empty
+      runner = Stretched::Script.registry[script.key]
+      expect(runner).to be_a(Stretched::ScriptRunner)
+    end
+  end
+
   describe "::create" do
     it "creates a new script object in the db and returns it" do
       script = Stretched::Script.create(
