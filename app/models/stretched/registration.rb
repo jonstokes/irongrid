@@ -6,11 +6,16 @@ module Stretched
     attr_accessor :registration_type, :key, :data
 
     def initialize(opts)
+      opts.symbolize_keys!
       @registration_type, @key = opts[:type], opts[:key]
-      if @keyref = opts["$key"]
-        @data = self.class.find(@keyref).data.merge(opts[:data])
+      opts_data = opts[:data] || {}
+      if @keyref = opts[:$key]
+        @data = self.class.find(
+          type: registration_type,
+          key: @keyref
+        ).data.merge(opts_data)
       else
-        @data = {}
+        @data = opts_data
       end
     end
 
@@ -29,10 +34,13 @@ module Stretched
     end
 
     def self.create(opts)
-      Registration.new(opts).save
+      registration = Registration.new(opts)
+      registration.save
+      registration
     end
 
     def self.find(opts)
+      opts.symbolize_keys!
       data = with_redis do |conn|
         conn.get "registrations::#{opts[:type]}::#{opts[:key]}"
       end
