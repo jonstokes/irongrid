@@ -13,7 +13,7 @@ module Stretched
     end
 
     def label_by_url(args)
-      return args['type'] if "#{url}"[args['regexp']]
+      return args['type'] if "#{url}"[args['pattern']]
     end
 
     def label_by_xpath(args)
@@ -27,7 +27,7 @@ module Stretched
     def find_by_meta_tag(args)
       nodes = get_nodes_for_meta_attribute(args)
       return unless content = get_content_for_meta_nodes(nodes)
-      content = content[args['regexp']] if args['regexp']
+      content = content[args['pattern']] if args['pattern']
       return content unless args['filters']
       filter_target_text(args['filters'], content)
     end
@@ -76,7 +76,7 @@ module Stretched
     def meta_og_image; meta_og('image'); end
 
     def label_by_meta_keywords(args)
-      return args['type'] if meta_keywords && meta_keywords[args['regexp']]
+      return args['type'] if meta_keywords && meta_keywords[args['pattern']]
     end
 
     #
@@ -118,13 +118,13 @@ module Stretched
     def get_target_text(arguments, nodes)
       return unless nodes && nodes.any?
       text_nodes = nodes.map { |node| node.text }.compact
-      if regexp = arguments['regexp']
+      if pattern = arguments['pattern']
         if arguments['all_nodes']
-          result = text_nodes.select { |node| node[regexp] }.reduce(&:+)
-          return result[regexp] if result
+          result = text_nodes.select { |node| node[pattern] }.reduce(&:+)
+          return result[pattern] if result
         else
-          result = text_nodes.find { |node| node[regexp] }
-          return result ? result[regexp] : nil
+          result = text_nodes.find { |node| node[pattern] }
+          return result ? result[pattern] : nil
         end
       else
         if arguments['all_nodes']

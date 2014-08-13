@@ -11,7 +11,7 @@ module Stretched
 
     def xpath; @data["xpath"]; end
     def scripts; @data["scripts"]; end
-    def attribute_setters; @data["attribute_setters"]; end
+    def attribute_setters; @data["attribute"]; end
 
     def self.find(key)
       super(type: "ObjectAdapter", key: key)
