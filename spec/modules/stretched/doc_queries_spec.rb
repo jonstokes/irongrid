@@ -75,16 +75,16 @@ describe Stretched::DocQueries do
 
     it "should correctly apply a sequence of filters to a target string" do
       target = "   Zip Code:  94708"
-      @doc_reader.filter_target_text(@filters, target).should == "94708"
+      @doc_reader.filter_target_text(target, @filters).should == "94708"
     end
 
     it "should return nil if the target text is nil" do
-      @doc_reader.filter_target_text(@filters, nil).should be_nil
+      @doc_reader.filter_target_text(nil, @filters).should be_nil
     end
 
     it "should return nil if the target text is not accepted" do
       target = "Zipcode: 94708"
-      @doc_reader.filter_target_text(@filters, target).should be_nil
+      @doc_reader.filter_target_text(target, @filters).should be_nil
     end
 
     it "should return nil if the target text is rejected" do
@@ -93,7 +93,7 @@ describe Stretched::DocQueries do
         { "reject" => /Zip Code/i }
       ]
       target = "Zipcode: 94708"
-      @doc_reader.filter_target_text(@filters, target).should be_nil
+      @doc_reader.filter_target_text(target, @filters).should be_nil
     end
   end
 end
