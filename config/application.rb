@@ -23,6 +23,7 @@ module Irongrid
     config.eager_load_paths += %W(#{config.root}/lib/modules/product_details)
     config.eager_load_paths += %W(#{config.root}/lib/modules/page_utils)
     config.eager_load_paths += %W(#{config.root}/lib/modules/cdn)
+    config.eager_load_paths += %W(#{config.root}/lib/modules/stretched)
     config.eager_load_paths += %W(#{config.root}/app/models/core)
     config.eager_load_paths += %W(#{config.root}/app/models/concerns)
     config.eager_load_paths += %W(#{config.root}/app/models/listings)
