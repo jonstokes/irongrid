@@ -25,7 +25,7 @@
       "image":                    { "type": "url" },
       "seller_name":              { "type": "string" },
       "seller_domain":            { "type": "string" },
-      "auction_ends":             { "type": "date" },
+      "auction_ends":             { "type": "string" },
       "current_price_in_cents":   { "type": "integer" },
       "price_in_cents":           { "type": "integer" },
       "sale_price_in_cents":      { "type": "integer" },
