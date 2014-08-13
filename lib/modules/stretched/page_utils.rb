@@ -3,12 +3,12 @@ module Stretched
     MAX_RETRIES = 5
 
     def get_page(link, opts={})
-      @http ||= Stretched::PageUtils::HTTP.new
+      @http ||= Stretched::HTTP.new
       fetch_with_connection(@http, link, opts)
     end
 
     def render_page(link, opts={})
-      @dhttp ||= Stretched::PageUtils::DynamicHTTP.new
+      @dhttp ||= Stretched::DynamicHTTP.new
       fetch_with_connection(@dhttp, link, opts)
     end
 
@@ -29,25 +29,6 @@ module Stretched
 
     class Test
       extend Stretched::PageUtils
-
-      def self.scrape_page(opts)
-        url = opts[:url]
-        domain = opts[:domain] || URI(url).host
-        return unless page = get_page(url, force_format: :html)
-        site = Site.new(domain: domain, source: :local)
-        ParsePage.perform(
-          site: site,
-          page: page,
-          url: url,
-          adapter_type: :page
-        )
-      end
-
-      def self.get_image(url)
-        image = Image.new(source: image_source, http: PageUtils::HTTP.new)
-        image.send(:download_image)
-        image
-      end
 
       def self.fetch_page(link, opts={})
         get_page(link, opts)
