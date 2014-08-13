@@ -17,6 +17,7 @@ module Stretched
     end
 
     def self.runner(key)
+      return registry[key] if registry[key] # Cuts down on redis pool usage
       script = find(key)
       script.register_runner
       registry[script.key]
@@ -38,11 +39,11 @@ module Stretched
     end
 
     def self.registry
-      @registry ||= {}
+      @registry ||= ThreadSafe::Cache.new
     end
 
     def self.register(script_name, runner)
-      @registry ||= {}
+      @registry ||= ThreadSafe::Cache.new
       @registry[script_name] = runner
     end
 
