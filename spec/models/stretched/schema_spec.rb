@@ -24,8 +24,8 @@ describe Stretched::Registration do
       expect(schema.validate("price_in_cents", "123")).to be_false
       expect(schema.validate("price_in_cents", 123)).to be_true
 
-      expect(schema.validate("category1", "Firearms")).to be_false
-      expect(schema.validate("category1", "Guns")).to be_true
+      expect(schema.validate("product_category1", "Firearms")).to be_false
+      expect(schema.validate("product_category1", "Guns")).to be_true
     end
   end
 

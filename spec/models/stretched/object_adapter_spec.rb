@@ -8,13 +8,16 @@ describe Stretched::ObjectAdapter do
 
   describe "#initialize" do
     it "creates a new empty Registration object" do
-      Stretched::Schema.create(key: "test-schema-1")
+      Stretched::Schema.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
       registration = Stretched::ObjectAdapter.new(
         key: "test-1",
         data: {
-          "schema" => "test-schema-1",
+          "schema" => {
+            "test-schema-1" => { "$key" => "Listing" }
+          },
           "xpath" => "/html",
-          "scripts" => ["a", "b", "c"]
+          "scripts" => ["a", "b", "c"],
+          "attribute" => { "title" => { "type" => "string"}}
         }
       )
       expect(registration).to be_a(Stretched::ObjectAdapter)
@@ -25,6 +28,8 @@ describe Stretched::ObjectAdapter do
       expect(registration.scripts).to eq(["a", "b", "c"])
       expect(registration.schema).to be_a(Stretched::Schema)
       expect(registration.schema.key).to eq("test-schema-1")
+      expect(registration.schema.data).not_to be_nil
+      expect(registration.schema.data).not_to be_empty
     end
   end
 

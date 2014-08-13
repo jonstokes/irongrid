@@ -30,10 +30,13 @@ describe Stretched::ExtractJsonFromPage do
         adapter_name: "www.budsgunshop.com/product_page_no_script"
       )
 
-      expect(result.json_objects).not_to be_empty?
+      expect(result.json_objects).not_to be_empty
 
       listing = result.json_objects.first
+      puts "#{listing}"
       expect(listing['title']).to eq("1911")
+      expect(listing['keywords']).to eq("1911")
+
     end
   end
 
