@@ -10,7 +10,7 @@ describe Stretched::ScriptRunner do
   describe "#set_context" do
     it "creates a new script object" do
       script = Stretched::Script.create(
-        key: "product_page",
+        key: "globals/product_page",
         data: @source
       )
       runner = Stretched::Script.runner(script.key)
