@@ -35,6 +35,13 @@ module Stretched
       end
     end
 
+    def self.count
+      with_redis do |conn|
+        conn.scard "registrations"
+      end
+
+    end
+
     def self.load_file(filename)
       source = get_source(filename)
       source.keys.select { |k| TYPES.include?(k.to_s) }.map do |type|
