@@ -59,15 +59,6 @@ module Stretched
       end
     end
 
-    def self.get_source(filename)
-      format = File.extname(filename).to_sym
-      if format == :rb
-        File.open(filename) { |f| f.read }
-      else
-        YAML.load_file(filename)
-      end
-    end
-
     def self.create(opts)
       registration = new(opts)
       registration.save
@@ -86,5 +77,15 @@ module Stretched
         raise "No such #{type} registration with key #{key}!"
       end
     end
+
+    def self.get_source(filename)
+      format = File.extname(filename).to_sym
+      if format == :rb
+        File.open(filename) { |f| f.read }
+      else
+        YAML.load_file(filename)
+      end
+    end
+
   end
 end
