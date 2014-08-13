@@ -1,10 +1,12 @@
-{
-  "title": "ProductLink",
-  "description": "Schema for product links",
-  "type": "object",
-  "properties": {
-    "product_link":        { "type": "url" },
-    "product_adapter_key": { "type": "string" },
-  },
-  "required": ["product_link", "product_adapter_key"]
+"schema": {
+  "ProductLink": {
+    "title": "ProductLink",
+    "description": "Schema for product links",
+    "type": "object",
+    "properties": {
+      "product_link":        { "type": "url" },
+      "product_adapter_key": { "type": "string" },
+    },
+    "required": ["product_link", "product_adapter_key"]
+  }
 }
