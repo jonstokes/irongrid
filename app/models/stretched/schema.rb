@@ -23,10 +23,12 @@ module Stretched
     private
 
     def type_is_valid?(property_type, value)
-      unless property_type == 'url'
-        return value.is_a?(property_type.classify.constantize)
-      else
+      if property_type == 'url'
         return is_valid_url?(value)
+      elsif property_type == 'boolean'
+        return value.is_a?(TrueClass) || value.is_a?(FalseClass)
+      else
+        return value.is_a?(property_type.classify.constantize)
       end
     end
 
