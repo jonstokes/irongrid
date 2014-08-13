@@ -79,7 +79,7 @@ module Stretched
     end
 
     def self.get_source(filename)
-      format = File.extname(filename).to_sym
+      format = File.extname(filename).split(".").last.to_sym
       if format == :rb
         File.open(filename) { |f| f.read }
       else
