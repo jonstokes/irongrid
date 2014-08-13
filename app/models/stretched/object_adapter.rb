@@ -6,8 +6,7 @@ module Stretched
 
     def initialize(opts)
       super(opts.merge(type: "ObjectAdapter"))
-      schema_key = @data["schema"].keys.first
-      @schema = Schema.new(key: schema_key, data: @data["schema"][schema_key])
+      @schema = get_schema
     end
 
     def xpath; @data["xpath"]; end
@@ -20,6 +19,14 @@ module Stretched
 
     def self.create(opts)
       super(opts.merge(type: "ObjectAdapter"))
+    end
+
+    private
+
+    def get_schema
+      return Schema.find(@data["schema"]) if @data["schema"].is_a?(String)
+      schema_key = @data["schema"].keys.first
+      @schema = Schema.create(key: schema_key, data: @data["schema"][schema_key])
     end
   end
 end

@@ -7,7 +7,7 @@ describe Stretched::ObjectAdapter do
   end
 
   describe "#initialize" do
-    it "creates a new empty Registration object" do
+    it "creates a new empty Registration object with a schema declared in-line" do
       Stretched::Schema.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
       registration = Stretched::ObjectAdapter.new(
         key: "test-1",
@@ -31,6 +31,30 @@ describe Stretched::ObjectAdapter do
       expect(registration.schema.data).not_to be_nil
       expect(registration.schema.data).not_to be_empty
     end
+
+    it "creates a new empty Registration object with a schema reference" do
+      Stretched::Schema.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
+      registration = Stretched::ObjectAdapter.new(
+        key: "test-1",
+        data: {
+          "schema" => "Listing",
+          "xpath" => "/html",
+          "scripts" => ["a", "b", "c"],
+          "attribute" => { "title" => { "type" => "string"}}
+        }
+      )
+      expect(registration).to be_a(Stretched::ObjectAdapter)
+      expect(registration.key).to eq("test-1")
+      expect(registration.data).not_to be_empty
+      expect(registration.xpath).to eq("/html")
+      expect(registration.attribute_setters).to be_a(Hash)
+      expect(registration.scripts).to eq(["a", "b", "c"])
+      expect(registration.schema).to be_a(Stretched::Schema)
+      expect(registration.schema.key).to eq("Listing")
+      expect(registration.schema.data).not_to be_nil
+      expect(registration.schema.data).not_to be_empty
+    end
+    
   end
 
   describe "::create" do
