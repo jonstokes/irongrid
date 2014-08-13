@@ -33,7 +33,7 @@ describe Stretched::ExtractJsonFromPage do
       expect(result.json_objects).not_to be_empty
 
       listing = result.json_objects.first
-      puts "#{listing}"
+      puts "#{listing.to_yaml}"
       expect(listing['title']).to eq("1911")
       expect(listing['keywords']).to eq("1911")
 

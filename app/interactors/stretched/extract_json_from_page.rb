@@ -27,7 +27,6 @@ module Stretched
       puts "Doc keywords: #{runner.doc.at_xpath(".//head/meta[@name='Keywords']")}"
       adapter.attribute_setters.each do |attribute_name, setters|
         setters.each do |setter|
-          puts "## Setting #{attribute_name} with #{setter}"
           if setter.is_a?(Hash)
             method = setter.reject {|k,v| k == "filters"}.first.first
             args = setter[method]
@@ -35,10 +34,7 @@ module Stretched
           else
             result = runner.send(setter)
           end
-          puts "    Pre-filter: #{result}" if result
           result = runner.filters(result, setter["filters"]) if setter["filters"]
-          puts "    Post-filter: #{result}" if result
-          puts "    Is valid? #{adapter.validate(attribute_name, result)}" if result
           instance[attribute_name] = result if adapter.validate(attribute_name, result)
         end
       end

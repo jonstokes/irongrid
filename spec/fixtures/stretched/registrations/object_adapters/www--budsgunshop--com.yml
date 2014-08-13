@@ -14,7 +14,7 @@ object_adapter:
     scripts:
       - globals/* # Uses glob format
       - www.budsgunshop.com/script
-    schema: { $key: Listing }
+    schema: Listing
     xpath: '/html'
     attribute:
       #
@@ -162,7 +162,7 @@ object_adapter:
             xpath: .//a[@class="breadcrumb_sep_link"][2]
             pattern: !ruby/regexp '/Doublestar Accessories/i'
   www.budsgunshop.com/product_page_no_script:
-    schema: { $key: Listing }
+    schema: Listing
     xpath: '/html'
     attribute:
       #
@@ -313,7 +313,7 @@ object_adapter:
     scripts:
       - globals/* # Uses glob format
       - www.budsgunshop.com/script
-    schema: { $key: Listing }
+    schema: Listing
     xpath: '/html'
     attribute: {}
 
