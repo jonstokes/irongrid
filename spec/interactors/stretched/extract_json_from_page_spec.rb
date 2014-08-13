@@ -34,8 +34,9 @@ describe Stretched::ExtractJsonFromPage do
 
       listing = result.json_objects.first
       puts "#{listing.to_yaml}"
-      expect(listing['title']).to eq("1911")
-      expect(listing['keywords']).to eq("1911")
+      expect(listing['title']).to include("Ruger 3470 SR40 15+1 40S&")
+      expect(listing['keywords']).to include("Ruger, 3470")
+      expect(listing['image']).to eq("http://www.budsgunshop.com/catalog/images/69980_1.jpg")
 
     end
   end

@@ -233,7 +233,7 @@ object_adapter:
             label: Used
             xpath: .//span[@style="font-size:9pt; color:#990000; font-weight:bold;"]
             pattern: !ruby/regexp '/Used/'
-        - value: new
+        - value: New
       current_bid_in_cents:
         - find_by_xpath:
             xpath: .//td[@class="main"]/b[. = "Auction price:"]/following-sibling::text()
@@ -251,16 +251,16 @@ object_adapter:
       product_caliber:
         - find_by_xpath:
             xpath: .//div[@id='mainmain']//td[@class='main']/center/table
-            pattern: !ruby/regexp '/caliber\s*.*$/i'
+            pattern: !ruby/regexp '/caliber\W*.*$/i'
       product_grains:
         - find_by_xpath:
-            xpath: .//div[@id='mainmain']//td[@class='main']/center/table
+            xpath: .//div[@id='mainmain']//td[@class='main']/center/table//tr
             pattern: !ruby/regexp '/bullet weigth\s*\d{1,3}\s*gr/i'
           filters:
             - accept_grains
       product_number_of_rounds:
         - find_by_xpath:
-            xpath: .//div[@id='mainmain']//td[@class='main']/center/table
+            xpath: .//div[@id='mainmain']//td[@class='main']/center/table//tr
             pattern: !ruby/regexp '/rounds\/box\s*\d{1,5}/i'
           filters:
             - accept_box_rounds

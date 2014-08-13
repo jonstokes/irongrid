@@ -36,7 +36,7 @@
       "reserve_in_cents":         { "type": "integer" },
       "price_on_request":         { "type": "string" },
       "price_per_round_in_cents": { "type": "integer" },
-      "product_upc":                      { "type": "string" },
+      "product_upc":                      { "type": "integer" },
       "product_mpn":                      { "type": "string" },
       "product_sku":                      { "type": "string" },
       "product_category1": {
