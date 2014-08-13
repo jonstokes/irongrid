@@ -14,12 +14,20 @@ describe Stretched::Registration do
 
       expect(schema.validate("title", "This is a title")).to be_true
       expect(schema.validate("description", 1234)).to be_false
+
       expect(schema.validate("url", "http://retailer.com/")).to be_true
       expect(schema.validate("url", "retailer.com")).to be_false
+
       expect(schema.validate("valid", "true")).to be_false
       expect(schema.validate("valid", true)).to be_true
-    end
 
+      expect(schema.validate("price_in_cents", "123")).to be_false
+      expect(schema.validate("price_in_cents", 123)).to be_true
+
+      expect(schema.validate("category1", "Firearms")).to be_false
+      expect(schema.validate("category1", "Guns")).to be_true
+    end
   end
+
 end
 
