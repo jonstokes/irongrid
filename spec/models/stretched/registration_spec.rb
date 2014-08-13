@@ -77,6 +77,46 @@ describe Stretched::Registration do
     end
   end
 
+  describe "::load_file" do
+    it "loads a YAML or JSON schema file and returns an array of any registrations it finds" do
+      filename = "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json"
+      results = Stretched::Registration.load_file(filename)
+      expect(results).to be_a(Array)
+      expect(results.size).to eq(1)
+      reg = results.first
+      expect(reg).to be_a(Stretched::Schema)
+      expect(reg.key).to eq("Listing")
+      expect(reg.data['description']).to eq('Schema for product listing JSON object')
+    end
+
+    it "loads a YAML or JSON object adapter file and returns an array of any registrations it finds" do
+      filename = "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json"
+      Stretched::Registration.create_from_file(filename)
+
+
+      filename = "#{Rails.root}/spec/fixtures/stretched/registrations/object_adapters/globals.yml"
+      results = Stretched::Registration.load_file(filename)
+      expect(results).to be_a(Array)
+      expect(results.size).to eq(2)
+      reg = results.first
+      expect(reg).to be_a(Stretched::ObjectAdapter)
+      expect(reg.key).to eq("globals/product_link")
+      expect(reg.xpath).to eq('//span[@class="productListing-productname"]/a')
+      expect(reg.schema).to be_a(Stretched::Schema)
+    end
+  end
+
+  describe "::create_from_file" do
+    it "loads a YAML or JSON schema file and creates any registrations it finds" do
+      filename = "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json"
+      Stretched::Registration.create_from_file(filename)
+      reg = Stretched::Schema.find("Listing")
+      expect(reg).to be_a(Stretched::Schema)
+      expect(reg.key).to eq("Listing")
+      expect(reg.data['description']).to eq('Schema for product listing JSON object')
+    end
+  end
+
   describe "::create" do
     it "creates a new registration object in the db and returns it" do
       registration = Stretched::Registration.create(type: "Registration", key: "test-1", data: {"key" => "value"})

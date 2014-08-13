@@ -1,55 +1,57 @@
-{
-  "title": "Listing",
-  "description": "Schema for clean product listing JSON object",
-  "type": "object",
-  "properties": {
-    "valid":       { "type": "boolean" },
-    "not_found":   { "type": "boolean" },
-    "url":         { "type": "url" },
-    "description": { "type": "string" },
-    "keywords":    { "type": "string" },
-    "title":       { "type": "string" },
-    "type": {
-      "type": "string",
-      "enum": ["RetailListing", "AuctionListing", "ClassifiedListing"]
+"schema": {
+  "Listing": {
+    "title": "Listing",
+    "description": "Schema for product listing JSON object",
+    "type": "object",
+    "properties": {
+      "valid":       { "type": "boolean" },
+      "not_found":   { "type": "boolean" },
+      "url":         { "type": "url" },
+      "description": { "type": "string" },
+      "keywords":    { "type": "string" },
+      "title":       { "type": "string" },
+      "type": {
+        "type": "string",
+        "enum": ["RetailListing", "AuctionListing", "ClassifiedListing"]
+      },
+      "item_condition": {
+        "type": "string",
+        "enum": ["New", "Used", "Unknown"]
+      },
+      "stock_status": {
+        "type": "string",
+        "enum": ["In Stock", "Out Of Stock", "Unknown"]
+      },
+      "image":                    { "type": "url" },
+      "seller_name":              { "type": "string" },
+      "seller_domain":            { "type": "string" },
+      "auction_ends":             { "type": "date" },
+      "current_price_in_cents":   { "type": "integer" },
+      "price_in_cents":           { "type": "integer" },
+      "sale_price_in_cents":      { "type": "integer" },
+      "buy_now_price_in_cents":   { "type": "integer" },
+      "current_bid_in_cents":     { "type": "integer" },
+      "minimum_bid_in_cents":     { "type": "integer" },
+      "reserve_in_cents":         { "type": "integer" },
+      "price_on_request":         { "type": "string" },
+      "upc":                      { "type": "string" },
+      "mpn":                      { "type": "string" },
+      "sku":                      { "type": "string" },
+      "item_location":            { "type": "string" },
+      "category1": {
+        "type": "string",
+        "enum": ["Guns", "Ammunition", "Optics", "Accessories", "None"]
+      },
+      "caliber_category": {
+        "type": "string",
+        "enum": ["Handgun", "Rifle", "Rimfire", "Shotgun"]
+      },
+      "manufacturer":             { "type": "string" },
+      "caliber":                  { "type": "string" },
+      "grains":                   { "type": "integer" },
+      "number_of_rounds":         { "type": "integer" },
+      "price_per_round_in_cents": { "type": "integer" }
     },
-    "item_condition": {
-      "type": "string",
-      "enum": ["New", "Used", "Unknown"]
-    },
-    "stock_status": {
-      "type": "string",
-      "enum": ["In Stock", "Out Of Stock", "Unknown"]
-    },
-    "image":                    { "type": "url" },
-    "seller_name":              { "type": "string" },
-    "seller_domain":            { "type": "string" },
-    "auction_ends":             { "type": "date" },
-    "current_price_in_cents":   { "type": "integer" },
-    "price_in_cents":           { "type": "integer" },
-    "sale_price_in_cents":      { "type": "integer" },
-    "buy_now_price_in_cents":   { "type": "integer" },
-    "current_bid_in_cents":     { "type": "integer" },
-    "minimum_bid_in_cents":     { "type": "integer" },
-    "reserve_in_cents":         { "type": "integer" },
-    "price_on_request":         { "type": "string" },
-    "upc":                      { "type": "string" },
-    "mpn":                      { "type": "string" },
-    "sku":                      { "type": "string" },
-    "item_location":            { "type": "string" },
-    "category1": {
-      "type": "string",
-      "enum": ["Guns", "Ammunition", "Optics", "Accessories", "None"]
-    },
-    "caliber_category": {
-      "type": "string",
-      "enum": ["Handgun", "Rifle", "Rimfire", "Shotgun"]
-    },
-    "manufacturer":             { "type": "string" },
-    "caliber":                  { "type": "string" },
-    "grains":                   { "type": "integer" },
-    "number_of_rounds":         { "type": "integer" },
-    "price_per_round_in_cents": { "type": "integer" }
-  },
-  "required": ["valid", "not_found", "url"]
+    "required": ["valid", "not_found", "url"]
+  }
 }

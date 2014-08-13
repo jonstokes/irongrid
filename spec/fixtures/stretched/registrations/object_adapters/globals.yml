@@ -1,0 +1,159 @@
+---
+object_adapter:
+  globals/product_link:
+    schema: { $key: ProductLink }
+    xpath: //span[@class="productListing-productname"]/a
+    attribute:
+      product_link:
+        - find_by_xpath:
+            xpath: ./@href
+      product_adapter_key: www.budsgunshop.com/product_page
+  globals/product_page:
+    schema: { $key: Listing }
+    xpath: '/html'
+    scripts:
+    - globals/product_page
+    attribute:
+      #
+      # Listing attributes
+      #
+      listing_type: [{ value: RetailListing }]
+      listing_location: [{ value: "1105 Industry Road Lexington, KY 40505" }]
+      listing_title:
+        - meta_title: ~
+        - meta_og_title: ~
+        - find_by_xpath:
+            xpath: .//title
+      listing_description:
+        - meta_og_description: ~
+        - meta_description: ~
+        - find_by_xpath:
+            xpath: .//td[@class="main"]/p
+      listing_keywords:
+        - meta_keywords: ~
+      listing_image:
+        - meta_og_image: ~
+        - find_by_xpath:
+            xpath: .//div[@style="padding:0px 8px 2px 8px;"]//img/@src
+            pattern: !ruby/regexp '/images\/.*jpg/'
+          filters:
+            - prefix: http://www.budsgunshop.com/catalog/
+      listing_sale_price_in_cents:
+        - find_by_xpath:
+            xpath: './/tr[@id="x2d"]/td[2]/div[1]/div[1]/div[2]/strong'
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+      listing_price_in_cents:
+        - find_by_xpath:
+            xpath: .//a[@id="buy"]/span
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: './/tr[@id="x2d"]/td[2]/div[1]/div[1]/div[1]'
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+      listing_price_on_request:
+        - find_by_xpath:
+            xpath: .//a[@id="get_price_quote"]/@alt
+            pattern: !ruby/regexp '/Get Quote/'
+      listing_availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: .//span[@style="color:red; background:black; padding:3"]
+            pattern: !ruby/regexp '/^Currently unavailable/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: .//div/font[@color="red"]
+            pattern: !ruby/regexp '/OUT OF STOCK/'
+        - value: in_stock
+      listing_type:
+        - label_by_url:
+            label: auction
+            pattern: !ruby/regexp '/auction_info.*auctions_id/'
+        - label_by_url:
+            label: retail
+            pattern: !ruby/regexp '/product_info.*products_id/'
+        - value: RetailListing
+      listing_condition:
+        - label_by_xpath:
+            label: New
+            xpath: .//span[@style="font-size:9pt; color:#990000; font-weight:bold;"]
+            pattern: !ruby/regexp '/Factory New/'
+        - label_by_xpath:
+            label: Used
+            xpath: .//span[@style="font-size:9pt; color:#990000; font-weight:bold;"]
+            pattern: !ruby/regexp '/Used/'
+        - value: new
+      listing_current_bid_in_cents:
+        - find_by_xpath:
+            xpath: .//td[@class="main"]/b[. = "Auction price:"]/following-sibling::text()
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      listing_auction_ends:
+        - find_by_xpath:
+            xpath: .//td[@class="main"]/b[. = "Auction expires on:"]/following-sibling::text()
+      listing_not_found:
+        - find_by_xpath:
+            xpath: './/table[@class="infoBoxContents"]/tr[2]/td[@class="boxText"]'
+            pattern: !ruby/regexp '/Product not found/'
+      #
+      # Product attributes
+      #
+      product_caliber:
+        - find_by_xpath:
+            xpath: .//div[@id='mainmain']//td[@class='main']/center/table
+            pattern: !ruby/regexp '/caliber\s*.*$/i'
+      product_grains:
+        - find_by_xpath:
+            xpath: .//div[@id='mainmain']//td[@class='main']/center/table
+            pattern: !ruby/regexp '/bullet weigth\s*\d{1,3}\s*gr/i'
+          filters:
+            - accept_grains
+      product_number_of_rounds:
+        - find_by_xpath:
+            xpath: .//div[@id='mainmain']//td[@class='main']/center/table
+            pattern: !ruby/regexp '/rounds\/box\s*\d{1,5}/i'
+          filters:
+            - accept_box_rounds
+      product_mpn:
+        - find_by_xpath:
+            xpath: .//tr[@id='x2d']/td[1]/div[1]/div
+            pattern: !ruby/regexp '/model:\s*.*?$/i'
+          filters:
+            - reject: !ruby/regexp '/model:\s*/i'
+      product_upc:
+        - find_by_xpath:
+            xpath: .//tr[@id='x2d']/td[1]/div[1]/div
+            pattern: !ruby/regexp '/upc:\s*\d+/i'
+          filters:
+            - accept: !ruby/regexp '/\d+/'
+      product_category1:
+        - label_by_xpath:
+            label: Guns
+            xpath: .//a[@class="breadcrumb_sep_link"][2]
+            pattern: !ruby/regexp '/Guns|Rifles|California Compliant|BUDS VIP/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: .//a[@class="breadcrumb_sep_link"][3]
+            pattern: !ruby/regexp '/Guns|Rifles|California Compliant|BUDS VIP/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: .//a[@class="breadcrumb_sep_link"][2]
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: .//a[@class="breadcrumb_sep_link"][3]
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: .//a[@class="breadcrumb_sep_link"][2]
+            pattern: !ruby/regexp '/Scopes|Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: .//a[@class="breadcrumb_sep_link"][3]
+            pattern: !ruby/regexp '/Scope|Optics|Cameras/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: .//a[@class="breadcrumb_sep_link"][3]
+            pattern: !ruby/regexp '/Holsters|Magazine|Sights|Lasers|Lights|Rails|Stocks|Choke Tubes|Barrels|Cleaning|Safety|Cases|Mace|Muzzle|Reloading|Targets|Gunsmith|Rests|AR Upper|Parts|Pods|Boss|Boxes|Chronographs|Conversion|Ammo|Pads|Speedloaders|Swivels|Trigger|Wilson|Grips/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: .//a[@class="breadcrumb_sep_link"][2]
+            pattern: !ruby/regexp '/Doublestar Accessories/i'
+

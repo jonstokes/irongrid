@@ -34,7 +34,7 @@ module Stretched
           else
             result = runner.send(setter)
           end
-          result = filters(result, setter["filters"]) if setter["filters"]
+          result = runner.filters(result, setter["filters"]) if setter["filters"]
           instance[attribute_name] = result if adapter.validate(attribute_name, result)
         end
       end
