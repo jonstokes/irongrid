@@ -4,15 +4,11 @@ describe Stretched::ScriptRunner do
 
   before :each do
     Stretched::Registration.with_redis { |conn| conn.flushdb }
-    @source = File.open("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/product_page.rb") { |f| f.read }
   end
 
   describe "#set_context" do
     it "creates a new script object" do
-      script = Stretched::Script.create(
-        key: "globals/product_page",
-        data: @source
-      )
+      script = Stretched::Script.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/product_page.rb")
       runner = Stretched::Script.runner(script.key)
       instance = {}
       runner.set_context(price: 100)
