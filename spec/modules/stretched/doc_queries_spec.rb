@@ -62,6 +62,17 @@ describe Stretched::DocQueries do
     it "correctly returns a meta og tag attribute using method_missing" do
       expect(@doc_reader.meta_og_image).to eq(@image)
     end
+
+    it "correctly returns meta tags from a different page" do
+      filename = "spec/fixtures/web_pages/www--budsgunshop--com/product1.html"
+      html = File.open("#{Rails.root}/#{filename}") {|f| f.read}
+      doc = Nokogiri::HTML.parse(html)
+      doc_reader = Reader.new(url: "http://www.retailer.com/1.html", doc: doc)
+
+      expect(doc_reader.meta_og_title).to include("Ruger 3470 SR40 15+1 40S&W 4.14")
+      expect(doc_reader.meta_og_description).to include("With all the features of")
+      expect(doc_reader.meta_title).to include("Ruger 3470 SR40 15+1 40S&W")
+    end
   end
 
   describe "#filter_target_text", no_es: true do
