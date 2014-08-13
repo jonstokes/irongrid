@@ -28,6 +28,15 @@ describe Stretched::Script do
     end
   end
 
+  describe "::load_from_file" do
+    it "creates a new script object from a file and returns it" do
+      reg = Stretched::Script.find(@script.key)
+      expect(reg).to be_a(Stretched::Script)
+      expect(@script.data).to include("Stretched::Script.define")
+    end
+  end
+
+
   describe "::create" do
     it "creates a new script object in the db and returns it" do
       reg = Stretched::Script.find(@script.key)

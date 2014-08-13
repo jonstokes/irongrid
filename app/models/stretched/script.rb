@@ -23,6 +23,19 @@ module Stretched
       registry[script.key]
     end
 
+
+    def self.load_file(filename)
+      source = get_source(filename)
+      key = source[/script\s+\".*?\"/].split(/script \"/).last.split(/\"/).last
+      Stretched::Script.new(key: key, data: source)
+    end
+
+    def self.create_from_file(filename)
+      registration = load_file(filename)
+      registration.save
+      registration
+    end
+
     def self.find(key)
       data = with_redis do |conn|
         conn.get "registrations::Script::#{key}"
