@@ -10,7 +10,7 @@ module Stretched
 
     def set_context(context)
       @context = context
-      @doc = context[:doc]
+      @doc = context[:doc] || context[:page].doc
     end
 
     def method_missing(name, *args, &block)

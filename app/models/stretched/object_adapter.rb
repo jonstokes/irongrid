@@ -6,7 +6,8 @@ module Stretched
 
     def initialize(opts)
       super(opts.merge(type: "ObjectAdapter"))
-      @schema = Schema.new(key: @data["schema"])
+      schema_key = @data["schema"].keys.first
+      @schema = Schema.new(key: schema_key, data: @data["schema"][schema_key])
     end
 
     def xpath; @data["xpath"]; end

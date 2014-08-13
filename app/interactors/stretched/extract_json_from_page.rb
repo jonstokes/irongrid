@@ -24,17 +24,21 @@ module Stretched
     def read_with_json(instance)
       runner = ScriptRunner.new
       runner.set_context(context)
+      puts "Doc keywords: #{runner.doc.at_xpath(".//head/meta[@name='Keywords']")}"
       adapter.attribute_setters.each do |attribute_name, setters|
         setters.each do |setter|
+          puts "## Setting #{attribute_name} with #{setter}"
           if setter.is_a?(Hash)
             method = setter.reject {|k,v| k == "filters"}.first.first
             args = setter[method]
-            puts "Calling #{runner} with #{method} and #{args}"
             result = args.nil? ? runner.send(method) : runner.send(method, args)
           else
             result = runner.send(setter)
           end
+          puts "    Pre-filter: #{result}" if result
           result = runner.filters(result, setter["filters"]) if setter["filters"]
+          puts "    Post-filter: #{result}" if result
+          puts "    Is valid? #{adapter.validate(attribute_name, result)}" if result
           instance[attribute_name] = result if adapter.validate(attribute_name, result)
         end
       end
