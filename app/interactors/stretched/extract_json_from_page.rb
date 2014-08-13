@@ -9,7 +9,6 @@ module Stretched
 
       page.doc.xpath(adapter.xpath).map do |node|
         instance = read_with_json(Hash.new)
-
         adapter.scripts.each do |script_name|
           instance = read_with_script(script_name, instance)
         end
