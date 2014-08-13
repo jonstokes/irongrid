@@ -7,11 +7,11 @@ module Stretched
     def perform
       @adapter = ObjectAdapter.find(adapter_name)
 
-      page.doc.xpath(adapter.xpath).map do |node|
+      context[:json_objects] = page.doc.xpath(adapter.xpath).map do |node|
         instance = read_with_json(Hash.new)
         adapter.scripts.each do |script_name|
           instance = read_with_script(script_name, instance)
-        end
+        end if adapter.scripts
 
         instance
       end
@@ -27,9 +27,10 @@ module Stretched
       adapter.attribute_setters.each do |attribute_name, setters|
         setters.each do |setter|
           if setter.is_a?(Hash)
-            method = setter.reject("filters").first
+            method = setter.reject {|k,v| k == "filters"}.first.first
             args = setter[method]
-            result = runner.send(method, args)
+            puts "Calling #{runner} with #{method} and #{args}"
+            result = args.nil? ? runner.send(method) : runner.send(method, args)
           else
             result = runner.send(setter)
           end

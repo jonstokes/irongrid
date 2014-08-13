@@ -21,6 +21,7 @@ describe Stretched::ObjectAdapter do
       expect(registration.key).to eq("test-1")
       expect(registration.data).not_to be_empty
       expect(registration.xpath).to eq("/html")
+      expect(registration.attribute_setters).to be_a(Hash)
       expect(registration.scripts).to eq(["a", "b", "c"])
       expect(registration.schema).to be_a(Stretched::Schema)
       expect(registration.schema.key).to eq("test-schema-1")
