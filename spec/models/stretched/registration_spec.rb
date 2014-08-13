@@ -83,6 +83,7 @@ describe Stretched::Registration do
       results = Stretched::Registration.load_file(filename)
       expect(results).to be_a(Array)
       expect(results.size).to eq(1)
+
       reg = results.first
       expect(reg).to be_a(Stretched::Schema)
       expect(reg.key).to eq("Listing")
@@ -98,6 +99,7 @@ describe Stretched::Registration do
       results = Stretched::Registration.load_file(filename)
       expect(results).to be_a(Array)
       expect(results.size).to eq(2)
+
       reg = results.first
       expect(reg).to be_a(Stretched::ObjectAdapter)
       expect(reg.key).to eq("globals/product_link")
@@ -111,9 +113,23 @@ describe Stretched::Registration do
       filename = "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json"
       Stretched::Registration.create_from_file(filename)
       reg = Stretched::Schema.find("Listing")
+      expect(Stretched::Registration.count).to eq(1)
       expect(reg).to be_a(Stretched::Schema)
       expect(reg.key).to eq("Listing")
       expect(reg.data['description']).to eq('Schema for product listing JSON object')
+    end
+
+    it "loads a YAML or JSON object_adapter file and creates any registrations it finds" do
+      filename = "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json"
+      Stretched::Registration.create_from_file(filename)
+      filename = "#{Rails.root}/spec/fixtures/stretched/registrations/object_adapters/globals.yml"
+      Stretched::Registration.create_from_file(filename)
+
+      expect(Stretched::Registration.count).to eq(3)
+      reg = Stretched::ObjectAdapter.find("globals/product_page")
+      expect(reg).to be_a(Stretched::ObjectAdapter)
+      expect(reg.key).to eq("globals/product_page")
+      expect(reg.xpath).to eq('/html')
     end
   end
 
