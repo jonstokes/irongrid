@@ -2,12 +2,12 @@
 session_definition:
   global/standard_html_session:
     page_format: html
-    rate_limits: { $key: global/standard_rate_limits }
+    rate_limits: global/standard_rate_limits
   global/standard_xml_session:
     page_format: xml
-    rate_limits: { $key: global/standard_rate_limits }
+    rate_limits: global/standard_rate_limits
   global/standard_dhtml_session:
     page_format: dhtml
-    rate_limits: { $key: global/standard_rate_limits }
+    rate_limits: global/standard_rate_limits
 
 

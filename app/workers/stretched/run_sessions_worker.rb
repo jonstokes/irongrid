@@ -1,5 +1,6 @@
 module Stretched
   class RunSessionsWorker
+    include Sidekiq::Worker
 
     sidekiq_options :queue => :crawls, :retry => true
 
