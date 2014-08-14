@@ -25,6 +25,7 @@ gem 'sanitize'
 gem 'htmlentities'
 gem 'poltergeist'
 gem 'capybara'
+gem 'hashie'
 
 # JRuby-specific gems
 gem 'execjs'
