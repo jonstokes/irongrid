@@ -311,7 +311,7 @@ object_adapter:
             pattern: !ruby/regexp '/Doublestar Accessories/i'
   www.budsgunshop.com/product_page_scripts_only:
     scripts:
-      - globals/* # Uses glob format
+      # - globals/* # Uses glob format
       - www.budsgunshop.com/script
     schema: Listing
     xpath: '/html'

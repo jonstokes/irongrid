@@ -47,7 +47,7 @@ module Stretched
       runner.set_context(context)
       runner.attributes.each do |attribute_name, value|
         result = value.is_a?(Proc) ? value.call(instance) : value
-        instance[attribute_name] = result if adapter.validate(attribute_name, result)
+        instance[attribute_name.to_s] = result if adapter.validate(attribute_name.to_s, result)
       end
 
       instance
