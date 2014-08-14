@@ -6,6 +6,7 @@ module Stretched
     #
 
     def find_by_xpath(arguments)
+      arguments.stringify_keys!
       nodes = doc.xpath(arguments['xpath'])
       target = get_target_text(arguments, nodes)
       target = asciify_target_text(target)
@@ -13,18 +14,22 @@ module Stretched
     end
 
     def label_by_url(args)
+      args.stringify_keys!
       return args['type'] if "#{url}"[args['pattern']]
     end
 
     def label_by_xpath(args)
+      args.stringify_keys!
       return args['type'] if find_by_xpath(args)
     end
 
     def label_by_meta_tag(args)
+      args.stringify_keys!
       args['type'] if find_by_meta_tag(args)
     end
 
     def find_by_meta_tag(args)
+      args.stringify_keys!
       nodes = get_nodes_for_meta_attribute(args)
       return unless content = get_content_for_meta_nodes(nodes)
       content = content[args['pattern']] if args['pattern']
@@ -43,8 +48,11 @@ module Stretched
       content
     end
 
-    def filters(target, arguments)
-      target = filter_target_text(target, arguments)
+    def filters(target, filter_array)
+      filter_array.map do |filter|
+        filter.stringify_keys! if filter.is_a?(Hash)
+      end
+      target = filter_target_text(target, filter_array)
       sanitize(target)
     end
 
@@ -52,11 +60,13 @@ module Stretched
     # Meta tag convenience methods
     #
     def meta_property(args)
+      args.stringify_keys!
       args.merge!('attribute' => 'property')
       find_by_meta_tag(args)
     end
 
     def meta_name(args)
+      args.stringify_keys!
       args.merge!('attribute' => 'name')
       find_by_meta_tag(args)
     end

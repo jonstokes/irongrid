@@ -53,7 +53,7 @@ describe Stretched::Registration do
       end
 
       expect(key).to eq("Registration::test-1")
-      expect(JSON.parse(value)).to eq({ "key" => "value" })
+      expect(YAML.load(value)).to eq({ "key" => "value" })
     end
   end
 
@@ -125,7 +125,7 @@ describe Stretched::Registration do
       filename = "#{Rails.root}/spec/fixtures/stretched/registrations/object_adapters/globals.yml"
       Stretched::Registration.create_from_file(filename)
 
-      expect(Stretched::Registration.count).to eq(3)
+      expect(Stretched::Registration.count).to eq(4)
       reg = Stretched::ObjectAdapter.find("globals/product_page")
       expect(reg).to be_a(Stretched::ObjectAdapter)
       expect(reg.key).to eq("globals/product_page")
