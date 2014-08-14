@@ -15,7 +15,6 @@ describe Stretched::ExtractJsonFromPage do
 
   describe "#perform" do
     it "should translate a page into JSON using a JSON adapter" do
-
       Mocktra(@domain) do
         get '/products/1' do
           File.open("#{Rails.root}/spec/fixtures/web_pages/www--budsgunshop--com/product1.html") do |file|
@@ -38,11 +37,9 @@ describe Stretched::ExtractJsonFromPage do
       expect(listing['title']).to include("Ruger 3470 SR40 15+1 40S&")
       expect(listing['keywords']).to include("Ruger, 3470")
       expect(listing['image']).to eq("http://www.budsgunshop.com/catalog/images/69980_1.jpg")
-
     end
 
     it "should translate a page into JSON using a script" do
-
       Mocktra(@domain) do
         get '/products/1' do
           File.open("#{Rails.root}/spec/fixtures/web_pages/www--budsgunshop--com/product1.html") do |file|
@@ -66,9 +63,46 @@ describe Stretched::ExtractJsonFromPage do
       expect(listing['type']).to eq("RetailListing")
       expect(listing['location']).to eq("1105 Industry Road Lexington, KY 40505")
       expect(listing['image']).to eq("http://www.budsgunshop.com/catalog/images/69980_1.jpg")
-
     end
 
+    it "errors if the JSON adapter has an invalid attribute that doesn't match the schema" do
+      Mocktra(@domain) do
+        get '/products/1' do
+          File.open("#{Rails.root}/spec/fixtures/web_pages/www--budsgunshop--com/product1.html") do |file|
+            file.read
+          end
+        end
+      end
+
+      page = Stretched::PageUtils::Test.get_page(@product_url)
+
+      expect {
+        Stretched::ExtractJsonFromPage.perform(
+          page: page,
+          adapter_name: "www.budsgunshop.com/product_page_invalid_json_attribute"
+        )
+      }.to raise_error(RuntimeError, "Undefined property listing_type in schema Listing")
+    end
+
+    it "errors if the script has an invalid attribute that doesn't match the schema" do
+      Mocktra(@domain) do
+        get '/products/1' do
+          File.open("#{Rails.root}/spec/fixtures/web_pages/www--budsgunshop--com/product1.html") do |file|
+            file.read
+          end
+        end
+      end
+
+      Stretched::Script.create_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/invalid_script.rb")
+      page = Stretched::PageUtils::Test.get_page(@product_url)
+
+      expect {
+        Stretched::ExtractJsonFromPage.perform(
+          page: page,
+          adapter_name: "www.budsgunshop.com/product_page_invalid_script_attribute"
+        )
+      }.to raise_error(RuntimeError, "Undefined property listing_type in schema Listing")
+    end
 
   end
 

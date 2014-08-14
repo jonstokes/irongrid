@@ -316,4 +316,27 @@ object_adapter:
     schema: Listing
     xpath: '/html'
     attribute: {}
+  www.budsgunshop.com/product_page_invalid_json_attribute:
+    schema: Listing
+    xpath: '/html'
+    attribute:
+      #
+      # Listing attributes
+      #
+      listing_type: [{ value: RetailListing }]
+      seller_domain: [{ value: "www.budsgunshop.com" }]
+      seller_name: [{ value: "Bud's Gun Shop" }]
+      location: [{ value: "1105 Industry Road Lexington, KY 40505" }]
+      title:
+        - meta_title: ~
+        - meta_og_title: ~
+        - find_by_xpath:
+            xpath: .//title
+  www.budsgunshop.com/product_page_invalid_script_attribute:
+    scripts:
+      # - globals/* # Uses glob format
+      - www.budsgunshop.com/invalid_script
+    schema: Listing
+    xpath: '/html'
+    attribute: {}
 
