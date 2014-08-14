@@ -24,7 +24,7 @@ module Stretched
     def save
       with_redis do |conn|
         conn.sadd "registrations", "#{registration_type}::#{key}"
-        conn.set "registrations::#{registration_type}::#{key}", data.to_json
+        conn.set "registrations::#{registration_type}::#{key}", data.to_yaml
       end
     end
 
@@ -72,7 +72,7 @@ module Stretched
         conn.get "registrations::#{type}::#{key}"
       end
       if data
-        self.new(opts.merge(data: JSON.parse(data)))
+        self.new(opts.merge(data: YAML.load(data)))
       else
         raise "No such #{type} registration with key #{key}!"
       end
