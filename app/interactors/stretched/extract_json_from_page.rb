@@ -25,6 +25,7 @@ module Stretched
       runner = ScriptRunner.new
       runner.set_context(context)
       adapter.attribute_setters.each do |attribute_name, setters|
+        raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         setters.each do |setter|
           if setter.is_a?(Hash)
             method = setter.reject {|k,v| k == "filters"}.first.first
@@ -46,6 +47,7 @@ module Stretched
       runner = Script.runner(script_name)
       runner.set_context(context)
       runner.attributes.each do |attribute_name, value|
+        raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         result = value.is_a?(Proc) ? value.call(instance) : value
         instance[attribute_name.to_s] = result if adapter.validate(attribute_name.to_s, result)
       end
