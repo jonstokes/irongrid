@@ -8,12 +8,17 @@ module Stretched
       @adapter = ObjectAdapter.find(adapter_name)
 
       context[:json_objects] = page.doc.xpath(adapter.xpath).map do |node|
-        instance = read_with_json(InstanceHash.new)
+        # Run JSON setters
+        instance = read_with_json(Hashie::Mash.new)
+
+        # Run ruby setters
         adapter.scripts.each do |script_name|
           instance = read_with_script(script_name, instance)
         end if adapter.scripts
 
-        instance
+        # Validate results
+        instance.select { |attribute, value| adapter.validate(attribute, value) }
+
       end
     end
 
@@ -35,7 +40,7 @@ module Stretched
             result = runner.send(setter)
           end
           result = runner.filters(result, setter["filters"]) if setter["filters"]
-          instance[attribute_name] = result if adapter.validate(attribute_name, result)
+          instance[attribute_name] = result
 
         end
       end
@@ -49,7 +54,7 @@ module Stretched
       runner.attributes.each do |attribute_name, value|
         raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         result = value.is_a?(Proc) ? value.call(instance) : value
-        instance[attribute_name.to_s] = result if adapter.validate(attribute_name.to_s, result)
+        instance[attribute_name.to_s] = result
       end
 
       instance

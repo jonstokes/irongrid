@@ -12,7 +12,7 @@ object_adapter:
   www.budsgunshop.com/product_page:
     $key: globals/product_page
     scripts:
-      - globals/* # Uses glob format
+      #- globals/* # Uses glob format
       - www.budsgunshop.com/script
     schema: Listing
     xpath: '/html'

@@ -10,7 +10,7 @@ describe Stretched::ScriptRunner do
     it "creates a new script object" do
       script = Stretched::Script.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/product_page.rb")
       runner = Stretched::Script.runner(script.key)
-      instance = Stretched::InstanceHash.new
+      instance = Hashie::Mash.new
       runner.set_context(price: 100)
       runner.attributes.each do |attribute_name, value|
         result = value.is_a?(Proc) ? value.call(instance) : value
