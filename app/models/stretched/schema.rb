@@ -6,11 +6,17 @@ module Stretched
 
     def validate(attribute, value)
       attr = attribute.to_s
-      return false unless @data['properties'] && property = @data['properties'][attr]
+      return false unless properties && property = properties[attr]
       return false unless type_is_valid?(property['type'], value)
       return true unless property['enum'] && property['enum'].any?
       return property['enum'].include?(value)
     end
+
+    def validate_property(attribute)
+      return properties.include?(attribute.to_s)
+    end
+
+    def properties; @data['properties']; end
 
     def self.find(key)
       super(type: "Schema", key: key)
