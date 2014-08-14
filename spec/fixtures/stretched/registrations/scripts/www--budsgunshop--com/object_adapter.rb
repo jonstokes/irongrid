@@ -14,10 +14,10 @@ Stretched::Script.define do
     end
     product_caliber do
       result = find_by_xpath(
-            xpath: ".//div[@id='mainmain']//td[@class='main']/center/table//tr",
-            pattern: /caliber\W*.*$/i
+        xpath: ".//div[@id='mainmain']//td[@class='main']/center/table//tr",
+        pattern: /caliber\W*.*$/i
       )
-      filters(result, [ reject: /caliber/i])
+      filters(result, [{reject: /caliber/i}])
     end
   end
 end
