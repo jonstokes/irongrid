@@ -250,7 +250,7 @@ object_adapter:
       #
       product_caliber:
         - find_by_xpath:
-            xpath: .//div[@id='mainmain']//td[@class='main']/center/table
+            xpath: .//div[@id='mainmain']//td[@class='main']/center/table//tr
             pattern: !ruby/regexp '/caliber\W*.*$/i'
       product_grains:
         - find_by_xpath:
