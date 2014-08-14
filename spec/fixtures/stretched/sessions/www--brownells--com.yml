@@ -1,7 +1,7 @@
 sessions:
   - queue: www.brownells.com
-    session_definition: { $key: global/standard_xml_session }
-    object_adapters: [{ $key: www.brownells.com/product_feed }]
+    session_definition: global/standard_xml_session
+    object_adapters: [ www.brownells.com/product_feed ]
     urls:
     - url: http://datafeed.avantlink.com/download_feed.php?id=153279&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status
 
