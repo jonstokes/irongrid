@@ -65,6 +65,12 @@ module Stretched
       registration
     end
 
+    def self.find_or_create(arg, klass)
+      return klass.find(arg) if arg.is_a?(String)
+      key = arg.keys.first
+      klass.create(key: key, data: arg[key])
+    end
+
     def self.find(opts)
       opts.symbolize_keys!
       type, key = opts[:type], opts[:key]
