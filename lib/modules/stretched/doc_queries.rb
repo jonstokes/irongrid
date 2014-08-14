@@ -48,11 +48,11 @@ module Stretched
       content
     end
 
-    def filters(target, filter_array)
-      filter_array.map do |filter|
+    def filters(target, args)
+      args.map do |filter|
         filter.stringify_keys! if filter.is_a?(Hash)
       end
-      target = filter_target_text(target, filter_array)
+      target = filter_target_text(target, args)
       sanitize(target)
     end
 
@@ -150,11 +150,13 @@ module Stretched
       return nil
     end
 
-    def filter_target_text(target, filter_list)
+    def filter_target_text(target, args)
       return unless target.present?
-      filter_list.each do |filter|
+      args.each do |filter|
         break if target.nil?
-        if filter["accept"]
+        if args.is_a?(String) && respond_to?(args)
+          target = send(filter, target)
+        elsif filter["accept"]
           target = target[filter["accept"]]
         elsif filter["reject"]
           target.slice!(filter["reject"])
