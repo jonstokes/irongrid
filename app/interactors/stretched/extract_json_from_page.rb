@@ -8,7 +8,7 @@ module Stretched
       @adapter = ObjectAdapter.find(adapter_name)
 
       context[:json_objects] = page.doc.xpath(adapter.xpath).map do |node|
-        instance = read_with_json(Hash.new)
+        instance = read_with_json(InstanceHash.new)
         adapter.scripts.each do |script_name|
           instance = read_with_script(script_name, instance)
         end if adapter.scripts
