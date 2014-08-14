@@ -2,7 +2,8 @@ module Stretched
   class ObjectAdapter < Registration
     attr_reader :schema
 
-    delegate :validate, to: :schema
+    delegate :validate, :validate_property, to: :schema
+    delegate :key, to: :schema, prefix: true
 
     def initialize(opts)
       super(opts.merge(type: "ObjectAdapter"))
