@@ -24,8 +24,7 @@ module Stretched
       notify "Emptying session queue for #{session_q.key}..."
       while !timed_out? && (ssn = @session_q.pop) do
         outlog "Popped session with definition #{ssn.session_definition.key}"
-        result = RunSession.perform(stretched_session: ssn)
-        object_q.add result.json_objects
+        RunSession.perform(stretched_session: ssn)
         outlog "Session #{ssn.key} finished! Timeout is #{@timeout}"
       end
       clean_up
@@ -42,7 +41,10 @@ module Stretched
       end
     end
 
-    def i_am_alone_with_this_queue?
+    def i_am_alone_with_this_queue?(queue_name)
+      # FIXME
+      true
+    end
 
     def outlog(str)
       return unless @debug
