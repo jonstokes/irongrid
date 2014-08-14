@@ -12,7 +12,7 @@ module Stretched
       opts.symbolize_keys!
 
       @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
-      @session_q = SessionQueue.new(opts[:session_queue_name])
+      @session_q = SessionQueue.find_or_create(opts[:session_queue_name])
       return false unless @session_q.any?
 
       true
@@ -24,9 +24,9 @@ module Stretched
 
       notify "Emptying session queue for #{session_q.key}..."
       while !timed_out? && (ssn = @session_q.pop) do
-        outlog "Popped session with definition #{ssn.session_definition.key}"
+        outlog "Popped session of size #{ssn.size} with definition #{ssn.definition_key}."
         RunSession.perform(stretched_session: ssn)
-        outlog "Session #{ssn.key} finished! Timeout is #{@timeout}"
+        outlog "Session for #{ssn.definition_key} finished! Timeout is #{@timeout}"
       end
       clean_up
       transition
