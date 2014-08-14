@@ -4,11 +4,11 @@ describe Stretched::ObjectAdapter do
 
   before :each do
     Stretched::Registration.with_redis { |conn| conn.flushdb }
+    Stretched::Schema.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
   end
 
   describe "#initialize" do
     it "creates a new empty Registration object with a schema declared in-line" do
-      Stretched::Schema.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
       registration = Stretched::ObjectAdapter.new(
         key: "test-1",
         data: {
@@ -33,7 +33,6 @@ describe Stretched::ObjectAdapter do
     end
 
     it "creates a new empty Registration object with a schema reference" do
-      Stretched::Schema.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
       registration = Stretched::ObjectAdapter.new(
         key: "test-1",
         data: {
@@ -59,17 +58,16 @@ describe Stretched::ObjectAdapter do
 
   describe "::create" do
     it "creates a new registration object in the db and returns it" do
-      registration = Stretched::ObjectAdapter.create(key: "test-1", data: {"key" => "value"})
+      registration = Stretched::ObjectAdapter.create(key: "test-1", data: {"key" => "value", "schema" => "Listing"})
       reg = Stretched::ObjectAdapter.find(registration.key)
       expect(reg).to be_a(Stretched::ObjectAdapter)
-      expect(reg.data).to eq({ "key" => "value" })
+      expect(reg.data).to eq({"key" => "value", "schema" => "Listing"})
     end
   end
 
   describe "::find" do
     it "finds an object that has previously been registered" do
-      registration = Stretched::ObjectAdapter.new(key: "test-1")
-      registration.data = { "key" => "value" }
+      registration = Stretched::ObjectAdapter.new(key: "test-1", data: {"key" => "value", "schema" => "Listing"})
       registration.save
 
       reg = nil
@@ -78,7 +76,7 @@ describe Stretched::ObjectAdapter do
       }.not_to raise_error
 
       expect(reg).to be_a(Stretched::ObjectAdapter)
-      expect(reg.data).to eq({ "key" => "value" })
+      expect(reg.data).to eq({"key" => "value", "schema" => "Listing"})
     end
   end
 
