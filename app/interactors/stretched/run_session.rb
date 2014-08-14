@@ -4,8 +4,9 @@ module Stretched
     include Stretched::PageUtils
 
     def perform
-      #context: stretched_session, browser_session
-      context[:json_objects] = stretched_session.urls.each do |url|
+      #context: stretched_session
+
+      stretched_session.urls.each do |url|
         next unless page = scrape_page(url)
         stretched_session.object_adapters.each do |adapter|
           object_q = ObjectQueue.find(adapter.queue_name)
