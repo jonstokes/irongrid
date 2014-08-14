@@ -9,7 +9,7 @@ module Stretched
       stretched_session.urls.each do |url|
         next unless page = scrape_page(url)
         stretched_session.object_adapters.each do |adapter|
-          object_q = ObjectQueue.find(adapter.queue_name)
+          object_q = ObjectQueue.find_or_create(adapter.queue_name)
           object_q.add ExtractJsonFromPage.perform(
             page: page,
             adapter: adapter,
@@ -29,7 +29,7 @@ module Stretched
     end
 
     def scrape_page(url)
-      if stretched_session.page_format == "dhtml"
+      if stretched_session.use_phantomjs?
         stretched_session.with_limit { render_page(url) }
       else
         stretched_session.with_limit { get_page(url) }
