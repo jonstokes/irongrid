@@ -8,6 +8,10 @@ module Stretched
       @set_name = "#session-queue::#{name}"
     end
 
+    def pop
+      Session.new(super)
+    end
+
     private
 
     def validate_session_format(objects)

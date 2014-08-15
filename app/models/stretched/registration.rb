@@ -1,6 +1,6 @@
 module Stretched
   class Registration
-    include Retryable
+    include Stretched::Retryable
     include StretchedRedisPool
 
     attr_accessor :registration_type, :key, :data
