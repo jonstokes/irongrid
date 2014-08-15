@@ -83,7 +83,7 @@ module Stretched
 
     def all
       members.map do |key|
-        ObjectQueue.find(key)
+        ObjectQueue.get(key)
       end
     end
 
@@ -110,11 +110,15 @@ module Stretched
     alias length size
     alias count size
 
+    def self.find_or_create(name)
+      new(name)
+    end
+
     #
     # This is cheating on the queue abstraction, but it
     # makes specs and pruning links easier
     #
-    def self.find(key)
+    def self.get(key)
       return unless key.present? && (value = with_redis { |conn| conn.get(key) })
       JSON.parse(value)
     end
