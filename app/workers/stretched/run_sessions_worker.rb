@@ -22,7 +22,7 @@ module Stretched
       return unless opts && init(opts)
       return unless i_am_alone_with_this_queue?(@session_q.key) || (@debug = opts[:debug])
 
-      notify "Emptying session queue for #{session_q.key}..."
+      outlog "Emptying session queue for #{session_q.key}..."
       while !timed_out? && (ssn = @session_q.pop) do
         outlog "Popped session of size #{ssn.size} with definition #{ssn.definition_key}."
         RunSession.perform(stretched_session: ssn)
@@ -49,7 +49,7 @@ module Stretched
 
     def outlog(str)
       return unless @debug
-      notify "### #{str}"
+      puts "### #{str}"
     end
 
   end
