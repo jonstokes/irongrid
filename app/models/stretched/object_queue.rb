@@ -11,7 +11,8 @@ module Stretched
 
     def push(objects)
       return 0 if objects.empty?
-      objects = [objects] unless objects.is_a?(Array)
+      objects = [objects].flatten
+      objects.each(&:stringify_keys!)
       add_objects_to_redis(objects)
     end
 
