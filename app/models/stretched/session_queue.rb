@@ -9,7 +9,9 @@ module Stretched
     end
 
     def pop
-      Session.new(super)
+      if object = super
+        Session.new(object)
+      end
     end
 
     private
