@@ -21,15 +21,14 @@ sessions:
       - url: http://www.budsgunshop.com/catalog/3
       - url: http://www.budsgunshop.com/catalog/4
       - url: http://www.budsgunshop.com/catalog/5
-
   - queue: www.budsgunshop.com
     session_definition: global/standard_html_session
     object_adapters: [ www.budsgunshop.com/product_page ]
     urls:
-      - url: http://www.budsgunshop.com/products/1
-      - url: http://www.budsgunshop.com/products/2
-      - url: http://www.budsgunshop.com/products/3
-      - url: http://www.budsgunshop.com/products/4
-      - url: http://www.budsgunshop.com/products/5
-      - url: http://www.budsgunshop.com/products/6
+      - url: http://www.budsgunshop.com/catalog/1
+      - url: http://www.budsgunshop.com/catalog/2
+      - url: http://www.budsgunshop.com/catalog/3
+      - url: http://www.budsgunshop.com/catalog/4
+      - url: http://www.budsgunshop.com/catalog/5
+
 
