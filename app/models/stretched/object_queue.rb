@@ -1,6 +1,7 @@
 module Stretched
-  class ObjectQueue < CoreModel
-    include IrongridRedisPool
+  class ObjectQueue
+    include StretchedRedisPool
+    include Stretched::Retryable
 
     attr_reader :set_name, :name
 
@@ -21,7 +22,7 @@ module Stretched
         if key = conn.spop(set_name)
           raise "ObjectQueue: missing key #{key}" unless data = conn.get(key)
           conn.del(key)
-          JSON.parse(key)
+          self.class.value_from_redis(value)
         end
       end
     end
@@ -67,11 +68,8 @@ module Stretched
     def each_message
       with_redis do |conn|
         conn.sscan_each(set_name) do |key|
-          if value = conn.get(key)
-            yield JSON.parse(value)
-          else
-            notify "TROUBLESHOOT: Missing content for key #{key}"
-          end
+          next unless value = conn.get(key)
+          yield self.class.value_from_redis(value)
         end
       end
     end
@@ -115,13 +113,17 @@ module Stretched
       new(name)
     end
 
-    #
-    # This is cheating on the queue abstraction, but it
-    # makes specs and pruning links easier
-    #
     def self.get(key)
       return unless key.present? && (value = with_redis { |conn| conn.get(key) })
-      JSON.parse(value)
+      value_from_redis(value)
+    end
+
+    def self.key(object)
+      Digest::MD5.hexdigest(object.to_json)
+    end
+
+    def self.value_from_redis(value)
+      Hashie::Mash.new JSON.parse(value)
     end
 
     private
@@ -129,7 +131,7 @@ module Stretched
     def add_objects_to_redis(objects)
       count = 0
       objects.each do |obj|
-        key = Digest::MD5.hexdigest(obj.to_yaml)
+        key = ObjectQueue.key(obj)
         next if with_redis { |conn| conn.sismember(set_name, key) }
         with_redis do |conn|
           conn.set(key, obj.to_json)
