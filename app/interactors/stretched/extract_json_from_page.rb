@@ -27,7 +27,7 @@ module Stretched
 
     def read_with_json(node, instance)
       runner = ScriptRunner.new
-      runner.set_context(doc: node, page: page, browser_session: browser_session)
+      runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
       adapter.attribute_setters.each do |attribute_name, setters|
         raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         setters.each do |setter|
@@ -49,7 +49,7 @@ module Stretched
 
     def read_with_script(node, script_name, instance)
       runner = Script.runner(script_name)
-      runner.set_context(doc: node, page: page, browser_session: browser_session)
+      runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
       runner.attributes.each do |attribute_name, value|
         raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         result = value.is_a?(Proc) ? value.call(instance) : value
