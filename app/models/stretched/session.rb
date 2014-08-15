@@ -1,6 +1,6 @@
 module Stretched
   class Session
-    attr_reader :session_definition, :urls, :object_adapters, :queue_name
+    attr_reader :session_definition, :object_adapters, :queue_name
 
     delegate :with_limit, :page_format, to: :session_definition
 
@@ -11,11 +11,16 @@ module Stretched
       @object_adapters = opts[:object_adapters].map do |obj|
         Stretched::ObjectAdapter.find_or_create(obj)
       end
-      @urls = opts[:urls]
+      @url_list = opts[:urls]
     end
 
     def use_phantomjs?
       page_format == "dhtml"
+    end
+
+    def urls
+      # FIXME: This needs to be expanded into a set
+      @urls ||= @url_list.map { |hash| hash['url'] }
     end
 
     def definition_key; session_definition.key; end

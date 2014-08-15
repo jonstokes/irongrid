@@ -5,16 +5,19 @@ module Stretched
 
     def perform
       #context: stretched_session
-
       stretched_session.urls.each do |url|
+        puts "##### Scraping #{url}"
         next unless page = scrape_page(url)
+        puts "## Got page for #{url}"
         stretched_session.object_adapters.each do |adapter|
           object_q = ObjectQueue.find_or_create(adapter.queue_name)
+          puts "## Exracting JSON from #{page.url} with #{adapter.key} for queue #{adapter.queue_name}"
           result = ExtractJsonFromPage.perform(
             page: page,
-            adapter: adapter,
+            adapter_name: adapter.key, # FIXME: Pass whole adapter here, not just name
             browser_session: browser_session
           )
+          puts "## Got #{result.json_objects.count} objects from #{url}"
           object_q.add result.json_objects
         end
       end
