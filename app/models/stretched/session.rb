@@ -19,7 +19,7 @@ module Stretched
 
     def definition_key; session_definition.key; end
     def size; urls.count; end
-    alias_method count size
+    alias count size
 
     def self.create(opts)
       q = SessionQueue.find_or_create(opts[:queue])
