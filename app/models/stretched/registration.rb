@@ -66,7 +66,9 @@ module Stretched
     end
 
     def self.find_or_create(arg, klass)
-      return klass.find(key: arg, type: klass.to_s.underscore) if arg.is_a?(String)
+      return unless arg && klass
+      class_name = klass.to_s.split("::").last
+      return klass.find(key: arg, type: class_name) if arg.is_a?(String)
       key = arg.keys.first
       klass.create(key: key, data: arg[key])
     end
