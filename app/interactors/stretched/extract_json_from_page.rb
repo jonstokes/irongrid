@@ -5,7 +5,7 @@ module Stretched
     attr_accessor :instance, :adapter
 
     def perform
-      @adapter = ObjectAdapter.find(adapter_name)
+      @adapter = context[:adapter] || ObjectAdapter.find(context[:adapter_name])
 
       context[:json_objects] = page.doc.xpath(adapter.xpath).map do |node|
         # Run JSON setters

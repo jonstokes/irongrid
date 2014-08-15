@@ -19,7 +19,7 @@ module Stretched
     end
 
     def urls
-      # FIXME: This needs to be expanded into a set
+      # FIXME: This needs to be expanded into a set, so that it supports PAGENUM vars
       @urls ||= @url_list.map { |hash| hash['url'] }
     end
 
