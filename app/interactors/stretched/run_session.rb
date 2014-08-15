@@ -15,7 +15,7 @@ module Stretched
           puts "## Exracting JSON from #{page.url} with #{adapter.key} for queue #{adapter.queue_name}"
           result = ExtractJsonFromPage.perform(
             page: page,
-            adapter_name: adapter.key, # FIXME: Pass whole adapter here, not just name
+            adapter: adapter,
             browser_session: browser_session
           )
           puts "## Got #{result.json_objects.count} objects from #{url}"
