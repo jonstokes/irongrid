@@ -50,15 +50,20 @@ describe Stretched::ObjectQueue do
 
   describe "#pop", no_es: true do
     it "should return an object and remove it from the queue" do
-      @store.add(@objects.first.dup.update(page_attributes: {'foo' => 1, 'bar' => 2}))
+      object1 = @objects.first.dup.merge(page_attributes: {'foo' => 1, 'bar' => 2})
+      puts "## Adding #{object1}"
+      @store.add(object1)
+      puts "## Store size is now #{@store.size}"
+
       object = @store.pop
+      puts "## Popped object is #{object}"
       key = Stretched::ObjectQueue.key(object)
 
       expect(object).not_to be_nil
       expect(@store.has_key?(key)).to be_false
       expect(Stretched::ObjectQueue.get(key)).to be_nil
       expect(object).to be_a(Hashie::Mash)
-      expect(object.http).not_to be_nil
+      expect(object.url).not_to be_nil
       expect(object.page_attributes).to eq({'foo' => 1, 'bar' => 2})
     end
 
