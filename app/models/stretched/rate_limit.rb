@@ -1,7 +1,7 @@
 module Stretched
   class RateLimit < Registration
 
-    %w(peak off_peak).each do |key|
+    %w(peak off_peak timezone).each do |key|
       define_method key do
         @data[key] if @data
       end
