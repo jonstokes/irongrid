@@ -35,12 +35,12 @@ describe Stretched::SessionQueue do
     end
 
     it "should add a previously popped object" do
-      expect(@store.add(@objects)).to eq(3)
-      expect(@store.size).to eq(3)
+      expect(@store.add(@objects.first)).to eq(1)
+      expect(@store.size).to eq(1)
       @store.pop
-      expect(@store.size).to eq(2)
+      expect(@store.size).to eq(0)
       expect(@store.add(@objects.first)).to be_true
-      expect(@store.size).to eq(3)
+      expect(@store.size).to eq(1)
     end
   end
 
