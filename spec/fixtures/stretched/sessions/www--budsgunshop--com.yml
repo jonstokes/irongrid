@@ -4,25 +4,24 @@ sessions:
     session_definition: global/standard_html_session
     object_adapters: [ www.budsgunshop.com/product_links ] # Each url/page will be run through each adapter in sequence using the single session definition declared above
     urls:
-      - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1
-      - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/514/sort/6a/page/PAGENUM
-        start_at_page: 1
+      - url: http://www.budsgunshop.com/catalog/1
+      - url: http://www.budsgunshop.com/catalog/PAGENUM
+        start_at_page: 2
         stop_at_page: 8
         step: 1
-      - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/409/sort/6a/page/PAGENUM
-        start_at_page: 1
-        stop_at_page: 7
-      - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/427/sort/6a/page/PAGENUM
-        start_at_page: 1
-        stop_at_page: 5
   - queue: www.budsgunshop.com
     session_definition:
       $key: global/standard_html_feed_session
       read_interval: 3600
-      page_format: dhtml
+      page_format: html
     object_adapters: [ www.budsgunshop.com/product_links ]
     urls:
-      - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1
+      - url: http://www.budsgunshop.com/catalog/1
+      - url: http://www.budsgunshop.com/catalog/2
+      - url: http://www.budsgunshop.com/catalog/3
+      - url: http://www.budsgunshop.com/catalog/4
+      - url: http://www.budsgunshop.com/catalog/5
+
   - queue: www.budsgunshop.com
     session_definition: global/standard_html_session
     object_adapters: [ www.budsgunshop.com/product_page ]
