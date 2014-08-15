@@ -123,7 +123,6 @@ module Stretched
     end
 
     def self.value_from_redis(value)
-      puts "## Value from redis is #{value}"
       Hashie::Mash.new JSON.parse(value)
     end
 
