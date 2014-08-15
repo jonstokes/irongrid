@@ -23,7 +23,7 @@ sessions:
       - url: http://www.budsgunshop.com/catalog/5
   - queue: www.budsgunshop.com
     session_definition: global/standard_html_session
-    object_adapters: [ www.budsgunshop.com/product_page ]
+    object_adapters: [ www.budsgunshop.com/product_links ]
     urls:
       - url: http://www.budsgunshop.com/catalog/1
       - url: http://www.budsgunshop.com/catalog/2

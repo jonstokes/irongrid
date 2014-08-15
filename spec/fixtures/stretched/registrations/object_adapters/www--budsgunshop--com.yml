@@ -8,7 +8,8 @@ object_adapter:
       product_link:
         - find_by_xpath:
             xpath: ./@href
-      product_adapter_key: www.budsgunshop.com/product_page
+      product_adapter_key:
+        - value: www.budsgunshop.com/product_page
   www.budsgunshop.com/product_page:
     $key: globals/product_page
     scripts:
