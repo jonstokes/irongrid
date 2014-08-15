@@ -11,9 +11,9 @@ module Stretched
     end
 
     def push(objects)
-      return 0 if objects.empty?
+      return 0 if objects.is_a?(Enumerable) && objects.empty?
       objects = [objects].flatten
-      objects.each(&:stringify_keys!)
+      objects.each { |obj| obj.stringify_keys! if obj.respond_to?(:stringify_keys!) }
       add_objects_to_redis(objects)
     end
 

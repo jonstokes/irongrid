@@ -22,8 +22,10 @@ describe Stretched::SessionQueue do
     end
 
     it "adds a single object" do
-      expect(@store.add(@objects.first)).to be_true
-      expect(@store.size).to eq(1)
+      @objects.each_with_index do |object, i|
+        expect(@store.add(object)).to be_true
+        expect(@store.size).to eq(i + 1)
+      end
     end
 
     it "does not add an object twice" do
@@ -34,8 +36,10 @@ describe Stretched::SessionQueue do
 
     it "should add a previously popped object" do
       expect(@store.add(@objects)).to eq(3)
-      object = @store.pop
-      expect(@store.add(object)).to be_true
+      expect(@store.size).to eq(3)
+      @store.pop
+      expect(@store.size).to eq(2)
+      expect(@store.add(@objects.first)).to be_true
       expect(@store.size).to eq(3)
     end
   end
@@ -60,7 +64,7 @@ describe Stretched::SessionQueue do
         expect(object).not_to be_nil
         expect(@store.has_key?(key)).to be_false
         expect(Stretched::ObjectQueue.get(key)).to be_nil
-        expect(object).to be_a(Hashie::Mash)
+        expect(object).to be_a(Stretched::Session)
         expect(object.queue_name).to eq("www.budsgunshop.com")
         expect(object.session_definition).to be_a(Stretched::SessionDefinition)
         expect(object.object_adapters).to be_a(Array)

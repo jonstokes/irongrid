@@ -7,7 +7,7 @@ module Stretched
 
     def initialize(opts)
       super(opts.merge(type: "ObjectAdapter"))
-      @schema = Stretched::Registration.find_or_create(@data["schema"], Schema)
+      @schema = Stretched::Schema.find_or_create(@data["schema"])
     end
 
     def xpath; @data["xpath"]; end

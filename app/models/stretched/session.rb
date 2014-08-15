@@ -6,9 +6,9 @@ module Stretched
 
     def initialize(opts)
       @queue_name = opts[:queue]
-      @session_definition = Stretched::Registration.find_or_create(opts[:session_definition], SessionDefinition)
+      @session_definition = Stretched::SessionDefinition.find_or_create(opts[:session_definition])
       @object_adapters = opts[:object_adapters].map do |obj|
-        Stretched::Registration.find_or_create(obj, ObjectAdapter)
+        Stretched::ObjectAdapter.find_or_create(obj)
       end
       @urls = opts[:urls]
     end
