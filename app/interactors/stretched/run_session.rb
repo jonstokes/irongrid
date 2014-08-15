@@ -10,11 +10,12 @@ module Stretched
         next unless page = scrape_page(url)
         stretched_session.object_adapters.each do |adapter|
           object_q = ObjectQueue.find_or_create(adapter.queue_name)
-          object_q.add ExtractJsonFromPage.perform(
+          result = ExtractJsonFromPage.perform(
             page: page,
             adapter: adapter,
             browser_session: browser_session
           )
+          object_q.add result.json_objects
         end
       end
     ensure
