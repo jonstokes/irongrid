@@ -3,6 +3,11 @@ module Stretched
 
     SESSION_PROPERTIES = %w(queue session_definition object_adapters urls)
 
+    def initialize(name)
+      super
+      @set_name = "#session-queue::#{name}"
+    end
+
     private
 
     def validate_session_format(objects)
