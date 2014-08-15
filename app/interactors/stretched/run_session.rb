@@ -4,7 +4,8 @@ module Stretched
     include Stretched::PageUtils
 
     def perform
-      #context: stretched_session
+      #context: stretched_session, browser_session
+
       stretched_session.urls.each do |url|
         puts "##### Scraping #{url}"
         next unless page = scrape_page(url)
