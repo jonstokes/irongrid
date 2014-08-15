@@ -7,6 +7,7 @@ module Stretched
       end
     end
 
+    attr_reader :limiter
     delegate :with_limit, to: :limiter
 
     def initialize(opts)
@@ -16,13 +17,17 @@ module Stretched
 
     def seconds_per_action
       return 5 unless @data
-      @data.each do |time_slot, attr|
+      time_slots.each do |time_slot, attr|
         start_time = ActiveSupport::TimeZone[timezone].parse(attr["start"])
         duration = attr["duration"].to_i.hours
-        end_time = (start_time + duration).in_time_zone(myzone)
-        return attr["rate"] if (start_time..end_time).cover?(Time.zone.now)
+        end_time = (start_time + duration).in_time_zone(timezone)
+        return attr["rate"] if (start_time..end_time).cover?(ActiveSupport::TimeZone[timezone].now)
       end
       return peak["rate"]
+    end
+
+    def time_slots
+      @data.select { |k, v| %w(peak off_peak).include?(k) }
     end
 
 

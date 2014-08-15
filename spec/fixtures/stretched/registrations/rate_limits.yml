@@ -1,7 +1,7 @@
 ---
 rate_limit:
   global/standard_rate_limits:
-    timezone: UTC
+    timezone: America/Chicago
     off_peak:
       start: '23:00'
       duration: 7
