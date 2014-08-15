@@ -1,6 +1,6 @@
 module Stretched
   class Session
-    attr_reader :session_definition, :object_adapters, :queue_name
+    attr_reader :session_definition, :object_adapters, :queue_name, :urls
 
     delegate :with_limit, :page_format, to: :session_definition
 
@@ -11,16 +11,11 @@ module Stretched
       @object_adapters = opts[:object_adapters].map do |obj|
         Stretched::ObjectAdapter.find_or_create(obj)
       end
-      @url_list = opts[:urls]
+      @urls = opts[:urls].map { |feed| expand_links(feed) }.flatten.uniq
     end
 
     def use_phantomjs?
       page_format == "dhtml"
-    end
-
-    def urls
-      # FIXME: This needs to be expanded into a set, so that it supports PAGENUM vars
-      @urls ||= @url_list.map { |hash| hash['url'] }
     end
 
     def definition_key; session_definition.key; end
@@ -31,5 +26,16 @@ module Stretched
       q = SessionQueue.find_or_create(opts[:queue])
       q.add opts
     end
+
+    private
+
+    def expand_links(feed)
+      feed.symbolize_keys!
+      return feed[:url] unless feed[:start_at_page]
+      (feed[:start_at_page]..feed[:stop_at_page]).step(feed[:step] || 1).map do |page_number|
+        feed[:url].sub("PAGENUM", page_number.to_s)
+      end
+    end
+
   end
 end
