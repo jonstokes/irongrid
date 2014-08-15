@@ -22,7 +22,7 @@ module Stretched
         if key = conn.spop(set_name)
           raise "ObjectQueue: missing key #{key}" unless data = conn.get(key)
           conn.del(key)
-          self.class.value_from_redis(value)
+          self.class.value_from_redis(data)
         end
       end
     end
@@ -123,6 +123,7 @@ module Stretched
     end
 
     def self.value_from_redis(value)
+      puts "## Value from redis is #{value}"
       Hashie::Mash.new JSON.parse(value)
     end
 
