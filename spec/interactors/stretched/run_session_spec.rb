@@ -26,12 +26,12 @@ describe Stretched::RunSession do
         end
       end
 
-      object_q = Stretched::ObjectQueue.find_or_create "Listing"
+      object_q = Stretched::ObjectQueue.find_or_create "ProductLink"
       expect(object_q.size).to be_zero
 
       ssn = Stretched::Session.new(@sessions.last)
       result = Stretched::RunSession.perform(stretched_session: ssn)
-      expect(object_q.size).to eq(25)
+      expect(object_q.size).to eq(50)
     end
 
   end
