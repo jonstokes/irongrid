@@ -65,20 +65,25 @@ module Stretched
       registration
     end
 
-    def self.find_or_create(arg, klass)
-      return unless arg && klass
-      class_name = klass.to_s.split("::").last
-      return klass.find(key: arg, type: class_name) if arg.is_a?(String)
+    def self.find_or_create(arg)
+      return unless arg
+      return find(arg) if arg.is_a?(String)
       key = arg.keys.first
-      klass.create(key: key, data: arg[key])
+      create(key: key, data: arg[key])
     end
 
     def self.find(opts)
+      if opts.is_a?(String)
+        type = self.name.split("::").last
+        opts = { type: type, key: opts }
+      end
       opts.symbolize_keys!
       type, key = opts[:type], opts[:key]
+
       data = with_redis do |conn|
         conn.get "registrations::#{type}::#{key}"
       end
+
       if data
         self.new(opts.merge(data: YAML.load(data)))
       else

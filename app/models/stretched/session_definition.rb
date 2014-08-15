@@ -8,7 +8,7 @@ module Stretched
     def initialize(opts)
       super(opts.merge(type: "SessionDefinition"))
       @page_format = opts[:page_format]
-      @rate_limits = Stretched::Registration.find_or_create(opts[:rate_limits], RateLimit)
+      @rate_limits = Stretched::RateLimit.find_or_create(opts[:rate_limits])
     end
 
   end
