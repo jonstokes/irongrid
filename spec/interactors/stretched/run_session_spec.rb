@@ -32,6 +32,25 @@ describe Stretched::RunSession do
       ssn = Stretched::Session.new(@sessions.last)
       result = Stretched::RunSession.perform(stretched_session: ssn)
       expect(object_q.size).to eq(50)
+      expect(result.pages_scraped).to eq(2)
+    end
+
+    it "runs a session with link expansions and extracts JSON objects from the pages" do
+      Mocktra(@domain) do
+        get '/catalog/1' do
+          File.open("#{Rails.root}/spec/fixtures/web_pages/www--budsgunshop--com/1911-listing-page.html") do |file|
+            file.read
+          end
+        end
+      end
+
+      object_q = Stretched::ObjectQueue.find_or_create "ProductLink"
+      expect(object_q.size).to be_zero
+
+      ssn = Stretched::Session.new(@sessions.first)
+      result = Stretched::RunSession.perform(stretched_session: ssn)
+      expect(object_q.size).to eq(50)
+      expect(result.pages_scraped).to eq(8)
     end
 
   end
