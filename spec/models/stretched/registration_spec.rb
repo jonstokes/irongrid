@@ -85,8 +85,8 @@ describe Stretched::Registration do
       expect(results.size).to eq(1)
 
       reg = results.first
-      expect(reg).to be_a(Stretched::Schema)
-      expect(reg.key).to eq("Listing")
+      expect(reg.type).to eq("Schema")
+      expect(reg[:key]).to eq("Listing")
       expect(reg.data['description']).to eq('Schema for product listing JSON object')
     end
 
@@ -101,10 +101,10 @@ describe Stretched::Registration do
       expect(results.size).to eq(2)
 
       reg = results.first
-      expect(reg).to be_a(Stretched::ObjectAdapter)
-      expect(reg.key).to eq("globals/product_link")
-      expect(reg.xpath).to eq('//span[@class="productListing-productname"]/a')
-      expect(reg.schema).to be_a(Stretched::Schema)
+      expect(reg.type).to eq("ObjectAdapter")
+      expect(reg[:key]).to eq("globals/product_link")
+      expect(reg.data.xpath).to eq('//span[@class="productListing-productname"]/a')
+      expect(reg.data.schema).not_to be_nil
     end
   end
 
@@ -125,7 +125,7 @@ describe Stretched::Registration do
       filename = "#{Rails.root}/spec/fixtures/stretched/registrations/object_adapters/globals.yml"
       Stretched::Registration.create_from_file(filename)
 
-      expect(Stretched::Registration.count).to eq(4)
+      expect(Stretched::Registration.count).to eq(3)
       reg = Stretched::ObjectAdapter.find("globals/product_page")
       expect(reg).to be_a(Stretched::ObjectAdapter)
       expect(reg.key).to eq("globals/product_page")

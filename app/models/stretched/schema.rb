@@ -26,17 +26,6 @@ module Stretched
       super(opts.merge(type: "Schema"))
     end
 
-    def self.load_file(filename)
-      source = get_source(filename)
-      source.keys.select { |k| TYPES.include?(k.to_s) }.map do |type|
-        source[type].map do |key, registration|
-          class_name = type.classify
-          "Stretched::#{class_name}".constantize.new(key: key.to_s, type: class_name, data: registration)
-        end
-      end.flatten
-    end
-
-
     private
 
     def type_is_valid?(property_type, value)

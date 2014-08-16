@@ -29,18 +29,9 @@ describe Stretched::Script do
     end
   end
 
-  describe "::load_file" do
-    it "loads a new script object from a file and returns it" do
-      script = Stretched::Script.load_file(@source_file)
-      expect(script).to be_a(Stretched::Script)
-      expect(script.key).to eq("globals/product_page")
-      expect(script.data).to include("Stretched::Script.define")
-    end
-  end
-
   describe "::create_from_file" do
     it "creates a new script object from a file and returns it" do
-      script = Stretched::Script.create_from_file(@source_file)
+      script = Stretched::Script.create_from_file(@source_file).first
       reg = Stretched::Script.find(script.key)
       expect(reg).to be_a(Stretched::Script)
       expect(reg.key).to eq("globals/product_page")
