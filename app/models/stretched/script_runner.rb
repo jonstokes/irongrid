@@ -1,6 +1,6 @@
 module Stretched
   class ScriptRunner
-    include DocQueries
+    include Stretched::DocQueries
 
     attr_reader :attributes, :doc, :page
 

@@ -9,13 +9,6 @@ module Stretched
       eval data
     end
 
-    def save
-      with_redis do |conn|
-        conn.sadd "registrations", "#{registration_type}::#{key}"
-        conn.set "registrations::#{registration_type}::#{key}", data
-      end
-    end
-
     def self.runner(key)
       return registry[key] if registry[key] # Cuts down on redis pool usage
       script = find(key)
@@ -23,32 +16,25 @@ module Stretched
       registry[script.key]
     end
 
-
     def self.load_file(filename)
       source = get_source(filename)
       key = source[/script\s+\".*?\"/].split(/script \"/).last.split(/\"/).last
-      Stretched::Script.new(key: key, data: source)
+      [Hashie::Mash.new(key: key, type: "Script" , data: source)]
     end
 
-    def self.create_from_file(filename)
-      registration = load_file(filename)
-      registration.save
-      registration
-    end
+    def self.write_redis_format(data); data; end
+    def self.read_redis_format(data); data; end
 
-    def self.find(key)
-      data = with_redis do |conn|
-        conn.get "registrations::Script::#{key}"
-      end
-      if data
-        self.new(key: key, data: data)
-      else
-        raise "No such Script registration with key #{key}!"
-      end
+    def self.convert_find_opts(opts)
+      opts
     end
 
     def self.create(opts)
       super(opts.merge(type: "Script"))
+    end
+
+    def self.find(key)
+      super(type: "Script", key: key)
     end
 
     def self.registry
