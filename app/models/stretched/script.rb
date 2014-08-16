@@ -16,6 +16,12 @@ module Stretched
       registry[script.key]
     end
 
+    def self.each_global_runner(&block)
+      keys.select { |k| k.to_s[/^globals\//] }.each do |key|
+        yield runner(key)
+      end
+    end
+
     def self.load_file(filename)
       source = get_source(filename)
       key = source[/script\s+\".*?\"/].split(/script \"/).last.split(/\"/).last
