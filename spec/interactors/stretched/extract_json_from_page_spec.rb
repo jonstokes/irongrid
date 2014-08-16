@@ -7,10 +7,12 @@ describe Stretched::ExtractJsonFromPage do
     @domain = "www.budsgunshop.com"
     @product_url = "http://#{@domain}/products/1"
 
-    Stretched::Schema.create_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
-    Stretched::Schema.create_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
-    Stretched::ObjectAdapter.create_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
-    Stretched::Script.create_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
+    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
+    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
+    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
+    Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
+    Stretched::Extension.register_from_file("spec/fixtures/stretched/registrations/extensions/conversions.rb")
+    Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/globals/conversions.rb")
   end
 
   describe "#perform" do

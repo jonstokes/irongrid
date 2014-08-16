@@ -13,7 +13,7 @@ object_adapter:
   www.budsgunshop.com/product_page:
     $key: globals/product_page
     scripts:
-      #- globals/* # Uses glob format
+      - globals/conversions
       - www.budsgunshop.com/script
     schema: Listing
     xpath: '/html'
@@ -312,7 +312,7 @@ object_adapter:
             pattern: !ruby/regexp '/Doublestar Accessories/i'
   www.budsgunshop.com/product_page_scripts_only:
     scripts:
-      # - globals/* # Uses glob format
+      - globals/conversions
       - www.budsgunshop.com/script
     schema: Listing
     xpath: '/html'
