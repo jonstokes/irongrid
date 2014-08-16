@@ -4,12 +4,12 @@ describe Stretched::SessionQueue do
 
   before :each do
     Stretched::Registration.with_redis { |c| c.flushdb }
-    Stretched::RateLimit.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/rate_limits.yml")
-    Stretched::SessionDefinition.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/session_definitions.yml")
-    Stretched::Schema.create_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
-    Stretched::Schema.create_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
-    Stretched::ObjectAdapter.create_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
-    Stretched::Script.create_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
+    Stretched::RateLimit.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/rate_limits.yml")
+    Stretched::SessionDefinition.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/session_definitions.yml")
+    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
+    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
+    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
+    Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
     @store = Stretched::SessionQueue.find_or_create("www.retailer.com")
     @objects = YAML.load_file("#{Rails.root}/spec/fixtures/stretched/sessions/www--budsgunshop--com.yml")['sessions']
   end
