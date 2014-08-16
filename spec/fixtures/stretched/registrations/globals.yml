@@ -1,0 +1,39 @@
+---
+session_queue:
+  www.budsgunshop.com: {}
+  www.brownells.com: {}
+session_definition:
+  global/standard_html_session:
+    page_format: html
+    rate_limits: global/standard_rate_limits
+  global/standard_xml_session:
+    page_format: xml
+    rate_limits: global/standard_rate_limits
+  global/standard_dhtml_session:
+    page_format: dhtml
+    rate_limits: global/standard_rate_limits
+rate_limit:
+  global/standard_rate_limits:
+    timezone: America/Chicago
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 1
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 2
+object_adapter:
+  globals/product_link:
+    schema: ProductLink
+    attribute: {}
+  globals/product_page:
+    schema: Listing
+    xpath: '/html'
+    scripts:
+    - globals/clean_attribute_values
+#   - globals/calculate_shipping
+    - globals/listing_validation
+    attribute: {}
+
+
