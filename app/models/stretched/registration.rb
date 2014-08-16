@@ -62,6 +62,17 @@ module Stretched
       data.to_yaml
     end
 
+    def self.keys
+      with_redis do |conn|
+        conn.smembers "registrations"
+      end.select do |key|
+        registration_type = self.name.split("::").last
+        !!key["#{registration_type}::"]
+      end.map do |key|
+        key.split("::").last
+      end
+    end
+
     def self.read_redis_format(data)
       YAML.load(data)
     end

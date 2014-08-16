@@ -19,6 +19,13 @@ module Stretched
       else
         attributes[name.to_s] = args[0]
       end
+    rescue RuntimeError => e
+      if !!e.message[/add a new key into hash during iteration/]
+        super
+      else
+        raise e
+      end
     end
+
   end
 end
