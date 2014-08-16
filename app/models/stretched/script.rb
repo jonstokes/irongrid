@@ -16,32 +16,14 @@ module Stretched
       registry[script.key]
     end
 
-    def self.each_global_runner(&block)
-      keys.select { |k| k.to_s[/^globals\//] }.each do |key|
-        yield runner(key)
-      end
-    end
-
     def self.load_file(filename)
       source = get_source(filename)
-      key = source[/script\s+\".*?\"/].split(/script \"/).last.split(/\"/).last
+      key = source[/(script)\s+\".*?\"/].split(/(script) \"/).last.split(/\"/).last
       [Hashie::Mash.new(key: key, type: "Script" , data: source)]
     end
 
     def self.write_redis_format(data); data; end
     def self.read_redis_format(data); data; end
-
-    def self.convert_find_opts(opts)
-      opts
-    end
-
-    def self.create(opts)
-      super(opts.merge(type: "Script"))
-    end
-
-    def self.find(key)
-      super(type: "Script", key: key)
-    end
 
     def self.registry
       @registry ||= ThreadSafe::Cache.new
@@ -49,7 +31,7 @@ module Stretched
 
     def self.register(script_name, runner)
       @registry ||= ThreadSafe::Cache.new
-      @registry[script_name] = runner
+      @registry[script_name.to_s] = runner
     end
 
     def self.define(&block)
