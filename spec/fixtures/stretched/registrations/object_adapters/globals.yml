@@ -1,7 +1,7 @@
 ---
 object_adapter:
   globals/product_link:
-    schema: { $key: ProductLink }
+    schema: ProductLink
     xpath: //span[@class="productListing-productname"]/a
     attribute:
       product_link:
@@ -9,7 +9,7 @@ object_adapter:
             xpath: ./@href
       product_adapter_key: www.budsgunshop.com/product_page
   globals/product_page:
-    schema: { $key: Listing }
+    schema: Listing
     xpath: '/html'
     scripts:
     - globals/product_page
