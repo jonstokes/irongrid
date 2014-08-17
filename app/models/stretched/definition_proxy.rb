@@ -6,7 +6,6 @@ module Stretched
 
       # Define all extensions on the runner instance
       Extension.registry.each_pair do |extname, block|
-        puts "Adding extension #{extname} to block"
         runner.instance_eval(&block)
       end
 
