@@ -20,9 +20,9 @@ describe Stretched::Script do
     end
   end
 
-  describe "#register_runner" do
+  describe "#register" do
     it "evals the script's source and registers a runner" do
-      expect { @script.register_runner }.not_to raise_error
+      expect { @script.register }.not_to raise_error
       expect(Stretched::Script.registry).not_to be_empty
       runner = Stretched::Script.registry[@script.key]
       expect(runner).to be_a(Stretched::ScriptRunner)

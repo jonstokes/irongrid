@@ -5,14 +5,22 @@ module Stretched
       super(opts.merge(type: "Script"))
     end
 
-    def register_runner
+    def register
       eval data
+    end
+
+    def self.register_all
+      keys.each do |key|
+        next if registry[key]
+        script = find(key)
+        script.register
+      end
     end
 
     def self.runner(key)
       return registry[key] if registry[key] # Cuts down on redis pool usage
       script = find(key)
-      script.register_runner
+      script.register
       registry[script.key]
     end
 
