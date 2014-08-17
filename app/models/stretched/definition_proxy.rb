@@ -2,9 +2,9 @@ module Stretched
   class DefinitionProxy
     def script(script_name, &block)
       runner = ScriptRunner.new
+      Extension.register_all
 
       # Define all extensions on the runner instance
-      Extension.register_all
       Extension.registry.each_pair do |extname, block|
         puts "Adding extension #{extname} to block"
         runner.instance_eval(&block)

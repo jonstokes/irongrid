@@ -9,14 +9,6 @@ module Stretched
       eval data
     end
 
-    def self.register_all
-      keys.each do |key|
-        next if registry[key]
-        extension = find(key)
-        extension.register
-      end
-    end
-
     def self.load_file(filename)
       source = get_source(filename)
       key = source[/(extension)\s+\".*?\"/].split(/(extension) \"/).last.split(/\"/).last
