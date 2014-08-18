@@ -6,16 +6,17 @@ module Stretched
 
     def setup
       Extension.register_all
+      @adapter = context[:adapter] || ObjectAdapter.find(context[:adapter_name])
     end
 
     def perform
-      @adapter = context[:adapter] || ObjectAdapter.find(context[:adapter_name])
-
       context[:json_objects] = page.doc.xpath(adapter.xpath).map do |node|
         instance = Hashie::Mash.new
         instance = run_json_setters(instance, node)
         instance = run_ruby_setters(instance, node)
         instance.select { |attribute, value| adapter.validate(attribute, value) }
+
+        { page: page.to_hash, object: instance }
       end
     end
 

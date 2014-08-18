@@ -18,6 +18,25 @@ describe Stretched::RunSession do
   end
 
   describe "#perform" do
+
+    it "adds an empty JSON object for a 404 page" do
+      Mocktra(@domain) do
+        get '/products/1' do
+          404
+        end
+      end
+
+      object_q = Stretched::ObjectQueue.find_or_create "ProductLink"
+      expect(object_q.size).to be_zero
+
+      ssn = Stretched::Session.new(@sessions.last)
+      result = Stretched::RunSession.perform(stretched_session: ssn)
+
+      expect(object_q.size).to eq(2)
+      object = object_q.pop
+      expect(object[:page]['code']).to eq(404)
+    end
+
     it "runs a session and extracts JSON objects from the pages" do
       Mocktra(@domain) do
         get '/catalog/1' do
@@ -32,7 +51,7 @@ describe Stretched::RunSession do
 
       ssn = Stretched::Session.new(@sessions.last)
       result = Stretched::RunSession.perform(stretched_session: ssn)
-      expect(object_q.size).to eq(50)
+      expect(object_q.size).to eq(51)
       expect(result.pages_scraped).to eq(2)
     end
 
@@ -50,7 +69,7 @@ describe Stretched::RunSession do
 
       ssn = Stretched::Session.new(@sessions.first)
       result = Stretched::RunSession.perform(stretched_session: ssn)
-      expect(object_q.size).to eq(50)
+      expect(object_q.size).to eq(57)
       expect(result.pages_scraped).to eq(8)
     end
 
