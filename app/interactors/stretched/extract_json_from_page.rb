@@ -6,7 +6,6 @@ module Stretched
 
     def setup
       Extension.register_all
-      Script.register_all
     end
 
     def perform
@@ -14,11 +13,23 @@ module Stretched
 
       context[:json_objects] = page.doc.xpath(adapter.xpath).map do |node|
         # Run JSON setters
-        instance = read_with_json(node, Hashie::Mash.new)
+        runner = Script.runner
+        runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
+        instance = read_with_json(
+          runner: runner,
+          node: node,
+          instance: Hashie::Mash.new
+        )
 
         # Run ruby setters
         adapter.scripts.each do |script_name|
-          instance = read_with_script(node, script_name, instance)
+          runner = Script.runner(script_name)
+          runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
+          instance = read_with_script(
+            runner: runner,
+            node: node,
+            instance: instance
+          )
         end if adapter.scripts
 
         # Validate results
@@ -30,9 +41,8 @@ module Stretched
     # private
     #
 
-    def read_with_json(node, instance)
-      runner = ScriptRunner.new
-      runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
+    def read_with_json(opts)
+      runner, node, instance = opts[:runner], opts[:node], opts[:instance]
       adapter.attribute_setters.each do |attribute_name, setters|
         raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         setters.each do |setter|
@@ -52,9 +62,8 @@ module Stretched
       instance
     end
 
-    def read_with_script(node, script_name, instance)
-      runner = Script.runner(script_name)
-      runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
+    def read_with_script(opts)
+      runner, node, instance = opts[:runner], opts[:node], opts[:instance]
       runner.attributes.each do |attribute_name, value|
         raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         result = value.is_a?(Proc) ? value.call(instance) : value

@@ -6,22 +6,16 @@ module Stretched
     end
 
     def register
+      # NOTE: This returns a populated instance of ScriptRunner
+      # that has all extensions defined on it and contains
+      # Procs for the code defined in @data
       eval data
     end
 
-    def self.register_all
-      keys.each do |key|
-        next if registry[key]
-        script = find(key)
-        script.register
-      end
-    end
-
-    def self.runner(key)
-      return registry[key] if registry[key] # Cuts down on redis pool usage
+    def self.runner(key = nil)
+      return ScriptRunner.new unless key
       script = find(key)
       script.register
-      registry[script.key]
     end
 
     def self.load_file(filename)
@@ -32,15 +26,6 @@ module Stretched
 
     def self.write_redis_format(data); data; end
     def self.read_redis_format(data); data; end
-
-    def self.registry
-      @registry ||= ThreadSafe::Cache.new
-    end
-
-    def self.register(script_name, runner)
-      @registry ||= ThreadSafe::Cache.new
-      @registry[script_name.to_s] = runner
-    end
 
     def self.define(&block)
       definition_proxy = DefinitionProxy.new
