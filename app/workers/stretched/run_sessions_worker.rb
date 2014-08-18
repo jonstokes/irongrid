@@ -1,6 +1,7 @@
 module Stretched
   class RunSessionsWorker
     include Sidekiq::Worker
+    extend Stretched::WorkerUtils
 
     sidekiq_options :queue => :crawls, :retry => true
 
@@ -43,9 +44,9 @@ module Stretched
       end
     end
 
-    def i_am_alone_with_this_queue?(queue_name)
-      # FIXME
-      true
+    def i_am_alone_with_this_queue?(q)
+      self.class.jobs_with_session_queue(q).select { |j| jid != j[:jid] }.empty? &&
+        self.class.workers_with_session_queue(q).select { |j| jid != j[:jid] }.empty?
     end
 
     def outlog(str)
