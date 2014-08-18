@@ -12,27 +12,9 @@ module Stretched
       @adapter = context[:adapter] || ObjectAdapter.find(context[:adapter_name])
 
       context[:json_objects] = page.doc.xpath(adapter.xpath).map do |node|
-        # Run JSON setters
-        runner = Script.runner
-        runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
-        instance = read_with_json(
-          runner: runner,
-          node: node,
-          instance: Hashie::Mash.new
-        )
-
-        # Run ruby setters
-        adapter.scripts.each do |script_name|
-          runner = Script.runner(script_name)
-          runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
-          instance = read_with_script(
-            runner: runner,
-            node: node,
-            instance: instance
-          )
-        end if adapter.scripts
-
-        # Validate results
+        instance = Hashie::Mash.new
+        instance = run_json_setters(instance, node)
+        instance = run_ruby_setters(instance, node)
         instance.select { |attribute, value| adapter.validate(attribute, value) }
       end
     end
@@ -40,6 +22,30 @@ module Stretched
     #
     # private
     #
+
+    def run_json_setters(instance, node)
+      runner = Script.runner
+      runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
+      read_with_json(
+        node: node,
+        runner: runner,
+        instance: instance
+      )
+    end
+
+    def run_ruby_setters(instance, node)
+      return instance unless adapter.scripts
+      adapter.scripts.each do |script_name|
+        runner = Script.runner(script_name)
+        runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
+        instance = read_with_script(
+          node: node,
+          runner: runner,
+          instance: instance
+        )
+      end
+      instance
+    end
 
     def read_with_json(opts)
       runner, node, instance = opts[:runner], opts[:node], opts[:instance]
