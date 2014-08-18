@@ -11,9 +11,10 @@ sessions:
         step: 1
   - queue: www.budsgunshop.com
     session_definition:
-      $key: global/standard_html_feed_session
-      read_interval: 3600
-      page_format: html
+      www.budsgunshop.com/hourly_session:
+        $key: global/standard_html_session
+        read_interval: 3600
+        page_format: html
     object_adapters: [ www.budsgunshop.com/product_links ]
     urls:
       - url: http://www.budsgunshop.com/catalog/1
