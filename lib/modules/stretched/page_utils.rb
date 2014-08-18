@@ -18,7 +18,8 @@ module Stretched
         page = conn.fetch_page(link, opts)
         sleep 1
       end until page.try(:present?) || (tries -= 1).zero?
-      page.is_valid? ? page : nil
+      page.discard_doc! unless page.is_valid?
+      page
     end
 
     def close_http_connections

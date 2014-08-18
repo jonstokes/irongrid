@@ -10,15 +10,20 @@ module Stretched
         next unless page = scrape_page(url)
         stretched_session.object_adapters.each do |adapter|
           object_q = ObjectQueue.find_or_create(adapter.queue_name)
-          result = ExtractJsonFromPage.perform(
-            page: page,
-            adapter: adapter,
-            browser_session: browser_session
-          )
-          context[:pages_scraped] = stretched_session.urls.count
-          puts "## Scraped #{result.json_objects.count} objects from #{url}"
-          object_q.add result.json_objects
+          if page.is_valid?
+            result = ExtractJsonFromPage.perform(
+              page: page,
+              adapter: adapter,
+              browser_session: browser_session
+            )
+            json_objects = result.json_objects
+          else
+            json_objects = [{ page: page.to_hash }]
+          end
+          puts "## Scraped #{json_objects.count} objects from #{url}"
+          object_q.add json_objects
         end
+        context[:pages_scraped] = stretched_session.urls.count
       end
     ensure
       close_http_connections

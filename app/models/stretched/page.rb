@@ -64,7 +64,6 @@ module Stretched
       end
     end
 
-
     def is_valid?
       (url != "about:blank") && !not_found? && present?
     end
