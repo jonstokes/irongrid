@@ -1,7 +1,7 @@
 ---
 object_adapter:
   www.budsgunshop.com/product_links:
-    $key: globals/product_links # This loads global scripts manifest
+    $key: globals/product_link # This loads global scripts manifest
     schema: ProductLink
     xpath: //span[@class="productListing-productname"]/a
     attribute:

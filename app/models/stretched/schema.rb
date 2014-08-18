@@ -18,14 +18,6 @@ module Stretched
 
     def properties; @data['properties']; end
 
-    def self.find(key)
-      super(type: "Schema", key: key)
-    end
-
-    def self.create(opts)
-      super(opts.merge(type: "Schema"))
-    end
-
     private
 
     def type_is_valid?(property_type, value)

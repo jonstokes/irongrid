@@ -25,8 +25,8 @@ describe Stretched::Registration do
         :type => "Registration",
         :key => "test-2",
         :data => {
-          "$key" => "test-1",
-          "key2" => "value2"
+          '$key' => "test-1",
+          'key2' => "value2"
         }
       )
 

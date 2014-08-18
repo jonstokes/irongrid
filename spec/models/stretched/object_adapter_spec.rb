@@ -4,7 +4,7 @@ describe Stretched::ObjectAdapter do
 
   before :each do
     Stretched::Registration.with_redis { |conn| conn.flushdb }
-    Stretched::Schema.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
+    Stretched::Schema.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
   end
 
   describe "#initialize" do

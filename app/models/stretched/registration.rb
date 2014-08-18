@@ -12,10 +12,11 @@ module Stretched
       @registration_type, @key = opts[:type], opts[:key]
       opts_data = opts[:data] || {}
       if @keyref = opts_data['$key']
-        @data = self.class.find(
+        find_opts = {
           type: registration_type,
           key: @keyref
-        ).data.merge(opts_data.reject { |k, v| k == "$key" })
+        }
+        @data = self.class.find(find_opts).data.merge(opts_data.reject { |k, v| k == '$key' })
       else
         @data = opts_data
       end

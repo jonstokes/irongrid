@@ -15,13 +15,5 @@ module Stretched
     def attribute_setters; @data["attribute"]; end
     def queue_name; schema.key; end
 
-    def self.find(key)
-      super(type: "ObjectAdapter", key: key)
-    end
-
-    def self.create(opts)
-      super(opts.merge(type: "ObjectAdapter"))
-    end
-
   end
 end
