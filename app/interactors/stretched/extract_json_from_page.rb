@@ -4,6 +4,11 @@ module Stretched
 
     attr_accessor :instance, :adapter
 
+    def setup
+      Extension.register_all
+      Script.register_all
+    end
+
     def perform
       @adapter = context[:adapter] || ObjectAdapter.find(context[:adapter_name])
 
