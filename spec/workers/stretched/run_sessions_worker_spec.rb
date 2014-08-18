@@ -34,7 +34,7 @@ describe Stretched::RunSessionsWorker do
         end
       end
 
-      object_q = Stretched::ObjectQueue.find_or_create("Listings")
+      object_q = Stretched::ObjectQueue.find_or_create("ProductLink")
       expect(object_q.size).to be_zero
 
       @worker.perform(queue: @domain)
