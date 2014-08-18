@@ -13,6 +13,7 @@ describe Stretched::ExtractJsonFromPage do
     Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/globals/conversions.rb")
     Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
     Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
+    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/globals.yml")
     Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
   end
 

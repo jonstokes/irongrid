@@ -19,6 +19,7 @@ describe Stretched::RunSessionsWorker do
     Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
     Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
     Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
+    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/globals.yml")
     Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
     Stretched::SessionQueue.find_or_create("www.retailer.com")
   end
