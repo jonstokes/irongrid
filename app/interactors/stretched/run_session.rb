@@ -3,11 +3,6 @@ module Stretched
     include Interactor
     include Stretched::PageUtils
 
-    def setup
-      Extension.register_all
-      Script.register_all
-    end
-
     def perform
       #context: stretched_session, browser_session
 
