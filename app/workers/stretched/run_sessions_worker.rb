@@ -5,6 +5,7 @@ module Stretched
     sidekiq_options :queue => :crawls, :retry => true
 
     attr_accessor :timer if Rails.env.test?
+    attr_reader :session_q
 
     delegate :timed_out?, to: :timer
 
@@ -12,7 +13,7 @@ module Stretched
       opts.symbolize_keys!
 
       @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
-      @session_q = SessionQueue.find_or_create(opts[:session_queue_name])
+      @session_q = SessionQueue.find_or_create(opts[:queue])
       return false unless @session_q.any?
 
       true
@@ -20,10 +21,10 @@ module Stretched
 
     def perform(opts)
       return unless opts && init(opts)
-      return unless i_am_alone_with_this_queue?(@session_q.key) || (@debug = opts[:debug])
+      return unless i_am_alone_with_this_queue?(session_q.name) || (@debug = opts[:debug])
 
-      outlog "Emptying session queue for #{session_q.key}..."
-      while !timed_out? && (ssn = @session_q.pop) do
+      outlog "Emptying session queue for #{session_q.name}..."
+      while !timed_out? && (ssn = session_q.pop) do
         outlog "Popped session of size #{ssn.size} with definition #{ssn.definition_key}."
         RunSession.perform(stretched_session: ssn)
         outlog "Session for #{ssn.definition_key} finished! Timeout is #{@timeout}"
@@ -48,7 +49,7 @@ module Stretched
     end
 
     def outlog(str)
-      return unless @debug
+      # return unless @debug
       puts "### #{str}"
     end
 

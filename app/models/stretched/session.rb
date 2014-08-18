@@ -4,7 +4,10 @@ module Stretched
 
     delegate :with_limit, :page_format, to: :session_definition
 
+    SESSION_PROPERTIES = %w(queue session_definition object_adapters urls)
+
     def initialize(opts)
+      Session.validate(opts)
       opts.symbolize_keys!
       @queue_name = opts[:queue]
       @session_definition = Stretched::SessionDefinition.find_or_create(opts[:session_definition])
@@ -25,6 +28,12 @@ module Stretched
     def self.create(opts)
       q = SessionQueue.find_or_create(opts[:queue])
       q.add opts
+    end
+
+    def self.validate(object)
+      object.each do |key, value|
+        raise "Invalid session property #{key}" unless SESSION_PROPERTIES.include?(key.to_s)
+      end
     end
 
     private

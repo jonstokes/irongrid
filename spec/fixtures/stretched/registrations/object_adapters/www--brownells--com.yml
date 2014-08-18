@@ -4,7 +4,7 @@ object_adapter:
     scripts:
     - globals/*
     - www.brownells.com/link_postfix
-    schema: { $key: Listing }
+    schema: Listing
     xpath: //Products/Product
     attribute:
       listing_condition: [{ value: new }]
