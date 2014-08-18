@@ -51,12 +51,9 @@ describe Stretched::ObjectQueue do
   describe "#pop", no_es: true do
     it "should return an object and remove it from the queue" do
       object1 = @objects.first.dup.merge(page_attributes: {'foo' => 1, 'bar' => 2})
-      puts "## Adding #{object1}"
       @store.add(object1)
-      puts "## Store size is now #{@store.size}"
 
       object = @store.pop
-      puts "## Popped object is #{object}"
       key = Stretched::ObjectQueue.key(object)
 
       expect(object).not_to be_nil
