@@ -40,6 +40,10 @@ describe Stretched::RunSessionsWorker do
       @worker.perform(queue: @domain)
 
       expect(object_q.size).to eq(50)
+      object = object_q.pop
+      puts "## #{object}"
+      expect(object.product_adapter_key).to eq("www.budsgunshop.com/product_page")
+      expect(object.product_link).to include("http")
     end
 
 
