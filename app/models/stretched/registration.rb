@@ -11,11 +11,11 @@ module Stretched
       opts.symbolize_keys!
       @registration_type, @key = opts[:type], opts[:key]
       opts_data = opts[:data] || {}
-      if @keyref = opts[:$key]
+      if @keyref = opts_data['$key']
         @data = self.class.find(
           type: registration_type,
           key: @keyref
-        ).data.merge(opts_data)
+        ).data.merge(opts_data.reject { |k, v| k == "$key" })
       else
         @data = opts_data
       end

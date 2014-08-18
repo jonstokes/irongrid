@@ -24,8 +24,8 @@ describe Stretched::Registration do
       registration2 = Stretched::Registration.create(
         :type => "Registration",
         :key => "test-2",
-        :$key => "test-1",
         :data => {
+          "$key" => "test-1",
           "key2" => "value2"
         }
       )
