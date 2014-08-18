@@ -29,14 +29,5 @@ module Stretched
     def time_slots
       @data.select { |k, v| %w(peak off_peak).include?(k) }
     end
-
-
-    def self.find(key)
-      super(type: "RateLimit", key: key)
-    end
-
-    def self.create(opts)
-      super(opts.merge(type: "RateLimit"))
-    end
   end
 end
