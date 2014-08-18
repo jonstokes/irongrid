@@ -31,9 +31,9 @@ object_adapter:
     schema: Listing
     xpath: '/html'
     scripts:
-    - globals/clean_attribute_values
+    - globals/product_page
 #   - globals/calculate_shipping
-    - globals/listing_validation
+    - globals/validation
     attribute: {}
 
 
