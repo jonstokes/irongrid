@@ -9,6 +9,12 @@ Stretched::Script.define do
       end
     end
 
+    image do |instance|
+      if instance.image?
+        clean_up_image_url(instance.image)
+      end
+    end
+
     price_in_cents do |instance|
       convert_dollars_to_cents(instance.price_in_cents)
     end
@@ -49,11 +55,11 @@ Stretched::Script.define do
       end
     end
 
-    number_of_rounds do |instance|
+    product_number_of_rounds do |instance|
       instance.number_of_rounds.delete(",").to_i if instance.number_of_rounds?
     end
 
-    grains do |instance|
+    product_grains do |instance|
       if instance.grains?
         g = instance.grains.delete(",").to_i
         (g > 0 && g < 400) ? g : nil
@@ -65,13 +71,6 @@ Stretched::Script.define do
         (instance.current_price_in_cents.to_f / instance.number_of_rounds.raw.to_f).round rescue 0
       end
     end
-
-    image do |instance|
-      if instance.image?
-        clean_up_image_url(instance.image)
-      end
-    end
-
   end
 end
 
