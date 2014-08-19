@@ -22,7 +22,7 @@ module Stretched
         if key = conn.spop(set_name)
           raise "ObjectQueue: missing key #{key}" unless data = conn.get(key)
           conn.del(key)
-          self.class.value_from_redis(data)
+          self.class.value_from_redis(data).merge(key: key)
         end
       end
     end
@@ -129,17 +129,15 @@ module Stretched
     private
 
     def add_objects_to_redis(objects)
-      count = 0
-      objects.each do |obj|
+      objects.map do |obj|
         key = ObjectQueue.key(obj)
         next if with_redis { |conn| conn.sismember(set_name, key) }
         with_redis do |conn|
           conn.set(key, obj.to_json)
           conn.sadd(set_name, key)
         end
-        count += 1
-      end
-      count
+        key
+      end.compact
     end
 
     def remove_keys_from_redis(keys)

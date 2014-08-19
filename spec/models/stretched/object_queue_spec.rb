@@ -15,32 +15,37 @@ describe Stretched::ObjectQueue do
   describe "#add", no_es: true do
 
     it "adds a batch of objects" do
-      @store.add(@objects).should == 3
+      result = @store.add(@objects)
+      expect(result.count).to eq(3)
+      expect(result.first).to be_a(String)
       expect(@store.size).to eq(3)
     end
 
     it "adds a single object" do
-      expect(@store.add(@objects.first)).to be_true
+      expect(@store.add(@objects.first)).not_to be_empty
       expect(@store.size).to eq(1)
     end
 
     it "does not add an object twice" do
       @store.add(@objects.first)
-      expect(@store.add(@objects.first)).to be_zero
+      result = @store.add(@objects.first)
+      expect(result).to be_empty
       expect(@store.size).to eq(1)
     end
 
     it "should add a previously popped object" do
-      expect(@store.add(@objects)).to eq(3)
+      expect(@store.add(@objects).count).to eq(3)
+      expect(@store.size).to eq(3)
       object = @store.pop
-      expect(@store.add(object)).to be_true
+      expect(@store.size).to eq(2)
+      expect(@store.add(object)).not_to be_empty
       expect(@store.size).to eq(3)
     end
   end
 
   describe "#clear", no_es: true do
     it "should clear the store" do
-      @store.add(@objects).should == 3
+      @store.add(@objects)
       @store.size.should == 3
       @store.clear
       @store.should be_empty
