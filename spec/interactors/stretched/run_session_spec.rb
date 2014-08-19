@@ -3,10 +3,16 @@ require 'mocktra'
 
 describe Stretched::RunSession do
   describe "#perform" do
-    describe "product pages" do
 
+    before :each do
+      Stretched::Registration.with_redis { |c| c.flushdb }
+      Stretched::Extension.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/extensions/conversions.rb")
+      Stretched::Script.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/product_page.rb")
+      Stretched::Script.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/validation.rb")
+    end
+
+    describe "product pages" do
       before :each do
-        Stretched::Registration.with_redis { |c| c.flushdb }
         Stretched::Registration.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
         Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
         Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
@@ -72,9 +78,10 @@ describe Stretched::RunSession do
     describe "product feeds" do
 
       before :each do
-        Stretched::Registration.with_redis { |c| c.flushdb }
         Stretched::Registration.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
-        Stretched::Registration.register_from_source("#{Rails.root}/spec/fixtures/sites/stretched/ammo--net.yml")['site']['registrations']
+        source = YAML.load_file("#{Rails.root}/spec/fixtures/sites/stretched/ammo--net.yml")['site']['registrations']
+        Stretched::Registration.register_from_source(source)
+        @sessions = YAML.load_file("#{Rails.root}/spec/fixtures/sites/stretched/ammo--net.yml")['site']['sessions']
       end
 
       it "runs a session and extracts objects from product feeds" do
@@ -86,13 +93,13 @@ describe Stretched::RunSession do
           end
         end
 
-        #object_q = Stretched::ObjectQueue.find_or_create "Listing"
-        #expect(object_q.size).to be_zero
+        object_q = Stretched::ObjectQueue.find_or_create "Listing"
+        expect(object_q.size).to be_zero
 
-        #ssn = Stretched::Session.new(@sessions.first)
-        #result = Stretched::RunSession.perform(stretched_session: ssn)
-        #expect(object_q.size).to eq(57)
-        #expect(result.pages_scraped).to eq(8)
+        ssn = Stretched::Session.new(@sessions.first)
+        result = Stretched::RunSession.perform(stretched_session: ssn)
+        expect(object_q.size).to eq(57)
+        expect(result.pages_scraped).to eq(1)
       end
     end
   end
