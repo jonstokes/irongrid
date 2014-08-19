@@ -192,15 +192,11 @@ module Stretched
 
     def to_hash
       {'url' => @url.to_s,
-       'headers' => Marshal.dump(@headers),
-       'body' => @body,
+       'headers' => @headers,
        'code' => @code,
-       'visited' => @visited,
-       'depth' => @depth,
        'referer' => @referer.to_s,
        'redirect_to' => @redirect_to.to_s,
-       'response_time' => @response_time,
-       'fetched' => @fetched}
+       'response_time' => @response_time}
     end
 
     def self.from_hash(hash)
