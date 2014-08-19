@@ -8,7 +8,6 @@ module Stretched
 
       stretched_session.urls.each do |url|
         next unless page = scrape_page(url)
-        puts "## Page valid? #{page.is_valid?}"
         stretched_session.object_adapters.each do |adapter|
           object_q = ObjectQueue.find_or_create(adapter.queue_name)
           if page.is_valid?
@@ -38,8 +37,13 @@ module Stretched
     end
 
     def scrape_page(url)
-      if stretched_session.use_phantomjs?
+      case stretched_session.page_format.downcase
+      when "dhtml"
         stretched_session.with_limit { render_page(url) }
+      when "xml"
+        stretched_session.with_limit { get_page(url, force_format: :xml) }
+      when "html"
+        stretched_session.with_limit { get_page(url, force_format: :html) }
       else
         stretched_session.with_limit { get_page(url) }
       end
