@@ -2,16 +2,7 @@
 session_queue:
   www.budsgunshop.com: {}
   www.brownells.com: {}
-session_definition:
-  global/standard_html_session:
-    page_format: html
-    rate_limits: global/standard_rate_limits
-  global/standard_xml_session:
-    page_format: xml
-    rate_limits: global/standard_rate_limits
-  global/standard_dhtml_session:
-    page_format: dhtml
-    rate_limits: global/standard_rate_limits
+  ammo.net: {}
 rate_limit:
   global/standard_rate_limits:
     timezone: America/Chicago
@@ -23,6 +14,83 @@ rate_limit:
       start: '06:01'
       duration: 17
       rate: 2
+session_definition:
+  global/standard_html_session:
+    page_format: html
+    rate_limits: global/standard_rate_limits
+  global/standard_xml_session:
+    page_format: xml
+    rate_limits: global/standard_rate_limits
+  global/standard_dhtml_session:
+    page_format: dhtml
+    rate_limits: global/standard_rate_limits
+"schema": {
+  "ProductLink": {
+    "title": "ProductLink",
+    "description": "Schema for product links",
+    "type": "object",
+    "properties": {
+      "product_link":        { "type": "url" },
+      "product_adapter_key": { "type": "string" },
+    },
+    "required": ["product_link", "product_adapter_key"]
+  },
+  "Listing": {
+    "title": "Listing",
+    "description": "Schema for product listing JSON object",
+    "type": "object",
+    "properties": {
+      "valid":       { "type": "boolean" },
+      "not_found":   { "type": "boolean" },
+      "url":         { "type": "url" },
+      "description": { "type": "string" },
+      "keywords":    { "type": "string" },
+      "title":       { "type": "string" },
+      "type": {
+        "type": "string",
+        "enum": ["RetailListing", "AuctionListing", "ClassifiedListing"]
+      },
+      "condition": {
+        "type": "string",
+        "enum": ["New", "Used", "Unknown"]
+      },
+      "availability": {
+        "type": "string",
+        "enum": ["in_stock", "out_of_stock", "unknown"]
+      },
+      "image":                    { "type": "url" },
+      "seller_name":              { "type": "string" },
+      "seller_domain":            { "type": "string" },
+      "auction_ends":             { "type": "string" },
+      "current_price_in_cents":   { "type": "integer" },
+      "price_in_cents":           { "type": "integer" },
+      "sale_price_in_cents":      { "type": "integer" },
+      "buy_now_price_in_cents":   { "type": "integer" },
+      "current_bid_in_cents":     { "type": "integer" },
+      "minimum_bid_in_cents":     { "type": "integer" },
+      "location":            { "type": "string" },
+      "reserve_in_cents":         { "type": "integer" },
+      "price_on_request":         { "type": "string" },
+      "price_per_round_in_cents": { "type": "integer" },
+      "product_upc":                      { "type": "integer" },
+      "product_mpn":                      { "type": "string" },
+      "product_sku":                      { "type": "string" },
+      "product_category1": {
+        "type": "string",
+        "enum": ["Guns", "Ammunition", "Optics", "Accessories", "None"]
+      },
+      "product_caliber_category": {
+        "type": "string",
+        "enum": ["Handgun", "Rifle", "Rimfire", "Shotgun"]
+      },
+      "product_manufacturer":             { "type": "string" },
+      "product_caliber":                  { "type": "string" },
+      "product_grains":                   { "type": "integer" },
+      "product_number_of_rounds":         { "type": "integer" }
+    },
+    "required": ["valid", "not_found", "url"]
+  }
+}
 object_adapter:
   globals/product_link:
     schema: ProductLink
@@ -35,5 +103,4 @@ object_adapter:
 #   - globals/calculate_shipping
     - globals/validation
     attribute: {}
-
 

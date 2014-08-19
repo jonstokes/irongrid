@@ -42,6 +42,10 @@ module Stretched
 
     def self.load_file(filename)
       source = get_source(filename)
+      load_source(source)
+    end
+
+    def self.load_source(source)
       source.keys.select { |k| TYPES.include?(k.to_s) }.map do |type|
         source[type].map do |key, registration|
           class_name = type.classify
@@ -88,6 +92,12 @@ module Stretched
 
     def self.register_from_file(filename)
       load_file(filename).map do |reg_hash|
+        write_to_redis(reg_hash)
+      end
+    end
+
+    def self.register_from_source(source)
+      load_source(source).map do |reg_hash|
         write_to_redis(reg_hash)
       end
     end
