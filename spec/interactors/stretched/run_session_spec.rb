@@ -98,8 +98,20 @@ describe Stretched::RunSession do
 
         ssn = Stretched::Session.new(@sessions.first)
         result = Stretched::RunSession.perform(stretched_session: ssn)
-        expect(object_q.size).to eq(18)
         expect(result.pages_scraped).to eq(1)
+        expect(object_q.size).to eq(18)
+
+        json = object_q.pop
+        page = json.page
+        expect(page.body).to be_nil
+        expect(page.headers).not_to be_nil
+        expect(page.code).to eq(200)
+
+        object = json.object
+        expect(object.location).to eq("Atlanta, GA 30348")
+        expect(object.price_in_cents).not_to be_nil
+        expect(object.availability).not_to be_nil
+        expect(object.product_category1).to eq("Ammunition")
       end
     end
   end
