@@ -98,7 +98,7 @@ describe Stretched::RunSession do
 
         ssn = Stretched::Session.new(@sessions.first)
         result = Stretched::RunSession.perform(stretched_session: ssn)
-        expect(object_q.size).to eq(57)
+        expect(object_q.size).to eq(18)
         expect(result.pages_scraped).to eq(1)
       end
     end
