@@ -7,7 +7,7 @@ object_adapter:
       product_link:
         - find_by_xpath:
             xpath: ./@href
-      product_adapter_key: www.budsgunshop.com/product_page
+      seller_domain: [{ value: "www.budsgunshop.com" }]
   globals/product_page:
     schema: Listing
     xpath: '/html'

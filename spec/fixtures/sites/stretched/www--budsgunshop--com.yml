@@ -15,8 +15,7 @@ site:
           product_link:
             - find_by_xpath:
                 xpath: ./@href
-          product_adapter_key:
-            - value: www.budsgunshop.com/product_page
+          seller_domain: [{ value: "www.budsgunshop.com" }]
       www.budsgunshop.com/product_page:
         $key: globals/product_page
         attribute:
@@ -164,6 +163,10 @@ site:
                 label: Accessories
                 xpath: .//a[@class="breadcrumb_sep_link"][2]
                 pattern: !ruby/regexp '/Doublestar Accessories/i'
+  product_session_format:
+    queue: www.budsgunshop.com
+    session_definition: global/standard_html_session
+    object_adapters: [ www.budsgunshop.com/product_page ]
   sessions:
     - queue: www.budsgunshop.com
       session_definition: global/standard_html_session

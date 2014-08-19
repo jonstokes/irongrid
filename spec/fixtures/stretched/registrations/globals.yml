@@ -30,10 +30,10 @@ session_definition:
     "description": "Schema for product links",
     "type": "object",
     "properties": {
-      "product_link":        { "type": "url" },
-      "product_adapter_key": { "type": "string" },
+      "product_link":  { "type": "url" },
+      "seller_domain": { "type": "string" }
     },
-    "required": ["product_link", "product_adapter_key"]
+    "required": ["product_link", "seller_domain"]
   },
   "Listing": {
     "title": "Listing",
