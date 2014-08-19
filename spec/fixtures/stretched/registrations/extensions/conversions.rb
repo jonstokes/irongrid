@@ -56,5 +56,10 @@ Stretched::Extension.define do
         return false
       end
     end
+
+    def avantlink_feed_link_postfix
+      (Time.now - 1.day).strftime("%Y-%m-%d")
+    end
+
   end
 end

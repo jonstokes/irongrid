@@ -3,14 +3,13 @@ site:
   name: Bud's Gun Shop
   domain: www.budsgunshop.com
   read_interval: 1440
-  timezone: UTC
+  timezone: America/Chicago
   registrations:
     session_queue:
       www.budsgunshop.com: {}
     object_adapter:
       www.budsgunshop.com/product_links:
-        $key: globals/product_link # This loads global scripts manifest
-        schema: ProductLink
+        $key: globals/product_link
         xpath: //span[@class="productListing-productname"]/a
         attribute:
           product_link:
@@ -20,8 +19,6 @@ site:
             - value: www.budsgunshop.com/product_page
       www.budsgunshop.com/product_page:
         $key: globals/product_page
-        scripts:
-        xpath: '/html'
         attribute:
           #
           # Listing attributes
