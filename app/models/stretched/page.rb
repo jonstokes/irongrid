@@ -69,7 +69,7 @@ module Stretched
     end
 
     def present?
-      !error && code && body.present? && doc
+      !error && !!code && body.present? && !!doc
     end
 
     #

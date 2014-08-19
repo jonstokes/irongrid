@@ -8,6 +8,7 @@ module Stretched
 
       stretched_session.urls.each do |url|
         next unless page = scrape_page(url)
+        puts "## Page valid? #{page.is_valid?}"
         stretched_session.object_adapters.each do |adapter|
           object_q = ObjectQueue.find_or_create(adapter.queue_name)
           if page.is_valid?
@@ -20,7 +21,7 @@ module Stretched
           else
             json_objects = [{ page: page.to_hash }]
           end
-          puts "## Scraped #{json_objects.count} objects from #{url}"
+          puts "## Adding #{json_objects.count} objects to queue #{object_q.name} from #{url}"
           object_q.add json_objects
         end
         context[:pages_scraped] = stretched_session.urls.count
