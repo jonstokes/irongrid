@@ -18,36 +18,36 @@ describe Stretched::SessionQueue do
   describe "#add", no_es: true do
 
     it "adds a batch of objects" do
-      @store.add(@objects).should == 3
+      expect(@store.add(@objects).count).to eq(3)
       expect(@store.size).to eq(3)
     end
 
     it "adds a single object" do
       @objects.each_with_index do |object, i|
-        expect(@store.add(object)).to be_true
+        expect(@store.add(object).count).to eq(1)
         expect(@store.size).to eq(i + 1)
       end
     end
 
     it "does not add an object twice" do
       @store.add(@objects.first)
-      expect(@store.add(@objects.first)).to be_zero
+      expect(@store.add(@objects.first)).to be_empty
       expect(@store.size).to eq(1)
     end
 
     it "should add a previously popped object" do
-      expect(@store.add(@objects.first)).to eq(1)
+      expect(@store.add(@objects.first).count).to eq(1)
       expect(@store.size).to eq(1)
       @store.pop
       expect(@store.size).to eq(0)
-      expect(@store.add(@objects.first)).to be_true
+      expect(@store.add(@objects.first)).not_to be_empty
       expect(@store.size).to eq(1)
     end
   end
 
   describe "#clear", no_es: true do
     it "should clear the store" do
-      @store.add(@objects).should == 3
+      @store.add(@objects).count.should == 3
       @store.size.should == 3
       @store.clear
       @store.should be_empty

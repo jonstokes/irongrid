@@ -30,12 +30,13 @@ describe Stretched::RunSession do
         object_q = Stretched::ObjectQueue.find_or_create "ProductLink"
         expect(object_q.size).to be_zero
 
-        ssn = Stretched::Session.new(@sessions.last)
+        ssn = Stretched::Session.new(@sessions.last.merge('key' => "abcd123"))
         result = Stretched::RunSession.perform(stretched_session: ssn)
 
         expect(object_q.size).to eq(2)
         object = object_q.pop
         expect(object[:page]['code']).to eq(404)
+        expect(object[:session]['key']).to eq("abcd123")
       end
 
       it "runs a session and extracts JSON objects from catalog pages" do

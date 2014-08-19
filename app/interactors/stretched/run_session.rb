@@ -3,25 +3,26 @@ module Stretched
     include Interactor
     include Stretched::PageUtils
 
+    def setup
+      stretched_session.start!
+    end
+
     def perform
       #context: stretched_session, browser_session
 
       stretched_session.urls.each do |url|
         next unless page = scrape_page(url)
         stretched_session.object_adapters.each do |adapter|
-          object_q = ObjectQueue.find_or_create(adapter.queue_name)
           if page.is_valid?
             result = ExtractJsonFromPage.perform(
               page: page,
               adapter: adapter,
               browser_session: browser_session
             )
-            json_objects = result.json_objects
+            add_objects_to_queue(adapter, result.json_objects)
           else
-            json_objects = [{ page: page.to_hash }]
+            add_objects_to_queue(adapter, [{ page: page.to_hash }])
           end
-          puts "## Adding #{json_objects.count} objects to queue #{object_q.name} from #{url}"
-          object_q.add json_objects
         end
         context[:pages_scraped] = stretched_session.urls.count
       end
@@ -30,6 +31,21 @@ module Stretched
     end
 
     private
+
+    def add_objects_to_queue(adapter, json_objects)
+      object_q = ObjectQueue.find_or_create(adapter.queue_name)
+      results = json_objects.map do |obj|
+        obj.merge(
+          session: {
+            key:            stretched_session.key,
+            start_time:     stretched_session.start_time,
+            queue_name:     stretched_session.queue_name,
+            definition_key: stretched_session.definition_key
+          }
+        )
+      end
+      object_q.add results
+    end
 
     def browser_session
       return unless @dhttp
