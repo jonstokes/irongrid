@@ -40,8 +40,28 @@ class Site < CoreModel
   # New Stretched code
   #
 
+  def to_yaml
+    {
+      name: name,
+      domain: domain,
+      read_interval: read_interval,
+      timezone: timezone,
+      registrations: registrations,
+      product_session_format: product_session_format,
+      sessions: sessions
+    }.to_yaml
+  end
+
   def registrations
-    @registrations ||= {
+    if page_adapter
+      page_adapter_registrations
+    elsif feed_adapter
+      feed_adapter_registrations
+    end
+  end
+
+  def page_adapter_registrations
+    @page_adapter_registrations ||= {
       'session_queue' => {
         "#{domain}" => {}
       },
@@ -52,11 +72,38 @@ class Site < CoreModel
         },
         "#{domain}/product_link" => {
           '$key'      => 'globals/product_link',
-          'xpath'     => product_link_xpath,
-          'attribute' => product_link_attributes
+          'xpath'     => feeds.first.product_link_xpath.sub("/@href", ""),
+          'attribute' => {
+            product_link: [
+              { 'find_by_xpath' => { 'xpath' => './@href' } }
+            ],
+            seller_domain: [{ 'value' => domain }]
+          }
         }
       }
     }
+  end
+
+  def feed_adapter_registrations
+    @page_adapter_registrations ||= {
+      'session_queue' => {
+        "#{domain}" => {}
+      },
+      'object_adapter' => {
+        "#{domain}/product_page" => {
+          '$key'      => 'globals/product_page',
+          'xpath'     => feeds.first.product_xpath,
+          'attribute' => object_attributes
+        }
+      }
+    }
+  end
+
+
+  def product_session_format
+  end
+
+  def sessions
   end
 
   def adapter
