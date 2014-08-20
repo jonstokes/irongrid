@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ValidateListing do
   before :each do
     @site = create_site "www.retailer.com"
-    @listing_json = {
+    @listing_json = Hashie::Mash.new(
       "valid" => true,
       "condition"=>"new",
       "type"=>"RetailListing",
@@ -16,48 +16,36 @@ describe ValidateListing do
       "sale_price" => "$650.00",
       "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
       "category1" => "Guns"
-    }
+    )
   end
 
   describe "#perform" do
     it "passes a valid listing" do
       result = ValidateListing.perform(
-        raw_listing: @raw_listing,
-        site: @site,
-        type: "RetailListing"
+        listing_json: @listing_json,
+        site: @site
       )
       expect(result.success?).to be_true
     end
 
     it "fails an invalid listing" do
-      raw_listing = @raw_listing.merge("title" => nil)
+      @listing_json.valid = false
       result = ValidateListing.perform(
-        raw_listing: raw_listing,
-        site: @site,
-        type: "RetailListing"
+        listing_json: @listing_json,
+        site: @site
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
     end
 
-    it "fails a not_found listing" do
-      raw_listing = @raw_listing.merge("not_found" => true)
-      result = ValidateListing.perform(
-        raw_listing: raw_listing,
-        site: @site,
-        type: "ClassifiedListing"
-      )
-      expect(result.success?).to be_false
-      expect(result.status).to eq(:not_found)
-    end
-
     it "fails an ended auction" do
-      raw_listing = @raw_listing.merge("auction_ended" => "#{Time.now - 1.day}")
+      @listing_json.type = "AuctionListing"
+      @listing_json.auction_ended = "#{Time.now - 1.day}"
       result = ValidateListing.perform(
-        raw_listing: raw_listing,
-        site: @site,
-        type: "AuctionListing"
+        listing_json: @listing_json,
+        site: @site
       )
+
       expect(result.success?).to be_false
       expect(result.status).to eq(:auction_ended)
     end
