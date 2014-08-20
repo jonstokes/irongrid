@@ -3,16 +3,17 @@ class ExtractMetadataFromRawListing
 
   def perform
     attributes.each do |attr|
-      send("extract_#{attr}") if raw_listing[attr]
+      send("extract_#{attr}") if listing_json[attr]
     end
   end
 
   def attributes
-    @attributes ||= (ProductDetails::Metadata.attributes_to_be_extracted(category1.raw) + ['caliber_category']).map(&:to_s)
+    @attributes ||= (ProductDetails::Metadata.attributes_to_be_extracted(category1.raw) +
+                     ['caliber_category']).map(&:to_s)
   end
 
   def extract_caliber
-    str = ProductDetails::Scrubber.scrub(raw_listing['caliber'], :punctuation, :caliber)
+    str = ProductDetails::Scrubber.scrub(listing_json['caliber'], :punctuation, :caliber)
     str = ProductDetails::Caliber.analyze(str)
     results = ProductDetails::Caliber.parse(str)
     return unless results[:keywords].first
@@ -29,7 +30,7 @@ class ExtractMetadataFromRawListing
   end
 
   def extract_caliber_category
-    str = ProductDetails::Scrubber.scrub(raw_listing['caliber_category'], :punctuation, :caliber)
+    str = ProductDetails::Scrubber.scrub(listing_json['caliber_category'], :punctuation, :caliber)
     str = ProductDetails::Caliber.analyze(str)
     results = ProductDetails::Caliber.parse_category(str)
     return unless results[:keywords].first
@@ -41,7 +42,7 @@ class ExtractMetadataFromRawListing
   end
 
   def extract_manufacturer
-    str = ProductDetails::Scrubber.scrub(raw_listing['manufacturer'], :punctuation)
+    str = ProductDetails::Scrubber.scrub(listing_json['manufacturer'], :punctuation)
     str = ProductDetails::Manufacturer.analyze(str)
     results = ProductDetails::Manufacturer.parse(str)
     return unless results[:keywords].first
@@ -53,7 +54,7 @@ class ExtractMetadataFromRawListing
   end
 
   def extract_grains
-    grains = raw_listing['grains'].delete(",").to_i
+    grains = listing_json['grains'].delete(",").to_i
     return unless grains > 0
     context[:grains] = ElasticSearchObject.new(
       "grains",
@@ -63,7 +64,7 @@ class ExtractMetadataFromRawListing
   end
 
   def extract_number_of_rounds
-    rounds = raw_listing['number_of_rounds'].delete(",").to_i
+    rounds = listing_json['number_of_rounds'].delete(",").to_i
     return unless rounds > 0
     context[:number_of_rounds] = ElasticSearchObject.new(
       "number_of_rounds",

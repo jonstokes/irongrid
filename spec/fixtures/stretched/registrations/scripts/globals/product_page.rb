@@ -65,12 +65,6 @@ Stretched::Script.define do
         (g > 0 && g < 400) ? g : nil
       end
     end
-
-    price_per_round_in_cents do |instance|
-      if (instance.category1 == "Ammunition") && instance.current_price_in_cents? && instance.number_of_rounds?
-        (instance.current_price_in_cents.to_f / instance.number_of_rounds.raw.to_f).round rescue 0
-      end
-    end
   end
 end
 

@@ -3,6 +3,6 @@ class ValidateListingPresence
 
   def perform
     context[:listing] = nil
-    context.fail!(status: :not_found) if !!raw_listing['not_found']
+    context.fail!(status: :not_found) if listing_json.not_found?
   end
 end

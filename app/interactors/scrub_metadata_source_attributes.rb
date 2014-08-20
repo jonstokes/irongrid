@@ -14,8 +14,4 @@ class ScrubMetadataSourceAttributes
       ProductDetails::Scrubber.scrub_all(content)
     end
   end
-
-  def normalize(content)
-    
-  end
 end

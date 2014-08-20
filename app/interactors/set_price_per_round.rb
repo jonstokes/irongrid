@@ -2,6 +2,7 @@ class SetPricePerRound
   include Interactor
 
   def perform
+    return if context[:price_per_round_in_cents] = listing_json.price_per_round_in_cents
     return unless (category1.raw == "Ammunition") && current_price_in_cents && context[:number_of_rounds]
     context[:price_per_round_in_cents] = price_per_round_in_cents
   end

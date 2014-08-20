@@ -4,13 +4,13 @@ class SetCommonAttributes < CoreModel
   def perform
     context[:title]                    = title
     context[:keywords]                 = keywords
-    context[:description]              = raw_listing['description']
+    context[:description]              = listing_json.description
     context[:category1]                = category1
-    context[:upc]                      = raw_listing['upc']
-    context[:mpn]                      = raw_listing['mpn']
-    context[:sku]                      = raw_listing['sku']
-    context[:seller_domain]            = site.domain
-    context[:seller_name]              = site.name
+    context[:upc]                      = listing_json.upc
+    context[:mpn]                      = listing_json.mpn
+    context[:sku]                      = listing_json.sku
+    context[:seller_domain]            = listing_json.seller_domain
+    context[:seller_name]              = listing_json.seller_name
     context[:affiliate_link_tag]       = site.affiliate_link_tag
     context[:affiliate_program]        = site.affiliate_program
     context[:image_source]             = image_source
@@ -20,16 +20,16 @@ class SetCommonAttributes < CoreModel
   end
 
   def title
-    ElasticSearchObject.new("title", raw: raw_listing['title'])
+    ElasticSearchObject.new("title", raw: listing_json['title'])
   end
 
   def keywords
-    ElasticSearchObject.new("keywords", raw: raw_listing['keywords'])
+    ElasticSearchObject.new("keywords", raw: listing_json['keywords'])
   end
 
   def image_source
-    return unless raw_listing['image']
-    return unless image_source = clean_up_image_url(raw_listing['image'])
+    return unless listing_json['image']
+    return unless image_source = clean_up_image_url(listing_json['image'])
     unless is_valid_image_url?(image_source)
       notify "## IMAGE ERROR at #{url}. Image source is #{image_source}"
       return nil
@@ -38,21 +38,20 @@ class SetCommonAttributes < CoreModel
   end
 
   def item_condition
-    if ['New', 'Used'].include? raw_listing['item_condition']
-      raw_listing['item_condition']
+    if ['New', 'Used'].include? listing_json['condition']
+      listing_json['condition']
     else
       adapter.default_item_condition.try(:titleize) || "Unknown"
     end
   end
 
   def item_location
-    return raw_listing['item_location'] if raw_listing['item_location'].present?
+    return listing_json['location'] if listing_json['location'].present?
     adapter.default_item_location
   end
 
   def category1
     hard_categorize("category1") ||
-      default_categorize("category1") ||
       ElasticSearchObject.new(
         "category1",
         raw:                  "None",
@@ -61,7 +60,7 @@ class SetCommonAttributes < CoreModel
   end
 
   def hard_categorize(cat)
-    return unless value = raw_listing[cat]
+    return unless value = listing_json["product_#{cat}"]
     ElasticSearchObject.new(
       cat,
       raw: value,
@@ -69,40 +68,8 @@ class SetCommonAttributes < CoreModel
     )
   end
 
-  def default_categorize(cat)
-    return unless value = adapter.send("default_#{cat}")
-    ElasticSearchObject.new(
-      cat,
-      raw: value,
-      classification_type: "default"
-    )
-  end
-
-  def clean_up_image_url(link)
-    return unless retval = URI.encode(link)
-    return retval unless retval["?"]
-    retval.split("?").first
-  end
-
-  def is_valid_image_url?(link)
-    return false unless is_valid_url?(link)
-    extensions = %w(.png .jpg .jpeg .gif .bmp)
-    extensions.select { |ext| link.downcase[ext] }.any?
-  end
-
-  def is_valid_url?(link)
-    begin
-      uri = URI.parse(link)
-      %w( http https ).include?(uri.scheme)
-    rescue URI::BadURIError
-      return false
-    rescue URI::InvalidURIError
-      return false
-    end
-  end
-
   def auction_ends
     return unless type == "AuctionListing"
-    ListingFormat.time(site: site, time: raw_listing['auction_ends'])
+    ListingFormat.time(site: site, time: listing_json['auction_ends'])
   end
 end
