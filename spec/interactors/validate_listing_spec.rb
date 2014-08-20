@@ -3,18 +3,12 @@ require 'spec_helper'
 describe ValidateListing do
   before :each do
     @site = create_site "www.retailer.com"
-    @raw_listing = {
-      "validation" => {
-        "retail" => "(raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']",
-        "classified" => "(raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']",
-        "auction" => "(raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']"
-      },
-      "seller_defaults"=> {
-        "condition"=>"new",
-        "listing_type"=>"retail",
-        "stock_status"=>"In Stock",
-        "item_location"=>"1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705"
-      },
+    @listing_json = {
+      "valid" => true,
+      "condition"=>"new",
+      "type"=>"RetailListing",
+      "availability"=>"in_stock",
+      "location"=>"1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705",
       "title" => "CITADEL 1911 COMPACT .45ACP 3 1/2\" HOGUE BLACK", 
       "keywords" => "CITADEL 1911 COMPACT .45ACP",
       "image" => "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG",
@@ -46,15 +40,15 @@ describe ValidateListing do
       expect(result.status).to eq(:invalid)
     end
 
-    it "fails a sold classified" do
-      raw_listing = @raw_listing.merge("item_sold" => "yes")
+    it "fails a not_found listing" do
+      raw_listing = @raw_listing.merge("not_found" => true)
       result = ValidateListing.perform(
         raw_listing: raw_listing,
         site: @site,
         type: "ClassifiedListing"
       )
       expect(result.success?).to be_false
-      expect(result.status).to eq(:classified_sold)
+      expect(result.status).to eq(:not_found)
     end
 
     it "fails an ended auction" do

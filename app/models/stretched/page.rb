@@ -191,10 +191,13 @@ module Stretched
     end
 
     def to_hash
-      {'url' => @url.to_s,
-       'headers' => @headers,
-       'code' => @code,
-       'referer' => @referer.to_s,
+      {'url' => url.to_s,
+       'headers' => headers,
+       'code' => code,
+       'body' => !!body,
+       'error' => error,
+       'referer' => referer.to_s,
+       'fetched' => fetched?,
        'redirect_to' => @redirect_to.to_s,
        'response_time' => @response_time}
     end
