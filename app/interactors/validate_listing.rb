@@ -12,7 +12,6 @@ class ValidateListing
   end
 
   def auction_ended?
-    auction_ends = ListingFormat.time(time: listing_json['auction_ends'], site: site)
     auction_ends.nil? || (auction_ends < Time.now)
   end
 
