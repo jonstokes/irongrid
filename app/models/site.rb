@@ -42,13 +42,13 @@ class Site < CoreModel
 
   def to_yaml
     {
-      name: name,
-      domain: domain,
-      read_interval: read_interval,
-      timezone: timezone,
-      registrations: registrations,
+      name:                   name,
+      domain:                 domain,
+      read_interval:          read_interval,
+      timezone:               timezone,
+      registrations:          registrations,
       product_session_format: product_session_format,
-      sessions: sessions
+      sessions:               sessions
     }.to_yaml
   end
 
@@ -90,7 +90,7 @@ class Site < CoreModel
         "#{domain}" => {}
       },
       'object_adapter' => {
-        "#{domain}/product_page" => {
+        "#{domain}/product_feed" => {
           '$key'      => 'globals/product_page',
           'xpath'     => feeds.first.product_xpath,
           'attribute' => object_attributes
@@ -101,9 +101,45 @@ class Site < CoreModel
 
 
   def product_session_format
+    return unless page_adapter
+    {
+      'queue' => domain,
+      'session_definition' => session_def(adapter_format),
+      'object_adapters' => [ "#{domain}/product_page" ]
+    }
   end
 
   def sessions
+    [
+      {
+        'queue' => domain,
+        'session_definition' => session_def(feeds.first.format),
+        'object_adapters' => adapters_for_sessions,
+        'urls' => urls
+      }
+    ]
+  end
+
+  def urls
+    link_sources['feeds'].map do |feed|
+      convert_feed(feed)
+    end
+  end
+
+  def convert_feed(feed)
+    return { 'url' => feed['url'] } unless !!feed['url']['start_at_page']
+    hash = {
+      'url'           => feed['url'],
+      'start_at_page' => feed['start_at_page'],
+      'stop_at_page'  => feed['stop_at_page']
+    }
+    hash.merge!('step' => feed['step']) if feed['step']
+    hash
+  end
+
+  def adapters_for_sessions
+    return ["#{domain}/product_link"] if page_adapter
+    ["#{domain}/product_feed"]
   end
 
   def adapter
@@ -114,8 +150,8 @@ class Site < CoreModel
     adapter.format
   end
 
-  def session_def
-    case adapter_format
+  def session_def(format)
+    case format.to_s
     when 'dhtml'
       'globals/standard_dhtml_session'
     when 'xml'
@@ -180,14 +216,6 @@ class Site < CoreModel
     hash = Hash[arguments.map { |k, v| [mapppings[k], v] }]
     hash['label'] = convert_value(hash['label']) if hash['label']
     hash
-  end
-
-  def product_session_format
-    # stuff
-  end
-
-  def sessions
-    # stuff
   end
 
   #
