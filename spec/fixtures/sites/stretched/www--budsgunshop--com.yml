@@ -72,10 +72,10 @@ site:
             - value: in_stock
           type:
             - label_by_url:
-                label: auction
+                label: AuctionListing
                 pattern: !ruby/regexp '/auction_info.*auctions_id/'
             - label_by_url:
-                label: retail
+                label: RetailListing
                 pattern: !ruby/regexp '/product_info.*products_id/'
             - value: RetailListing
           condition:

@@ -7,22 +7,22 @@ class Site < CoreModel
   SITE_ATTRIBUTES = [
     :name,
     :domain,
+    :read_interval,
+    :timezone,
     :created_at,
     :updated_at,
     :read_at,
-    :page_adapter,
-    :feed_adapter,
-    :read_with,
-    :link_sources,
     :size,
     :active,
-    :rate_limits,
-    :read_interval,
     :commit_sha,
     :stats,
     :affiliate_link_tag,
     :affiliate_program,
-    :timezone
+    :page_adapter,
+    :feed_adapter,
+    :read_with,
+    :link_sources,
+    :rate_limits
   ]
 
   SITE_ATTRIBUTES.each do |key|
@@ -35,6 +35,117 @@ class Site < CoreModel
       end
     end
   end
+
+  #
+  # New Stretched code
+  #
+
+  def registrations
+    @registrations ||= {
+      'session_queue' => {
+        "#{domain}" => {}
+      },
+      'object_adapter' => {
+        "#{domain}/product_page" => {
+          '$key'      => 'globals/product_page',
+          'attribute' => object_attributes
+        },
+        "#{domain}/product_link" => {
+          '$key'      => 'globals/product_link',
+          'xpath'     => product_link_xpath,
+          'attribute' => product_link_attributes
+        }
+      }
+    }
+  end
+
+  def adapter
+    page_adapter || feed_adapter
+  end
+
+  def adapter_format
+    adapter.format
+  end
+
+  def session_def
+    case adapter_format
+    when 'dhtml'
+      'globals/standard_dhtml_session'
+    when 'xml'
+      'globals/standard_xml_session'
+    else
+      'globals/standard_html_session'
+    end
+  end
+
+  def object_attributes
+    @object_attributes ||= begin
+      adapter.map do |attribute, setters|
+        next if %w(seller_defaults valiation digest_attributes).include?(attribute)
+        new_setters = setters.map do |setter|
+          convert_setter(setter)
+        end
+        new_setters << { 'value' => default_for(attribute) } if default_for(attribute)
+        { convert_attribute(attribute) => new_setters }
+      end
+    end
+  end
+
+  def default_for(attribute)
+    return unless adapter.data['seller_defaults']
+    return unless val = adapter.data['seller_defaults'][attribute]
+    convert_value(val)
+  end
+
+  def convert_value(val)
+    return "RetailListing" if val.downcase == "retail"
+    return "AuctionListing" if val.downcase == "auction"
+    return "ClassifiedListing" if val.downcase == "classified"
+    return "in_stock" if val.downcase = "in stock"
+    return "out_of_stock" if val.downcase = "out of stock"
+    val
+  end
+
+  def convert_attribute(attribute)
+    return "availability" if attribute == "stock_status"
+    return attribute.sub("listing_", "") if attribute[/listing_/]
+    return attribute.sub("item_", "") if attribute[/item_/]
+    return "#{attribute}_in_cents" if %w(price sale_price buy_now_price current_bid minimum_bid starting_bid reserve).include?(attribute)
+    return "product_#{attribute}" if %w(numer_of_rounds grains manufacturer category1 caliber caliber_category upc sku mpn).include?(attribute)
+    attribute
+  end
+
+  def convert_setter(setter)
+    return setter['scraper_method'] unless setter['arguments']
+    hash = { convert_method(setter['scraper_method']) => convert_args(setter['arguments']) }
+    hash.merge!('filters' => convert_filters(setter['arguments']['filters'])) if setter['arguments']['filters']
+    hash
+  end
+
+  def convert_method(method)
+    return method.sub("classify_by", "label_by") if method[/classify_by/]
+    return method
+  end
+
+  def convert_args(arguments)
+    return unless arguments
+    mappings = { 'regexp' => 'pattern', 'type' => 'label' }
+    hash = Hash[arguments.map { |k, v| [mapppings[k], v] }]
+    hash['label'] = convert_value(hash['label']) if hash['label']
+    hash
+  end
+
+  def product_session_format
+    # stuff
+  end
+
+  def sessions
+    # stuff
+  end
+
+  #
+  # Old site code
+  #
 
   def initialize(opts)
     raise "Domain required!" unless opts[:domain]
