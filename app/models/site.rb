@@ -143,11 +143,11 @@ class Site < CoreModel
   end
 
   def adapter
-    page_adapter || feed_adapter
+    @site_data[:page_adapter] || @site_data[:feed_adapter]
   end
 
   def adapter_format
-    adapter.format
+    adapter['format']
   end
 
   def session_def(format)
@@ -164,8 +164,9 @@ class Site < CoreModel
   def object_attributes
     @object_attributes ||= begin
       adapter.map do |attribute, setters|
-        next if %w(seller_defaults valiation digest_attributes).include?(attribute)
+        next if %w(seller_defaults validation digest_attributes).include?(attribute)
         new_setters = setters.map do |setter|
+          puts "#{attribute}: converting #{setter.inspect}"
           convert_setter(setter)
         end
         new_setters << { 'value' => default_for(attribute) } if default_for(attribute)
@@ -175,8 +176,8 @@ class Site < CoreModel
   end
 
   def default_for(attribute)
-    return unless adapter.data['seller_defaults']
-    return unless val = adapter.data['seller_defaults'][attribute]
+    return unless adapter['seller_defaults']
+    return unless val = adapter['seller_defaults'][attribute]
     convert_value(val)
   end
 
@@ -184,8 +185,8 @@ class Site < CoreModel
     return "RetailListing" if val.downcase == "retail"
     return "AuctionListing" if val.downcase == "auction"
     return "ClassifiedListing" if val.downcase == "classified"
-    return "in_stock" if val.downcase = "in stock"
-    return "out_of_stock" if val.downcase = "out of stock"
+    return "in_stock" if val.downcase == "in stock"
+    return "out_of_stock" if val.downcase == "out of stock"
     val
   end
 
@@ -201,7 +202,7 @@ class Site < CoreModel
   def convert_setter(setter)
     return setter['scraper_method'] unless setter['arguments']
     hash = { convert_method(setter['scraper_method']) => convert_args(setter['arguments']) }
-    hash.merge!('filters' => convert_filters(setter['arguments']['filters'])) if setter['arguments']['filters']
+    hash.merge!('filters' => setter['arguments']['filters']) if setter['arguments']['filters']
     hash
   end
 
@@ -213,7 +214,7 @@ class Site < CoreModel
   def convert_args(arguments)
     return unless arguments
     mappings = { 'regexp' => 'pattern', 'type' => 'label' }
-    hash = Hash[arguments.map { |k, v| [mapppings[k], v] }]
+    hash = Hash[arguments.map { |k, v| [mappings[k], v] }]
     hash['label'] = convert_value(hash['label']) if hash['label']
     hash
   end
