@@ -72,7 +72,7 @@ class Site < CoreModel
         },
         "#{domain}/product_link" => {
           '$key'      => 'globals/product_link',
-          'xpath'     => feeds.first.product_link_xpath.sub("/@href", ""),
+          'xpath'     => feed_product_link_xpath,
           'attribute' => {
             product_link: [
               { 'find_by_xpath' => { 'xpath' => './@href' } }
@@ -92,13 +92,55 @@ class Site < CoreModel
       'object_adapter' => {
         "#{domain}/product_feed" => {
           '$key'      => 'globals/product_page',
-          'xpath'     => feeds.first.product_xpath,
+          'xpath'     => feed_product_xpath,
           'attribute' => object_attributes
         }
       }
     }
   end
 
+  def feed_product_link_xpath
+    return feeds.first.product_link_xpath.sub("/@href", "") if feeds.any?
+    return link_sources['seed_links'].first.last['link_xpaths'].first if link_sources['seed_links']
+    return link_sources['compressed_links'].first.last['link_xpaths'].first
+  end
+
+  def feed_product_xpath
+    return feeds.first.product_xpath if feeds.any?
+  end
+
+  def urls
+    return link_sources['feeds'].map { |feed| convert_feed(feed) } if feeds.any?
+    convert_legacy_feeds
+  end
+
+  def convert_legacy_feeds
+    convert_seed_links + convert_compressed_links
+  end
+
+  def convert_seed_links
+    return [] unless link_sources['seed_links']
+    link_sources['seed_links'].map do |seed|
+      { 'url' => seed.first.to_s }
+    end
+  end
+
+  def convert_legacy_links
+    return [] unless link_sources['compressed_links']
+    link_sources['compressed_links'].map do |clink|
+      hash = {
+        'url' => clink.first.to_s,
+        'start_at_page' => clink.last['start_at_page'],
+        'stop_at_page' => clink.last['stop_at_page'],
+      }
+      hash.merge!('step' => clink.last['step']) if clink.last['stop_at_page']
+      hash
+    end
+  end
+
+  def feed_format
+    return feeds.first.format if feeds.any?
+  end
 
   def product_session_format
     return unless page_adapter
@@ -113,17 +155,11 @@ class Site < CoreModel
     [
       {
         'queue' => domain,
-        'session_definition' => session_def(feeds.first.format),
+        'session_definition' => session_def(feed_format),
         'object_adapters' => adapters_for_sessions,
         'urls' => urls
       }
     ]
-  end
-
-  def urls
-    link_sources['feeds'].map do |feed|
-      convert_feed(feed)
-    end
   end
 
   def convert_feed(feed)
