@@ -74,10 +74,10 @@ class Site < CoreModel
           '$key'      => 'globals/product_link',
           'xpath'     => feed_product_link_xpath,
           'attribute' => {
-            product_link: [
+            'product_link' [
               { 'find_by_xpath' => { 'xpath' => './@href' } }
             ],
-            seller_domain: [{ 'value' => domain }]
+            'seller_domain' [{ 'value' => domain }]
           }
         }
       }
@@ -101,8 +101,8 @@ class Site < CoreModel
 
   def feed_product_link_xpath
     return feeds.first.product_link_xpath.sub("/@href", "") if feeds.any?
-    return link_sources['seed_links'].first.last['link_xpaths'].first if link_sources['seed_links']
-    return link_sources['compressed_links'].first.last['link_xpaths'].first
+    return link_sources['seed_links'].first.last['link_xpaths'].first.sub("/@href", "") if link_sources['seed_links']
+    return link_sources['compressed_links'].first.last['link_xpaths'].first.sub("/@href", "")
   end
 
   def feed_product_xpath
@@ -125,7 +125,7 @@ class Site < CoreModel
     end
   end
 
-  def convert_legacy_links
+  def convert_compressed_links
     return [] unless link_sources['compressed_links']
     link_sources['compressed_links'].map do |clink|
       hash = {
@@ -133,7 +133,7 @@ class Site < CoreModel
         'start_at_page' => clink.last['start_at_page'],
         'stop_at_page' => clink.last['stop_at_page'],
       }
-      hash.merge!('step' => clink.last['step']) if clink.last['stop_at_page']
+      hash.merge!('step' => clink.last['step']) if clink.last['step']
       hash
     end
   end
@@ -202,12 +202,11 @@ class Site < CoreModel
       adapter.map do |attribute, setters|
         next if %w(seller_defaults validation digest_attributes).include?(attribute)
         new_setters = setters.map do |setter|
-          puts "#{attribute}: converting #{setter.inspect}"
           convert_setter(setter)
         end
         new_setters << { 'value' => default_for(attribute) } if default_for(attribute)
         { convert_attribute(attribute) => new_setters }
-      end
+      end.compact
     end
   end
 
@@ -249,8 +248,9 @@ class Site < CoreModel
 
   def convert_args(arguments)
     return unless arguments
-    mappings = { 'regexp' => 'pattern', 'type' => 'label' }
-    hash = Hash[arguments.map { |k, v| [mappings[k], v] }]
+    args = arguments.reject { |k, v| k == 'filters' }
+    mappings = { 'xpath' => 'xpath', 'regexp' => 'pattern', 'type' => 'label' }
+    hash = Hash[args.map { |k, v| [mappings[k], v] }]
     hash['label'] = convert_value(hash['label']) if hash['label']
     hash
   end
