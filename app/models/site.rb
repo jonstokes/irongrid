@@ -42,14 +42,33 @@ class Site < CoreModel
 
   def to_yaml
     {
-      name:                   name,
-      domain:                 domain,
-      read_interval:          read_interval,
-      timezone:               timezone,
-      registrations:          registrations,
-      product_session_format: product_session_format,
-      sessions:               sessions
+      'name'                   => name,
+      'domain'                 => domain,
+      'read_interval'          => read_interval,
+      'timezone'               => timezone,
+      'registrations'          => registrations,
+      'product_session_format' => product_session_format,
+      'sessions'               => sessions
     }.to_yaml
+  end
+
+  def self.write_all
+    domains = YAML.load_file("#{Rails.root}/spec/fixtures/sites/manifest.yml")
+    domains.each do |domain|
+      puts "Writing file for #{domain}..."
+      next unless site = Site.new(domain: domain, source: :local) rescue nil
+      site.write_yaml
+    end
+  end
+
+  def write_yaml
+    File.open("#{Rails.root}/spec/fixtures/sites/#{domain_dashed}.yml", "w") do |f|
+      f.puts to_yaml
+    end
+  end
+
+  def domain_dashed
+    domain.gsub ".", "--"
   end
 
   def registrations
@@ -100,7 +119,7 @@ class Site < CoreModel
   end
 
   def product_session_format
-    return unless page_adapter
+    return {} unless page_adapter
     {
       'queue' => domain,
       'session_definition' => session_def(adapter_format),

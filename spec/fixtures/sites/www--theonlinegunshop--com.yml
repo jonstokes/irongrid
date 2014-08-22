@@ -1,126 +1,109 @@
 ---
-site_data:
-  :domain: www.theonlinegunshop.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      item_location: '13497 U.S. 183 #350  Austin, TX 78750'
-    title:
-    - scraper_method: meta_og_title
-    description:
-    - scraper_method: meta_og_description
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: meta_og_image
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//em[contains(@class, "ProductPrice")]
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//div[@class="Value"]/strike
-        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: .//span[contains(@class, "VariationProductInventory")]
-        regexp: !ruby/regexp '/\d/'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: .//span[contains(@class, "VariationProductInventory")]
-        regexp: !ruby/regexp '/Sold Out/'
-    item_condition:
-    - scraper_method: classify_by_url
-      arguments:
-        type: Used
-        regexp: !ruby/regexp '/used|condition|like.new/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
-        regexp: !ruby/regexp '/Guns/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
-        regexp: !ruby/regexp '/Guns/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
-        regexp: !ruby/regexp '/Ammunition|ammo|Rimfire|Centerfire|Shotshells|Bullets|Loads|Blanks/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
-        regexp: !ruby/regexp '/Ammunition|ammo|Rimfire|Centerfire|Shotshells|Bullets|Loads|Blanks/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
-        regexp: !ruby/regexp '/Scopes|Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
-        regexp: !ruby/regexp '/Scopes|Optics/i'
-  :link_sources:
-    compressed_links:
-      http://www.theonlinegunshop.com/shoppingcart/categories/Hand-Guns/?sort=newest&page=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 73
-        link_xpaths:
-        - //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a/@href
-      http://www.theonlinegunshop.com/shoppingcart/categories/Long-Guns/?sort=newest&page=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 144
-        link_xpaths:
-        - //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a/@href
-      http://www.theonlinegunshop.com/shoppingcart/categories/Upper-Receivers-%26-Conv-Kits/?sort=newest&page=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 2
-        link_xpaths:
-        - //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a/@href
-      http://www.theonlinegunshop.com/shoppingcart/categories/Accessories/?sort=newest&page=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 2
-        link_xpaths:
-        - //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a/@href
-      http://www.theonlinegunshop.com/shoppingcart/categories/Ammunition/?sort=newest&page=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 170
-        link_xpaths:
-        - //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a/@href
-      http://www.theonlinegunshop.com/shoppingcart/categories/Optics/?sort=newest&page=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 2
-        link_xpaths:
-        - //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a/@href
-      http://www.theonlinegunshop.com/shoppingcart/categories/Reloading/?sort=newest&page=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 120
-        link_xpaths:
-        - //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 3
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: The Online Gun Shop
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: false
-  :read_interval: 3600
+name: The Online Gun Shop
+domain: www.theonlinegunshop.com
+read_interval: 3600
+timezone:
+registrations:
+  session_queue:
+    www.theonlinegunshop.com: {}
+  object_adapter:
+    www.theonlinegunshop.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - meta_og_title
+      - description:
+        - meta_og_description
+      - keywords:
+        - meta_keywords
+      - image:
+        - meta_og_image
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: .//em[contains(@class, "ProductPrice")]
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: .//div[@class="Value"]/strike
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: .//span[contains(@class, "VariationProductInventory")]
+            pattern: !ruby/regexp '/\d/'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: .//span[contains(@class, "VariationProductInventory")]
+            pattern: !ruby/regexp '/Sold Out/'
+      - condition:
+        - label_by_url:
+            label: Used
+            pattern: !ruby/regexp '/used|condition|like.new/i'
+        - value: new
+      - product_category1:
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
+            pattern: !ruby/regexp '/Guns/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
+            pattern: !ruby/regexp '/Guns/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
+            pattern: !ruby/regexp '/Ammunition|ammo|Rimfire|Centerfire|Shotshells|Bullets|Loads|Blanks/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
+            pattern: !ruby/regexp '/Ammunition|ammo|Rimfire|Centerfire|Shotshells|Bullets|Loads|Blanks/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]
+            pattern: !ruby/regexp '/Scopes|Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
+            pattern: !ruby/regexp '/Scopes|Optics/i'
+    www.theonlinegunshop.com/product_link:
+      $key: globals/product_link
+      xpath: //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.theonlinegunshop.com
+product_session_format:
+  queue: www.theonlinegunshop.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.theonlinegunshop.com/product_page
+sessions:
+- queue: www.theonlinegunshop.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.theonlinegunshop.com/product_link
+  urls:
+  - url: http://www.theonlinegunshop.com/shoppingcart/categories/Hand-Guns/?sort=newest&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 73
+  - url: http://www.theonlinegunshop.com/shoppingcart/categories/Long-Guns/?sort=newest&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 144
+  - url: http://www.theonlinegunshop.com/shoppingcart/categories/Upper-Receivers-%26-Conv-Kits/?sort=newest&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.theonlinegunshop.com/shoppingcart/categories/Accessories/?sort=newest&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.theonlinegunshop.com/shoppingcart/categories/Ammunition/?sort=newest&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 170
+- queue: www.theonlinegunshop.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.theonlinegunshop.com/product_link
+  urls:
+  - url: http://www.theonlinegunshop.com/shoppingcart/categories/Reloading/?sort=newest&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 120

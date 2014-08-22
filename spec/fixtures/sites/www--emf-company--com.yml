@@ -1,82 +1,88 @@
 ---
-site_data:
-  :domain: www.emf-company.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: 1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //tr[1]/td/h1
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='pcShowMainImage']/a[@class='highslide']/img[@id='mainimg']/@src
-        filters:
-        - prefix: http://www.emf-company.com/store/pc/
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='pcShowProductPrice']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='pcShowProductPrice'][1]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //table[@class='pcMainTable']//tr[4]/td[1]/table//tr[1]/td/div[@class='pcShowProductSDesc']
-        filters:
-        - reject: !ruby/regexp '/More details...|(\WComing Soon)\W|(\WIn Stock)\W/i'
-    - scraper_method: meta_description
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: None
-        xpath: //div[@class='pcPageNav']/a
-        regexp: !ruby/regexp '/Knives|Books/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='pcPageNav']/a
-        regexp: !ruby/regexp '/Ammo|Ammunition|Blank/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class='pcPageNav']/a
-        regexp: !ruby/regexp '/Accessories/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='pcPageNav']/a
-        regexp: !ruby/regexp '/Handguns|Rifles|Shotguns|Revolvers|Carbines|Guns|Pistols|Flintlock/i'
-  :link_sources:
-    seed_links:
-      ? http://www.emf-company.com/store/pc/showSearchResults.asp?VA=1&ProdSort=&PageStyle=l&customfield=0&SearchValues=&exact=0&keyword=&priceFrom=0&priceUntil=100000&idCategory=0&IdSupplier=0&withStock=&IDBrand=0&order=2
-      : link_prefix: http://www.emf-company.com/store/pc/
-        link_xpaths:
-        - //div[@class='pcShowProductName']/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 4
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 7
-  :name: E.M.F. Company Inc.
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: E.M.F. Company Inc.
+domain: www.emf-company.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.emf-company.com: {}
+  object_adapter:
+    www.emf-company.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //tr[1]/td/h1
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //table[@class='pcMainTable']//tr/td/img/@src
+          filters:
+          - prefix: http://www.emf-company.com/store/pc/
+        - find_by_xpath:
+            xpath: //div[@class='pcShowMainImage']/a[@class='highslide']/img[@id='mainimg']/@src
+          filters:
+          - prefix: http://www.emf-company.com/store/pc/
+        - find_by_xpath:
+            xpath: //div[@class='pcShowMainImage']//img/@src
+          filters:
+          - prefix: http://www.emf-company.com/store/pc/
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='pcShowProductPrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='pcShowProductPrice'][1]
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@id='contents-wrap']/div[@id='contents']/div[@id='pcMain']/form[@class='pcForms']/table[@class='pcMainTable']//td/div[@class='pcShowProductSDesc']
+            pattern: !ruby/regexp '/out of stock/i'
+        - value: in_stock
+      - description:
+        - find_by_xpath:
+            xpath: //table[@class='pcMainTable']//tr[4]/td[1]/table//tr[1]/td/div[@class='pcShowProductSDesc']
+          filters:
+          - reject: !ruby/regexp '/More details...|(\WComing Soon)\W|(\WIn Stock)\W/i'
+        - meta_description
+      - product_category1:
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='pcPageNav']/a
+            pattern: !ruby/regexp '/Ammo|Ammunition|Blank/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class='pcPageNav']/a
+            pattern: !ruby/regexp '/Accessories/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='pcPageNav']/a
+            pattern: !ruby/regexp '/Handguns|Rifles|Shotguns|Revolvers|Carbines|Guns|Pistols|Flintlock/i'
+      - not_found:
+        - find_by_xpath:
+            xpath: //div[@class='pcPageNav']/a
+            pattern: !ruby/regexp '/Knives|Books/i'
+    www.emf-company.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@class='pcShowProductName']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.emf-company.com
+product_session_format:
+  queue: www.emf-company.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.emf-company.com/product_page
+sessions:
+- queue: www.emf-company.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.emf-company.com/product_link
+  urls:
+  - url: http://www.emf-company.com/store/pc/showSearchResults.asp?VA=1&ProdSort=&PageStyle=l&customfield=0&SearchValues=&exact=0&keyword=&priceFrom=0&priceUntil=100000&idCategory=0&IdSupplier=0&withStock=&IDBrand=0&order=2

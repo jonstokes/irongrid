@@ -1,226 +1,161 @@
 ---
-site_data:
-  :domain: clydearmory.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      item_condition: new
-      listing_type: retail
-      item_location: 4800 Atlanta Hwy, Bogart, GA 30622
-    keywords:
-    - scraper_method: meta_keywords
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='product-name']/h1
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-view']/div[@class='product-collateral']
-        filters:
-        - reject: !ruby/regexp '/Details/i'
-        - reject: !ruby/regexp '/Product Description:/i'
-        - reject: !ruby/regexp '/Additional Information/i'
-        - reject: !ruby/regexp '/Be the first to review this product/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class='product-shop']/p[@class='availability in-stock']/span
-        regexp: !ruby/regexp '/In stock/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']/span
-        regexp: !ruby/regexp '/Out of stock/i'
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='price-box']//span[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='price-box']/p[@class='old-price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='price-box map-info']/span[@class='old-price']/span[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='price-box']/p[@class='special-price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/ul[@class='tier-prices product-pricing']/li/span[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Firearms/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Firearms/i'
-  :link_sources:
-    compressed_links:
-      http://clydearmory.com/firearms.html?SID=edntbtic7st4dgu1j1294gfq06&limit=30&p=PAGENUM&price=-10000:
-        start_at_page: 1
-        stop_at_page: 30
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/ar-15-parts.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 4
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/rifle-parts.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 3
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/cleaning-and-maintenance.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 3
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/ammunition/less-lethal.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 3
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-    seed_links:
-      http://clydearmory.com/firearms.html?SID=edntbtic7st4dgu1j1294gfq06&price=10000-:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/handgun-parts.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/hk-parts.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/shotgun-parts.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/bi-pods.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/magazines.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/slings/blackhawk.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/slings/daniel-defense.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/slings/gg-g.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/slings/viking-tactics.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/slings/voodoo-tactical.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/accessories/stocks.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/scopes/bsa.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/scopes/leupold.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/scopes/leupold.html?p=2:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/scopes/trijicon.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/scopes/vortex.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/sights/aimpoint.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/sights/eotech.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/sights/leupold.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/sights/meprolight.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/sights/trijicon.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/sights/troy.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/lasers.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/night-vision.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/optics/binoculars.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/ammunition.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/ammunition/handgun.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/ammunition/rifle.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://clydearmory.com/ammunition/shotgun.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Clyde Armory
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Clyde Armory
+domain: clydearmory.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    clydearmory.com: {}
+  object_adapter:
+    clydearmory.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - keywords:
+        - find_by_xpath:
+            xpath: //div[@class='short-description']/div[@class='std']
+      - title:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='product-name']/h1
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
+      - description:
+        - find_by_xpath:
+            xpath: //div[@class='product-view']/div[@class='product-collateral']
+          filters:
+          - reject: !ruby/regexp '/Details/i'
+          - reject: !ruby/regexp '/Product Description:/i'
+          - reject: !ruby/regexp '/Additional Information/i'
+          - reject: !ruby/regexp '/Be the first to review this product/i'
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='product-shop']/p[@class='availability in-stock']/span
+            pattern: !ruby/regexp '/In stock/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']/span
+            pattern: !ruby/regexp '/Out of stock/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='importantMessageItemPage']
+            pattern: !ruby/regexp '/this product is currently not in stock/i'
+      - product_grains:
+        - find_by_xpath:
+            xpath: //div[@class='product-collateral']/div[@class='std']/p
+            pattern: !ruby/regexp '/\d{1,3}\s*gr/i'
+          filters:
+          - accept: !ruby/regexp '/\d{1,3}/i'
+      - number_of_rounds:
+        - find_by_xpath:
+            xpath: //div[@class='product-collateral']/div[@class='std']/p
+            pattern: !ruby/regexp '/\d{1,5}\s*rounds/i'
+          filters:
+          - accept: !ruby/regexp '/\d{1,5}/i'
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='price-box']//span[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='price-box']/p[@class='old-price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='price-box map-info']/span[@class='old-price']/span[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='price-box']/p[@class='special-price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/ul[@class='tier-prices product-pricing']/li/span[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - product_category1:
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Firearms/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Firearms/i'
+    clydearmory.com/product_link:
+      $key: globals/product_link
+      xpath: //h2[@class='product-name']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: clydearmory.com
+product_session_format:
+  queue: clydearmory.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - clydearmory.com/product_page
+sessions:
+- queue: clydearmory.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - clydearmory.com/product_link
+  urls:
+  - url: http://clydearmory.com/firearms.html?SID=edntbtic7st4dgu1j1294gfq06&price=10000-
+  - url: http://clydearmory.com/accessories/handgun-parts.html
+  - url: http://clydearmory.com/accessories/hk-parts.html
+  - url: http://clydearmory.com/accessories/shotgun-parts.html
+  - url: http://clydearmory.com/accessories/bi-pods.html
+  - url: http://clydearmory.com/accessories/magazines.html
+  - url: http://clydearmory.com/accessories/slings/blackhawk.html
+  - url: http://clydearmory.com/accessories/slings/daniel-defense.html
+  - url: http://clydearmory.com/accessories/slings/gg-g.html
+  - url: http://clydearmory.com/accessories/slings/viking-tactics.html
+  - url: http://clydearmory.com/accessories/slings/voodoo-tactical.html
+  - url: http://clydearmory.com/accessories/stocks.html
+  - url: http://clydearmory.com/optics/scopes/bsa.html
+  - url: http://clydearmory.com/optics/scopes/leupold.html
+  - url: http://clydearmory.com/optics/scopes/leupold.html?p=2
+  - url: http://clydearmory.com/optics/scopes/trijicon.html
+  - url: http://clydearmory.com/optics/scopes/vortex.html
+  - url: http://clydearmory.com/optics/sights/aimpoint.html
+  - url: http://clydearmory.com/optics/sights/eotech.html
+  - url: http://clydearmory.com/optics/sights/leupold.html
+  - url: http://clydearmory.com/optics/sights/meprolight.html
+  - url: http://clydearmory.com/optics/sights/trijicon.html
+  - url: http://clydearmory.com/optics/sights/troy.html
+  - url: http://clydearmory.com/optics/lasers.html
+  - url: http://clydearmory.com/optics/night-vision.html
+  - url: http://clydearmory.com/optics/binoculars.html
+  - url: http://clydearmory.com/ammunition.html
+  - url: http://clydearmory.com/ammunition/handgun.html
+  - url: http://clydearmory.com/ammunition/rifle.html
+  - url: http://clydearmory.com/ammunition/shotgun.html
+  - url: http://clydearmory.com/firearms.html?SID=edntbtic7st4dgu1j1294gfq06&limit=30&p=PAGENUM&price=-10000
+    start_at_page: 1
+    stop_at_page: 30
+  - url: http://clydearmory.com/accessories/ar-15-parts.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4
+  - url: http://clydearmory.com/accessories/rifle-parts.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://clydearmory.com/accessories/cleaning-and-maintenance.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://clydearmory.com/ammunition/less-lethal.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3

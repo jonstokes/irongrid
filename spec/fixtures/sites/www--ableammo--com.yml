@@ -1,148 +1,123 @@
 ---
-site_data:
-  :domain: www.ableammo.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      item_condition: new
-      listing_type: retail
-      item_location: 357 Farm to Market Road 1791  Huntsville, TX 77340
-    listing_type:
-    - scraper_method: classify_by_url
-      arguments:
-        type: retail
-        regexp: !ruby/regexp '/.*/'
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //table//h1
-    - scraper_method: schema_name
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //title
-    description:
-    - scraper_method: schema_description
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//a[contains(@href, "popupWindow")]/img/@src
-        filters:
-        - prefix: http://www.ableammo.com/catalog/
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//a/img[contains(@src, "medium")]/@src
-        filters:
-        - prefix: http://www.ableammo.com/catalog/
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//a/img[contains(@src, "small")]/@src
-        filters:
-        - prefix: http://www.ableammo.com/catalog/
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//*[@itemprop="price"]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //body/div[1]/table[1]/tr/td[2]/table/tr[2]/td[@class="main"]/table/tr/td[2]/div/table[1]/tr[1]/td[2]/h2
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@class="SalePrice"]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //h2[@itemprop="price"]/span[@class="productSpecialPrice"]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: .//*[@itemprop="availability"]/@content
-        regexp: !ruby/regexp '/in_stock/'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: .//*[@itemprop="availability"]/@content
-        regexp: !ruby/regexp '/out_of_stock/'
-    item_condition:
-    - scraper_method: classify_by_url
-      arguments:
-        type: New
-        regexp: !ruby/regexp '/conditioning|conditioner/i'
-    - scraper_method: classify_by_url
-      arguments:
-        type: Used
-        regexp: !ruby/regexp '/used|condition|like.new/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][2]
-        type: Guns
-        regexp: !ruby/regexp '/Firearms/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][3]
-        type: Guns
-        regexp: !ruby/regexp '/Firearms/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][2]
-        type: Ammunition
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][3]
-        type: Ammunition
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][2]
-        regexp: !ruby/regexp '/Scopes|Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][3]
-        regexp: !ruby/regexp '/Scopes|Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation']
-        regexp: !ruby/regexp '/Choke Tubes|Gun Accessories|Reloading|Shooting Supplies/i'
-    not_found:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //body/div[1]/table[1]/tr/td[2]/table/tr[2]/td/h2/font
-        regexp: !ruby/regexp '/Product NOT Found/'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //body/table[4]/tr/td[2]/table/tr[1]/td/table/tr/td[@class="pageHeading"][1]
-        regexp: !ruby/regexp '/Read What Others Are Saying/'
-  :link_sources:
-    compressed_links:
-      http://www.ableammo.com/catalog/all-products.php?page=PAGENUM&instock=1&max=200&sort=5a:
-        start_at_page: 1
-        stop_at_page: 65
-        link_xpaths:
-        - //td[@class='productListing-data2']/table//td[@class='main']//td[@class='main']//a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Able Ammo
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Able Ammo
+domain: www.ableammo.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.ableammo.com: {}
+  object_adapter:
+    www.ableammo.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - type:
+        - label_by_url:
+            label: RetailListing
+            pattern: !ruby/regexp '/.*/'
+        - value: RetailListing
+      - title:
+        - find_by_xpath:
+            xpath: //table//h1
+        - schema_name
+        - find_by_xpath:
+            xpath: //title
+      - description:
+        - schema_description
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //a/span[@class='overlay_box']/img[1]/@src
+          filters:
+          - prefix: http://www.ableammo.com/catalog/
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: .//*[@itemprop="price"]
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //body/div[1]/table[1]/tr/td[2]/table/tr[2]/td[@class="main"]/table/tr/td[2]/div/table[1]/tr[1]/td[2]/h2
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //span[@class="SalePrice"]
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //h2[@itemprop="price"]/span[@class="productSpecialPrice"]
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: .//*[@itemprop="availability"]/@content
+            pattern: !ruby/regexp '/in_stock/'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: .//*[@itemprop="availability"]/@content
+            pattern: !ruby/regexp '/out_of_stock/'
+      - condition:
+        - label_by_url:
+            label: New
+            pattern: !ruby/regexp '/conditioning|conditioner/i'
+        - label_by_url:
+            label: Used
+            pattern: !ruby/regexp '/used|condition|like.new/i'
+        - value: new
+      - product_category1:
+        - label_by_xpath:
+            xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][2]
+            label: Guns
+            pattern: !ruby/regexp '/Firearms/i'
+        - label_by_xpath:
+            xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][3]
+            label: Guns
+            pattern: !ruby/regexp '/Firearms/i'
+        - label_by_xpath:
+            xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][2]
+            label: Ammunition
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][3]
+            label: Ammunition
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][2]
+            pattern: !ruby/regexp '/Scopes|Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][3]
+            pattern: !ruby/regexp '/Scopes|Optics/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation']
+            pattern: !ruby/regexp '/Choke Tubes|Gun Accessories|Reloading|Shooting
+              Supplies/i'
+      - not_found:
+        - find_by_xpath:
+            xpath: //body/div[1]/table[1]/tr/td[2]/table/tr[2]/td/h2/font
+            pattern: !ruby/regexp '/Product NOT Found/'
+        - find_by_xpath:
+            xpath: //body/table[4]/tr/td[2]/table/tr[1]/td/table/tr/td[@class="pageHeading"][1]
+            pattern: !ruby/regexp '/Read What Others Are Saying/'
+    www.ableammo.com/product_link:
+      $key: globals/product_link
+      xpath: //td[@class='productListing-data2']/table//td[@class='main']//td[@class='main']//a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.ableammo.com
+product_session_format:
+  queue: www.ableammo.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.ableammo.com/product_page
+sessions:
+- queue: www.ableammo.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.ableammo.com/product_link
+  urls:
+  - url: http://www.ableammo.com/catalog/all-products.php?page=PAGENUM&instock=1&max=200&sort=5a
+    start_at_page: 1
+    stop_at_page: 65

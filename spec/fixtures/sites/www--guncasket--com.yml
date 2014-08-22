@@ -1,79 +1,58 @@
 ---
-site_data:
-  :domain: www.guncasket.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      condition: new
-      stock_status: in stock
-      listing_type: retail
-      item_location: 872 Country Ln, Farmington, UT 84025
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //Product_Name
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //Long_Description
-    keywords:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //Keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //Image_URL
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //Sale_Price
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //Retail_Price
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //Status
-        regexp: !ruby/regexp '/^Removed/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //Category
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //Category
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //Category
-        regexp: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
-  :link_sources:
-    feeds:
-    - url: http://datafeed.avantlink.com/download_feed.php?id=155995&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status
-      postfix: '"&from=" + (Time.now - 1.day).strftime("%Y-%m-%d")'
-      product_list_xpath: //Products/Product
-      product_link_xpath: //Buy_Link
-      product_status_xpath: //Status
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Gun Casket
-  :engine: www.ironsights.com
-  :read_with: ProductFeedWorker
-  :size:
-  :active: true
-  :read_interval: 7200
+name: Gun Casket
+domain: www.guncasket.com
+read_interval: 7200
+timezone:
+registrations:
+  session_queue:
+    www.guncasket.com: {}
+  object_adapter:
+    www.guncasket.com/product_feed:
+      $key: globals/product_page
+      xpath: //Products/Product
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: .//Product_Name
+      - description:
+        - find_by_xpath:
+            xpath: .//Long_Description
+      - keywords:
+        - find_by_xpath:
+            xpath: .//Keywords
+      - image:
+        - find_by_xpath:
+            xpath: .//Image_URL
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: .//Sale_Price
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: .//Retail_Price
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: .//Status
+            pattern: !ruby/regexp '/^Removed/i'
+        - value: in_stock
+      - product_category1:
+        - label_by_xpath:
+            label: Ammunition
+            xpath: .//Category
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: .//Category
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: .//Category
+            pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
+product_session_format:
+sessions:
+- queue: www.guncasket.com
+  session_definition: globals/standard_xml_session
+  object_adapters:
+  - www.guncasket.com/product_feed
+  urls:
+  - url: http://datafeed.avantlink.com/download_feed.php?id=155995&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status

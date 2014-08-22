@@ -1,130 +1,111 @@
 ---
-site_data:
-  :domain: www.impactguns.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      item_location: 2710 South 1900 West, Ogden, UT 84401
-    listing_type:
-    - scraper_method: classify_by_url
-      arguments:
-        type: retail
-        regexp: !ruby/regexp '/.*/'
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //title
-        filters:
-        - reject: !ruby/regexp '/- Impact Guns/'
-    description:
-    - scraper_method: meta_description
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//div[@class="CatalogImage_element"]/img[@id="CatalogItemImage"]/@src
-        filters:
-        - prefix: http://www.impactguns.com
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="Price"]
-        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="RegularPrice"]
-        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="SalePrice"]
-        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class="StockMsg"]/span
-        regexp: !ruby/regexp '/^In Stock Now!/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class="StockMsg"]/span
-        regexp: !ruby/regexp '/^Available To Ship!/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class="StockMsg"]/span
-        regexp: !ruby/regexp '/^Out Of Stock/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class="AddToCartButton"]/a
-        regexp: !ruby/regexp '/^Backorder/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class="StockMsg"]/span
-        regexp: !ruby/regexp '/No Longer Available/'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class="ProductDetail"]
-        regexp: !ruby/regexp '/Notify When Available/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class="PriceContent"]
-        regexp: !ruby/regexp '/Ships On Or Before/i'
-    item_condition:
-    - scraper_method: classify_by_url
-      arguments:
-        type: Used
-        regexp: !ruby/regexp '/used|condition|like.new/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
-        regexp: !ruby/regexp '/Accessor|1911$|Parts|Sights|Suppressors|Silencers|Mags|Cases|Stocks|Airgun|Magazine|Uppers|Bipods|Cleaning|Protection|Electronics|Holster|Lasers|Lights|Muzzleloaders|Finder|Reloading|Slings|Solvent|Components|Gear|Tactical|Targets|Tools|Supplies/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
-        regexp: !ruby/regexp '/Firearms|AR15 Rifle|Rifles|Lowers|Handguns|Shotguns|\sGuns|Package|Handguns|Revolvers|Carry
-          Gun/'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
-        regexp: !ruby/regexp '/Optics|Mounts|Binocular|Vision|Scope/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
-        regexp: !ruby/regexp '/Ammunition/i'
-    not_found:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //title
-        regexp: !ruby/regexp '/Impact Guns - 404 Error/'
-  :link_sources:
-    refresh_only: true
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Impact Guns
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Impact Guns
+domain: www.impactguns.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.impactguns.com: {}
+  object_adapter:
+    www.impactguns.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //div[@class='ProductTitle']/h1
+      - description:
+        - find_by_xpath:
+            xpath: //div[@class='Features']
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='CatalogImage_element']/img[@id='CatalogItemImage']/@src
+          filters:
+          - prefix: http://www.impactguns.com
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //span[@id='ctl00_ctl00_MainContent_uxProduct_lbPrice']/span[@class='Price']
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="RegularPrice"]
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="SalePrice"]
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='StockMsg']
+            pattern: !ruby/regexp '/^In Stock Now!/i'
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class="StockMsg"]/span
+            pattern: !ruby/regexp '/^Available To Ship!/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class="StockMsg"]/span
+            pattern: !ruby/regexp '/^Out Of Stock/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class="AddToCartButton"]/a
+            pattern: !ruby/regexp '/^Backorder/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class="StockMsg"]/span
+            pattern: !ruby/regexp '/No Longer Available/'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class="ProductDetail"]
+            pattern: !ruby/regexp '/Notify When Available/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class="PriceContent"]
+            pattern: !ruby/regexp '/Ships On Or Before/i'
+      - condition:
+        - label_by_url:
+            label: Used
+            pattern: !ruby/regexp '/used|condition|like.new/i'
+        - value: new
+      - product_category1:
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@id='BreadCrumb']
+            pattern: !ruby/regexp '/Accessor|1911$|Parts|Sights|Suppressors|Silencers|Mags|Cases|Stocks|Airgun|Magazine|Uppers|Bipods|Cleaning|Protection|Electronics|Holster|Lasers|Lights|Muzzleloaders|Finder|Reloading|Slings|Solvent|Components|Gear|Tactical|Targets|Tools|Supplies/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@id='BreadCrumb']
+            pattern: !ruby/regexp '/Firearms|AR15 Rifle|Rifles|Lowers|Handguns|Shotguns|\sGuns|Package|Handguns|Revolvers|Carry
+              Gun/'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id='BreadCrumb']
+            pattern: !ruby/regexp '/Optics|Mounts|Binocular|Vision|Scope/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id='BreadCrumb']
+            pattern: !ruby/regexp '/Ammunition/i'
+      - not_found:
+        - find_by_xpath:
+            xpath: //title
+            pattern: !ruby/regexp '/Impact Guns - 404 Error/'
+    www.impactguns.com/product_link:
+      $key: globals/product_link
+      xpath: .//xmlns:loc
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.impactguns.com
+product_session_format:
+  queue: www.impactguns.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.impactguns.com/product_page
+sessions:
+- queue: www.impactguns.com
+  session_definition: globals/standard_xml_session
+  object_adapters:
+  - www.impactguns.com/product_link
+  urls:
+  - url: http://www.impactguns.com/sitemap.xml

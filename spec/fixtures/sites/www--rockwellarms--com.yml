@@ -1,120 +1,108 @@
 ---
-site_data:
-  :domain: www.rockwellarms.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: '509 N. 5th Avenue, Sandpoint, ID 83864 '
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='productDetails']/div[@class='productPricingArea']/h1
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='productDetails']/div[@class='highslide-gallery']/div[@class='productImageArea']/a[@class='highslide']/img[@class='productImage']/@src
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='productPricingArea']
-        regexp: !ruby/regexp '/MSRP\:\s*\$\d[\d\,\.]+/i'
-        filters:
-        - accept: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='productPricingArea']/span[2]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='productPricingArea']
-        regexp: !ruby/regexp '/Price\:\s*\$\d[\d\,\.]+/i'
-        filters:
-        - accept: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    price_on_request:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='productPricingArea']/span[2]
-        regexp: !ruby/regexp '/Add to cart to see|See price in cart/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='productFeatures']
-    - scraper_method: meta_description
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='desc desc_padd']/div
-        regexp: !ruby/regexp '/Out of Stock/i'
-    item_condition:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Used
-        xpath: .//h1[@id='detail_parent_prod_nm']
-        regexp: !ruby/regexp '/Used/'
-  :link_sources:
-    compressed_links:
-      http://www.rockwellarms.com/store/products/firearms/Page/PAGENUM:
-        link_prefix: http://www.rockwellarms.com
-        link_xpaths:
-        - //ul/li[@class='productsList']/div/h3/a/@href
-        start_at_page: 1
-        stop_at_page: 90
-      http://www.rockwellarms.com/store/products/gun-parts/Page/PAGENUM:
-        link_prefix: http://www.rockwellarms.com
-        link_xpaths:
-        - //ul/li[@class='productsList']/div/h3/a/@href
-        start_at_page: 1
-        stop_at_page: 60
-      http://www.rockwellarms.com/store/products/ammunition/Page/PAGENUM:
-        link_prefix: http://www.rockwellarms.com
-        link_xpaths:
-        - //ul/li[@class='productsList']/div/h3/a/@href
-        start_at_page: 1
-        stop_at_page: 10
-      http://www.rockwellarms.com/store/products/Gun-Cleaning-Accessories/Page/PAGENUM:
-        link_prefix: http://www.rockwellarms.com
-        link_xpaths:
-        - //ul/li[@class='productsList']/div/h3/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.rockwellarms.com/store/products/Gun-Cases/Page/PAGENUM:
-        link_prefix: http://www.rockwellarms.com
-        link_xpaths:
-        - //ul/li[@class='productsList']/div/h3/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.rockwellarms.com/store/products/Holsters/Page/PAGENUM:
-        link_prefix: http://www.rockwellarms.com
-        link_xpaths:
-        - //ul/li[@class='productsList']/div/h3/a/@href
-        start_at_page: 1
-        stop_at_page: 10
-      http://www.rockwellarms.com/store/products/Magazine-Cases/Page/PAGENUM:
-        link_prefix: http://www.rockwellarms.com
-        link_xpaths:
-        - //ul/li[@class='productsList']/div/h3/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 4
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 7
-  :name: Rockwell Arms
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Rockwell Arms
+domain: www.rockwellarms.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.rockwellarms.com: {}
+  object_adapter:
+    www.rockwellarms.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //h1[@class='product-title']
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //img[@class='productImage']/@src
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='product-price']/div[@class='price-old']/span
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@class='product-price']/div[@class='price-new']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='product-price']/div[@class='price-new']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - price_on_request:
+        - find_by_xpath:
+            xpath: //div[@class='productPricingArea']/span[2]
+            pattern: !ruby/regexp '/Add to cart to see|See price in cart/i'
+      - description:
+        - find_by_xpath:
+            xpath: //div[@class='product-desc']/div[@class='tab-content']/div[@id='desc']/p
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='content-box']/div[@class='product-desc']/div[2]/div
+            pattern: !ruby/regexp '/Out of Stock/i'
+        - value: in_stock
+      - product_manufacturer:
+        - find_by_xpath:
+            xpath: //div[@class='content-box']/div[@class='product-desc']/div[2]
+            pattern: !ruby/regexp '/Brand:\s*.*?$/i'
+      - product_mpn:
+        - find_by_xpath:
+            xpath: //div[@class='content-box']/div[@class='product-desc']/div[2]
+            pattern: !ruby/regexp '/Item Number:\s*.*?$/i'
+          filters:
+          - reject: !ruby/regexp '/Item Number:\s*?/i'
+      - condition:
+        - label_by_xpath:
+            label: Used
+            xpath: .//h1[@id='detail_parent_prod_nm']
+            pattern: !ruby/regexp '/Used/'
+        - value: new
+      - number_of_rounds:
+        - find_by_xpath:
+            xpath: //div[@class='product-desc']/div[@class='tab-content']/div[@id='desc']/ul/li
+            pattern: !ruby/regexp '/box of \d{1,5} rounds/i'
+        - find_by_xpath:
+            xpath: //div[@class='product-desc']/div[@class='tab-content']/div[@id='desc']/ul/li
+            pattern: !ruby/regexp '/\d{1,5} rounds( per |\/)box/i'
+    www.rockwellarms.com/product_link:
+      $key: globals/product_link
+      xpath: //ul/li[@class='productsList']/div/h3/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.rockwellarms.com
+product_session_format:
+  queue: www.rockwellarms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.rockwellarms.com/product_page
+sessions:
+- queue: www.rockwellarms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.rockwellarms.com/product_link
+  urls:
+  - url: http://www.rockwellarms.com/store/products/firearms/Page/PAGENUM
+    start_at_page: 1
+    stop_at_page: 90
+  - url: http://www.rockwellarms.com/store/products/gun-parts/Page/PAGENUM
+    start_at_page: 1
+    stop_at_page: 60
+  - url: http://www.rockwellarms.com/store/products/ammunition/Page/PAGENUM
+    start_at_page: 1
+    stop_at_page: 10
+  - url: http://www.rockwellarms.com/store/products/Gun-Cleaning-Accessories/Page/PAGENUM
+    start_at_page: 1
+    stop_at_page: 5
+  - url: http://www.rockwellarms.com/store/products/Gun-Cases/Page/PAGENUM
+    start_at_page: 1
+    stop_at_page: 5
+  - url: http://www.rockwellarms.com/store/products/Holsters/Page/PAGENUM
+    start_at_page: 1
+    stop_at_page: 10
+  - url: http://www.rockwellarms.com/store/products/Magazine-Cases/Page/PAGENUM
+    start_at_page: 1
+    stop_at_page: 5

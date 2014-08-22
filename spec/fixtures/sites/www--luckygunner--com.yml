@@ -1,103 +1,92 @@
 ---
-site_data:
-  :domain: www.luckygunner.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: 448 N Cedar Bluff Rd, Knoxville, TN 37923
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-essential']/form[@id='product_addtocart_form']/div[@class='product-name']/h1
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //p[@class='special-price']/span
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='short-description']|//div[@class='box-collateral box-description']/div[@class='std']
-        filters:
-        - reject: !ruby/regexp '/Quick Overview/i'
-    - scraper_method: meta_description
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='product-shop']/p[@class='availability']
-        regexp: !ruby/regexp '/out of stock/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class='product-shop']/p[@class='availability']
-        regexp: !ruby/regexp '/in stock/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Optic|Scope/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Optic|Scope/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Cans|Kits|Parts|Chokes|Protection|Cleaning|Holsters|Lights|Magazine|Pouches|Cases|Bipods|Adapters|Caps|Targets|Sight/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Cans|Kits|Parts|Chokes|Protection|Cleaning|Holsters|Lights|Magazine|Pouches|Cases|Bipods|Adapters|Caps|Targets|Sight/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-  :link_sources:
-    compressed_links:
-      http://www.luckygunner.com/catalogsearch/advanced/result?description=&name=&p=PAGENUM&price%5Bfrom%5D=0&price%5Bto%5D=1000000:
-        link_xpaths:
-        - //div[@class='product-shop']/h2[@class='product-name']/a/@href
-        start_at_page: 1
-        stop_at_page: 25
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 4
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 7
-  :name: Lucky Gunner
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
-  :affiliate_link_tag: '#rid=ironsights&amp;chan=search'
+name: Lucky Gunner
+domain: www.luckygunner.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.luckygunner.com: {}
+  object_adapter:
+    www.luckygunner.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //div[@class='product-essential']/form[@id='product_addtocart_form']/div[@class='product-name']/h1
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //p[@class='special-price']/span
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //span[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - description:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='short-description']|//div[@class='box-collateral box-description']/div[@class='std']
+          filters:
+          - reject: !ruby/regexp '/Quick Overview/i'
+        - meta_description
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='product-shop']/p[@class='availability']
+            pattern: !ruby/regexp '/out of stock/i'
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='product-shop']/p[@class='availability']
+            pattern: !ruby/regexp '/in stock/i'
+        - value: in_stock
+      - product_category1:
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Optic|Scope/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Optic|Scope/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Cans|Kits|Parts|Chokes|Protection|Cleaning|Holsters|Lights|Magazine|Pouches|Cases|Bipods|Adapters|Caps|Targets|Sight/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Cans|Kits|Parts|Chokes|Protection|Cleaning|Holsters|Lights|Magazine|Pouches|Cases|Bipods|Adapters|Caps|Targets|Sight/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+    www.luckygunner.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@class='product-shop']/h2[@class='product-name']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.luckygunner.com
+product_session_format:
+  queue: www.luckygunner.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.luckygunner.com/product_page
+sessions:
+- queue: www.luckygunner.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.luckygunner.com/product_link
+  urls:
+  - url: http://www.luckygunner.com/catalogsearch/advanced/result?description=&name=&p=PAGENUM&price%5Bfrom%5D=0&price%5Bto%5D=1000000
+    start_at_page: 1
+    stop_at_page: 25

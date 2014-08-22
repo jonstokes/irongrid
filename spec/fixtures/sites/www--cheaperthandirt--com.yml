@@ -1,1619 +1,480 @@
 ---
-site_data:
-  :domain: www.cheaperthandirt.com
-  :page_adapter:
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: in stock
-      item_location: 2058 West University Drive, McKinney, Texas 75071
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@id="ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ProdDesc"]
-    description:
-    - scraper_method: meta_description
-    image:
-    - scraper_method: meta_image
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//span[contains(@class, "product-price-value")]
-    price:
-    - scraper_method: meta_price
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ourLowPricePanel"]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class="importantMessageItemPage"]
-        regexp: !ruby/regexp '/this product is currently not in stock|no longer available/i'
-    item_condition:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: New
-        xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
-        regexp: !ruby/regexp '/used/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Used
-        xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
-        regexp: !ruby/regexp '/new/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class="itemBreadCrumbs"]/a
-        regexp: !ruby/regexp '/handguns|rifles|shotguns|tactical|firearms/i'
-    - scraper_method: classify_by_meta_tag
-      arguments:
-        type: Guns
-        regexp: !ruby/regexp '/Gun/'
-        attribute: name
-        value: mc-category
-    - scraper_method: classify_by_meta_tag
-      arguments:
-        type: Ammunition
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-        attribute: name
-        value: mc-category
-    - scraper_method: classify_by_meta_tag
-      arguments:
-        type: Optics
-        regexp: !ruby/regexp '/scopes/i'
-        attribute: name
-        value: mc-category
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class="itemBreadCrumbs"]/a
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class="itemBreadCrumbs"]/a
-        regexp: !ruby/regexp '/scopes/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class="itemBreadCrumbs"]/a
-        regexp: !ruby/regexp '/Gun Gear and Parts|Magazines|pods|Black Powder|Protection|Cases|Cleaning|Gunsmithing|Holsters|Lasers|Lights|Range|Targets|Reloading|Slings|loaders|Universal
-          Gun Parts/i'
-  :link_sources:
-    seed_links:
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4675&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4534&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=483&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5173&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=543&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=70&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1148&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=80&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=622&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=565&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4916&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=633&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=547&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=647&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=163&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=186&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=206&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=564&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=255&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=258&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=286&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=298&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=304&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=478&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=326&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=333&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=618&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=593&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=38&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=53&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=548&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2766&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=75&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=85&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=94&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4711&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1404&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=135&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=544&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4544&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4215&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=192&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=218&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=249&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=256&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=262&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=570&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2530&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=306&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4515&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=328&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=615&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=854&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=540&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=59&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4547&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=507&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=78&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=86&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=96&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=553&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=126&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1552&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4670&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=517&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4224&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=196&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=234&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=254&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4411&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2364&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=457&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4230&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=309&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=484&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3515&fmp=Y&fml=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=6&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=10&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=15&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=23&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=29&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=346&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=38&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=53&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4628&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=60&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=347&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=408&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=80&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=85&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=381&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4554&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=591&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1441&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=135&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=512&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4914&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=356&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3566&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=178&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=196&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=203&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=205&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4874&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=237&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5146&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=249&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=256&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=259&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4644&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=365&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=286&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4490&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4666&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=301&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=309&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=322&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=327&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3397&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=340&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=8&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=342&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=17&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=843&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=880&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=32&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=41&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1029&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=511&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=61&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=573&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=75&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1197&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=86&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3500&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1404&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=596&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=139&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=156&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4226&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4215&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4533&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=182&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=409&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3761&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=206&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=219&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2107&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=503&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4400&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=575&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=262&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2364&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=276&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=457&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4241&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=296&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=304&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4663&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=484&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=324&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=329&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2755&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4642&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=11&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4667&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=24&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=901&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=33&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=443&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=54&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=58&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1066&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4855&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4744&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=82&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5017&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4049&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5092&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=116&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4669&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=144&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5150&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=172&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3533&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=375&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=176&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3757&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3766&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=212&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=229&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=242&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=248&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=255&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4883&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=265&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=602&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4918&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=289&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4245&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=298&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=306&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4912&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=317&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=326&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=605&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=396&catId=743&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=609&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4886&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5129&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4518&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=53&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=580&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=75&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1299&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=102&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1404&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=353&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3559&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=623&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=204&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=463&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=578&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=462&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4575&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=267&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4471&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=309&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4555&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=328&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=9&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5149&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5166&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4590&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4714&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=67&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=79&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=614&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=109&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=125&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=146&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=183&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=193&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=212&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=219&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=239&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=249&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4584&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5147&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4259&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5022&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=537&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=333&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5120&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=593&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=30&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=51&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4483&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=584&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4577&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1327&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=111&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4587&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2799&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=186&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=194&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2804&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=233&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5023&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5055&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=575&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5161&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=308&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=311&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=484&catId=75&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4671&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4648&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=630&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4645&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=38&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=52&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=61&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3449&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4547&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1148&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=86&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=532&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1404&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=134&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=544&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=163&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4224&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=192&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4603&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=200&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=84&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=556&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4955&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=249&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4411&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4435&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2364&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=457&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4236&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=416&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=414&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=306&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=537&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=328&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4690&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=719&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=615&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=23&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=483&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=97&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=53&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5151&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=580&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=69&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4579&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=75&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=96&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=126&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=139&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4670&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=706&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=621&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=375&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=204&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=406&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=360&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=236&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=242&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4400&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=258&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4644&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=286&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=293&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4241&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4666&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=571&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=311&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=484&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2723&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4673&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4698&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4534&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=854&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=901&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=531&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=59&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=498&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=543&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=507&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=379&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=94&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=633&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=141&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4544&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=166&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3335&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5139&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=196&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=206&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=218&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2121&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=564&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=256&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=262&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=378&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2443&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=368&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4247&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=298&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=304&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4279&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=326&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-      http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=333&catId=6203&fmp=Y&pagesize=1000:
-        link_prefix: http://www.cheaperthandirt.com
-        link_xpaths:
-        - //div[@class='prodis']/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 1
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 2
-  :name: Cheaper Than Dirt
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Cheaper Than Dirt
+domain: www.cheaperthandirt.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.cheaperthandirt.com: {}
+  object_adapter:
+    www.cheaperthandirt.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //span[@id="ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ProdDesc"]
+      - description:
+        - meta_description
+      - image:
+        - meta_image
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: .//span[contains(@class, "product-price-value")]
+      - price_in_cents:
+        - meta_price
+        - find_by_xpath:
+            xpath: //div[@id="ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ourLowPricePanel"]
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class="importantMessageItemPage"]
+            pattern: !ruby/regexp '/this product is currently not in stock|no longer
+              available/i'
+        - value: in_stock
+      - condition:
+        - label_by_xpath:
+            label: New
+            xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
+            pattern: !ruby/regexp '/used/i'
+        - label_by_xpath:
+            label: Used
+            xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
+            pattern: !ruby/regexp '/new/i'
+        - value: new
+      - product_category1:
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class="itemBreadCrumbs"]/a
+            pattern: !ruby/regexp '/handguns|rifles|shotguns|tactical|firearms/i'
+        - label_by_meta_tag:
+            label: Guns
+            pattern: !ruby/regexp '/Gun/'
+            attribute: name
+            value: mc-category
+        - label_by_meta_tag:
+            label: Ammunition
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+            attribute: name
+            value: mc-category
+        - label_by_meta_tag:
+            label: Optics
+            pattern: !ruby/regexp '/scopes/i'
+            attribute: name
+            value: mc-category
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class="itemBreadCrumbs"]/a
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class="itemBreadCrumbs"]/a
+            pattern: !ruby/regexp '/scopes/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class="itemBreadCrumbs"]/a
+            pattern: !ruby/regexp '/Gun Gear and Parts|Magazines|pods|Black Powder|Protection|Cases|Cleaning|Gunsmithing|Holsters|Lasers|Lights|Range|Targets|Reloading|Slings|loaders|Universal
+              Gun Parts/i'
+    www.cheaperthandirt.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@class='prodis']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.cheaperthandirt.com
+product_session_format:
+  queue: www.cheaperthandirt.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.cheaperthandirt.com/product_page
+sessions:
+- queue: www.cheaperthandirt.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.cheaperthandirt.com/product_link
+  urls:
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4675&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4534&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=483&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5173&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=543&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=70&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1148&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=80&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=622&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=565&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4916&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=633&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=547&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=647&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=163&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=186&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=206&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=564&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=255&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=258&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=286&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=298&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=304&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=478&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=326&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=333&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=618&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=593&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=38&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=53&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=548&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2766&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=75&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=85&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=94&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4711&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1404&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=135&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=544&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4544&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4215&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=192&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=218&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=249&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=256&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=262&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=570&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2530&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=306&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4515&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=328&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=615&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=854&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=540&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=59&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4547&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=507&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=78&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=86&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=96&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=553&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=126&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1552&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4670&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=517&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4224&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=196&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=234&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=254&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4411&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2364&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=457&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4230&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=309&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=484&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3515&fmp=Y&fml=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=6&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=10&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=15&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=23&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=29&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=346&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=38&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=53&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4628&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=60&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=347&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=408&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=80&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=85&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=381&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4554&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=591&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1441&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=135&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=512&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4914&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=356&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3566&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=178&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=196&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=203&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=205&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4874&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=237&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5146&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=249&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=256&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=259&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4644&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=365&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=286&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4490&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4666&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=301&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=309&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=322&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=327&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3397&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=340&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=8&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=342&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=17&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=843&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=880&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=32&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=41&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1029&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=511&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=61&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=573&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=75&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1197&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=86&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3500&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1404&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=596&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=139&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=156&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4226&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4215&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4533&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=182&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=409&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3761&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=206&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=219&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2107&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=503&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4400&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=575&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=262&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2364&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=276&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=457&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4241&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=296&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=304&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4663&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=484&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=324&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=329&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2755&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4642&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=11&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4667&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=24&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=901&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=33&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=443&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=54&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=58&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1066&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4855&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4744&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=82&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5017&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4049&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5092&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=116&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4669&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=144&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5150&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=172&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3533&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=375&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=176&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3757&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3766&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=212&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=229&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=242&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=248&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=255&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4883&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=265&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=602&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4918&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=289&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4245&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=298&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=306&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4912&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=317&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=326&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=605&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=396&catId=743&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=609&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4886&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5129&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4518&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=53&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=580&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=75&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1299&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=102&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1404&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=353&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3559&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=623&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=204&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=463&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=578&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=462&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4575&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=267&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4471&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=309&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4555&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=328&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=9&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5149&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5166&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4590&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4714&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=67&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=79&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=614&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=109&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=125&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=146&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=183&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=193&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=212&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=219&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=239&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=249&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4584&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5147&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4259&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5022&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=537&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=333&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5120&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=593&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=30&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=51&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4483&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=584&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4577&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1327&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=111&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4587&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2799&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=186&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=194&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2804&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=233&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5023&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5055&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=575&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5161&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=308&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=311&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=484&catId=75&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4671&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4648&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=630&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4645&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=38&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=52&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=61&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3449&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4547&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1148&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=86&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=532&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=1404&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=134&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=544&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=163&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4224&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=192&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4603&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=200&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=84&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=556&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4955&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=249&catId=6203&fmp=Y&pagesize=1000
+- queue: www.cheaperthandirt.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.cheaperthandirt.com/product_link
+  urls:
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4435&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2364&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=457&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4236&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=416&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=414&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=306&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=537&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=328&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4690&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=719&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=615&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=23&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=483&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=97&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=53&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5151&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=580&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=69&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4579&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=75&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=96&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=126&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=139&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4670&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=706&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=621&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=375&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=204&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=406&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=360&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=236&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=242&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4400&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=258&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4644&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=286&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=293&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4241&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4666&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=571&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=311&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=484&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2723&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4673&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4698&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4534&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=854&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=901&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=531&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=59&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=498&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=543&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=507&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=379&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=94&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=633&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=141&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4544&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=166&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=3335&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=5139&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=196&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=206&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=218&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2121&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=564&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=256&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=262&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=378&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2443&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=368&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4247&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=298&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=304&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4279&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=326&catId=6203&fmp=Y&pagesize=1000
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=333&catId=6203&fmp=Y&pagesize=1000

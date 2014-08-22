@@ -1,99 +1,81 @@
 ---
-site_data:
-  :domain: www.classicfirearms.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      item_location: 510 Morgan Mill Rd, Monroe, NC 28110
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/h1
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class='product-shop']/p[@class='availability in-stock']/span
-        regexp: !ruby/regexp '/In stock/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']/span
-        regexp: !ruby/regexp '/Out of stock/i'
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-img-box']//img[@id='image']/@src
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='product_tabs_description_contents']/div[@class='std']
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='product-options-bottom']//span[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='price-box']/p[@class='old-price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']//div[@class='product-options-bottom']//span[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Guns|Eligible/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Optic|Scope/i'
-  :link_sources:
-    seed_links:
-      http://www.classicfirearms.com/accessories?cat=34&limit=all:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://www.classicfirearms.com/long-guns?limit=all:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://www.classicfirearms.com/hand-guns?limit=all:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://www.classicfirearms.com/c-r-eligible?limit=all:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://www.classicfirearms.com/ammunition?limit=all:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://www.classicfirearms.com/accessories?limit=all:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Classic Firearms
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Classic Firearms
+domain: www.classicfirearms.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.classicfirearms.com: {}
+  object_adapter:
+    www.classicfirearms.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/h1
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='product-shop']/p[@class='availability in-stock']/span
+            pattern: !ruby/regexp '/In stock/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']/span
+            pattern: !ruby/regexp '/Out of stock/i'
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='product-img-box']//img[@id='image']/@src
+      - description:
+        - find_by_xpath:
+            xpath: //div[@id='product_tabs_description_contents']/div[@class='std']
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='product-options-bottom']//span[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='price-box']/p[@class='old-price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']//div[@class='product-options-bottom']//span[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - product_category1:
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Guns|Eligible/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Optic|Scope/i'
+    www.classicfirearms.com/product_link:
+      $key: globals/product_link
+      xpath: //h2[@class='product-name']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.classicfirearms.com
+product_session_format:
+  queue: www.classicfirearms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.classicfirearms.com/product_page
+sessions:
+- queue: www.classicfirearms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.classicfirearms.com/product_link
+  urls:
+  - url: http://www.classicfirearms.com/accessories?cat=34&limit=all
+  - url: http://www.classicfirearms.com/long-guns?limit=all
+  - url: http://www.classicfirearms.com/hand-guns?limit=all
+  - url: http://www.classicfirearms.com/c-r-eligible?limit=all
+  - url: http://www.classicfirearms.com/ammunition?limit=all
+  - url: http://www.classicfirearms.com/accessories?limit=all

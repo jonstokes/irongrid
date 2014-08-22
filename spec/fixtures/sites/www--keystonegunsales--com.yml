@@ -1,236 +1,150 @@
 ---
-site_data:
-  :domain: www.keystonegunsales.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: Keystone Gun SalesCarlisle, PA, 17013
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='container']/div[@id='content']/h1
-    - scraper_method: meta_title
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //img[@id='image']/@src
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='right']/div[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //table//tr/td
-    - scraper_method: meta_description
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='right']/div[@class='description']
-        regexp: !ruby/regexp '/Backorder/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@id='content']/div[@class='breadcrumb']/a
-        regexp: !ruby/regexp '/Sights/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@id='content']/div[@class='breadcrumb']/a
-        regexp: !ruby/regexp '/Accessories/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@id='content']/div[@class='breadcrumb']/a
-        regexp: !ruby/regexp '/Inventory|Rifles|Shotguns|Handguns/i'
-  :link_sources:
-    compressed_links:
-      http://www.keystonegunsales.com/inventory/rifles?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 48
-      http://www.keystonegunsales.com/inventory/shotguns?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 17
-      http://www.keystonegunsales.com/inventory/handguns?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 35
-      http://www.keystonegunsales.com/accessories/firearms/sights?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 8
-      http://www.keystonegunsales.com/index.php?route=product/category&path=221_252_274&limit=25&page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      http://www.keystonegunsales.com/accessories/firearms/recoil-pads?limit=25&page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      http://www.keystonegunsales.com/accessories/firearms/cleaning-supplies-gun-care/brushes-rods-accessories?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 4
-      http://www.keystonegunsales.com/accessories/firearms/cleaning-supplies-gun-care/cloths-pads?limit=25&page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      http://www.keystonegunsales.com/accessories/firearms/cleaning-supplies-gun-care/lube-cleaning-protector-kits?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      http://www.keystonegunsales.com/accessories/firearms/grips?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 27
-      http://www.keystonegunsales.com/accessories/firearms/cases-soft-long-gun?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      http://www.keystonegunsales.com/accessories/firearms/magazines-loaders?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 15
-      http://www.keystonegunsales.com/accessories/firearms/stocks-barrels-barrel-acc?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 12
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/hunting-sporting?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 4
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/belts-belt-keepers?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-inside-waistband?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/magazine-pouches-multiple?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      http://www.keystonegunsales.com/accessories/firearms/choke-tubes?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 13
-      http://www.keystonegunsales.com/accessories/firearms/parts?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-        start_at_page: 1
-        stop_at_page: 4
-    seed_links:
-      http://www.keystonegunsales.com/accessories/firearms/cases-hard-handgun:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/conversion-kits:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/cleaning-supplies-gun-care/bluing-stock-refinishing:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/cases-hard-long-gun:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/gunsmithing/glue-epoxy:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/gunsmithing/tools-tool-boxes:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/cases-soft-handgun:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/gun-locks-cables:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-pocket:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/magazine-flashlight-combo-holders:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/hunting-sporting-nylon:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-shoulder-harness:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/cowboy-western:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/mace-chemical-holders:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/military:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/police-duty-tactical:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/magazine-pouches:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-ankle:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/speedloader-pouches:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/magazine-pouches-single:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-outside-waistband:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-      http://www.keystonegunsales.com/accessories/firearms/tactical:
-        link_xpaths:
-        - //div[@class='name']/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Keystone Gun Sales
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Keystone Gun Sales
+domain: www.keystonegunsales.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.keystonegunsales.com: {}
+  object_adapter:
+    www.keystonegunsales.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //div[@id='container']/div[@id='content']/h1
+        - meta_title
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='product-info']/div[@class='left']/div[contains(@class,'image')]//img/@src
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='right']/div[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - description:
+        - find_by_xpath:
+            xpath: //table//tr/td
+        - meta_description
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='right']/div[@class='description']
+            pattern: !ruby/regexp '/Backorder/i'
+        - value: in_stock
+      - product_category1:
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id='content']/div[@class='breadcrumb']/a
+            pattern: !ruby/regexp '/Sights/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@id='content']/div[@class='breadcrumb']/a
+            pattern: !ruby/regexp '/Accessories/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@id='content']/div[@class='breadcrumb']/a
+            pattern: !ruby/regexp '/Inventory|Rifles|Shotguns|Handguns/i'
+      - not_found:
+        - find_by_xpath:
+            xpath: /html/body/div[@id='container']/div[@id='content']/h1
+            pattern: !ruby/regexp '/Product not found/i'
+    www.keystonegunsales.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@class='name']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.keystonegunsales.com
+product_session_format:
+  queue: www.keystonegunsales.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.keystonegunsales.com/product_page
+sessions:
+- queue: www.keystonegunsales.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.keystonegunsales.com/product_link
+  urls:
+  - url: http://www.keystonegunsales.com/accessories/firearms/cases-hard-handgun
+  - url: http://www.keystonegunsales.com/accessories/firearms/conversion-kits
+  - url: http://www.keystonegunsales.com/accessories/firearms/cleaning-supplies-gun-care/bluing-stock-refinishing
+  - url: http://www.keystonegunsales.com/accessories/firearms/cases-hard-long-gun
+  - url: http://www.keystonegunsales.com/accessories/firearms/gunsmithing/glue-epoxy
+  - url: http://www.keystonegunsales.com/accessories/firearms/gunsmithing/tools-tool-boxes
+  - url: http://www.keystonegunsales.com/accessories/firearms/cases-soft-handgun
+  - url: http://www.keystonegunsales.com/accessories/firearms/gun-locks-cables
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-pocket
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/magazine-flashlight-combo-holders
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/hunting-sporting-nylon
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-shoulder-harness
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/cowboy-western
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/mace-chemical-holders
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/military
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/police-duty-tactical
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/magazine-pouches
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-ankle
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/speedloader-pouches
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/magazine-pouches-single
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-outside-waistband
+  - url: http://www.keystonegunsales.com/accessories/firearms/tactical
+  - url: http://www.keystonegunsales.com/inventory/rifles?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 48
+  - url: http://www.keystonegunsales.com/inventory/shotguns?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 17
+  - url: http://www.keystonegunsales.com/inventory/handguns?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 35
+  - url: http://www.keystonegunsales.com/accessories/firearms/sights?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 8
+  - url: http://www.keystonegunsales.com/index.php?route=product/category&path=221_252_274&limit=25&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.keystonegunsales.com/accessories/firearms/recoil-pads?limit=25&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.keystonegunsales.com/accessories/firearms/cleaning-supplies-gun-care/brushes-rods-accessories?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4
+  - url: http://www.keystonegunsales.com/accessories/firearms/cleaning-supplies-gun-care/cloths-pads?limit=25&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.keystonegunsales.com/accessories/firearms/cleaning-supplies-gun-care/lube-cleaning-protector-kits?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.keystonegunsales.com/accessories/firearms/grips?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 27
+  - url: http://www.keystonegunsales.com/accessories/firearms/cases-soft-long-gun?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.keystonegunsales.com/accessories/firearms/magazines-loaders?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 15
+  - url: http://www.keystonegunsales.com/accessories/firearms/stocks-barrels-barrel-acc?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 12
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/hunting-sporting?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/belts-belt-keepers?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/concealment-inside-waistband?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.keystonegunsales.com/accessories/firearms/holsters-accessories/magazine-pouches-multiple?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.keystonegunsales.com/accessories/firearms/choke-tubes?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 13
+  - url: http://www.keystonegunsales.com/accessories/firearms/parts?page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4

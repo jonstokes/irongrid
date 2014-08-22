@@ -1,75 +1,70 @@
 ---
-site_data:
-  :domain: www.freedommunitions.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      category1: Ammunition
-      item_location: 17482-B Northwest Freeway, Jersey Village, TX 77040-1024
-    title:
-    - scraper_method: meta_og_title
-    keywords:
-    - scraper_method: meta_keywords
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[@class='vCSS_breadcrumb_td']/font[@class='productnamecolorLARGE colors_productname']/span
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/span
-    - scraper_method: meta_og_description
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //a[@id="product_photo_zoom_url"]/@href
-        filters:
-        - prefix: 'http:'
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[contains(@class,'productprice')]//span
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/div
-        regexp: !ruby/regexp '/Quantity in Stock:[1-9]+/'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/div
-        regexp: !ruby/regexp '/Sorry - Out of Stock/'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: None
-        xpath: //td[@class='vCSS_breadcrumb_td']/b/a[2]
-        regexp: !ruby/regexp '/Target|Apparel|Photos/i'
-    - scraper_method: classify_by_url
-      arguments:
-        type: Ammunition
-        regexp: !ruby/regexp '/.*/'
-  :link_sources:
-    seed_links:
-      http://extensions.visualmarketing.net/freedom/isinstock?domain=Freedom:
-        link_xpaths:
-        - //div[@class='itemcontainer']/div[@class='item']//a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Freedom Munitions
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Freedom Munitions
+domain: www.freedommunitions.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.freedommunitions.com: {}
+  object_adapter:
+    www.freedommunitions.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - meta_og_title
+      - keywords:
+        - meta_keywords
+      - description:
+        - find_by_xpath:
+            xpath: //td[@class='vCSS_breadcrumb_td']/font[@class='productnamecolorLARGE colors_productname']/span
+        - find_by_xpath:
+            xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/span
+        - meta_og_description
+      - image:
+        - find_by_xpath:
+            xpath: //a[@id="product_photo_zoom_url"]/@href
+          filters:
+          - prefix: 'http:'
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[contains(@class,'productprice')]//span
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/div
+            pattern: !ruby/regexp '/Quantity in Stock:[1-9]+/'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/div
+            pattern: !ruby/regexp '/Sorry - Out of Stock/'
+      - product_category1:
+        - label_by_xpath:
+            label: None
+            xpath: //td[@class='vCSS_breadcrumb_td']/b/a[2]
+            pattern: !ruby/regexp '/Target|Apparel|Photos/i'
+        - label_by_url:
+            label: Ammunition
+            pattern: !ruby/regexp '/.*/'
+        - value: Ammunition
+    www.freedommunitions.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@class='itemcontainer']/div[@class='item']//a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.freedommunitions.com
+product_session_format:
+  queue: www.freedommunitions.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.freedommunitions.com/product_page
+sessions:
+- queue: www.freedommunitions.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.freedommunitions.com/product_link
+  urls:
+  - url: http://extensions.visualmarketing.net/freedom/isinstock?domain=Freedom

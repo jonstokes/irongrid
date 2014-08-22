@@ -1,368 +1,175 @@
 ---
-site_data:
-  :domain: www.huntingdepot.net
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      item_location: 23 S Prospect St, Nanticoke, PA 18634
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //table[@class='prd_bdr']//tr/td[@class='prd_hdr']/h1
-    - scraper_method: meta_title
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //table[@class='std prodpage'][1]//tr/td
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='imgWidgetBox']/img[@id='MainPicX']/@src
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='prd_price']
-        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="RegularPrice"]
-        regexp: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='alert_box']
-        regexp: !ruby/regexp '/Would you like to be notified by email when this comes
-          in/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class='alert_box']
-        regexp: !ruby/regexp '/\d+\s+in stock/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: None
-        xpath: //div[@class='breadcrumbs']
-        regexp: !ruby/regexp '/Archery|Crossbows|Knives|Tents/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='breadcrumbs']
-        regexp: !ruby/regexp '/Pistols|Rifles|Frames|Receivers|Revolvers|Sets|Shotguns/'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']
-        regexp: !ruby/regexp '/Lasers|Sights|Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']
-        regexp: !ruby/regexp '/Ammunition|Balls|Sabots|Bullets/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class='breadcrumbs']
-        regexp: !ruby/regexp '/Accessories|Cases|Cleaning|Gun Care|Concealment|Gunsmithing|Holsters|Muzzleloading|Reoading|Targets|Throwers/i'
-  :link_sources:
-    seed_links:
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1001&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1002&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=997&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=999&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=995&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=13&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=11&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=12&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=14&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=15&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=3&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=4&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=75&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=76&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=77&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=78&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1488&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=91&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=813&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=815&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=814&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=79&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=812&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=92&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=93&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1489&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1490&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=94&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=95&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=96&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=97&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=98&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1487&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=99&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=102&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=978&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=979&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=109&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=110&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=111&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=980&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=112&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=138&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=139&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=147&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1010&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1012&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1007&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1008&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1011&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=148&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=149&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=152&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1006&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=993&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=990&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=991&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=155&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=156&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=158&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=181&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=182&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=183&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=185&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=192&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=191&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=189&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=188&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=190&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1040&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=195&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=193&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=196&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=194&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=197&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=198&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=199&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1177&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=200&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=217&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=606&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=220&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=219&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=221&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=222&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=223&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=226&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=218&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=227&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/pink-hunting-items.asp:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1492&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=1491&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-      http://www.huntingdepot.net/catalog/subcat.asp?cid=100&sort=1&numofitems=4:
-        link_xpaths:
-        - //table[@class='data_table']//tr/td/p/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 10
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 7
-  :name: Hunting Depot
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Hunting Depot
+domain: www.huntingdepot.net
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.huntingdepot.net: {}
+  object_adapter:
+    www.huntingdepot.net/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //table[@class='prd_bdr']//tr/td[@class='prd_hdr']/h1
+        - meta_title
+      - description:
+        - find_by_xpath:
+            xpath: //table[@class='std prodpage'][1]//tr/td
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='imgWidgetBox']/img[@id='MainPicX']/@src
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='prd_price']
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="RegularPrice"]
+            pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='alert_box']
+            pattern: !ruby/regexp '/Would you like to be notified by email when this
+              comes in/i'
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='alert_box']
+            pattern: !ruby/regexp '/\d+\s+in stock/i'
+      - product_category1:
+        - label_by_xpath:
+            label: None
+            xpath: //div[@class='breadcrumbs']
+            pattern: !ruby/regexp '/Archery|Crossbows|Knives|Tents/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='breadcrumbs']
+            pattern: !ruby/regexp '/Pistols|Rifles|Frames|Receivers|Revolvers|Sets|Shotguns/'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']
+            pattern: !ruby/regexp '/Lasers|Sights|Optics/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']
+            pattern: !ruby/regexp '/Ammunition|Balls|Sabots|Bullets/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class='breadcrumbs']
+            pattern: !ruby/regexp '/Accessories|Cases|Cleaning|Gun Care|Concealment|Gunsmithing|Holsters|Muzzleloading|Reoading|Targets|Throwers/i'
+    www.huntingdepot.net/product_link:
+      $key: globals/product_link
+      xpath: //table[@class='data_table']//tr/td/p/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.huntingdepot.net
+product_session_format:
+  queue: www.huntingdepot.net
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.huntingdepot.net/product_page
+sessions:
+- queue: www.huntingdepot.net
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.huntingdepot.net/product_link
+  urls:
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1001&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1002&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=997&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=999&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=995&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=13&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=11&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=12&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=14&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=15&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=3&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=4&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=75&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=76&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=77&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=78&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1488&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=91&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=813&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=815&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=814&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=79&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=812&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=92&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=93&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1489&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1490&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=94&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=95&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=96&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=97&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=98&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1487&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=99&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=102&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=978&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=979&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=109&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=110&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=111&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=980&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=112&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=138&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=139&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=147&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1010&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1012&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1007&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1008&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1011&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=148&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=149&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=152&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1006&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=993&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=990&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=991&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=155&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=156&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=158&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=181&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=182&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=183&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=185&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=192&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=191&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=189&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=188&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=190&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1040&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=195&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=193&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=196&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=194&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=197&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=198&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=199&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1177&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=200&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=217&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=606&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=220&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=219&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=221&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=222&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=223&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=226&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=218&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=227&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/pink-hunting-items.asp
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1492&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=1491&sort=1&numofitems=4
+  - url: http://www.huntingdepot.net/catalog/subcat.asp?cid=100&sort=1&numofitems=4

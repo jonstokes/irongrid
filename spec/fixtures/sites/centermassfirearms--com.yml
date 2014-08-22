@@ -1,122 +1,100 @@
 ---
-site_data:
-  :domain: centermassfirearms.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      item_condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: 2140 S. Boulder Hwy., Henderson, NV 89002
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='product-name']/h1
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='short-description']
-        filters:
-        - reject: !ruby/regexp '/Quick Overview/i'
-    - scraper_method: meta_description
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']
-        regexp: !ruby/regexp '/out of stock/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class='product-shop']/p[@class='availability in-stock']
-        regexp: !ruby/regexp '/in stock/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Guns|Rifles/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Guns|Rifles/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Optic/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Optic/i'
-  :link_sources:
-    seed_links:
-      http://centermassfirearms.com/index.php/rifles.html?limit=30:
-        link_xpaths:
-        - //div[@class='product-box']/h2[@class='product-name']/a/@href
-      http://centermassfirearms.com/index.php/nfa-class-iii.html?limit=30:
-        link_xpaths:
-        - //div[@class='product-box']/h2[@class='product-name']/a/@href
-      http://centermassfirearms.com/index.php/used-consignment-guns.html?limit=30:
-        link_xpaths:
-        - //div[@class='product-box']/h2[@class='product-name']/a/@href
-    compressed_links:
-      http://centermassfirearms.com/index.php/handguns-semi-automatic-revolvers.html?limit=30&p=PAGENUM:
-        link_xpaths:
-        - //div[@class='product-box']/h2[@class='product-name']/a/@href
-        start_at_page: 1
-        stop_at_page: 2
-      http://centermassfirearms.com/index.php/accessories.html?limit=30&p=PAGENUM:
-        link_xpaths:
-        - //div[@class='product-box']/h2[@class='product-name']/a/@href
-        start_at_page: 1
-        stop_at_page: 8
-      http://centermassfirearms.com/index.php/gun-ammo.html?limit=30&p=PAGENUM:
-        link_xpaths:
-        - //div[@class='product-box']/h2[@class='product-name']/a/@href
-        start_at_page: 1
-        stop_at_page: 2
-      http://centermassfirearms.com/index.php/parts.html?limit=30&p=PAGENUM:
-        link_xpaths:
-        - //div[@class='product-box']/h2[@class='product-name']/a/@href
-        start_at_page: 1
-        stop_at_page: 6
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 4
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 7
-  :name: Center Mass Firearms
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: false
-  :read_interval: 1440
+name: Center Mass Firearms
+domain: centermassfirearms.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    centermassfirearms.com: {}
+  object_adapter:
+    centermassfirearms.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='product-name']/h1
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //span[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - description:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='short-description']
+          filters:
+          - reject: !ruby/regexp '/Quick Overview/i'
+        - meta_description
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']
+            pattern: !ruby/regexp '/out of stock/i'
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='product-shop']/p[@class='availability in-stock']
+            pattern: !ruby/regexp '/in stock/i'
+        - value: in_stock
+      - product_category1:
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Guns|Rifles/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Guns|Rifles/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Optic/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Optic/i'
+    centermassfirearms.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@class='product-box']/h2[@class='product-name']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: centermassfirearms.com
+product_session_format:
+  queue: centermassfirearms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - centermassfirearms.com/product_page
+sessions:
+- queue: centermassfirearms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - centermassfirearms.com/product_link
+  urls:
+  - url: http://centermassfirearms.com/index.php/rifles.html?limit=30
+  - url: http://centermassfirearms.com/index.php/nfa-class-iii.html?limit=30
+  - url: http://centermassfirearms.com/index.php/used-consignment-guns.html?limit=30
+  - url: http://centermassfirearms.com/index.php/handguns-semi-automatic-revolvers.html?limit=30&p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://centermassfirearms.com/index.php/accessories.html?limit=30&p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 8
+  - url: http://centermassfirearms.com/index.php/gun-ammo.html?limit=30&p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://centermassfirearms.com/index.php/parts.html?limit=30&p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 6

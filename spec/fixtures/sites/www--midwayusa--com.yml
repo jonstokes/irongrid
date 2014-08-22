@@ -1,107 +1,100 @@
 ---
-site_data:
-  :domain: www.midwayusa.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      item_location: 5875 West Van Horn Tavern Rd, Columbia, MO 65203-9274
-    title:
-    - scraper_method: meta_title
-    description:
-    - scraper_method: meta_description
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='prod_img']/div[@id='img_wrap']/div[@id='images']/div[@class='default']/a[@id='imageClick']/@href
-    - scraper_method: meta_og_image
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='priceblock']/div[@id='savingsLine']/div[@id='comparePrice']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='priceblock']/div[@id='currentPrice']/span
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='priceblock']/div[@id='currentPrice']/span[@class='sale']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@id='status_block']/div[@id='productStatus']
-        regexp: !ruby/regexp '/Available/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@id='status_block']/div[@id='productStatus']
-        regexp: !ruby/regexp '/Out of Stock/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@id='product_content']/div[@id='breadcrumbs']
-        regexp: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Reloading|Shooting Gear/i'
-  :link_sources:
-    compressed_links:
-      http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13950&pageNumber=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 52
-        link_xpaths:
-        - //div[@id='products']/ol[@id='prodlist']/li[@class='prodlistitem list']//a[@class='description']/@href
-      http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13946&pageNumber=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 325
-        link_xpaths:
-        - //div[@id='products']/ol[@id='prodlist']/li[@class='prodlistitem list']//a[@class='description']/@href
-      http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13954&pageNumber=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 70
-        link_xpaths:
-        - //div[@id='products']/ol[@id='prodlist']/li[@class='prodlistitem list']//a[@class='description']/@href
-      http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13957&pageNumber=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 260
-        link_xpaths:
-        - //div[@id='products']/ol[@id='prodlist']/li[@class='prodlistitem list']//a[@class='description']/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 1
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 2
-  :name: MidwayUSA
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 14400
+name: Midway USA
+domain: www.midwayusa.com
+read_interval: 14400
+timezone:
+registrations:
+  session_queue:
+    www.midwayusa.com: {}
+  object_adapter:
+    www.midwayusa.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //h1[@id='productDescription']
+        - meta_title
+      - description:
+        - meta_description
+        - find_by_xpath:
+            xpath: //div[@id='overview']
+      - image:
+        - find_by_xpath:
+            xpath: //div[@id='prod_img']/div[@id='img_wrap']/div[@id='images']/div[@class='default']/a[@id='imageClick']/@href
+        - meta_og_image
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@id='priceblock']/div[@id='savingsLine']/div[@id='comparePrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@id='priceblock']/div[@id='currentPrice']/span
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@id='priceblock']/div[@id='currentPrice']/span[@class='sale']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@id='status_block']/div[@id='productStatus']
+            pattern: !ruby/regexp '/Available/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@id='status_block']/div[@id='productStatus']
+            pattern: !ruby/regexp '/Out of Stock/i'
+      - product_category1:
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@id='product_content']/div[@id='breadcrumbs']
+            pattern: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Reloading|Shooting
+              Gear/i'
+    www.midwayusa.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@id='products']/ol[@id='prodlist']/li[@class='prodlistitem list']//a[@class='description']
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.midwayusa.com
+product_session_format:
+  queue: www.midwayusa.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.midwayusa.com/product_page
+sessions:
+- queue: www.midwayusa.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.midwayusa.com/product_link
+  urls:
+  - url: http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13950&pageNumber=PAGENUM
+    start_at_page: 1
+    stop_at_page: 52
+  - url: http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13946&pageNumber=PAGENUM
+    start_at_page: 1
+    stop_at_page: 325
+- queue: www.midwayusa.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.midwayusa.com/product_link
+  urls:
+  - url: http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13957&pageNumber=PAGENUM
+    start_at_page: 1
+    stop_at_page: 260

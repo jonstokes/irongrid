@@ -1,111 +1,92 @@
 ---
-site_data:
-  :domain: lowranceprecisionfirearms.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      item_condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: 2600 36th St, Parkersburg, WV 26102
-    title:
-    - scraper_method: meta_title
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='productGeneral']//h1[@id='productName']
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='productMainImage']//img/@src
-        filters:
-        - prefix: http://lowranceprecisionfirearms.com/
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='productGeneral']/form/h2[@id='productPrices']/span[@class='productSpecialPrice']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='productGeneral']//h2[@id='productPrices']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='productGeneral']//div[@id='productDescription']
-    - scraper_method: meta_description
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@id='productGeneral']//div[@id='cartAdd']
-        regexp: !ruby/regexp '/Add to Cart:/'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@id='productGeneral']//ul[@id='productDetailsList']/li[2]
-        regexp: !ruby/regexp '/0 Units in Stock/'
-  :link_sources:
-    compressed_links:
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=4&inc_subcat=1&pfrom=0&pto=10000&sort=20a&page=PAGENUM
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=2&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-        start_at_page: 1
-        stop_at_page: 155
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=94&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-        start_at_page: 1
-        stop_at_page: 40
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=93&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-        start_at_page: 1
-        stop_at_page: 40
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=1&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-        start_at_page: 1
-        stop_at_page: 140
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=9&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=3&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-        start_at_page: 1
-        stop_at_page: 75
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=8&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-        start_at_page: 1
-        stop_at_page: 8
-    seed_links:
-      ? http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=6&inc_subcat=1&manufacturers_id=&pfrom=0&pto=100000&dfrom=&dto=&x=36&y=8
-      : link_xpaths:
-        - //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Lowrance Precision Firearms
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Lowrance Precision Firearms
+domain: lowranceprecisionfirearms.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    lowranceprecisionfirearms.com: {}
+  object_adapter:
+    lowranceprecisionfirearms.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - meta_title
+        - find_by_xpath:
+            xpath: //div[@id='productGeneral']//h1[@id='productName']
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //div[@id='productMainImage']//img/@src
+          filters:
+          - prefix: http://lowranceprecisionfirearms.com/
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@id='productGeneral']/form/h2[@id='productPrices']/span[@class='productSpecialPrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@id='productGeneral']//h2[@id='productPrices']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - description:
+        - find_by_xpath:
+            xpath: //div[@id='productGeneral']//div[@id='productDescription']
+        - meta_description
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@id='productGeneral']//div[@id='cartAdd']
+            pattern: !ruby/regexp '/Add to Cart:/'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@id='productGeneral']//ul[@id='productDetailsList']/li[2]
+            pattern: !ruby/regexp '/0 Units in Stock/'
+        - value: in_stock
+    lowranceprecisionfirearms.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: lowranceprecisionfirearms.com
+product_session_format:
+  queue: lowranceprecisionfirearms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - lowranceprecisionfirearms.com/product_page
+sessions:
+- queue: lowranceprecisionfirearms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - lowranceprecisionfirearms.com/product_link
+  urls:
+  - url: http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=6&inc_subcat=1&manufacturers_id=&pfrom=0&pto=100000&dfrom=&dto=&x=36&y=8
+  - url: http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=4&inc_subcat=1&pfrom=0&pto=10000&sort=20a&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 5
+  - url: http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=2&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 155
+  - url: http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=94&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 40
+  - url: http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=93&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 40
+  - url: http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=1&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 140
+- queue: lowranceprecisionfirearms.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - lowranceprecisionfirearms.com/product_link
+  urls:
+  - url: http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=3&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 75
+  - url: http://lowranceprecisionfirearms.com/index.php?main_page=advanced_search_result&keyword=keywords&search_in_description=1&categories_id=8&inc_subcat=1&pfrom=0&pto=100000&sort=20a&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 8

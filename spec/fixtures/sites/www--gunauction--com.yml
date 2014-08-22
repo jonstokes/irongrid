@@ -1,133 +1,111 @@
 ---
-site_data:
-  :domain: www.gunauction.com
-  :page_adapter:
-    validation:
-      auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']
-    seller_defaults:
-      listing_type: auction
-    digest_attributes:
-    - defaults
-    - url
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class="listingheader"]/h1[@class="h1vv"]
-        filters:
-        - reject: !ruby/regexp '/^Guns For Sale - /'
-    description:
-    - scraper_method: meta_description
-    keywords:
-    - scraper_method: meta_keyword
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="galleria"]/a/img/@src
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class="galleria-image"][3]/img/@src
-    item_location:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="listingmain"]/div[5]/div[1]/div[1]/div[3]/div[2]/span[2]
-        regexp: !ruby/regexp '/(?<=\().*(?=\))/'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="listingmain"]/div[5]/div[1]/div[1]/div[2]/div[2]/span[2]
-        regexp: !ruby/regexp '/(?<=\().*(?=\))/'
-    buy_now_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: '//span[@style="color: 16850D; font-size: 30px; font-weight: bold;"]'
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //a[@href[contains(.,"http://www.gunauction.com/search/buyitnowconfirm.cfm")]]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    current_bid:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@class="listingamount"]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    minimum_bid:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="listingmain"]/div[5]/div[1]/div[2]/form/div[2]/div[2]
-        regexp: !ruby/regexp '/\$\d[\d\,]+\.\d\d/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="listingmain"]/div[5]/div[1]/div[2]/form/div[2]/div
-        regexp: !ruby/regexp '/\$\d[\d\,]+\.\d\d/i'
-    auction_ends:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="ItemListingRightColumn"]/div[9]
-        regexp: !ruby/regexp '/(?<=\().*(?=\))/'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="ItemListingRightColumn"]/div[9]
-        regexp: !ruby/regexp '/([a-zA-Z]+)\s\d+\,\s\d\d\d\d\s\d\d:\d\d:\d\d\s([A-Z]{3}|[A-Z]{2})/'
-    item_condition:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: New
-        xpath: //div[@id='listingmain']/div[5]/div[@id='ItemListingRightColumn']/div[4]
-        regexp: !ruby/regexp '/new|never|NIB/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class="breadCrumbs"]/a[2]
-        regexp: !ruby/regexp '/Rifles|Guns|Revolvers|Pistols|Handguns/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class="breadCrumbs"]/a[3]
-        regexp: !ruby/regexp '/Rifles|Guns|Revolvers|Pistols|Handguns/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class="breadCrumbs"]/a[2]
-        regexp: !ruby/regexp '/Scopes|Vision|Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class="breadCrumbs"]/a[3]
-        regexp: !ruby/regexp '/Scopes|Vision|Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class="breadCrumbs"]/a[2]
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class="breadCrumbs"]/a[3]
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-  :link_sources:
-    compressed_links:
-      http://www.gunauction.com/shop/guns/listed-24hrs/page-PAGENUM:
-        start_at_page: 1
-        stop_at_page: 15
-        link_prefix: http://www.gunauction.com
-        link_xpaths:
-        - //a[@class="lblk"]/@href
-        - //a[@class="lbgrn"]/@href
-        - //a[@class="lbblk"]/@href
-        - //a[@class="lbblu"]/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Gun Auction
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 3600
-  :timezone: Pacific Time (US & Canada)
+name: Gun Auction
+domain: www.gunauction.com
+read_interval: 3600
+timezone: Pacific Time (US & Canada)
+registrations:
+  session_queue:
+    www.gunauction.com: {}
+  object_adapter:
+    www.gunauction.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //div[@class="listingheader"]/h1[@class="h1vv"]
+          filters:
+          - reject: !ruby/regexp '/^Guns For Sale - /'
+      - description:
+        - meta_description
+      - keywords:
+        - meta_keyword
+      - image:
+        - find_by_xpath:
+            xpath: //div[@id="galleria"]/a/img/@src
+        - find_by_xpath:
+            xpath: //div[@class="galleria-image"][3]/img/@src
+      - location:
+        - find_by_xpath:
+            xpath: //div[@id="listingmain"]/div[5]/div[1]/div[1]/div[3]/div[2]/span[2]
+            pattern: !ruby/regexp '/(?<=\().*(?=\))/'
+        - find_by_xpath:
+            xpath: //div[@id="listingmain"]/div[5]/div[1]/div[1]/div[2]/div[2]/span[2]
+            pattern: !ruby/regexp '/(?<=\().*(?=\))/'
+      - buy_now_price_in_cents:
+        - find_by_xpath:
+            xpath: '//span[@style="color: 16850D; font-size: 30px; font-weight: bold;"]'
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //a[@href[contains(.,"http://www.gunauction.com/search/buyitnowconfirm.cfm")]]
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - current_bid_in_cents:
+        - find_by_xpath:
+            xpath: //span[@class="listingamount"]
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - minimum_bid_in_cents:
+        - find_by_xpath:
+            xpath: //div[@id="listingmain"]/div[5]/div[1]/div[2]/form/div[2]/div[2]
+            pattern: !ruby/regexp '/\$\d[\d\,]+\.\d\d/i'
+        - find_by_xpath:
+            xpath: //div[@id="listingmain"]/div[5]/div[1]/div[2]/form/div[2]/div
+            pattern: !ruby/regexp '/\$\d[\d\,]+\.\d\d/i'
+      - auction_ends:
+        - find_by_xpath:
+            xpath: //div[@id="ItemListingRightColumn"]/div[9]
+            pattern: !ruby/regexp '/(?<=\().*(?=\))/'
+        - find_by_xpath:
+            xpath: //div[@id="ItemListingRightColumn"]/div[9]
+            pattern: !ruby/regexp '/([a-zA-Z]+)\s\d+\,\s\d\d\d\d\s\d\d:\d\d:\d\d\s([A-Z]{3}|[A-Z]{2})/'
+      - condition:
+        - label_by_xpath:
+            label: New
+            xpath: //div[@id='listingmain']/div[5]/div[@id='ItemListingRightColumn']/div[4]
+            pattern: !ruby/regexp '/new|never|NIB/i'
+      - product_category1:
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class="breadCrumbs"]/a[2]
+            pattern: !ruby/regexp '/Rifles|Guns|Revolvers|Pistols|Handguns/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class="breadCrumbs"]/a[3]
+            pattern: !ruby/regexp '/Rifles|Guns|Revolvers|Pistols|Handguns/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class="breadCrumbs"]/a[2]
+            pattern: !ruby/regexp '/Scopes|Vision|Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class="breadCrumbs"]/a[3]
+            pattern: !ruby/regexp '/Scopes|Vision|Optics/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class="breadCrumbs"]/a[2]
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class="breadCrumbs"]/a[3]
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+    www.gunauction.com/product_link:
+      $key: globals/product_link
+      xpath: //a[@class="lblk"]
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.gunauction.com
+product_session_format:
+  queue: www.gunauction.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.gunauction.com/product_page
+sessions:
+- queue: www.gunauction.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.gunauction.com/product_link
+  urls:
+  - url: http://www.gunauction.com/shop/guns/listed-24hrs/page-PAGENUM
+    start_at_page: 1
+    stop_at_page: 15

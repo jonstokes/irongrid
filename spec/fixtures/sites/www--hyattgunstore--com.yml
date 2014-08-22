@@ -1,280 +1,190 @@
 ---
-site_data:
-  :domain: www.hyattgunstore.com
-  :page_adapter:
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: in stock
-      item_location: 3332 Wilkinson Blvd Charlotte, NC 28208
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//font[@class="bread-crumb last-bread-crumb"]
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h1
-    description:
-    - scraper_method: meta_description
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //img[@id="product_thumbnail"]/@src
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//span[contains(@class, "product-price-value")]
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//span[contains(@class, "product-market-price")]
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //table[@class='product-properties']//td[@class='property-value']/strong
-        regexp: !ruby/regexp '/Out of stock/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: .//span[@id="pre_text"]/span[@style="font-weight:bold;"]
-        regexp: !ruby/regexp '/product is out of stock/i'
-    item_conditoin:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Used
-        xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
-        regexp: !ruby/regexp '/used/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: New
-        xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
-        regexp: !ruby/regexp '/new/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
-        regexp: !ruby/regexp '/Pistols|Revolvers|Rifles|Shotguns|Firearms/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@id="location"]/a[@class="bread-crumb"][3]
-        regexp: !ruby/regexp '/Pistols|Revolvers|Rifles|Shotguns|Firearms/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@id="location"]/a[@class="bread-crumb"][3]
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@id="location"]/a[@class="bread-crumb"][3]
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
-        regexp: !ruby/regexp '/Accessories|Storage|Holsters|Parts|Cleaning|Gear|Lasers|Flashlights|Safes|Reloading|Tactical|Magazines/i'
-    not_found:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h1
-        regexp: !ruby/regexp '/Welcome to Hyatt Gun Store/'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h3
-        regexp: !ruby/regexp '/Unavailable product/'
-  :link_sources:
-    compressed_links:
-      http://www.hyattgunstore.com/used-firearms/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 8
-      http://www.hyattgunstore.com/high-end/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 2
-      http://www.hyattgunstore.com/pistols/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 36
-      http://www.hyattgunstore.com/revolvers/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 17
-      http://www.hyattgunstore.com/rifles/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 68
-      http://www.hyattgunstore.com/shotguns/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 32
-      http://www.hyattgunstore.com/ammunition/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 114
-      http://www.hyattgunstore.com/home.php?cat=1974&sort=orderby&sort_direction=0&page=PAGENUM:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 48
-      http://www.hyattgunstore.com/magazines/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 33
-      http://www.hyattgunstore.com/gun-accessories/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 94
-      http://www.hyattgunstore.com/gun-storage/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 16
-      http://www.hyattgunstore.com/gun-parts/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 12
-      http://www.hyattgunstore.com/holsters/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 61
-      http://www.hyattgunstore.com/cleaning-and-maintenance/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 24
-      http://www.hyattgunstore.com/optics/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 2
-      http://www.hyattgunstore.com/riflescopes/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 19
-      http://www.hyattgunstore.com/pistol-scopes/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 2
-      http://www.hyattgunstore.com/shotgun-scopes/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 2
-      http://www.hyattgunstore.com/holographic-red-dots/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.hyattgunstore.com/rings-mounts-bases/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 43
-      http://www.hyattgunstore.com/rangefinders/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 2
-      http://www.hyattgunstore.com/night-vision/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 2
-      http://www.hyattgunstore.com/accessories/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 2
-      http://www.hyattgunstore.com/lasers/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 9
-      http://www.hyattgunstore.com/reloading/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 93
-      http://www.hyattgunstore.com/gunsmithing/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 4
-      http://www.hyattgunstore.com/bargain-bin/indexPAGENUM.html:
-        link_xpaths:
-        - //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a/@href
-        link_prefix: http://www.hyattgunstore.com
-        start_at_page: 1
-        stop_at_page: 2
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 3
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 5
-  :name: Hyatt Gun Store
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Hyatt Gun Store
+domain: www.hyattgunstore.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.hyattgunstore.com: {}
+  object_adapter:
+    www.hyattgunstore.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: .//font[@class="bread-crumb last-bread-crumb"]
+        - find_by_xpath:
+            xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h1
+      - description:
+        - meta_description
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //img[@id="product_thumbnail"]/@src
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: .//span[contains(@class, "product-price-value")]
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: .//span[contains(@class, "product-market-price")]
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //table[@class='product-properties']//td[@class='property-value']/strong
+            pattern: !ruby/regexp '/Out of stock/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: .//span[@id="pre_text"]/span[@style="font-weight:bold;"]
+            pattern: !ruby/regexp '/product is out of stock/i'
+        - value: in_stock
+      - conditoin:
+        - label_by_xpath:
+            label: Used
+            xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
+            pattern: !ruby/regexp '/used/i'
+        - label_by_xpath:
+            label: New
+            xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
+            pattern: !ruby/regexp '/new/i'
+      - product_category1:
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
+            pattern: !ruby/regexp '/Pistols|Revolvers|Rifles|Shotguns|Firearms/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@id="location"]/a[@class="bread-crumb"][3]
+            pattern: !ruby/regexp '/Pistols|Revolvers|Rifles|Shotguns|Firearms/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id="location"]/a[@class="bread-crumb"][3]
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id="location"]/a[@class="bread-crumb"][3]
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
+            pattern: !ruby/regexp '/Accessories|Storage|Holsters|Parts|Cleaning|Gear|Lasers|Flashlights|Safes|Reloading|Tactical|Magazines/i'
+      - not_found:
+        - find_by_xpath:
+            xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h1
+            pattern: !ruby/regexp '/Welcome to Hyatt Gun Store/'
+        - find_by_xpath:
+            xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h3
+            pattern: !ruby/regexp '/Unavailable product/'
+    www.hyattgunstore.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.hyattgunstore.com
+product_session_format:
+  queue: www.hyattgunstore.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.hyattgunstore.com/product_page
+sessions:
+- queue: www.hyattgunstore.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.hyattgunstore.com/product_link
+  urls:
+  - url: http://www.hyattgunstore.com/used-firearms/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 8
+  - url: http://www.hyattgunstore.com/high-end/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.hyattgunstore.com/pistols/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 36
+  - url: http://www.hyattgunstore.com/revolvers/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 17
+  - url: http://www.hyattgunstore.com/rifles/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 68
+  - url: http://www.hyattgunstore.com/shotguns/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 32
+  - url: http://www.hyattgunstore.com/ammunition/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 114
+  - url: http://www.hyattgunstore.com/home.php?cat=1974&sort=orderby&sort_direction=0&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 48
+- queue: www.hyattgunstore.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.hyattgunstore.com/product_link
+  urls:
+  - url: http://www.hyattgunstore.com/gun-accessories/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 94
+  - url: http://www.hyattgunstore.com/gun-storage/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 16
+  - url: http://www.hyattgunstore.com/gun-parts/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 12
+  - url: http://www.hyattgunstore.com/holsters/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 61
+  - url: http://www.hyattgunstore.com/cleaning-and-maintenance/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 24
+  - url: http://www.hyattgunstore.com/optics/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.hyattgunstore.com/riflescopes/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 19
+  - url: http://www.hyattgunstore.com/pistol-scopes/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.hyattgunstore.com/shotgun-scopes/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.hyattgunstore.com/holographic-red-dots/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 5
+  - url: http://www.hyattgunstore.com/rings-mounts-bases/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 43
+  - url: http://www.hyattgunstore.com/rangefinders/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.hyattgunstore.com/night-vision/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.hyattgunstore.com/accessories/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.hyattgunstore.com/lasers/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 9
+  - url: http://www.hyattgunstore.com/reloading/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 93
+- queue: www.hyattgunstore.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.hyattgunstore.com/product_link
+  urls:
+  - url: http://www.hyattgunstore.com/bargain-bin/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 2

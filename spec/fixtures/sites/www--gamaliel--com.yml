@@ -1,176 +1,136 @@
 ---
-site_data:
-  :domain: www.gamaliel.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: 1497 Fountain Run Road, Gamaliel, Kentucky 42140
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //h1[@id='detail_parent_prod_nm']
-        filters:
-        - reject: !ruby/regexp '/Used/i'
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //a[@id='detail_large']/img[@id='prodpicthumb']/@src
-        filters:
-        - prefix: http://www.gamaliel.com/
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //ul[@class='detail_pricing']/li[@class='listprice']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@id='price_container']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //ul[@class='detail_pricing']/li[@class='saleprice']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: /html
-        regexp: !ruby/regexp '/\"price\"\:\s*\"\$\d[\d\,\.]+/i'
-        filters:
-        - reject: !ruby/regexp '/\"price\"\:\s*\"/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //ul[@class='detail_pricing']/li[@class='saleprice']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='detail_cart']/div[@class='detail_desc']/div[@id='detail_desc_content_0']
-        filters:
-        - reject: !ruby/regexp '/Used/i'
-    - scraper_method: meta_description
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class='idp_container inv_msg']/span[@class='instock']
-        regexp: !ruby/regexp '/In Stock/'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='idp_container inv_msg']/span[@class='outstock']
-        regexp: !ruby/regexp '/Out of Stock/'
-    item_condition:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Used
-        xpath: .//h1[@id='detail_parent_prod_nm']
-        regexp: !ruby/regexp '/Used/'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: None
-        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
-        regexp: !ruby/regexp '/Automotive/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
-        regexp: !ruby/regexp '/Ammunition|Sabots|Bullets|Caps/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
-        regexp: !ruby/regexp '/Accessories|Components|Tubes|Cleaning|Silencers|Targets|Magazines/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
-        regexp: !ruby/regexp '/Guns/i'
-  :link_sources:
-    compressed_links:
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Ammunition)&search_prod=(searchexact~p.searchfield1~Ammunition)&searchfield1=Ammunition&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 80
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~AR15%20Accessories)&search_prod=(searchexact~p.searchfield1~AR15%20Accessories)&searchfield1=AR15%20Accessories&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 13
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Choke%20Tubes)&search_prod=(searchexact~p.searchfield1~Choke%20Tubes)&searchfield1=Choke%20Tubes&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 13
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Gun%20Parts%20%26%20Accessories)&search_prod=(searchexact~p.searchfield1~Gun%20Parts%20%26%20Accessories)&searchfield1=Gun%20Parts%20%26%20Accessories&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 14
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Guns)&search_prod=(searchexact~p.searchfield1~Guns)&searchfield1=Guns&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 71
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Muzzleloading)&search_prod=(searchexact~p.searchfield1~Muzzleloading)&searchfield1=Muzzleloading&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 14
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Optics)&search_prod=(searchexact~p.searchfield1~Optics)&searchfield1=Optics&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 33
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloaders%20%26%20Parts)&search_prod=(searchexact~p.searchfield1~Reloaders%20%26%20Parts)&searchfield1=Reloaders%20%26%20Parts&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 28
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloading%20Accessories)&search_prod=(searchexact~p.searchfield1~Reloading%20Accessories)&searchfield1=Reloading%20Accessories&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 16
-      ? http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloading%20Components)&search_prod=(searchexact~p.searchfield1~Reloading%20Components)&searchfield1=Reloading%20Components&page=PAGENUM
-      : link_prefix: http://www.gamaliel.com/
-        link_xpaths:
-        - //div[@class='thumb']/a/@href
-        start_at_page: 1
-        stop_at_page: 66
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 4
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 7
-  :name: Gamaliel Shooting Supply
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Gamaliel Shooting Supply
+domain: www.gamaliel.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.gamaliel.com: {}
+  object_adapter:
+    www.gamaliel.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //h1[@id='detail_parent_prod_nm']
+          filters:
+          - reject: !ruby/regexp '/Used/i'
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //a[@id='detail_large']/img[@id='prodpicthumb']/@src
+          filters:
+          - prefix: http://www.gamaliel.com/
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //ul[@class='detail_pricing']/li[@class='listprice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@id='price_container']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //ul[@class='detail_pricing']/li[@class='saleprice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: /html
+            pattern: !ruby/regexp '/\"price\"\:\s*\"\$\d[\d\,\.]+/i'
+          filters:
+          - reject: !ruby/regexp '/\"price\"\:\s*\"/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //ul[@class='detail_pricing']/li[@class='saleprice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - description:
+        - find_by_xpath:
+            xpath: //div[@class='detail_cart']/div[@class='detail_desc']/div[@id='detail_desc_content_0']
+          filters:
+          - reject: !ruby/regexp '/Used/i'
+        - meta_description
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='idp_container inv_msg']/span[@class='instock']
+            pattern: !ruby/regexp '/In Stock/'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='idp_container inv_msg']/span[@class='outstock']
+            pattern: !ruby/regexp '/Out of Stock/'
+        - value: in_stock
+      - condition:
+        - label_by_xpath:
+            label: Used
+            xpath: .//h1[@id='detail_parent_prod_nm']
+            pattern: !ruby/regexp '/Used/'
+        - value: new
+      - product_category1:
+        - label_by_xpath:
+            label: None
+            xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+            pattern: !ruby/regexp '/Automotive/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+            pattern: !ruby/regexp '/Ammunition|Sabots|Bullets|Caps/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+            pattern: !ruby/regexp '/Accessories|Components|Tubes|Cleaning|Silencers|Targets|Magazines/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
+            pattern: !ruby/regexp '/Guns/i'
+    www.gamaliel.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@class='thumb']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.gamaliel.com
+product_session_format:
+  queue: www.gamaliel.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.gamaliel.com/product_page
+sessions:
+- queue: www.gamaliel.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.gamaliel.com/product_link
+  urls:
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Ammunition)&search_prod=(searchexact~p.searchfield1~Ammunition)&searchfield1=Ammunition&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 80
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~AR15%20Accessories)&search_prod=(searchexact~p.searchfield1~AR15%20Accessories)&searchfield1=AR15%20Accessories&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 13
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Choke%20Tubes)&search_prod=(searchexact~p.searchfield1~Choke%20Tubes)&searchfield1=Choke%20Tubes&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 13
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Gun%20Parts%20%26%20Accessories)&search_prod=(searchexact~p.searchfield1~Gun%20Parts%20%26%20Accessories)&searchfield1=Gun%20Parts%20%26%20Accessories&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 14
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Guns)&search_prod=(searchexact~p.searchfield1~Guns)&searchfield1=Guns&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 71
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Muzzleloading)&search_prod=(searchexact~p.searchfield1~Muzzleloading)&searchfield1=Muzzleloading&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 14
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Optics)&search_prod=(searchexact~p.searchfield1~Optics)&searchfield1=Optics&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 33
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloaders%20%26%20Parts)&search_prod=(searchexact~p.searchfield1~Reloaders%20%26%20Parts)&searchfield1=Reloaders%20%26%20Parts&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 28
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloading%20Accessories)&search_prod=(searchexact~p.searchfield1~Reloading%20Accessories)&searchfield1=Reloading%20Accessories&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 16
+  - url: http://www.gamaliel.com/pc_combined_results.asp?tab=style&search_style=(searchexact~p.searchfield1~Reloading%20Components)&search_prod=(searchexact~p.searchfield1~Reloading%20Components)&searchfield1=Reloading%20Components&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 66

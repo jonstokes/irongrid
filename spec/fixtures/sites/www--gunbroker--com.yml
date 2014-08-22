@@ -1,167 +1,131 @@
 ---
-site_data:
-  :domain: www.gunbroker.com
-  :page_adapter:
-    seller_defaults:
-      listing_type: auction
-    digest_attributes:
-    - defaults
-    - url
-    validation:
-      auction: (raw['current_bid'] || raw['minimum_bid'] || raw['buy_now_price']) && raw['title']
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: .//td[@class="llt nw"]/h1[@id="h1T"]
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[text()[contains(.,'Description for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1] | //td[text()[contains(.,'Characteristics for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1]
-        all_nodes: true
-    - scraper_method: meta_description
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //table[@class='viewitempicfont']//tr[1]//img/@src
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //a/img[@class="viTn"]/@src
-    buy_now_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[@id="ctl00_ctlPagePlaceHolder_tdIsBuyNowSet"]/b
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    current_bid:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[@id="CurrentBid"]/b
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    auction_ends:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //span[@id="ctl00_ctlPagePlaceHolder_lblEndDate"]
-    item_location:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[@id="Location"]
-    item_condition:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Used
-        xpath: //td[@id="ItemCondition"]
-        regexp: !ruby/regexp '/used/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: New
-        xpath: //td[@id="ItemCondition"]
-        regexp: !ruby/regexp '/new|never|NIB/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //td[@class="categorynav nw llt f2b"]/a[3]
-        regexp: !ruby/regexp '/Antique Guns|Commemorative Guns|Collectible Guns|Replica
-          Guns|Machine Guns|Shotguns|Firearms|Charity Gun Auctions|Muzzleloaders|Pistols|Rifles|Weapon/i'
-        type: Guns
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //td[@class="categorynav nw llt f2b"]/a[4]
-        regexp: !ruby/regexp '/Antique Guns|Commemorative Guns|Collectible Guns|Replica
-          Guns|Machine Guns|Shotguns|Firearms|Charity Gun Auctions|Muzzleloaders|Pistols|Rifles|Weapon/i'
-        type: Guns
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //td[@class="categorynav nw llt f2b"]/a[3]
-        regexp: !ruby/regexp '/Optic|Scope|Sight|Binoculars/i'
-        type: Optics
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //td[@class="categorynav nw llt f2b"]/a[4]
-        regexp: !ruby/regexp '/Optic|Scope|Sight|Binoculars/i'
-        type: Optics
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //td[@class="categorynav nw llt f2b"]/a[3]
-        regexp: !ruby/regexp '/Ammunition|Shells|Vintage Ammo|Cannon Ammo/i'
-        type: Ammunition
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //td[@class="categorynav nw llt f2b"]/a[4]
-        regexp: !ruby/regexp '/Ammunition|Shells|Vintage Ammo|Cannon Ammo/i'
-        type: Ammunition
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //td[@class="categorynav nw llt f2b"]/a[3]
-        regexp: !ruby/regexp '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'
-        type: Accessories
-    - scraper_method: classify_by_xpath
-      arguments:
-        xpath: //td[@class="categorynav nw llt f2b"]/a[4]
-        regexp: !ruby/regexp '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'
-        type: Accessories
-  :link_sources:
-    compressed_links:
-      http://www.gunbroker.com/Ammunition/BI.aspx?Sort=7&PageIndex=PAGENUM&PageSize=75:
-        start_at_page: 1
-        stop_at_page: 20
-        link_prefix: http://www.gunbroker.com
-        link_xpaths:
-        - //a[@class="BItmTLnk"]/@href
-      http://www.gunbroker.com/Black-Powder-Muzzleloaders/BI.aspx?Sort=7&PageIndex=PAGENUM&PageSize=75:
-        start_at_page: 1
-        stop_at_page: 10
-        link_prefix: http://www.gunbroker.com
-        link_xpaths:
-        - //a[@class="BItmTLnk"]/@href
-      http://www.gunbroker.com/Charity-Gun-Auctions/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 10
-        link_prefix: http://www.gunbroker.com
-        link_xpaths:
-        - //a[@class="BItmTLnk"]/@href
-      http://www.gunbroker.com/Class-3-Firearms-NFA-Destructive-Devices/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 10
-        link_prefix: http://www.gunbroker.com
-        link_xpaths:
-        - //a[@class="BItmTLnk"]/@href
-      http://www.gunbroker.com/Collectible-Firearms/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 10
-        link_prefix: http://www.gunbroker.com
-        link_xpaths:
-        - //a[@class="BItmTLnk"]/@href
-      http://www.gunbroker.com/Collectibles-Militaria/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 10
-        link_prefix: http://www.gunbroker.com
-        link_xpaths:
-        - //a[@class="BItmTLnk"]/@href
-      http://www.gunbroker.com/Firearms/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 30
-        link_prefix: http://www.gunbroker.com
-        link_xpaths:
-        - //a[@class="BItmTLnk"]/@href
-      http://www.gunbroker.com/Gun-Parts/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 30
-        link_prefix: http://www.gunbroker.com
-        link_xpaths:
-        - //a[@class="BItmTLnk"]/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 1
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 3
-  :name: GunBroker.com
-  :engine: www.ironsights.com
-  :read_with: CreateLinksWorker
-  :size: 10
-  :active: true
-  :read_interval: 1800
-  :timezone: America/New_York
-
+name: GunBroker.com
+domain: www.gunbroker.com
+read_interval: 1800
+timezone: America/New_York
+registrations:
+  session_queue:
+    www.gunbroker.com: {}
+  object_adapter:
+    www.gunbroker.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: .//td[@class="llt nw"]/h1[@id="h1T"]
+      - description:
+        - find_by_xpath:
+            xpath: //td[text()[contains(.,'Description for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1] | //td[text()[contains(.,'Characteristics for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1]
+            all_nodes: true
+        - meta_description
+      - image:
+        - find_by_xpath:
+            xpath: //table[@class='viewitempicfont']//tr[1]//img/@src
+        - find_by_xpath:
+            xpath: //a/img[@class="viTn"]/@src
+      - buy_now_price_in_cents:
+        - find_by_xpath:
+            xpath: //td[@id="ctl00_ctlPagePlaceHolder_tdIsBuyNowSet"]/b
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - current_bid_in_cents:
+        - find_by_xpath:
+            xpath: //td[@id="CurrentBid"]/b
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - minimum_bid_in_cents:
+        - find_by_xpath:
+            xpath: //div[@id='main']//td[@id='StartingBid']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - auction_ends:
+        - find_by_xpath:
+            xpath: //span[@id="ctl00_ctlPagePlaceHolder_lblEndDate"]
+      - location:
+        - find_by_xpath:
+            xpath: //td[@id="Location"]
+      - condition:
+        - label_by_xpath:
+            label: Used
+            xpath: //td[@id="ItemCondition"]
+            pattern: !ruby/regexp '/used/i'
+        - label_by_xpath:
+            label: New
+            xpath: //td[@id="ItemCondition"]
+            pattern: !ruby/regexp '/new|never|NIB/i'
+      - product_category1:
+        - label_by_xpath:
+            xpath: //td[@class="categorynav nw llt f2b"]/a[3]
+            pattern: !ruby/regexp '/Antique Guns|Commemorative Guns|Collectible Guns|Replica
+              Guns|Machine Guns|Shotguns|Firearms|Charity Gun Auctions|Muzzleloaders|Pistols|Rifles|Weapon/i'
+            label: Guns
+        - label_by_xpath:
+            xpath: //td[@class="categorynav nw llt f2b"]/a[4]
+            pattern: !ruby/regexp '/Antique Guns|Commemorative Guns|Collectible Guns|Replica
+              Guns|Machine Guns|Shotguns|Firearms|Charity Gun Auctions|Muzzleloaders|Pistols|Rifles|Weapon/i'
+            label: Guns
+        - label_by_xpath:
+            xpath: //td[@class="categorynav nw llt f2b"]/a[3]
+            pattern: !ruby/regexp '/Optic|Scope|Sight|Binoculars/i'
+            label: Optics
+        - label_by_xpath:
+            xpath: //td[@class="categorynav nw llt f2b"]/a[4]
+            pattern: !ruby/regexp '/Optic|Scope|Sight|Binoculars/i'
+            label: Optics
+        - label_by_xpath:
+            xpath: //td[@class="categorynav nw llt f2b"]/a[3]
+            pattern: !ruby/regexp '/Ammunition|Shells|Vintage Ammo|Cannon Ammo/i'
+            label: Ammunition
+        - label_by_xpath:
+            xpath: //td[@class="categorynav nw llt f2b"]/a[4]
+            pattern: !ruby/regexp '/Ammunition|Shells|Vintage Ammo|Cannon Ammo/i'
+            label: Ammunition
+        - label_by_xpath:
+            xpath: //td[@class="categorynav nw llt f2b"]/a[3]
+            pattern: !ruby/regexp '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'
+            label: Accessories
+        - label_by_xpath:
+            xpath: //td[@class="categorynav nw llt f2b"]/a[4]
+            pattern: !ruby/regexp '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'
+            label: Accessories
+    www.gunbroker.com/product_link:
+      $key: globals/product_link
+      xpath: //a[@class="BItmTLnk"]
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.gunbroker.com
+product_session_format:
+  queue: www.gunbroker.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.gunbroker.com/product_page
+sessions:
+- queue: www.gunbroker.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.gunbroker.com/product_link
+  urls:
+  - url: http://www.gunbroker.com/Ammunition/BI.aspx?Sort=7&PageIndex=PAGENUM&PageSize=75
+    start_at_page: 1
+    stop_at_page: 20
+  - url: http://www.gunbroker.com/Black-Powder-Muzzleloaders/BI.aspx?Sort=7&PageIndex=PAGENUM&PageSize=75
+    start_at_page: 1
+    stop_at_page: 10
+  - url: http://www.gunbroker.com/Charity-Gun-Auctions/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM
+    start_at_page: 1
+    stop_at_page: 10
+  - url: http://www.gunbroker.com/Class-3-Firearms-NFA-Destructive-Devices/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM
+    start_at_page: 1
+    stop_at_page: 10
+  - url: http://www.gunbroker.com/Collectible-Firearms/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM
+    start_at_page: 1
+    stop_at_page: 10
+  - url: http://www.gunbroker.com/Collectibles-Militaria/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM
+    start_at_page: 1
+    stop_at_page: 10
+  - url: http://www.gunbroker.com/Firearms/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM
+    start_at_page: 1
+    stop_at_page: 30
+  - url: http://www.gunbroker.com/Gun-Parts/BI.aspx?Sort=7&PageSize=75&PageIndex=PAGENUM
+    start_at_page: 1
+    stop_at_page: 30

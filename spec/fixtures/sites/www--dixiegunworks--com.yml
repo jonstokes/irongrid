@@ -1,174 +1,130 @@
 ---
-site_data:
-  :domain: www.dixiegunworks.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['description']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: 1412 West Reelfoot Avenue, Union City, TN 38281
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[@class='pageHeading'][1]
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //script
-        regexp: !ruby/regexp '/img src=\"images\/thumbs\/\S{2,8}\.\w{3,4}\"/'
-        filters:
-        - reject: !ruby/regexp '/img src=\"/'
-        - reject: !ruby/regexp '/\"/'
-        - prefix: http://www.dixiegunworks.com/
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[@class='pageHeading'][2]
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[@class='pageHeading'][2]/span[@class='productSpecialPrice']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //td[@class='main']/p[1]
-        filters:
-        - reject: !ruby/regexp '/Quick Overview/i'
-    - scraper_method: meta_description
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation'][1]
-        regexp: !ruby/regexp '/Barrels|Breechplugs|Cleaning Products|Grips|Buttplates|Holsters|Gun
-          Cases|Lock Parts|Locks|Military Accessories|Nipples|Drums|Vents|Parts|Reloading/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation'][1]
-        regexp: !ruby/regexp '/Balls|Bullets/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation'][1]
-        regexp: !ruby/regexp '/Fiber Optic Sights|Front Sights|Rear Sights|Scopes|Mounts/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation'][1]
-        regexp: !ruby/regexp '/Shotguns|Cartridge Handguns|Cartridge Longarms|Muzzleloading
-          Handguns|Muzzleloading Longarms|Guns|Cased Guns|Commemorative Guns|Gatling
-          Guns|Misc Replica Guns|Reduced Price Guns|Cannons And Kits/i'
-  :link_sources:
-    compressed_links:
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=128&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=102&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 4
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=237&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=92&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 11
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=162&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 2
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=98&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 3
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=567&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 9
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=94&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 9
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=95&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 18
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=434&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 8
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=93&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 9
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=101&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 7
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=100&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=99&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=5PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 13
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=21&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 15
-      ? http://www.dixiegunworks.com/advanced_search_result.php?categories_id=133&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-        start_at_page: 1
-        stop_at_page: 4
-    seed_links:
-      ? http://www.dixiegunworks.com/advanced_search_result.php?keywords=&x=40&y=6&categories_id=160&inc_subcat=1&manufacturers_id=&pfrom=0&pto=9999999999
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-      ? http://www.dixiegunworks.com/advanced_search_result.php?keywords=&x=33&y=11&categories_id=154&inc_subcat=1&manufacturers_id=&pfrom=0&pto=9999999999
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-      ? http://www.dixiegunworks.com/advanced_search_result.php?keywords=&x=46&y=17&categories_id=156&inc_subcat=1&manufacturers_id=&pfrom=0&pto=9999999999
-      : link_xpaths:
-        - //td[@class='productListing-data'][2]/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 7
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 9
-  :name: Dixie Gun Works
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Dixie Gun Works
+domain: www.dixiegunworks.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.dixiegunworks.com: {}
+  object_adapter:
+    www.dixiegunworks.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //td[@class='pageHeading'][1]
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //script
+            pattern: !ruby/regexp '/img src=\"images\/thumbs\/\S{2,8}\.\w{3,4}\"/'
+          filters:
+          - reject: !ruby/regexp '/img src=\"/'
+          - reject: !ruby/regexp '/\"/'
+          - prefix: http://www.dixiegunworks.com/
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //td[@class='pageHeading'][2]
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //td[@class='pageHeading'][2]/span[@class='productSpecialPrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - description:
+        - find_by_xpath:
+            xpath: //td[@class='main']/p[1]
+          filters:
+          - reject: !ruby/regexp '/Quick Overview/i'
+        - meta_description
+      - product_category1:
+        - label_by_xpath:
+            label: Accessories
+            xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation'][1]
+            pattern: !ruby/regexp '/Barrels|Breechplugs|Cleaning Products|Grips|Buttplates|Holsters|Gun
+              Cases|Lock Parts|Locks|Military Accessories|Nipples|Drums|Vents|Parts|Reloading/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation'][1]
+            pattern: !ruby/regexp '/Balls|Bullets/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation'][1]
+            pattern: !ruby/regexp '/Fiber Optic Sights|Front Sights|Rear Sights|Scopes|Mounts/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation'][1]
+            pattern: !ruby/regexp '/Shotguns|Cartridge Handguns|Cartridge Longarms|Muzzleloading
+              Handguns|Muzzleloading Longarms|Guns|Cased Guns|Commemorative Guns|Gatling
+              Guns|Misc Replica Guns|Reduced Price Guns|Cannons And Kits/i'
+    www.dixiegunworks.com/product_link:
+      $key: globals/product_link
+      xpath: //td[@class='productListing-data'][2]/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.dixiegunworks.com
+product_session_format:
+  queue: www.dixiegunworks.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.dixiegunworks.com/product_page
+sessions:
+- queue: www.dixiegunworks.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.dixiegunworks.com/product_link
+  urls:
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?keywords=&x=40&y=6&categories_id=160&inc_subcat=1&manufacturers_id=&pfrom=0&pto=9999999999
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?keywords=&x=33&y=11&categories_id=154&inc_subcat=1&manufacturers_id=&pfrom=0&pto=9999999999
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?keywords=&x=46&y=17&categories_id=156&inc_subcat=1&manufacturers_id=&pfrom=0&pto=9999999999
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=128&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=102&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=237&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=92&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 11
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=162&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=98&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=567&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 9
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=94&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 9
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=95&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 18
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=434&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 8
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=93&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 9
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=101&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 7
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=100&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 5
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=99&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=5PAGENUM
+    start_at_page: 1
+    stop_at_page: 13
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=21&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 15
+  - url: http://www.dixiegunworks.com/advanced_search_result.php?categories_id=133&inc_subcat=1&pfrom=0&pto=9999999999&sort=2a&&page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4

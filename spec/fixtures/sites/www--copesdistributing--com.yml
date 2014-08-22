@@ -1,167 +1,89 @@
 ---
-site_data:
-  :domain: www.copesdistributing.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']
-    seller_defaults:
-      condition: new
-      listing_type: retail
-      stock_status: In Stock
-      item_location: 640 Markwith Ave, Greenville, OH, 45331
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
-        filters:
-        - reject: !ruby/regexp '/(\].*\])|\Wused\W*/i'
-    sku:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
-        filters:
-        - accept: !ruby/regexp '/(\].*\])/'
-    item_condition:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Used
-        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
-        regexp: !ruby/regexp '/\Wused\W*/i'
-    keywords:
-    - scraper_method: meta_keywords
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='prods_info decks big']//a[@class='prods_pic_bg']/@href
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[@class='price']/span[@class='productSpecialPrice']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='info']/div[@class='desc desc_padd']
-    - scraper_method: meta_description
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='desc desc_padd']/div
-        regexp: !ruby/regexp '/out of stock/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='wrapper']/div[@class='breadcrumb']
-        regexp: !ruby/regexp '/Scopes/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class='wrapper']/div[@class='breadcrumb']
-        regexp: !ruby/regexp '/Accessories|Barrels|Bipods|Bags|Slings|Kits|Refinishing|Locks|Cases|Loaders|Targets|Tools|Holsters|Pouches/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='wrapper']/div[@class='breadcrumb']
-        regexp: !ruby/regexp '/Firearms|Handguns|Revolvers|Rifles|Shotgun|Muzzleloads|Receivers/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='wrapper']/div[@class='breadcrumb']
-        regexp: !ruby/regexp '/Ammo|Ammunition/i'
-  :link_sources:
-    compressed_links:
-      http://www.copesdistributing.com/firearms-c-216_217.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 25
-      http://www.copesdistributing.com/ammunition-c-45.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 15
-      http://www.copesdistributing.com/lasersflashlights-c-289_48.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.copesdistributing.com/scopes-c-290_47.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.copesdistributing.com/magazines-c-195_186.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 20
-      http://www.copesdistributing.com/shotgun-parts-accesories-c-290_270_91.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.copesdistributing.com/barrels-c-290_101.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.copesdistributing.com/slings-c-290_79.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.copesdistributing.com/cleaningpreserving-items-c-291_95.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      http://www.copesdistributing.com/loaders-c-291_156.html?page=PAGENUM:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 5
-      ? http://www.copesdistributing.com/advanced_search_result.php?search_in_description=1&categories_id=44&inc_subcat=1&pfrom=0&pto=100000PAGENUM
-      : link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 25
-      ? http://www.copesdistributing.com/advanced_search_result.php?search_in_description=1&categories_id=32&inc_subcat=1&pfrom=0&pto=100000&page=PAGENUM
-      : link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-        start_at_page: 1
-        stop_at_page: 45
-    seed_links:
-      http://www.copesdistributing.com/cases-c-291_105.html:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-      http://www.copesdistributing.com/locks-c-291_300.html:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-      http://www.copesdistributing.com/parts-kits-c-290_49.html:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-      http://www.copesdistributing.com/bipodsshooting-bags-c-290_77.html:
-        link_xpaths:
-        - //div[@class='pic_padd wrapper_pic_div']/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 2
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 4
-  :name: Cope's Distributing
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Cope's Distributing
+domain: www.copesdistributing.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.copesdistributing.com: {}
+  object_adapter:
+    www.copesdistributing.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - title:
+        - find_by_xpath:
+            xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
+          filters:
+          - reject: !ruby/regexp '/(\].*\])|\Wused\W*/i'
+      - product_sku:
+        - find_by_xpath:
+            xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
+          filters:
+          - accept: !ruby/regexp '/(\].*\])/'
+      - condition:
+        - label_by_xpath:
+            label: Used
+            xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[1]
+            pattern: !ruby/regexp '/\Wused\W*/i'
+        - value: new
+      - keywords:
+        - meta_keywords
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='prods_info decks big']//a[@class='prods_pic_bg']/@href
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[@class='price']/span[@class='productSpecialPrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //ol[@class='masthead']/li[@class='starboard_side right_side_pic-1']/div[@class='info']/h2[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - description:
+        - find_by_xpath:
+            xpath: //div[@class='info']/div[@class='desc desc_padd']
+        - meta_description
+      - availability:
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='desc desc_padd']/div
+            pattern: !ruby/regexp '/out of stock/i'
+        - value: in_stock
+      - product_category1:
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='wrapper']/div[@class='breadcrumb']
+            pattern: !ruby/regexp '/Scopes/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class='wrapper']/div[@class='breadcrumb']
+            pattern: !ruby/regexp '/Accessories|Barrels|Bipods|Bags|Slings|Kits|Refinishing|Locks|Cases|Loaders|Targets|Tools|Holsters|Pouches/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='wrapper']/div[@class='breadcrumb']
+            pattern: !ruby/regexp '/Firearms|Handguns|Revolvers|Rifles|Shotgun|Muzzleloads|Receivers/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='wrapper']/div[@class='breadcrumb']
+            pattern: !ruby/regexp '/Ammo|Ammunition/i'
+    www.copesdistributing.com/product_link:
+      $key: globals/product_link
+      xpath: //link
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.copesdistributing.com
+product_session_format:
+  queue: www.copesdistributing.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.copesdistributing.com/product_page
+sessions:
+- queue: www.copesdistributing.com
+  session_definition: globals/standard_xml_session
+  object_adapters:
+  - www.copesdistributing.com/product_link
+  urls:
+  - url: http://copesdistributing.com/ironsights777222.php

@@ -1,198 +1,148 @@
 ---
-site_data:
-  :domain: palmettostatearmory.com
-  :page_adapter:
-    validation:
-      retail: (raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']
-    seller_defaults:
-      item_condition: new
-      listing_type: retail
-      item_location: 200 Business Park Blvd, Columbia, SC 29203
-    image:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-img-box']/a[@id='main-image']/img/@src
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-img-box']/p[@class='product-image']/img/@src
-    keywords:
-    - scraper_method: meta_keywords
-    title:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='product-name']/h1
-    description:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-view']/div[@class='product-collateral']/div[@class='box-collateral box-description']
-    price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']/p[@class='old-price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']//span[@class='price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    sale_price:
-    - scraper_method: find_by_xpath
-      arguments:
-        xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']/p[@class='special-price']
-        regexp: !ruby/regexp '/\$\d[\d\,\.]+/i'
-    stock_status:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: In Stock
-        xpath: //div[@class='product-shop']/div[@class='wrapper']/p[@class='availability in-stock']/span
-        regexp: !ruby/regexp '/In stock/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Out Of Stock
-        xpath: //div[@class='product-shop']/div[@class='wrapper']/p[@class='availability out-of-stock']/span
-        regexp: !ruby/regexp '/TEMPORARILY OUT OF STOCK/i'
-    category1:
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Optics
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Optics/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Ammunition
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Ammunition/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Firearms/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Guns
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Firearms/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/Accessories/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class='breadcrumbs']/ul/li[3]/a
-        regexp: !ruby/regexp '/Accessories/i'
-    - scraper_method: classify_by_xpath
-      arguments:
-        type: Accessories
-        xpath: //div[@class='breadcrumbs']/ul/li[2]/a
-        regexp: !ruby/regexp '/AR-15|Reloading/i'
-  :link_sources:
-    compressed_links:
-      http://palmettostatearmory.com/index.php/ammunition.html?mode=grid&p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 40
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/ar-15-05.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 30
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/firearms.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 32
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/reloading.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 30
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/sights-optics.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 20
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/gun-maintenance.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 9
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/handgun-parts.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 4
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/magazines.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 15
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/muzzle-accessories.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 5
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/rail-accessories.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 7
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/rifle-slings.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 4
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/10-22-accessories.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 2
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/shotgun-parts.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 5
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/sound-suppressors.html?p=PAGENUM:
-        start_at_page: 1
-        stop_at_page: 2
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-    seed_links:
-      http://palmettostatearmory.com/index.php/accessories/fal-accessories.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/fn-scar-accessories.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/hk-g3-accessories.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-      http://palmettostatearmory.com/index.php/accessories/m14-m1a-accessories.html:
-        link_xpaths:
-        - //h2[@class='product-name']/a/@href
-  :rate_limits:
-    off_peak:
-      start: '23:00'
-      duration: 7
-      rate: 4
-    peak:
-      start: '06:01'
-      duration: 17
-      rate: 7
-  :name: Palmetto State Armory
-  :engine: www.ironsights.com
-  :read_with: RefreshLinksWorker
-  :size:
-  :active: true
-  :read_interval: 1440
+name: Palmetto State Armory
+domain: palmettostatearmory.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    palmettostatearmory.com: {}
+  object_adapter:
+    palmettostatearmory.com/product_page:
+      $key: globals/product_page
+      attribute:
+      - image:
+        - find_by_xpath:
+            xpath: //div[@class='product-img-box']/a[@id='main-image']/img/@src
+        - find_by_xpath:
+            xpath: //div[@class='product-img-box']/p[@class='product-image']/img/@src
+      - keywords:
+        - meta_keywords
+      - title:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='product-name']/h1
+      - description:
+        - find_by_xpath:
+            xpath: //div[@class='product-view']/div[@class='product-collateral']/div[@class='box-collateral box-description']
+      - price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']/p[@class='old-price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']//span[@class='price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']/p[@class='special-price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='product-shop']/div[@class='wrapper']/p[@class='availability in-stock']/span
+            pattern: !ruby/regexp '/In stock/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='product-shop']/div[@class='wrapper']/p[@class='availability out-of-stock']/span
+            pattern: !ruby/regexp '/TEMPORARILY OUT OF STOCK/i'
+      - product_category1:
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Firearms/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Firearms/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/Accessories/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class='breadcrumbs']/ul/li[3]/a
+            pattern: !ruby/regexp '/Accessories/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@class='breadcrumbs']/ul/li[2]/a
+            pattern: !ruby/regexp '/AR-15|Reloading/i'
+    palmettostatearmory.com/product_link:
+      $key: globals/product_link
+      xpath: //h2[@class='product-name']/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: palmettostatearmory.com
+product_session_format:
+  queue: palmettostatearmory.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - palmettostatearmory.com/product_page
+sessions:
+- queue: palmettostatearmory.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - palmettostatearmory.com/product_link
+  urls:
+  - url: http://palmettostatearmory.com/index.php/accessories/fal-accessories.html
+  - url: http://palmettostatearmory.com/index.php/accessories/fn-scar-accessories.html
+  - url: http://palmettostatearmory.com/index.php/accessories/hk-g3-accessories.html
+  - url: http://palmettostatearmory.com/index.php/accessories/m14-m1a-accessories.html
+  - url: http://palmettostatearmory.com/index.php/ammunition.html?mode=grid&p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 40
+  - url: http://palmettostatearmory.com/index.php/ar-15-05.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 30
+  - url: http://palmettostatearmory.com/index.php/firearms.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 32
+  - url: http://palmettostatearmory.com/index.php/reloading.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 30
+  - url: http://palmettostatearmory.com/index.php/sights-optics.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 20
+  - url: http://palmettostatearmory.com/index.php/accessories/gun-maintenance.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 9
+  - url: http://palmettostatearmory.com/index.php/accessories/handgun-parts.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4
+  - url: http://palmettostatearmory.com/index.php/accessories/magazines.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 15
+  - url: http://palmettostatearmory.com/index.php/accessories/muzzle-accessories.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 5
+  - url: http://palmettostatearmory.com/index.php/accessories/rail-accessories.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 7
+  - url: http://palmettostatearmory.com/index.php/accessories/rifle-slings.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4
+  - url: http://palmettostatearmory.com/index.php/accessories/10-22-accessories.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://palmettostatearmory.com/index.php/accessories/shotgun-parts.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 5
+  - url: http://palmettostatearmory.com/index.php/accessories/sound-suppressors.html?p=PAGENUM
+    start_at_page: 1
+    stop_at_page: 2
