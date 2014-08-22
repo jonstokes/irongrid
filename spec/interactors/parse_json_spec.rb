@@ -11,7 +11,7 @@ describe ParseJson do
   describe "#perform" do
 
     it "fails on an invalid listing" do
-      site = create_site "www.hyattgunstore.com", source: :local
+      site = create_site "www.hyattgunstore.com"
       url = "http://#{site.domain}/1.html"
       Mocktra(site.domain) do
         get '/1.html' do
@@ -31,7 +31,7 @@ describe ParseJson do
     end
 
     it "should correctly parse a standard, in-stock retail listing from Hyatt Gun Store" do
-      site = create_site "www.hyattgunstore.com", source: :local
+      site = create_site "www.hyattgunstore.com"
       page = load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")
       url = "http://#{site.domain}/1.html"
       Mocktra(site.domain) do
@@ -100,7 +100,7 @@ describe ParseJson do
     end
 
     it "parses a classified listing from Armslist" do
-      site = create_site "www.armslist.com", source: :local
+      site = create_site "www.armslist.com"
       page = load_listing_source("Classified", "www.armslist.com", "fast sale springfield xd 45")
 
       url = "http://#{site.domain}/1.html"
@@ -136,7 +136,7 @@ describe ParseJson do
    end
 
     it "parses a CTD retail listing using meta tags" do
-      site = create_site "www.cheaperthandirt.com", source: :local
+      site = create_site "www.cheaperthandirt.com"
       page = load_listing_source("Retail", "www.cheaperthandirt.com", 'Ammo 16 Gauge Lightfield Commander IDS 2-3/4" Lead 7/8 Oz Slug 1630 fps 5 Round Box LFCP-16')
 
       url = "http://#{site.domain}/1.html"
@@ -164,7 +164,7 @@ describe ParseJson do
     end
 
     it "parses a BGS retail listing using meta_og tags" do
-      site = create_site "www.budsgunshop.com", source: :local
+      site = create_site "www.budsgunshop.com"
       page = load_listing_source("Retail", "www.budsgunshop.com", "Silva Olive Drab Compass")
 
       url = "http://#{site.domain}/1.html"
