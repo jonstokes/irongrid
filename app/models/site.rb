@@ -47,6 +47,7 @@ class Site < CoreModel
       'read_interval'          => read_interval,
       'timezone'               => timezone,
       'registrations'          => registrations,
+      'affiliate_link_tag'     => affiliate_link_tag,
       'product_session_format' => product_session_format,
       'sessions'               => sessions
     }.to_yaml
