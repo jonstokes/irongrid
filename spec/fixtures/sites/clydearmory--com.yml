@@ -103,6 +103,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: clydearmory.com
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: clydearmory.com
   session_definition: globals/standard_html_session

@@ -74,6 +74,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: www.emf-company.com
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: www.emf-company.com
   session_definition: globals/standard_html_session

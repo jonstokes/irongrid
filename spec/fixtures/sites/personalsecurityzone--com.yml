@@ -107,6 +107,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: personalsecurityzone.com
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: personalsecurityzone.com
   session_definition: globals/standard_html_session

@@ -155,6 +155,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: www.budsgunshop.com
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: www.budsgunshop.com
   session_definition: globals/standard_html_session

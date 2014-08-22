@@ -45,7 +45,9 @@ registrations:
             label: Accessories
             xpath: .//Category
             pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
-product_session_format:
+affiliate_link_tag:
+affiliate_program:
+product_session_format: {}
 sessions:
 - queue: www.sportsmanswarehouse.com
   session_definition: globals/standard_xml_session

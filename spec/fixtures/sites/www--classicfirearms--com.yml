@@ -62,6 +62,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: www.classicfirearms.com
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: www.classicfirearms.com
   session_definition: globals/standard_html_session

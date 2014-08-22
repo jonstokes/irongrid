@@ -74,6 +74,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: www.rockwellarms.com
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: www.rockwellarms.com
   session_definition: globals/standard_html_session

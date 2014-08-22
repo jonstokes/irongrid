@@ -112,6 +112,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: www.gunsinternational.com
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: www.gunsinternational.com
   session_definition: globals/standard_html_session

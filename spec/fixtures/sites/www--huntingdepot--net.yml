@@ -69,6 +69,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: www.huntingdepot.net
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: www.huntingdepot.net
   session_definition: globals/standard_html_session

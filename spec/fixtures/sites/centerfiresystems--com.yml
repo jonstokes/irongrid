@@ -97,6 +97,8 @@ registrations:
             xpath: ./@href
         seller_domain:
         - value: centerfiresystems.com
+affiliate_link_tag:
+affiliate_program:
 product_session_format:
   queue: centerfiresystems.com
   session_definition: globals/standard_html_session
