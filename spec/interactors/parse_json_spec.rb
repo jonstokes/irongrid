@@ -9,6 +9,12 @@ describe ParseJson do
   end
 
   describe "#perform" do
+    before :each do
+      Stretched::Registration.with_redis { |c| c.flushdb }
+      Stretched::Extension.register_from_file("spec/fixtures/stretched/registrations/extensions/conversions.rb")
+      Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/globals/conversions.rb")
+      Stretched::Registration.register_from_file("spec/fixtures/stretched/registrations/globals.yml")
+    end
 
     it "fails on an invalid listing" do
       site = create_site "www.hyattgunstore.com"
@@ -19,11 +25,18 @@ describe ParseJson do
         end
       end
 
-      page = PageUtils::Test.fetch_page(url)
-      result = ParsePage.perform(
+      page = Stretched::PageUtils::Test.fetch_page(url)
+      Stretched::Registration.register_from_source(site.registrations)
+      result = Stretched::ExtractJsonFromPage.perform(
+        page: page,
+        adapter_name: "#{site.domain}/product_page"
+      )
+      listing = result.json_objects.first[:object]
+
+      result = ParseJson.perform(
         site: site,
         page: page,
-        adapter_type: :page
+        listing_json: listing
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
@@ -40,11 +53,19 @@ describe ParseJson do
         end
       end
 
-      page = PageUtils::Test.fetch_page(url)
-      result = ParsePage.perform(
+      page = Stretched::PageUtils::Test.fetch_page(url)
+      Stretched::Registration.register_from_source(site.registrations)
+      result = Stretched::ExtractJsonFromPage.perform(
+        page: page,
+        adapter_name: "#{site.domain}/product_page"
+      )
+      listing = result.json_objects.first[:object]
+
+
+      result = ParseJson.perform(
         site: site,
         page: page,
-        adapter_type: :page
+        listing_json: listing
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -77,11 +98,19 @@ describe ParseJson do
           page[:html]
         end
       end
-      page = PageUtils::Test.fetch_page(url)
-      result = ParsePage.perform(
+      page = Stretched::PageUtils::Test.fetch_page(url)
+      Stretched::Registration.register_from_source(site.registrations)
+      result = Stretched::ExtractJsonFromPage.perform(
+        page: page,
+        adapter_name: "#{site.domain}/product_page"
+      )
+      listing = result.json_objects.first[:object]
+
+
+      result = ParseJson.perform(
         site: site,
         page: page,
-        adapter_type: :page
+        listing_json: listing
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -109,11 +138,19 @@ describe ParseJson do
           page[:html]
         end
       end
-      page = PageUtils::Test.fetch_page(url)
-      result = ParsePage.perform(
+      page = Stretched::PageUtils::Test.fetch_page(url)
+      Stretched::Registration.register_from_source(site.registrations)
+      result = Stretched::ExtractJsonFromPage.perform(
+        page: page,
+        adapter_name: "#{site.domain}/product_page"
+      )
+      listing = result.json_objects.first[:object]
+
+
+      result = ParseJson.perform(
         site: site,
         page: page,
-        adapter_type: :page
+        listing_json: listing
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -145,11 +182,19 @@ describe ParseJson do
           page[:html]
         end
       end
-      page = PageUtils::Test.fetch_page(url)
-      result = ParsePage.perform(
+      page = Stretched::PageUtils::Test.fetch_page(url)
+      page = Stretched::PageUtils::Test.fetch_page(url)
+      Stretched::Registration.register_from_source(site.registrations)
+      result = Stretched::ExtractJsonFromPage.perform(
+        page: page,
+        adapter_name: "#{site.domain}/product_page"
+      )
+      listing = result.json_objects.first[:object]
+
+
         site: site,
         page: page,
-        adapter_type: :page
+        listing_json: listing
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -173,11 +218,18 @@ describe ParseJson do
           page[:html]
         end
       end
-      page = PageUtils::Test.fetch_page(url)
-      result = ParsePage.perform(
+      page = Stretched::PageUtils::Test.fetch_page(url)
+      Stretched::Registration.register_from_source(site.registrations)
+      result = Stretched::ExtractJsonFromPage.perform(
+        page: page,
+        adapter_name: "#{site.domain}/product_page"
+      )
+      listing = result.json_objects.first[:object]
+
+      result = ParseJson.perform(
         site: site,
         page: page,
-        adapter_type: :page
+        listing_json: listing
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
