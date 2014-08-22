@@ -74,10 +74,10 @@ class Site < CoreModel
           '$key'      => 'globals/product_link',
           'xpath'     => feed_product_link_xpath,
           'attribute' => {
-            'product_link' [
+            'product_link' => [
               { 'find_by_xpath' => { 'xpath' => './@href' } }
             ],
-            'seller_domain' [{ 'value' => domain }]
+            'seller_domain' => [{ 'value' => domain }]
           }
         }
       }
@@ -99,6 +99,53 @@ class Site < CoreModel
     }
   end
 
+  def product_session_format
+    return unless page_adapter
+    {
+      'queue' => domain,
+      'session_definition' => session_def(adapter_format),
+      'object_adapters' => [ "#{domain}/product_page" ]
+    }
+  end
+
+  def sessions
+    @sessions ||= begin
+      session_list = []
+      url_list = []
+      urls.each do |url|
+        if url_count(url_list) >= 300
+          session_list << session_hash(url_list)
+          url_list = []
+        else
+          url_list << url
+        end
+      end
+      session_list << session_hash(url_list)
+      session_list
+    end
+  end
+
+  def url_count(url_list)
+    count = 0
+    url_list.each do |url|
+      if url['start_at_page']
+        count += url['stop_at_page']
+      else
+        count += 1
+      end
+    end
+    count
+  end
+
+  def session_hash(url_list)
+    {
+      'queue' => domain,
+      'session_definition' => session_def(feed_format),
+      'object_adapters' => adapters_for_sessions,
+      'urls' => url_list
+    }
+  end
+
   def feed_product_link_xpath
     return feeds.first.product_link_xpath.sub("/@href", "") if feeds.any?
     return link_sources['seed_links'].first.last['link_xpaths'].first.sub("/@href", "") if link_sources['seed_links']
@@ -110,8 +157,11 @@ class Site < CoreModel
   end
 
   def urls
-    return link_sources['feeds'].map { |feed| convert_feed(feed) } if feeds.any?
-    convert_legacy_feeds
+    if feeds.any?
+      link_sources['feeds'].map { |feed| convert_feed(feed) }
+    else
+      convert_legacy_feeds
+    end
   end
 
   def convert_legacy_feeds
@@ -140,26 +190,6 @@ class Site < CoreModel
 
   def feed_format
     return feeds.first.format if feeds.any?
-  end
-
-  def product_session_format
-    return unless page_adapter
-    {
-      'queue' => domain,
-      'session_definition' => session_def(adapter_format),
-      'object_adapters' => [ "#{domain}/product_page" ]
-    }
-  end
-
-  def sessions
-    [
-      {
-        'queue' => domain,
-        'session_definition' => session_def(feed_format),
-        'object_adapters' => adapters_for_sessions,
-        'urls' => urls
-      }
-    ]
   end
 
   def convert_feed(feed)
