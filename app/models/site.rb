@@ -279,8 +279,8 @@ class Site < CoreModel
   def convert_args(arguments)
     return unless arguments
     args = arguments.reject { |k, v| k == 'filters' }
-    mappings = { 'xpath' => 'xpath', 'regexp' => 'pattern', 'type' => 'label' }
-    hash = Hash[args.map { |k, v| [mappings[k], v] }]
+    mappings = { 'xpath' => 'xpath', 'regexp' => 'pattern', 'type' => 'label', 'attribute' => 'attribute', 'value' => 'value' }
+    hash = Hash[args.map { |k, v| [(mappings[k] || k), v] }]
     hash['label'] = convert_value(hash['label']) if hash['label']
     hash
   end
