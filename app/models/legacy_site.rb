@@ -1,6 +1,7 @@
-class Site < LegacySite
+class LegacySite < CoreModel
   include Github
   include IrongridRedisPool
+  include SiteConversion
 
   attr_accessor :site_data, :pool
 
@@ -18,7 +19,11 @@ class Site < LegacySite
     :stats,
     :affiliate_link_tag,
     :affiliate_program,
-    :registrations
+    :page_adapter,
+    :feed_adapter,
+    :read_with,
+    :link_sources,
+    :rate_limits
   ]
 
   SITE_ATTRIBUTES.each do |key|
@@ -67,6 +72,19 @@ class Site < LegacySite
     write_to_redis
   end
 
+  def rate_limit
+    return 5 unless self.rate_limits
+    myzone = "America/Chicago"
+    Time.zone = myzone
+    self.rate_limits.each do |time_slot, attr|
+      start_time = Time.zone.parse(attr["start"])
+      duration = attr["duration"].to_i.hours
+      end_time = (start_time + duration).in_time_zone(myzone)
+      return attr["rate"] if (start_time..end_time).cover?(Time.zone.now)
+    end
+    return self.rate_limits["peak"]["rate"]
+  end
+
   def mark_read!
     update(read_at: Time.now.utc)
   end
@@ -78,6 +96,28 @@ class Site < LegacySite
 
   def refresh_only?
     !!self.link_sources["refresh_only"]
+  end
+
+  def exists?
+    page_adapter || feed_adapter
+  end
+
+  def feeds
+    return [] unless link_sources['feeds']
+    @feeds ||= link_sources['feeds'].map do |feed|
+      if feed['start_at_page']
+        expand_links(feed.symbolize_keys)
+      else
+        feed.symbolize_keys
+      end
+    end.flatten.uniq.map { |f| Feed.new(f) }
+  end
+
+  def expand_links(feed)
+    interval = feed[:step] || 1
+    (feed[:start_at_page]..feed[:stop_at_page]).step(interval).map do |page_number|
+      feed.merge(url: feed[:url].sub("PAGENUM", page_number.to_s))
+    end
   end
 
   def write_to_redis
@@ -164,14 +204,21 @@ class Site < LegacySite
 
   def load_from_local
     branch = Figaro.env.site_branch rescue "master"
-    filename = "#{domain.gsub(".","--")}.yml"
-    site_path = "#{Figaro.env.sites_repo}/sites/#{filename}"
-    @site_data = YAML.load_file(site_path).symbolize_keys
+    site_dir = domain.gsub(".","--")
+    directory = "#{Figaro.env.sites_repo}/sites/#{site_dir}"
+
+    @site_data[:page_adapter] = YAML.load_file("#{directory}/page_adapter.yml") if File.exists?("#{directory}/page_adapter.yml")
+    @site_data[:feed_adapter] = YAML.load_file("#{directory}/feed_adapter.yml") if File.exists?("#{directory}/feed_adapter.yml")
+    @site_data[:link_sources] = YAML.load_file("#{directory}/link_sources.yml")
+    @site_data[:rate_limits]  = YAML.load_file("#{directory}/rate_limits.yml")
+    YAML.load_file("#{directory}/attributes.yml").each do |k, v|
+      @site_data[k.to_sym] = v
+    end
   end
 
   def load_from_fixture
-    filename = "#{domain.gsub(".","--")}.yml"
-    @site_data = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}").symbolize_keys
+    filename = domain.gsub(".","--") + ".yml"
+    @site_data = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}")['site_data'].symbolize_keys
   end
 
   def load_from_github
