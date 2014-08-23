@@ -189,6 +189,8 @@ describe ParseJson do
         page: Hashie::Mash.new(page.to_hash),
         listing_json: Hashie::Mash.new(listing)
       )
+      puts "## Status: #{result.status}"
+      puts "## #{listing}"
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
       expect(result.not_found?).to be_false
