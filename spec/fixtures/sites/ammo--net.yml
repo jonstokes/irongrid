@@ -29,7 +29,7 @@ registrations:
             label: out_of_stock
             xpath: .//g:availability
         - value: in_stock
-        number_of_rounds:
+        product_number_of_rounds:
         - find_by_xpath:
             xpath: .//g:quantity
             pattern: !ruby/regexp '/\d{2,4}/i'

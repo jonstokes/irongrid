@@ -237,7 +237,7 @@ module SiteConversion
     return attribute.sub("listing_", "") if attribute[/listing_/]
     return attribute.sub("item_", "") if attribute[/item_/]
     return "#{attribute}_in_cents" if %w(price sale_price buy_now_price current_bid minimum_bid starting_bid reserve).include?(attribute)
-    return "product_#{attribute}" if %w(numer_of_rounds grains manufacturer category1 caliber caliber_category upc sku mpn).include?(attribute)
+    return "product_#{attribute}" if %w(number_of_rounds grains manufacturer category1 caliber caliber_category upc sku mpn).include?(attribute)
     attribute
   end
 

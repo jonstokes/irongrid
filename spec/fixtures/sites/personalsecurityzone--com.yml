@@ -87,7 +87,7 @@ registrations:
             pattern: !ruby/regexp '/Grain weight:\s*\d{1,3}/i'
           filters:
           - accept: !ruby/regexp '/\d{1,3}/'
-        number_of_rounds:
+        product_number_of_rounds:
         - find_by_xpath:
             xpath: //fieldset[@id='product-specifications']
             pattern: !ruby/regexp '/Units per Box:\s*\d{1,4}$/i'

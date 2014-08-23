@@ -58,7 +58,7 @@ registrations:
             xpath: .//h1[@id='detail_parent_prod_nm']
             pattern: !ruby/regexp '/Used/'
         - value: new
-        number_of_rounds:
+        product_number_of_rounds:
         - find_by_xpath:
             xpath: //div[@class='product-desc']/div[@class='tab-content']/div[@id='desc']/ul/li
             pattern: !ruby/regexp '/box of \d{1,5} rounds/i'
