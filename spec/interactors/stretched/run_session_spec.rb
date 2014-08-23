@@ -104,7 +104,7 @@ describe Stretched::RunSession do
 
         json = object_q.pop
         page = json.page
-        expect(page.body).to be_nil
+        expect(page.body).to be_true
         expect(page.headers).not_to be_nil
         expect(page.code).to eq(200)
 
