@@ -38,7 +38,7 @@ registrations:
             xpath: .//span[@id="pre_text"]/span[@style="font-weight:bold;"]
             pattern: !ruby/regexp '/product is out of stock/i'
         - value: in_stock
-        conditoin:
+        condition:
         - label_by_xpath:
             label: Used
             xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]

@@ -191,7 +191,7 @@ describe ParseJson do
       )
       listing = result.json_objects.first[:object]
 
-
+      result = ParseJson.perform(
         site: site,
         page: page,
         listing_json: listing
