@@ -10,29 +10,29 @@ registrations:
     www.luckygunner.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //div[@class='product-essential']/form[@id='product_addtocart_form']/div[@class='product-name']/h1
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //p[@class='special-price']/span
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //span[@class='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='short-description']|//div[@class='box-collateral box-description']/div[@class='std']
           filters:
           - reject: !ruby/regexp '/Quick Overview/i'
         - meta_description
-      - availability:
+        availability:
         - label_by_xpath:
             label: out_of_stock
             xpath: //div[@class='product-shop']/p[@class='availability']
@@ -42,7 +42,7 @@ registrations:
             xpath: //div[@class='product-shop']/p[@class='availability']
             pattern: !ruby/regexp '/in stock/i'
         - value: in_stock
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Optics
             xpath: //div[@class='breadcrumbs']/ul/li[2]/a

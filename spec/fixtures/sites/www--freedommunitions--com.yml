@@ -10,26 +10,26 @@ registrations:
     www.freedommunitions.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - meta_og_title
-      - keywords:
+        keywords:
         - meta_keywords
-      - description:
+        description:
         - find_by_xpath:
             xpath: //td[@class='vCSS_breadcrumb_td']/font[@class='productnamecolorLARGE colors_productname']/span
         - find_by_xpath:
             xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/span
         - meta_og_description
-      - image:
+        image:
         - find_by_xpath:
             xpath: //a[@id="product_photo_zoom_url"]/@href
           filters:
           - prefix: 'http:'
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[contains(@class,'productprice')]//span
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/div
@@ -38,7 +38,7 @@ registrations:
             label: out_of_stock
             xpath: //table[@class='colors_pricebox']//tr/td/table//tr[2]/td[2]/table//tr[1]/td[1]/div
             pattern: !ruby/regexp '/Sorry - Out of Stock/'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: None
             xpath: //td[@class='vCSS_breadcrumb_td']/b/a[2]

@@ -10,55 +10,55 @@ registrations:
     www.rockwellarms.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //h1[@class='product-title']
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //img[@class='productImage']/@src
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='product-price']/div[@class='price-old']/span
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //div[@class='product-price']/div[@class='price-new']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='product-price']/div[@class='price-new']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - price_on_request:
+        price_on_request:
         - find_by_xpath:
             xpath: //div[@class='productPricingArea']/span[2]
             pattern: !ruby/regexp '/Add to cart to see|See price in cart/i'
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@class='product-desc']/div[@class='tab-content']/div[@id='desc']/p
-      - availability:
+        availability:
         - label_by_xpath:
             label: out_of_stock
             xpath: //div[@class='content-box']/div[@class='product-desc']/div[2]/div
             pattern: !ruby/regexp '/Out of Stock/i'
         - value: in_stock
-      - product_manufacturer:
+        product_manufacturer:
         - find_by_xpath:
             xpath: //div[@class='content-box']/div[@class='product-desc']/div[2]
             pattern: !ruby/regexp '/Brand:\s*.*?$/i'
-      - product_mpn:
+        product_mpn:
         - find_by_xpath:
             xpath: //div[@class='content-box']/div[@class='product-desc']/div[2]
             pattern: !ruby/regexp '/Item Number:\s*.*?$/i'
           filters:
           - reject: !ruby/regexp '/Item Number:\s*?/i'
-      - condition:
+        condition:
         - label_by_xpath:
             label: Used
             xpath: .//h1[@id='detail_parent_prod_nm']
             pattern: !ruby/regexp '/Used/'
         - value: new
-      - number_of_rounds:
+        number_of_rounds:
         - find_by_xpath:
             xpath: //div[@class='product-desc']/div[@class='tab-content']/div[@id='desc']/ul/li
             pattern: !ruby/regexp '/box of \d{1,5} rounds/i'

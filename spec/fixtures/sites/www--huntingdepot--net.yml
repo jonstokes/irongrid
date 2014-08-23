@@ -10,26 +10,26 @@ registrations:
     www.huntingdepot.net/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //table[@class='prd_bdr']//tr/td[@class='prd_hdr']/h1
         - meta_title
-      - description:
+        description:
         - find_by_xpath:
             xpath: //table[@class='std prodpage'][1]//tr/td
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@class='imgWidgetBox']/img[@id='MainPicX']/@src
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='prd_price']
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="RegularPrice"]
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: out_of_stock
             xpath: //div[@class='alert_box']
@@ -39,7 +39,7 @@ registrations:
             label: in_stock
             xpath: //div[@class='alert_box']
             pattern: !ruby/regexp '/\d+\s+in stock/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: None
             xpath: //div[@class='breadcrumbs']

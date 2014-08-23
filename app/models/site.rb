@@ -23,12 +23,7 @@ class Site < LegacySite
 
   SITE_ATTRIBUTES.each do |key|
     define_method key do
-      if key.to_s[/\_adapter/]
-        var = eval("@#{key}")
-        var ||= Adapter.new(@site_data[key]) if @site_data[key]
-      else
-        @site_data[key]
-      end
+      @site_data[key]
     end
   end
 

@@ -10,20 +10,20 @@ registrations:
     www.gunsinternational.com/product_page:
       $key: globals/product_page
       attribute:
-      - image:
+        image:
         - find_by_xpath:
             xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[1]/a[1]/img/@src
-      - title:
+        title:
         - find_by_xpath:
             xpath: //table[3]//tr[1]/td[2]/table[2]//tr/td/h1
           filters:
           - reject: !ruby/regexp '/Contact seller/'
         - meta_keywords
-      - description:
+        description:
         - meta_description
-      - keywords:
+        keywords:
         - meta_keywords
-      - location:
+        location:
         - find_by_xpath:
             xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]//tr[4]/td/table//tr[2]/td[2]/table
             pattern: !ruby/regexp '/Zip:\s+\d{5}/i'
@@ -34,7 +34,7 @@ registrations:
             pattern: !ruby/regexp '/Item\s+Location:\s+(\w|,| |  )+\n\n/i'
           filters:
           - reject: !ruby/regexp '/Item\s+Location:/i'
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]
             pattern: !ruby/regexp '/Price:\s+\$\s*\d[\d\,\.]+/i'
@@ -45,7 +45,7 @@ registrations:
             pattern: !ruby/regexp '/Price:\s+\d[\d\,\.]+/i'
           filters:
           - accept: !ruby/regexp '/\s*\d[\d\,\.]+/i'
-      - condition:
+        condition:
         - label_by_xpath:
             label: New
             xpath: //table[3]//tr[1]/td[2]/table[3]//tr/td[2]/table[2]//tr[3]/td/table
@@ -58,15 +58,15 @@ registrations:
             pattern: !ruby/regexp '/Condition:\s+(\w| |)*/i'
           filters:
           - accept: !ruby/regexp '/wear|scratches|used|marks|good/i'
-      - sold:
+        sold:
         - find_by_xpath:
             xpath: //div[@class='big_red']
             pattern: !ruby/regexp '/This item has already been sold/i'
-      - not_found:
+        not_found:
         - find_by_xpath:
             xpath: //table[3]//tr[1]/td[2]/table[2]
             pattern: !ruby/regexp '/Page Not Found/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Guns
             xpath: //td[@class='breadcrumbs']/a[2]

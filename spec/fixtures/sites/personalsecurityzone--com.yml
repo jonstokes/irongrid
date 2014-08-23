@@ -10,7 +10,7 @@ registrations:
     personalsecurityzone.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - meta_title
         - find_by_xpath:
             xpath: //h1[@class='A15b']/span
@@ -20,7 +20,7 @@ registrations:
             xpath: //title
           filters:
           - reject: !ruby/regexp '/discount guns for sale firearm bargains closeouts/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: html/head/meta[@name="in-stock"]/@content
@@ -34,9 +34,9 @@ registrations:
             xpath: html/head/meta[@name="out-of-stock"]/@content
             pattern: !ruby/regexp '/yes/i'
         - value: in_stock
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //html[@class='no-js']/body/div[@class='main-container']/div[@class='main wrapper clearfix']/article/section/form/div/img/@src
           filters:
@@ -45,7 +45,7 @@ registrations:
             xpath: //td[@class='a12']/img/@src
           filters:
           - prefix: http://personalsecurityzone.com
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div/p/span[@class='header2red']/span
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
@@ -57,43 +57,43 @@ registrations:
         - find_by_xpath:
             xpath: //span[@itemprop='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //td[@class='pageHeading'][2]/span[@class='productSpecialPrice']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - description:
+        description:
         - find_by_xpath:
             xpath: //fieldset[@id='product-specifications']
           filters:
           - reject: !ruby/regexp '/Product Specifications/i'
         - meta_description
-      - product_sku:
+        product_sku:
         - find_by_xpath:
             xpath: //fieldset[@id='product-specifications']
             pattern: !ruby/regexp '/UPC Code:.*$/i'
           filters:
           - reject: !ruby/regexp '/UPC Code:\s*/i'
-      - product_manufacturer:
+        product_manufacturer:
         - find_by_xpath:
             xpath: //fieldset[@id='product-specifications']
             pattern: !ruby/regexp '/Manufacturer:.*$/i'
-      - product_caliber:
+        product_caliber:
         - find_by_xpath:
             xpath: //fieldset[@id='product-specifications']
             pattern: !ruby/regexp '/Caliber:.*$/i'
-      - product_grains:
+        product_grains:
         - find_by_xpath:
             xpath: //fieldset[@id='product-specifications']
             pattern: !ruby/regexp '/Grain weight:\s*\d{1,3}/i'
           filters:
           - accept: !ruby/regexp '/\d{1,3}/'
-      - number_of_rounds:
+        number_of_rounds:
         - find_by_xpath:
             xpath: //fieldset[@id='product-specifications']
             pattern: !ruby/regexp '/Units per Box:\s*\d{1,4}$/i'
           filters:
           - accept: !ruby/regexp '/\d{1,4}/'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Guns
             xpath: //h3/a

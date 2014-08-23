@@ -10,58 +10,58 @@ registrations:
     www.gunauction.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //div[@class="listingheader"]/h1[@class="h1vv"]
           filters:
           - reject: !ruby/regexp '/^Guns For Sale - /'
-      - description:
+        description:
         - meta_description
-      - keywords:
+        keywords:
         - meta_keyword
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@id="galleria"]/a/img/@src
         - find_by_xpath:
             xpath: //div[@class="galleria-image"][3]/img/@src
-      - location:
+        location:
         - find_by_xpath:
             xpath: //div[@id="listingmain"]/div[5]/div[1]/div[1]/div[3]/div[2]/span[2]
             pattern: !ruby/regexp '/(?<=\().*(?=\))/'
         - find_by_xpath:
             xpath: //div[@id="listingmain"]/div[5]/div[1]/div[1]/div[2]/div[2]/span[2]
             pattern: !ruby/regexp '/(?<=\().*(?=\))/'
-      - buy_now_price_in_cents:
+        buy_now_price_in_cents:
         - find_by_xpath:
             xpath: '//span[@style="color: 16850D; font-size: 30px; font-weight: bold;"]'
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //a[@href[contains(.,"http://www.gunauction.com/search/buyitnowconfirm.cfm")]]
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - current_bid_in_cents:
+        current_bid_in_cents:
         - find_by_xpath:
             xpath: //span[@class="listingamount"]
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - minimum_bid_in_cents:
+        minimum_bid_in_cents:
         - find_by_xpath:
             xpath: //div[@id="listingmain"]/div[5]/div[1]/div[2]/form/div[2]/div[2]
             pattern: !ruby/regexp '/\$\d[\d\,]+\.\d\d/i'
         - find_by_xpath:
             xpath: //div[@id="listingmain"]/div[5]/div[1]/div[2]/form/div[2]/div
             pattern: !ruby/regexp '/\$\d[\d\,]+\.\d\d/i'
-      - auction_ends:
+        auction_ends:
         - find_by_xpath:
             xpath: //div[@id="ItemListingRightColumn"]/div[9]
             pattern: !ruby/regexp '/(?<=\().*(?=\))/'
         - find_by_xpath:
             xpath: //div[@id="ItemListingRightColumn"]/div[9]
             pattern: !ruby/regexp '/([a-zA-Z]+)\s\d+\,\s\d\d\d\d\s\d\d:\d\d:\d\d\s([A-Z]{3}|[A-Z]{2})/'
-      - condition:
+        condition:
         - label_by_xpath:
             label: New
             xpath: //div[@id='listingmain']/div[5]/div[@id='ItemListingRightColumn']/div[4]
             pattern: !ruby/regexp '/new|never|NIB/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Guns
             xpath: //div[@class="breadCrumbs"]/a[2]

@@ -11,28 +11,28 @@ registrations:
       $key: globals/product_page
       xpath: //Products/Product
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: .//Product_Name
-      - description:
+        description:
         - find_by_xpath:
             xpath: .//Long_Description
-      - image:
+        image:
         - find_by_xpath:
             xpath: .//Image_URL
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: .//Sale_Price
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: .//Retail_Price
-      - availability:
+        availability:
         - label_by_xpath:
             label: out_of_stock
             xpath: .//Status
             pattern: !ruby/regexp '/^Removed/i'
         - value: in_stock
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Ammunition
             xpath: .//Category

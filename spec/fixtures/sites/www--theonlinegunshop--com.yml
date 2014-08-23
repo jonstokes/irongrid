@@ -10,22 +10,22 @@ registrations:
     www.theonlinegunshop.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - meta_og_title
-      - description:
+        description:
         - meta_og_description
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - meta_og_image
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: .//em[contains(@class, "ProductPrice")]
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: .//div[@class="Value"]/strike
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: .//span[contains(@class, "VariationProductInventory")]
@@ -34,12 +34,12 @@ registrations:
             label: out_of_stock
             xpath: .//span[contains(@class, "VariationProductInventory")]
             pattern: !ruby/regexp '/Sold Out/'
-      - condition:
+        condition:
         - label_by_url:
             label: Used
             pattern: !ruby/regexp '/used|condition|like.new/i'
         - value: new
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Guns
             xpath: //div[@id="ProductBreadcrumb"]/ul/li[2]

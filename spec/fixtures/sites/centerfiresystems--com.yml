@@ -10,38 +10,38 @@ registrations:
     centerfiresystems.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //div[@id='ctl00_pageContent_productDetailUpdatePanel']/div[@id='product-detail-div']/h1
           filters:
           - reject: !ruby/regexp '/-\s+Used/i'
         - meta_og_title
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@id='additional']/div[@id='description']
-      - keywords:
+        keywords:
         - find_by_xpath:
             xpath: //div[@id='additional']/div[@id='description']/ul
-      - image:
+        image:
         - meta_og_image
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='prod-detail-price']/div[@class='prod-detail-msrp']/span[@class='prod-detail-msrp-value']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //div[@class='prod-detail-price']/div[@class='prod-detail-cost']/span[@class='prod-detail-cost-value']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: out_of_stock
             xpath: //div[@class='prod-detail-stock']
             pattern: !ruby/regexp '/temporarily out of stock/i'
         - value: in_stock
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='prod-detail-price']/div[@class='prod-detail-cost']/span[@class='prod-detail-cost-value']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - condition:
+        condition:
         - label_by_xpath:
             label: Used
             xpath: //div[@id='product-detail-div']/table[@class='prod-detail']//tr[2]/td[@class='prod-detail-bt']/div[@class='prod-detail-desc']
@@ -50,7 +50,7 @@ registrations:
             xpath: //div[@id='ctl00_pageContent_productDetailUpdatePanel']/div[@id='product-detail-div']/h1
             pattern: !ruby/regexp '/-\s+Used/i'
         - value: new
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Guns
             xpath: //tr/td[@id='ctl00_centerColumn']/div[@id='ctl00_breadcrumb']/span[@id='ctl00_breadcrumbContent']/span[3]

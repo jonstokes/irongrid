@@ -41,7 +41,7 @@ class LegacySite < CoreModel
     domains = YAML.load_file("#{Rails.root}/spec/fixtures/sites/manifest.yml")
     domains.each do |domain|
       puts "Writing file for #{domain}..."
-      next unless site = Site.new(domain: domain, source: :local) rescue nil
+      next unless site = LegacySite.new(domain: domain, source: :local) rescue nil
       site.write_yaml
     end
   end

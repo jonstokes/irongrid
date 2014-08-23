@@ -10,16 +10,16 @@ registrations:
     clydearmory.com/product_page:
       $key: globals/product_page
       attribute:
-      - keywords:
+        keywords:
         - find_by_xpath:
             xpath: //div[@class='short-description']/div[@class='std']
-      - title:
+        title:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='product-name']/h1
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@class='product-img-box']/p[@class='product-image product-image-zoom']/img[@id='image']/@src
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@class='product-view']/div[@class='product-collateral']
           filters:
@@ -27,7 +27,7 @@ registrations:
           - reject: !ruby/regexp '/Product Description:/i'
           - reject: !ruby/regexp '/Additional Information/i'
           - reject: !ruby/regexp '/Be the first to review this product/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: //div[@class='product-shop']/p[@class='availability in-stock']/span
@@ -40,19 +40,19 @@ registrations:
             label: out_of_stock
             xpath: //div[@class='importantMessageItemPage']
             pattern: !ruby/regexp '/this product is currently not in stock/i'
-      - product_grains:
+        product_grains:
         - find_by_xpath:
             xpath: //div[@class='product-collateral']/div[@class='std']/p
             pattern: !ruby/regexp '/\d{1,3}\s*gr/i'
           filters:
           - accept: !ruby/regexp '/\d{1,3}/i'
-      - number_of_rounds:
+        number_of_rounds:
         - find_by_xpath:
             xpath: //div[@class='product-collateral']/div[@class='std']/p
             pattern: !ruby/regexp '/\d{1,5}\s*rounds/i'
           filters:
           - accept: !ruby/regexp '/\d{1,5}/i'
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='price-box']//span[@class='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
@@ -62,14 +62,14 @@ registrations:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='price-box map-info']/span[@class='old-price']/span[@class='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='price-box']/p[@class='special-price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //div[@class='product-shop']/ul[@class='tier-prices product-pricing']/li/span[@class='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Optics
             xpath: //div[@class='breadcrumbs']/ul/li[2]/a

@@ -10,7 +10,7 @@ registrations:
     www.armslist.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: .//title
           filters:
@@ -29,25 +29,25 @@ registrations:
           - reject: !ruby/regexp '/^\s?ARMSLIST\s?\-\s?|\s?ARMSLIST\s?/'
           - reject: !ruby/regexp '/^\s?For Sale:\s?|\s?For Sale\/Trade:\s?|\s?FS\s?|\s?FT\s?|\s?FS\/FT\s?|\s?WTB\s?|\s?WANT
               TO BUY\s?/'
-      - description:
+        description:
         - find_by_xpath:
             xpath: //article[@class='post-details clear-fix']/section[@class='content']
-      - image:
+        image:
         - find_by_xpath:
             xpath: //section[@class="images"]/figure[1]/img/@src
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //section[@class='info clear-fix']/div[@class='size-50p'][1]/dl[@class='label-value-list']
             pattern: !ruby/regexp '/\$\s*\d[\d\,\.]+/i'
-      - location:
+        location:
         - find_by_xpath:
             xpath: //article[@class='post-details clear-fix']/section[@class='info clear-fix']/div[@class='size-50p'][2]/dl[@class='label-value-list']/dd[@class='location']
             pattern: !ruby/regexp '/^.+ [^-Map]/'
-      - sold:
+        sold:
         - find_by_xpath:
             xpath: //div[@class="message warning"]/div[@class="message-content"]
             pattern: !ruby/regexp '/listing/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Guns
             xpath: //section[@class="info clear-fix"]/div[@class="size-50p"][2]/dl[@class="label-value-list"]/dd[2]
@@ -60,7 +60,7 @@ registrations:
             label: Optics
             xpath: //section[@class="info clear-fix"]/div[@class="size-50p"][2]/dl[@class="label-value-list"]/dd[2]
             pattern: !ruby/regexp '/Optics/i'
-      - not_found:
+        not_found:
         - find_by_xpath:
             xpath: //div[@class="message error"]/div[@class="message-content"]
             pattern: !ruby/regexp '/This listing been flagged as a scam/i'

@@ -10,30 +10,30 @@ registrations:
     lowranceprecisionfirearms.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - meta_title
         - find_by_xpath:
             xpath: //div[@id='productGeneral']//h1[@id='productName']
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@id='productMainImage']//img/@src
           filters:
           - prefix: http://lowranceprecisionfirearms.com/
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //div[@id='productGeneral']/form/h2[@id='productPrices']/span[@class='productSpecialPrice']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[@id='productGeneral']//h2[@id='productPrices']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@id='productGeneral']//div[@id='productDescription']
         - meta_description
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: //div[@id='productGeneral']//div[@id='cartAdd']

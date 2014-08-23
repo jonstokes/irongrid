@@ -11,16 +11,16 @@ registrations:
       $key: globals/product_page
       xpath: //channel/item
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: .//title
-      - image:
+        image:
         - find_by_xpath:
             xpath: .//g:image_link
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: .//g:price
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: .//g:availability
@@ -29,18 +29,18 @@ registrations:
             label: out_of_stock
             xpath: .//g:availability
         - value: in_stock
-      - number_of_rounds:
+        number_of_rounds:
         - find_by_xpath:
             xpath: .//g:quantity
             pattern: !ruby/regexp '/\d{2,4}/i'
-      - product_caliber:
+        product_caliber:
         - find_by_xpath:
             xpath: .//g:caliber
-      - product_grains:
+        product_grains:
         - find_by_xpath:
             xpath: .//g:bullet_weight
             pattern: !ruby/regexp '/\d{1,3}/i'
-      - product_manufacturer:
+        product_manufacturer:
         - find_by_xpath:
             xpath: .//g:brand
 affiliate_link_tag:

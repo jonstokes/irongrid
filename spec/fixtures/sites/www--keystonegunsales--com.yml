@@ -10,28 +10,28 @@ registrations:
     www.keystonegunsales.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //div[@id='container']/div[@id='content']/h1
         - meta_title
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@class='product-info']/div[@class='left']/div[contains(@class,'image')]//img/@src
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='right']/div[@class='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - description:
+        description:
         - find_by_xpath:
             xpath: //table//tr/td
         - meta_description
-      - availability:
+        availability:
         - label_by_xpath:
             label: out_of_stock
             xpath: //div[@class='right']/div[@class='description']
             pattern: !ruby/regexp '/Backorder/i'
         - value: in_stock
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Optics
             xpath: //div[@id='content']/div[@class='breadcrumb']/a
@@ -44,7 +44,7 @@ registrations:
             label: Guns
             xpath: //div[@id='content']/div[@class='breadcrumb']/a
             pattern: !ruby/regexp '/Inventory|Rifles|Shotguns|Handguns/i'
-      - not_found:
+        not_found:
         - find_by_xpath:
             xpath: /html/body/div[@id='container']/div[@id='content']/h1
             pattern: !ruby/regexp '/Product not found/i'

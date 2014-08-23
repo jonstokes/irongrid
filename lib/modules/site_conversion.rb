@@ -204,14 +204,16 @@ module SiteConversion
 
   def object_attributes
     @object_attributes ||= begin
-      adapter.map do |attribute, setters|
+      obj_attrs = {}
+      adapter.each do |attribute, setters|
         next if %w(seller_defaults validation digest_attributes).include?(attribute)
         new_setters = setters.map do |setter|
           convert_setter(setter)
         end
         new_setters << { 'value' => default_for(attribute) } if default_for(attribute)
-        { convert_attribute(attribute) => new_setters }
-      end.compact
+        obj_attrs.merge!(convert_attribute(attribute) => new_setters)
+      end
+      obj_attrs
     end
   end
 

@@ -10,31 +10,31 @@ registrations:
     palmettostatearmory.com/product_page:
       $key: globals/product_page
       attribute:
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@class='product-img-box']/a[@id='main-image']/img/@src
         - find_by_xpath:
             xpath: //div[@class='product-img-box']/p[@class='product-image']/img/@src
-      - keywords:
+        keywords:
         - meta_keywords
-      - title:
+        title:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='product-name']/h1
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@class='product-view']/div[@class='product-collateral']/div[@class='box-collateral box-description']
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']/p[@class='old-price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']//span[@class='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='wrapper']/div[@class='price-box']/p[@class='special-price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: //div[@class='product-shop']/div[@class='wrapper']/p[@class='availability in-stock']/span
@@ -43,7 +43,7 @@ registrations:
             label: out_of_stock
             xpath: //div[@class='product-shop']/div[@class='wrapper']/p[@class='availability out-of-stock']/span
             pattern: !ruby/regexp '/TEMPORARILY OUT OF STOCK/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Optics
             xpath: //div[@class='breadcrumbs']/ul/li[2]/a

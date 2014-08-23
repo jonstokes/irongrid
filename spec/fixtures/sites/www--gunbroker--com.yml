@@ -10,38 +10,38 @@ registrations:
     www.gunbroker.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: .//td[@class="llt nw"]/h1[@id="h1T"]
-      - description:
+        description:
         - find_by_xpath:
             xpath: //td[text()[contains(.,'Description for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1] | //td[text()[contains(.,'Characteristics for Item')]]/ancestor::table[@class='tbClean viDesc']/following-sibling::table[1]
             all_nodes: true
         - meta_description
-      - image:
+        image:
         - find_by_xpath:
             xpath: //table[@class='viewitempicfont']//tr[1]//img/@src
         - find_by_xpath:
             xpath: //a/img[@class="viTn"]/@src
-      - buy_now_price_in_cents:
+        buy_now_price_in_cents:
         - find_by_xpath:
             xpath: //td[@id="ctl00_ctlPagePlaceHolder_tdIsBuyNowSet"]/b
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - current_bid_in_cents:
+        current_bid_in_cents:
         - find_by_xpath:
             xpath: //td[@id="CurrentBid"]/b
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - minimum_bid_in_cents:
+        minimum_bid_in_cents:
         - find_by_xpath:
             xpath: //div[@id='main']//td[@id='StartingBid']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - auction_ends:
+        auction_ends:
         - find_by_xpath:
             xpath: //span[@id="ctl00_ctlPagePlaceHolder_lblEndDate"]
-      - location:
+        location:
         - find_by_xpath:
             xpath: //td[@id="Location"]
-      - condition:
+        condition:
         - label_by_xpath:
             label: Used
             xpath: //td[@id="ItemCondition"]
@@ -50,7 +50,7 @@ registrations:
             label: New
             xpath: //td[@id="ItemCondition"]
             pattern: !ruby/regexp '/new|never|NIB/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             xpath: //td[@class="categorynav nw llt f2b"]/a[3]
             pattern: !ruby/regexp '/Antique Guns|Commemorative Guns|Collectible Guns|Replica

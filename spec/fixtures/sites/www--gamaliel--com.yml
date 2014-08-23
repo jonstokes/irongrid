@@ -10,19 +10,19 @@ registrations:
     www.gamaliel.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //h1[@id='detail_parent_prod_nm']
           filters:
           - reject: !ruby/regexp '/Used/i'
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //a[@id='detail_large']/img[@id='prodpicthumb']/@src
           filters:
           - prefix: http://www.gamaliel.com/
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //ul[@class='detail_pricing']/li[@class='listprice']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
@@ -37,17 +37,17 @@ registrations:
             pattern: !ruby/regexp '/\"price\"\:\s*\"\$\d[\d\,\.]+/i'
           filters:
           - reject: !ruby/regexp '/\"price\"\:\s*\"/i'
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //ul[@class='detail_pricing']/li[@class='saleprice']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@class='detail_cart']/div[@class='detail_desc']/div[@id='detail_desc_content_0']
           filters:
           - reject: !ruby/regexp '/Used/i'
         - meta_description
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: //div[@class='idp_container inv_msg']/span[@class='instock']
@@ -57,13 +57,13 @@ registrations:
             xpath: //div[@class='idp_container inv_msg']/span[@class='outstock']
             pattern: !ruby/regexp '/Out of Stock/'
         - value: in_stock
-      - condition:
+        condition:
         - label_by_xpath:
             label: Used
             xpath: .//h1[@id='detail_parent_prod_nm']
             pattern: !ruby/regexp '/Used/'
         - value: new
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: None
             xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']

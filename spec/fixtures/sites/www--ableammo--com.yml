@@ -10,41 +10,41 @@ registrations:
     www.ableammo.com/product_page:
       $key: globals/product_page
       attribute:
-      - type:
+        type:
         - label_by_url:
             label: RetailListing
             pattern: !ruby/regexp '/.*/'
         - value: RetailListing
-      - title:
+        title:
         - find_by_xpath:
             xpath: //table//h1
         - schema_name
         - find_by_xpath:
             xpath: //title
-      - description:
+        description:
         - schema_description
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //a/span[@class='overlay_box']/img[1]/@src
           filters:
           - prefix: http://www.ableammo.com/catalog/
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: .//*[@itemprop="price"]
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //body/div[1]/table[1]/tr/td[2]/table/tr[2]/td[@class="main"]/table/tr/td[2]/div/table[1]/tr[1]/td[2]/h2
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //span[@class="SalePrice"]
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //h2[@itemprop="price"]/span[@class="productSpecialPrice"]
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: .//*[@itemprop="availability"]/@content
@@ -53,7 +53,7 @@ registrations:
             label: out_of_stock
             xpath: .//*[@itemprop="availability"]/@content
             pattern: !ruby/regexp '/out_of_stock/'
-      - condition:
+        condition:
         - label_by_url:
             label: New
             pattern: !ruby/regexp '/conditioning|conditioner/i'
@@ -61,7 +61,7 @@ registrations:
             label: Used
             pattern: !ruby/regexp '/used|condition|like.new/i'
         - value: new
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][2]
             label: Guns
@@ -91,7 +91,7 @@ registrations:
             xpath: //tr[@class='headerNavigation']/td[@class='headerNavigation']
             pattern: !ruby/regexp '/Choke Tubes|Gun Accessories|Reloading|Shooting
               Supplies/i'
-      - not_found:
+        not_found:
         - find_by_xpath:
             xpath: //body/div[1]/table[1]/tr/td[2]/table/tr[2]/td/h2/font
             pattern: !ruby/regexp '/Product NOT Found/'

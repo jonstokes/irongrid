@@ -10,25 +10,25 @@ registrations:
     www.hyattgunstore.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: .//font[@class="bread-crumb last-bread-crumb"]
         - find_by_xpath:
             xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h1
-      - description:
+        description:
         - meta_description
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //img[@id="product_thumbnail"]/@src
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: .//span[contains(@class, "product-price-value")]
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: .//span[contains(@class, "product-market-price")]
-      - availability:
+        availability:
         - label_by_xpath:
             label: out_of_stock
             xpath: //table[@class='product-properties']//td[@class='property-value']/strong
@@ -38,7 +38,7 @@ registrations:
             xpath: .//span[@id="pre_text"]/span[@style="font-weight:bold;"]
             pattern: !ruby/regexp '/product is out of stock/i'
         - value: in_stock
-      - condition:
+        conditoin:
         - label_by_xpath:
             label: Used
             xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
@@ -47,7 +47,7 @@ registrations:
             label: New
             xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
             pattern: !ruby/regexp '/new/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Guns
             xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
@@ -76,7 +76,7 @@ registrations:
             label: Accessories
             xpath: //div[@id="location"]/a[@class="bread-crumb"][2]
             pattern: !ruby/regexp '/Accessories|Storage|Holsters|Parts|Cleaning|Gear|Lasers|Flashlights|Safes|Reloading|Tactical|Magazines/i'
-      - not_found:
+        not_found:
         - find_by_xpath:
             xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h1
             pattern: !ruby/regexp '/Welcome to Hyatt Gun Store/'

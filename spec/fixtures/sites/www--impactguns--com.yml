@@ -10,29 +10,29 @@ registrations:
     www.impactguns.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //div[@class='ProductTitle']/h1
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@class='Features']
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@class='CatalogImage_element']/img[@id='CatalogItemImage']/@src
           filters:
           - prefix: http://www.impactguns.com
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //span[@id='ctl00_ctl00_MainContent_uxProduct_lbPrice']/span[@class='Price']
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="RegularPrice"]
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="SalePrice"]
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: //div[@class='StockMsg']
@@ -61,12 +61,12 @@ registrations:
             label: out_of_stock
             xpath: //div[@class="PriceContent"]
             pattern: !ruby/regexp '/Ships On Or Before/i'
-      - condition:
+        condition:
         - label_by_url:
             label: Used
             pattern: !ruby/regexp '/used|condition|like.new/i'
         - value: new
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Accessories
             xpath: //div[@id='BreadCrumb']
@@ -84,7 +84,7 @@ registrations:
             label: Ammunition
             xpath: //div[@id='BreadCrumb']
             pattern: !ruby/regexp '/Ammunition/i'
-      - not_found:
+        not_found:
         - find_by_xpath:
             xpath: //title
             pattern: !ruby/regexp '/Impact Guns - 404 Error/'

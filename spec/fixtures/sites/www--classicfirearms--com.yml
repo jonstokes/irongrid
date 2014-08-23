@@ -10,10 +10,10 @@ registrations:
     www.classicfirearms.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/h1
-      - availability:
+        availability:
         - label_by_xpath:
             label: in_stock
             xpath: //div[@class='product-shop']/p[@class='availability in-stock']/span
@@ -22,15 +22,15 @@ registrations:
             label: out_of_stock
             xpath: //div[@class='product-shop']/p[@class='availability out-of-stock']/span
             pattern: !ruby/regexp '/Out of stock/i'
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - find_by_xpath:
             xpath: //div[@class='product-img-box']//img[@id='image']/@src
-      - description:
+        description:
         - find_by_xpath:
             xpath: //div[@id='product_tabs_description_contents']/div[@class='std']
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //div[@class='product-shop']/div[@class='product-options-bottom']//span[@class='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
@@ -40,7 +40,7 @@ registrations:
         - find_by_xpath:
             xpath: //div[@class='product-shop']//div[@class='product-options-bottom']//span[@class='price']
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Ammunition
             xpath: //div[@class='breadcrumbs']/ul/li[2]/a

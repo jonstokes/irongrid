@@ -10,41 +10,41 @@ registrations:
     www.budsgunshop.com/product_page:
       $key: globals/product_page
       attribute:
-      - title:
+        title:
         - meta_title
         - meta_og_title
         - find_by_xpath:
             xpath: .//title
-      - description:
+        description:
         - meta_og_description
         - meta_description
         - find_by_xpath:
             xpath: //td[@class="main"]/p
-      - keywords:
+        keywords:
         - meta_keywords
-      - image:
+        image:
         - meta_og_image
         - find_by_xpath:
             xpath: .//div[@style="padding:0px 8px 2px 8px;"]//img/@src
             pattern: !ruby/regexp '/images\/.*jpg/'
           filters:
           - prefix: http://www.budsgunshop.com/catalog/
-      - sale_price_in_cents:
+        sale_price_in_cents:
         - find_by_xpath:
             xpath: //tr[@id="x2d"]/td[2]/div[1]/div[1]/div[2]/strong
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-      - price_in_cents:
+        price_in_cents:
         - find_by_xpath:
             xpath: //a[@id="buy"]/span
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //tr[@id="x2d"]/td[2]/div[1]/div[1]/div[1]
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
-      - price_on_request:
+        price_on_request:
         - find_by_xpath:
             xpath: //a[@id="get_price_quote"]/@alt
             pattern: !ruby/regexp '/Get Quote/'
-      - availability:
+        availability:
         - label_by_xpath:
             label: out_of_stock
             xpath: .//span[@style="color:red; background:black; padding:3"]
@@ -54,35 +54,35 @@ registrations:
             xpath: .//div/font[@color="red"]
             pattern: !ruby/regexp '/OUT OF STOCK/'
         - value: in_stock
-      - product_caliber:
+        product_caliber:
         - find_by_xpath:
             xpath: //div[@id='mainmain']//td[@class='main']/center/table
             pattern: !ruby/regexp '/caliber\s*.*$/i'
-      - product_grains:
+        product_grains:
         - find_by_xpath:
             xpath: //div[@id='mainmain']//td[@class='main']/center/table
             pattern: !ruby/regexp '/bullet weigth\s*\d{1,3}\s*gr/i'
           filters:
           - accept: !ruby/regexp '/\d{1,3}/'
-      - number_of_rounds:
+        number_of_rounds:
         - find_by_xpath:
             xpath: //div[@id='mainmain']//td[@class='main']/center/table
             pattern: !ruby/regexp '/rounds\/box\s*\d{1,4}/i'
           filters:
           - accept: !ruby/regexp '/\d{1,4}/'
-      - product_mpn:
+        product_mpn:
         - find_by_xpath:
             xpath: //tr[@id='x2d']/td[1]/div[1]/div
             pattern: !ruby/regexp '/model:\s*.*?$/i'
           filters:
           - reject: !ruby/regexp '/model:\s*/i'
-      - product_upc:
+        product_upc:
         - find_by_xpath:
             xpath: //tr[@id='x2d']/td[1]/div[1]/div
             pattern: !ruby/regexp '/upc:\s*\d+/i'
           filters:
           - accept: !ruby/regexp '/\d+/'
-      - type:
+        type:
         - label_by_url:
             label: AuctionListing
             pattern: !ruby/regexp '/auction_info.*auctions_id/'
@@ -90,7 +90,7 @@ registrations:
             label: RetailListing
             pattern: !ruby/regexp '/product_info.*products_id/'
         - value: RetailListing
-      - condition:
+        condition:
         - label_by_xpath:
             label: New
             xpath: .//span[@style="font-size:9pt; color:#990000; font-weight:bold;"]
@@ -100,14 +100,14 @@ registrations:
             xpath: .//span[@style="font-size:9pt; color:#990000; font-weight:bold;"]
             pattern: !ruby/regexp '/Used/'
         - value: new
-      - current_bid_in_cents:
+        current_bid_in_cents:
         - find_by_xpath:
             xpath: //td[@class="main"]/b[. = "Auction price:"]/following-sibling::text()
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
-      - auction_ends:
+        auction_ends:
         - find_by_xpath:
             xpath: //td[@class="main"]/b[. = "Auction expires on:"]/following-sibling::text()
-      - product_category1:
+        product_category1:
         - label_by_xpath:
             label: Guns
             xpath: //a[@class="breadcrumb_sep_link"][2]
@@ -142,7 +142,7 @@ registrations:
             label: Accessories
             xpath: //a[@class="breadcrumb_sep_link"][2]
             pattern: !ruby/regexp '/Doublestar Accessories/i'
-      - not_found:
+        not_found:
         - find_by_xpath:
             xpath: //table[@class="infoBoxContents"]/tr[2]/td[@class="boxText"]
             pattern: !ruby/regexp '/Product not found/'
