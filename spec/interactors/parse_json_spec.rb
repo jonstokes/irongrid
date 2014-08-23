@@ -46,11 +46,10 @@ describe ParseJson do
 
     it "should correctly parse a standard, in-stock retail listing from Hyatt Gun Store" do
       site = create_site "www.hyattgunstore.com"
-      page = load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")
       url = "http://#{site.domain}/1.html"
       Mocktra(site.domain) do
         get '/1.html' do
-          page[:html]
+          load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")[:html]
         end
       end
 
@@ -90,12 +89,11 @@ describe ParseJson do
 
     it "parses a standard, out of stock retail listing from Impact Guns" do
       site = create_site "www.impactguns.com", source: :fixture
-      page = load_listing_source("Retail", "www.impactguns.com", "Remington 22LR CYCLONE 36HP 5000 CAS")
 
       url = "http://#{site.domain}/1.html"
       Mocktra(site.domain) do
         get '/1.html' do
-          page[:html]
+          load_listing_source("Retail", "www.impactguns.com", "Remington 22LR CYCLONE 36HP 5000 CAS")[:html]
         end
       end
       page = Stretched::PageUtils::Test.fetch_page(url)
@@ -129,12 +127,11 @@ describe ParseJson do
 
     it "parses a classified listing from Armslist" do
       site = create_site "www.armslist.com"
-      page = load_listing_source("Classified", "www.armslist.com", "fast sale springfield xd 45")
 
       url = "http://#{site.domain}/1.html"
       Mocktra(site.domain) do
         get '/1.html' do
-          page[:html]
+          load_listing_source("Classified", "www.armslist.com", "fast sale springfield xd 45")[:html]
         end
       end
       page = Stretched::PageUtils::Test.fetch_page(url)
@@ -168,16 +165,15 @@ describe ParseJson do
       expect(item.current_price_in_cents).to eq(52500)
       expect(item.availability).to eq("in_stock")
       expect(item.item_location).to eq("lacey/olympia, Southwest Washington, Washington")
-   end
+    end
 
     it "parses a CTD retail listing using meta tags" do
       site = create_site "www.cheaperthandirt.com"
-      page = load_listing_source("Retail", "www.cheaperthandirt.com", 'Ammo 16 Gauge Lightfield Commander IDS 2-3/4" Lead 7/8 Oz Slug 1630 fps 5 Round Box LFCP-16')
 
       url = "http://#{site.domain}/1.html"
       Mocktra(site.domain) do
         get '/1.html' do
-          page[:html]
+          load_listing_source("Retail", "www.cheaperthandirt.com", 'Ammo 16 Gauge Lightfield Commander IDS 2-3/4" Lead 7/8 Oz Slug 1630 fps 5 Round Box LFCP-16')[:html]
         end
       end
       page = Stretched::PageUtils::Test.fetch_page(url)
@@ -207,12 +203,10 @@ describe ParseJson do
 
     it "parses a BGS retail listing using meta_og tags" do
       site = create_site "www.budsgunshop.com"
-      page = load_listing_source("Retail", "www.budsgunshop.com", "Silva Olive Drab Compass")
-
       url = "http://#{site.domain}/1.html"
       Mocktra(site.domain) do
         get '/1.html' do
-          page[:html]
+          load_listing_source("Retail", "www.budsgunshop.com", "Silva Olive Drab Compass")[:html]
         end
       end
       page = Stretched::PageUtils::Test.fetch_page(url)
