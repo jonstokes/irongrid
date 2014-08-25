@@ -52,7 +52,7 @@ module Stretched
       runner, node, instance = opts[:runner], opts[:node], opts[:instance]
       adapter.attribute_setters.each do |attribute_name, setters|
         raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
-        setters.each do |setter|
+        setters.detect do |setter|
           if setter.is_a?(Hash)
             method = setter.reject {|k,v| k == "filters"}.first.first
             args = setter[method]
@@ -61,7 +61,7 @@ module Stretched
             result = runner.send(setter)
           end
           result = runner.filters(result, setter["filters"]) if setter["filters"]
-          instance[attribute_name] = result
+          instance[attribute_name] = result if result
 
         end
       end

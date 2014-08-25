@@ -103,6 +103,7 @@ registrations:
         - value: www.impactguns.com
 affiliate_link_tag:
 affiliate_program:
+digest_attributes:
 product_session_format:
   queue: www.impactguns.com
   session_definition: globals/standard_html_session

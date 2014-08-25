@@ -53,6 +53,7 @@ registrations:
         - value: 200 South Front Street, Montezuma, Iowa 50171
 affiliate_link_tag:
 affiliate_program:
+digest_attributes:
 product_session_format: {}
 sessions:
 - queue: www.policestore.com

@@ -98,6 +98,9 @@ registrations:
         - value: www.gunbroker.com
 affiliate_link_tag:
 affiliate_program:
+digest_attributes:
+- defaults
+- url
 product_session_format:
   queue: www.gunbroker.com
   session_definition: globals/standard_html_session

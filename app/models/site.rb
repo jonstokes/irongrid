@@ -18,6 +18,7 @@ class Site < LegacySite
     :stats,
     :affiliate_link_tag,
     :affiliate_program,
+    :digest_attributes,
     :registrations
   ]
 

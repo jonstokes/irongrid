@@ -176,4 +176,13 @@ module Stretched
       newstr.to_ascii
     end
   end
+
+  class QueryDoc
+    include DocQueries
+    attr_reader :doc
+    def initialize(doc)
+      @doc = doc
+    end
+  end
+
 end

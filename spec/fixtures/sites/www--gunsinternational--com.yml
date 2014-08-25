@@ -116,6 +116,9 @@ registrations:
         - value: www.gunsinternational.com
 affiliate_link_tag:
 affiliate_program:
+digest_attributes:
+- defaults
+- url
 product_session_format:
   queue: www.gunsinternational.com
   session_definition: globals/standard_html_session

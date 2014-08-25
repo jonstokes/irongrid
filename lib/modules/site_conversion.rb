@@ -12,6 +12,7 @@ module SiteConversion
       'registrations'          => registrations,
       'affiliate_link_tag'     => affiliate_link_tag,
       'affiliate_program'      => affiliate_program,
+      'digest_attributes'      => digest_attributes,
       'product_session_format' => product_session_format,
       'sessions'               => sessions
     }.to_yaml
@@ -25,6 +26,10 @@ module SiteConversion
 
   def domain_dashed
     domain.gsub ".", "--"
+  end
+
+  def digest_attributes
+    site_data[:page_adapter].try(:[],'digest_attributes')
   end
 
   def registrations

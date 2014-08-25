@@ -90,6 +90,7 @@ registrations:
         - value: www.cheaperthandirt.com
 affiliate_link_tag:
 affiliate_program:
+digest_attributes:
 product_session_format:
   queue: www.cheaperthandirt.com
   session_definition: globals/standard_html_session

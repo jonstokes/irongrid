@@ -6,6 +6,7 @@ class ParseJson
   organize [
     ValidateListingPresence,
     SetCommonAttributes, # includes setting auction_ends
+    SetPriceAttributes,
     ValidateListing,
     ScrubMetadataSourceAttributes,
     ExtractMetadataFromRawListing,

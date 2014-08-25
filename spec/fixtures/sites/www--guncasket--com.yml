@@ -56,6 +56,7 @@ registrations:
         - value: 872 Country Ln, Farmington, UT 84025
 affiliate_link_tag:
 affiliate_program:
+digest_attributes:
 product_session_format: {}
 sessions:
 - queue: www.guncasket.com

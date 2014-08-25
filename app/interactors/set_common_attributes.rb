@@ -2,22 +2,23 @@ class SetCommonAttributes < CoreModel
   include Interactor
 
   def perform
-    context[:type]                     = listing_json['type']
-    context[:title]                    = title
-    context[:keywords]                 = keywords
-    context[:description]              = listing_json.description
-    context[:category1]                = product_category1
-    context[:upc]                      = listing_json.product_upc
-    context[:mpn]                      = listing_json.product_mpn
-    context[:sku]                      = listing_json.product_sku
-    context[:seller_domain]            = site.domain
-    context[:seller_name]              = site.name
-    context[:affiliate_link_tag]       = site.affiliate_link_tag
-    context[:affiliate_program]        = site.affiliate_program
-    context[:image_source]             = listing_json.image
-    context[:item_condition]           = listing_json.condition
-    context[:item_location]            = listing_json.location
-    context[:auction_ends]             = auction_ends
+    context[:url]                = listing_json.url
+    context[:type]               = listing_json['type']
+    context[:title]              = title
+    context[:keywords]           = keywords
+    context[:description]        = listing_json.description
+    context[:category1]          = product_category1
+    context[:upc]                = listing_json.product_upc
+    context[:mpn]                = listing_json.product_mpn
+    context[:sku]                = listing_json.product_sku
+    context[:seller_domain]      = site.domain
+    context[:seller_name]        = site.name
+    context[:affiliate_link_tag] = site.affiliate_link_tag
+    context[:affiliate_program]  = site.affiliate_program
+    context[:image_source]       = listing_json.image
+    context[:item_condition]     = listing_json.condition
+    context[:item_location]      = listing_json.location
+    context[:auction_ends]       = auction_ends
   end
 
   def title
