@@ -43,10 +43,6 @@ registrations:
         - find_by_xpath:
             xpath: //article[@class='post-details clear-fix']/section[@class='info clear-fix']/div[@class='size-50p'][2]/dl[@class='label-value-list']/dd[@class='location']
             pattern: !ruby/regexp '/^.+ [^-Map]/'
-        sold:
-        - find_by_xpath:
-            xpath: //div[@class="message warning"]/div[@class="message-content"]
-            pattern: !ruby/regexp '/listing/i'
         product_category1:
         - label_by_xpath:
             label: Guns

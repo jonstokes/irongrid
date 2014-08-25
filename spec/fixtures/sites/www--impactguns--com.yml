@@ -12,18 +12,21 @@ registrations:
       attribute:
         title:
         - find_by_xpath:
-            xpath: //div[@class='ProductTitle']/h1
+            xpath: //title
+          filters:
+          - reject: !ruby/regexp '/- Impact Guns/'
+        keywords:
+        - meta_keywords
         description:
-        - find_by_xpath:
-            xpath: //div[@class='Features']
+        - meta_description
         image:
         - find_by_xpath:
-            xpath: //div[@class='CatalogImage_element']/img[@id='CatalogItemImage']/@src
+            xpath: .//div[@class="CatalogImage_element"]/img[@id="CatalogItemImage"]/@src
           filters:
           - prefix: http://www.impactguns.com
         price_in_cents:
         - find_by_xpath:
-            xpath: //span[@id='ctl00_ctl00_MainContent_uxProduct_lbPrice']/span[@class='Price']
+            xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="Price"]
             pattern: !ruby/regexp '/^\$\d[\d\,\.]+/i'
         - find_by_xpath:
             xpath: //span[@id="ctl00_ctl00_MainContent_uxProduct_lbPrice"]/span[@class="RegularPrice"]
@@ -69,20 +72,20 @@ registrations:
         product_category1:
         - label_by_xpath:
             label: Accessories
-            xpath: //div[@id='BreadCrumb']
+            xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
             pattern: !ruby/regexp '/Accessor|1911$|Parts|Sights|Suppressors|Silencers|Mags|Cases|Stocks|Airgun|Magazine|Uppers|Bipods|Cleaning|Protection|Electronics|Holster|Lasers|Lights|Muzzleloaders|Finder|Reloading|Slings|Solvent|Components|Gear|Tactical|Targets|Tools|Supplies/i'
         - label_by_xpath:
             label: Guns
-            xpath: //div[@id='BreadCrumb']
+            xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
             pattern: !ruby/regexp '/Firearms|AR15 Rifle|Rifles|Lowers|Handguns|Shotguns|\sGuns|Package|Handguns|Revolvers|Carry
               Gun/'
         - label_by_xpath:
             label: Optics
-            xpath: //div[@id='BreadCrumb']
+            xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
             pattern: !ruby/regexp '/Optics|Mounts|Binocular|Vision|Scope/i'
         - label_by_xpath:
             label: Ammunition
-            xpath: //div[@id='BreadCrumb']
+            xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
             pattern: !ruby/regexp '/Ammunition/i'
         not_found:
         - find_by_xpath:

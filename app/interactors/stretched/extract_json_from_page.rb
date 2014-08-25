@@ -61,8 +61,8 @@ module Stretched
             result = runner.send(setter)
           end
           result = runner.filters(result, setter["filters"]) if setter["filters"]
-          instance[attribute_name] = result if result
-
+          next unless result.present?
+          instance[attribute_name] = result
         end
       end
 

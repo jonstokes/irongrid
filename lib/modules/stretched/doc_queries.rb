@@ -15,17 +15,17 @@ module Stretched
 
     def label_by_url(args)
       args.stringify_keys!
-      return args['type'] if "#{url}"[args['pattern']]
+      return args['label'] if "#{url}"[args['pattern']]
     end
 
     def label_by_xpath(args)
       args.stringify_keys!
-      return args['type'] if find_by_xpath(args)
+      return args['label'] if find_by_xpath(args)
     end
 
     def label_by_meta_tag(args)
       args.stringify_keys!
-      args['type'] if find_by_meta_tag(args)
+      args['label'] if find_by_meta_tag(args)
     end
 
     def find_by_meta_tag(args)
@@ -86,7 +86,7 @@ module Stretched
     def meta_og_image; meta_og('image'); end
 
     def label_by_meta_keywords(args)
-      return args['type'] if meta_keywords && meta_keywords[args['pattern']]
+      return args['label'] if meta_keywords && meta_keywords[args['pattern']]
     end
 
     #
@@ -178,7 +178,7 @@ module Stretched
   end
 
   class QueryDoc
-    include DocQueries
+    include Stretched::DocQueries
     attr_reader :doc
     def initialize(doc)
       @doc = doc

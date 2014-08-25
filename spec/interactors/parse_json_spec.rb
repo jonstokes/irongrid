@@ -78,7 +78,7 @@ describe ParseJson do
       expect(item.caliber_category.map(&:caliber_category).compact.first).to eq("rifle")
       expect(item.manufacturer.map(&:manufacturer).compact.first).to eq("Federal")
       expect(item.title.map(&:title).compact.first.downcase).to eq("federal xm855 5.56 ammo 62 grain fmj, 420 rounds, stripper clips in ammo can")
-      expect(item.item_condition).to eq("new")
+      expect(item.item_condition.downcase).to eq("new")
       expect(item.image_source.downcase).to eq("http://www.hyattgunstore.com/images/p/76472-p.jpg")
       expect(item.keywords).to eq("Federal XM855 5.56mm 62 Grain FMJ, 420 Rounds on 30-Round Stripper Clips,")
       expect(item.description.downcase).to include("federal 5.56 ammo in a can is available in")
@@ -109,12 +109,13 @@ describe ParseJson do
         page: Hashie::Mash.new(page.to_hash),
         listing_json: Hashie::Mash.new(listing)
       )
+
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
       expect(result.not_found?).to be_false
       listing = Listing.create(result.listing)
 
-      expect(listing.item_condition).to eq("Unknown")
+      expect(listing.item_condition).to eq("new")
       expect(listing.image_source).to eq("http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg")
       expect(listing.keywords).to eq("Remington, Remington 22LR CYCLONE 36HP 5000 CAS, 10047700482016")
       expect(listing.description).to include("Remington-Remington")
@@ -156,7 +157,7 @@ describe ParseJson do
 
       expect(item.category1.map(&:category1).compact.first).to eq("Guns")
       expect(item.title.map(&:title).compact.first).to eq("fast sale springfield xd 45")
-      expect(item.item_condition).to eq("Unknown")
+      expect(item.item_condition).to be_nil
       expect(item.image_source).to eq("http://cdn2.armslist.com/sites/armslist/uploads/posts/2013/05/24/1667211_01_fast_sale_springfield_xd_45_640.jpg")
       expect(item.keywords).to be_nil
       expect(item.description).to include("For sale a springfield xd")
@@ -164,7 +165,7 @@ describe ParseJson do
       expect(item.sale_price_in_cents).to be_nil
       expect(item.current_price_in_cents).to eq(52500)
       expect(item.availability).to eq("in_stock")
-      expect(item.item_location).to eq("lacey/olympia, Southwest Washington, Washington")
+      expect(item.item_location).to include("Southwest Washington")
     end
 
     it "parses a CTD retail listing using meta tags" do

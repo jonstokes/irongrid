@@ -7,6 +7,7 @@ class SetCommonAttributes < CoreModel
     context[:title]              = title
     context[:keywords]           = keywords
     context[:description]        = listing_json.description
+    context[:availability]       = listing_json.availability
     context[:category1]          = product_category1
     context[:upc]                = listing_json.product_upc
     context[:mpn]                = listing_json.product_mpn
