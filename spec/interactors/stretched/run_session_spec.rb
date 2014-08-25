@@ -53,6 +53,13 @@ describe Stretched::RunSession do
 
         ssn = Stretched::Session.new(@sessions.last)
         result = Stretched::RunSession.perform(stretched_session: ssn)
+
+        object = object_q.pop
+        puts "## #{object.inspect}"
+
+        object = object_q.pop
+        puts "## #{object.inspect}"
+
         expect(object_q.size).to eq(51)
         expect(result.pages_scraped).to eq(2)
       end
