@@ -9,8 +9,9 @@ module Stretched
     end
 
     def set_context(context)
-      @doc = context[:doc] || context[:page].try(:doc)
-      @page = Hashie::Mash.new(context[:page].try(:to_h))
+      @doc = context[:doc] || context[:page].doc
+      @page = Hashie::Mash.new(context[:page].to_hash)
+      @session = context[:browser_session]
     end
 
     def method_missing(name, *args, &block)

@@ -26,7 +26,7 @@ module Stretched
 
     def run_json_setters(instance, node)
       runner = Script.runner
-      runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
+      runner.set_context(context)
       read_with_json(
         node: node,
         runner: runner,
@@ -38,7 +38,7 @@ module Stretched
       return instance unless adapter.scripts
       adapter.scripts.each do |script_name|
         runner = Script.runner(script_name)
-        runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
+        runner.set_context(context)
         instance = read_with_script(
           node: node,
           runner: runner,

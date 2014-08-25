@@ -1,5 +1,8 @@
 Stretched::Script.define do
   script "globals/product_page" do
+    url do |instance|
+      instance.url || page.url
+    end
 
     availability do |instance|
       if %w(AuctionListing ClassifiedListing).include?(instance.type)
