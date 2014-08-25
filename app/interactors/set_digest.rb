@@ -7,14 +7,14 @@ class SetDigest
     image_source
     type
     seller_domain
-    item_condition
-    item_location
-    category1
-    caliber_category
-    caliber
-    manufacturer
-    grains
-    number_of_rounds
+    condition
+    location
+    product_category1
+    product_caliber_category
+    product_caliber
+    product_manufacturer
+    product_grains
+    product_number_of_rounds
     current_price_in_cents
   )
 

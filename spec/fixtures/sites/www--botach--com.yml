@@ -1,0 +1,152 @@
+---
+name: Botach Tactical
+domain: www.botach.com
+read_interval: 1440
+timezone:
+registrations:
+  session_queue:
+    www.botach.com: {}
+  object_adapter:
+    www.botach.com/product_page:
+      $key: globals/product_page
+      attribute:
+        title:
+        - meta_og_title
+        keywords:
+        - meta_keywords
+        description:
+        - find_by_xpath:
+            xpath: //div[@id='ProductDescription']/div[@class='ProductDescriptionContainer']
+        image:
+        - meta_og_image
+        price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@id='PriceField']/div[@class='Value']/em[@class='ProductPrice VariationProductPrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='ProductDetailsGrid']/div[@class='DetailRow']/div[@class='Value']
+            pattern: !ruby/regexp '/In Stock Drop-Shipped By Tru-Spec/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@class='ProductDetailsGrid']/div[@class='DetailRow']/div[@class='Value']
+            pattern: !ruby/regexp '/Not set/i'
+        - value: in_stock
+        product_number_of_rounds:
+        - find_by_xpath:
+            xpath: //div[@id='ProductDescription']/div[@class='ProductDescriptionContainer']
+            pattern: !ruby/regexp '/\d{1,4}\s*round/i'
+          filters:
+          - accept: !ruby/regexp '/\d{1,4}/'
+        product_grains:
+        - find_by_xpath:
+            xpath: //div[@id='ProductDescription']/div[@class='ProductDescriptionContainer']
+            pattern: !ruby/regexp '/\d{2,3}\s*gr/i'
+          filters:
+          - accept: !ruby/regexp '/\d{2,3}/'
+        product_manufacturer:
+        - find_by_xpath:
+            xpath: //div[@class='ProductDetailsGrid']/div[@class='DetailRow'][2]/div[@class='Value']/a
+        product_category1:
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@id='ProductBreadcrumb']/ul[1]/li[2]/a
+            pattern: !ruby/regexp '/Apparel|Auctions|Accessories|Cases|Batteries|Bicycles|Clearance|Gear|Electronics|Eyewear|Medical|Flashlights|Footwear|Safety|Hearing
+              Protection|Helmets|Dog|Tools|Deals/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id='ProductBreadcrumb']/ul[1]/li[2]/a
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Guns
+            xpath: //div[@id='ProductBreadcrumb']/ul[1]/li[2]/a
+            pattern: !ruby/regexp '/Firearms/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id='ProductBreadcrumb']/ul[1]/li[2]/a
+            pattern: !ruby/regexp '/Optics/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 3423 West 43rd Place Los Angeles, CA 90008
+    www.botach.com/product_link:
+      $key: globals/product_link
+      xpath: //div[@class='ProductDetails']/strong/a
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+        seller_domain:
+        - value: www.botach.com
+affiliate_link_tag:
+affiliate_program: ShareASale
+digest_attributes:
+product_session_format:
+  queue: www.botach.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.botach.com/product_page
+sessions:
+- queue: www.botach.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.botach.com/product_link
+  urls:
+  - url: http://www.botach.com/optics?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/red-dot-sights/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/ammunition?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/firearm-accessories?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/bipod-adapters/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/ar-15-m4-parts-accessories/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/ammunition-308-7-62x51mm/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/ammunition-223-5-56x45mm/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/ar-15-m4-recoil-buffers/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/firearms?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/gun-silencers-suppressors/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/binoculars/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/new-category-18/?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/22lr-parts-accessories.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/bipod-adapters.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/bipods-monopods.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/foregrips.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-accessories-for-benelli-shotguns.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-accessories-for-fnh-firearms.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-care.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-barrels.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-backup-sights.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-accessories-mounts.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-accessories-for-tavor-rifles.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-accessories-for-remington-shotguns.html?sort=newest
+  - url: http://www.botach.com/categories/firearm-accessories/m14-m1a-accessories.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-accessories-for-hk-firearms.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-accessories-for-glock-pistols.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-locks-safety-security.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-magazine-accessories.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-magazines.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-sight-installation-adjustment-tools.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-sights-for-pistols.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-slings.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gun-slings-attachments-swivels.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gunsmithing-tools.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/gunsmithing-tools/trigger-scales.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/optic-covers.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/lens-optics-cleaners.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/anglesights.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearms/rifles.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearms/pistols.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearms/shotguns.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/new-category-4.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/speed-loaders.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/new-category.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/new-category-2.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/firearm-accessories/picatinny-rail-covers.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/tripods.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/spottingscopes.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/rifle-scopes.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/rifle-scope-accessories.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/range-finders.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/optical-mounting-solutions.html?sort=newest&page=PAGENUM
+  - url: http://www.botach.com/categories/optics/optic-covers-accessories.html?sort=newest&page=PAGENUM
