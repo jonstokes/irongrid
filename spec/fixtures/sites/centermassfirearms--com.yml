@@ -63,6 +63,12 @@ registrations:
             label: Optics
             xpath: //div[@class='breadcrumbs']/ul/li[3]/a
             pattern: !ruby/regexp '/Optic/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 2140 S. Boulder Hwy., Henderson, NV 89002
     centermassfirearms.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='product-box']/h2[@class='product-name']/a

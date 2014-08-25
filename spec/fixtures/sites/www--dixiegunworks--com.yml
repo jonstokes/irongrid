@@ -57,6 +57,14 @@ registrations:
             pattern: !ruby/regexp '/Shotguns|Cartridge Handguns|Cartridge Longarms|Muzzleloading
               Handguns|Muzzleloading Longarms|Guns|Cased Guns|Commemorative Guns|Gatling
               Guns|Misc Replica Guns|Reduced Price Guns|Cannons And Kits/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        availability:
+        - value: in_stock
+        location:
+        - value: 1412 West Reelfoot Avenue, Union City, TN 38281
     www.dixiegunworks.com/product_link:
       $key: globals/product_link
       xpath: //td[@class='productListing-data'][2]/a

@@ -18,29 +18,29 @@ site:
         schema: { $key: Listing }
         xpath: //Products/Product
         attribute:
-          listing_condition: [{ value: new }]
-          listing_availability: [{ value: in_stock }]
-          listing_location: [{ value: "200 South Front Street, Montezuma, Iowa 50171" }]
-          listing_type: [{ value: RetailListing }]
-          listing_url:
+          condition: [{ value: new }]
+          availability: [{ value: in_stock }]
+          location: [{ value: "200 South Front Street, Montezuma, Iowa 50171" }]
+          type: [{ value: RetailListing }]
+          url:
             - find_by_xpath:
                 xpath: .//Buy_Link
-          listing_title:
+          title:
             - find_by_xpath:
                 xpath: .//Product_Name
-          listing_description:
+          description:
             - find_by_xpath:
                 xpath: .//Long_Description
-          listing_image:
+          image:
             - find_by_xpath:
                 xpath: .//Image_URL
-          listing_sale_price_in_cents:
+          sale_price_in_cents:
             - find_by_xpath:
                 xpath: .//Sale_Price
-          listing_price_in_cents:
+          price_in_cents:
             - find_by_xpath:
                 xpath: .//Retail_Price
-          listing_availability:
+          availability:
             - classify_by_xpath:
                 type: out_of_stock
                 xpath: .//Status

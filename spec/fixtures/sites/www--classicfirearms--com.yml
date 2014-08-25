@@ -53,6 +53,12 @@ registrations:
             label: Optics
             xpath: //div[@class='breadcrumbs']/ul/li[2]/a
             pattern: !ruby/regexp '/Optic|Scope/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 510 Morgan Mill Rd, Monroe, NC 28110
     www.classicfirearms.com/product_link:
       $key: globals/product_link
       xpath: //h2[@class='product-name']/a

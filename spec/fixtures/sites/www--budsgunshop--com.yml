@@ -146,6 +146,8 @@ registrations:
         - find_by_xpath:
             xpath: //table[@class="infoBoxContents"]/tr[2]/td[@class="boxText"]
             pattern: !ruby/regexp '/Product not found/'
+        location:
+        - value: 1105 Industry Road Lexington, KY 40505
     www.budsgunshop.com/product_link:
       $key: globals/product_link
       xpath: //span[@class="productListing-productname"]/a

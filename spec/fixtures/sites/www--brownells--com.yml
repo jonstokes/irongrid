@@ -45,6 +45,12 @@ registrations:
             label: Accessories
             xpath: .//Category
             pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 200 South Front Street, Montezuma, Iowa 50171
 affiliate_link_tag:
 affiliate_program:
 product_session_format: {}

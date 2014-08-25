@@ -98,6 +98,8 @@ registrations:
         - find_by_xpath:
             xpath: //body/table[4]/tr/td[2]/table/tr[1]/td/table/tr/td[@class="pageHeading"][1]
             pattern: !ruby/regexp '/Read What Others Are Saying/'
+        location:
+        - value: 357 Farm to Market Road 1791  Huntsville, TX 77340
     www.ableammo.com/product_link:
       $key: globals/product_link
       xpath: //td[@class='productListing-data2']/table//td[@class='main']//td[@class='main']//a

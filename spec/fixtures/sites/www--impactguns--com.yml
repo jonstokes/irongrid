@@ -88,6 +88,10 @@ registrations:
         - find_by_xpath:
             xpath: //title
             pattern: !ruby/regexp '/Impact Guns - 404 Error/'
+        type:
+        - value: RetailListing
+        location:
+        - value: 2710 South 1900 West, Ogden, UT 84401
     www.impactguns.com/product_link:
       $key: globals/product_link
       xpath: .//xmlns:loc

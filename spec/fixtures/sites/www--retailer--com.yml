@@ -51,6 +51,14 @@ registrations:
             label: Guns
             xpath: //div[@class='pcPageNav']/a
             pattern: !ruby/regexp '/Handguns|Rifles|Shotguns|Revolvers|Carbines|Guns|Pistols|Flintlock/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        availability:
+        - value: in_stock
+        location:
+        - value: 1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705
     www.retailer.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='pcShowProductName']/a

@@ -85,6 +85,8 @@ registrations:
             xpath: //td[@class="categorynav nw llt f2b"]/a[4]
             pattern: !ruby/regexp '/Barrels|Grips|Magazines|Clips|Slides|Bolts|Reloading|Glasses|Hearing|Stocks|Silencers|Safes|Parts|Accessories|Storage|Supplies|Bayonets|Eyewear|Cameras|Cleaning|Holsters|Rests|Gunsmithing/i'
             label: Accessories
+        type:
+        - value: AuctionListing
     www.gunbroker.com/product_link:
       $key: globals/product_link
       xpath: //a[@class="BItmTLnk"]

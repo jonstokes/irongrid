@@ -80,6 +80,12 @@ registrations:
             label: Accessories
             xpath: //div[@class='breadcrumbs']/ul/li[2]/a
             pattern: !ruby/regexp '/AR-15|Reloading/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 200 Business Park Blvd, Columbia, SC 29203
     palmettostatearmory.com/product_link:
       $key: globals/product_link
       xpath: //h2[@class='product-name']/a

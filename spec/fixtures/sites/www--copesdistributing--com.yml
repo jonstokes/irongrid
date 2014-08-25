@@ -66,6 +66,10 @@ registrations:
             label: Ammunition
             xpath: //div[@class='wrapper']/div[@class='breadcrumb']
             pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        type:
+        - value: RetailListing
+        location:
+        - value: 640 Markwith Ave, Greenville, OH, 45331
     www.copesdistributing.com/product_link:
       $key: globals/product_link
       xpath: //link

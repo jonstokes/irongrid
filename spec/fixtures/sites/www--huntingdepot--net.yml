@@ -60,6 +60,12 @@ registrations:
             label: Accessories
             xpath: //div[@class='breadcrumbs']
             pattern: !ruby/regexp '/Accessories|Cases|Cleaning|Gun Care|Concealment|Gunsmithing|Holsters|Muzzleloading|Reoading|Targets|Throwers/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 23 S Prospect St, Nanticoke, PA 18634
     www.huntingdepot.net/product_link:
       $key: globals/product_link
       xpath: //table[@class='data_table']//tr/td/p/a

@@ -210,17 +210,20 @@ module SiteConversion
         new_setters = setters.map do |setter|
           convert_setter(setter)
         end
-        new_setters << { 'value' => default_for(attribute) } if default_for(attribute)
         obj_attrs.merge!(convert_attribute(attribute) => new_setters)
       end
+      add_defaults(obj_attrs)
       obj_attrs
     end
   end
 
-  def default_for(attribute)
+  def add_defaults(attributes)
     return unless adapter['seller_defaults']
-    return unless val = adapter['seller_defaults'][attribute]
-    convert_value(val)
+    adapter['seller_defaults'].each do |attr, value|
+      new_attr = convert_attribute(attr)
+      attributes[new_attr] ||= []
+      attributes[new_attr] << { 'value' => convert_value(value) }
+    end
   end
 
   def convert_value(val)

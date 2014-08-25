@@ -94,6 +94,12 @@ registrations:
             label: Guns
             xpath: //div[@class='breadcrumbs']/ul/li[3]/a
             pattern: !ruby/regexp '/Firearms/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 4800 Atlanta Hwy, Bogart, GA 30622
     clydearmory.com/product_link:
       $key: globals/product_link
       xpath: //h2[@class='product-name']/a

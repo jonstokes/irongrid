@@ -88,6 +88,10 @@ registrations:
         - label_by_meta_keywords:
             label: Optics
             pattern: !ruby/regexp '/Optic|scope|sight|mount|cantilever|dot/i'
+        type:
+        - value: RetailListing
+        location:
+        - value: 102 Fieldview Dr, Versailles, KY 40383
     centerfiresystems.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='product-list-item']/div[@class='product-list-options']/h5/a

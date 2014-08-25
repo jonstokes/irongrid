@@ -75,6 +75,10 @@ registrations:
             xpath: //div[@class="itemBreadCrumbs"]/a
             pattern: !ruby/regexp '/Gun Gear and Parts|Magazines|pods|Black Powder|Protection|Cases|Cleaning|Gunsmithing|Holsters|Lasers|Lights|Range|Targets|Reloading|Slings|loaders|Universal
               Gun Parts/i'
+        type:
+        - value: RetailListing
+        location:
+        - value: 2058 West University Drive, McKinney, Texas 75071
     www.cheaperthandirt.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='prodis']/a

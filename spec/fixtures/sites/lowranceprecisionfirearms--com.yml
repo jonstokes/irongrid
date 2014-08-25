@@ -43,6 +43,12 @@ registrations:
             xpath: //div[@id='productGeneral']//ul[@id='productDetailsList']/li[2]
             pattern: !ruby/regexp '/0 Units in Stock/'
         - value: in_stock
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 2600 36th St, Parkersburg, WV 26102
     lowranceprecisionfirearms.com/product_link:
       $key: globals/product_link
       xpath: //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a

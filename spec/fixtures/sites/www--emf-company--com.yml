@@ -65,6 +65,12 @@ registrations:
         - find_by_xpath:
             xpath: //div[@class='pcPageNav']/a
             pattern: !ruby/regexp '/Knives|Books/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705
     www.emf-company.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='pcShowProductName']/a

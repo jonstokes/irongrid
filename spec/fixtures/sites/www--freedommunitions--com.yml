@@ -47,6 +47,12 @@ registrations:
             label: Ammunition
             pattern: !ruby/regexp '/.*/'
         - value: Ammunition
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 17482-B Northwest Freeway, Jersey Village, TX 77040-1024
     www.freedommunitions.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='itemcontainer']/div[@class='item']//a

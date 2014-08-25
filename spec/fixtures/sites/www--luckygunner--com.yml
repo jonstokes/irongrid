@@ -67,6 +67,12 @@ registrations:
             label: Ammunition
             xpath: //div[@class='breadcrumbs']/ul/li[3]/a
             pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 448 N Cedar Bluff Rd, Knoxville, TN 37923
     www.luckygunner.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='product-shop']/h2[@class='product-name']/a

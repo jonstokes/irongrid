@@ -48,6 +48,12 @@ registrations:
             label: Accessories
             xpath: .//Category
             pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 872 Country Ln, Farmington, UT 84025
 affiliate_link_tag:
 affiliate_program:
 product_session_format: {}

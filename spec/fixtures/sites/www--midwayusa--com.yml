@@ -64,6 +64,12 @@ registrations:
             xpath: //div[@id='product_content']/div[@id='breadcrumbs']
             pattern: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Reloading|Shooting
               Gear/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 5875 West Van Horn Tavern Rd, Columbia, MO 65203-9274
     www.midwayusa.com/product_link:
       $key: globals/product_link
       xpath: //div[@id='products']/ol[@id='prodlist']/li[@class='prodlistitem list']//a[@class='description']

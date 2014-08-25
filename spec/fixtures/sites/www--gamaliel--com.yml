@@ -84,6 +84,10 @@ registrations:
             label: Guns
             xpath: //ul[@id='detail_info_sf']/li[@id='detail_info_type']
             pattern: !ruby/regexp '/Guns/i'
+        type:
+        - value: RetailListing
+        location:
+        - value: 1497 Fountain Run Road, Gamaliel, Kentucky 42140
     www.gamaliel.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='thumb']/a

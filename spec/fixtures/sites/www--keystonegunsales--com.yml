@@ -48,6 +48,12 @@ registrations:
         - find_by_xpath:
             xpath: /html/body/div[@id='container']/div[@id='content']/h1
             pattern: !ruby/regexp '/Product not found/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: Keystone Gun SalesCarlisle, PA, 17013
     www.keystonegunsales.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='name']/a

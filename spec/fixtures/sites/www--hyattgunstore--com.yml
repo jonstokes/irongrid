@@ -47,6 +47,7 @@ registrations:
             label: New
             xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
             pattern: !ruby/regexp '/new/i'
+        - value: new
         product_category1:
         - label_by_xpath:
             label: Guns
@@ -83,6 +84,10 @@ registrations:
         - find_by_xpath:
             xpath: //div[@id="page-container"]/div[@id="page-container2"]/div[@id="content-container"]/div[@id="content-container2"]/div[@id="center"]/div[@id="center-main"]/h3
             pattern: !ruby/regexp '/Unavailable product/'
+        type:
+        - value: RetailListing
+        location:
+        - value: 3332 Wilkinson Blvd Charlotte, NC 28208
     www.hyattgunstore.com/product_link:
       $key: globals/product_link
       xpath: //div[@id='content-container']/div[@id='content-container2']/div[@id='center']/div[@id='center-main']/div[@class='dialog prodlist']/div[@class='content']//a

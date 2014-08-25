@@ -64,6 +64,8 @@ registrations:
         - find_by_xpath:
             xpath: //div[@class="message error"]/div[@class="message-content"]
             pattern: !ruby/regexp '/This listing been flagged as a scam/i'
+        type:
+        - value: ClassifiedListing
     www.armslist.com/product_link:
       $key: globals/product_link
       xpath: //item/link

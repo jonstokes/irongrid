@@ -64,6 +64,10 @@ registrations:
             label: Optics
             xpath: //div[@id="ProductBreadcrumb"]/ul/li[3]
             pattern: !ruby/regexp '/Scopes|Optics/i'
+        type:
+        - value: RetailListing
+        location:
+        - value: '13497 U.S. 183 #350  Austin, TX 78750'
     www.theonlinegunshop.com/product_link:
       $key: globals/product_link
       xpath: //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a

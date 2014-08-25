@@ -86,6 +86,8 @@ registrations:
             label: Ammunition
             xpath: //div[@class="breadCrumbs"]/a[3]
             pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        type:
+        - value: AuctionListing
     www.gunauction.com/product_link:
       $key: globals/product_link
       xpath: //a[@class="lblk"]

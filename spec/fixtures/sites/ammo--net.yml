@@ -43,6 +43,14 @@ registrations:
         product_manufacturer:
         - find_by_xpath:
             xpath: .//g:brand
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        product_category1:
+        - value: Ammunition
+        location:
+        - value: Atlanta, GA 30348
 affiliate_link_tag:
 affiliate_program:
 product_session_format: {}

@@ -45,6 +45,12 @@ registrations:
             label: Accessories
             xpath: .//Category
             pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 7035 High Tech Dr, Midvale, UT 84047
 affiliate_link_tag:
 affiliate_program:
 product_session_format: {}

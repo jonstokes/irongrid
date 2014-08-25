@@ -103,6 +103,8 @@ registrations:
             xpath: //td[@class='breadcrumbs']/a[3]
             pattern: !ruby/regexp '/Gunsmith|Holsters|Laser|Reloading|Slings|Stocks|Stock
               Pads|Software|Cleaning|Cases|Parts|Safes|Sights|Accessories|Actions|Barrels|Bayonets|Chokes|Clips|Magazines/i'
+        type:
+        - value: ClassifiedListing
     www.gunsinternational.com/product_link:
       $key: globals/product_link
       xpath: //tr/td[2]/table[1]//tr/td[1]/a

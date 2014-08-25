@@ -98,6 +98,12 @@ registrations:
             label: Guns
             xpath: //h3/a
             pattern: !ruby/regexp '/How to buy this firearm online/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 502 N. Division St., Carson City, NV 89703
     personalsecurityzone.com/product_link:
       $key: globals/product_link
       xpath: //h3/a
