@@ -36,15 +36,15 @@ class ParserTest < ActiveRecord::Base
   end
 
   def fetch_page
-    domain = seller_domain || URI(url).host
-    key = Digest::MD5.hexdigest(url)
-    ScrapePageWorker.new.perform(
+    domain = seller_domain || URI(source_location).host
+    key = Digest::MD5.hexdigest(source_location)
+    result = ScrapePageWorker.new.perform(
       domain:      domain,
-      url:         url,
+      url:         source_location,
       site_source: :git,
       site_pool:   :validator
     )
-    @scraper = Scrape.find(key)
+    @scraper = Scrape.new(result.to_h.merge(domain: domain, url: url))
   end
 
   def source_location

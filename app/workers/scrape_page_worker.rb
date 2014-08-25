@@ -40,6 +40,7 @@ class ScrapePageWorker < CoreWorker
       msg = LinkMessage.new(url: url, page_not_found: true)
     end
     ValidatorQueue.add(jid, msg.to_h)
+    msg
   end
 
   def scrape_page(url)

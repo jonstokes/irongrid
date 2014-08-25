@@ -74,8 +74,16 @@ def print_errors(pt)
 
   puts "### Errors:"
   pt.scrape_errors.each do |error|
-    puts "  JSON: #{error[:pt]}"
-    puts "  Page: #{error[:page]}"
+    if error[:pt].is_a?(String)
+      puts "  JSON: #{error[:pt][0..500]}"
+    else
+      puts "  JSON: #{error[:pt]}"
+    end
+    if error[:page].is_a?(String)
+      puts "  Page: #{error[:page][0..500]}"
+    else
+      puts "  Page: #{error[:page]}"
+    end
   end
 end
 
@@ -101,6 +109,7 @@ end
 desc "Check test listings for errors"
 task :check_test_listings => :environment do
   ParserTest.all.each do |pt|
+    puts "Checking [#{pt.id}]#{pt.url}"
     check_parser_test(pt)
   end
 end
