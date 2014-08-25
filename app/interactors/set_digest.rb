@@ -33,6 +33,7 @@ class SetDigest
         digest_string << "#{context[attribute]}"
       end
     end
+    puts "## Digest string: #{digest_string}"
     Digest::MD5.hexdigest(digest_string)
   end
 
