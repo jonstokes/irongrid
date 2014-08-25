@@ -41,7 +41,7 @@ class ParserTest < ActiveRecord::Base
     result = ScrapePageWorker.new.perform(
       domain:      domain,
       url:         source_location,
-      site_source: :git,
+      site_source: :local,
       site_pool:   :validator
     )
     @scraper = Scrape.new(result.to_h.merge(domain: domain, url: url))
