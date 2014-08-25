@@ -20,7 +20,7 @@ def check_listing_data(pt)
     if value && pt.scraper.listing.nil?
       pt.scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: nil listing" }
     elsif value != pt.scraper.listing[attr]
-      next if %w(url digest).include?(attr)
+      next if %w(url digest image_download_attempted seller_domain).include?(attr)
       pt.scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: #{pt.scraper.listing[attr]}" }
     end
   end
@@ -34,7 +34,7 @@ def check_item_data(pt)
     elsif ElasticSearchObject.is_object_in_index?(attr)
       check_es_object(pt, attr, value)
     elsif value != pt.scraper.listing['item_data'][attr]
-      next if %w(description keywords).include?(attr)
+      next if %w(description keywords image_download_attempted seller_domain).include?(attr)
       pt.scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: #{pt.scraper.listing['item_data'][attr]}" }
     end
   end
