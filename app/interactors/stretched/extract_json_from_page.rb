@@ -26,7 +26,7 @@ module Stretched
 
     def run_json_setters(instance, node)
       runner = Script.runner
-      runner.set_context(context)
+      runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
       read_with_json(
         node: node,
         runner: runner,
@@ -38,7 +38,7 @@ module Stretched
       return instance unless adapter.scripts
       adapter.scripts.each do |script_name|
         runner = Script.runner(script_name)
-        runner.set_context(context)
+        runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
         instance = read_with_script(
           node: node,
           runner: runner,
@@ -61,7 +61,7 @@ module Stretched
             result = runner.send(setter)
           end
           result = runner.filters(result, setter["filters"]) if setter["filters"]
-          next unless result.present?
+          next unless result = clean_up(result)
           instance[attribute_name] = result
         end
       end
@@ -78,6 +78,11 @@ module Stretched
       end
 
       instance
+    end
+
+    def clean_up(result)
+      result = result.strip.squeeze(" ") rescue nil
+      result.present? ? result : nil
     end
 
   end
