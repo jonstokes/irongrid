@@ -23,7 +23,8 @@ describe ValidateListing do
     it "passes a valid listing" do
       result = ValidateListing.perform(
         listing_json: @listing_json,
-        site: @site
+        site: @site,
+        auction_ends: Time.now + 5.days
       )
       expect(result.success?).to be_true
     end
@@ -32,7 +33,8 @@ describe ValidateListing do
       @listing_json.valid = false
       result = ValidateListing.perform(
         listing_json: @listing_json,
-        site: @site
+        site: @site,
+        auction_ends: Time.now + 5.days
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
@@ -40,10 +42,10 @@ describe ValidateListing do
 
     it "fails an ended auction" do
       @listing_json.type = "AuctionListing"
-      @listing_json.auction_ended = "#{Time.now - 1.day}"
       result = ValidateListing.perform(
         listing_json: @listing_json,
-        site: @site
+        site: @site,
+        auction_ends: Time.now - 1.day
       )
 
       expect(result.success?).to be_false

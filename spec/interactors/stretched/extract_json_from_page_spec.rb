@@ -58,7 +58,7 @@ describe Stretched::ExtractJsonFromPage do
       expect(listing['keywords']).to include("Ruger, 3470")
       expect(listing['location']).to eq("1105 Industry Road Lexington, KY 40505")
       expect(listing['image']).to eq("http://www.budsgunshop.com/catalog/images/69980_1.jpg")
-      expect(listing['product_caliber']).to eq("Caliber   410/45 Long Colt")
+      expect(listing['product_caliber']).to include("Long Colt")
       expect(listing['sale_price_in_cents']).to eq("$411.00")
     end
 
@@ -84,7 +84,7 @@ describe Stretched::ExtractJsonFromPage do
       expect(listing['title']).to include("Ruger 3470 SR40 15+1 40S&")
       expect(listing['type']).to eq("RetailListing")
       expect(listing['image']).to eq("http://www.budsgunshop.com/catalog/images/69980_1.jpg")
-      expect(listing['product_caliber']).to eq("410/45 Long Colt")
+      expect(listing['product_caliber']).to include("Long Colt")
       expect(listing['location']).to be_nil
     end
 
@@ -111,7 +111,7 @@ describe Stretched::ExtractJsonFromPage do
       expect(listing['type']).to eq("RetailListing")
       expect(listing['location']).to eq("1105 Industry Road Lexington, KY 40505")
       expect(listing['image']).to eq("http://www.budsgunshop.com/catalog/images/69980_1.jpg")
-      expect(listing['product_caliber']).to eq("410/45 Long Colt")
+      expect(listing['product_caliber']).to include("410/45 Long Colt")
       expect(listing['sale_price_in_cents']).to eq(41100)
     end
 
