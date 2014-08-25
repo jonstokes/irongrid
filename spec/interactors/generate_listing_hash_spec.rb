@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe GenerateListingHash do
   it "generates a hash that can be used to create a listing" do
-    site = create_site "www.hyattgunstore.com", source: :local
+    site = create_site "www.hyattgunstore.com"
     opts = {
       adapter: site.page_adapter,
       digest: "a0b57db0491562882035e833183d44bb",
