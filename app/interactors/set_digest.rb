@@ -33,7 +33,6 @@ class SetDigest
         digest_string << "#{context[attribute]}"
       end
     end
-    puts "## Digest string: #{digest_string}"
     Digest::MD5.hexdigest(digest_string)
   end
 
@@ -51,7 +50,7 @@ class SetDigest
     when "AuctionListing"
       DEFAULT_DIGEST_ATTRIBUTES + %w(auction_ends)
     when "RetailListing"
-      DEFAULT_DIGEST_ATTRIBUTES + %w(price_in_cents sale_price_in_cents price_on_request stock_status)
+      DEFAULT_DIGEST_ATTRIBUTES + %w(price_in_cents sale_price_in_cents price_on_request availability)
     when "ClassifiedListing"
       DEFAULT_DIGEST_ATTRIBUTES + %w(sale_price_in_cents price_in_cents)
     end
