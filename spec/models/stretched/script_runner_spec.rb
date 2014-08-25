@@ -11,7 +11,7 @@ describe Stretched::ScriptRunner do
       script = Stretched::Script.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/product_page.rb").first
       runner = Stretched::Script.runner(script.key)
       instance = Hashie::Mash.new
-      runner.set_context(page: {'price' => 100})
+      runner.set_context(page: {'price' => 100}, doc: Nokogiri::HTML::Document.new)
       runner.attributes.each do |attribute_name, value|
         result = value.is_a?(Proc) ? value.call(instance) : value
         instance[attribute_name] = result
