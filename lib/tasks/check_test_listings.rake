@@ -120,6 +120,14 @@ task :check_test_listing => :environment do
   check_parser_test(pt)
 end
 
+task :overwrite_parser_tests => :environment do
+  ParserTest.all.each do |pt|
+    pt.fetch_page
+    pt.listing_data = pt.scraper.not_found? ? nil : pt.scraper.listing
+    pt.save
+  end
+end
+
 desc "Check image urls"
 task :check_image_urls => :environment do
   ParserTest.all.each do |pt|
