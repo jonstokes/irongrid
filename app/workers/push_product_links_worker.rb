@@ -18,10 +18,11 @@ class PushProductLinksWorker < CoreWorker
     @urls = Set.new
     @session_q = SessionQueue.new(domain)
     @object_q = ObjectQueue.new(domain)
+    true
   end
 
   def perform
-    return false unless init(opts)
+    return unless init(opts)
     while !timed_out? && !finished? && obj = @object_q.pop
       @urls.push obj.object[:product_link]
     end
