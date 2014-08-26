@@ -35,9 +35,8 @@ describe ParseJson do
       listing = result.json_objects.first[:object]
 
       result = ParseJson.perform(
-        site: site,
         page: Hashie::Mash.new(page.to_hash),
-        listing_json: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing)
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
@@ -62,9 +61,8 @@ describe ParseJson do
       listing = result.json_objects.first[:object]
 
       result = ParseJson.perform(
-        site: site,
         page: Hashie::Mash.new(page.to_hash),
-        listing_json: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing)
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -105,9 +103,8 @@ describe ParseJson do
       listing = result.json_objects.first[:object]
 
       result = ParseJson.perform(
-        site: site,
         page: Hashie::Mash.new(page.to_hash),
-        listing_json: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing)
       )
 
       expect(result.success?).to be_true
@@ -144,9 +141,8 @@ describe ParseJson do
       listing = result.json_objects.first[:object]
 
       result = ParseJson.perform(
-        site: site,
         page: Hashie::Mash.new(page.to_hash),
-        listing_json: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing)
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -186,9 +182,8 @@ describe ParseJson do
       listing = result.json_objects.first[:object]
 
       result = ParseJson.perform(
-        site: site,
         page: Hashie::Mash.new(page.to_hash),
-        listing_json: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing)
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -219,9 +214,8 @@ describe ParseJson do
       listing = result.json_objects.first[:object]
 
       result = ParseJson.perform(
-        site: site,
         page: Hashie::Mash.new(page.to_hash),
-        listing_json: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing)
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
