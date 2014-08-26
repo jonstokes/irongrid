@@ -1,73 +1,53 @@
 class PushProductLinksWorker < CoreWorker
-  include TimeOut
+  include Trackable
 
-    attr_accessor :domain, :timer
-    delegate :timed_out?, to: :timer
+  LOG_RECORD_SCHEMA = {
+    objects_deleted: Integer,
+    session_created: Integer,
+    transition:      String,
+    next_jid:        String
+  }
+
+  attr_accessor :domain, :timer
+  delegate :timed_out?, to: :timer
 
   def init(opts)
     return false unless opts && @domain = opts[:domain]
     @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
+    @urls = Set.new
     @session_q = SessionQueue.new(domain)
     @object_q = ObjectQueue.new(domain)
   end
 
   def perform
     return false unless init(opts)
-    while !timed_out? && link = @object_q.pop
+    while !timed_out? && !finished? && obj = @object_q.pop
+      @urls.push obj.object[:product_link]
+    end
+    transition
+  ensure
+    @session_q.push new_session
+  end
 
-      session_q.push(
-        queue: queue,
-        session_definition: session_definition(link),
-        object_adapters: object_adapters(link),
-        urls: urls(link)
-      )
+  def transition
+    if @session_q.any?
+      next_jid = self.class.perform_async(domain: domain)
+      record_set(:transition, "#{self.class.to_s}")
+      record_set(:next_jid, next_jid)
     end
   end
 
-  def product_session_format
-    return {} unless page_adapter
+  def finished?
+    @urls.size >= 300
+  end
+
+  def new_session
     {
       'queue' => domain,
-      'session_definition' => session_def(adapter_format),
-      'object_adapters' => [ "#{domain}/product_page" ]
-    }
-  end
-
-  def sessions
-    @sessions ||= begin
-      session_list = []
-      url_list = []
-      urls.each do |url|
-        if url_count(url_list) >= 300
-          session_list << session_hash(url_list)
-          url_list = []
-        else
-          url_list << url
-        end
-      end
-      session_list << session_hash(url_list)
-      session_list
-    end
-  end
-
-  def url_count(url_list)
-    count = 0
-    url_list.each do |url|
-      if url['start_at_page']
-        count += url['stop_at_page']
-      else
-        count += 1
-      end
-    end
-    count
-  end
-
-  def session_hash(url_list)
-    {
-      'queue' => domain,
-      'session_definition' => session_def(feed_format),
+      'session_definition' => session_definition,
       'object_adapters' => adapters_for_sessions,
-      'urls' => url_list
+      'urls' => @urls.to_a
     }
   end
+
 end
