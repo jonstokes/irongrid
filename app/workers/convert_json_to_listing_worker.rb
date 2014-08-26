@@ -1,6 +1,9 @@
 class ConvertJsonToListingWorker < CoreWorker
   include Trackable
 
+  attr_accessor :domain, :timer
+  delegate :timed_out?, to: :timer
+
   LOG_RECORD_SCHEMA = {
     db_writes:       Integer,
     objects_deleted: Integer,
@@ -14,11 +17,10 @@ class ConvertJsonToListingWorker < CoreWorker
 
   def init(opts)
     opts.symbolize_keys!
-    return false unless opts
-
-    @object_queue = ObjectQueue.find("Listing")
+    return false unless opts && @domain = opts[:domain]
+    @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
+    @object_queue = ObjectQueue.find(domain)
     return false unless @object_queue.any?
-
     @counter = 100
     track
     true
@@ -27,7 +29,7 @@ class ConvertJsonToListingWorker < CoreWorker
   def perform(opts)
     return unless opts && init(opts)
 
-    while !finished && json = @object_queue.pop do
+    while !timed_out? && json = @object_queue.pop do
       result = ParseJson.perform(json)
       msg = convert_to_link_message(result)
       WriteListingWorker.perform_async(msg.to_h)

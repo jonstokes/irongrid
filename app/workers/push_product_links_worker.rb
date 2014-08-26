@@ -1,16 +1,19 @@
 class PushProductLinksWorker < CoreWorker
+  include TimeOut
 
-  attr_accessor :domain
+    attr_accessor :domain, :timer
+    delegate :timed_out?, to: :timer
 
   def init(opts)
     return false unless opts && @domain = opts[:domain]
+    @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @session_q = SessionQueue.new(domain)
     @object_q = ObjectQueue.new(domain)
   end
 
   def perform
     return false unless init(opts)
-    while !finished? && link = @object_q.pop
+    while !timed_out? && link = @object_q.pop
 
       session_q.push(
         queue: queue,
