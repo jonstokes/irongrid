@@ -29,7 +29,6 @@ describe ConvertJsonToListingWorker do
       response_time: 100
     }
     @listing_json = {
-      "seller_domain"       => @site.domain,
       "valid"               => true,
       "condition"           =>"new",
       "type"                =>"RetailListing",
