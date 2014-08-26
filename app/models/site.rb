@@ -19,21 +19,13 @@ class Site < LegacySite
     :affiliate_link_tag,
     :affiliate_program,
     :digest_attributes,
-    :registrations
+    :registrations,
+    :product_session_format
   ]
 
   SITE_ATTRIBUTES.each do |key|
     define_method key do
       @site_data[key]
-    end
-  end
-
-  def self.write_all
-    domains = YAML.load_file("#{Rails.root}/spec/fixtures/sites/manifest.yml")
-    domains.each do |domain|
-      puts "Writing file for #{domain}..."
-      next unless site = Site.new(domain: domain, source: :local) rescue nil
-      site.write_yaml
     end
   end
 

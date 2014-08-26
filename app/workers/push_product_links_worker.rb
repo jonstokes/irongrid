@@ -3,7 +3,7 @@ class PushProductLinksWorker < CoreWorker
 
   LOG_RECORD_SCHEMA = {
     objects_deleted: Integer,
-    urls_added:      Integer,
+    sessions_pushed: Integer,
     transition:      String,
     next_jid:        String
   }
@@ -14,22 +14,23 @@ class PushProductLinksWorker < CoreWorker
   def init(opts)
     return false unless opts && domain = opts[:domain]
     @site = Site.new(domain: domain)
-    @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
+    @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @urls = Set.new
-    @session_q = SessionQueue.new(site.domain)
-    @object_q = ObjectQueue.new("#{site.domain}/product_linkd")
+    @session_q = Stretched::SessionQueue.find_or_create(site.domain)
+    @object_q = Stretched::ObjectQueue.find_or_create("#{site.domain}/product_links")
+    track
     true
   end
 
-  def perform
+  def perform(opts)
     return unless init(opts)
     while !timed_out? && !finished? && obj = @object_q.pop
-      @urls.push obj.object[:product_link]
+      @urls << obj.object.product_link
     end
     record_set :objects_deleted, (300 - @urls.size)
+    record_set :sessions_pushed, @session_q.push(new_session).count
     transition
-  ensure
-    record_set :urls_added, @session_q.push(new_session)
+    stop_tracking
   end
 
   def transition
@@ -48,7 +49,11 @@ class PushProductLinksWorker < CoreWorker
   end
 
   def new_session
-    site.product_session_format.merge('urls' => @urls)
+    site.product_session_format.merge('urls' => url_list)
+  end
+
+  def url_list
+    @urls.to_a.map { |url| { url: url } }
   end
 
 end

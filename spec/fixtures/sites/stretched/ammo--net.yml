@@ -58,7 +58,7 @@ site:
                 xpath: .//g:brand
   sessions:
     - queue: ammo.net
-      session_definition: global/standard_xml_session
+      session_definition: globals/standard_xml_session
       object_adapters: [ ammo.net/product_feed ]
       urls:
         - url: https://ammo.net/media/feeds/genericammofeed.xml

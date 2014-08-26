@@ -41,6 +41,7 @@ class ConvertJsonToListingWorker < CoreWorker
     end
 
     transition
+    stop_tracking
   end
 
   def transition

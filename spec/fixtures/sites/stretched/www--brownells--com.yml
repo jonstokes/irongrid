@@ -59,7 +59,7 @@ site:
                 pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
   sessions:
     - queue: www.brownells.com
-      session_definition: global/standard_xml_session
+      session_definition: globals/standard_xml_session
       object_adapters: [ www.brownells.com/product_feed ]
       urls:
         - url: http://brownells.com/product_feed

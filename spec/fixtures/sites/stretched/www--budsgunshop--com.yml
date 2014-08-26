@@ -165,11 +165,11 @@ site:
                 pattern: !ruby/regexp '/Doublestar Accessories/i'
   product_session_format:
     queue: www.budsgunshop.com
-    session_definition: global/standard_html_session
+    session_definition: globals/standard_html_session
     object_adapters: [ www.budsgunshop.com/product_page ]
   sessions:
     - queue: www.budsgunshop.com
-      session_definition: global/standard_html_session
+      session_definition: globals/standard_html_session
       object_adapters: [ www.budsgunshop.com/product_link ]
       urls:
         - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1

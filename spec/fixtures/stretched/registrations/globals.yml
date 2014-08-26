@@ -4,7 +4,7 @@ session_queue:
   www.brownells.com: {}
   ammo.net: {}
 rate_limit:
-  global/standard_rate_limits:
+  globals/standard_rate_limits:
     timezone: America/Chicago
     off_peak:
       start: '23:00'
@@ -15,15 +15,15 @@ rate_limit:
       duration: 17
       rate: 2
 session_definition:
-  global/standard_html_session:
+  globals/standard_html_session:
     page_format: html
-    rate_limits: global/standard_rate_limits
-  global/standard_xml_session:
+    rate_limits: globals/standard_rate_limits
+  globals/standard_xml_session:
     page_format: xml
-    rate_limits: global/standard_rate_limits
-  global/standard_dhtml_session:
+    rate_limits: globals/standard_rate_limits
+  globals/standard_dhtml_session:
     page_format: dhtml
-    rate_limits: global/standard_rate_limits
+    rate_limits: globals/standard_rate_limits
 "schema": {
   "ProductLink": {
     "title": "ProductLink",
