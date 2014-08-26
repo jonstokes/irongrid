@@ -1,7 +1,11 @@
 class PushProductLinksWorker < CoreWorker
 
-  def init(opts)
+  attr_accessor :domain
 
+  def init(opts)
+    return false unless opts && @domain = opts[:domain]
+    @session_q = SessionQueue.new(domain)
+    @object_q = ObjectQueue.new(domain)
   end
 
   def perform
