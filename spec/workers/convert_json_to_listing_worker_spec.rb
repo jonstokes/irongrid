@@ -42,13 +42,14 @@ describe ConvertJsonToListingWorker do
       "sale_price_in_cents" => "65000",
       "description"         => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
       "product_category1"   => "Guns",
-      "product_sku"         => "1911-CIT45CSPHB"
+      "product_sku"         => "1911-CIT45CSPHB",
     }
     @object = {
       session: {},
       page: @page,
       object: @listing_json
     }
+    @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
   end
 
   after :each do
@@ -58,16 +59,14 @@ describe ConvertJsonToListingWorker do
 
   describe "#perform" do
     it "pops objects from the ObjectQueue for the domain" do
-      lq = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
-      lq.add(@object)
+      @object_q.add(@object)
       @worker.perform(domain: @site.domain)
       expect(WriteListingWorker._jobs.count).to eq(1)
     end
 
     it "correctly tags a 404 link" do
-      lq = LinkMessageQueue.new(domain: @site.domain)
-      url = "http://#{@site.domain}/4"
-      lq.add(LinkMessage.new(url: url))
+      @object[:page].merge!(body: false, code: 404)
+      @object_q.add(@object)
       @worker.perform(domain: @site.domain)
       expect(WriteListingWorker._jobs.count).to eq(1)
       job = WriteListingWorker._jobs.first
@@ -75,18 +74,28 @@ describe ConvertJsonToListingWorker do
       expect(msg.page_not_found?).to be_true
     end
 
-    it "correctly tags a classified_sold link in redis" do
-      pending "Example"
-    end
-
     it "correctly tags a not_found link in redis" do
-      pending "Example"
+      @object[:object] = {
+        "seller_domain" => @site.domain,
+        "not_found"     => true,
+        "title"         => "Title"
+      }
+      @object_q.add(@object)
+      @worker.perform(domain: @site.domain)
+      expect(WriteListingWorker._jobs.count).to eq(1)
+      job = WriteListingWorker._jobs.first
+      msg = LinkMessage.new(job["args"].first)
+      expect(msg.page_not_found?).to be_true
     end
 
     it "correctly tags an invalid link in redis" do
-      lq = LinkMessageQueue.new(domain: @site.domain)
-      url = "http://#{@site.domain}/4"
-      lq.add(LinkMessage.new(url: url))
+      @object[:object] = {
+        "seller_domain" => @site.domain,
+        "not_found"     => false,
+        "valid"         => false,
+        "title"         => "Title"
+      }
+      @object_q.add(@object)
       @worker.perform(domain: @site.domain)
       expect(WriteListingWorker._jobs.count).to eq(1)
       job = WriteListingWorker._jobs.first
@@ -95,57 +104,20 @@ describe ConvertJsonToListingWorker do
     end
 
     it "correctly tags a valid link in redis" do
-      lq = LinkMessageQueue.new(domain: @site.domain)
-      url = "http://#{@site.domain}/1"
-      lq.add(LinkMessage.new(url: url))
+      @object_q.add(@object)
       @worker.perform(domain: @site.domain)
       expect(WriteListingWorker._jobs.count).to eq(1)
       job = WriteListingWorker._jobs.first
       msg = LinkMessage.new(job["args"].first)
       expect(msg.page_is_valid?).to be_true
-      expect(msg.page_attributes["digest"]).to eq("0d44f30c1c686ad62728ee7952a99d04")
-    end
-
-    it "sends a :dirty_only directive to WriteListingsWorker if the digest is unchanged" do
-      Sidekiq::Testing.fake! do
-        lq = LinkMessageQueue.new(domain: @site.domain)
-        msg = LinkMessage.new(url: "http://#{@site.domain}/1")
-        lq.add(msg)
-        @worker.perform(domain: @site.domain)
-        job = WriteListingWorker.jobs.first
-        msg = LinkMessage.new(job["args"].first)
-        expect(msg.page_is_valid?).to be_true
-        expect(msg.page_attributes["digest"]).to eq("0d44f30c1c686ad62728ee7952a99d04")
-        WriteListingWorker.drain
-        listing = Listing.all.first
-        expect(listing.digest).to eq("0d44f30c1c686ad62728ee7952a99d04")
-
-        msg = LinkMessage.new(listing)
-        lq.add(msg)
-        ScrapePagesWorker.new.perform(domain: @site.domain)
-        job = WriteListingWorker.jobs.first
-        msg = LinkMessage.new(job["args"].first)
-        expect(msg.dirty_only?).to be_true
-      end
-    end
-
-    it "marks as not_found any link for a site with no page_adapter" do
-      site = create_site "ammo.net", source: :local
-      lq = LinkMessageQueue.new(domain: site.domain)
-      msg = LinkMessage.new(url: "http://#{site.domain}/1")
-      lq.add(msg)
-      @worker.perform(domain: site.domain)
-      job = WriteListingWorker._jobs.first
-      msg = LinkMessage.new(job["args"].first)
-      expect(msg.page_not_found?).to be_true
+      expect(msg.page_attributes["digest"]).to eq("21831cde9254c9100fa5a8b2895d4b98")
     end
 
     describe "where image_source exists on CDN already" do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
-        url = "http://#{@site.domain}/1"
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
         CDN::Image.create(source: image_source, http: PageUtils::HTTP.new)
-        LinkMessageQueue.new(domain: @site.domain).add(LinkMessage.new(url: url))
+        @object_q.add(@object)
         @worker.perform(domain: @site.domain)
         job = WriteListingWorker._jobs.first
         msg = LinkMessage.new(job["args"].first)
@@ -159,9 +131,8 @@ describe ConvertJsonToListingWorker do
 
     describe "where image_source does not exist on CDN already" do
       it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
-        url = "http://#{@site.domain}/1"
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
-        LinkMessageQueue.new(domain: @site.domain).add(LinkMessage.new(url: url))
+        @object_q.add(@object)
         @worker.perform(domain: @site.domain)
         job = WriteListingWorker._jobs.first
         msg = LinkMessage.new(job["args"].first)
@@ -175,29 +146,12 @@ describe ConvertJsonToListingWorker do
   end
 
   describe "#transition" do
-    it "transitions to self if it times out while the site's LinkMessageQueue is not empty" do
-      lq = LinkMessageQueue.new(domain: @site.domain)
-      links = (1..10).map { |i| LinkMessage.new(url: "http://www.retailer.com/#{i}") }
-      lq.add links
-      @worker.perform(domain: @site.domain, timeout: 5)
-      expect(lq.size).not_to be_zero
-      expect(ScrapePagesWorker._jobs.count).to eq(1)
+    it "transitions to self if it times out while the site's ObjectQueue is not empty" do
+      pending "Example"
     end
 
-    it "transitions to RefreshLinksWorker if the site's LinkMessageQueue is empty and the site should be read again" do
-      lq = LinkMessageQueue.new(domain: @site.domain)
-      links = (1..10).map { |i| LinkMessage.new(url: "http://www.retailer.com/#{i}") }
-      lq.add links
-      @site.update(read_interval: 0, read_at: 10.days.ago)
-      @worker.perform(domain: @site.domain)
-      expect(lq.size).to be_zero
-      expect(RefreshLinksWorker._jobs.count).to eq(1)
-    end
-
-    it "does not transition to RefreshLinksWorker if the site's LinkMessageQueue is empty and the site should not be read again" do
-      @site.update(read_interval: 100000)
-      @worker.perform(domain: @site.domain)
-      expect(RefreshLinksWorker._jobs.count).to be_zero
+    it "does not transition to self if the site's ObjectQueue is empty" do
+      pending "Example"
     end
   end
 

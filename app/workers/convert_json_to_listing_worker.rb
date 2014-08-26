@@ -31,9 +31,10 @@ class ConvertJsonToListingWorker < CoreWorker
     return unless opts && init(opts)
 
     while !timed_out? && json = @object_queue.pop do
-      result = ParseJson.perform(json)
-      msg = convert_to_link_message(result)
-      WriteListingWorker.perform_async(msg)
+      scraper = ParseJson.perform(json)
+      update_image(scraper) if scraper.is_valid?
+      msg = LinkMessage.new(scraper)
+      WriteListingWorker.perform_async(msg.to_h)
       record_incr(:db_writes)
     end
 
@@ -48,17 +49,4 @@ class ConvertJsonToListingWorker < CoreWorker
     end
   end
 
-  def convert_to_link_message(scraper)
-    msg = { url: scraper.listing['url'] }
-    unless scraper.not_found?
-      update_image(scraper) if scraper.is_valid?
-      msg.merge(
-        page_is_valid:   scraper.is_valid?,
-        page_not_found:  scraper.not_found?,
-        page_attributes: scraper.listing
-      )
-    else
-      msg.merge(page_not_found: true)
-    end
-  end
 end
