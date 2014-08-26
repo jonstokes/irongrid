@@ -12,12 +12,12 @@ class PushProductLinksWorker < CoreWorker
   delegate :timed_out?, to: :timer
 
   def init(opts)
-    return false unless opts && @domain = opts[:domain]
-    @site = Site.new(domain: @domain)
+    return false unless opts && domain = opts[:domain]
+    @site = Site.new(domain: domain)
     @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @urls = Set.new
-    @session_q = SessionQueue.new(domain)
-    @object_q = ObjectQueue.new("#{domain}/product_link")
+    @session_q = SessionQueue.new(site.domain)
+    @object_q = ObjectQueue.new("#{site.domain}/product_linkd")
     true
   end
 
@@ -34,10 +34,10 @@ class PushProductLinksWorker < CoreWorker
 
   def transition
     if @session_q.any?
-      next_jid = self.class.perform_async(domain: domain)
+      next_jid = self.class.perform_async(domain: site.domain)
       record_set(:transition, "#{self.class.to_s}")
     else
-      next_jid = ConvertJsonToListingWorker.perform_in(20.minutes, domain)
+      next_jid = ConvertJsonToListingWorker.perform_in(20.minutes, site.domain)
       record_set(:transition, "ConvertJsonToListingWorker")
     end
     record_set(:next_jid, next_jid)
