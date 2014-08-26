@@ -8,12 +8,8 @@ describe Stretched::ExtractJsonFromPage do
     @product_url = "http://#{@domain}/products/1"
 
     Stretched::Registration.with_redis { |c| c.flushdb }
-    Stretched::Extension.register_from_file("spec/fixtures/stretched/registrations/extensions/conversions.rb")
+    register_stretched_globals
     Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
-    Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/globals/conversions.rb")
-    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
-    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
-    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/globals.yml")
     Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
   end
 
