@@ -8,11 +8,12 @@ class PushProductLinksWorker < CoreWorker
     next_jid:        String
   }
 
-  attr_accessor :domain, :timer
+  attr_accessor :domain, :timer, :site
   delegate :timed_out?, to: :timer
 
   def init(opts)
     return false unless opts && @domain = opts[:domain]
+    @site = Site.new(domain: @domain)
     @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @urls = Set.new
     @session_q = SessionQueue.new(domain)
@@ -42,12 +43,7 @@ class PushProductLinksWorker < CoreWorker
   end
 
   def new_session
-    {
-      'queue' => domain,
-      'session_definition' => session_definition,
-      'object_adapters' => adapters_for_sessions,
-      'urls' => @urls.to_a
-    }
+    site.product_session_format.merge('urls' => @urls)
   end
 
 end
