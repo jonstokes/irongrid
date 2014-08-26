@@ -1,10 +1,15 @@
 require 'spec_helper'
 
 describe ValidateListingPresence do
+
+  before :each do
+    create_site "www.retailer.com"
+  end
+
   describe "#perform" do
     it "returns true if the page was found" do
       json = Hashie::Mash.new(
-        listing_json: {},
+        object: { seller_domain: "www.retailer.com" },
         page: {
           fetched: true,
           body: true,
@@ -17,7 +22,7 @@ describe ValidateListingPresence do
 
     it "returns false if the page was not found" do
       json = Hashie::Mash.new(
-        listing_json: {},
+        object: { seller_domain: "www.retailer.com" },
         page: {
           fetched: false,
           body: false,
@@ -30,7 +35,8 @@ describe ValidateListingPresence do
 
     it "returns false if the listing was not found" do
       json = Hashie::Mash.new(
-        listing_json: {
+        object: {
+          seller_domain: "www.retailer.com",
           not_found: true
         },
         page: {

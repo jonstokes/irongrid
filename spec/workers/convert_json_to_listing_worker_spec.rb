@@ -3,19 +3,52 @@ require 'sidekiq/testing'
 
 describe ConvertJsonToListingWorker do
   before :each do
+    # Sidekiq
     Sidekiq::Testing.disable!
     clear_sidekiq
 
+    # Stretched
+    Stretched::Registration.with_redis { |c| c.flushdb }
+    register_stretched_globals
+
+    # IronGrid
     @site = create_site "www.retailer.com"
-    @worker = ConvertJsonToListingWorker.new
     LinkMessageQueue.new(domain: @site.domain).clear
     ImageQueue.new(domain: @site.domain).clear
-    @page = {
-      body: true,
-      fetched: true,
-      headers: ""
-    }
     CDN.clear!
+
+    # Vars
+    @worker = ConvertJsonToListingWorker.new
+    @page = {
+      url:     "http://#{@site.domain}/1",
+      headers: "",
+      code:    200,
+      body:    true,
+      error:   nil,
+      fetched: true,
+      response_time: 100
+    }
+    @listing_json = {
+      "seller_domain"       => @site.domain,
+      "valid"               => true,
+      "condition"           =>"new",
+      "type"                =>"RetailListing",
+      "availability"        =>"in_stock",
+      "location"            =>"1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705",
+      "title"               => "CITADEL 1911 COMPACT .45ACP 3 1/2\" HOGUE BLACK", 
+      "keywords"            => "CITADEL 1911 COMPACT .45ACP",
+      "image"               => "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG",
+      "price_in_cents"      => "65000",
+      "sale_price_in_cents" => "65000",
+      "description"         => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
+      "product_category1"   => "Guns",
+      "product_sku"         => "1911-CIT45CSPHB"
+    }
+    @object = {
+      session: {},
+      page: @page,
+      object: @listing_json
+    }
   end
 
   after :each do
@@ -25,18 +58,9 @@ describe ConvertJsonToListingWorker do
 
   describe "#perform" do
     it "pops objects from the ObjectQueue for the domain" do
-      lq = ObjectQueue.find_or_create("#{@site.domain}/product_page")
-      url = "http://#{@site.domain}/1"
-      lq.add(
-        page: @page.merge(url: url),
-        session: {},
-        object: {
-          product_link: url
-        }
-      )
-      Stretched::Foo
+      lq = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
+      lq.add(@object)
       @worker.perform(domain: @site.domain)
-      WebMock.should have_requested(:get, "www.retailer.com/1")
       expect(WriteListingWorker._jobs.count).to eq(1)
     end
 
