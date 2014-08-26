@@ -25,7 +25,7 @@ class CreateCdnImagesWorker < CoreWorker
   def perform(opts)
     return unless opts && init(opts)
     track
-    while (image_source = @image_store.pop) && !timer.timed_out? do
+    while !timer.timed_out? && (image_source = @image_store.pop) do
       @rate_limiter.with_limit do
         CDN::Image.create(source: image_source, http: @http)
       end

@@ -36,7 +36,7 @@ class WriteListingWorker < CoreWorker
   end
 
   def existing_listing(msg, listing)
-    if msg.page_not_found? || msg.page_classified_sold?
+    if msg.page_not_found?
       db { listing.destroy }
     elsif !msg.page_is_valid?
       listing.deactivate!
@@ -67,6 +67,6 @@ class WriteListingWorker < CoreWorker
   end
 
   def dirty_only?(msg, listing)
-    msg.dirty_only? || (msg.page_attributes && (listing.digest == msg.page_attributes["digest"]))
+    msg.page_attributes && (listing.digest == msg.page_attributes["digest"])
   end
 end
