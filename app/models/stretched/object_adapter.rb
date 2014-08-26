@@ -13,7 +13,7 @@ module Stretched
     def xpath; @data["xpath"]; end
     def scripts; @data["scripts"]; end
     def attribute_setters; @data["attribute"]; end
-    def queue_name; @data['queue'] ; end
+    def queue; @data['queue'] ; end
 
   end
 end

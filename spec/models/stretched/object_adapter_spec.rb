@@ -16,6 +16,7 @@ describe Stretched::ObjectAdapter do
             "test-schema-1" => { "$key" => "Listing" }
           },
           "xpath" => "/html",
+          "queue" => "www.retailer.com",
           "scripts" => ["a", "b", "c"],
           "attribute" => { "title" => { "type" => "string"}}
         }
@@ -24,6 +25,7 @@ describe Stretched::ObjectAdapter do
       expect(registration.key).to eq("test-1")
       expect(registration.data).not_to be_empty
       expect(registration.xpath).to eq("/html")
+      expect(registration.queue).to eq("www.retailer.com")
       expect(registration.attribute_setters).to be_a(Hash)
       expect(registration.scripts).to eq(["a", "b", "c"])
       expect(registration.schema).to be_a(Stretched::Schema)

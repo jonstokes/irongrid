@@ -33,7 +33,7 @@ module Stretched
     private
 
     def add_objects_to_queue(adapter, json_objects)
-      object_q = ObjectQueue.find_or_create(adapter.queue_name)
+      object_q = ObjectQueue.find_or_create(adapter.queue)
       results = json_objects.map do |obj|
         obj.merge(
           session: {

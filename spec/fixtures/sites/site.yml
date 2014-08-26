@@ -8,8 +8,8 @@ site:
     session_queue:
       www.budsgunshop.com: {}
     object_adapter:
-      www.budsgunshop.com/product_links:
-        $key: globals/product_links # This loads global scripts manifest
+      www.budsgunshop.com/product_link:
+        $key: globals/product_link # This loads global scripts manifest
         schema: { $key: ProductLink }
         xpath: //span[@class="productListing-productname"]/a
         attribute:
@@ -171,7 +171,7 @@ site:
   sessions:
     - queue: www.budsgunshop.com
       session_definition: { $key: global/standard_html_session }
-      object_adapters: [{ $key: www.budsgunshop.com/product_links }] # Each url/page will be run through each adapter in sequence using the single session definition declared above
+      object_adapters: [{ $key: www.budsgunshop.com/product_link }] # Each url/page will be run through each adapter in sequence using the single session definition declared above
       urls:
         - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1
         - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/514/sort/6a/page/PAGENUM
@@ -189,7 +189,7 @@ site:
         $key: global/standard_html_feed_session
         read_interval: 3600
         page_format: dhtml
-      object_adapters: [{ $key: www.budsgunshop.com/product_links }]
+      object_adapters: [{ $key: www.budsgunshop.com/product_link }]
       urls:
         - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1
 

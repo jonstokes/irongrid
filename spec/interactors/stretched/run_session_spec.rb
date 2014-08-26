@@ -27,7 +27,7 @@ describe Stretched::RunSession do
           end
         end
 
-        object_q = Stretched::ObjectQueue.find_or_create "ProductLink"
+        object_q = Stretched::ObjectQueue.find_or_create "www.budsgunshop.com/product_link"
         expect(object_q.size).to be_zero
 
         ssn = Stretched::Session.new(@sessions.last.merge('key' => "abcd123"))
@@ -48,7 +48,7 @@ describe Stretched::RunSession do
           end
         end
 
-        object_q = Stretched::ObjectQueue.find_or_create "ProductLink"
+        object_q = Stretched::ObjectQueue.find_or_create "www.budsgunshop.com/product_link"
         expect(object_q.size).to be_zero
 
         ssn = Stretched::Session.new(@sessions.last)
@@ -67,7 +67,7 @@ describe Stretched::RunSession do
           end
         end
 
-        object_q = Stretched::ObjectQueue.find_or_create "ProductLink"
+        object_q = Stretched::ObjectQueue.find_or_create "www.budsgunshop.com/product_link"
         expect(object_q.size).to be_zero
 
         ssn = Stretched::Session.new(@sessions.first)
@@ -95,7 +95,7 @@ describe Stretched::RunSession do
           end
         end
 
-        object_q = Stretched::ObjectQueue.find_or_create "Listing"
+        object_q = Stretched::ObjectQueue.find_or_create "ammo.net/product_feed"
         expect(object_q.size).to be_zero
 
         ssn = Stretched::Session.new(@sessions.first)

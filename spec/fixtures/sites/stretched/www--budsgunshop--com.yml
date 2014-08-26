@@ -8,7 +8,7 @@ site:
     session_queue:
       www.budsgunshop.com: {}
     object_adapter:
-      www.budsgunshop.com/product_links:
+      www.budsgunshop.com/product_link:
         $key: globals/product_link
         xpath: //span[@class="productListing-productname"]/a
         attribute:
@@ -170,7 +170,7 @@ site:
   sessions:
     - queue: www.budsgunshop.com
       session_definition: global/standard_html_session
-      object_adapters: [ www.budsgunshop.com/product_links ]
+      object_adapters: [ www.budsgunshop.com/product_link ]
       urls:
         - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/1280/sort/6a/page/1
         - url: http://www.budsgunshop.com/catalog/index.php/manufacturers_id/514/sort/6a/page/PAGENUM
