@@ -1,7 +1,4 @@
-class ConvertJsonToListingWorker
-  include Interactor
-
-  include UpdateImage
+class ConvertJsonToListingWorker < CoreWorker
   include Trackable
 
   LOG_RECORD_SCHEMA = {
