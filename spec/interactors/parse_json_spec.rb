@@ -36,7 +36,8 @@ describe ParseJson do
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
-        object: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing),
+        site: site
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
@@ -62,7 +63,8 @@ describe ParseJson do
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
-        object: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing),
+        site: site
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -104,7 +106,8 @@ describe ParseJson do
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
-        object: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing),
+        site:site
       )
 
       expect(result.success?).to be_true
@@ -142,7 +145,8 @@ describe ParseJson do
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
-        object: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing),
+        site: site
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -183,7 +187,8 @@ describe ParseJson do
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
-        object: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing),
+        site: site
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true
@@ -215,7 +220,8 @@ describe ParseJson do
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
-        object: Hashie::Mash.new(listing)
+        object: Hashie::Mash.new(listing),
+        site: site
       )
       expect(result.success?).to be_true
       expect(result.is_valid?).to be_true

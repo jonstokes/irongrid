@@ -5,7 +5,6 @@ class ValidateListingPresence
     context[:listing] = nil
     context[:listing_json] = object
     context[:url] = listing_json.url
-    context[:site] = Site.new(domain: listing_json.seller_domain)
     context.fail!(status: :not_found) if not_found?(page) || listing_json.not_found?
   end
 

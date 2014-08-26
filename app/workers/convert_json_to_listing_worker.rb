@@ -2,7 +2,7 @@ class ConvertJsonToListingWorker < CoreWorker
   include Trackable
   include UpdateImage
 
-  attr_accessor :domain, :timer
+  attr_accessor :site, :timer
   delegate :timed_out?, to: :timer
 
   LOG_RECORD_SCHEMA = {
@@ -18,10 +18,11 @@ class ConvertJsonToListingWorker < CoreWorker
 
   def init(opts)
     opts.symbolize_keys!
-    return false unless opts && @domain = opts[:domain]
+    return false unless opts && domain = opts[:domain]
+    site = Site.new(domain: domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
-    @object_queue = Stretched::ObjectQueue.find_or_create("#{domain}/listings")
-    @image_store = ImageQueue.new(domain: domain)
+    @object_queue = Stretched::ObjectQueue.find_or_create("#{site.domain}/listings")
+    @image_store = ImageQueue.new(domain: site.domain)
     return false unless @object_queue.any?
     track
     true
@@ -31,6 +32,7 @@ class ConvertJsonToListingWorker < CoreWorker
     return unless opts && init(opts)
 
     while !timed_out? && json = @object_queue.pop do
+      json.site = site
       scraper = ParseJson.perform(json)
       update_image(scraper) if scraper.is_valid?
       msg = LinkMessage.new(scraper)
@@ -43,7 +45,7 @@ class ConvertJsonToListingWorker < CoreWorker
 
   def transition
     if @object_queue.any?
-      next_jid = self.class.perform_async(domain: domain)
+      next_jid = self.class.perform_async(domain: site.domain)
       record_set(:transition, "#{self.class.to_s}")
       record_set(:next_jid, next_jid)
     end
