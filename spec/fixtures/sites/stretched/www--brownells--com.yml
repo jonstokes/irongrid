@@ -14,6 +14,7 @@ site:
           - globals/product_page
           - globals/validation
         schema: Listing
+        queue: www.brownells.com/listings
         xpath: //Products/Product
         attribute:
           seller_domain: [{ value: "www.brownells.com" }]

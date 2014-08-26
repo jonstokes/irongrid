@@ -48,11 +48,13 @@ module SiteConversion
       'object_adapter' => {
         "#{domain}/product_page" => {
           '$key'      => 'globals/product_page',
+          'queue'     => "#{domain}/listings",
           'attribute' => object_attributes
         },
         "#{domain}/product_link" => {
           '$key'      => 'globals/product_link',
           'xpath'     => feed_product_link_xpath,
+          'queue'     => "#{domain}/product_links",
           'attribute' => {
             'product_link' => [
               { 'find_by_xpath' => { 'xpath' => './@href' } }
@@ -72,6 +74,7 @@ module SiteConversion
       'object_adapter' => {
         "#{domain}/product_feed" => {
           '$key'      => 'globals/product_page',
+          'queue'     => "#{domain}/listings",
           'xpath'     => feed_product_xpath,
           'attribute' => object_attributes
         }

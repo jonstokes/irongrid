@@ -13,7 +13,7 @@ site:
           - globals/product_page
           - globals/validation
         schema: Listing
-        queue: ammo.net/product_feed
+        queue: ammo.net/listings
         xpath: '//channel/item'
         attribute:
           seller_domain: [{ value: "ammo.net" }]

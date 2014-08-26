@@ -3,7 +3,7 @@ object_adapter:
   www.budsgunshop.com/product_link:
     $key: globals/product_link # This loads global scripts manifest
     schema: ProductLink
-    queue: www.budsgunshop.com/product_link
+    queue: www.budsgunshop.com/product_links
     xpath: //span[@class="productListing-productname"]/a
     attribute:
       product_link:
@@ -11,7 +11,7 @@ object_adapter:
             xpath: ./@href
   www.budsgunshop.com/product_page:
     $key: globals/product_page
-    queue: www.budsgunshop.com/product_page
+    queue: www.budsgunshop.com/listings
     scripts:
       - globals/conversions
       - www.budsgunshop.com/script
@@ -164,6 +164,7 @@ object_adapter:
             pattern: !ruby/regexp '/Doublestar Accessories/i'
   www.budsgunshop.com/product_page_no_script:
     schema: Listing
+    queue: www.budsgunshop.com/listings
     xpath: '/html'
     attribute:
       #
@@ -316,6 +317,7 @@ object_adapter:
       - www.budsgunshop.com/script
     schema: Listing
     xpath: '/html'
+    queue: www.budsgunshop.com/listings
     attribute: {}
   www.budsgunshop.com/product_page_invalid_json_attribute:
     schema: Listing
@@ -338,6 +340,7 @@ object_adapter:
       # - globals/* # Uses glob format
       - www.budsgunshop.com/invalid_script
     schema: Listing
+    queue: www.budsgunshop.com/listings
     xpath: '/html'
     attribute: {}
 

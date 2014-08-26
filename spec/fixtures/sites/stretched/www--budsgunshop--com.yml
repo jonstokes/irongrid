@@ -10,6 +10,7 @@ site:
     object_adapter:
       www.budsgunshop.com/product_link:
         $key: globals/product_link
+        queue: www.budsgunshop.com/product_links
         xpath: //span[@class="productListing-productname"]/a
         attribute:
           product_link:
@@ -18,6 +19,7 @@ site:
           seller_domain: [{ value: "www.budsgunshop.com" }]
       www.budsgunshop.com/product_page:
         $key: globals/product_page
+        queue: www.budsgunshop.com/listings
         attribute:
           #
           # Listing attributes

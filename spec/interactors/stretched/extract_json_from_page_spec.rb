@@ -131,7 +131,7 @@ describe Stretched::ExtractJsonFromPage do
           page: page,
           adapter_name: "www.budsgunshop.com/product_page_invalid_json_attribute"
         )
-      }.to raise_error(RuntimeError, "Undefined property listing_type in schema Listing")
+      }.to raise_error(RuntimeError, "Property listing_type is not defined in schema Listing")
     end
 
     it "errors if the script has an invalid attribute that doesn't match the schema" do

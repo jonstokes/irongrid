@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.retailer.com/product_page:
       $key: globals/product_page
+      queue: www.retailer.com/product_page
       attribute:
         title:
         - find_by_xpath:
@@ -62,6 +63,7 @@ registrations:
     www.retailer.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='pcShowProductName']/a
+      queue: www.retailer.com/product_link
       attribute:
         product_link:
         - find_by_xpath:
