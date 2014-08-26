@@ -68,6 +68,10 @@ class Site < LegacySite
     !!self.link_sources["refresh_only"]
   end
 
+  def domain_dash
+    domain.gsub(".","--")
+  end
+
   def write_to_redis
     redis_pool.with do |conn|
       conn.set("site--#{domain}", @site_data.to_yaml)
@@ -152,18 +156,18 @@ class Site < LegacySite
 
   def load_from_local
     branch = Figaro.env.site_branch rescue "master"
-    filename = "#{domain.gsub(".","--")}.yml"
+    filename = "#{domain_dash}.yml"
     site_path = "#{Figaro.env.sites_repo}/sites/#{filename}"
     @site_data = YAML.load_file(site_path).symbolize_keys
   end
 
   def load_from_fixture
-    filename = "#{domain.gsub(".","--")}.yml"
+    filename = "#{domain_dash}.yml"
     @site_data = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{filename}").symbolize_keys
   end
 
   def load_from_github
-    site_dir = domain.gsub(".","--")
+    site_dir = domain_dash
     page_adapter_source = fetch_file_from_github("sites/#{site_dir}/page_adapter.yml")
     feed_adapter_source = fetch_file_from_github("sites/#{site_dir}/feed_adapter.yml")
     @site_data[:page_adapter] = YAML.load(page_adapter_source) if page_adapter_source

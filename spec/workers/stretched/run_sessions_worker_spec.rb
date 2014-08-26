@@ -4,9 +4,12 @@ require 'sidekiq/testing'
 
 describe Stretched::RunSessionsWorker do
   before :each do
-    Stretched::Registration.with_redis { |c| c.flushdb }
     Sidekiq::Testing.fake!
     Sidekiq::Worker.clear_all
+
+    Stretched::Registration.with_redis { |c| c.flushdb }
+    register_stretched_globals
+    register_site "www.budsgunshop.com"
 
     @worker = Stretched::RunSessionsWorker.new
     @domain = "www.budsgunshop.com"
@@ -14,14 +17,6 @@ describe Stretched::RunSessionsWorker do
     @sessions = YAML.load_file("#{Rails.root}/spec/fixtures/stretched/sessions/www--budsgunshop--com.yml")['sessions']
     @session_q.add(@sessions)
 
-    Stretched::RateLimit.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/rate_limits.yml")
-    Stretched::SessionDefinition.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/session_definitions.yml")
-    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
-    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
-    Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
-    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/globals.yml")
-    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
-    Stretched::SessionQueue.find_or_create("www.retailer.com")
   end
 
   describe "#perform" do
@@ -34,14 +29,13 @@ describe Stretched::RunSessionsWorker do
         end
       end
 
-      object_q = Stretched::ObjectQueue.find_or_create("ProductLink")
+      object_q = Stretched::ObjectQueue.find_or_create("www.budsgunshop.com/product_links")
       expect(object_q.size).to be_zero
 
       @worker.perform(queue: @domain)
 
       expect(object_q.size).to eq(162)
       object = object_q.pop.object
-      expect(object['seller_domain']).to eq("www.budsgunshop.com")
       expect(object['product_link']).to include("http")
     end
 

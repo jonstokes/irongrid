@@ -4,22 +4,18 @@ describe Stretched::SessionQueue do
 
   before :each do
     Stretched::Registration.with_redis { |c| c.flushdb }
-    Stretched::RateLimit.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/rate_limits.yml")
-    Stretched::SessionDefinition.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/session_definitions.yml")
-    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/listing.json")
-    Stretched::Schema.register_from_file("spec/fixtures/stretched/registrations/schemas/product_link.json")
-    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/globals.yml")
-    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
+    register_stretched_globals
     Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
-    @store = Stretched::SessionQueue.find_or_create("www.retailer.com")
-    @objects = YAML.load_file("#{Rails.root}/spec/fixtures/stretched/sessions/www--budsgunshop--com.yml")['sessions']
+    register_site "www.budsgunshop.com"
+    @store = Stretched::SessionQueue.find_or_create("www.budsgunshop.com")
+    @objects = YAML.load_file("#{Rails.root}/spec/fixtures/sites/www--budsgunshop--com.yml")['sessions']
   end
 
   describe "#add", no_es: true do
 
     it "adds a batch of objects" do
-      expect(@store.add(@objects).count).to eq(3)
-      expect(@store.size).to eq(3)
+      expect(@store.add(@objects).count).to eq(5)
+      expect(@store.size).to eq(5)
     end
 
     it "adds a single object" do
@@ -47,8 +43,8 @@ describe Stretched::SessionQueue do
 
   describe "#clear", no_es: true do
     it "should clear the store" do
-      @store.add(@objects).count.should == 3
-      @store.size.should == 3
+      @store.add(@objects).count.should == 5
+      @store.size.should == 5
       @store.clear
       @store.should be_empty
     end

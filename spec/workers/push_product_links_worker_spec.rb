@@ -10,8 +10,7 @@ describe PushProductLinksWorker do
     # Stretched
     Stretched::Registration.with_redis { |c| c.flushdb }
     register_stretched_globals
-    site_source = YAML.load_file("#{Rails.root}/spec/fixtures/sites/www--budsgunshop--com.yml")['registrations']
-    Stretched::Registration.register_from_source(site_source)
+    register_site "www.budsgunshop.com"
 
     # IronGrid
     @site = create_site "www.budsgunshop.com"
