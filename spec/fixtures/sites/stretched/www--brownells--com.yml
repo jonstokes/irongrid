@@ -17,8 +17,6 @@ site:
         queue: www.brownells.com/listings
         xpath: //Products/Product
         attribute:
-          seller_domain: [{ value: "www.brownells.com" }]
-          seller_name: [{ value: "Brownells" }]
           condition: [{ value: new }]
           availability: [{ value: in_stock }]
           location: [{ value: "200 South Front Street, Montezuma, Iowa 50171" }]

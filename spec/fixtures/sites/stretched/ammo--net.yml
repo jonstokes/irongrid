@@ -16,8 +16,6 @@ site:
         queue: ammo.net/listings
         xpath: '//channel/item'
         attribute:
-          seller_domain: [{ value: "ammo.net" }]
-          seller_name: [{ value: "Ammo.net" }]
           condition: [{ value: new }]
           type:      [{ value: RetailListing }]
           location:  [{ value: "Atlanta, GA 30348" }]
