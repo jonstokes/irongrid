@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.luckygunner.com/product_page:
       $key: globals/product_page
+      queue: www.luckygunner.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -76,12 +77,11 @@ registrations:
     www.luckygunner.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='product-shop']/h2[@class='product-name']/a
+      queue: www.luckygunner.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.luckygunner.com
 affiliate_link_tag: '#rid=ironsights&amp;chan=search'
 affiliate_program:
 digest_attributes:

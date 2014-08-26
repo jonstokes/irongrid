@@ -58,8 +58,7 @@ module SiteConversion
           'attribute' => {
             'product_link' => [
               { 'find_by_xpath' => { 'xpath' => './@href' } }
-            ],
-            'seller_domain' => [{ 'value' => domain }]
+            ]
           }
         }
       }
@@ -214,7 +213,7 @@ module SiteConversion
     @object_attributes ||= begin
       obj_attrs = {}
       adapter.each do |attribute, setters|
-        next if %w(seller_defaults validation digest_attributes).include?(attribute)
+        next if %w(seller_defaults validation digest_attributes seller_name seller_domain).include?(attribute)
         new_setters = setters.map do |setter|
           convert_setter(setter)
         end

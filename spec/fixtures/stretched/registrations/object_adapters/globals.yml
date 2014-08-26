@@ -8,7 +8,6 @@ object_adapter:
       product_link:
         - find_by_xpath:
             xpath: ./@href
-      seller_domain: [{ value: "www.budsgunshop.com" }]
   globals/product_page:
     schema: Listing
     queue: globals/listings

@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.gamaliel.com/product_page:
       $key: globals/product_page
+      queue: www.gamaliel.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -91,12 +92,11 @@ registrations:
     www.gamaliel.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='thumb']/a
+      queue: www.gamaliel.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.gamaliel.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

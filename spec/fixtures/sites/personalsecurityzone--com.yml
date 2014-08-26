@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     personalsecurityzone.com/product_page:
       $key: globals/product_page
+      queue: personalsecurityzone.com/listings
       attribute:
         title:
         - meta_title
@@ -107,12 +108,11 @@ registrations:
     personalsecurityzone.com/product_link:
       $key: globals/product_link
       xpath: //h3/a
+      queue: personalsecurityzone.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: personalsecurityzone.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

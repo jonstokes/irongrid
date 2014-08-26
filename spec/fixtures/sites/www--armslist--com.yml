@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.armslist.com/product_page:
       $key: globals/product_page
+      queue: www.armslist.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -60,17 +61,19 @@ registrations:
         - find_by_xpath:
             xpath: //div[@class="message error"]/div[@class="message-content"]
             pattern: !ruby/regexp '/This listing been flagged as a scam/i'
+        - find_by_xpath:
+            xpath: //div[@class="message warning"]/div[@class="message-content"]
+            pattern: !ruby/regexp '/listing/i'
         type:
         - value: ClassifiedListing
     www.armslist.com/product_link:
       $key: globals/product_link
       xpath: //item/link
+      queue: www.armslist.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.armslist.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

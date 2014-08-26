@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.gunsinternational.com/product_page:
       $key: globals/product_page
+      queue: www.gunsinternational.com/listings
       attribute:
         image:
         - find_by_xpath:
@@ -58,14 +59,13 @@ registrations:
             pattern: !ruby/regexp '/Condition:\s+(\w| |)*/i'
           filters:
           - accept: !ruby/regexp '/wear|scratches|used|marks|good/i'
-        sold:
-        - find_by_xpath:
-            xpath: //div[@class='big_red']
-            pattern: !ruby/regexp '/This item has already been sold/i'
         not_found:
         - find_by_xpath:
             xpath: //table[3]//tr[1]/td[2]/table[2]
             pattern: !ruby/regexp '/Page Not Found/i'
+        - find_by_xpath:
+            xpath: //div[@class='big_red']
+            pattern: !ruby/regexp '/This item has already been sold/i'
         product_category1:
         - label_by_xpath:
             label: Guns
@@ -108,12 +108,11 @@ registrations:
     www.gunsinternational.com/product_link:
       $key: globals/product_link
       xpath: //tr/td[2]/table[1]//tr/td[1]/a
+      queue: www.gunsinternational.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.gunsinternational.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

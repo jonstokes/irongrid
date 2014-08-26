@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     ammo.net/product_feed:
       $key: globals/product_page
+      queue: ammo.net/listings
       xpath: //channel/item
       attribute:
         title:

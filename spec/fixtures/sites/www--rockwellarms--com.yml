@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.rockwellarms.com/product_page:
       $key: globals/product_page
+      queue: www.rockwellarms.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -72,12 +73,11 @@ registrations:
     www.rockwellarms.com/product_link:
       $key: globals/product_link
       xpath: //ul/li[@class='productsList']/div/h3/a
+      queue: www.rockwellarms.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.rockwellarms.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

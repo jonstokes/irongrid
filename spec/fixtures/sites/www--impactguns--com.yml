@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.impactguns.com/product_page:
       $key: globals/product_page
+      queue: www.impactguns.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -98,12 +99,11 @@ registrations:
     www.impactguns.com/product_link:
       $key: globals/product_link
       xpath: .//xmlns:loc
+      queue: www.impactguns.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.impactguns.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

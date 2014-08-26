@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     clydearmory.com/product_page:
       $key: globals/product_page
+      queue: clydearmory.com/listings
       attribute:
         keywords:
         - find_by_xpath:
@@ -103,12 +104,11 @@ registrations:
     clydearmory.com/product_link:
       $key: globals/product_link
       xpath: //h2[@class='product-name']/a
+      queue: clydearmory.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: clydearmory.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

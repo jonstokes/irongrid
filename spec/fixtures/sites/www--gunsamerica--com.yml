@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.gunsamerica.com/product_page:
       $key: globals/product_page
+      queue: www.gunsamerica.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -40,7 +41,7 @@ registrations:
         location:
         - find_by_xpath:
             xpath: //span[contains(@id,"ItemLocation")]
-        sold:
+        not_found:
         - find_by_xpath:
             xpath: //span[contains(@id,"_lblListingStatus")]
             pattern: !ruby/regexp '/has expired/'
@@ -95,12 +96,11 @@ registrations:
     www.gunsamerica.com/product_link:
       $key: globals/product_link
       xpath: //item/link
+      queue: www.gunsamerica.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.gunsamerica.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

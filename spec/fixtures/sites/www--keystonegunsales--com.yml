@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.keystonegunsales.com/product_page:
       $key: globals/product_page
+      queue: www.keystonegunsales.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -57,12 +58,11 @@ registrations:
     www.keystonegunsales.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='name']/a
+      queue: www.keystonegunsales.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.keystonegunsales.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.theonlinegunshop.com/product_page:
       $key: globals/product_page
+      queue: www.theonlinegunshop.com/listings
       attribute:
         title:
         - meta_og_title
@@ -71,12 +72,11 @@ registrations:
     www.theonlinegunshop.com/product_link:
       $key: globals/product_link
       xpath: //ul[@class='ProductList ']//div[@class='ProductDetails']/strong/a
+      queue: www.theonlinegunshop.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.theonlinegunshop.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

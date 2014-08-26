@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     centerfiresystems.com/product_page:
       $key: globals/product_page
+      queue: centerfiresystems.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -95,12 +96,11 @@ registrations:
     centerfiresystems.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='product-list-item']/div[@class='product-list-options']/h5/a
+      queue: centerfiresystems.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: centerfiresystems.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

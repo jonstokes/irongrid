@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.ableammo.com/product_page:
       $key: globals/product_page
+      queue: www.ableammo.com/listings
       attribute:
         type:
         - label_by_url:
@@ -103,12 +104,11 @@ registrations:
     www.ableammo.com/product_link:
       $key: globals/product_link
       xpath: //td[@class='productListing-data2']/table//td[@class='main']//td[@class='main']//a
+      queue: www.ableammo.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.ableammo.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

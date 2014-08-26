@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.policestore.com/product_feed:
       $key: globals/product_page
+      queue: www.policestore.com/listings
       xpath: //Products/Product
       attribute:
         title:

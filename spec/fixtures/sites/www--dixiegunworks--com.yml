@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.dixiegunworks.com/product_page:
       $key: globals/product_page
+      queue: www.dixiegunworks.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -68,12 +69,11 @@ registrations:
     www.dixiegunworks.com/product_link:
       $key: globals/product_link
       xpath: //td[@class='productListing-data'][2]/a
+      queue: www.dixiegunworks.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.dixiegunworks.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

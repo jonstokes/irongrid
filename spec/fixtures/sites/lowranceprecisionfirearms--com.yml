@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     lowranceprecisionfirearms.com/product_page:
       $key: globals/product_page
+      queue: lowranceprecisionfirearms.com/listings
       attribute:
         title:
         - meta_title
@@ -52,12 +53,11 @@ registrations:
     lowranceprecisionfirearms.com/product_link:
       $key: globals/product_link
       xpath: //div[@id='productListing']/table[@id='catTable']//tr/td[@class='productListing-data'][2]/h3[@class='itemTitle']/a
+      queue: lowranceprecisionfirearms.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: lowranceprecisionfirearms.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

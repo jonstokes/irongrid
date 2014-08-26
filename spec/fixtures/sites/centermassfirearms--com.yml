@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     centermassfirearms.com/product_page:
       $key: globals/product_page
+      queue: centermassfirearms.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -72,12 +73,11 @@ registrations:
     centermassfirearms.com/product_link:
       $key: globals/product_link
       xpath: //div[@class='product-box']/h2[@class='product-name']/a
+      queue: centermassfirearms.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: centermassfirearms.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

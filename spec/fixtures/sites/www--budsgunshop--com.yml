@@ -9,6 +9,7 @@ registrations:
   object_adapter:
     www.budsgunshop.com/product_page:
       $key: globals/product_page
+      queue: www.budsgunshop.com/listings
       attribute:
         title:
         - meta_title
@@ -151,12 +152,11 @@ registrations:
     www.budsgunshop.com/product_link:
       $key: globals/product_link
       xpath: //span[@class="productListing-productname"]/a
+      queue: www.budsgunshop.com/product_links
       attribute:
         product_link:
         - find_by_xpath:
             xpath: ./@href
-        seller_domain:
-        - value: www.budsgunshop.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

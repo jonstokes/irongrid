@@ -22,8 +22,6 @@ object_adapter:
       # Listing attributes
       #
       type: [{ value: RetailListing }]
-      seller_domain: [{ value: "www.budsgunshop.com" }]
-      seller_name: [{ value: "Bud's Gun Shop" }]
       location: [{ value: "1105 Industry Road Lexington, KY 40505" }]
       title:
         - meta_title: ~
@@ -171,8 +169,6 @@ object_adapter:
       # Listing attributes
       #
       type: [{ value: RetailListing }]
-      seller_domain: [{ value: "www.budsgunshop.com" }]
-      seller_name: [{ value: "Bud's Gun Shop" }]
       location: [{ value: "1105 Industry Road Lexington, KY 40505" }]
       title:
         - meta_title: ~
@@ -327,8 +323,6 @@ object_adapter:
       # Listing attributes
       #
       listing_type: [{ value: RetailListing }]
-      seller_domain: [{ value: "www.budsgunshop.com" }]
-      seller_name: [{ value: "Bud's Gun Shop" }]
       location: [{ value: "1105 Industry Road Lexington, KY 40505" }]
       title:
         - meta_title: ~
