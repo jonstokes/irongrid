@@ -9,7 +9,6 @@ object_adapter:
       product_link:
         - find_by_xpath:
             xpath: ./@href
-      seller_domain: [{ value: "www.budsgunshop.com" }]
   www.budsgunshop.com/product_page:
     $key: globals/product_page
     queue: www.budsgunshop.com/product_page

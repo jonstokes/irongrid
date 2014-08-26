@@ -51,7 +51,7 @@ module Stretched
     def read_with_json(opts)
       runner, node, instance = opts[:runner], opts[:node], opts[:instance]
       adapter.attribute_setters.each do |attribute_name, setters|
-        raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
+        raise "Property #{attribute_name} is not defined in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         setters.detect do |setter|
           if setter.is_a?(Hash)
             method = setter.reject {|k,v| k == "filters"}.first.first
