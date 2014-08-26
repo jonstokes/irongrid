@@ -1,6 +1,7 @@
 object_adapter:
-  www.brownells.com/product_feed:
-    $key: globals/adapter
+  www.brownells.com/product_page:
+    $key: globals/product_page
+    queue: www.brownells.com/product_page
     scripts:
     - globals/*
     - www.brownells.com/link_postfix

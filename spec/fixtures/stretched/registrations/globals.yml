@@ -94,9 +94,11 @@ session_definition:
 object_adapter:
   globals/product_link:
     schema: ProductLink
+    queue: ProductLink
     attribute: {}
   globals/product_page:
     schema: Listing
+    queue: Listing
     xpath: '/html'
     scripts:
     - globals/product_page

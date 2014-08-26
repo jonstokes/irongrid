@@ -2,6 +2,7 @@
 object_adapter:
   globals/product_link:
     schema: ProductLink
+    queue: ProductLink
     xpath: //span[@class="productListing-productname"]/a
     attribute:
       product_link:
@@ -10,6 +11,7 @@ object_adapter:
       seller_domain: [{ value: "www.budsgunshop.com" }]
   globals/product_page:
     schema: Listing
+    queue: Listing
     xpath: '/html'
     scripts:
     - globals/product_page
