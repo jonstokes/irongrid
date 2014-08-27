@@ -89,6 +89,8 @@ namespace :db do
       raise "Must set TARGET_ENV!" unless target_env
       raise "Cannot copy to production!" if target_env == "production"
 
+      puts "Copying parser tests from #{source_env} to #{target_env} in 10s..."
+
       pt_skip_attrs = %w(
         manufacturer
         caliber
