@@ -45,8 +45,15 @@ class ParserTest < ActiveRecord::Base
       urls: [{ url: source_location }]
     )
     Stretched::RunSessionsWorker.new.perform(queue: domain)
-    result = ConvertJsonToListingWorker.new.perform(domain: domain)
+    result = convert_json_to_listing(domain)
     @scraper = Scrape.new(result.to_h.merge(domain: domain, url: url))
+  end
+
+  def convert_json_to_listing(domain)
+    json = Stretched::ObjectQueue.new("#{domain}/listings").pop
+    json.site = Site.new(domain: domain)
+    scraper = ParseJson.perform(json)
+    LinkMessage.new(scraper)
   end
 
   def source_location

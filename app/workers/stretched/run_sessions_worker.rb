@@ -5,7 +5,7 @@ module Stretched
 
     sidekiq_options :queue => :crawls, :retry => true
 
-    attr_accessor :timer if Rails.env.test?
+    attr_accessor :timer
     attr_reader :session_q
 
     delegate :timed_out?, to: :timer
