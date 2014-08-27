@@ -37,13 +37,15 @@ class ParserTest < ActiveRecord::Base
 
   def fetch_page
     domain = seller_domain || URI(source_location).host
-    key = Digest::MD5.hexdigest(source_location)
-    result = ScrapePageWorker.new.perform(
-      domain:      domain,
-      url:         source_location,
-      site_source: :local,
-      site_pool:   :validator
+    session_q = Stretched::SessionQueue.new(domain)
+    session_q.push(
+      queue: domain,
+      session_definition: 'globals/standard_html_session',
+      object_adapters: [ "#{domain}/product_page" ],
+      urls: [{ url: source_location }]
     )
+    Stretched::RunSessionsWorker.new.perform(queue: domain)
+    result = ConvertJsonToListingWorker.new.perform(domain: domain)
     @scraper = Scrape.new(result.to_h.merge(domain: domain, url: url))
   end
 
