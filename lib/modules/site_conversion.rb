@@ -19,7 +19,7 @@ module SiteConversion
   end
 
   def write_yaml
-    File.open("#{Rails.root}/spec/fixtures/sites/#{domain_dashed}.yml", "w") do |f|
+    File.open("#{Figaro.env.sites_repo}/site_sources/#{domain_dashed}.yml", "w") do |f|
       f.puts to_yaml
     end
   end
@@ -213,7 +213,7 @@ module SiteConversion
     @object_attributes ||= begin
       obj_attrs = {}
       adapter.each do |attribute, setters|
-        next if %w(seller_defaults validation digest_attributes seller_name seller_domain).include?(attribute)
+        next if %w(seller_defaults validation digest_attributes seller_name seller_domain format).include?(attribute)
         new_setters = setters.map do |setter|
           convert_setter(setter)
         end

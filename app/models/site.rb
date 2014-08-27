@@ -157,7 +157,7 @@ class Site < LegacySite
   def load_from_local
     branch = Figaro.env.site_branch rescue "master"
     filename = "#{domain_dash}.yml"
-    site_path = "#{Figaro.env.sites_repo}/sites/#{filename}"
+    site_path = "#{Figaro.env.sites_repo}/site_sources/#{filename}"
     @site_data = YAML.load_file(site_path).symbolize_keys
   end
 
