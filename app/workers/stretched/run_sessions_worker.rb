@@ -12,11 +12,10 @@ module Stretched
 
     def init(opts)
       opts.symbolize_keys!
-
+      @debug = opts[:debug]
       @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
       @session_q = SessionQueue.find_or_create(opts[:queue])
       return false unless @session_q.any?
-
       true
     end
 
@@ -50,7 +49,7 @@ module Stretched
     end
 
     def outlog(str)
-      # return unless @debug
+      return unless @debug
       puts "### #{str}"
     end
 

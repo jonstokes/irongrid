@@ -121,6 +121,7 @@ end
 desc "Check test listings for errors"
 task :check_test_listings => :environment do
   ParserTest.all.each do |pt|
+    puts "## Checking [#{pt.id}]"
     check_parser_test(pt)
   end
 end
