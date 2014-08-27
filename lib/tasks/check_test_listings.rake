@@ -106,10 +106,18 @@ ensure
   end
 end
 
+def update_parser_test(pt)
+  pt.fetch_page
+  pt.not_found = pt.scraper.not_found?
+  pt.is_valid = pt.scraper.is_valid?
+  pt.classified_sold = nil
+  pt.listing_data = pt.scraper.not_found? ? nil : pt.scraper.listing
+  pt.save
+end
+
 desc "Check test listings for errors"
 task :check_test_listings => :environment do
   ParserTest.all.each do |pt|
-    puts "Checking [#{pt.id}]#{pt.url}"
     check_parser_test(pt)
   end
 end
@@ -122,9 +130,7 @@ end
 
 task :overwrite_parser_tests => :environment do
   ParserTest.all.each do |pt|
-    pt.fetch_page
-    pt.listing_data = pt.scraper.not_found? ? nil : pt.scraper.listing
-    pt.save
+    update_parser_test(pt)
   end
 end
 
