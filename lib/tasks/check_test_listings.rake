@@ -7,7 +7,7 @@ def check_presence(pt)
 end
 
 def check_statuses(pt)
-  %w(is_valid? classified_sold?).each do |attr|
+  %w(is_valid? not_found?).each do |attr|
     if pt.send(attr) != pt.scraper.send(attr)
       pt.scrape_errors << { pt: "#{attr}: #{pt.send(attr)}", page: "#{attr}: #{pt.scraper.send(attr)}" }
     end
@@ -29,13 +29,15 @@ end
 def check_item_data(pt)
   return unless pt.listing_data['item_data']
   pt.listing_data['item_data'].each do |attr, value|
+    item_data = pt.scraper.listing['item_data'] if pt.scraper.listing
     if value && pt.scraper.listing.nil?
       pt.scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: nil listing" }
     elsif ElasticSearchObject.is_object_in_index?(attr)
       check_es_object(pt, attr, value)
-    elsif value != pt.scraper.listing['item_data'][attr]
+    elsif value != item_data[attr]
       next if %w(description keywords image_download_attempted seller_domain).include?(attr)
-      pt.scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: #{pt.scraper.listing['item_data'][attr]}" }
+      next if value.is_a?(String) && item_data[attr].is_a?(String) && (value.downcase == item_data[attr].downcase)
+      pt.scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: #{item_data[attr]}" }
     end
   end
 end
@@ -45,6 +47,7 @@ def check_es_object(pt, attr, value)
   page_value = es_object_to_hash(pt.scraper.listing['item_data'][attr])
 
   pt_value.each do |k, v|
+    next if (pt_value == "default") && (page_value[k] == "hard")
     unless page_value[k] == v
       pt.scrape_errors << { pt: "#{attr}.#{k}: #{v}", page: "#{attr}.#{k}: #{page_value[k]}" }
     end
