@@ -35,7 +35,7 @@ Stretched::Extension.define do
       return false unless is_valid_url?(link)
       return unless retval = URI.encode(link)
       return retval unless retval["?"]
-      retval.split("?").first
+      retval = retval.split("?").first
       return unless is_valid_image_url?(retval)
       retval
     end
