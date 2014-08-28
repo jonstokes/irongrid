@@ -47,7 +47,7 @@ def check_es_object(pt, attr, value)
   page_value = es_object_to_hash(pt.scraper.listing['item_data'][attr])
 
   pt_value.each do |k, v|
-    next if (pt_value == "default") && (page_value[k] == "hard")
+    next if (v == "default") && (page_value[k] == "hard")
     unless page_value[k] == v
       pt.scrape_errors << { pt: "#{attr}.#{k}: #{v}", page: "#{attr}.#{k}: #{page_value[k]}" }
     end
@@ -103,10 +103,10 @@ def check_parser_test(pt)
     check_item_data(pt)
   end
 
-ensure
-  if pt.scrape_errors.any?
-    print_errors(pt)
-  end
+  print_errors(pt) if pt.scrape_errors.any?
+
+rescue Exception => e
+  puts "ERROR for [#{pt.id}]: #{e.message}"
 end
 
 def update_parser_test(pt)
