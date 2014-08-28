@@ -32,9 +32,8 @@ Stretched::Extension.define do
     end
 
     def clean_up_image_url(link)
-      return false unless is_valid_url?(link)
-      return unless retval = URI.encode(link)
-      return retval unless retval["?"]
+      retval = URI.encode(link) rescue nil
+      return unless retval
       retval = retval.split("?").first
       return unless is_valid_image_url?(retval)
       retval

@@ -79,6 +79,7 @@ module Stretched
     def meta_keywords; meta_name('value' => 'keywords'); end
     def meta_description; meta_name('value' => 'description'); end
     def meta_image; meta_name('value' => 'image'); end
+    def meta_price; meta_name('value' => 'price'); end
 
     def meta_og_title; meta_og('title'); end
     def meta_og_keywords; meta_og('keywords'); end
