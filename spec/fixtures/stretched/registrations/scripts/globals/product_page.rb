@@ -59,12 +59,12 @@ Stretched::Script.define do
     end
 
     product_number_of_rounds do |instance|
-      instance.number_of_rounds.delete(",").to_i if instance.number_of_rounds?
+      instance.product_number_of_rounds.delete(",").to_i if instance.product_number_of_rounds?
     end
 
     product_grains do |instance|
-      if instance.grains?
-        g = instance.grains.delete(",").to_i
+      if instance.product_grains?
+        g = instance.product_grains.delete(",").to_i
         (g > 0 && g < 400) ? g : nil
       end
     end

@@ -54,7 +54,7 @@ class ExtractMetadataFromRawListing
   end
 
   def extract_grains
-    grains = listing_json['product_grains'].delete(",").to_i
+    grains = listing_json['product_grains']
     return unless grains > 0
     context[:grains] = ElasticSearchObject.new(
       "grains",
@@ -64,7 +64,7 @@ class ExtractMetadataFromRawListing
   end
 
   def extract_number_of_rounds
-    rounds = listing_json['product_number_of_rounds'].delete(",").to_i
+    rounds = listing_json['product_number_of_rounds']
     return unless rounds > 0
     context[:number_of_rounds] = ElasticSearchObject.new(
       "number_of_rounds",
