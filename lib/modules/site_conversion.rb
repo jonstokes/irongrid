@@ -85,17 +85,32 @@ module SiteConversion
 
   def scripts
     script_list = [ 'globals/product_page' ]
-    case adapter.validation[:retail] || adapter.validation[:classified] || adapter.validation[:auction]
-    when "(raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']" || "(raw['price'] || raw['sale_price'] || raw['price_on_request']) && raw['title'] && raw['image'] && raw['description']" || "raw['price'] && raw['title'] && raw['image'] && raw['description']"
+    validation_string = adapter['validation']['retail'] || adapter['validation']['classified'] || adapter['validation']['auction']
+    case validation_string
+    when "(raw['price'] || raw['sale_price']) && raw['title'] && raw['image'] && raw['description']"
       script_list << 'globals/validate_price_title_image_description'
-    when "raw['price'] && raw['title'] && raw['description']" || "(raw['price'] || raw['sale_price']) && raw['title'] && raw['description']"
+    when "(raw['price'] || raw['sale_price'] || raw['price_on_request']) && raw['title'] && raw['image'] && raw['description']"
+      script_list << 'globals/validate_price_title_image_description'
+    when "raw['price'] && raw['title'] && raw['image'] && raw['description']"
+      script_list << 'globals/validate_price_title_image_description'
+    when "raw['price'] && raw['title'] && raw['description']"
       script_list << 'globals/validate_price_title_description'
-    when "raw['price'] && raw['title'] && raw['image']" || "(raw['price'] || raw['sale_price'] ) && raw['title'] && raw['image']"
+    when "(raw['price'] || raw['sale_price']) && raw['title'] && raw['description']"
+      script_list << 'globals/validate_price_title_description'
+    when "raw['price'] && raw['title'] && raw['image']"
       script_list << 'globals/validate_price_title_image'
-    when "(raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']" || "(raw['price'] || raw['stock_status']) && raw['title']"
+    when "(raw['price'] || raw['sale_price'] ) && raw['title'] && raw['image']"
+      script_list << 'globals/validate_price_title_image'
+    when "(raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['title']"
+      script_list << 'globals/validate_price_or_availability_title'
+    when "(raw['price'] || raw['stock_status']) && raw['title']"
       script_list << 'globals/validate_price_or_availability_title'
     when "raw['price'] && raw['title'] && raw['stock_status']"
       script_list << 'globals/validate_price_availability_title'
+    when "(raw['price'] || raw['sale_price'] || raw['stock_status']) && raw['image'] && raw['title'] && raw['description']"
+      script_list << 'globals/validate_price_or_availability_title_image_description'
+    when "raw['title'] && raw['image'] && raw['description']"
+      script_list << 'globals/validate_title_image_description'
     end
     script_list
   end
