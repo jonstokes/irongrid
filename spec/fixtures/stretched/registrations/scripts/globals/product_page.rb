@@ -14,7 +14,6 @@ Stretched::Script.define do
 
     image do |instance|
       if instance.image?
-        puts "## Cleaning up image #{instance.image}"
         clean_up_image_url(instance.image)
       end
     end
