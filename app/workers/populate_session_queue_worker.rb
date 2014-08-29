@@ -14,7 +14,7 @@ class PopulateSessionQueueWorker < CoreWorker
     opts.symbolize_keys!
     return false unless opts && domain = opts[:domain]
     @site = Site.new(domain: domain)
-    @session_queue = Stretched::ObjectQueue.find_or_create("#{domain}/listings")
+    @session_queue = Stretched::SessionQueue.find_or_create(domain)
     track
     true
   end
