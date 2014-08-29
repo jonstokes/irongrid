@@ -9,8 +9,7 @@ module Stretched
       arguments.stringify_keys!
       nodes = doc.xpath(arguments['xpath'])
       target = get_target_text(arguments, nodes)
-      target = asciify_target_text(target)
-      sanitize(target)
+      asciify_target_text(target)
     end
 
     def label_by_url(args)
@@ -52,8 +51,7 @@ module Stretched
       args.map do |filter|
         filter.stringify_keys! if filter.is_a?(Hash)
       end
-      target = filter_target_text(target, args)
-      sanitize(target)
+      filter_target_text(target, args)
     end
 
     #
