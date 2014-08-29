@@ -1,5 +1,5 @@
 def service_list
-  %w(DeleteEndedAuctionsService ReadSitesService CdnService UpdateListingImagesService SiteStatsService)
+  %w(DeleteEndedAuctionsService ReadSitesService ReadListingsService CdnService UpdateListingImagesService SiteStatsService)
 end
 
 def notify(string)
