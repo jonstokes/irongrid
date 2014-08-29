@@ -20,6 +20,7 @@ class Site < LegacySite
     :affiliate_program,
     :digest_attributes,
     :registrations,
+    :sessions,
     :product_session_format
   ]
 
