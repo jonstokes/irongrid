@@ -1,21 +1,13 @@
 require 'spec_helper'
-require 'sidekiq/testing'
 
 describe PopulateSessionQueueWorker do
   before :each do
-    # Sidekiq
-    Sidekiq::Testing.disable!
-    clear_sidekiq
-
     # Stretched
     Stretched::Registration.with_redis { |c| c.flushdb }
     register_stretched_globals
 
     # IronGrid
     @site = create_site "www.retailer.com"
-    LinkMessageQueue.new(domain: @site.domain).clear
-    ImageQueue.new(domain: @site.domain).clear
-    CDN.clear!
 
     # Vars
     @worker = PopulateSessionQueueWorker.new
@@ -34,6 +26,10 @@ describe PopulateSessionQueueWorker do
     end
 
     it "marks site as read" do
+      pending "Example"
+    end
+
+    it "does nothing if the site's SessionQueue is not empty" do
       pending "Example"
     end
   end

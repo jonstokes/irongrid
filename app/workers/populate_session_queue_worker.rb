@@ -15,6 +15,7 @@ class PopulateSessionQueueWorker < CoreWorker
     return false unless opts && domain = opts[:domain]
     @site = Site.new(domain: domain)
     @session_queue = Stretched::SessionQueue.find_or_create(domain)
+    return false if @session_queue.any?
     track
     true
   end
@@ -24,7 +25,6 @@ class PopulateSessionQueueWorker < CoreWorker
     record_set :sessions_added, @session_queue.add(site.sessions).count
     site.mark_read!
 
-    transition
     stop_tracking
   end
 end
