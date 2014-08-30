@@ -22,6 +22,7 @@ class PopulateSessionQueueWorker < CoreWorker
   def perform(opts)
     return unless opts && init(opts)
     record_set :sessions_added, @session_queue.add(site.sessions).count
+    site.mark_read!
 
     transition
     stop_tracking
