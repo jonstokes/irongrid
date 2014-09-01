@@ -2,7 +2,7 @@ class PushProductLinksWorker < CoreWorker
   include Trackable
 
   LOG_RECORD_SCHEMA = {
-    objects_deleted: Integer,
+    links_deleted:   Integer,
     sessions_pushed: Integer,
     transition:      String,
     next_jid:        String
@@ -14,41 +14,30 @@ class PushProductLinksWorker < CoreWorker
   def init(opts)
     return false unless opts && domain = opts[:domain]
     @site = Site.new(domain: domain)
-    @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @urls = Set.new
     @session_q = Stretched::SessionQueue.find_or_create(site.domain)
-    @object_q = Stretched::ObjectQueue.find_or_create("#{site.domain}/product_links")
+    @link_store = LinkMessageQueue.new(domain: site.domain)
     track
     true
   end
 
   def perform(opts)
     return unless init(opts)
-    while !timed_out? && !finished? && obj = @object_q.pop
-      @urls << obj.object.product_link
+    while !timed_out? && !finished? && msg = @link_store.pop
+      record_incr(:links_deleted)
+      @urls << msg.url
     end
-    merge_stale_urls
 
-    record_set :objects_deleted, (300 - @urls.size)
     record_set :sessions_pushed, @session_q.push(new_session).count
     transition
     stop_tracking
   end
 
   def transition
-    if @session_q.any?
+    if @link_store.any?
       next_jid = self.class.perform_async(domain: site.domain)
       record_set(:transition, "#{self.class.to_s}")
-    else
-      next_jid = PullListingsWorker.perform_in(20.minutes, site.domain)
-      record_set(:transition, "PullListingsWorker")
-    end
-    record_set(:next_jid, next_jid)
-  end
-
-  def merge_stale_urls
-    Listing.with_each_stale_listing_for_domain(@site.domain) do |listing|
-      @urls << listing.bare_url
+      record_set(:next_jid, next_jid)
     end
   end
 
