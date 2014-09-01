@@ -24,7 +24,6 @@ class PullProductLinksWorker < CoreWorker
 
   def perform(opts)
     return unless init(opts)
-    puts "## Popping object queue #{@object_q.name}"
     while !timed_out? && obj = @object_q.pop
       record_incr(:objects_deleted)
       record_incr(:links_created) if @link_store.push LinkMessage.new(url: obj.object.product_link)
