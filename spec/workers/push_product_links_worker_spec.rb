@@ -1,7 +1,12 @@
 require 'spec_helper'
+require 'sidekiq/testing'
 
 describe PushProductLinksWorker do
   before :each do
+    # Sidekiq
+    Sidekiq::Testing.disable!
+    clear_sidekiq
+
     # Stretched
     Stretched::Registration.with_redis { |c| c.flushdb }
     register_stretched_globals
@@ -18,6 +23,11 @@ describe PushProductLinksWorker do
     @session_q = Stretched::SessionQueue.find_or_create(@site.domain)
     @link_store = LinkMessageQueue.new(domain: @site.domain)
     @msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/1")
+  end
+
+  after :each do
+    clear_sidekiq
+    Sidekiq::Testing.fake!
   end
 
   describe "#perform" do
@@ -37,11 +47,26 @@ describe PushProductLinksWorker do
   end
 
   describe "#transition" do
-    it "transitions to self if it times out while the site's ObjectQueue is not empty" do
-      pending "Example"
+    it "transitions to self if it finishes while the site's LMQ is not empty" do
+      400.times do |i|
+        msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/#{i}")
+        @link_store.add(msg)
+      end
+
+      @worker.perform(domain: @site.domain)
+      expect(@link_store.size).to eq(100)
+      expect(@session_q.size).to eq(1)
+
+      ssn = @session_q.pop
+      expect(ssn.queue_name).to eq("www.budsgunshop.com")
+      expect(ssn.session_definition.key).to eq("globals/standard_html_session")
+      expect(ssn.object_adapters.count).to eq(1)
+      expect(ssn.urls.count).to eq(300)
+
+      expect(PushProductLinksWorker.jobs_in_flight_with_domain(@site.domain)).not_to be_empty
     end
 
-    it "does not transition to self if the site's ObjectQueue is empty" do
+    it "does not transition to self if the site's LMQ is empty" do
       pending "Example"
     end
   end

@@ -37,8 +37,8 @@ class PopulateSessionQueueWorker < CoreWorker
   end
 
   def self.prune_refresh_push_cycle_is_running?(domain)
-    PruneLinksWorker.jobs_in_flight_with_queue(domain).any? ||
-      RefreshLinksWorker.jobs_in_flight_with_queue(domain).any? ||
-      PushLinksWorker.jobs_in_flight_with_queue(domain).any?
+    PruneLinksWorker.jobs_in_flight_with_domain(domain).any? ||
+      RefreshLinksWorker.jobs_in_flight_with_domain(domain).any? ||
+      PushLinksWorker.jobs_in_flight_with_domain(domain).any?
   end
 end

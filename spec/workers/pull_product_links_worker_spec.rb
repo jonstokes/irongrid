@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'sidekiq/testing'
 
-describe PushProductLinksWorker do
+describe PullProductLinksWorker do
   before :each do
     # Sidekiq
     Sidekiq::Testing.disable!
