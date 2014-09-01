@@ -41,7 +41,7 @@ class RefreshLinksWorker < CoreWorker
   end
 
   def transition
-    next_jid = PushLinksWorker.perform_async(domain: domain)
+    next_jid = PushProductLinksWorker.perform_async(domain: domain)
     record_set(:transition, "PushLinksWorker")
     record_set(:next_jid, next_jid)
   end
