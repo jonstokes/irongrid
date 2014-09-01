@@ -16,8 +16,9 @@ module Stretched
 
     def self.each
       with_redis do |conn|
-        conn.scan_each(:match => "session-queue::") do |set|
-          yield new(set)
+        conn.scan_each(:match => "session-queue::*") do |set|
+          q = set.split("::").last
+          yield new(q)
         end
       end
     end
