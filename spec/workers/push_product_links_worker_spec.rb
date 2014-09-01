@@ -57,6 +57,24 @@ describe PushProductLinksWorker do
       expect(ssn.object_adapters.count).to eq(1)
       expect(ssn.urls.count).to eq(1)
     end
+
+    it "merges in stale listings for this domain" do
+      stale_listing = FactoryGirl.create(:retail_listing, seller_domain: @site.domain, updated_at: Time.now - 5.days)
+      5.times { FactoryGirl.create(:retail_listing, seller_domain: @site.domain, updated_at: Time.now - 5.days) }
+      FactoryGirl.create(:retail_listing, seller_domain: @site.domain, updated_at: Time.now)
+
+      @object_q.add(@object)
+      @worker.perform(domain: @site.domain)
+      expect(@object_q.size).to be_zero
+      expect(@session_q.size).to eq(1)
+
+      ssn = @session_q.pop
+      expect(ssn.queue_name).to eq("www.budsgunshop.com")
+      expect(ssn.session_definition.key).to eq("globals/standard_html_session")
+      expect(ssn.object_adapters.count).to eq(1)
+      expect(ssn.urls.count).to eq(6)
+
+    end
   end
 
   describe "#transition" do

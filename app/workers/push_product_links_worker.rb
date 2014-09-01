@@ -27,6 +27,8 @@ class PushProductLinksWorker < CoreWorker
     while !timed_out? && !finished? && obj = @object_q.pop
       @urls << obj.object.product_link
     end
+    merge_stale_urls
+
     record_set :objects_deleted, (300 - @urls.size)
     record_set :sessions_pushed, @session_q.push(new_session).count
     transition
@@ -42,6 +44,12 @@ class PushProductLinksWorker < CoreWorker
       record_set(:transition, "ConvertJsonToListingWorker")
     end
     record_set(:next_jid, next_jid)
+  end
+
+  def merge_stale_urls
+    Listing.with_each_stale_listing_for_domain(@site.domain) do |listing|
+      @urls << listing.bare_url
+    end
   end
 
   def finished?
