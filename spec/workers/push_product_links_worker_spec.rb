@@ -67,7 +67,23 @@ describe PushProductLinksWorker do
     end
 
     it "does not transition to self if the site's LMQ is empty" do
-      pending "Example"
+      200.times do |i|
+        msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/#{i}")
+        @link_store.add(msg)
+      end
+
+      @worker.perform(domain: @site.domain)
+      expect(@link_store).to be_empty
+      expect(@session_q.size).to eq(1)
+
+      ssn = @session_q.pop
+      expect(ssn.queue_name).to eq("www.budsgunshop.com")
+      expect(ssn.session_definition.key).to eq("globals/standard_html_session")
+      expect(ssn.object_adapters.count).to eq(1)
+      expect(ssn.urls.count).to eq(200)
+
+      expect(PushProductLinksWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
+
     end
   end
 
