@@ -1,14 +1,22 @@
 require 'spec_helper'
 require 'sidekiq/testing'
-Sidekiq::Testing.fake!
 
 describe PruneLinksWorker do
   before :each do
+    # Sidekiq
+    Sidekiq::Testing.disable!
+    clear_sidekiq
+
     @site = create_site "www.retailer.com"
     @worker = PruneLinksWorker.new
     @lq = LinkMessageQueue.new(domain: @site.domain)
     @lq.clear
     Sidekiq::Worker.clear_all
+  end
+
+  after :each do
+    clear_sidekiq
+    Sidekiq::Testing.fake!
   end
 
   describe "#perform" do
@@ -36,20 +44,20 @@ describe PruneLinksWorker do
   end
 
   describe "#transition" do
-    it "transitions to ScrapePagesWorker if there are any links" do
+    it "transitions to RefreshLinksWorker if there are any links" do
       listing = FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days)
       @lq.push LinkMessage.new(url: listing.url, jid: "abcd123")
       @worker.perform(domain: @site.domain)
       expect(@lq.size).to eq(1)
-      expect(ScrapePagesWorker.jobs.count).to eq(1)
+      expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
     end
 
-    it "does not transition to ScrapePagesWorker if there are no links" do
+    it "does not transition to RefreshLinksWorker if there are no links" do
       listing = FactoryGirl.create(:retail_listing)
       @lq.push LinkMessage.new(url: listing.url, jid: "abcd123")
       @worker.perform(domain: @site.domain)
       expect(@lq.size).to eq(0)
-      expect(ScrapePagesWorker.jobs.count).to eq(0)
+      expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(0)
     end
   end
 end
