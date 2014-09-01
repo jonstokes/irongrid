@@ -47,7 +47,11 @@ describe Stretched::SessionQueueService do
     end
 
     it "should not generate a PopulateSessionQueue for a site if the site has RSW's in progress" do
-      pending "Example"
+      @q.add @sessions
+      Stretched::RunSessionsWorker.perform_async(domain: @site.domain)
+      @service.start
+      @service.stop
+      expect(Stretched::RunSessionsWorker.jobs_in_flight_with_session_queue(@site.domain).size).to eq(1)
     end
 
   end
