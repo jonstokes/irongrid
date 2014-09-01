@@ -35,7 +35,7 @@ describe PushProductLinksWorker do
       object: { product_link: "http://#{@site.domain}/1" }
     }
     @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/product_links")
-    @session_q = Stretched::SessionQueue.find_or_create("#{@site.domain}")
+    @lmq = LinkMessageQueue.new(domain: @site.domain)
   end
 
   after :each do
@@ -45,7 +45,7 @@ describe PushProductLinksWorker do
 
   describe "#perform" do
 
-    it "pops a product link from the OBQ and pushes it to the SNQ" do
+    it "pops a product link from the OBQ and pushes it to the LMQ" do
       @object_q.add(@object)
       @worker.perform(domain: @site.domain)
       expect(@object_q.size).to be_zero

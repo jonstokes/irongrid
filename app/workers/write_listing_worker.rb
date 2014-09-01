@@ -5,7 +5,6 @@ class WriteListingWorker < CoreWorker
 
   def perform(msg)
     return unless msg = LinkMessage.new(msg)
-    return if msg.listing_id && !(listing = find_listing(msg))
 
     if listing ||= db { Listing.find_by_url(msg.url) }
       existing_listing(msg, listing)
@@ -15,13 +14,6 @@ class WriteListingWorker < CoreWorker
   end
 
   private
-
-  def find_listing(msg)
-    db { Listing.find(msg.listing_id) }
-  rescue
-    notify "Lost listing #{msg.listing_id} for message #{msg.to_h}", type: :error
-    return nil
-  end
 
   def new_listing(msg)
     if msg.page_is_valid?
