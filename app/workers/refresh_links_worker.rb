@@ -16,7 +16,6 @@ class RefreshLinksWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && (@domain = opts[:domain])
-    return false if site_is_being_read?
     @site = Site.new(domain: domain, source: :redis)
     @link_store = LinkMessageQueue.new(domain: domain)
     true
@@ -39,13 +38,6 @@ class RefreshLinksWorker < CoreWorker
 
   def clean_up
     notify "Refresh links for #{domain} finished."
-  end
-
-  def site_is_being_read?
-    ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any? ||
-      PruneLinksWorker.jobs_in_flight_with_domain(@domain).any? ||
-      ProductFeedWorker.jobs_in_flight_with_domain(@domain).any? ||
-      CreateLinksWorker.jobs_in_flight_with_domain(@domain).any?
   end
 
   def transition
