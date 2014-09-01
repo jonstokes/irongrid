@@ -30,10 +30,10 @@ class PopulateSessionQueueWorker < CoreWorker
   end
 
   def self.should_run?(domain)
-    Stretched.queue_is_being_read?(domain) ||
-      Stretched::ObjectQueue.new("#{domain}/product_links").any? ||
-      LinkMessageQueue(domain: domain).any? ||
-      prune_refresh_push_cycle_is_running?(domain)
+    !Stretched.queue_is_being_read?(domain) &&
+      Stretched::ObjectQueue.new("#{domain}/product_links").empty? &&
+      LinkMessageQueue(domain: domain).empty? &&
+      !prune_refresh_push_cycle_is_running?(domain)
   end
 
   def self.prune_refresh_push_cycle_is_running?(domain)

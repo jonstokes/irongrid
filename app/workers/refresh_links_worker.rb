@@ -41,14 +41,8 @@ class RefreshLinksWorker < CoreWorker
   end
 
   def transition
-    if @site.refresh_only? && ScrapePagesWorker.jobs_in_flight_with_domain(domain).empty?
-      next_jid = ScrapePagesWorker.perform_async(domain: domain)
-      record_set(:transition, "ScrapePagesWorker")
-      record_set(:next_jid, next_jid)
-    elsif !site_is_being_read?
-      next_jid = ProductFeedWorker.perform_async(domain: domain)
-      record_set(:transition, "ProductFeedWorker")
-      record_set(:next_jid, next_jid)
-    end
+    next_jid = PushLinksWorker.perform_async(domain: domain)
+    record_set(:transition, "PushLinksWorker")
+    record_set(:next_jid, next_jid)
   end
 end

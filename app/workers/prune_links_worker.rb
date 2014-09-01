@@ -14,7 +14,7 @@ class PruneLinksWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
-    return false if ScrapePagesWorker.jobs_in_flight_with_domain(@domain).any?
+    return false unless PruneLinksWorker.should_run?(@domain) && i_am_alone_with_this_queue?(@domain)
     @link_store = LinkMessageQueue.new(domain: @domain)
   end
 
@@ -22,7 +22,7 @@ class PruneLinksWorker < CoreWorker
     return unless opts && init(opts)
     track
     @link_store.each_message do |msg|
-      if msg.listing_id.nil? && (listing = db { Listing.find_by_url(msg.url) }) && listing.try(:fresh?)
+      if (listing = db { Listing.find_by_url(msg.url) }) && listing.try(:fresh?)
         @link_store.rem(msg.url)
         record_incr(:links_pruned)
       else
@@ -35,8 +35,14 @@ class PruneLinksWorker < CoreWorker
 
   def transition
     return if @link_store.empty?
-    next_jid = ScrapePagesWorker.perform_async(domain: @domain)
-    record_set(:transition, "ScrapePagesWorker")
+    next_jid = RefreshLinksWorker.perform_async(domain: @domain)
+    record_set(:transition, "RefreshLinksWorker")
     record_set(:next_jid, next_jid)
+  end
+
+  def self.should_run?(domain)
+    LinkMessageQueue.new(domain: @domain).any? &&
+      RefreshLinksWorker.jobs_in_flight_for_domain(domain).empty? &&
+      PushLinksWorker.jobs_in_flight_for_domain(domain).empty?
   end
 end
