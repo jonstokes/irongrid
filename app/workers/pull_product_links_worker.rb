@@ -12,6 +12,7 @@ class PullProductLinksWorker < CoreWorker
   delegate :timed_out?, to: :timer
 
   def init(opts)
+    opts.symbolize_keys!
     return false unless opts && domain = opts[:domain]
     @site = Site.new(domain: domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
@@ -23,10 +24,11 @@ class PullProductLinksWorker < CoreWorker
 
   def perform(opts)
     return unless init(opts)
+    puts "## Popping object queue #{@object_q.name}"
     while !timed_out? && obj = @object_q.pop
-      record_incr(:links_created) if @link_store << LinkMessage.new(url: obj.object.product_link)
+      record_incr(:objects_deleted)
+      record_incr(:links_created) if @link_store.push LinkMessage.new(url: obj.object.product_link)
     end
-    record_set :objects_deleted, (300 - @urls.size)
     stop_tracking
   end
 end

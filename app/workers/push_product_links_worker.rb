@@ -14,6 +14,7 @@ class PushProductLinksWorker < CoreWorker
   def init(opts)
     return false unless opts && domain = opts[:domain]
     @site = Site.new(domain: domain)
+    @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @urls = Set.new
     @session_q = Stretched::SessionQueue.find_or_create(site.domain)
     @link_store = LinkMessageQueue.new(domain: site.domain)
