@@ -1,4 +1,4 @@
-class ConvertJsonToListingWorker < CoreWorker
+class PullListingsWorker < CoreWorker
   include Trackable
   include UpdateImage
 

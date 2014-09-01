@@ -5,7 +5,7 @@ class ReadListingsService < CoreService
   def jobs
     Site.all.map do |site|
       next unless should_add_job?(site)
-      { klass: "ConvertJsonToListingWorker", arguments: {domain: site.domain} }
+      { klass: "PullListingsWorker", arguments: {domain: site.domain} }
     end.compact
   end
 

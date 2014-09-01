@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'sidekiq/testing'
 
-describe ConvertJsonToListingWorker do
+describe PullListingsWorker do
   before :each do
     # Sidekiq
     Sidekiq::Testing.disable!
@@ -18,7 +18,7 @@ describe ConvertJsonToListingWorker do
     CDN.clear!
 
     # Vars
-    @worker = ConvertJsonToListingWorker.new
+    @worker = PullListingsWorker.new
     @page = {
       url:     "http://#{@site.domain}/1",
       headers: "",

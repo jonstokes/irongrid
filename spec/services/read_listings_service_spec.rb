@@ -16,7 +16,7 @@ describe ReadListingsService do
     pending "Example"
   end
 
-  describe "ConvertJsonToListingWorker sites", no_es: true do
+  describe "PullListingsWorker sites", no_es: true do
     before :each do
       @site = create_site "www.retailer.com"
       @q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
@@ -29,17 +29,17 @@ describe ReadListingsService do
       end
     end
 
-    it "generates a ConvertJsonToListingWorker for a site if it has listings in its object queue" do
+    it "generates a PullListingsWorker for a site if it has listings in its object queue" do
       @q.add @objects
       @service.start
       @service.stop
-      expect(ConvertJsonToListingWorker.jobs_in_flight_with_domain(@site.domain).size).to eq(1)
+      expect(PullListingsWorker.jobs_in_flight_with_domain(@site.domain).size).to eq(1)
     end
 
-    it "does not generate a ConvertJsonToListingWorker for a site if does not have listings in its object queue" do
+    it "does not generate a PullListingsWorker for a site if does not have listings in its object queue" do
       @service.start
       @service.stop
-      expect(ConvertJsonToListingWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
+      expect(PullListingsWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
     end
   end
 end

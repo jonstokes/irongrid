@@ -40,8 +40,8 @@ class PushProductLinksWorker < CoreWorker
       next_jid = self.class.perform_async(domain: site.domain)
       record_set(:transition, "#{self.class.to_s}")
     else
-      next_jid = ConvertJsonToListingWorker.perform_in(20.minutes, site.domain)
-      record_set(:transition, "ConvertJsonToListingWorker")
+      next_jid = PullListingsWorker.perform_in(20.minutes, site.domain)
+      record_set(:transition, "PullListingsWorker")
     end
     record_set(:next_jid, next_jid)
   end
