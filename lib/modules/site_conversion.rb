@@ -19,7 +19,7 @@ module SiteConversion
   end
 
   def write_yaml
-    File.open("#{Figaro.env.sites_repo}/site_sources/#{domain_dashed}.yml", "w") do |f|
+    File.open("#{Figaro.env.sites_repo}/sites/#{domain_dashed}.yml", "w") do |f|
       f.puts to_yaml
     end
   end

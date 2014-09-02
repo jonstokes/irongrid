@@ -13,7 +13,7 @@ describe Stretched::SessionQueueService do
     clear_sidekiq
 
     # IronGrid
-    @sessions = YAML.load_file("#{Figaro.env.sites_repo}/site_sources/www--budsgunshop--com.yml")['sessions']
+    @sessions = YAML.load_file("#{Figaro.env.sites_repo}/sites/www--budsgunshop--com.yml")['sessions']
   end
 
   after :each do

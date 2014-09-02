@@ -20,12 +20,12 @@ def register_repo_scripts
 end
 
 def register_site(domain)
-  source = YAML.load_file("#{Figaro.env.sites_repo}/site_sources/#{domain.gsub(".","--")}.yml")['registrations']
+  source = YAML.load_file("#{Figaro.env.sites_repo}/sites/#{domain.gsub(".","--")}.yml")['registrations']
   Stretched::Registration.register_from_source source
 end
 
 def domains
-  ParserTest.all.map(&:seller_domain).uniq
+  YAML.load_file("#{Figaro.env.sites_repo}/sites/site_manifest.yml")
 end
 
 namespace :stretched do
