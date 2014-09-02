@@ -18,7 +18,7 @@ describe ExtractMetadataFromRawListing do
     it "correctly extracts the manufacturer from the listing_json if it's explicit there" do
       @listing_json.merge!(
         "title" => "Ammo, 420 Rounds",
-        "manufacturer" => "Mfgr: Federal"
+        "product_manufacturer" => "Mfgr: Federal"
       )
       result = ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
@@ -31,7 +31,7 @@ describe ExtractMetadataFromRawListing do
     it "correctly hard classifieds the caliber_category" do
       @listing_json.merge!(
         "title" => "Federal Ammo, 420 Rounds",
-        "caliber_category" => "rifle"
+        "product_caliber_category" => "rifle"
       )
       result = ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
@@ -44,7 +44,7 @@ describe ExtractMetadataFromRawListing do
     it "correctly extracts the caliber when it's explicitly present in listing_json" do
       @listing_json.merge!(
         "title" => "Federal Ammo, 420 Rounds",
-        "caliber" => "Caliber: 20ga"
+        "product_caliber" => "Caliber: 20ga"
       )
       result = ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
@@ -57,7 +57,7 @@ describe ExtractMetadataFromRawListing do
     it "correctly extracts the number of rounds from the listing_json when it's present there" do
       @listing_json.merge!(
         "title" => "Federal XM855 .44 FMJ",
-        "number_of_rounds" => "420",
+        "product_number_of_rounds" => 420,
       )
       result = ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
@@ -70,7 +70,7 @@ describe ExtractMetadataFromRawListing do
     it "correctly extracts the grains from the listing_json if it's present there" do
       @listing_json.merge!(
         "title" => "Federal XM855 .44 FMJ",
-        "grains" => "62",
+        "product_grains" => 62,
       )
       result = ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
@@ -83,7 +83,7 @@ describe ExtractMetadataFromRawListing do
     it "correctly soft classifies the caliber_category as rifle" do
       @listing_json.merge!(
         "title" => "Federal Ammo, 420 Rounds",
-        "caliber" => "Caliber: .223 Remington"
+        "product_caliber" => "Caliber: .223 Remington"
       )
       result = ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
@@ -96,7 +96,7 @@ describe ExtractMetadataFromRawListing do
     it "correctly soft classifies the caliber_category as shotgun" do
       @listing_json.merge!(
         "title" => "Federal Ammo, 420 Rounds",
-        "caliber" => "Caliber: 20ga"
+        "product_caliber" => "Caliber: 20ga"
       )
       result = ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
