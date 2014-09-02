@@ -44,5 +44,12 @@ describe ReadSitesService do
       expect(PopulateSessionQueueWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
     end
 
+    it "should not generate a PopulateSessionQueue for a site if the site has product links pending" do
+      pending "Populate session queue with sessions for site"
+
+      @service.start
+      @service.stop
+      expect(PopulateSessionQueueWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
+    end
   end
 end

@@ -10,6 +10,6 @@ class ReadSitesService < CoreService
   def should_add_job?(site)
     site.should_read? &&
       PopulateSessionQueueWorker.jobs_in_flight_with_domain(site.domain).empty? &&
-      Stretched::SessionQueue.new(site.domain).empty?
+      PopulateSessionQueueWorker.should_run?(site.domain)
   end
 end
