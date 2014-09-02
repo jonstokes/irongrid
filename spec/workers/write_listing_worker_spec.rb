@@ -77,22 +77,6 @@ describe WriteListingWorker do
       Listing.create(@valid_attrs)
     end
 
-    it "does not blow up if the listing id is not present" do
-      listing = Listing.first
-      msg = {
-        url:             @valid_attrs["url"],
-        page_is_valid:   true,
-        page_not_found:  false,
-        dirty_only:      true,
-        listing_id:      listing.id
-      }
-      listing.destroy
-      expect {
-        WriteListingWorker.new.perform(msg)
-      }.not_to raise_error
-    end
-
-
     it "updates a listing with new attributes" do
       url = @valid_attrs["url"]
       msg = {
