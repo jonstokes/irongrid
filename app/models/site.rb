@@ -8,6 +8,7 @@ class Site < LegacySite
     :name,
     :domain,
     :read_interval,
+    :full_feed,
     :timezone,
     :created_at,
     :updated_at,
@@ -119,6 +120,12 @@ class Site < LegacySite
     domains.map do |domain|
       Site.new(domain: domain)
     end.compact
+  end
+
+  def self.full_product_feed_sites
+    all.map do |site|
+      site.full_feed
+    end
   end
 
   private
