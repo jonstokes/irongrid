@@ -45,7 +45,7 @@ module Stretched
 
     def self.count
       with_redis do |conn|
-        conn.scard "registrations"
+        conn.scard TABLE
       end
     end
 
