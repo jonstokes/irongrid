@@ -37,25 +37,25 @@ RAILS_ENV="production" DB_POOL=5 daemon -U -r --stdout=syslog -n sidekiq_daemon 
 RAILS_ENV="production" DB_POOL=5 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m --1.9 -S bundle exec rake service:boot_all --trace
 
 ### Crawls - small
-RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,2 -q crawl_images,1 -q scrapes,1 -c 10 2>&1 | logger -t sidekiq
+RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q stretched,2 -q crawl_images,1 -q crawls,1 -q scrapes,1 -c 10 2>&1 | logger -t sidekiq
 
 ### Crawls - small
-RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,2 -q crawl_images,1 -q scrapes,1 -c 10 2>&1 | logger -t sidekiq
+RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q stretched,2 -q crawl_images,1 -q crawls,1 -q scrapes,1 -c 10 2>&1 | logger -t sidekiq
 
 ### Crawl images - small
-RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawl_images,2 -q crawls,1 -q scrapes,1 -c 10 2>&1 | logger -t sidekiq
+RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawl_images,2 -q stretched,1 -q crawls,1 -q scrapes,1 -c 10 2>&1 | logger -t sidekiq
 
 ### Crawl images - small
-RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawl_images,2 -q crawls,1 -q scrapes,1 -c 10 2>&1 | logger -t sidekiq
+RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawl_images,2 -q stretched,1 -q crawls,1 -q scrapes,1 -c 10 2>&1 | logger -t sidekiq
 
 ### Fast DB ip-10-118-14-33 - medium
 RAILS_ENV="production" DB_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -r /home/bitnami/irongrid -q fast_db,2 -q scrapes,1 -c 25 2>&1 | logger -t sidekiq
 
 ### Slow DB ip-10-118-14-33 - medium
-RAILS_ENV="production" DB_POOL=30 REDIS_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q slow_db,2 -q crawls,1 -q scrapes,1 -c 25 2>&1 | logger -t sidekiq
+RAILS_ENV="production" DB_POOL=30 REDIS_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q slow_db,2 -q crawls,1 -q stretched,1 -q scrapes,1 -c 25 2>&1 | logger -t sidekiq
 
 ### Crawls, crawl images, slow db - medium
-RAILS_ENV="production" DB_POOL=30 REDIS_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,2 -q crawl_images,3 -q slow_db,1 -q scrapes,1 -c 25 2>&1 | logger -t sidekiq
+RAILS_ENV="production" DB_POOL=30 REDIS_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,2 -q crawl_images,3 -q slow_db,1 -q stretched,1 -q scrapes,1 -c 25 2>&1 | logger -t sidekiq
 
 
 ### Emergency xlarge:
