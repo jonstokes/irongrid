@@ -42,6 +42,8 @@ class PruneLinksWorker < CoreWorker
 
   def self.should_run?(domain)
     LinkMessageQueue.new(domain: domain).any? &&
+      !Stretched.session_queue_is_being_read?(domain) &&
+      Stretched::ObjectQueue.new("#{domain}/product_links").empty? &&
       RefreshLinksWorker.jobs_in_flight_with_domain(domain).empty? &&
       PushProductLinksWorker.jobs_in_flight_with_domain(domain).empty?
   end
