@@ -6,6 +6,7 @@ module Stretched
     attr_accessor :registration_type, :key, :data
 
     TYPES = %w(schema script object_adapter session_definition rate_limit)
+    TABLE = "registrations"
 
     def initialize(opts)
       opts.symbolize_keys!
@@ -34,6 +35,14 @@ module Stretched
       self.class.unregister(type: registration_type, key: key)
     end
 
+    def user
+      self.class.user
+    end
+
+    def self.user
+      Stretched::Settings.user
+    end
+
     def self.count
       with_redis do |conn|
         conn.scard "registrations"
@@ -58,8 +67,8 @@ module Stretched
       key, registration_type, data = reg_hash[:key], reg_hash[:type], reg_hash[:data]
       validate_against_schema(data)
       with_redis do |conn|
-        conn.sadd "registrations", "#{registration_type}::#{key}"
-        conn.set "registrations::#{registration_type}::#{key}", write_redis_format(data)
+        conn.sadd "#{TABLE}", "#{user}::#{registration_type}::#{key}"
+        conn.set "#{TABLE}::#{user}::#{registration_type}::#{key}", write_redis_format(data)
       end
     end
 
@@ -69,7 +78,7 @@ module Stretched
 
     def self.keys
       with_redis do |conn|
-        conn.smembers "registrations"
+        conn.smembers "#{TABLE}"
       end.select do |key|
         registration_type = self.name.split("::").last
         !!key["#{registration_type}::"]
@@ -85,8 +94,8 @@ module Stretched
     def self.unregister(reg_hash)
       key, registration_type = reg_hash[:key], reg_hash[:type]
       with_redis do |conn|
-        conn.srem "registrations", "#{registration_type}::#{key}"
-        conn.del "registrations::#{registration_type}::#{key}"
+        conn.srem "#{TABLE}", "#{user}::#{registration_type}::#{key}"
+        conn.del "#{TABLE}::#{user}::#{registration_type}::#{key}"
       end
     end
 
@@ -131,13 +140,13 @@ module Stretched
       type, key = opts[:type], opts[:key]
 
       data = with_redis do |conn|
-        conn.get "registrations::#{type}::#{key}"
+        conn.get "#{TABLE}::#{user}::#{type}::#{key}"
       end
 
       if data
         self.new(opts.merge(data: read_redis_format(data)))
       else
-        raise "No such #{type} registration with key #{key}!"
+        raise "No such #{type} registration with key #{key} for user #{user}!"
       end
     end
 

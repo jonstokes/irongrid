@@ -7,7 +7,7 @@ module Stretched
 
     def initialize(name)
       @name = name
-      @set_name = "#object-queue::#{name}"
+      @set_name = "#{user}::object-queue::#{name}"
     end
 
     def push(objects)
@@ -20,7 +20,7 @@ module Stretched
     def pop
       with_redis do |conn|
         if key = conn.spop(set_name)
-          raise "ObjectQueue: missing key #{key}" unless data = conn.get(key)
+          raise "ObjectQueue #{name}: missing key #{key} for user #{user}" unless data = conn.get(key)
           conn.del(key)
           self.class.value_from_redis(data).merge(key: key)
         end
@@ -109,6 +109,10 @@ module Stretched
     alias length size
     alias count size
 
+    def user
+      self.class.user
+    end
+
     def self.find_or_create(name)
       new(name)
     end
@@ -124,6 +128,10 @@ module Stretched
 
     def self.value_from_redis(value)
       Hashie::Mash.new JSON.parse(value)
+    end
+
+    def self.user
+      Stretched::Settings.user
     end
 
     private

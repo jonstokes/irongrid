@@ -48,11 +48,11 @@ describe Stretched::Registration do
       key = value = nil
 
       Stretched::Registration.with_redis do |conn|
-        key = conn.spop("registrations")
-        value = conn.get("registrations::#{key}")
+        key = conn.spop("#{Stretched::Registration::TABLE}")
+        value = conn.get("#{Stretched::Registration::TABLE}::#{key}")
       end
 
-      expect(key).to eq("Registration::test-1")
+      expect(key).to eq("#{Stretched::Settings.user}::Registration::test-1")
       expect(YAML.load(value)).to eq({ "key" => "value" })
     end
   end

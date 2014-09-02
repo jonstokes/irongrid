@@ -5,7 +5,7 @@ module Stretched
     def initialize(name)
       super
       @name = name
-      @set_name = "session-queue::#{name}"
+      @set_name = "#{user}::session-queue::#{name}"
     end
 
     def pop
@@ -16,7 +16,7 @@ module Stretched
 
     def self.each
       with_redis do |conn|
-        conn.scan_each(:match => "session-queue::*") do |set|
+        conn.scan_each(:match => "#{user}::session-queue::*") do |set|
           q = set.split("::").last
           yield new(q)
         end
