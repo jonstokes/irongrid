@@ -74,6 +74,10 @@ class Site < LegacySite
     domain.gsub(".","--")
   end
 
+  def register
+    Stretched::Registration.register_from_source(registrations)
+  end
+
   def write_to_redis
     redis_pool.with do |conn|
       conn.set("site--#{domain}", @site_data.to_yaml)

@@ -120,7 +120,7 @@ describe PullListingsWorker do
 
         Stretched::Registration.with_redis { |c| c.flushdb }
         register_stretched_globals
-        register_site @site.domain
+        @site.register
       end
 
       it "should create WriteListingWorkers for new listings with proper payload" do
@@ -196,7 +196,7 @@ describe PullListingsWorker do
 
         Stretched::Registration.with_redis { |c| c.flushdb }
         register_stretched_globals
-        register_site @site.domain
+        @site.register
       end
 
       it "should create WriteListingWorkers for new listings with proper payload" do

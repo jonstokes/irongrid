@@ -21,19 +21,10 @@ def register_scripts
   script_list.map { |script| Stretched::Script.register_from_file(script) }
 end
 
-def register_site(domain)
-  source = YAML.load_file("#{Figaro.env.sites_repo}/sites/#{domain.gsub(".","--")}.yml")['registrations']
-  Stretched::Registration.register_from_source source
-end
-
-def domains
-  YAML.load_file("#{Figaro.env.sites_repo}/sites/site_manifest.yml")
-end
-
 def register_sites
-  domains.each do |domain|
+  Site.all.each do |site|
     begin
-      register_site(domain)
+      site.register
     rescue Exception => e
       puts e.message
       next
