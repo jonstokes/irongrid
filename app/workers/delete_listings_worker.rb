@@ -1,4 +1,4 @@
-class DeleteEndedAuctionsWorker < CoreWorker
+class DeleteListingsWorker < CoreWorker
   include Trackable
 
   sidekiq_options queue: :slow_db, retry: true
@@ -18,6 +18,6 @@ class DeleteEndedAuctionsWorker < CoreWorker
   end
 
   def self.queued_jobs
-    jobs_for_class("DeleteEndedAuctionsWorker")
+    jobs_for_class("DeleteListingsWorker")
   end
 end

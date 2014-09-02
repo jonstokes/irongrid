@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe DeleteEndedAuctionsWorker do
+describe DeleteListingsWorker do
   it "deletes all ended auctions" do
     site = create_site "www.gunbroker.com"
     5.times { FactoryGirl.create(:auction_listing) }
     auctions = []
     2.times { auctions << FactoryGirl.create(:auction_listing, :ended) }
-    DeleteEndedAuctionsWorker.new.perform(auctions)
+    DeleteListingsWorker.new.perform(auctions)
     expect(AuctionListing.all.count).to eq(5)
     expect {
       Listing.find auctions.first.id
@@ -21,7 +21,7 @@ describe DeleteEndedAuctionsWorker do
     5.times { FactoryGirl.create(:auction_listing) }
     auctions = []
     2.times { auctions << FactoryGirl.create(:auction_listing, :ended) }
-    DeleteEndedAuctionsWorker.new.perform(auctions)
+    DeleteListingsWorker.new.perform(auctions)
     expect(AuctionListing.all.count).to eq(5)
     expect {
       Listing.find auctions.first.id
@@ -30,7 +30,7 @@ describe DeleteEndedAuctionsWorker do
       Listing.find auctions.last.id
     }.to raise_error(ActiveRecord::RecordNotFound)
     expect {
-      DeleteEndedAuctionsWorker.new.perform(auctions)
+      DeleteListingsWorker.new.perform(auctions)
     }.not_to raise_error
   end
 

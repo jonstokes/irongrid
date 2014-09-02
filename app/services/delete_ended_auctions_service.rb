@@ -3,11 +3,11 @@ class DeleteEndedAuctionsService < CoreService
 
   def start_jobs
     CoreService.mutex.synchronize {
-      return if DeleteEndedAuctionsWorker.queued_jobs.any?
+      return if DeleteListingsWorker.queued_jobs.any?
       begin
         db do
           Listing.ended_auctions.find_in_batches do |batch|
-            DeleteEndedAuctionsWorker.perform_async(batch.map(&:id))
+            DeleteListingsWorker.perform_async(batch.map(&:id))
             record_incr(:jobs_started) unless Rails.env.test?
           end
         end
