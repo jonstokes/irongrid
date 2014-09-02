@@ -1,9 +1,19 @@
-# Feed refactor
-- merge js-feed-adapter branches for both irongrid and ironsights-sites
-  into master, and git push
-- Bring down grid && git pull
-- Update sites in prod redis from repo
-  (use site:update_all rake task!)
-- Refresh local ES indexes
-- Bring grid back up
-- Update dashboard app
+#Bring up Stretched
+
+compare launch lines on instances to new lines in README, and make any
+fixes if needed
+
+Bring down grid
+
+RAILS_ENV=production rails c: 
+  VALIDATOR_REDIS_POOL.with_redis { |c| c.flushdb }
+  STRETCHED_REDIS_POOL.with_redis { |c| c.flushdb }
+  IRONGRID_REDIS_POOL.with_redis { |c| c.flushdb }
+
+RAILS_ENV=production bundle exec rake stretched:register_all
+RAILS_ENV=production bundle exec rake site:create_all
+
+For each EC2 instance do:
+  git fetch && git pull && git checkout js-dsl
+  add STRETCHED_REDIS_URL on db 5 to config/application.yml
+  boot services with new lines from README
