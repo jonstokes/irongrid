@@ -20,20 +20,5 @@ describe DeleteEndedAuctionsService do
         expect(auctions.map(&:id)).to include(id)
       end
     end
-
-    it "does not generate more DeleteListingsWorkers if there are already workers enqueued" do
-      Sidekiq::Testing.disable!
-      clear_sidekiq
-
-      5.times { FactoryGirl.create(:auction_listing) }
-      auctions = []
-      5.times { auctions << FactoryGirl.create(:auction_listing, :ended) }
-      DeleteListingsWorker.perform_async(auctions.map(&:id))
-      @service.start_jobs
-      expect(DeleteListingsWorker.queued_jobs.count).to eq(1)
-
-      clear_sidekiq
-      Sidekiq::Testing.fake!
-    end
   end
 end

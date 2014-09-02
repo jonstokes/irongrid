@@ -1,6 +1,8 @@
 class DeleteEndedAuctionsService < CoreService
   include ConnectionWrapper
 
+  SLEEP_INTERVAL = 10800
+
   def start_jobs
     CoreService.mutex.synchronize {
       begin
