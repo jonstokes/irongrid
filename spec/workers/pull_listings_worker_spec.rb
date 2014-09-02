@@ -112,6 +112,179 @@ describe PullListingsWorker do
       expect(msg.page_attributes["digest"]).to eq("21831cde9254c9100fa5a8b2895d4b98")
     end
 
+    describe "write to listings table from a generic full product feed" do
+      before :each do
+        @site = create_site "ammo.net"
+        LinkMessageQueue.new(domain: @site.domain).clear
+        ImageQueue.new(domain: @site.domain).clear
+
+        Stretched::Registration.with_redis { |c| c.flushdb }
+        register_stretched_globals
+        register_site @site.domain
+      end
+
+      it "should create WriteListingWorkers for new listings with proper payload" do
+        Mocktra(@site.domain) do
+          get '/media/feeds/genericammofeed.xml' do
+            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
+        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+
+        @worker.perform(domain: @site.domain)
+        expect(WriteListingWorker._jobs.count).to eq(18)
+        expect(LogRecordWorker._jobs.count).to eq(4)
+        job = WriteListingWorker._jobs.first
+        msg = LinkMessage.new(job["args"].first)
+        expect(msg.url).to match(/ammo\.net/)
+        expect(msg.page_attributes["digest"]).not_to be_nil
+        expect(msg.page_is_valid?).to be_true
+        expect(msg.page_not_found?).to be_false
+      end
+
+      it "should create WriteListingWorkers for modified listings with proper payload" do
+        Mocktra(@site.domain) do
+          get '/media/feeds/genericammofeed.xml' do
+            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed_updates.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
+        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+
+        @worker.perform(domain: @site.domain)
+        expect(WriteListingWorker._jobs.count).to eq(18)
+        job = WriteListingWorker._jobs.first
+        msg = LinkMessage.new(job["args"].first)
+        expect(msg.url).to match(/ammo\.net/)
+        expect(msg.page_attributes["digest"]).not_to be_nil
+        expect(msg.page_attributes["item_data"]["price_in_cents"]).to eq(1150)
+        expect(msg.page_is_valid?).to be_true
+        expect(msg.page_not_found?).to be_false
+      end
+
+      it "should add a link to the ImageQueue for each new or updated listing" do
+        Mocktra(@site.domain) do
+          get '/media/feeds/genericammofeed.xml' do
+            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
+        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+
+        @worker.perform(domain: @site.domain)
+        iq = ImageQueue.new(domain: @site.domain)
+        expect(iq.size).to eq(18)
+        expect(iq.pop).to match(/cloudfront\.net/)
+      end
+    end
+
+    describe "write to listings table from Avantlink feed" do
+      before :each do
+        @site = create_site "www.brownells.com"
+        LinkMessageQueue.new(domain: @site.domain).clear
+        ImageQueue.new(domain: @site.domain).clear
+
+        Stretched::Registration.with_redis { |c| c.flushdb }
+        register_stretched_globals
+        register_site @site.domain
+      end
+
+      it "should create WriteListingWorkers for new listings with proper payload" do
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
+        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+
+        @worker.perform(domain: @site.domain)
+        expect(WriteListingWorker._jobs.count).to eq(4)
+        expect(LogRecordWorker._jobs.count).to eq(4)
+        job = WriteListingWorker._jobs.first
+        msg = LinkMessage.new(job["args"].first)
+        expect(msg.url).to match(/avantlink\.com/)
+        expect(msg.page_attributes["digest"]).not_to be_nil
+        expect(msg.page_is_valid?).to be_true
+        expect(msg.page_not_found?).to be_false
+      end
+
+      it "should create WriteListingWorkers for modified listings with proper payload" do
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed_update.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
+        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+
+        @worker.perform(domain: @site.domain)
+        expect(WriteListingWorker._jobs.count).to eq(4)
+        job = WriteListingWorker._jobs.first
+        msg = LinkMessage.new(job["args"].first)
+        expect(msg.url).to match(/avantlink\.com/)
+        expect(msg.page_attributes["digest"]).not_to be_nil
+        expect(msg.page_attributes["item_data"]["price_in_cents"]).to eq(109)
+        expect(msg.page_is_valid?).to be_true
+        expect(msg.page_not_found?).to be_false
+      end
+
+      it "should create WriteListingWorkers for removed listings proper payload" do
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed_remove.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
+        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+
+        @worker.perform(domain: @site.domain)
+        expect(WriteListingWorker._jobs.count).to eq(4)
+        job = WriteListingWorker._jobs.first
+        msg = LinkMessage.new(job["args"].first)
+        expect(msg.url).to match(/avantlink\.com/)
+        expect(msg.page_attributes['item_data']['availability']).to eq('out_of_stock')
+        expect(msg.page_is_valid?).to be_true
+        expect(msg.page_not_found?).to be_false
+      end
+
+      it "should add a link to the ImageQueue for each new or updated listing" do
+        Mocktra("datafeed.avantlink.com") do
+          get '/download_feed.php' do
+            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed.xml") do |file|
+              file.read
+            end
+          end
+        end
+
+        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
+        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+        @worker.perform(domain: @site.domain)
+        iq = ImageQueue.new(domain: @site.domain)
+        expect(iq.size).to eq(4)
+        expect(iq.pop).to match(/brownells\.com/)
+      end
+    end
+
     describe "where image_source exists on CDN already" do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
