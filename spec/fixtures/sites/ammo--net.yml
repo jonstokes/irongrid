@@ -2,6 +2,7 @@
 name: Ammo.net
 domain: ammo.net
 read_interval: 1440
+full_feed: true
 timezone:
 registrations:
   session_queue:

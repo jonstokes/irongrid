@@ -3,7 +3,6 @@ class DeleteEndedAuctionsService < CoreService
 
   def start_jobs
     CoreService.mutex.synchronize {
-      return if DeleteListingsWorker.queued_jobs.any?
       begin
         db do
           Listing.ended_auctions.find_in_batches do |batch|

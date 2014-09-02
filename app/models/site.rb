@@ -124,8 +124,8 @@ class Site < LegacySite
 
   def self.full_product_feed_sites
     all.map do |site|
-      site.full_feed
-    end
+      site if site.full_feed
+    end.compact
   end
 
   private
