@@ -34,7 +34,7 @@ module Stretched
     end
 
     def clean_up
-      # Log out the end of the session
+      outlog "Worker for session queue #{session_q.name} finished. #{session_q}.size sessions left in queue.;"
     end
 
     def transition
@@ -49,8 +49,7 @@ module Stretched
     end
 
     def outlog(str)
-      return unless @debug
-      puts "### #{str}"
+      Rails.logger.info "[Stretched::RunSessionsWorker] #{str}"
     end
 
   end
