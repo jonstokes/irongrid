@@ -3,7 +3,7 @@ module Stretched
     include Sidekiq::Worker
     extend Stretched::WorkerUtils
 
-    sidekiq_options :queue => :crawls, :retry => true
+    sidekiq_options :queue => :stretched, :retry => true
 
     attr_accessor :timer
     attr_reader :session_q
