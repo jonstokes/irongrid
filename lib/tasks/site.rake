@@ -47,19 +47,16 @@ namespace :site do
   task :rollback_listing_updates => :environment do
     domains = %w(
       ammo.net
+      bangitammo.com
       fgammo.com
       shop.qualitymadecartridges.com
-      www.brownells.com
-      www.guncasket.com
-      www.policestore.com
-      www.sinclairintl.com
-      www.sportsmanswarehouse.com
+      www.mimcammo.com
     )
     domains.each do |domain|
-      Listing.where("item_data->>'seller_domain' = ? AND updated_at > ?", domain, 4.days.ago).find_each(:batch_size => 100) do |listing|
+      Listing.where("seller_domain = ? AND updated_at > ?", domain, 1.hours.ago).find_each(:batch_size => 100) do |listing|
         puts "Destroying listing #{listing.url}"
         listing.destroy
-        listing.update_es_index
+        listing.send(:update_es_index)
       end
     end
   end
