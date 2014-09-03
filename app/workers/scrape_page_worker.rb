@@ -8,18 +8,20 @@ class ScrapePageWorker < CoreWorker
   def init(opts)
     opts.to_h.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
-    return false unless opts[:session] && @session = Stretched::Session.new(opts[:session])
+    return false unless opts[:session] && session_source = YAML.load(opts[:session])
     @site = Site.new(
       domain: domain,
       pool:   opts[:site_pool].try(:to_sym),
       source: opts[:site_source].try(:to_sym)
     )
+    @site.register
+    @session = Stretched::Session.new(session_source)
     true
   end
 
   def perform(opts)
     return unless opts && init(opts)
-    Stretched::RunSession.perform(session)
+    Stretched::RunSession.perform(stretched_session: session)
     results = {}
     session.object_adapters.each do |adapter|
       scrapes = pull_and_process(adapter.queue)
@@ -32,7 +34,8 @@ class ScrapePageWorker < CoreWorker
 
   private
 
-  def pull_and_process(object_queue)
+  def pull_and_process(queue)
+    object_queue = Stretched::ObjectQueue.new(queue)
     scrapes = []
     while json = object_queue.pop do
       scrape = { json: json }

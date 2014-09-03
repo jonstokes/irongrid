@@ -14,25 +14,25 @@ class ParserTest < ActiveRecord::Base
 
   Listing::ES_OBJECTS.each do |key|
     define_method key do
-      listing_data['item_data'][key].detect { |attr| attr[key] }.try(:[], key) if listing_data
+      listing_data['item_data'][key].detect { |attr| attr[key] }.try(:[], key) if listing_data.present?
     end
   end
 
   Listing::ITEM_DATA_ATTRIBUTES.each do |key|
     next if %w(seller_domain type).include?(key)
     define_method key do
-      listing_data['item_data'][key] if listing_data
+      listing_data['item_data'][key] if listing_data.present?
     end
   end
 
   %w(url digest).each do |key|
     define_method key do
-      listing_data[key] if listing_data
+      listing_data[key] if listing_data.present?
     end
   end
 
   def listing_type
-    listing_data['type'] if listing_data
+    listing_data['type'] if listing_data.present?
   end
 
   def fetch_page
