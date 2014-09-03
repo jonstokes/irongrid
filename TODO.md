@@ -6,9 +6,10 @@ fixes if needed
 Bring down grid
 
 RAILS_ENV=production rails c: 
-  VALIDATOR_REDIS_POOL.with_redis { |c| c.flushdb }
-  STRETCHED_REDIS_POOL.with_redis { |c| c.flushdb }
-  IRONGRID_REDIS_POOL.with_redis { |c| c.flushdb }
+  VALIDATOR_REDIS_POOL.with { |c| c.flushdb }
+  STRETCHED_REDIS_POOL.with { |c| c.flushdb }
+  IRONGRID_REDIS_POOL.with { |c| c.flushdb }
+  Sidekiq.redis { |c| c.flushdb }
 
 RAILS_ENV=production bundle exec rake stretched:register_all
 RAILS_ENV=production bundle exec rake site:create_all
