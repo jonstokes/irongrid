@@ -46,11 +46,11 @@ namespace :site do
   desc "Roll back listing updates from a period of days"
   task :rollback_listing_updates => :environment do
     domains = %w(
-      ammo.net
-      bangitammo.com
-      fgammo.com
-      shop.qualitymadecartridges.com
-      www.mimcammo.com
+      www.brownells.com
+      www.guncasket.com
+      www.policestore.com
+      www.sinclairintl.com
+      www.sportsmanswarehouse.com
     )
     domains.each do |domain|
       Listing.where("seller_domain = ? AND updated_at > ?", domain, 1.hours.ago).find_each(:batch_size => 100) do |listing|
