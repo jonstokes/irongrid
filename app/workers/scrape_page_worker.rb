@@ -3,11 +3,12 @@ class ScrapePageWorker < CoreWorker
 
   sidekiq_options :queue => :scrapes, :retry => false
 
-  attr_reader :domain, :site, :url
+  attr_reader :domain, :site, :session, :domain
 
   def init(opts)
     opts.to_h.symbolize_keys!
-    return false unless opts && (@domain = opts[:domain]) && (@url = opts[:url])
+    return false unless opts && @domain = opts[:domain]
+    return false unless opts[:session] && @session = Stretched::Session.new(opts[:session])
     @site = Site.new(
       domain: domain,
       pool:   opts[:site_pool].try(:to_sym),
@@ -18,29 +19,36 @@ class ScrapePageWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
-    return unless @site.page_adapter
-    pull_and_process(url)
+    Stretched::RunSession.perform(session)
+    results = {}
+    session.object_adapters.each do |adapter|
+      scrapes = pull_and_process(adapter.queue)
+      results.merge!(adapter.queue => scrapes)
+    end
+    ValidatorQueue.add(jid, results)
   ensure
     close_http_connections
   end
 
   private
 
-  def pull_and_process(url)
-    if scraper = scrape_page(url)
-      msg = LinkMessage.new(
-        url:                  url,
-        page_is_valid:        scraper.is_valid?,
-        page_not_found:       scraper.not_found?,
-        page_classified_sold: scraper.classified_sold?,
-        page_attributes:      scraper.listing,
-        raw_attributes:       scraper.raw_listing
-      )
-    else
-      msg = LinkMessage.new(url: url, page_not_found: true)
+  def pull_and_process(object_queue)
+    scrapes = []
+    while json = object_queue.pop do
+      scrape = { json: json }
+      if object_queue.name[/listing/]
+        listing = clean_listing(json)
+        scrape.merge!(listing: listing)
+      end
+      # scrape: { json: json, listing: listing }
+      scrapes << scrape
     end
-    ValidatorQueue.add(jid, msg.to_h)
-    msg
+    scrapes
+  end
+
+  def clean_listing(json)
+    scraper = ParseJson.perform(json.merge(site: site))
+    scraper.listing
   end
 
   def scrape_page(url)

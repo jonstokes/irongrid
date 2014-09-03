@@ -6,9 +6,9 @@ class ValidatorQueue < CoreModel
   def self.add(key, opts)
     nkey = "#{PREFIX}#{key}"
     opts = opts.symbolize_keys
-    notify "### Adding validator queue key #{nkey} for url #{opts[:url]}"
+    notify "### Adding validator queue key #{nkey}"
     with_redis do |conn|
-      conn.set nkey, opts.to_json
+      conn.set nkey, opts.to_yaml
     end
   end
 
@@ -18,6 +18,6 @@ class ValidatorQueue < CoreModel
     return unless value = with_redis do |conn|
       conn.get nkey
     end
-    JSON.parse(value)
+    YAML.load(value)
   end
 end

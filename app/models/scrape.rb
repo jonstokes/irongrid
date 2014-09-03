@@ -3,47 +3,28 @@ class Scrape
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_reader :msg, :key
-  attr_accessor :url, :domain, :page_adapter
+  attr_reader :key
+  attr_accessor :session, :site_data
 
   def initialize(opts={})
     opts = opts.to_h.symbolize_keys!
-    @url, @domain, @page_adapter = opts[:url], opts[:domain], opts[:page_adapter]
-    opts = opts.reject { |k, v| [:domain, :page_adapter].include?(k) }
-    @msg = LinkMessage.new(opts)
+    @session, @site_data, @data = opts[:session], opts[:site_data], opts[:data]
+  end
+
+  def data
+    @mashed_data ||= Hashie::Mash.new(@data)
   end
 
   def to_param
     key
   end
 
-  def listing
-    msg.page_attributes
-  end
-
-  def raw_listing
-    msg.raw_attributes
-  end
-
-  def is_valid?
-    msg.page_is_valid?
-  end
-
-  def not_found?
-    msg.page_not_found?
-  end
-
-  def classified_sold?
-    msg.page_classified_sold?
-  end
-
   def save
-    site = Site.new(domain: domain, source: :form, pool: :validator)
-    return unless lint_adapter(page_adapter)
-    site.update(page_adapter: YAML.load(page_adapter))
+    return unless lint_adapter
+    site = Site.new(site_data: site_data, source: :form, pool: :validator)
     @key = ScrapePageWorker.perform_async(
-      domain:      domain,
-      url:         url,
+      domain: site_data['domain'],
+      session: session,
       site_source: :redis,
       site_pool:   :validator
     )
@@ -58,20 +39,20 @@ class Scrape
       results = ValidatorQueue.get(key)
     end until results || (timeout -= 1).zero?
     return Scrape.new unless results
-    Scrape.new(results)
+    Scrape.new(data: results)
   end
 
   def self.new_record?
     true
   end
 
-  def lint_adapter(source)
+  def lint_adapter
     tester = AdapterTests::Test.new(self)
-    tester.validate_yaml(source)
-    return if self.errors.messages.count > 0
-    tester.check_for_stub_data(source)
-    tester.check_digests(source)
-    tester.check_adapter_format(source)
+    #tester.validate_yaml(source)
+    #return if self.errors.messages.count > 0
+    #tester.check_for_stub_data(source)
+    #tester.check_digests(source)
+    tester.check_adapter_format(site_data)
     self.errors.messages.count == 0
   end
 end
