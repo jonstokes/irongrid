@@ -110,6 +110,7 @@ describe Stretched::RunSession do
         expect(page.code).to eq(200)
 
         object = json.object
+        expect(object.url).to include("ammo.net")
         expect(object.location).to eq("Atlanta, GA 30348")
         expect(object.price_in_cents).not_to be_nil
         expect(object.availability).not_to be_nil

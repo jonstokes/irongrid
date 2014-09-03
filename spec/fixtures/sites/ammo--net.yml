@@ -13,6 +13,9 @@ registrations:
       queue: ammo.net/listings
       xpath: //channel/item
       attribute:
+        url:
+        - find_by_xpath:
+            xpath: .//url
         title:
         - find_by_xpath:
             xpath: .//title
