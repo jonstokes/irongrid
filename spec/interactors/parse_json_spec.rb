@@ -157,7 +157,7 @@ describe ParseJson do
 
       expect(item.category1.map(&:category1).compact.first).to eq("Guns")
       expect(item.title.map(&:title).compact.first).to eq("fast sale springfield xd 45")
-      expect(item.item_condition).to be_nil
+      expect(item.item_condition).to eq("Unknown")
       expect(item.image_source).to eq("http://cdn2.armslist.com/sites/armslist/uploads/posts/2013/05/24/1667211_01_fast_sale_springfield_xd_45_640.jpg")
       expect(item.keywords).to be_nil
       expect(item.description).to include("For sale a springfield xd")
