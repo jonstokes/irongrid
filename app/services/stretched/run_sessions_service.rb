@@ -5,9 +5,12 @@ module Stretched
 
     SLEEP_INTERVAL = Rails.env.test? ? 1 : 15
 
+    attr_reader :thread, :thread_error, :jid
+
 
     def initialize
       @done = false
+      @jid = Digest::MD5.hexdigest(Time.now.utc.to_s + Thread.current.object_id.to_s)
     end
 
     def start
