@@ -18,8 +18,8 @@ def notify(string)
 end
 
 def start_service(svc)
-  service_class = Object.const_get svc
-  notify "Starting service #{service_class}..."
+  service_class = svc.constantize
+  notify "Starting service #{svc}..."
   service = service_class.new
   service.start
   notify "#{service_class} started!"
