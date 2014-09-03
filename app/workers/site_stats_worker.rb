@@ -1,14 +1,14 @@
 class SiteStatsWorker < CoreWorker
   include Trackable
 
+  sidekiq_options queue: :slow_db
+
   LOG_RECORD_SCHEMA = {
     active_listings: Integer,
     inactive_listings: Integer,
     stale_listings: Integer,
     stalest_listing: Time
   }
-
-  sidekiq_options queue: :slow_db
 
   attr_reader :domain
 

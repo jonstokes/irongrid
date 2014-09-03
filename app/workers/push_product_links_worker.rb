@@ -1,6 +1,8 @@
 class PushProductLinksWorker < CoreWorker
   include Trackable
 
+  sidekiq_options :queue => :crawls, :retry => true
+
   LOG_RECORD_SCHEMA = {
     links_deleted:   Integer,
     sessions_pushed: Integer,

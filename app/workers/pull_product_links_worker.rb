@@ -1,6 +1,8 @@
 class PullProductLinksWorker < CoreWorker
   include Trackable
 
+  sidekiq_options :queue => :crawls, :retry => true
+
   LOG_RECORD_SCHEMA = {
     objects_deleted: Integer,
     links_created:   Integer,

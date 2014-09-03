@@ -2,6 +2,8 @@ class PullListingsWorker < CoreWorker
   include Trackable
   include UpdateImage
 
+  sidekiq_options :queue => :crawls, :retry => true
+
   attr_accessor :site, :timer
   delegate :timed_out?, to: :timer
 
@@ -13,8 +15,6 @@ class PullListingsWorker < CoreWorker
     transition:      String,
     next_jid:        String
   }
-
-  sidekiq_options :queue => :crawls, :retry => true
 
   def init(opts)
     opts.symbolize_keys!

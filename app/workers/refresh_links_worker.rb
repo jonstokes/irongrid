@@ -2,13 +2,13 @@ class RefreshLinksWorker < CoreWorker
   include ConnectionWrapper
   include Trackable
 
+  sidekiq_options queue: :slow_db, retry: true
+
   LOG_RECORD_SCHEMA = {
     links_created: Integer,
     transition:    String,
     next_jid:      String
   }
-
-  sidekiq_options queue: :slow_db, retry: true
 
   attr_reader :domain, :site
   attr_accessor :scraper

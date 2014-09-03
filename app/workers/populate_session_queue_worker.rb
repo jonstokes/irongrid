@@ -1,14 +1,14 @@
 class PopulateSessionQueueWorker < CoreWorker
   include Trackable
 
+  sidekiq_options :queue => :slow_db, :retry => true
+
   attr_accessor :site, :timer
   delegate :timed_out?, to: :timer
 
   LOG_RECORD_SCHEMA = {
     sessions_added:  Integer,
   }
-
-  sidekiq_options :queue => :slow_db, :retry => true
 
   def init(opts)
     opts.symbolize_keys!
