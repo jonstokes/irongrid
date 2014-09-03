@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'sidekiq/testing'
 
-describe Stretched::SessionQueueService do
+describe Stretched::RunSessionsService do
   before :each do
     # Stretched
     Stretched::Registration.with_redis { |conn| conn.flushdb }
@@ -28,7 +28,7 @@ describe Stretched::SessionQueueService do
   describe "PopulateSessionQueue sites", no_es: true do
     before :each do
       @site = create_site "www.budsgunshop.com"
-      @service = Stretched::SessionQueueService.new
+      @service = Stretched::RunSessionsService.new
       @q = Stretched::SessionQueue.new(@site.domain)
       @q.clear
     end

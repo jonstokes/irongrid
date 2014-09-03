@@ -1,15 +1,15 @@
 def service_list
   %w(
+    Stretched::RunSessionsService
+    ReadListingsService
+    ReadProductLinksService
+    PruneLinksService
     DeleteEndedAuctionsService
     ReadSitesService
     ReadListingsService
     CdnService
     UpdateListingImagesService
     SiteStatsService
-    ReadListingsService
-    ReadProductLinksService
-    PruneLinksService
-    Stretched::RunSessionsService
   )
 end
 

@@ -1,5 +1,5 @@
 module Stretched
-  class SessionQueueService
+  class RunSessionsService
     include Stretched::WorkerUtils
     include Stretched::Notifier
 
@@ -38,7 +38,7 @@ module Stretched
     end
 
     def start_jobs
-      SessionQueueService.mutex.synchronize {
+      RunSessionsService.mutex.synchronize {
         SessionQueue.each do |q|
           next unless should_add_job?(q)
           puts "Adding RunSessionsWorker job for queue #{q.name}"
