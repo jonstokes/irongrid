@@ -34,7 +34,7 @@ For the staging environment, the dashboard is at http://irongrid-dashboard-stagi
 ### Services ip-10-29-184-221
 RAILS_ENV="production" DB_POOL=5 daemon -U -r --stdout=syslog -n sidekiq_daemon -D /home/bitnami/irongrid -- jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m --1.9 -S bundle exec rake service:boot_all --trace
 
-RAILS_ENV="production" DB_POOL=5 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m --1.9 -S bundle exec rake service:boot_all --trace
+RAILS_ENV="production" REDIS_POOL=20 DB_POOL=5 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m --1.9 -S bundle exec rake service:boot_all --trace
 
 ### Crawls - small
 RAILS_ENV="production" DB_POOL=2 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q stretched,2 -q crawl_images,1 -q crawls,1 -c 10 2>&1 | logger -t sidekiq

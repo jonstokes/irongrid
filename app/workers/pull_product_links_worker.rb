@@ -28,6 +28,7 @@ class PullProductLinksWorker < CoreWorker
     return unless init(opts)
     while !timed_out? && obj = @object_q.pop
       record_incr(:objects_deleted)
+      next unless obj.object && obj.object.product_link
       record_incr(:links_created) if @link_store.push LinkMessage.new(url: obj.object.product_link)
     end
     stop_tracking
