@@ -28,6 +28,7 @@ class PruneLinksWorker < CoreWorker
       else
         record_incr(:links_passed)
       end
+      status_update
     end
     transition
     stop_tracking
