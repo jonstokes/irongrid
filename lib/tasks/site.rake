@@ -46,6 +46,11 @@ namespace :site do
   desc "Roll back listing updates from a period of days"
   task :rollback_listing_updates => :environment do
     domains = %w(
+      ammo.net
+      bangitammo.com
+      fgammo.com
+      shop.qualitymadecartridges.com
+      www.mimcammo.com
       www.brownells.com
       www.guncasket.com
       www.policestore.com
@@ -53,11 +58,16 @@ namespace :site do
       www.sportsmanswarehouse.com
     )
     domains.each do |domain|
-      Listing.where("seller_domain = ? AND updated_at > ?", domain, 1.hours.ago).find_each(:batch_size => 100) do |listing|
-        puts "Destroying listing #{listing.url}"
+      puts "Rolling back #{domain}"
+      Listing.where("seller_domain = ? AND updated_at > ?", domain, 16.hours.ago).find_each(:batch_size => 100) do |listing|
+        puts "  Destroying listing #{listing.url}"
         listing.destroy
         listing.send(:update_es_index)
       end
+
+      q = Stretched::ObjectQueue.find_or_create("#{domain}/listings")
+      puts "  Clearing listings queue of size #{q.size}"
+      q.clear
     end
   end
 
