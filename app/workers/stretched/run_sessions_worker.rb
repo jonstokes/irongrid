@@ -39,7 +39,7 @@ module Stretched
 
     def transition
       if @session_q.any?
-        self.class.perform_async(domain: domain)
+        self.class.perform_async(queue: @session_q.name)
       end
     end
 
