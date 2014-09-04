@@ -15,8 +15,8 @@ class PullProductLinksWorker < CoreWorker
 
   def init(opts)
     opts.symbolize_keys!
-    return false unless opts && domain = opts[:domain]
-    @site = Site.new(domain: domain)
+    return false unless opts && @domain = opts[:domain]
+    @site = Site.new(domain: @domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @link_store = LinkMessageQueue.new(domain: site.domain)
     @object_q = Stretched::ObjectQueue.find_or_create("#{site.domain}/product_links")

@@ -4,9 +4,6 @@ class PullListingsWorker < CoreWorker
 
   sidekiq_options :queue => :crawls, :retry => true
 
-  attr_accessor :site, :timer
-  delegate :timed_out?, to: :timer
-
   LOG_RECORD_SCHEMA = {
     db_writes:       Integer,
     objects_deleted: Integer,
@@ -16,10 +13,13 @@ class PullListingsWorker < CoreWorker
     next_jid:        String
   }
 
+  attr_accessor :domain, :timer, :site
+  delegate :timed_out?, to: :timer
+
   def init(opts)
     opts.symbolize_keys!
-    return false unless opts && domain = opts[:domain]
-    @site = Site.new(domain: domain)
+    return false unless opts && @domain = opts[:domain]
+    @site = Site.new(domain: @domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @object_queue = Stretched::ObjectQueue.find_or_create("#{site.domain}/listings")
     @image_store = ImageQueue.new(domain: site.domain)
