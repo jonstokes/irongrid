@@ -34,7 +34,7 @@ module Stretched
     end
 
     def clean_up
-      outlog "Worker for session queue #{session_q.name} finished. #{session_q}.size sessions left in queue.;"
+      outlog "Worker for session queue #{session_q.name} finished. #{session_q.size} sessions left in queue.;"
     end
 
     def transition

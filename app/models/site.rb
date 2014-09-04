@@ -78,6 +78,18 @@ class Site < LegacySite
     Stretched::Registration.register_from_source(registrations)
   end
 
+  def session_queue
+    @session_queue ||= Stretched::SessionQueue.find_or_create(domain)
+  end
+
+  def listings_queue
+    @listings_queue ||= Stretched::ObjectQueue.find_or_create("#{domain}/listings")
+  end
+
+  def product_links_queue
+    @product_links_queue ||= Stretched::ObjectQueue.find_or_create("#{domain}/product_links")
+  end
+
   def write_to_redis
     redis_pool.with do |conn|
       conn.set("site--#{domain}", @site_data.to_yaml)
@@ -118,6 +130,7 @@ class Site < LegacySite
       site.site_data[attr] = local_site.site_data[attr]
     end
     site.send(:write_to_redis)
+    site.register
   end
 
   def self.all

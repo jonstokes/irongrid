@@ -3,7 +3,7 @@ class PopulateSessionQueueWorker < CoreWorker
 
   sidekiq_options :queue => :slow_db, :retry => true
 
-  attr_accessor :site, :timer
+  attr_accessor :site, :timer, :domain
   delegate :timed_out?, to: :timer
 
   LOG_RECORD_SCHEMA = {
@@ -12,10 +12,10 @@ class PopulateSessionQueueWorker < CoreWorker
 
   def init(opts)
     opts.symbolize_keys!
-    return false unless opts && domain = opts[:domain]
-    return false unless PopulateSessionQueueWorker.should_run?(domain) && i_am_alone_with_this_domain?
+    return false unless opts && @domain = opts[:domain]
+    return false unless PopulateSessionQueueWorker.should_run?(@domain) && i_am_alone_with_this_domain?
     @site = Site.new(domain: domain)
-    @session_queue = Stretched::SessionQueue.find_or_create(domain)
+    @session_queue = Stretched::SessionQueue.find_or_create(@domain)
     return false if @session_queue.any?
     track
     true
@@ -23,7 +23,8 @@ class PopulateSessionQueueWorker < CoreWorker
 
   def perform(opts)
     return unless opts && init(opts)
-    record_set :sessions_added, @session_queue.add(site.sessions).count
+    @session_queue.add(site.sessions)
+    record_set :sessions_added, site.sessions.count
     site.mark_read!
 
     stop_tracking
