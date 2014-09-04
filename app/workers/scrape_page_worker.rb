@@ -20,13 +20,16 @@ class ScrapePageWorker < CoreWorker
   end
 
   def perform(opts)
+    results = {}
     return unless opts && init(opts)
     Stretched::RunSession.perform(stretched_session: session)
-    results = {}
     session.object_adapters.each do |adapter|
       scrapes = pull_and_process(adapter.queue)
       results.merge!(adapter.queue => scrapes)
     end
+    ValidatorQueue.add(jid, results)
+  rescue Exception => e
+    results.merge!(error: e.message)
     ValidatorQueue.add(jid, results)
   ensure
     close_http_connections
