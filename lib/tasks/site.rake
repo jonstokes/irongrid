@@ -64,10 +64,9 @@ namespace :site do
         listing.destroy
         listing.send(:update_es_index)
       end
-
-      q = Stretched::ObjectQueue.find_or_create("#{domain}/listings")
-      puts "  Clearing listings queue of size #{q.size}"
-      q.clear
+      site = Site.new(domain: domain)
+      puts "  Clearing listings queue of size #{site.listings_queue.size}"
+      site.listings_queue.clear
     end
   end
 
