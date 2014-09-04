@@ -14,8 +14,9 @@ class PushProductLinksWorker < CoreWorker
   delegate :timed_out?, to: :timer
 
   def init(opts)
-    return false unless opts && domain = opts[:domain]
-    @site = Site.new(domain: domain)
+    opts.symbolize_keys!
+    return false unless opts && @domain = opts[:domain]
+    @site = Site.new(domain: @domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @urls = Set.new
     @session_q = Stretched::SessionQueue.find_or_create(site.domain)
