@@ -40,10 +40,11 @@ module Stretched
           object: obj,
           page: page.to_hash,
           session: {
-            key:            stretched_session.key,
-            start_time:     stretched_session.start_time,
-            queue_name:     stretched_session.queue_name,
-            definition_key: stretched_session.definition_key
+            key:                stretched_session.key,
+            start_time:         stretched_session.start_time,
+            queue:              stretched_session.queue_name,
+            session_definition: stretched_session.definition_key,
+            object_adapter:     adapter.key
           }
         }
       end
