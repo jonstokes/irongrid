@@ -32,7 +32,7 @@ describe ParseJson do
         page: page,
         adapter_name: "#{site.domain}/product_page"
       )
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -59,7 +59,7 @@ describe ParseJson do
         page: page,
         adapter_name: "#{site.domain}/product_page"
       )
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -102,7 +102,7 @@ describe ParseJson do
         page: page,
         adapter_name: "#{site.domain}/product_page"
       )
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -141,7 +141,7 @@ describe ParseJson do
         page: page,
         adapter_name: "#{site.domain}/product_page"
       )
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -183,7 +183,7 @@ describe ParseJson do
         page: page,
         adapter_name: "#{site.domain}/product_page"
       )
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -216,7 +216,7 @@ describe ParseJson do
         page: page,
         adapter_name: "#{site.domain}/product_page"
       )
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),

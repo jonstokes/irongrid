@@ -14,14 +14,14 @@ module Stretched
         next unless page = scrape_page(url)
         stretched_session.object_adapters.each do |adapter|
           if page.is_valid?
-            result = ExtractJsonFromPage.perform(
+            results = ExtractJsonFromPage.perform(
               page: page,
               adapter: adapter,
               browser_session: browser_session
             )
-            add_objects_to_queue(adapter, result.json_objects)
+            add_objects_to_queue(adapter, page, results.json_objects)
           else
-            add_objects_to_queue(adapter, [{ page: page.to_hash }])
+            add_objects_to_queue(adapter, page, [])
           end
         end
         context[:pages_scraped] = stretched_session.urls.count
@@ -32,17 +32,20 @@ module Stretched
 
     private
 
-    def add_objects_to_queue(adapter, json_objects)
+    def add_objects_to_queue(adapter, page, json_objects)
       object_q = ObjectQueue.find_or_create(adapter.queue)
+      json_objects = [{}] if json_objects.empty?
       results = json_objects.map do |obj|
-        obj.merge(
+        {
+          object: obj,
+          page: page.to_hash,
           session: {
             key:            stretched_session.key,
             start_time:     stretched_session.start_time,
             queue_name:     stretched_session.queue_name,
             definition_key: stretched_session.definition_key
           }
-        )
+        }
       end
       object_q.add results
     end

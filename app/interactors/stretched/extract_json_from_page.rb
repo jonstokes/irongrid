@@ -15,8 +15,7 @@ module Stretched
         instance = run_json_setters(instance, node)
         instance = run_ruby_setters(instance, node)
         instance.select { |attribute, value| adapter.validate(attribute, value) }
-
-        { page: page.to_hash, object: instance }
+        instance
       end
     end
 

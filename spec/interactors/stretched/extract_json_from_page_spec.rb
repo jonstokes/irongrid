@@ -49,7 +49,7 @@ describe Stretched::ExtractJsonFromPage do
 
       expect(result.json_objects).not_to be_empty
 
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
       expect(listing['title']).to include("Ruger 3470 SR40 15+1 40S&")
       expect(listing['keywords']).to include("Ruger, 3470")
       expect(listing['location']).to eq("1105 Industry Road Lexington, KY 40505")
@@ -76,7 +76,7 @@ describe Stretched::ExtractJsonFromPage do
 
       expect(result.json_objects).not_to be_empty
 
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
       expect(listing['title']).to include("Ruger 3470 SR40 15+1 40S&")
       expect(listing['type']).to eq("RetailListing")
       expect(listing['image']).to eq("http://www.budsgunshop.com/catalog/images/69980_1.jpg")
@@ -102,7 +102,7 @@ describe Stretched::ExtractJsonFromPage do
 
       expect(result.json_objects).not_to be_empty
 
-      listing = result.json_objects.first[:object]
+      listing = result.json_objects.first
       expect(listing['title']).to include("Ruger 3470 SR40 15+1 40S&")
       expect(listing['type']).to eq("RetailListing")
       expect(listing['location']).to eq("1105 Industry Road Lexington, KY 40505")

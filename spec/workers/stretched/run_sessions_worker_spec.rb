@@ -35,8 +35,12 @@ describe Stretched::RunSessionsWorker do
       @worker.perform(queue: @domain)
 
       expect(object_q.size).to eq(162)
-      object = object_q.pop.object
-      expect(object['product_link']).to include("http")
+      while result = object_q.pop
+        if !!result.page.url[/catalog\/1/]
+          expect(result.object.product_link).not_to be_nil
+          expect(result.object.product_link).to include("http")
+        end
+      end
     end
 
 
