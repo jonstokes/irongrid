@@ -41,7 +41,7 @@ module Stretched
           page: page.to_hash,
           session: {
             key:                stretched_session.key,
-            start_time:         stretched_session.start_time,
+            started_at:         stretched_session.started_at,
             queue:              stretched_session.queue_name,
             session_definition: stretched_session.definition_key,
             object_adapter:     adapter.key

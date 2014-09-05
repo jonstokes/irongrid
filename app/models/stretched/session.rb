@@ -1,6 +1,6 @@
 module Stretched
   class Session
-    attr_reader :session_definition, :object_adapters, :queue_name, :urls, :start_time, :key
+    attr_reader :session_definition, :object_adapters, :queue_name, :urls, :started_at, :key
 
     delegate :with_limit, :page_format, to: :session_definition
 
@@ -23,7 +23,7 @@ module Stretched
     alias count size
 
     def start!
-      @start_time = Time.now.utc
+      @started_at = Time.now.utc
     end
 
     def self.create(opts)
