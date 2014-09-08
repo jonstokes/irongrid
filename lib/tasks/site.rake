@@ -33,6 +33,18 @@ namespace :site do
     Site.add_domains(domains)
   end
 
+  desc "Remove deactivated sites"
+  task :delete_dead => :environment do
+    YAML.load_file("tmp/dead.yml").each do |domain|
+      puts "Removing #{domain}"
+      site = Site.new(domain: domain) rescue nil
+      next unless site
+      site.session_queue.clear
+      site.listings_queue.clear
+      site.product_links_queue.clear
+      Site.remove_domain(domain)
+    end
+  end
 
   desc "Jumpstart scrapes on sites with link_data"
   task :scrape_all => :environment do

@@ -90,6 +90,10 @@ class Site < LegacySite
     @product_links_queue ||= Stretched::ObjectQueue.find_or_create("#{domain}/product_links")
   end
 
+  def link_message_queue
+    @lmq = LinkMessageQueue.new(domain: domain)
+  end
+
   def write_to_redis
     redis_pool.with do |conn|
       conn.set("site--#{domain}", @site_data.to_yaml)
@@ -114,6 +118,7 @@ class Site < LegacySite
   def self.remove_domain(domain)
     with_redis do |conn|
       conn.srem("site--index", domain)
+      conn.del "site--#{domain}"
     end
   end
 
