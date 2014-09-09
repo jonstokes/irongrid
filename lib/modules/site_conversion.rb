@@ -129,11 +129,10 @@ module SiteConversion
       session_list = []
       url_list = []
       urls.each do |url|
+        url_list << url
         if url_count(url_list) >= 300
           session_list << session_hash(url_list)
           url_list = []
-        else
-          url_list << url
         end
       end
       session_list << session_hash(url_list)
@@ -209,7 +208,7 @@ module SiteConversion
   end
 
   def convert_feed(feed)
-    return { 'url' => feed['url'] } unless !!feed['url']['start_at_page']
+    return { 'url' => feed['url'] } unless !!feed['start_at_page']
     hash = {
       'url'           => feed['url'],
       'start_at_page' => feed['start_at_page'],
