@@ -29,7 +29,7 @@ class ScrapePageWorker < CoreWorker
     end
     ValidatorQueue.add(jid, results)
   rescue Exception => e
-    results.merge!(error: e.message)
+    results.merge!(error: "#{e.inspect}. #{e.backtrace}")
     ValidatorQueue.add(jid, results)
   ensure
     close_http_connections
