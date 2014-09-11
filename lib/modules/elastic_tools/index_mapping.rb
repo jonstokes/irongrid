@@ -40,6 +40,10 @@ module ElasticTools
           current_bid_in_cents:   { type: :integer },
           minimum_bid_in_cents:   { type: :integer },
           reserve_in_cents:       { type: :integer },
+          discount_in_cents:      { type: :integer },
+          discount_percent:       { type: :integer },
+          shipping_cost_in_cents: { type: :integer },
+          weight_in_pounds:       { type: :float },
           price_on_request:       { type: :string, analyzer: :keyword },
           upc:                   { type: :string, analyzer: :keyword },
           mpn:                   { type: :string, analyzer: :keyword },
@@ -92,6 +96,8 @@ module ElasticTools
               classification_type: { type: :string, analyzer: :keyword }
             },
           price_per_round_in_cents: { type: :integer },
+          price_per_round_in_cents_with_shipping: { type: :integer },
+          current_price_in_cents_with_shipping: { type: :integer },
           },
         }
       }

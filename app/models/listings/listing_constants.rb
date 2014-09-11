@@ -24,6 +24,10 @@ module ListingConstants
   )
 
   ITEM_DATA_ATTRIBUTES =[
+    'shipping_cost_in_cents',
+    'discount_in_cents',
+    'discount_percent',
+    'weight_in_pounds',
     'seller_name',
     'description',
     'keywords',
@@ -32,7 +36,9 @@ module ListingConstants
     'item_location',
     'availability',
     'current_price_in_cents',
+    'current_price_in_cents_with_shipping',
     'price_per_round_in_cents',
+    'price_per_round_in_cents_with_shipping',
     'price_on_request',
     'price_in_cents',
     'sale_price_in_cents',

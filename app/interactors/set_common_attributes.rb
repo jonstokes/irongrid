@@ -4,21 +4,27 @@ class SetCommonAttributes < CoreModel
   def perform
     context[:url]                = listing_json.url
     context[:type]               = listing_json['type']
-    context[:title]              = title
-    context[:keywords]           = keywords
     context[:description]        = listing_json.description
+    context[:weight_in_pounds]   = listing_json.weight_in_pounds
+    context[:discount_in_cents]  = listing_json.discount_in_cents
+    context[:discount_percent]   = listing_json.discount_percent
+    context[:shipping_cost_in_cents] = listing_json.shipping_cost_in_cents
+
     context[:availability]       = listing_json.availability || "Unknown"
-    context[:category1]          = product_category1
+    context[:item_condition]     = listing_json.condition || "Unknown"
+    context[:image_source]       = listing_json.image
+    context[:item_location]      = listing_json.location
     context[:upc]                = listing_json.product_upc
     context[:mpn]                = listing_json.product_mpn
     context[:sku]                = listing_json.product_sku
+
+    context[:title]              = title
+    context[:keywords]           = keywords
+    context[:category1]          = product_category1
     context[:seller_domain]      = site.domain
     context[:seller_name]        = site.name
     context[:affiliate_link_tag] = site.affiliate_link_tag
     context[:affiliate_program]  = site.affiliate_program
-    context[:image_source]       = listing_json.image
-    context[:item_condition]     = listing_json.condition || "Unknown"
-    context[:item_location]      = listing_json.location
     context[:auction_ends]       = auction_ends
   end
 

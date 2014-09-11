@@ -14,6 +14,13 @@ class SetPriceAttributes
     ).map(&:to_sym).each do |key|
       context[key] = listing_json[key]
     end
+
+    context[:current_price_in_cents_with_shipping] = calculate_current_price_in_cents_with_shipping
+  end
+
+  def calculate_current_price_in_cents_with_shipping
+    return context[:current_price_in_cents] unless context[:shipping_cost_in_cents]
+    context[:current_price_in_cents] + context[:shipping_cost_in_cents]
   end
 
 end

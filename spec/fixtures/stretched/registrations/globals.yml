@@ -65,13 +65,19 @@ session_definition:
       "buy_now_price_in_cents":   { "type": "integer" },
       "current_bid_in_cents":     { "type": "integer" },
       "minimum_bid_in_cents":     { "type": "integer" },
-      "location":            { "type": "string" },
+      "location":                 { "type": "string" },
       "reserve_in_cents":         { "type": "integer" },
       "price_on_request":         { "type": "string" },
       "price_per_round_in_cents": { "type": "integer" },
-      "product_upc":                      { "type": "integer" },
-      "product_mpn":                      { "type": "string" },
-      "product_sku":                      { "type": "string" },
+      "discount_in_cents":        { "type": "integer" },
+      "discount_percent":         { "type": "integer" },
+      "shipping_cost_in_cents":   { "type": "integer" },
+      "weight_in_pounds":         { "type": "float" },
+      "weight_in_ounces":         { "type": "float" },
+      "weight_in_kilograms":      { "type": "float" },
+      "product_upc":              { "type": "string" },
+      "product_mpn":              { "type": "string" },
+      "product_sku":              { "type": "string" },
       "product_category1": {
         "type": "string",
         "enum": ["Guns", "Ammunition", "Optics", "Accessories", "None"]
@@ -80,10 +86,10 @@ session_definition:
         "type": "string",
         "enum": ["Handgun", "Rifle", "Rimfire", "Shotgun"]
       },
-      "product_manufacturer":             { "type": "string" },
-      "product_caliber":                  { "type": "string" },
-      "product_grains":                   { "type": "integer" },
-      "product_number_of_rounds":         { "type": "integer" }
+      "product_manufacturer":     { "type": "string" },
+      "product_caliber":          { "type": "string" },
+      "product_grains":           { "type": "integer" },
+      "product_number_of_rounds": { "type": "integer" }
     },
     "required": ["valid", "not_found", "url"]
   }
@@ -102,4 +108,5 @@ object_adapter:
 #   - globals/calculate_shipping
     - globals/validation
     attribute: {}
+
 

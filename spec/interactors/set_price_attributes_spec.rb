@@ -17,6 +17,7 @@ describe SetPriceAttributes do
         "image" => "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG",
         "price_in_cents" => 65000,
         "sale_price_in_cents" => 60000,
+        "current_price_in_cents" => 60000,
         "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
         "product_category1" => "Guns"
       )
@@ -27,8 +28,34 @@ describe SetPriceAttributes do
       )
       expect(result.price_in_cents).to eq(65000)
       expect(result.sale_price_in_cents).to eq(60000)
+      expect(result.current_price_in_cents_with_shipping).to eq(60000)
     end
 
+    it "correctly sets prices for a retail listing with shipping" do
+      listing_json = Hashie::Mash.new(
+        "condition"=>"new",
+        "type"=>"retail",
+        "availability"=>"in_stock",
+        "location"=>"1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705",
+        "title" => "CITADEL 1911 COMPACT .45ACP 3 1/2\" HOGUE BLACK", 
+        "keywords" => "CITADEL 1911 COMPACT .45ACP",
+        "image" => "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG",
+        "price_in_cents" => 65000,
+        "sale_price_in_cents" => 60000,
+        "current_price_in_cents" => 60000,
+        "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
+        "product_category1" => "Guns"
+      )
+      result = SetPriceAttributes.perform(
+        site: @site,
+        listing_json: listing_json,
+        type: "RetailListing",
+        shipping_cost_in_cents: 10
+      )
+      expect(result.price_in_cents).to eq(65000)
+      expect(result.sale_price_in_cents).to eq(60000)
+      expect(result.current_price_in_cents_with_shipping).to eq(60010)
+    end
 
     it "correctly sets prices for a classified listing" do
       listing_json = Hashie::Mash.new(
