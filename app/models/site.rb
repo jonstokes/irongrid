@@ -38,6 +38,12 @@ class Site < LegacySite
     load_data!(opts[:source].try(:to_sym))
   end
 
+  def write_yaml
+    File.open("#{Figaro.env.sites_repo}/sites/#{domain_dashed}.yml", "w") do |f|
+      f.puts @site_data.stringify_keys.to_yaml
+    end
+  end
+
   def update(attrs)
     check_attributes(attrs)
     load_data!

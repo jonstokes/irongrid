@@ -112,4 +112,31 @@ namespace :site do
       end
     end
   end
+
+  def fix_site(domain)
+    puts "Fixing #{domain}"
+    legacy_site = LegacySite.new(domain: domain, source: :local)
+    site = Site.new(domain: domain, source: :local)
+    next unless site.site_data[:registrations]['object_adapter']["#{domain}/product_link"]
+    filters = {
+      'filters' => [ 'prefix' => legacy_site.link_prefix  ]
+    }
+    site.site_data[:registrations]['object_adapter']["#{domain}/product_link"]['attribute']['product_link'].each do |setter|
+      setter.merge!(filters) if legacy_site.link_prefix
+    end
+    site.write_yaml
+  end
+
+  task :restore_prefixes => :environment do
+    domains = YAML.load_file("../sites/site_manifest.yml")
+    domains.each do |domain|
+      fix_site(domain) rescue next
+    end
+
+    domains = YAML.load_file("#{Figaro.env.sites_repo}/sites/site_manifest.yml")
+    domains.each do |domain|
+      fix_site(domain) rescue next
+    end
+  end
+
 end

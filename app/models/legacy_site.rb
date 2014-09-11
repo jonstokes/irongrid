@@ -38,7 +38,7 @@ class LegacySite < CoreModel
   end
 
   def self.write_all
-    domains = YAML.load_file("#{Figaro.env.sites_repo}/sites/site_manifest.yml")
+    domains = YAML.load_file("../sites/site_manifest.yml")
     domains.each do |domain|
       puts "Writing file for #{domain}..."
       next unless site = LegacySite.new(domain: domain, source: :local) rescue nil
@@ -87,6 +87,16 @@ class LegacySite < CoreModel
 
   def mark_read!
     update(read_at: Time.now.utc)
+  end
+
+  def link_prefix
+    if @site_data[:link_sources]['seed_links']
+      @site_data[:link_sources]['seed_links'].first.last['link_prefix']
+    elsif @site_data[:link_sources]['compressed_links']
+      @site_data[:link_sources]['compressed_links'].first.last['link_prefix']
+    elsif @site_data[:link_sources]['feeds']
+      @site_data[:link_sources]['feeds'].first['product_link_prefix']
+    end
   end
 
   def should_read?
@@ -205,7 +215,7 @@ class LegacySite < CoreModel
   def load_from_local
     branch = Figaro.env.site_branch rescue "master"
     site_dir = domain.gsub(".","--")
-    directory = "#{Figaro.env.sites_repo}/sites/#{site_dir}"
+    directory = "../sites/#{site_dir}"
 
     @site_data[:page_adapter] = YAML.load_file("#{directory}/page_adapter.yml") if File.exists?("#{directory}/page_adapter.yml")
     @site_data[:feed_adapter] = YAML.load_file("#{directory}/feed_adapter.yml") if File.exists?("#{directory}/feed_adapter.yml")
