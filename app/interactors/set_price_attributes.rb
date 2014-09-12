@@ -19,7 +19,7 @@ class SetPriceAttributes
   end
 
   def calculate_current_price_in_cents_with_shipping
-    return context[:current_price_in_cents] unless context[:shipping_cost_in_cents]
+    return context[:current_price_in_cents] unless context[:shipping_cost_in_cents] && context[:current_price_in_cents]
     context[:current_price_in_cents] + context[:shipping_cost_in_cents]
   end
 
