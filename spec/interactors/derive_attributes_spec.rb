@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SetCommonAttributes do
+describe DeriveAttributes do
   describe "#perform" do
     before :each do
       @site = create_site "www.retailer.com"
@@ -23,7 +23,8 @@ describe SetCommonAttributes do
 
     it "correctly sets affiliate_program attribute for an affiliate" do
       site = create_site "www.botach.com"
-      result = SetCommonAttributes.perform(
+      result = DeriveAttributes.perform(
+        type: @listing_json['type'],
         site: site,
         listing_json: @listing_json,
       )
@@ -31,7 +32,8 @@ describe SetCommonAttributes do
     end
 
     it "correctly sets common attributes for a retail listing" do
-      result = SetCommonAttributes.perform(
+      result = DeriveAttributes.perform(
+        type: @listing_json['type'],
         site: @site,
         listing_json: @listing_json,
       )
@@ -40,11 +42,6 @@ describe SetCommonAttributes do
       expect(result.keywords.raw).to eq(@listing_json['keywords'])
       expect(result.category1.raw).to eq(@listing_json['product_category1'])
       expect(result.category1.classification_type).to eq("hard")
-      expect(result.description).to eq(@listing_json['description'])
-      expect(result.image_source).to eq(@listing_json['image'])
-      expect(result.sku).to eq(@listing_json['product_sku'])
-      expect(result.item_condition).to eq("new")
-      expect(result.item_location).to eq(@listing_json['location'])
       expect(result.seller_domain).to eq(@site.domain)
       expect(result.seller_name).to eq(@site.name)
       expect(result.affiliate_link_tag).to be_nil
@@ -60,7 +57,8 @@ describe SetCommonAttributes do
         "url" => url,
         "product_category1" => "Ammunition"
       )
-      result = SetCommonAttributes.perform(
+      result = DeriveAttributes.perform(
+        type: @listing_json['type'],
         site: site,
         listing_json: listing_json,
       )
@@ -70,17 +68,12 @@ describe SetCommonAttributes do
     it "correctly sets common attributes for an auction listing" do
       @listing_json['type'] = "AuctionListing"
       @listing_json.auction_ends = "09/10/2025"
-      result = SetCommonAttributes.perform(
+      result = DeriveAttributes.perform(
+        type: @listing_json['type'],
         site: @site,
         listing_json: @listing_json,
       )
       expect(result.auction_ends.to_s).to eq("2025-09-10 05:00:00 UTC")
-    end
-  end
-
-  describe "#image_source" do
-    it "should return nil when the image is invalid" do
-      pending "Example"
     end
   end
 end
