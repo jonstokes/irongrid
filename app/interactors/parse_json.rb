@@ -5,16 +5,13 @@ class ParseJson
 
   organize [
     ValidateListingPresence,
-    SetCommonAttributes, # includes setting auction_ends
-    SetPriceAttributes,
+    CopyAttributes,
+    DeriveAttributes,
     ValidateListing,
-    ScrubMetadataSourceAttributes,
-    ExtractMetadataFromRawListing,
-    ExtractMetadataFromSourceAttributes,
-    SoftCategorize,
+    SetProductDetails,
     SetPricePerRound,
-    SetDigest,
-    GenerateListingHash
+    SetShippingAttributes,
+    WriteListing,
   ]
 
   def is_valid?
@@ -23,10 +20,6 @@ class ParseJson
 
   def not_found?
     !success? && status == :not_found
-  end
-
-  def classified_sold?
-    !success? && status == :classified_sold
   end
 end
 
