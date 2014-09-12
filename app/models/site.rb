@@ -111,6 +111,12 @@ class Site < LegacySite
     with_redis { |conn| conn.smembers "site--index" }
   end
 
+  def self.each
+    domains.each do |domain|
+      yield Site.new(domain: domain)
+    end
+  end
+
   def self.add_domains(list)
     with_redis do |conn|
       list.each do |domain|

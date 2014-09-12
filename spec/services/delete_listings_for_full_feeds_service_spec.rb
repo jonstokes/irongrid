@@ -22,7 +22,10 @@ describe DeleteListingsForFullFeedsService do
       sleep 1
       5.times { kept << FactoryGirl.create(:retail_listing, seller_domain: "ammo.net") }
 
+      @service.track
       @service.start_jobs
+      @service.stop_tracking
+
       expect(DeleteListingsWorker.jobs.count).to eq(1)
       job = DeleteListingsWorker.jobs.first
       job["args"].first.each do |id|
@@ -48,7 +51,10 @@ describe DeleteListingsForFullFeedsService do
 
       5.times { FactoryGirl.create(:retail_listing, seller_domain: "ammo.net", updated_at: Time.now - 10.days) }
       5.times { FactoryGirl.create(:retail_listing, seller_domain: "ammo.net") }
+      @service.track
       @service.start_jobs
+      @service.stop_tracking
+
       expect(DeleteListingsWorker.jobs.count).to be_zero
     end
 

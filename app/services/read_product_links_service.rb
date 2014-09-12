@@ -2,11 +2,11 @@ class ReadProductLinksService < CoreService
 
   SLEEP_INTERVAL = Rails.env.test? ? 0.1 : 30
 
-  def jobs
-    Site.all.map do |site|
+  def each_job
+    Site.each do |site|
       next unless should_add_job?(site)
-      { klass: "PullProductLinksWorker", arguments: {domain: site.domain} }
-    end.compact
+      yield(klass: "PullProductLinksWorker", arguments: {domain: site.domain})
+    end
   end
 
   def should_add_job?(site)

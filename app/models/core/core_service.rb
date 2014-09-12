@@ -35,7 +35,6 @@ class CoreService < CoreModel
     notify "Starting #{self.class} service."
     CoreService.mutex.synchronize { track }
     begin
-      puts "[#{Time.now.utc}] #{self.class} starting #{jobs.count} jobs..." if jobs.any?
       start_jobs
       CoreService.mutex.synchronize { status_update }
       sleep self.class::SLEEP_INTERVAL
@@ -44,7 +43,7 @@ class CoreService < CoreModel
   end
 
   def start_jobs
-    jobs.each do |job|
+    each_job do |job|
       klass = job[:klass].constantize
       jid = klass.perform_async(job[:arguments])
       notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
@@ -52,7 +51,7 @@ class CoreService < CoreModel
     end
   end
 
-  def jobs
+  def each_job
     # Override
     []
   end

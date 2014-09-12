@@ -3,13 +3,12 @@ class DeleteEndedAuctionsService < CoreService
 
   SLEEP_INTERVAL = 10800
 
-  def start_jobs
+  def each_job
     CoreService.mutex.synchronize {
       begin
         db do
           Listing.ended_auctions.find_in_batches do |batch|
-            DeleteListingsWorker.perform_async(batch.map(&:id))
-            record_incr(:jobs_started) unless Rails.env.test?
+            yield(klass: "DeleteListingsWorker", arguments: batch.map(&:id))
           end
         end
       end

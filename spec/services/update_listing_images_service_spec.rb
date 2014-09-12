@@ -12,7 +12,9 @@ describe UpdateListingImagesService do
       listings = []
       5.times { listings << FactoryGirl.create(:retail_listing, :no_image) }
 
+      @service.track
       @service.start_jobs
+      @service.stop_tracking
       expect(UpdateListingImagesWorker.jobs.count).to eq(1)
       job = UpdateListingImagesWorker.jobs.first
       job["args"].first.each do |id|
