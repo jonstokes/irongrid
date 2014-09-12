@@ -63,7 +63,7 @@ def boot_services
   services = []
   service_list.each do |svc|
     services << start_service(svc)
-    sleep 5
+    sleep 1
   end
   notify "All services booted!"
   services
