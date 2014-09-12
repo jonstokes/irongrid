@@ -7,7 +7,7 @@ module Shipping
     end
 
     def calculate_shipping_cost
-      return unless runner = Script.runner("#{site.domain}/shipping") rescue nil
+      return unless runner = Loadable::Script.runner("#{site.domain}/shipping") rescue nil
       instance = Hashie::Mash.new(context)
       runner.run(instance).shipping_cost_in_cents
     end

@@ -4,7 +4,7 @@ describe Shipping::SetShippingCost do
   describe "#perform", no_es: true do
     before :each do
       @site = create_site "www.budsgunshop.com"
-      Script.create_from_file("#{Rails.root}/spec/fixtures/scripts/www--budsgunshop--com.rb")
+      Loadable::Script.create_from_file("#{Rails.root}/spec/fixtures/scripts/www--budsgunshop--com.rb")
     end
 
     it "sets the shipping cost using the listing_json" do
