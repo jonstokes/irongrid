@@ -2,11 +2,11 @@ module Stretched
   class ExtractJsonFromPage
     include Interactor
 
-    attr_accessor :instance, :adapter
+    attr_accessor :instance
 
     def setup
       Extension.register_all
-      @adapter = context[:adapter] || ObjectAdapter.find(context[:adapter_name])
+      context[:adapter] ||= ObjectAdapter.find(context[:adapter_name])
     end
 
     def perform
@@ -27,7 +27,6 @@ module Stretched
       runner = Script.runner
       runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
       read_with_json(
-        node: node,
         runner: runner,
         instance: instance
       )
@@ -39,7 +38,6 @@ module Stretched
         runner = Script.runner(script_name)
         runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
         instance = read_with_script(
-          node: node,
           runner: runner,
           instance: instance
         )
@@ -48,7 +46,7 @@ module Stretched
     end
 
     def read_with_json(opts)
-      runner, node, instance = opts[:runner], opts[:node], opts[:instance]
+      runner, instance = opts[:runner], opts[:instance]
       adapter.attribute_setters.each do |attribute_name, setters|
         raise "Property #{attribute_name} is not defined in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         setters.detect do |setter|
@@ -69,7 +67,7 @@ module Stretched
     end
 
     def read_with_script(opts)
-      runner, node, instance = opts[:runner], opts[:node], opts[:instance]
+      runner, instance = opts[:runner], opts[:instance]
       runner.attributes.each do |attribute_name, value|
         raise "Undefined property #{attribute_name} in schema #{adapter.schema_key}" unless adapter.validate_property(attribute_name)
         result = value.is_a?(Proc) ? value.call(instance) : value

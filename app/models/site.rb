@@ -97,7 +97,7 @@ class Site < LegacySite
   end
 
   def link_message_queue
-    @lmq = LinkMessageQueue.new(domain: domain)
+    @lmq ||= LinkMessageQueue.new(domain: domain)
   end
 
   def write_to_redis
