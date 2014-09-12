@@ -44,14 +44,12 @@ class CoreService < CoreModel
   end
 
   def start_jobs
-    CoreService.mutex.synchronize {
-      jobs.each do |job|
-        klass = Object.const_get job[:klass]
-        jid = klass.perform_async(job[:arguments])
-        notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
-        record_incr(:jobs_started)
-      end
-    }
+    jobs.each do |job|
+      klass = job[:klass].constantize
+      jid = klass.perform_async(job[:arguments])
+      notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
+      record_incr(:jobs_started)
+    end
   end
 
   def jobs
