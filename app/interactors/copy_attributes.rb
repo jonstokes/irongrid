@@ -21,6 +21,11 @@ class CopyAttributes
       current_bid_in_cents
       minimum_bid_in_cents
       reserve_in_cents
+      message1
+      message2
+      message3
+      message4
+      message5
     ).map(&:to_sym).each do |key|
       context[key] = listing_json[key]
     end

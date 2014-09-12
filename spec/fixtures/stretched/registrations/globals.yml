@@ -39,12 +39,12 @@ session_definition:
     "description": "Schema for product listing JSON object",
     "type": "object",
     "properties": {
-      "valid":       { "type": "boolean" },
-      "not_found":   { "type": "boolean" },
-      "url":         { "type": "url" },
-      "description": { "type": "string" },
-      "keywords":    { "type": "string" },
-      "title":       { "type": "string" },
+      "valid":                    { "type": "boolean" },
+      "not_found":                { "type": "boolean" },
+      "url":                      { "type": "url" },
+      "description":              { "type": "string" },
+      "keywords":                 { "type": "string" },
+      "title":                    { "type": "string" },
       "type": {
         "type": "string",
         "enum": ["RetailListing", "AuctionListing", "ClassifiedListing"]
@@ -89,7 +89,12 @@ session_definition:
       "product_manufacturer":     { "type": "string" },
       "product_caliber":          { "type": "string" },
       "product_grains":           { "type": "integer" },
-      "product_number_of_rounds": { "type": "integer" }
+      "product_number_of_rounds": { "type": "integer" },
+      "message1":                 { "type": "string" },
+      "message2":                 { "type": "string" },
+      "message3":                 { "type": "string" },
+      "message4":                 { "type": "string" },
+      "message5":                 { "type": "string" },
     },
     "required": ["valid", "not_found", "url"]
   }
