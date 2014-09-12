@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe SoftCategorize do
+describe ProductDetails::SoftCategorize do
   it "does nothing if the listing already has a hard category" do
     category1 = ElasticSearchObject.new(
       "category1",
       raw: "Optics",
       classification_type: "hard"
     )
-    result = SoftCategorize.perform(
+    result = ProductDetails::SoftCategorize.perform(
       category1: category1
     )
     expect(result.category1.raw).to eq("Optics")
@@ -20,7 +20,7 @@ describe SoftCategorize do
       raw: "None",
       classification_type: "fall_through"
     )
-    result = SoftCategorize.perform(
+    result = ProductDetails::SoftCategorize.perform(
       category1: category1,
       grains: 10,
       caliber: "9mm Luger",
@@ -113,7 +113,7 @@ describe SoftCategorize do
         Listing.create(listing_attrs)
       end
       Listing.index.refresh
-      result = SoftCategorize.perform(
+      result = ProductDetails::SoftCategorize.perform(
         title: title,
         category1: @category1,
         current_price_in_cents: 100

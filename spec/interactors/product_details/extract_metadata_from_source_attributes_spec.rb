@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ExtractMetadataFromSourceAttributes do
+describe ProductDetails::ExtractMetadataFromSourceAttributes do
   describe "#perform" do
     before :each do
       @url = "http://www.hyattgunstore.com/ammo.html"
@@ -27,7 +27,7 @@ describe ExtractMetadataFromSourceAttributes do
 
     describe "manufacturer" do
       it "correctly extracts the manufacturer from the title" do
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: @title
         )
@@ -36,7 +36,7 @@ describe ExtractMetadataFromSourceAttributes do
       end
 
       it "correctly extracts the manufacturer from the keywords" do
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           keywords: @keywords,
           title: ElasticSearchObject.new("title", raw: "Foobar", scrubbed: "Foobar")
@@ -48,7 +48,7 @@ describe ExtractMetadataFromSourceAttributes do
 
     describe "caliber" do
       it "correctly extracts the caliber from the title" do
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: @title
         )
@@ -61,7 +61,7 @@ describe ExtractMetadataFromSourceAttributes do
         title = ElasticSearchObject.new("title")
         title.raw = "Federal XM855 5.56 Nato Ammo FMJ, 420 Rounds"
         title.scrubbed = ProductDetails::Scrubber.scrub_all(title.raw)
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: title,
           keywords: keywords
@@ -74,7 +74,7 @@ describe ExtractMetadataFromSourceAttributes do
         title = ElasticSearchObject.new("title")
         title.raw = "Federal XM855 20ga Ammo FMJ, 420 Rounds"
         title.scrubbed = ProductDetails::Scrubber.scrub_all(title.raw)
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: title,
           keywords: keywords
@@ -87,7 +87,7 @@ describe ExtractMetadataFromSourceAttributes do
         title = ElasticSearchObject.new("title")
         title.raw = "Federal XM855 .45acp 62 Grain FMJ, 420 Rounds"
         title.scrubbed = ProductDetails::Scrubber.scrub_all(title.raw)
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: title,
           keywords: keywords
@@ -100,7 +100,7 @@ describe ExtractMetadataFromSourceAttributes do
         title = ElasticSearchObject.new("title")
         title.raw = "Federal XM855 .22 LR 62 Grain FMJ, 420 Rounds"
         title.scrubbed = ProductDetails::Scrubber.scrub_all(title.raw)
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: title,
           keywords: keywords
@@ -116,7 +116,7 @@ describe ExtractMetadataFromSourceAttributes do
         @title.scrubbed = ProductDetails::Scrubber.scrub_all(@title.raw)
         @keywords.raw = "Federal, 20ga"
         @keywords.scrubbed = ProductDetails::Scrubber.scrub_all(@keywords.raw)
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: @title,
           keywords: @keywords
@@ -131,7 +131,7 @@ describe ExtractMetadataFromSourceAttributes do
     describe "number of rounds" do
       it "correctly extracts the number of rounds from the title" do
         keywords = ElasticSearchObject.new("keywords")
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: @title,
           keywords: keywords
@@ -145,7 +145,7 @@ describe ExtractMetadataFromSourceAttributes do
         title = ElasticSearchObject.new("title")
         title.raw = "Federal XM855 .22 LR 62 Grain FMJ, box of 4,000"
         title.scrubbed = ProductDetails::Scrubber.scrub_all(title.raw)
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: title,
           keywords: keywords
@@ -161,7 +161,7 @@ describe ExtractMetadataFromSourceAttributes do
         keywords = ElasticSearchObject.new("keywords")
         keywords.raw = "420rnd"
         keywords.scrubbed = ProductDetails::Scrubber.scrub_all(keywords.raw)
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: title,
           keywords: keywords
@@ -173,7 +173,7 @@ describe ExtractMetadataFromSourceAttributes do
 
     describe "grains" do
       it "correctly extracts the grains from the title" do
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: @title,
           keywords: @keywords
@@ -190,7 +190,7 @@ describe ExtractMetadataFromSourceAttributes do
         keywords.raw = "62gr"
         keywords.scrubbed = ProductDetails::Scrubber.scrub_all(keywords.raw)
 
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           title: title,
           keywords: keywords
@@ -208,7 +208,7 @@ describe ExtractMetadataFromSourceAttributes do
           raw: title_string,
           scrubbed: ProductDetails::Scrubber.scrub_all(title_string)
         )
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           keywords: @keywords,
           title: title
@@ -224,7 +224,7 @@ describe ExtractMetadataFromSourceAttributes do
           raw: title_string,
           scrubbed: ProductDetails::Scrubber.scrub_all(title_string)
         )
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           keywords: @keywords,
           title: title
@@ -240,7 +240,7 @@ describe ExtractMetadataFromSourceAttributes do
           raw: title_string,
           scrubbed: ProductDetails::Scrubber.scrub_all(title_string)
         )
-        result = ExtractMetadataFromSourceAttributes.perform(
+        result = ProductDetails::ExtractMetadataFromSourceAttributes.perform(
           category1: @category1,
           keywords: @keywords,
           title: title

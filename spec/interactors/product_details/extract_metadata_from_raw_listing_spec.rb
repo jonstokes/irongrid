@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ExtractMetadataFromRawListing do
+describe ProductDetails::ExtractMetadataFromRawListing do
   describe "#perform" do
     before :each do
       @url = "http://www.hyattgunstore.com/ammo.html"
@@ -20,7 +20,7 @@ describe ExtractMetadataFromRawListing do
         "title" => "Ammo, 420 Rounds",
         "product_manufacturer" => "Mfgr: Federal"
       )
-      result = ExtractMetadataFromRawListing.perform(
+      result = ProductDetails::ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
         category1: @category1
       )
@@ -33,7 +33,7 @@ describe ExtractMetadataFromRawListing do
         "title" => "Federal Ammo, 420 Rounds",
         "product_caliber_category" => "rifle"
       )
-      result = ExtractMetadataFromRawListing.perform(
+      result = ProductDetails::ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
         category1: @category1
       )
@@ -46,7 +46,7 @@ describe ExtractMetadataFromRawListing do
         "title" => "Federal Ammo, 420 Rounds",
         "product_caliber" => "Caliber: 20ga"
       )
-      result = ExtractMetadataFromRawListing.perform(
+      result = ProductDetails::ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
         category1: @category1
       )
@@ -59,7 +59,7 @@ describe ExtractMetadataFromRawListing do
         "title" => "Federal XM855 .44 FMJ",
         "product_number_of_rounds" => 420,
       )
-      result = ExtractMetadataFromRawListing.perform(
+      result = ProductDetails::ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
         category1: @category1
       )
@@ -72,7 +72,7 @@ describe ExtractMetadataFromRawListing do
         "title" => "Federal XM855 .44 FMJ",
         "product_grains" => 62,
       )
-      result = ExtractMetadataFromRawListing.perform(
+      result = ProductDetails::ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
         category1: @category1
       )
@@ -85,7 +85,7 @@ describe ExtractMetadataFromRawListing do
         "title" => "Federal Ammo, 420 Rounds",
         "product_caliber" => "Caliber: .223 Remington"
       )
-      result = ExtractMetadataFromRawListing.perform(
+      result = ProductDetails::ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
         category1: @category1
       )
@@ -98,7 +98,7 @@ describe ExtractMetadataFromRawListing do
         "title" => "Federal Ammo, 420 Rounds",
         "product_caliber" => "Caliber: 20ga"
       )
-      result = ExtractMetadataFromRawListing.perform(
+      result = ProductDetails::ExtractMetadataFromRawListing.perform(
         listing_json: @listing_json,
         category1: @category1
       )

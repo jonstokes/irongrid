@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SetDigest do
+describe ListingWriter::SetDigest do
   it "should correctly digest a listing" do
     site = create_site "www.hyattgunstore.com"
     opts = {
@@ -75,7 +75,7 @@ describe SetDigest do
       coordinates: nil
     }
 
-    result = SetDigest.perform(opts)
+    result = ListingWriter::SetDigest.perform(opts)
     expect(result.digest).to eq("88652bbf0db73e01bfbb2cb440eb8a60")
   end
 end

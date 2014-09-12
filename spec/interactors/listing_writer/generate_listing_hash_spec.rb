@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GenerateListingHash do
+describe ListingWriter::GenerateListingHash do
   it "generates a hash that can be used to create a listing" do
     site = create_site "www.hyattgunstore.com"
     opts = {
@@ -84,7 +84,7 @@ describe GenerateListingHash do
       sku: "LY123",
     }
 
-    result = GenerateListingHash.perform(opts)
+    result = ListingWriter::GenerateListingHash.perform(opts)
     listing = Listing.create(result.listing)
     Listing.index.refresh
     item = Listing.index.retrieve "retail_listing", listing.id
