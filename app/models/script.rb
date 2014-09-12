@@ -29,14 +29,6 @@ class Script
     eval data
   end
 
-  def self.registry
-    @registry ||= ThreadSafe::Cache.new
-  end
-
-  def self.register(script_name, runner)
-    registry[script_name.to_s] = runner
-  end
-
   def self.runner(key = nil)
     return ScriptRunner.new unless key
     script = find(key)

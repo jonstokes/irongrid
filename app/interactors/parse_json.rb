@@ -10,7 +10,7 @@ class ParseJson
     ValidateListing,
     SetProductDetails,
     SetPricePerRound,
-    SetShippingAttributes,
+    CalculateShipping,
     WriteListing,
   ]
 

@@ -7,6 +7,6 @@ class DefinitionProxy
       runner.instance_eval(&block)
     end
 
-    Script.register(script_name, runner)
+    runner
   end
 end
