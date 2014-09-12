@@ -13,7 +13,6 @@ class CopyAttributes
       description
       weight_in_pounds
       discount_in_cents
-      shipping_cost_in_cents
       current_price_in_cents
       price_in_cents
       sale_price_in_cents
