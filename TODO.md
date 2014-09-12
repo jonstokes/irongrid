@@ -11,8 +11,8 @@ RAILS_ENV=production rails c:
   IRONGRID_REDIS_POOL.with { |c| c.flushdb }
   Sidekiq.redis { |c| c.flushdb }
 
+RAILS_ENV=production bundle exec rake site:add_new
 RAILS_ENV=production bundle exec rake stretched:register_all
-RAILS_ENV=production bundle exec rake site:create_all
 
 For each EC2 instance do:
   git fetch && git pull && git checkout js-dsl

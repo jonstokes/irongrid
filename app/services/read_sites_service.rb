@@ -1,4 +1,5 @@
 class ReadSitesService < CoreService
+  SLEEP_INTERVAL = Rails.env.test? ? 0.1 : 30
 
   def jobs
     Site.all.map do |site|
