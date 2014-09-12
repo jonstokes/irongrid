@@ -22,7 +22,7 @@ def start_service(svc)
   notify "Starting service #{svc}..."
   service = service_class.new
   service.start
-  notify "#{service_class} started!"
+  notify "  #{service_class} started!"
   service
 end
 
@@ -59,12 +59,11 @@ def archive_log_Records
 end
 
 def boot_services
-  CoreService.mutex { puts "Initializing mutex..." }
+  CoreService.mutex { notify "Initializing mutex..." }
   services = []
   service_list.each do |svc|
-    notify "  booting #{svc}"
     services << start_service(svc)
-    sleep 30
+    sleep 5
   end
   notify "All services booted!"
   services
