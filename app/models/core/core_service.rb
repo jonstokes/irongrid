@@ -13,8 +13,8 @@ class CoreService < CoreModel
   end
 
   def start
-    sleep (1 + rand(30)) unless Rails.env.test?
     @thread = Thread.new do
+      sleep (1 + rand(30)) unless Rails.env.test?
       begin
         run
       rescue Exception => @thread_error
