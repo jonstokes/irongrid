@@ -22,14 +22,14 @@ namespace :site do
 
   desc "Run stats for all active sites"
   task :stats => :environment do
-    Site.all.each do |site|
+    Site.each do |site|
       SiteStatsWorker.perform_async(domain: site.domain) unless SiteStatsWorker.jobs_in_flight_with_domain(site.domain).any?
     end
   end
 
   desc "Update site attributes without overwriting stats"
   task :update_all => :environment do
-    Site.all.each do |site|
+    Site.each do |site|
       Site.update_site_from_local(site)
     end
   end
@@ -55,7 +55,7 @@ namespace :site do
 
   desc "Jumpstart scrapes on sites with link_data"
   task :scrape_all => :environment do
-    Site.all.each do |site|
+    Site.each do |site|
       if LinkMessageQueue.new(domain: site.domain).any?
         PruneLinksWorker.perform_async(domain: site.domain)
       end
