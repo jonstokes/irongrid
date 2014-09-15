@@ -27,6 +27,8 @@ module ListingConstants
     'shipping_cost_in_cents',
     'discount_in_cents',
     'discount_percent',
+    'discount_in_cents_with_shipping',
+    'discount_percent_with_shipping',
     'weight_in_pounds',
     'seller_name',
     'description',

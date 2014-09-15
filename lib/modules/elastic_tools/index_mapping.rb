@@ -42,6 +42,8 @@ module ElasticTools
           reserve_in_cents:       { type: :integer },
           discount_in_cents:      { type: :integer },
           discount_percent:       { type: :integer },
+          discount_in_cents_with_shipping: { type: :integer },
+          discount_percent_with_shipping:  { type: :integer },
           shipping_cost_in_cents: { type: :integer },
           weight_in_pounds:       { type: :float },
           price_on_request:       { type: :string, analyzer: :keyword },
