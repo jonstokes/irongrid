@@ -1,4 +1,11 @@
 namespace :site do
+
+  task :load_scripts => :environment do
+    Site.each do |site|
+      site.load_scripts
+    end
+  end
+
   desc "Copy all sites from github to redis"
   task :copy_all => :environment do
     include Github

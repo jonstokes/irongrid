@@ -31,7 +31,7 @@ module Loadable
     end
 
     def self.runner(key = nil)
-      return ScriptRunner.new unless key
+      return Loadable::ScriptRunner.new unless key
       script = find(key)
       script.register
     end

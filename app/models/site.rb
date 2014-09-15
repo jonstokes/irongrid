@@ -100,6 +100,11 @@ class Site < LegacySite
     @lmq ||= LinkMessageQueue.new(domain: domain)
   end
 
+  def load_scripts
+    filename = "#{Figaro.env.sites_repo}/sites/irongrid_scripts/#{domain.gsub('.','--')}.rb"
+    Loadable::Script.create_from_file(filename)
+  end
+
   def write_to_redis
     redis_pool.with do |conn|
       conn.set("site--#{domain}", @site_data.to_yaml)
@@ -148,6 +153,7 @@ class Site < LegacySite
     end
     site.send(:write_to_redis)
     site.register
+    site.load_scripts
   end
 
   def self.all
