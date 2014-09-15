@@ -3,6 +3,7 @@ module Shipping
     include Interactor::Organizer
 
     def perform
+      return unless context[:current_price_in_cents]
       context[:current_price_in_cents_with_shipping] = calculate_current_price_in_cents_with_shipping
       context[:price_per_round_in_cents_with_shipping] = ppr_with_shipping
     end
