@@ -19,5 +19,12 @@ Stretched::Extension.define do
       r.present? ? r.delete(",") : nil
     end
 
+    def extract_manufacturer(text)
+      # pending
+    end
+
+    def extract_calibers(text)
+      # pending
+    end
   end
 end
