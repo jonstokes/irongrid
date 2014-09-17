@@ -96,6 +96,8 @@ object_adapter:
         - find_by_xpath:
             xpath: './/table[@class="infoBoxContents"]/tr[2]/td[@class="boxText"]'
             pattern: !ruby/regexp '/Product not found/'
+      message1:
+      - value: 100
       #
       # Product attributes
       #
