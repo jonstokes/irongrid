@@ -34,9 +34,45 @@ describe "extraction.rb" do
   end
 
   describe "extract_number_of_rounds" do
-    it "should extract the number of rounds from a string" do
-      pending "Example"
+
+    it "extracts the number of rounds from a string" do
+      @runner.extract_number_of_rounds("1,000 rounds").should == "1000"
+      @runner.extract_number_of_rounds("9mm FMJ 200rnds").should == "200"
+      @runner.extract_number_of_rounds("100rd").should == "100"
+      @runner.extract_number_of_rounds("100rds").should == "100"
+      @runner.extract_number_of_rounds("100rnd").should == "100"
+
+      @runner.extract_number_of_rounds("100 rd").should == "100"
+      @runner.extract_number_of_rounds("100 rds").should == "100"
+      @runner.extract_number_of_rounds("100 rnd").should == "100"
+
+      @runner.extract_number_of_rounds("100-rd").should == "100"
+      @runner.extract_number_of_rounds("100-rds").should == "100"
+      @runner.extract_number_of_rounds("100-rnd").should == "100"
+
+      @runner.extract_number_of_rounds("100 Rd").should == "100"
+      @runner.extract_number_of_rounds("100 Rds").should == "100"
+      @runner.extract_number_of_rounds("100 Rnd").should == "100"
     end
+
+    it "extracts the number of rounds from a string with commas" do
+      @runner.extract_number_of_rounds("1,000rd").should == "1000"
+    end
+
+    it "extracts 'box of rounds' type entries" do
+      @runner.extract_number_of_rounds("box of 500").should == "500"
+      @runner.extract_number_of_rounds("box of 5,000").should == "5000"
+      @runner.extract_number_of_rounds("Federal XM855 .22 LR 62 Grain FMJ, box of 4,000").should == "4000"
+    end
+
+    it "extracts 'per box' type entries" do
+      @runner.extract_number_of_rounds("500 per box").should == "500"
+      @runner.extract_number_of_rounds("500/box").should == "500"
+      @runner.extract_number_of_rounds("500 / box").should == "500"
+      @runner.extract_number_of_rounds("5,000 per box").should == "5000"
+      @runner.extract_number_of_rounds("Federal XM855 .22 LR 62 Grain FMJ, 4,000 per box").should == "4000"
+    end
+
   end
 
 end

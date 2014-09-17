@@ -15,8 +15,8 @@ Stretched::Extension.define do
       return unless rounds = str[/[0-9]+(\,[0-9]+)?\W{0,3}ro?u?n?ds?/i] ||
         str[/box\s+of\s+[0-9]+(\,[0-9]+)?\W/i] ||
         str[/[0-9]+(\,[0-9]+)?\W{0,3}(per|\/)\s?bo?x/i]
-      rounds = rounds[/[0-9]+(\,[0-9]+)?/]
-      rounds.present? ? rounds : nil
+      r = rounds[/[0-9]+(\,[0-9]+)?/]
+      r.present? ? r.delete(",") : nil
     end
 
   end
