@@ -19,12 +19,17 @@ Stretched::Extension.define do
       r.present? ? r.delete(",") : nil
     end
 
-    def extract_manufacturer(text)
-      # pending
-    end
-
-    def extract_calibers(text)
-      # pending
+    def extract_metadata(source_attribute, mapping, instance)
+      return unless instance[source_attribute].present?
+      tokens = instance["#{source_attribute}_tokens"] ||
+        mapping.tokenize(instance[source_attribute])
+      puts "# Tokens: #{tokens}"
+      if result = mapping.reduce(tokens)
+        instance["#{source_attribute}_tokens"] = result[:tokens]
+        result[:term]
+      else
+        nil
+      end
     end
   end
 end

@@ -72,7 +72,17 @@ describe "extraction.rb" do
       @runner.extract_number_of_rounds("5,000 per box").should == "5000"
       @runner.extract_number_of_rounds("Federal XM855 .22 LR 62 Grain FMJ, 4,000 per box").should == "4000"
     end
+  end
 
+  describe "extract_metadata" do
+    it "extracts a caliber from a product_caliber field" do
+      instance = Hashie::Mash.new(product_caliber: "Caliber: 9mm")
+      mapping = Stretched::Mapping.find("calibers")
+
+      result = @runner.extract_metadata(:product_caliber, mapping, instance)
+      expect(result).to eq("9mm Luger")
+      expect(instance.product_caliber_tokens).to eq(["Caliber", ":"])
+    end
   end
 
 end

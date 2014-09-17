@@ -14,6 +14,10 @@ def register_globals
     Stretched::Script.register_from_file(filename)
   end
 
+  Dir["#{Rails.root}/spec/fixtures/stretched/registrations/globals/mappings/*.yml"].each do |filename|
+    Stretched::Mapping.register_from_file(filename)
+  end
+
   Stretched::Registration.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals/registrations.yml")
 end
 

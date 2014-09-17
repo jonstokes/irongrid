@@ -78,6 +78,20 @@ Stretched::Script.define do
       g && (g > 0 && g < 400) ? g : nil
     end
 
+    product_caliber do |instance|
+      mapping = Stretched::Mapping.find("calibers")
+      extract_metadata(:product_caliber, mapping, instance) ||
+        extract_metadata(:title, mapping, instance) ||
+        extract_metadata(:keywords, mapping, instance)
+    end
+
+    product_manufacturer do |instance|
+      mapping = Stretched::Mapping.find("manufacturers")
+      extract_metadata(:product_manufacturer, mapping, instance) ||
+        extract_metadata(:title, mapping, instance) ||
+        extract_metadata(:keywords, mapping, instance)
+    end
+
     discount_in_cents do |instance|
       calculate_discount_in_cents(instance)
     end
