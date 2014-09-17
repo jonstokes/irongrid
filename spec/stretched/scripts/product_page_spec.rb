@@ -48,12 +48,61 @@ describe "product_page.rb" do
     end
 
     it "extracts the number of rounds from the title if necessary and possible" do
-      pending "example"
+      instance = Hashie::Mash.new(
+        title: "Box of 1,000 rounds"
+      )
+      result = @runner.attributes['product_number_of_rounds'].call(instance)
+      expect(result).to eq(1000)
     end
 
     it "extracts the number of rounds from the keywords if necessary and possible" do
-      pending "example"
+      instance = Hashie::Mash.new(
+        keywords: "1000rds"
+      )
+      result = @runner.attributes['product_number_of_rounds'].call(instance)
+      expect(result).to eq(1000)
+    end
+  end
+
+  describe "product_grains" do
+    it "returns the json value if it's an integer in range" do
+      instance = Hashie::Mash.new(
+        product_grains: 20
+      )
+      result = @runner.attributes['product_grains'].call(instance)
+      expect(result).to eq(20)
     end
 
+    it "returns nil if the json value is an integer out of range" do
+      instance = Hashie::Mash.new(
+        product_grains: 0
+      )
+      result = @runner.attributes['product_grains'].call(instance)
+      expect(result).to be_nil
+    end
+
+    it "returns the json value if it's string that translates to an integer in range" do
+      instance = Hashie::Mash.new(
+        product_grains: "200"
+      )
+      result = @runner.attributes['product_grains'].call(instance)
+      expect(result).to eq(200)
+    end
+
+    it "extracts the grains from the title if necessary and possible" do
+      instance = Hashie::Mash.new(
+        title: "100gr"
+      )
+      result = @runner.attributes['product_grains'].call(instance)
+      expect(result).to eq(100)
+    end
+
+    it "extracts the grains from the keywords if necessary and possible" do
+      instance = Hashie::Mash.new(
+        keywords: "100 grain"
+      )
+      result = @runner.attributes['product_grains'].call(instance)
+      expect(result).to eq(100)
+    end
   end
 end

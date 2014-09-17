@@ -60,7 +60,7 @@ Stretched::Script.define do
 
     product_number_of_rounds do |instance|
       if numrounds = instance.product_number_of_rounds
-        r = numrounds.is_a?(String) ? numrounds.to_i : numrounds
+        r = numrounds.is_a?(String) ? numrounds.delete(",").to_i : numrounds
       else
         r = extract_number_of_rounds(instance.title).try(:to_i) ||
           extract_number_of_rounds(instance.keywords).try(:to_i)
