@@ -65,6 +65,7 @@ module ElasticTools
 
     class << self
       delegate :explicit_mappings, :equivalent_synonyms, :category_keywords, to: :synonyms
+      delegate :caliber_synonym_lines, :manufacturer_synonym_lines, to: :synonyms
       delegate :manufacturers, :calibers, to: :dictionary
 
       def synonyms
