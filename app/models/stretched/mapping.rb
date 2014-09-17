@@ -10,8 +10,7 @@ module Stretched
     def reduce(text)
       tokens = tokenize(text)
       return unless term = @data.detect do |term, mapping|
-        mapping.detect do |str|
-          term_tokens = tokenize(str)
+        tokenize_mapping(term, mapping).detect do |term_tokens|
           next unless offset = tokens.index { |t| t == term_tokens.first }
           last_term = offset + (term_tokens.size - 1)
           next unless tokens[offset..last_term].map(&:downcase) == term_tokens.map(&:downcase)
@@ -28,6 +27,12 @@ module Stretched
     def [](term); @data[term.to_s]; end
 
     #private
+
+    def tokenize_mapping(term, mapping)
+      ary = [term] + (mapping || [])
+      ary.map! { |term| tokenize(term) }
+      ary.sort { |a, b| b.size <=> a.size }
+    end
 
     def tokenize(str)
       tokenizer.tokenize(str).reject { |t| t.empty? }
