@@ -17,8 +17,7 @@ describe "conversions.rb" do
   describe "calculate_discount_in_cents" do
     it "returns nil if there is no price or current_price" do
       instance = Hashie::Mash.new
-      result = @runner.send(:calculate_discount_in_cents, instance)
-      puts "# #{@runner.attributes}"
+      result = @runner.calculate_discount_in_cents(instance)
       expect(result).to be_nil
     end
 
@@ -33,6 +32,20 @@ describe "conversions.rb" do
       result = @runner.calculate_discount_in_cents(instance)
       expect(result).to eq(10)
     end
-
   end
+
+  describe "calculate_percent_discount" do
+    it "returns nil if there is no discount_in_cents" do
+      instance = Hashie::Mash.new
+      result = @runner.calculate_discount_percent(instance)
+      expect(result).to be_nil
+    end
+
+    it "returns a discount if there is one" do
+      instance = Hashie::Mash.new(price_in_cents: 100, discount_in_cents: 10)
+      result = @runner.calculate_discount_percent(instance)
+      expect(result).to eq(10)
+    end
+  end
+
 end
