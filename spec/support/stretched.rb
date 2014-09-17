@@ -11,7 +11,7 @@ def register_globals
   end
 
   Dir["#{Rails.root}/spec/fixtures/stretched/registrations/globals/scripts/*.rb"].each do |filename|
-    Stretched::Extension.register_from_file(filename)
+    Stretched::Script.register_from_file(filename)
   end
 
   Stretched::Registration.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals/registrations.yml")
