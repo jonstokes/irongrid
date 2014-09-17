@@ -10,7 +10,7 @@ module Stretched
     def reduce(tokens)
       return unless term = @data.detect do |term, mapping|
         !!tokenize_mapping(term, mapping).detect do |term_tokens|
-          next unless offset = tokens.index { |t| t == term_tokens.first }
+          next unless offset = tokens.index { |t| t.downcase == term_tokens.first.downcase }
           last_term = offset + (term_tokens.size - 1)
           next unless tokens[offset..last_term].map(&:downcase) == term_tokens.map(&:downcase)
           tokens.slice!(offset..last_term)

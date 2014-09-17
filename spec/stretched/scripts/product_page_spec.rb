@@ -132,4 +132,12 @@ describe "product_page.rb" do
       expect(result).to eq("9mm Luger")
     end
   end
+
+  describe "product_manufacturer" do
+    it "extracts the manufacturer from the product_manufacturer field" do
+      instance = Hashie::Mash.new(product_manufacturer: "Brand: S&W")
+      result = @runner.attributes['product_manufacturer'].call(instance)
+      expect(result).to eq("Smith & Wesson")
+    end
+  end
 end
