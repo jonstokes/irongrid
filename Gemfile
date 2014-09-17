@@ -26,6 +26,7 @@ gem 'htmlentities'
 gem 'poltergeist'
 gem 'capybara'
 gem 'hashie'
+gem 'tokenizer'
 
 # JRuby-specific gems
 gem 'execjs'

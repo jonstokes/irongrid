@@ -6,9 +6,8 @@ module Stretched
     end
 
     def map(text)
-      @data.detect do |k, v|
-        next unless v
-        !!v.detect { |str| str == text }
+      @data.detect do |term, mapping|
+        !!mapping.detect { |str| str == text }
       end.try(:first)
     end
 
