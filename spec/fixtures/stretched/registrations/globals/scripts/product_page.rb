@@ -62,8 +62,8 @@ Stretched::Script.define do
       if numrounds = instance.product_number_of_rounds
         r = numrounds.is_a?(String) ? numrounds.delete(",").to_i : numrounds
       else
-        r = extract_number_of_rounds(:title, instance).try(:to_i) ||
-          extract_number_of_rounds(:keywords, instance).try(:to_i)
+        r = extract_number_of_rounds(instance.title).try(:to_i) ||
+          extract_number_of_rounds(instance.keywords).try(:to_i)
       end
       r && (r > 0 && r < 500000) ? r : nil
     end
@@ -72,8 +72,8 @@ Stretched::Script.define do
       if grains = instance.product_grains
         g = grains.is_a?(String) ? grains.delete(",").to_i : grains
       else
-        g = extract_grains(:title, instance).try(:to_i) ||
-          extract_grains(:keywords, instance).try(:to_i)
+        g = extract_grains(instance.title).try(:to_i) ||
+          extract_grains(instance.keywords).try(:to_i)
       end
       g && (g > 0 && g < 400) ? g : nil
     end
