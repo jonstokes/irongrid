@@ -5,7 +5,7 @@ module Stretched
 
     attr_accessor :registration_type, :key, :data
 
-    TYPES = %w(schema script object_adapter session_definition rate_limit)
+    TYPES = %w(schema script object_adapter session_definition rate_limit mapping)
     TABLE = "registrations"
 
     def initialize(opts)
