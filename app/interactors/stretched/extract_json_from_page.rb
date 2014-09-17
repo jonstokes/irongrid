@@ -78,7 +78,7 @@ module Stretched
     end
 
     def clean_up(result)
-      return unless result = Sanitize.clean(result, elements: [])
+      return unless result.is_a?(String) && result = Sanitize.clean(result, elements: [])
       result = HTMLEntities.new.decode(result)
       result = result.strip.squeeze(" ") rescue nil
       result.present? ? result : nil
