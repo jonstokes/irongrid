@@ -153,7 +153,7 @@ class Site < LegacySite
     end
     site.send(:write_to_redis)
     site.register
-    site.load_scripts
+    site.load_scripts rescue nil
   end
 
   def self.all
