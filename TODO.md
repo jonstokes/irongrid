@@ -1,3 +1,8 @@
+# Shipping
+Run specs and parser tests with new extraction code to test it out
+If it passes, bring down the grid, then push new sites and registrations
+Bring up the grid
+
 #Bring up Stretched
 
 compare launch lines on instances to new lines in README, and make any
