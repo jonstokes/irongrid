@@ -105,4 +105,31 @@ describe "product_page.rb" do
       expect(result).to eq(100)
     end
   end
+
+  describe "product_caliber" do
+    it "extracts the caliber from the product_caliber field" do
+      instance = Hashie::Mash.new(product_caliber: "Caliber: 9mm")
+      result = @runner.attributes['product_caliber'].call(instance)
+      expect(result).to eq("9mm Luger")
+    end
+
+    it "extracts the caliber from the title field" do
+      instance = Hashie::Mash.new(
+        product_caliber: "Caliber: foobar",
+        title: "Federal 9mm ammo"
+      )
+      result = @runner.attributes['product_caliber'].call(instance)
+      expect(result).to eq("9mm Luger")
+    end
+
+    it "extracts the caliber from the keywords field" do
+      instance = Hashie::Mash.new(
+        product_caliber: "Caliber: foobar",
+        title: "Federal Ammo",
+        keywords: "9mm ammo"
+      )
+      result = @runner.attributes['product_caliber'].call(instance)
+      expect(result).to eq("9mm Luger")
+    end
+  end
 end
