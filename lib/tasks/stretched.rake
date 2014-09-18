@@ -22,7 +22,7 @@ def register_scripts
 end
 
 def register_sites
-  Site.all.each do |site|
+  Site.each do |site|
     begin
       site.register
     rescue Exception => e
