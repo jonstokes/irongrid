@@ -84,6 +84,10 @@ class Site < LegacySite
     Stretched::Registration.register_from_source(registrations)
   end
 
+  def update_from_local
+    Site.update_site_from_local(self)
+  end
+
   def session_queue
     @session_queue ||= Stretched::SessionQueue.find_or_create(domain)
   end

@@ -28,9 +28,11 @@ class ScrapePageWorker < CoreWorker
       results.merge!(adapter.queue => scrapes)
     end
     ValidatorQueue.add(jid, results)
+    results
   rescue Exception => e
     results.merge!(error: "#{e.inspect}. #{e.backtrace}")
     ValidatorQueue.add(jid, results)
+    results
   ensure
     close_http_connections
   end

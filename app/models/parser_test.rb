@@ -31,29 +31,41 @@ class ParserTest < ActiveRecord::Base
     end
   end
 
+  def domain
+    seller_domain || URI(source_location).host
+  end
+
   def listing_type
     listing_data['type'] if listing_data.present?
   end
 
   def fetch_page
-    domain = seller_domain || URI(source_location).host
-    session_q = Stretched::SessionQueue.new(domain)
-    session_q.push(
+    session = {
       queue: domain,
       session_definition: 'globals/standard_html_session',
       object_adapters: [ "#{domain}/product_page" ],
       urls: [{ url: source_location }]
+    }.to_yaml
+    worker = ScrapePageWorker.new
+    @scraper = worker.perform(
+      domain:      domain,
+      session:     session,
+      site_source: :local
     )
-    Stretched::RunSessionsWorker.new.perform(queue: domain)
-    result = convert_json_to_listing(domain)
-    @scraper = Scrape.new(result.to_h.merge(domain: domain, url: url))
   end
 
-  def convert_json_to_listing(domain)
-    json = Stretched::ObjectQueue.new("#{domain}/listings").pop
-    json.site = Site.new(domain: domain, source: :local)
-    scraper = ParseJson.perform(json)
-    LinkMessage.new(scraper)
+
+  def stretched_listing_queue
+     @scraper["#{domain}/listings"].try(:first)
+  end
+
+  def stretched_json
+    return unless stretched_listing_queue
+    stretched_listing_queue[:json]
+  end
+
+  def irongrid_listing
+    stretched_listing_queue[:listing]
   end
 
   def source_location
@@ -67,6 +79,134 @@ class ParserTest < ActiveRecord::Base
   def should_send_to_s3=(value)
     @should_send_to_s3 = value
   end
+
+  def update_listing_data!
+    not_found = stretched_json.object.not_found?
+    is_valid = stretched_json.object.valid
+    classified_sold = nil
+    self.listing_data_will_change!
+    if listing_data
+      listing_data.merge!(irongrid_listing.to_hash)
+    else
+      listing_data = irongrid_listing.try(:to_hash)
+    end
+    save
+  end
+
+
+  #
+  # Checkers
+
+  def check_statuses
+    if not_found? != stretched_json.object.not_found?
+      return @scrape_errors << { pt: "not_found: #{not_found}", page: "not_found: #{stretched_json.object.not_found?}" }
+    end
+
+    if is_valid? != stretched_json.object.valid
+      @scrape_errors << { pt: "is_valid?: #{is_valid?}", page: "valid: #{stretched_json.object.valid}" }
+    end
+  end
+
+  def check_listing_data
+    listing_data.each do |attr, value|
+      next if attr == "item_data"
+      if value && irongrid_listing.nil?
+        @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: nil listing" }
+      elsif value != irongrid_listing[attr]
+        next if %w(url digest image_download_attempted).include?(attr)
+        @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: #{irongrid_listing[attr]}" }
+      end
+    end
+  end
+
+  def check_item_data
+    return unless listing_data['item_data']
+    listing_data['item_data'].each do |attr, value|
+      if value && irongrid_listing.nil?
+        @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: nil listing" }
+      elsif ElasticSearchObject.is_object_in_index?(attr)
+        check_es_object(attr, value)
+      else
+        check_value(attr, value)
+      end
+    end
+  end
+
+  def check_value(attr, pt_value)
+    return if %w(description keywords image_download_attempted seller_domain).include?(attr)
+    return if (irongrid_value = irongrid_listing['item_data'][attr]) == pt_value
+    return if pt_value.is_a?(String) && irongrid_value.is_a?(String) && (pt_value.downcase == irongrid_value.downcase)
+    @scrape_errors << { pt: "#{attr}: #{pt_value}", page: "#{attr}: #{irongrid_value}" }
+  end
+
+  def check_es_object(attr, pt_value)
+    pt_value = es_object_to_hash(pt_value)
+    irongrid_value = es_object_to_hash(irongrid_listing['item_data'][attr])
+
+    pt_value.each do |k, v|
+      next if (v == "default") && (irongrid_value[k] == "hard")
+      unless irongrid_value[k] == v
+        @scrape_errors << { pt: "#{attr}.#{k}: #{v}", page: "#{attr}.#{k}: #{irongrid_value[k]}" }
+      end
+    end
+  end
+
+  def es_object_to_hash(varray)
+    varray ||= []
+    varray.reduce({}) {|result, hashie| result.merge!(hashie.to_h)}
+  end
+
+  def print_errors
+    return if scrape_errors.empty?
+    title_hash = category1_hash = nil
+    if listing_data.try(:[], 'item_data')
+      title_hash = es_object_to_hash(listing_data['item_data']['title'])
+      category1_hash = es_object_to_hash(listing_data['item_data']['category1'])
+    end
+    puts "##################################"
+    puts "ParserTest #{id} has errors!"
+    puts "  title:     #{title_hash["title"]}" if title_hash
+    puts "  category1: #{category1_hash["category1"]} (#{category1_hash["classification_type"]})" if category1_hash
+    puts "  url:       #{source_url}"
+
+    puts "### Errors:"
+    scrape_errors.each do |error|
+      if error[:pt].is_a?(String)
+        puts "  JSON: #{error[:pt][0..500]}"
+      else
+        puts "  JSON: #{error[:pt]}"
+      end
+      if error[:page].is_a?(String)
+        puts "  Page: #{error[:page][0..500]}"
+      else
+        puts "  Page: #{error[:page]}"
+      end
+    end
+  end
+
+  def check_parser_test
+    @scrape_errors = []
+    fetch_page
+
+    if @scraper[:error]
+      @scrape_errors << { page: @scraper[:error] }
+      print_errors
+      return
+    end
+
+    check_statuses
+
+    if listing_data.present? && stretched_json.object.valid?
+      check_listing_data
+      check_item_data
+    end
+
+    print_errors
+
+  rescue Exception => e
+    puts "ERROR for [#{id}]: #{e.message} #{e.backtrace}"
+  end
+
 
   private
 
