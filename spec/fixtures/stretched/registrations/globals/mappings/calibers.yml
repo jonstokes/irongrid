@@ -1,6 +1,6 @@
 ---
 mapping:
-  calibers:
+  handgun_calibers:
     10mm Auto:
     - .10mm
     - 10mm
@@ -144,6 +144,7 @@ mapping:
     9x23mm Win:
     9x25mm Dillon:
     9x25mm Mauser:
+  rifle_calibers:
     10.75 x 73mm:
     12.7x99mm NATO:
     .17 Hornet:
@@ -431,6 +432,7 @@ mapping:
     9.3x72mm:
     - 9.3x72
     9.3x74R:
+  shotgun_calibers:
     .410 gauge:
     - .410 bore
     - .410 g
@@ -442,6 +444,7 @@ mapping:
     24 gauge:
     28 gauge:
     32 gauge:
+  rimfire_calibers:
     .17 HM2:
     .17 HMR:
     .17 PMC:

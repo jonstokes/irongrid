@@ -79,21 +79,15 @@ Stretched::Script.define do
     end
 
     product_caliber do |instance|
-      %w(rimfire_calibers pistol_calibers shotgun_calibers rifle_calibers).detect do |mapping_name|
+      caliber = nil
+      caliber_category = %w(rimfire_calibers handgun_calibers shotgun_calibers rifle_calibers).detect do |mapping_name|
         mapping = Stretched::Mapping.find(mapping_name)
-        extract_metadata(:product_caliber, mapping, instance) ||
+        caliber = extract_metadata(:product_caliber, mapping, instance) ||
           extract_metadata(:title, mapping, instance) ||
           extract_metadata(:keywords, mapping, instance)
       end
-    end
-
-    product_caliber_category do |instance|
-      if instance.product_caliber
-        %w(rimfire_calibers pistol_calibers shotgun_calibers rifle_calibers).detect do |mapping_name|
-          mapping = Stretched::Mapping.find(mapping_name)
-          mapping_name.name.split("_calibers").first if mapping.terms.include?(instance.product_caliber)
-        end
-      end
+      instance.product_caliber_category = caliber_category.split("_calibers").first if caliber_category
+      caliber
     end
 
     product_manufacturer do |instance|
