@@ -3,6 +3,9 @@ Stretched::Extension.define do
     def normalize_caliber(text)
       str = " #{text} "
 
+      #
+      # Normalize suffixes
+
       #+P variants
       str.gsub!(/(\d|\w)\+p/i) do |match|
         match.sub!(/\+p/i, " +P")
@@ -21,7 +24,7 @@ Stretched::Extension.define do
       str.squeeze!(" ")
 
       # Rem
-      str.gsub!(/(\.|\s)(357|mm|6\.8|6\.5|416|35|350|300|30|280|260|25(\s|\-)06|222|17|41)\s{0,1}(remington|rem)\.?\,?\s+/i) do |match|
+      str.gsub!(/(\.|\s)(357|mm|6\.8|6\.5|416|35|350|300|30|223|280|260|25(\s|\-)06|222|17|41)\s{0,1}(remington|rem)\.?\,?\s+/i) do |match|
         match.sub!(/remington|rem|rem\./i, " Rem")
       end
       str.squeeze!(" ")
@@ -91,6 +94,39 @@ Stretched::Extension.define do
 
       str.strip.squeeze(" ")
 
+      #
+      # Normalize dots
+
+      # Pre-caliber dot with dashes
+      str.gsub!(/\s(25|250|30|38|338|40|44|45|450|50|56|577)(\s|\-)\d{1,3}/) do |match|
+        i = match.index(/\d{2,3}(\s|\-)\d{1,3}/i)
+        match = match.insert(i,".")
+      end
+
+      # Pre-caliber dot 200's
+      str.gsub!(/\s(17|22|25 acp|25 naa|22[01345]|240|243|257|260|264|270|275|280|284)\s/i) do |match|
+        i = match.index(/\d{2,3}\s/)
+        match = match.insert(i,".")
+      end
+
+      # Pre-caliber dot 300's
+      str.gsub!(/\s(30\s?\-?ma(u|us|user)?|30[0378]|318|32|325|327|333|338|340|348|35|35[0168]|357|370|375|378|38|380)\s/i) do |match|
+        i = match.index(/30\s?\-?ma(u|us|user)?|\d{2,3}\s/i)
+        match = match.insert(i,".")
+      end
+
+      # Pre-caliber dot 400's
+      str.gsub!(/\s(40\s(s&w|super)|(4[145]|400)\s?\-?[capn][\w\-]{1,7}|404|405|416|426|440|445|450|454|455|458|460|470|475|480)\s/i) do |match|
+        i = match.index(/40\s(s&w|super)|4[145]|400\s?\-?[capn](\w{1,6}|\-)|\d{3}\s/i)
+        match = match.insert(i,".")
+      end
+
+      # Pre-caliber dot 500's
+      str.gsub!(/\s(50\s?\-?[bmgeiac]{2}\w{0,5}|500\s?\-?[ajnlsw][a-z&\s\-]{1,16}|505|510)\s/i) do |match|
+        i = match.index(/50\s?\-?[bmgeiac]{2}\w{0,5}|500\s?\-?[ajnlsw][a-z&\s\-]{1,16}|505|510\s/i)
+        match = match.insert(i,".")
+      end
+      str.strip.squeeze(" ")
     end
 
   end
