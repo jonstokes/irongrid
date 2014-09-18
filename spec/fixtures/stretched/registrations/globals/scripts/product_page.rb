@@ -65,7 +65,7 @@ Stretched::Script.define do
         r = extract_number_of_rounds(instance.title).try(:to_i) ||
           extract_number_of_rounds(instance.keywords).try(:to_i)
       end
-      r && (r > 0 && r < 500000) ? r : nil
+      restrict_to_range(r, min: 0, max: 500000)
     end
 
     product_grains do |instance|
@@ -75,7 +75,7 @@ Stretched::Script.define do
         g = extract_grains(instance.title).try(:to_i) ||
           extract_grains(instance.keywords).try(:to_i)
       end
-      g && (g > 0 && g < 400) ? g : nil
+      restrict_to_range(g, min: 0, max: 400)
     end
 
     product_caliber do |instance|

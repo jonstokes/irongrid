@@ -1,6 +1,11 @@
 Stretched::Extension.define do
   extension "conversions" do
 
+    def restrict_to_range(num, opts)
+      min, max = opts[:min], opts[:max]
+      num && (num > min && num < max) ? num : nil
+    end
+
     def calculate_discount_in_cents(instance)
       return unless instance.price_in_cents? && instance.current_price_in_cents?
       return unless instance.price_in_cents > instance.current_price_in_cents
