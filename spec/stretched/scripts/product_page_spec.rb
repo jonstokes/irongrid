@@ -108,7 +108,10 @@ describe "product_page.rb" do
 
   describe "product_caliber" do
     it "extracts the caliber and caliber_category from the product_caliber field" do
-      instance = Hashie::Mash.new(product_caliber: "Caliber: 9mm")
+      instance = Hashie::Mash.new(
+        title: "Federal Ammo, 420 Rounds",
+        product_caliber: "Caliber: 9MM"
+      )
       result = @runner.attributes['product_caliber'].call(instance)
       expect(result).to eq("9mm Luger")
       expect(instance.product_caliber_category).to eq("handgun")
@@ -116,8 +119,8 @@ describe "product_page.rb" do
 
     it "extracts the caliber from the title field" do
       instance = Hashie::Mash.new(
-        product_caliber: "Caliber: foobar",
-        title: "Federal 9mm ammo"
+        title: "Federal 9mm ammo",
+        product_caliber: "Caliber: foobar"
       )
       result = @runner.attributes['product_caliber'].call(instance)
       expect(result).to eq("9mm Luger")
@@ -125,8 +128,8 @@ describe "product_page.rb" do
 
     it "extracts the caliber from the keywords field" do
       instance = Hashie::Mash.new(
-        product_caliber: "Caliber: foobar",
         title: "Federal Ammo",
+        product_caliber: "Caliber: foobar",
         keywords: "9mm ammo"
       )
       result = @runner.attributes['product_caliber'].call(instance)
@@ -136,9 +139,29 @@ describe "product_page.rb" do
 
   describe "product_manufacturer" do
     it "extracts the manufacturer from the product_manufacturer field" do
-      instance = Hashie::Mash.new(product_manufacturer: "Brand: S&W")
+      instance = Hashie::Mash.new(
+        title: ".223 Remington ammo, 420 Rounds",
+        product_manufacturer: "Brand: S&W"
+      )
       result = @runner.attributes['product_manufacturer'].call(instance)
       expect(result).to eq("Smith & Wesson")
+    end
+
+    it "extracts the mfgr from the title string" do
+      instance = Hashie::Mash.new(
+        title: "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
+      )
+      result = @runner.attributes['product_manufacturer'].call(instance)
+      expect(result).to eq("Federal")
+    end
+
+
+    it "extracts the mfgr from the keywords" do
+      instance = Hashie::Mash.new(
+        keywords: "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
+      )
+      result = @runner.attributes['product_manufacturer'].call(instance)
+      expect(result).to eq("Federal")
     end
 
     it "does not confuse part of a caliber for a manufacturer" do
@@ -150,5 +173,22 @@ describe "product_page.rb" do
       expect(caliber).to eq(".40 S&W")
       expect(mfgr).to eq("Remington")
     end
+
+    it "does not misidentify Remington as a manufacturer" do
+      instance = Hashie::Mash.new(title: ".223 Remington Ammo, 400rnds")
+      caliber = @runner.attributes['product_caliber'].call(instance)
+      mfgr = @runner.attributes['product_manufacturer'].call(instance)
+      expect(caliber).to eq(".223 Rem")
+      expect(mfgr).to be_nil
+    end
+
+    it "does not misidentify AAC as a manufacturer" do
+      instance = Hashie::Mash.new(title: ".300 aac blackout ammo, 400rnds")
+      caliber = @runner.attributes['product_caliber'].call(instance)
+      mfgr = @runner.attributes['product_manufacturer'].call(instance)
+      expect(caliber).to eq(".300 BLK")
+      expect(mfgr).to be_nil
+    end
+
   end
 end
