@@ -20,9 +20,13 @@ Stretched::Extension.define do
     end
 
     def extract_metadata(source_attribute, mapping, instance)
-      return unless instance[source_attribute].present?
-      tokens = instance["#{source_attribute}_tokens"] ||
-        mapping.tokenize(instance[source_attribute])
+      unless tokens = instance["#{source_attribute}_tokens"]
+        text = instance[source_attribute]
+        return unless text.present?
+        text = normalize_caliber(text)
+        tokens = mapping.tokenize(text)
+      end
+
       if result = mapping.analyze(tokens)
         instance["#{source_attribute}_tokens"] = result[:tokens]
         result[:term]

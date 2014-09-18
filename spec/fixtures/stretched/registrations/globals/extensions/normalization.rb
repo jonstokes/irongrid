@@ -1,5 +1,6 @@
 Stretched::Extension.define do
   extension "normalization" do
+
     def normalize_caliber(text)
       str = " #{text} "
 
