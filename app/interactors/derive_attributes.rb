@@ -3,7 +3,6 @@ class DeriveAttributes < CoreModel
 
   def perform
     context[:title]              = title
-    context[:keywords]           = keywords
     context[:category1]          = product_category1
     context[:seller_domain]      = site.domain
     context[:seller_name]        = site.name

@@ -39,7 +39,6 @@ describe DeriveAttributes do
       )
 
       expect(result.title.raw).to eq(@listing_json['title'])
-      expect(result.keywords.raw).to eq(@listing_json['keywords'])
       expect(result.category1.raw).to eq(@listing_json['product_category1'])
       expect(result.category1.classification_type).to eq("hard")
       expect(result.seller_domain).to eq(@site.domain)
