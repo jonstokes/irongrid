@@ -139,5 +139,15 @@ describe "product_page.rb" do
       result = @runner.attributes['product_manufacturer'].call(instance)
       expect(result).to eq("Smith & Wesson")
     end
+
+    it "does not confuse part of a caliber for a manufacturer" do
+      instance = Hashie::Mash.new(
+        title: "Remington .40 S&W ammo"
+      )
+      caliber = @runner.attributes['product_caliber'].call(instance)
+      mfgr = @runner.attributes['product_manufacturer'].call(instance)
+      expect(caliber).to eq(".40 S&W")
+      expect(mfgr).to eq("Remington")
+    end
   end
 end
