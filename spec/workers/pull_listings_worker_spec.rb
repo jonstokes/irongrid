@@ -109,7 +109,7 @@ describe PullListingsWorker do
       job = WriteListingWorker._jobs.first
       msg = LinkMessage.new(job["args"].first)
       expect(msg.page_is_valid?).to be_true
-      expect(msg.page_attributes["digest"]).to eq("21831cde9254c9100fa5a8b2895d4b98")
+      expect(msg.page_attributes["digest"]).to eq("862e3a129f9da0c4a4ffdef2d4a6cb09")
     end
 
     describe "write to listings table from a generic full product feed" do
