@@ -10,6 +10,7 @@ class CopyAttributes
     %w(
       url
       type
+      keywords
       description
       weight_in_pounds
       discount_in_cents
