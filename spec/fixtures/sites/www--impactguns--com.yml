@@ -10,6 +10,9 @@ registrations:
     www.impactguns.com/product_page:
       $key: globals/product_page
       queue: www.impactguns.com/listings
+      scripts:
+      - globals/product_page
+      - globals/validate_price_or_availability_title
       attribute:
         title:
         - find_by_xpath:

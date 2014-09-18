@@ -92,9 +92,12 @@ Stretched::Script.define do
 
     product_manufacturer do |instance|
       mapping = Stretched::Mapping.find("manufacturers")
-      extract_metadata(:product_manufacturer, mapping, instance) ||
+      manufacturer = extract_metadata(:product_manufacturer, mapping, instance) ||
         extract_metadata(:title, mapping, instance) ||
         extract_metadata(:keywords, mapping, instance)
+      instance.delete(:title_tokens)
+      instance.delete(:keyword_tokens)
+      manufacturer
     end
 
     discount_in_cents do |instance|
@@ -106,9 +109,13 @@ Stretched::Script.define do
     end
 
     shipping_cost_in_cents do |instance|
-      return instance.shipping_cost_in_cents unless instance.shipping_cost_in_cents.is_a?(String)
-      instance.shipping_cost_in_cents.to_i
+      if instance.shipping_cost_in_cents.is_a?(String)
+        instance.shipping_cost_in_cents.to_i
+      else
+        instance.shipping_cost_in_cents
+      end
     end
+
   end
 end
 

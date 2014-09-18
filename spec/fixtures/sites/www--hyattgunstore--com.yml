@@ -9,6 +9,9 @@ registrations:
   object_adapter:
     www.hyattgunstore.com/product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_or_availability_title
       queue: www.hyattgunstore.com/listings
       attribute:
         title:

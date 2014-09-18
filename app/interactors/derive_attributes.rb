@@ -56,10 +56,10 @@ class DeriveAttributes < CoreModel
   end
 
   def product_grains
-    return unless listing_json.product_manufacturer
+    return unless listing_json.product_grains
     ElasticSearchObject.new(
       "grains",
-      raw: listing_json.product_manufacturer,
+      raw: listing_json.product_grains,
       classification_type: "hard"
     )
   end

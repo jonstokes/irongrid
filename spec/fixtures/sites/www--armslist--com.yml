@@ -10,6 +10,9 @@ registrations:
     www.armslist.com/product_page:
       $key: globals/product_page
       queue: www.armslist.com/listings
+      scripts:
+      - globals/product_page
+      - globals/validate_price_title
       attribute:
         title:
         - find_by_xpath:
