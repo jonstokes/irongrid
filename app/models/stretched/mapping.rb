@@ -7,7 +7,7 @@ module Stretched
       @tokenizer = Tokenizer::Tokenizer.new
     end
 
-    def reduce(tokens)
+    def analyze(tokens)
       return unless term = @data.detect do |term, mapping|
         !!tokenize_mapping(term, mapping).detect do |term_tokens|
           next unless offset = tokens.index { |t| t.downcase == term_tokens.first.downcase }
@@ -26,12 +26,6 @@ module Stretched
 
     def tokenize(str)
       tokenizer.tokenize(str).reject { |t| t.empty? }
-    end
-
-    def untokenize(tokens)
-      str = ""
-      tokens.each { |t| str << "#{t} " }
-      str.strip
     end
 
     private

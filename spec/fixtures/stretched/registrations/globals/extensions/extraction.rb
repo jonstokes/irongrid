@@ -23,7 +23,7 @@ Stretched::Extension.define do
       return unless instance[source_attribute].present?
       tokens = instance["#{source_attribute}_tokens"] ||
         mapping.tokenize(instance[source_attribute])
-      if result = mapping.reduce(tokens)
+      if result = mapping.analyze(tokens)
         instance["#{source_attribute}_tokens"] = result[:tokens]
         result[:term]
       else
