@@ -3,11 +3,12 @@ module Stretched
     include StretchedRedisPool
     include Stretched::Retryable
 
-    attr_reader :set_name, :name
+    attr_reader :set_name, :name, :user
 
-    def initialize(name)
+    def initialize(user, name)
       @name = name
-      @set_name = "#{user}::object-queue::#{name}"
+      @user = user
+      @set_name = "object-queue::#{user}::#{name}"
     end
 
     def push(objects)
@@ -91,6 +92,7 @@ module Stretched
     end
 
     def has_key?(key)
+      key = "#{@set_name}::#{key}"
       with_redis do |conn|
         key.present? &&
           conn.exists(set_name) &&
@@ -109,12 +111,8 @@ module Stretched
     alias length size
     alias count size
 
-    def user
-      self.class.user
-    end
-
-    def self.find_or_create(name)
-      new(name)
+    def self.find_or_create(user, name)
+      new(user, name)
     end
 
     def self.get(key)
@@ -122,7 +120,7 @@ module Stretched
       value_from_redis(value)
     end
 
-    def self.key(object)
+    def self.base_key(object)
       Digest::MD5.hexdigest(object.to_json)
     end
 
@@ -130,15 +128,12 @@ module Stretched
       Hashie::Mash.new JSON.parse(value)
     end
 
-    def self.user
-      Stretched::Settings.user
-    end
-
     private
 
     def add_objects_to_redis(objects)
       objects.map do |obj|
-        key = ObjectQueue.key(obj)
+        base_key = ObjectQueue.base_key(obj)
+        key = "#{@set_name}::#{base_key}"
         next if with_redis { |conn| conn.sismember(set_name, key) }
         with_redis do |conn|
           conn.set(key, obj.to_json)
@@ -149,7 +144,8 @@ module Stretched
     end
 
     def remove_keys_from_redis(keys)
-      keys.each do |key|
+      keys.each do |base_key|
+        key = "#{@set_name}::#{base_key}"
         with_redis do |conn|
           conn.srem(set_name, key)
           conn.del(key)

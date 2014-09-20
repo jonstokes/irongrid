@@ -43,11 +43,13 @@ module Stretched
 
     def start_jobs
       RunSessionsService.mutex.synchronize {
-        SessionQueue.each do |q|
-          next unless should_add_job?(q)
-          puts "Adding RunSessionsWorker job for queue #{q.name}"
-          jid = RunSessionsWorker.perform_async(queue: q.name)
-          puts "Starting job #{jid} RunSessionsWorker for session queue #{q.name} of size #{q.size}."
+        User.each do |user|
+          SessionQueue.each_for_user(user.name) do |q|
+            next unless should_add_job?(q)
+            puts "Adding RunSessionsWorker job for queue #{user.name}::#{q.name}"
+            jid = RunSessionsWorker.perform_async(user: user.name, queue: q.name)
+            puts "Starting job #{jid} RunSessionsWorker for session queue #{q.name} of size #{q.size}."
+          end
         end
       }
     end

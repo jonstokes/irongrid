@@ -3,21 +3,21 @@ module Stretched
     include Stretched::Retryable
     include StretchedRedisPool
 
-    attr_accessor :registration_type, :key, :data
+    attr_accessor :registration_type, :key, :data, :user
 
     TYPES = %w(schema script object_adapter session_definition rate_limit mapping)
     TABLE = "registrations"
 
     def initialize(opts)
       opts.symbolize_keys!
-      @registration_type, @key = opts[:type], opts[:key]
+      @registration_type, @key, @user = opts[:type], opts[:key], opts[:user]
       opts_data = opts[:data] || {}
       if @keyref = opts_data['$key']
         find_opts = {
           type: registration_type,
           key: @keyref
         }
-        @data = self.class.find(find_opts).data.merge(opts_data.reject { |k, v| k == '$key' })
+        @data = self.class.find(user, find_opts).data.merge(opts_data.reject { |k, v| k == '$key' })
       else
         @data = opts_data
       end
@@ -27,20 +27,13 @@ module Stretched
       self.class.write_to_redis(
         type: registration_type,
         key: key,
-        data: data
+        data: data,
+        user: user
       )
     end
 
     def destroy
-      self.class.unregister(type: registration_type, key: key)
-    end
-
-    def user
-      self.class.user
-    end
-
-    def self.user
-      Stretched::Settings.user
+      self.class.unregister(type: registration_type, key: key, user: user)
     end
 
     def self.count
@@ -63,8 +56,8 @@ module Stretched
       end.flatten
     end
 
-    def self.write_to_redis(reg_hash)
-      key, registration_type, data = reg_hash[:key], reg_hash[:type], reg_hash[:data]
+    def self.write_to_redis(opts)
+      key, registration_type, data, user = opts[:key], opts[:type], opts[:data], opts[:user]
       validate_against_schema(data)
       with_redis do |conn|
         conn.sadd "#{TABLE}", "#{user}::#{registration_type}::#{key}"
@@ -91,23 +84,23 @@ module Stretched
       YAML.load(data)
     end
 
-    def self.unregister(reg_hash)
-      key, registration_type = reg_hash[:key], reg_hash[:type]
+    def self.unregister(opts)
+      key, registration_type, user = opts[:key], opts[:type], opts[:user]
       with_redis do |conn|
         conn.srem "#{TABLE}", "#{user}::#{registration_type}::#{key}"
         conn.del "#{TABLE}::#{user}::#{registration_type}::#{key}"
       end
     end
 
-    def self.register_from_file(filename)
+    def self.register_from_file(user, filename)
       load_file(filename).map do |reg_hash|
-        write_to_redis(reg_hash)
+        write_to_redis(reg_hash.merge(user: user))
       end
     end
 
-    def self.register_from_source(source)
+    def self.register_from_source(user, source)
       load_source(source).map do |reg_hash|
-        write_to_redis(reg_hash)
+        write_to_redis(reg_hash.merge(user: user))
       end
     end
 
@@ -116,11 +109,12 @@ module Stretched
       true
     end
 
-    def self.create_from_file(filename)
+    def self.create_from_file(user, filename)
       load_file(filename).map do |reg_hash|
-        create(reg_hash)
+        create(reg_hash.merge(user: user))
       end
     end
+
 
     def self.create(opts)
       registration = new(opts)
@@ -128,14 +122,14 @@ module Stretched
       registration
     end
 
-    def self.find_or_create(arg)
+    def self.find_or_create(user, arg)
       return unless arg
-      return find(arg) if arg.is_a?(String)
+      return find(user, arg) if arg.is_a?(String)
       key = arg.keys.first
-      create(key: key, data: arg[key])
+      create(user: user, key: key, data: arg[key])
     end
 
-    def self.find(opts)
+    def self.find(user, opts)
       opts = convert_find_opts(opts)
       type, key = opts[:type], opts[:key]
 
@@ -144,7 +138,7 @@ module Stretched
       end
 
       if data
-        self.new(opts.merge(data: read_redis_format(data)))
+        self.new(opts.merge(user: user, data: read_redis_format(data)))
       else
         raise "No such #{type} registration with key #{key} for user #{user}!"
       end

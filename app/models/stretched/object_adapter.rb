@@ -6,8 +6,9 @@ module Stretched
     delegate :key, to: :schema, prefix: true
 
     def initialize(opts)
+      user = opts[:user]
       super(opts.merge(type: "ObjectAdapter"))
-      @schema = Stretched::Schema.find_or_create(@data["schema"])
+      @schema = Stretched::Schema.find_or_create(user, @data["schema"])
     end
 
     def xpath; @data["xpath"]; end

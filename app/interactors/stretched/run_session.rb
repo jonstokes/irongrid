@@ -15,6 +15,7 @@ module Stretched
         stretched_session.object_adapters.each do |adapter|
           if page.is_valid?
             results = ExtractJsonFromPage.perform(
+              user: stretched_session.user,
               page: page,
               adapter: adapter,
               browser_session: browser_session
@@ -33,7 +34,7 @@ module Stretched
     private
 
     def add_objects_to_queue(adapter, page, json_objects)
-      object_q = ObjectQueue.find_or_create(adapter.queue)
+      object_q = ObjectQueue.find_or_create(stretched_session.user, adapter.queue)
       json_objects = [{}] if json_objects.empty?
       results = json_objects.map do |obj|
         {

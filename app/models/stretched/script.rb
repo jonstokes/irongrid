@@ -12,9 +12,9 @@ module Stretched
       eval data
     end
 
-    def self.runner(key = nil)
+    def self.runner(user, key = nil)
       return ScriptRunner.new unless key
-      script = find(key)
+      script = find(user, key)
       script.register
     end
 

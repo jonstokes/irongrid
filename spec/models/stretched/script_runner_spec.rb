@@ -4,12 +4,13 @@ describe Stretched::ScriptRunner do
 
   before :each do
     Stretched::Registration.with_redis { |conn| conn.flushdb }
+    @user = "test@ironsights.com"
   end
 
   describe "#set_context" do
     it "creates a new script object" do
-      script = Stretched::Script.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/product_page.rb").first
-      runner = Stretched::Script.runner(script.key)
+      script = Stretched::Script.create_from_file(@user, "#{Rails.root}/spec/fixtures/stretched/registrations/scripts/product_page.rb").first
+      runner = Stretched::Script.runner(@user, script.key)
       instance = Hashie::Mash.new
       runner.set_context(page: {'price' => 100}, doc: Nokogiri::HTML::Document.new)
       runner.attributes.each do |attribute_name, value|

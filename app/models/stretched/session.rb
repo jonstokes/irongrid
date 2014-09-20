@@ -1,19 +1,20 @@
 module Stretched
   class Session
-    attr_reader :session_definition, :object_adapters, :queue_name, :urls, :started_at, :key
+    attr_reader :session_definition, :object_adapters, :queue_name, :urls, :started_at, :key, :user
 
     delegate :with_limit, :page_format, to: :session_definition
 
-    SESSION_PROPERTIES = %w(queue session_definition object_adapters urls key)
+    SESSION_PROPERTIES = %w(queue session_definition object_adapters urls key user)
 
-    def initialize(opts)
+    def initialize(user, opts)
       Session.validate(opts)
       opts.symbolize_keys!
+      @user = user
       @key = opts[:key]
       @queue_name = opts[:queue]
-      @session_definition = Stretched::SessionDefinition.find_or_create(opts[:session_definition])
+      @session_definition = Stretched::SessionDefinition.find_or_create(user, opts[:session_definition])
       @object_adapters = opts[:object_adapters].map do |obj|
-        Stretched::ObjectAdapter.find_or_create(obj)
+        Stretched::ObjectAdapter.find_or_create(user, obj)
       end
       @urls = opts[:urls].map { |feed| expand_links(feed) }.flatten.uniq
     end
@@ -27,7 +28,7 @@ module Stretched
     end
 
     def self.create(opts)
-      q = SessionQueue.find_or_create(opts[:queue])
+      q = SessionQueue.find_or_create(opts[:user], opts[:queue])
       q.add opts
     end
 

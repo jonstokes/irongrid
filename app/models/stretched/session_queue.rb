@@ -1,24 +1,25 @@
 module Stretched
   class SessionQueue < ObjectQueue
-    attr_reader :name
+    attr_reader :name, :user
 
-    def initialize(name)
+    def initialize(user, name)
       super
       @name = name
-      @set_name = "#{user}::session-queue::#{name}"
+      @user = user
+      @set_name = "session-queue::#{user}::#{name}"
     end
 
     def pop
       if object = super
-        Session.new(object)
+        Session.new(user, object)
       end
     end
 
-    def self.each
+    def self.each_for_user(user)
       with_redis do |conn|
-        conn.scan_each(:match => "#{user}::session-queue::*") do |set|
+        conn.scan_each(:match => "session-queue::#{user}::*") do |set|
           q = set.split("::").last
-          yield new(q)
+          yield new(user, q)
         end
       end
     end

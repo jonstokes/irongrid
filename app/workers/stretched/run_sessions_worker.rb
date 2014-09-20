@@ -6,15 +6,16 @@ module Stretched
     sidekiq_options :queue => :stretched, :retry => true
 
     attr_accessor :timer
-    attr_reader :session_q
+    attr_reader :session_q, :user
 
     delegate :timed_out?, to: :timer
 
     def init(opts)
       opts.symbolize_keys!
       @debug = opts[:debug]
+      @user = opts[:user]
       @timer = Stretched::RateLimiter.new(opts[:timeout] || 1.hour.to_i)
-      @session_q = SessionQueue.find_or_create(opts[:queue])
+      @session_q = SessionQueue.find_or_create(@user, opts[:queue])
       return false unless @session_q.any?
       true
     end
@@ -39,7 +40,7 @@ module Stretched
 
     def transition
       if @session_q.any?
-        self.class.perform_async(queue: @session_q.name)
+        self.class.perform_async(user: user, queue: @session_q.name)
       end
     end
 

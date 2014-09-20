@@ -4,11 +4,12 @@ describe Stretched::Registration do
 
   before :each do
     Stretched::Registration.with_redis { |conn| conn.flushdb }
+    @user = "test@ironsights.com"
   end
 
   describe "#validate" do
     it "it validates an attribute/value pair against a JSON schema" do
-      schema = Stretched::Schema.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json").first
+      schema = Stretched::Schema.create_from_file(@user, "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json").first
       expect(schema).to be_a(Stretched::Schema)
       expect(schema.key).to eq("Listing")
 

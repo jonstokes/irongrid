@@ -6,11 +6,11 @@ describe Stretched::ExtractJsonFromPage do
   before :each do
     @domain = "www.budsgunshop.com"
     @product_url = "http://#{@domain}/products/1"
-
+    @user = "test@ironsights.com"
     Stretched::Registration.with_redis { |c| c.flushdb }
-    register_stretched_globals
-    Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
-    Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
+    register_stretched_globals(@user)
+    Stretched::Script.register_from_file(@user, "spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
+    Stretched::ObjectAdapter.register_from_file(@user, "spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
   end
 
   describe "#perform" do
@@ -24,6 +24,7 @@ describe Stretched::ExtractJsonFromPage do
 
       page = Stretched::PageUtils::Test.get_page(@product_url)
       result = Stretched::ExtractJsonFromPage.perform(
+        user: @user,
         page: page,
         adapter_name: "www.budsgunshop.com/product_page"
       )
@@ -43,6 +44,7 @@ describe Stretched::ExtractJsonFromPage do
       page = Stretched::PageUtils::Test.get_page(@product_url)
 
       result = Stretched::ExtractJsonFromPage.perform(
+        user: @user,
         page: page,
         adapter_name: "www.budsgunshop.com/product_page_no_script"
       )
@@ -70,6 +72,7 @@ describe Stretched::ExtractJsonFromPage do
       page = Stretched::PageUtils::Test.get_page(@product_url)
 
       result = Stretched::ExtractJsonFromPage.perform(
+        user: @user,
         page: page,
         adapter_name: "www.budsgunshop.com/product_page_scripts_only"
       )
@@ -96,6 +99,7 @@ describe Stretched::ExtractJsonFromPage do
       page = Stretched::PageUtils::Test.get_page(@product_url)
 
       result = Stretched::ExtractJsonFromPage.perform(
+        user: @user,
         page: page,
         adapter_name: "www.budsgunshop.com/product_page"
       )
@@ -124,6 +128,7 @@ describe Stretched::ExtractJsonFromPage do
 
       expect {
         Stretched::ExtractJsonFromPage.perform(
+          user: @user,
           page: page,
           adapter_name: "www.budsgunshop.com/product_page_invalid_json_attribute"
         )
@@ -139,11 +144,12 @@ describe Stretched::ExtractJsonFromPage do
         end
       end
 
-      Stretched::Script.create_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/invalid_script.rb")
+      Stretched::Script.create_from_file(@user, "spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/invalid_script.rb")
       page = Stretched::PageUtils::Test.get_page(@product_url)
 
       expect {
         Stretched::ExtractJsonFromPage.perform(
+          user: @user,
           page: page,
           adapter_name: "www.budsgunshop.com/product_page_invalid_script_attribute"
         )

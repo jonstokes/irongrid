@@ -1,11 +1,11 @@
-def register_stretched_globals
-  Stretched::Extension.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/extensions/conversions.rb")
-  Stretched::Script.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/product_page.rb")
-  Stretched::Script.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/validation.rb")
-  Stretched::Registration.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
+def register_stretched_globals(user)
+  Stretched::Extension.register_from_file(user, "#{Rails.root}/spec/fixtures/stretched/registrations/extensions/conversions.rb")
+  Stretched::Script.register_from_file(user, "#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/product_page.rb")
+  Stretched::Script.register_from_file(user, "#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/validation.rb")
+  Stretched::Registration.register_from_file(user, "#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
 end
 
-def register_globals
+def register_globals(user)
   Dir["#{Rails.root}/spec/fixtures/stretched/registrations/globals/extensions/*.rb"].each do |filename|
     Stretched::Extension.register_from_file(filename)
   end
@@ -21,7 +21,7 @@ def register_globals
   Stretched::Registration.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals/registrations.yml")
 end
 
-def register_site(domain)
+def register_site(user, domain)
   source = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{domain.gsub(".","--")}.yml")['registrations']
-  Stretched::Registration.register_from_source source
+  Stretched::Registration.register_from_source(user, source)
 end

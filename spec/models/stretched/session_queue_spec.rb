@@ -4,10 +4,11 @@ describe Stretched::SessionQueue do
 
   before :each do
     Stretched::Registration.with_redis { |c| c.flushdb }
-    register_stretched_globals
-    Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
-    register_site "www.budsgunshop.com"
-    @store = Stretched::SessionQueue.find_or_create("www.budsgunshop.com")
+    @user = "test@ironsights.com"
+    register_stretched_globals(@user)
+    Stretched::Script.register_from_file(@user, "spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
+    register_site @user, "www.budsgunshop.com"
+    @store = Stretched::SessionQueue.find_or_create(@user, "www.budsgunshop.com")
     @objects = YAML.load_file("#{Rails.root}/spec/fixtures/sites/www--budsgunshop--com.yml")['sessions']
   end
 
@@ -56,7 +57,8 @@ describe Stretched::SessionQueue do
       @store.add(@objects)
 
       while object = @store.pop do
-        key = Stretched::ObjectQueue.key(object)
+        base_key = Stretched::ObjectQueue.base_key(object)
+        key = "session-queue::#{@user}::#{@store.name}::#{key}"
 
         expect(object).not_to be_nil
         expect(@store.has_key?(key)).to be_false

@@ -5,8 +5,10 @@ describe Stretched::RunSessionsService do
   before :each do
     # Stretched
     Stretched::Registration.with_redis { |conn| conn.flushdb }
-    register_stretched_globals
-    register_site "www.budsgunshop.com"
+    @user = "test@ironsights.com"
+    Stretched::User.new(@user).save
+    register_stretched_globals(@user)
+    register_site @user, "www.budsgunshop.com"
 
     # Sidekiq
     Sidekiq::Testing.disable!
@@ -29,7 +31,7 @@ describe Stretched::RunSessionsService do
     before :each do
       @site = create_site "www.budsgunshop.com"
       @service = Stretched::RunSessionsService.new
-      @q = Stretched::SessionQueue.new(@site.domain)
+      @q = Stretched::SessionQueue.new(@user, @site.domain)
       @q.clear
     end
 

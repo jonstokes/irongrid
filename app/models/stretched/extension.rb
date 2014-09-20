@@ -9,10 +9,10 @@ module Stretched
       eval data
     end
 
-    def self.register_all
+    def self.register_all(user)
       keys.each do |key|
         next if registry[key]
-        script = find(key)
+        script = find(user, key)
         script.register
       end
     end

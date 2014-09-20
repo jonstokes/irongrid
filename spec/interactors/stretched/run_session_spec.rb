@@ -6,16 +6,17 @@ describe Stretched::RunSession do
 
     before :each do
       Stretched::Registration.with_redis { |c| c.flushdb }
-      Stretched::Extension.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/extensions/conversions.rb")
-      Stretched::Script.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/product_page.rb")
-      Stretched::Script.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/validation.rb")
+      @user = "test@ironsights.com"
+      Stretched::Extension.register_from_file(@user, "#{Rails.root}/spec/fixtures/stretched/registrations/extensions/conversions.rb")
+      Stretched::Script.register_from_file(@user, "#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/product_page.rb")
+      Stretched::Script.register_from_file(@user, "#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/validation.rb")
     end
 
     describe "product pages" do
       before :each do
-        Stretched::Registration.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
-        Stretched::Script.register_from_file("spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
-        Stretched::ObjectAdapter.register_from_file("spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
+        Stretched::Registration.register_from_file(@user, "#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
+        Stretched::Script.register_from_file(@user, "spec/fixtures/stretched/registrations/scripts/www--budsgunshop--com/object_adapter.rb")
+        Stretched::ObjectAdapter.register_from_file(@user, "spec/fixtures/stretched/registrations/object_adapters/www--budsgunshop--com.yml")
         @sessions = YAML.load_file("#{Rails.root}/spec/fixtures/stretched/sessions/www--budsgunshop--com.yml")['sessions']
         @domain = "www.budsgunshop.com"
       end
@@ -27,10 +28,10 @@ describe Stretched::RunSession do
           end
         end
 
-        object_q = Stretched::ObjectQueue.find_or_create "www.budsgunshop.com/product_links"
+        object_q = Stretched::ObjectQueue.find_or_create @user, "www.budsgunshop.com/product_links"
         expect(object_q.size).to be_zero
 
-        ssn = Stretched::Session.new(@sessions.last.merge('key' => "abcd123"))
+        ssn = Stretched::Session.new(@user, @sessions.last.merge('key' => "abcd123"))
         result = Stretched::RunSession.perform(stretched_session: ssn)
 
         expect(object_q.size).to eq(2)
@@ -48,10 +49,10 @@ describe Stretched::RunSession do
           end
         end
 
-        object_q = Stretched::ObjectQueue.find_or_create "www.budsgunshop.com/product_links"
+        object_q = Stretched::ObjectQueue.find_or_create @user, "www.budsgunshop.com/product_links"
         expect(object_q.size).to be_zero
 
-        ssn = Stretched::Session.new(@sessions.last)
+        ssn = Stretched::Session.new(@user, @sessions.last)
         result = Stretched::RunSession.perform(stretched_session: ssn)
 
         expect(object_q.size).to eq(51)
@@ -67,10 +68,10 @@ describe Stretched::RunSession do
           end
         end
 
-        object_q = Stretched::ObjectQueue.find_or_create "www.budsgunshop.com/product_links"
+        object_q = Stretched::ObjectQueue.find_or_create @user, "www.budsgunshop.com/product_links"
         expect(object_q.size).to be_zero
 
-        ssn = Stretched::Session.new(@sessions.first)
+        ssn = Stretched::Session.new(@user, @sessions.first)
         result = Stretched::RunSession.perform(stretched_session: ssn)
         expect(object_q.size).to eq(57)
         expect(result.pages_scraped).to eq(8)
@@ -80,9 +81,9 @@ describe Stretched::RunSession do
     describe "product feeds" do
 
       before :each do
-        Stretched::Registration.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
+        Stretched::Registration.register_from_file(@user, "#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
         source = YAML.load_file("#{Rails.root}/spec/fixtures/sites/stretched/ammo--net.yml")['site']['registrations']
-        Stretched::Registration.register_from_source(source)
+        Stretched::Registration.register_from_source(@user, source)
         @sessions = YAML.load_file("#{Rails.root}/spec/fixtures/sites/stretched/ammo--net.yml")['site']['sessions']
       end
 
@@ -95,10 +96,10 @@ describe Stretched::RunSession do
           end
         end
 
-        object_q = Stretched::ObjectQueue.find_or_create "ammo.net/listings"
+        object_q = Stretched::ObjectQueue.find_or_create @user, "ammo.net/listings"
         expect(object_q.size).to be_zero
 
-        ssn = Stretched::Session.new(@sessions.first)
+        ssn = Stretched::Session.new(@user, @sessions.first)
         result = Stretched::RunSession.perform(stretched_session: ssn)
         expect(result.pages_scraped).to eq(1)
         expect(object_q.size).to eq(18)

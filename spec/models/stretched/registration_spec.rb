@@ -4,11 +4,12 @@ describe Stretched::Registration do
 
   before :each do
     Stretched::Registration.with_redis { |conn| conn.flushdb }
+    @user = "test@ironsights.com"
   end
 
   describe "#initialize" do
     it "creates a new empty Registration object" do
-      registration = Stretched::Registration.new(type: "Registration", key: "test-1")
+      registration = Stretched::Registration.new(type: "Registration", key: "test-1", user: @user)
       expect(registration).to be_a(Stretched::Registration)
       expect(registration.key).to eq("test-1")
       expect(registration.registration_type).to eq("Registration")
@@ -19,10 +20,12 @@ describe Stretched::Registration do
       registration1 = Stretched::Registration.create(
         type: "Registration",
         key: "test-1",
-        data: {"key1" => "value"}
+        data: {"key1" => "value"},
+        user: @user
       )
       registration2 = Stretched::Registration.create(
         :type => "Registration",
+        :user => @user,
         :key => "test-2",
         :data => {
           '$key' => "test-1",
@@ -41,7 +44,7 @@ describe Stretched::Registration do
 
   describe "#save" do
     it "saves a registration object to redis" do
-      registration = Stretched::Registration.new(type: "Registration", key: "test-1")
+      registration = Stretched::Registration.new(type: "Registration", key: "test-1", user: @user)
       registration.data = { "key" => "value" }
 
       expect(registration.save).to be_true
@@ -59,7 +62,7 @@ describe Stretched::Registration do
 
   describe "#destroy" do
     it "deletes a registration object from redis" do
-      registration = Stretched::Registration.new(type: "Registration", key: "test-1")
+      registration = Stretched::Registration.new(type: "Registration", key: "test-1", user: @user)
       registration.data = { "key" => "value" }
 
       registration.save
@@ -92,7 +95,7 @@ describe Stretched::Registration do
 
     it "loads a YAML or JSON object adapter file and returns an array of any registrations it finds" do
       filename = "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json"
-      Stretched::Registration.create_from_file(filename)
+      Stretched::Registration.create_from_file(@user, filename)
 
 
       filename = "#{Rails.root}/spec/fixtures/stretched/registrations/object_adapters/globals.yml"
@@ -111,8 +114,8 @@ describe Stretched::Registration do
   describe "::create_from_file" do
     it "loads a YAML or JSON schema file and creates any registrations it finds" do
       filename = "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json"
-      Stretched::Registration.create_from_file(filename)
-      reg = Stretched::Schema.find("Listing")
+      Stretched::Registration.create_from_file(@user, filename)
+      reg = Stretched::Schema.find(@user, "Listing")
       expect(Stretched::Registration.count).to eq(1)
       expect(reg).to be_a(Stretched::Schema)
       expect(reg.key).to eq("Listing")
@@ -121,12 +124,12 @@ describe Stretched::Registration do
 
     it "loads a YAML or JSON object_adapter file and creates any registrations it finds" do
       filename = "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json"
-      Stretched::Registration.create_from_file(filename)
+      Stretched::Registration.create_from_file(@user, filename)
       filename = "#{Rails.root}/spec/fixtures/stretched/registrations/object_adapters/globals.yml"
-      Stretched::Registration.create_from_file(filename)
+      Stretched::Registration.create_from_file(@user, filename)
 
       expect(Stretched::Registration.count).to eq(3)
-      reg = Stretched::ObjectAdapter.find("globals/product_page")
+      reg = Stretched::ObjectAdapter.find(@user, "globals/product_page")
       expect(reg).to be_a(Stretched::ObjectAdapter)
       expect(reg.key).to eq("globals/product_page")
       expect(reg.xpath).to eq('/html')
@@ -135,8 +138,13 @@ describe Stretched::Registration do
 
   describe "::create" do
     it "creates a new registration object in the db and returns it" do
-      registration = Stretched::Registration.create(type: "Registration", key: "test-1", data: {"key" => "value"})
-      reg = Stretched::Registration.find(type: "Registration", key: registration.key)
+      registration = Stretched::Registration.create(
+        type: "Registration",
+        key: "test-1",
+        user: @user,
+        data: {"key" => "value"}
+      )
+      reg = Stretched::Registration.find(@user, type: "Registration", key: registration.key)
       expect(reg).to be_a(Stretched::Registration)
       expect(reg.data).to eq({ "key" => "value" })
     end
@@ -144,13 +152,13 @@ describe Stretched::Registration do
 
   describe "::find" do
     it "finds an object that has previously been registered" do
-      registration = Stretched::Registration.new(type: "Registration", key: "test-1")
+      registration = Stretched::Registration.new(type: "Registration", key: "test-1", user: @user)
       registration.data = { "key" => "value" }
       registration.save
 
       reg = nil
       expect {
-        reg = Stretched::Registration.find(type: "Registration", key: registration.key)
+        reg = Stretched::Registration.find(@user, type: "Registration", key: registration.key)
       }.not_to raise_error
 
       expect(reg).to be_a(Stretched::Registration)

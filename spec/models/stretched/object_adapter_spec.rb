@@ -3,14 +3,16 @@ require 'spec_helper'
 describe Stretched::ObjectAdapter do
 
   before :each do
+    @user = "test@ironsights.com"
     Stretched::Registration.with_redis { |conn| conn.flushdb }
-    Stretched::Schema.register_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
+    Stretched::Schema.register_from_file(@user, "#{Rails.root}/spec/fixtures/stretched/registrations/schemas/listing.json")
   end
 
   describe "#initialize" do
     it "creates a new empty Registration object with a schema declared in-line" do
       registration = Stretched::ObjectAdapter.new(
         key: "test-1",
+        user: @user,
         data: {
           "schema" => {
             "test-schema-1" => { "$key" => "Listing" }
@@ -37,6 +39,7 @@ describe Stretched::ObjectAdapter do
     it "creates a new empty Registration object with a schema reference" do
       registration = Stretched::ObjectAdapter.new(
         key: "test-1",
+        user: @user,
         data: {
           "schema" => "Listing",
           "xpath" => "/html",
@@ -60,8 +63,12 @@ describe Stretched::ObjectAdapter do
 
   describe "::create" do
     it "creates a new registration object in the db and returns it" do
-      registration = Stretched::ObjectAdapter.create(key: "test-1", data: {"key" => "value", "schema" => "Listing"})
-      reg = Stretched::ObjectAdapter.find(registration.key)
+      registration = Stretched::ObjectAdapter.create(
+        key: "test-1",
+        user: @user,
+        data: {"key" => "value", "schema" => "Listing"}
+      )
+      reg = Stretched::ObjectAdapter.find(@user, registration.key)
       expect(reg).to be_a(Stretched::ObjectAdapter)
       expect(reg.data).to eq({"key" => "value", "schema" => "Listing"})
     end
@@ -69,12 +76,16 @@ describe Stretched::ObjectAdapter do
 
   describe "::find" do
     it "finds an object that has previously been registered" do
-      registration = Stretched::ObjectAdapter.new(key: "test-1", data: {"key" => "value", "schema" => "Listing"})
+      registration = Stretched::ObjectAdapter.new(
+        user: @user,
+        key: "test-1",
+        data: {"key" => "value", "schema" => "Listing"}
+      )
       registration.save
 
       reg = nil
       expect {
-        reg = Stretched::ObjectAdapter.find(registration.key)
+        reg = Stretched::ObjectAdapter.find(@user, registration.key)
       }.not_to raise_error
 
       expect(reg).to be_a(Stretched::ObjectAdapter)

@@ -4,7 +4,8 @@ describe Stretched::ObjectQueue do
 
   before :each do
     Stretched::Registration.with_redis { |c| c.flushdb }
-    @store = Stretched::ObjectQueue.find_or_create("www.retailer.com")
+    @user = "test@ironsights.com"
+    @store = Stretched::ObjectQueue.find_or_create(@user, "www.retailer.com")
     @objects = (1..3).map do |i|
       {
         url: "http://www.retailer.com/#{i}"
@@ -59,7 +60,8 @@ describe Stretched::ObjectQueue do
       @store.add(object1)
 
       object = @store.pop
-      key = Stretched::ObjectQueue.key(object)
+      base_key = Stretched::ObjectQueue.base_key(object)
+      key = "object-queue::#{@user}::#{base_key}"
 
       expect(object).not_to be_nil
       expect(@store.has_key?(key)).to be_false

@@ -5,8 +5,8 @@ module Stretched
     attr_accessor :instance
 
     def setup
-      Extension.register_all
-      context[:adapter] ||= ObjectAdapter.find(context[:adapter_name])
+      Extension.register_all(user)
+      context[:adapter] ||= ObjectAdapter.find(user, adapter_name)
     end
 
     def perform
@@ -24,7 +24,7 @@ module Stretched
     #
 
     def run_json_setters(instance, node)
-      runner = Script.runner
+      runner = Script.runner(user)
       runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
       read_with_json(
         runner: runner,
@@ -35,7 +35,7 @@ module Stretched
     def run_ruby_setters(instance, node)
       return instance unless adapter.scripts
       adapter.scripts.each do |script_name|
-        runner = Script.runner(script_name)
+        runner = Script.runner(user, script_name)
         runner.set_context(doc: node, page: page, browser_session: context[:browser_session])
         instance = read_with_script(
           runner: runner,
