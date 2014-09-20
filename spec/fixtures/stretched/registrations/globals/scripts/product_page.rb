@@ -5,7 +5,7 @@ Stretched::Script.define do
     end
 
     availability do |instance|
-      if %w(AuctionListing ClassifiedListing).include?(instance.type)
+      if %w(AuctionListing ClassifiedListing).include?(instance['type'])
         "in_stock"
       else
         instance.availability
@@ -43,7 +43,7 @@ Stretched::Script.define do
     end
 
     current_price_in_cents do |instance|
-      case instance.type
+      case instance['type']
       when "AuctionListing"
         [
           instance.buy_now_price_in_cents,
