@@ -15,7 +15,7 @@ GIT
 PATH
   remote: /Users/jstokes/Local/Repositories/stretched-rb
   specs:
-    stretched-rb (0.0.1)
+    stretched (0.0.1)
       activesupport
       connection_pool
       hashie
@@ -285,7 +285,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-pro
   spork
-  stretched-rb!
+  stretched!
   stringex
   therubyrhino
   thread_safe
