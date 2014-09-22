@@ -12,6 +12,16 @@ GIT
       rake
       rest-client (~> 1.6)
 
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
+  revision: c63f4a7c7723b6b3fabf4719ff692861de4b674b
+  specs:
+    stretched-rb (0.0.1)
+      activesupport
+      connection_pool
+      hashie
+      redis
+
 GEM
   remote: http://rubygems.org/
   remote: http://7efe68ea:9c90e496@www.mikeperham.com/rubygems/
@@ -288,6 +298,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-pro
   spork
+  stretched-rb!
   stringex
   therubyrhino
   thread_safe
