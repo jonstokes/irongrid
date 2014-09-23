@@ -8,7 +8,7 @@ describe PopulateSessionQueueWorker do
     clear_sidekiq
 
     # Stretched
-    Stretched::Registration.with_redis { |c| c.flushdb }
+    Stretched::Registration.clear_all
     register_stretched_globals
 
     # IronGrid
@@ -39,12 +39,6 @@ describe PopulateSessionQueueWorker do
       @worker.perform(domain: @site.domain)
       puts "#{@site.read_at}"
       expect(Site.new(domain: @site.domain, source: :redis).read_at).not_to be_nil
-    end
-
-    it "does nothing if the site's session queue is being read" do
-      Stretched::RunSessionsWorker.perform_async(queue: @site.domain)
-      @worker.perform(domain: @site.domain)
-      expect(@session_q.size).to be_zero
     end
 
     it "does nothing if the site's product link queue is populated" do
