@@ -16,20 +16,10 @@ describe ParseJson do
 
     it "fails on an invalid listing" do
       site = create_site "www.hyattgunstore.com"
-      url = "http://#{site.domain}/1.html"
-      Mocktra(site.domain) do
-        get '/1.html' do
-          "<html><head></head><body>Invalid Listing!</body></html>"
-        end
-      end
 
-      page = Stretched::PageUtils::Test.fetch_page(url)
-      Stretched::Registration.register_from_source(site.registrations)
-      result = Stretched::ExtractJsonFromPage.perform(
-        page: page,
-        adapter_name: "#{site.domain}/product_page"
-      )
-      listing = result.json_objects.first
+      listing = File.open("spec/fixtures/stretched/output/hyatt-invalid.json", "r") do |f|
+        JSON.parse(f.read)
+      end.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -43,20 +33,10 @@ describe ParseJson do
 
     it "should correctly parse a standard, in-stock retail listing from Hyatt Gun Store" do
       site = create_site "www.hyattgunstore.com"
-      url = "http://#{site.domain}/1.html"
-      Mocktra(site.domain) do
-        get '/1.html' do
-          load_listing_source("Retail", "www.hyattgunstore.com", "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can")[:html]
-        end
-      end
 
-      page = Stretched::PageUtils::Test.fetch_page(url)
-      Stretched::Registration.register_from_source(site.registrations)
-      result = Stretched::ExtractJsonFromPage.perform(
-        page: page,
-        adapter_name: "#{site.domain}/product_page"
-      )
-      listing = result.json_objects.first
+      listing = File.open("spec/fixtures/stretched/output/hyatt-standard-instock.json", "r") do |f|
+        JSON.parse(f.read)
+      end.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -87,19 +67,9 @@ describe ParseJson do
     it "parses a standard, out of stock retail listing from Impact Guns" do
       site = create_site "www.impactguns.com", source: :fixture
 
-      url = "http://#{site.domain}/1.html"
-      Mocktra(site.domain) do
-        get '/1.html' do
-          load_listing_source("Retail", "www.impactguns.com", "Remington 22LR CYCLONE 36HP 5000 CAS")[:html]
-        end
-      end
-      page = Stretched::PageUtils::Test.fetch_page(url)
-      Stretched::Registration.register_from_source(site.registrations)
-      result = Stretched::ExtractJsonFromPage.perform(
-        page: page,
-        adapter_name: "#{site.domain}/product_page"
-      )
-      listing = result.json_objects.first
+      listing = File.open("spec/fixtures/stretched/output/impact-standard-outofstock.json", "r") do |f|
+        JSON.parse(f.read)
+      end.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -126,19 +96,9 @@ describe ParseJson do
     it "parses a classified listing from Armslist" do
       site = create_site "www.armslist.com"
 
-      url = "http://#{site.domain}/1.html"
-      Mocktra(site.domain) do
-        get '/1.html' do
-          load_listing_source("Classified", "www.armslist.com", "fast sale springfield xd 45")[:html]
-        end
-      end
-      page = Stretched::PageUtils::Test.fetch_page(url)
-      Stretched::Registration.register_from_source(site.registrations)
-      result = Stretched::ExtractJsonFromPage.perform(
-        page: page,
-        adapter_name: "#{site.domain}/product_page"
-      )
-      listing = result.json_objects.first
+      listing = File.open("spec/fixtures/stretched/output/armslist.json", "r") do |f|
+        JSON.parse(f.read)
+      end.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -168,19 +128,9 @@ describe ParseJson do
     it "parses a CTD retail listing using meta tags" do
       site = create_site "www.cheaperthandirt.com"
 
-      url = "http://#{site.domain}/1.html"
-      Mocktra(site.domain) do
-        get '/1.html' do
-          load_listing_source("Retail", "www.cheaperthandirt.com", 'Ammo 16 Gauge Lightfield Commander IDS 2-3/4" Lead 7/8 Oz Slug 1630 fps 5 Round Box LFCP-16')[:html]
-        end
-      end
-      page = Stretched::PageUtils::Test.fetch_page(url)
-      Stretched::Registration.register_from_source(site.registrations)
-      result = Stretched::ExtractJsonFromPage.perform(
-        page: page,
-        adapter_name: "#{site.domain}/product_page"
-      )
-      listing = result.json_objects.first
+      listing = File.open("spec/fixtures/stretched/output/ctd-meta-tags.json", "r") do |f|
+        JSON.parse(f.read)
+      end.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),
@@ -201,19 +151,10 @@ describe ParseJson do
 
     it "parses a BGS retail listing using meta_og tags" do
       site = create_site "www.budsgunshop.com"
-      url = "http://#{site.domain}/1.html"
-      Mocktra(site.domain) do
-        get '/1.html' do
-          load_listing_source("Retail", "www.budsgunshop.com", "Silva Olive Drab Compass")[:html]
-        end
-      end
-      page = Stretched::PageUtils::Test.fetch_page(url)
-      Stretched::Registration.register_from_source(site.registrations)
-      result = Stretched::ExtractJsonFromPage.perform(
-        page: page,
-        adapter_name: "#{site.domain}/product_page"
-      )
-      listing = result.json_objects.first
+
+      listing = File.open("spec/fixtures/stretched/output/bgs-metaog-tags.json", "r") do |f|
+        JSON.parse(f.read)
+      end.first
 
       result = ParseJson.perform(
         page: Hashie::Mash.new(page.to_hash),

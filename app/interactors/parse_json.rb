@@ -1,7 +1,7 @@
 class ParseJson
   include Interactor::Organizer
 
-  # Expect context to have site, page, url, listing_json
+  # Expect context to have site, url, listing_json
 
   organize [
     ValidateListingPresence,

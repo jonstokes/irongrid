@@ -13,6 +13,12 @@ def load_listing_source(type, seller, item)
   create_site(seller)
   url = pt.source_url
   html = open(pt.html_on_s3).read
+
+  File.open("tmp/#{pt.id}.html", "wb") do |f|
+    puts "Writing #{type} #{seller} #{item} to #{pt.id}.html"
+    f.write html
+  end
+
   { :url => url, :html => html }
 end
 
