@@ -39,6 +39,12 @@ module Stretched
       self.class.user
     end
 
+    def self.clear_all
+      with_redis do |conn|
+        conn.flushdb
+      end
+    end
+
     def self.user
       Stretched::Settings.user
     end

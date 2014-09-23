@@ -8,7 +8,7 @@ describe PullListingsWorker do
     clear_sidekiq
 
     # Stretched
-    Stretched::Registration.with_redis { |c| c.flushdb }
+    Stretched::Registration.clear_all
     register_stretched_globals
 
     # IronGrid
@@ -118,7 +118,7 @@ describe PullListingsWorker do
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
 
-        Stretched::Registration.with_redis { |c| c.flushdb }
+        Stretched::Registration.clear_all
         register_stretched_globals
         @site.register
         @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
@@ -143,16 +143,11 @@ describe PullListingsWorker do
       end
 
       it "should create WriteListingWorkers for modified listings with proper payload" do
-        Mocktra(@site.domain) do
-          get '/media/feeds/genericammofeed.xml' do
-            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed_updates.xml") do |file|
-              file.read
-            end
-          end
+        objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/full_product_feed_updates.json") do |f|
+          JSON.parse(f.read)
         end
 
-        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
-        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+        @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(18)
@@ -166,16 +161,10 @@ describe PullListingsWorker do
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do
-        Mocktra(@site.domain) do
-          get '/media/feeds/genericammofeed.xml' do
-            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed.xml") do |file|
-              file.read
-            end
-          end
+        objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/full_product_feed.json") do |f|
+          JSON.parse(f.read)
         end
-
-        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
-        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+        @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
         iq = ImageQueue.new(domain: @site.domain)
@@ -190,26 +179,21 @@ describe PullListingsWorker do
         LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
 
-        Stretched::Registration.with_redis { |c| c.flushdb }
+        Stretched::Registration.clear_all
         register_stretched_globals
         @site.register
+        @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
       end
 
       it "should create WriteListingWorkers for new listings with proper payload" do
-        Mocktra("datafeed.avantlink.com") do
-          get '/download_feed.php' do
-            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed.xml") do |file|
-              file.read
-            end
-          end
+        objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed.json") do |f|
+          JSON.parse(f.read)
         end
-
-        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
-        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+        @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(4)
-        expect(LogRecordWorker._jobs.count).to eq(4)
+        expect(LogRecordWorker._jobs.count).to eq(2)
         job = WriteListingWorker._jobs.first
         msg = LinkMessage.new(job["args"].first)
         expect(msg.url).to match(/avantlink\.com/)
@@ -219,16 +203,10 @@ describe PullListingsWorker do
       end
 
       it "should create WriteListingWorkers for modified listings with proper payload" do
-        Mocktra("datafeed.avantlink.com") do
-          get '/download_feed.php' do
-            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed_update.xml") do |file|
-              file.read
-            end
-          end
+        objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed_update.json") do |f|
+          JSON.parse(f.read)
         end
-
-        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
-        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+        @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(4)
@@ -242,16 +220,10 @@ describe PullListingsWorker do
       end
 
       it "should create WriteListingWorkers for removed listings proper payload" do
-        Mocktra("datafeed.avantlink.com") do
-          get '/download_feed.php' do
-            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed_remove.xml") do |file|
-              file.read
-            end
-          end
+        objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed_remove.json") do |f|
+          JSON.parse(f.read)
         end
-
-        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
-        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+        @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(4)
@@ -264,16 +236,11 @@ describe PullListingsWorker do
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do
-        Mocktra("datafeed.avantlink.com") do
-          get '/download_feed.php' do
-            File.open("#{Rails.root}/spec/fixtures/avantlink_feeds/test_feed.xml") do |file|
-              file.read
-            end
-          end
+        objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed.json") do |f|
+          JSON.parse(f.read)
         end
+        @object_q.add(objects)
 
-        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
-        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
         @worker.perform(domain: @site.domain)
         iq = ImageQueue.new(domain: @site.domain)
         expect(iq.size).to eq(4)
