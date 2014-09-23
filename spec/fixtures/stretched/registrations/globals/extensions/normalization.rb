@@ -5,6 +5,52 @@ Stretched::Extension.define do
       str = " #{text} "
 
       #
+      # Normalize dots
+
+      # Dash with non-point calibers
+      str.gsub!(/\s\.?(6|10|17|18|19|21|22|23|25|30|300|308|32|327|357|375|38|380|40|41|44|440|445|45|475|480|575|28|50|500|65|8|9)\-[abcnmhsrjlwcgvpud]/i) { |m| m = m.sub!(/\-/, " ") }
+
+      # Dash with point calibers
+      str.gsub!(/\s(9\.3|\d\.6|\d\.75|\d\.7|\d\.35|\d\.5|6\.8|\d\.62|\d\.65|5\.56|\d\.45|7\.92)\-[abcnmhsrjlwcgvpud]/i) { |m| m = m.sub!(/\-/, " ") }
+
+      # Space with non-point calibers
+      str.gsub!(/\s\.?(6|10|17|18|19|21|22|23|25|30|300|308|32|327|357|375|38|380|40|41|44|440|445|45|475|480|575|28|50|500|65|8|9)[abcnmhsrjlwcgvpud]/i) do |match|
+        i = match.index(/[abcnmhsrjlwcgvpud]/i)
+        match = match.insert(i, " ")
+      end
+
+      # Space with point calibers
+      str.gsub!(/\s(9\.3|\d\.6|\d\.75|\d\.7|\d\.35|\d\.5|6\.8|\d\.62|\d\.65|5\.56|\d\.45|7\.92)[abcnmhsrjlwcgvpud]/i) do |match|
+        i = match.index(/[abcnmhsrjlwcgvpud]/i)
+        match = match.insert(i, " ")
+      end
+
+      # Pre-caliber dot with dashes
+      str.gsub!(/\s\.(25|250|30|38|40|44|45|50|56|577)(\s|\-)/) do |match|
+        match.sub!(/\./,"")
+      end
+
+      # Pre-caliber dot 200's
+      str.gsub!(/\s\.(17|22|220|221|223|224|225|240|243|257|260|264|270|275|280|284)\s/) do |match|
+        match.sub!(/\./,"")
+      end
+
+      # Pre-caliber dot 300's
+      str.gsub!(/\s\.(300|308|32|327|338|340|348|35|350|351|356|370|38|357|370|375|376|378|380)\s/) do |match|
+        match.sub!(/\./,"")
+      end
+
+      # Pre-caliber dot 400's
+      str.gsub!(/\s\.(41|44|45|400|404|405|416|426|440|445|450|454|455|458|460|475|470|475|480)\s/) do |match|
+        match.sub!(/\./,"")
+      end
+
+      # Pre-caliber dot 500's
+      str.gsub!(/\s\.(50|500|505|510|577)\s/) do |match|
+        match.sub!(/\./,"")
+      end
+
+      #
       # Normalize suffixes
 
       #+P variants
@@ -96,7 +142,7 @@ Stretched::Extension.define do
       str.strip.squeeze(" ")
 
       #
-      # Normalize dots
+      # Restore dots
 
       # Pre-caliber dot with dashes
       str.gsub!(/\s(25|250|30|38|338|40|44|45|450|50|56|577)(\s|\-)\d{1,3}/) do |match|
