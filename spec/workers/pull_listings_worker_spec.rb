@@ -121,23 +121,19 @@ describe PullListingsWorker do
         Stretched::Registration.with_redis { |c| c.flushdb }
         register_stretched_globals
         @site.register
+        @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
       end
 
       it "should create WriteListingWorkers for new listings with proper payload" do
-        Mocktra(@site.domain) do
-          get '/media/feeds/genericammofeed.xml' do
-            File.open("#{Rails.root}/spec/fixtures/rss_feeds/full_product_feed.xml") do |file|
-              file.read
-            end
-          end
+        objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/full_product_feed.json") do |f|
+          JSON.parse(f.read)
         end
 
-        PopulateSessionQueueWorker.new.perform(domain: @site.domain)
-        Stretched::RunSessionsWorker.new.perform(queue: @site.domain)
+        @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(18)
-        expect(LogRecordWorker._jobs.count).to eq(4)
+        expect(LogRecordWorker._jobs.count).to eq(2)
         job = WriteListingWorker._jobs.first
         msg = LinkMessage.new(job["args"].first)
         expect(msg.url).to match(/ammo\.net/)
