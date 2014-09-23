@@ -6,6 +6,11 @@ describe ParseJson do
 
   before :all do
     create_parser_tests
+    @page = Hashie::Mash.new(
+      fetched: true,
+      body: "string",
+      code: 200
+    )
   end
 
   describe "#perform" do
@@ -22,7 +27,7 @@ describe ParseJson do
       end.first
 
       result = ParseJson.perform(
-        page: Hashie::Mash.new(page.to_hash),
+        page: @page,
         object: Hashie::Mash.new(listing),
         site: site
       )
@@ -39,7 +44,7 @@ describe ParseJson do
       end.first
 
       result = ParseJson.perform(
-        page: Hashie::Mash.new(page.to_hash),
+        page: @page,
         object: Hashie::Mash.new(listing),
         site: site
       )
@@ -72,7 +77,7 @@ describe ParseJson do
       end.first
 
       result = ParseJson.perform(
-        page: Hashie::Mash.new(page.to_hash),
+        page: @page,
         object: Hashie::Mash.new(listing),
         site:site
       )
@@ -101,7 +106,7 @@ describe ParseJson do
       end.first
 
       result = ParseJson.perform(
-        page: Hashie::Mash.new(page.to_hash),
+        page: @page,
         object: Hashie::Mash.new(listing),
         site: site
       )
@@ -133,7 +138,7 @@ describe ParseJson do
       end.first
 
       result = ParseJson.perform(
-        page: Hashie::Mash.new(page.to_hash),
+        page: @page,
         object: Hashie::Mash.new(listing),
         site: site
       )
@@ -157,7 +162,7 @@ describe ParseJson do
       end.first
 
       result = ParseJson.perform(
-        page: Hashie::Mash.new(page.to_hash),
+        page: @page,
         object: Hashie::Mash.new(listing),
         site: site
       )
