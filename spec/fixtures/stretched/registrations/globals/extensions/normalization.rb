@@ -105,7 +105,7 @@ Stretched::Extension.define do
       end
 
       # Pre-caliber dot 200's
-      str.gsub!(/\s(17|22|25 acp|25 naa|22[01345]|240|243|257|260|264|270|275|280|284)\s/i) do |match|
+      str.gsub!(/\s(17|22|25 acp|25 naa|22[01345]|240|243|257|260|264|270|275|280|284)(lr\s|\s)/i) do |match|
         i = match.index(/\d{2,3}\s/)
         match = match.insert(i,".")
       end
