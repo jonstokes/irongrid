@@ -15,7 +15,7 @@ describe ParseJson do
 
   describe "#perform" do
     before :each do
-      Stretched::Registration.with_redis { |c| c.flushdb }
+      Stretched::Registration.clear_all
       register_globals
     end
 

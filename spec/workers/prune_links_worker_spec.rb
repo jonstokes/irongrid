@@ -4,7 +4,7 @@ require 'sidekiq/testing'
 describe PruneLinksWorker do
   before :each do
     # Stretched
-    Stretched::Registration.with_redis { |c| c.flushdb }
+    Stretched::Registration.clear_all
     register_stretched_globals
     register_site "www.retailer.com"
 
