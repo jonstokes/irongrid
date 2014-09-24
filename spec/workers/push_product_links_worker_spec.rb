@@ -20,7 +20,7 @@ describe PushProductLinksWorker do
 
     # Vars
     @worker = PushProductLinksWorker.new
-    @session_q = Stretched::SessionQueue.find_or_create(@site.domain)
+    @session_q = Stretched::SessionQueue.new(@site.domain)
     @link_store = LinkMessageQueue.new(domain: @site.domain)
     @msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/1")
   end

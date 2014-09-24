@@ -48,7 +48,7 @@ describe PullListingsWorker do
       page: @page,
       object: @listing_json
     }
-    @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
+    @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
   end
 
   after :each do
@@ -121,7 +121,7 @@ describe PullListingsWorker do
         Stretched::Registration.clear_all
         register_stretched_globals
         @site.register
-        @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
+        @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
 
       it "should create WriteListingWorkers for new listings with proper payload" do
@@ -182,7 +182,7 @@ describe PullListingsWorker do
         Stretched::Registration.clear_all
         register_stretched_globals
         @site.register
-        @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/listings")
+        @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
 
       it "should create WriteListingWorkers for new listings with proper payload" do

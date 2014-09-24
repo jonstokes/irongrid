@@ -34,7 +34,7 @@ describe PullProductLinksWorker do
       page: @page,
       object: { product_link: "http://#{@site.domain}/1" }
     }
-    @object_q = Stretched::ObjectQueue.find_or_create("#{@site.domain}/product_links")
+    @object_q = Stretched::ObjectQueue.new("#{@site.domain}/product_links")
     @object_q.clear
     @link_store = LinkMessageQueue.new(domain: @site.domain)
     @link_store.clear

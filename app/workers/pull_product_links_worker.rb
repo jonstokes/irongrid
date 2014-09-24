@@ -18,7 +18,7 @@ class PullProductLinksWorker < CoreWorker
     @site = Site.new(domain: @domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @link_store = LinkMessageQueue.new(domain: site.domain)
-    @object_q = Stretched::ObjectQueue.find_or_create("#{site.domain}/product_links")
+    @object_q = Stretched::ObjectQueue.new("#{site.domain}/product_links")
     true
   end
 

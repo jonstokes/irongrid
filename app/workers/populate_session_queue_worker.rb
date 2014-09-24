@@ -15,7 +15,7 @@ class PopulateSessionQueueWorker < CoreWorker
     return false unless opts && @domain = opts[:domain]
     return false unless PopulateSessionQueueWorker.should_run?(@domain) && i_am_alone_with_this_domain?
     @site = Site.new(domain: domain)
-    @session_queue = Stretched::SessionQueue.find_or_create(@domain)
+    @session_queue = Stretched::SessionQueue.new(@domain)
     return false if @session_queue.any?
     track
     true

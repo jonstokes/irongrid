@@ -17,7 +17,7 @@ describe PopulateSessionQueueWorker do
 
     # Vars
     @worker = PopulateSessionQueueWorker.new
-    @session_q = Stretched::SessionQueue.find_or_create(@site.domain)
+    @session_q = Stretched::SessionQueue.new(@site.domain)
     @session_q.clear
     @url = "http://#{@site.domain}/1"
   end

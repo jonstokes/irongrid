@@ -89,15 +89,15 @@ class Site < LegacySite
   end
 
   def session_queue
-    @session_queue ||= Stretched::SessionQueue.find_or_create(domain)
+    @session_queue ||= Stretched::SessionQueue.new(domain)
   end
 
   def listings_queue
-    @listings_queue ||= Stretched::ObjectQueue.find_or_create("#{domain}/listings")
+    @listings_queue ||= Stretched::ObjectQueue.new("#{domain}/listings")
   end
 
   def product_links_queue
-    @product_links_queue ||= Stretched::ObjectQueue.find_or_create("#{domain}/product_links")
+    @product_links_queue ||= Stretched::ObjectQueue.new("#{domain}/product_links")
   end
 
   def link_message_queue
