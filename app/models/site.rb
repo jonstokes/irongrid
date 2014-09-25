@@ -2,7 +2,7 @@ class Site < LegacySite
   include Github
   include IrongridRedisPool
 
-  attr_accessor :site_data, :pool
+  attr_accessor :site_data, :pool, :user
 
   SITE_ATTRIBUTES = [
     :name,
@@ -35,6 +35,7 @@ class Site < LegacySite
     raise "Domain required!" unless opts[:domain]
     @site_data = { domain: opts[:domain] }
     @pool = opts[:pool].try(:to_sym) || :irongrid
+    @user = opts[:user]
     load_data!(opts[:source].try(:to_sym))
   end
 
@@ -81,7 +82,7 @@ class Site < LegacySite
   end
 
   def register
-    Stretched::Registration.create_from_source(registrations)
+    Stretched::Registration.create_from_source(registrations, @user)
   end
 
   def update_from_local
@@ -89,15 +90,15 @@ class Site < LegacySite
   end
 
   def session_queue
-    @session_queue ||= Stretched::SessionQueue.new(domain)
+    @session_queue ||= Stretched::SessionQueue.new(domain, @user)
   end
 
   def listings_queue
-    @listings_queue ||= Stretched::ObjectQueue.new("#{domain}/listings")
+    @listings_queue ||= Stretched::ObjectQueue.new("#{domain}/listings", @user)
   end
 
   def product_links_queue
-    @product_links_queue ||= Stretched::ObjectQueue.new("#{domain}/product_links")
+    @product_links_queue ||= Stretched::ObjectQueue.new("#{domain}/product_links", @user)
   end
 
   def link_message_queue
