@@ -20,6 +20,7 @@ PATH
       connection_pool
       hashie
       redis
+      tokenizer
 
 GEM
   remote: http://rubygems.org/

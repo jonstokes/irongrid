@@ -91,12 +91,6 @@ module Loadable
       end
     end
 
-    def self.register_from_file(filename)
-      load_file(filename).map do |reg_hash|
-        write_to_redis(reg_hash)
-      end
-    end
-
     def self.create_from_file(filename)
       load_file(filename).map do |reg_hash|
         create(reg_hash)

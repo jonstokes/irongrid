@@ -81,7 +81,7 @@ class Site < LegacySite
   end
 
   def register
-    Stretched::Registration.register_from_source(registrations)
+    Stretched::Registration.create_from_source(registrations)
   end
 
   def update_from_local
