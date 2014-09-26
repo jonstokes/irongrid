@@ -9,7 +9,8 @@ class ScrapePageWorker < CoreWorker
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
     return false unless @user = opts[:user]
-    return false unless @session = opts[:session]
+    return false unless session_source = opts[:session]
+    @session = YAML.load(session_source)
     @site = Site.new(
       domain: @domain,
       user:   @user,
@@ -18,6 +19,7 @@ class ScrapePageWorker < CoreWorker
   end
 
   def perform(opts)
+    results = {}
     return unless opts && init(opts)
     populate_session_queue
     results = pull_results
