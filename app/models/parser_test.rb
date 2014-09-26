@@ -4,8 +4,8 @@ class ParserTest < ActiveRecord::Base
 
   attr_accessible :source_url, :seller_domain, :is_valid, :not_found, :classified_sold, :html_on_s3, :should_send_to_s3
   attr_accessible :listing_data
-  attr_reader :scraper
 
+  attr_reader :scraper
   attr_accessor :scrape_errors
 
   before_save :send_html_to_s3
@@ -40,20 +40,17 @@ class ParserTest < ActiveRecord::Base
   end
 
   def fetch_page
-    session = {
+    site.session_queue.push(
       queue: domain,
       session_definition: 'globals/standard_html_session',
       object_adapters: [ "#{domain}/product_page" ],
       urls: [{ url: source_location }]
-    }.to_yaml
-    worker = ScrapePageWorker.new
-    @scraper = worker.perform(
-      domain:      domain,
-      session:     session,
-      site_source: :local
     )
+    sleep 1 while site.session_queue.is_being_read?
+    puts "# Listings queue is size #{site.listings_queue.size}"
+    @scraper = site.listings_queue.pop
+    @scraper
   end
-
 
   def stretched_listing_queue
      @scraper["#{domain}/listings"].try(:first)
@@ -64,8 +61,12 @@ class ParserTest < ActiveRecord::Base
     stretched_listing_queue[:json].object
   end
 
-  def irongrid_listing
-    stretched_listing_queue[:listing]
+  def site
+    @site ||= Site.new(domain: domain)
+  end
+
+  def listing_json
+    scraper.object
   end
 
   def source_location
@@ -94,23 +95,23 @@ class ParserTest < ActiveRecord::Base
   # Checkers
 
   def check_statuses
-    if not_found? != stretched_json.object.not_found?
-      return @scrape_errors << { pt: "not_found: #{not_found}", page: "not_found: #{stretched_json.object.not_found?}" }
+    if not_found? != listing_json.not_found?
+      return @scrape_errors << { pt: "not_found: #{not_found}", page: "not_found: #{listing_json.not_found?}" }
     end
 
-    if is_valid? != stretched_json.object.valid
-      @scrape_errors << { pt: "is_valid?: #{is_valid?}", page: "valid: #{stretched_json.object.valid}" }
+    if is_valid? != listing_json.valid
+      @scrape_errors << { pt: "is_valid?: #{is_valid?}", page: "valid: #{listing_json.valid}" }
     end
   end
 
   def check_listing_data
     listing_data.each do |attr, value|
       next if attr == "item_data"
-      if value && irongrid_listing.nil?
+      if value && listing_json.nil?
         @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: nil listing" }
-      elsif value != irongrid_listing[attr]
+      elsif value != listing_json[attr]
         next if %w(url digest image_download_attempted).include?(attr)
-        @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: #{irongrid_listing[attr]}" }
+        @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: #{listing_json[attr]}" }
       end
     end
   end
@@ -118,7 +119,7 @@ class ParserTest < ActiveRecord::Base
   def check_item_data
     return unless listing_data['item_data']
     listing_data['item_data'].each do |attr, value|
-      if value && irongrid_listing.nil?
+      if value && listing_json.nil?
         @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: nil listing" }
       elsif ElasticSearchObject.is_object_in_index?(attr)
         check_es_object(attr, value)
@@ -130,14 +131,14 @@ class ParserTest < ActiveRecord::Base
 
   def check_value(attr, pt_value)
     return if %w(description keywords image_download_attempted seller_domain).include?(attr)
-    return if (irongrid_value = irongrid_listing['item_data'][attr]) == pt_value
+    return if (irongrid_value = listing_json['item_data'][attr]) == pt_value
     return if pt_value.is_a?(String) && irongrid_value.is_a?(String) && (pt_value.downcase == irongrid_value.downcase)
     @scrape_errors << { pt: "#{attr}: #{pt_value}", page: "#{attr}: #{irongrid_value}" }
   end
 
   def check_es_object(attr, pt_value)
     pt_value = es_object_to_hash(pt_value)
-    irongrid_value = es_object_to_hash(irongrid_listing['item_data'][attr])
+    irongrid_value = es_object_to_hash(listing_json['item_data'][attr])
 
     pt_value.each do |k, v|
       next if (v == "default") && (irongrid_value[k] == "hard")
@@ -192,9 +193,8 @@ class ParserTest < ActiveRecord::Base
 
     check_statuses
 
-    if listing_data.present? && stretched_json.object.valid?
+    if listing_data.present? && listing_json.valid?
       check_listing_data
-      check_item_data
     end
 
     print_errors
