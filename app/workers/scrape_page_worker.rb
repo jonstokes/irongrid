@@ -35,7 +35,7 @@ class ScrapePageWorker < CoreWorker
   private
 
   def populate_session_queue
-    site.session_queue.add session
+    site.session_queue.push session
     sleep 1 while site.session_queue.is_being_read?
   end
 
