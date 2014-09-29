@@ -18,12 +18,11 @@ listings, and it dumps those listings into a database and search index.
 
 The platform takes site adapter
 information from the `ironsights-sites` repo, including info that has been registered
-with stretched.io already, and uses it to crawl retail sites. It
-stretched does quite a bit of work to structure the listings it finds
-and extract data from them, but IronGrid does a bit more
-before writing the results to the database.
+with stretched.io already, and uses it to crawl retail sites. It does a
+bit of cleanup and metadata extraction on the listings that it gets from
+stretched.io before writing those listings to the database.
 
-![IronSights and stretched.io](http://scoperrific-site.s3.amazonaws.com/irongridmap.png)
+![IronSights and stretched.io](http://scoperrific-site.s3.amazonaws.com/irongrid.png)
 
 In the diagram above, you can see that we us the `validator` app to
 register our sites with stretched.io. (We can also use the `irongrid`
