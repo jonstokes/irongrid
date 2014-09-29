@@ -35,7 +35,7 @@ class CreateCdnImagesWorker < CoreWorker
     transition
     stop_tracking
   ensure
-    @http.close
+    @http.try(:close)
   end
 
   def transition

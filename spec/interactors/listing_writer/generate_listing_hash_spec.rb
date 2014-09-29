@@ -4,7 +4,6 @@ describe ListingWriter::GenerateListingHash do
   it "generates a hash that can be used to create a listing" do
     site = create_site "www.hyattgunstore.com"
     opts = {
-      adapter: site.page_adapter,
       digest: "a0b57db0491562882035e833183d44bb",
       url: "http://www.hyattgunstore.com/federal-xm855-5.56-ammo-62-grain-fmj-420-rounds-on-30-round-stripper-clips.html",
       type: "RetailListing",

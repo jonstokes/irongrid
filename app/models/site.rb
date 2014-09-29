@@ -1,4 +1,4 @@
-class Site < LegacySite
+class Site < CoreModel
   include Github
   include IrongridRedisPool
 
@@ -39,12 +39,6 @@ class Site < LegacySite
     load_data!(opts[:source].try(:to_sym))
   end
 
-  def write_yaml
-    File.open("#{Figaro.env.sites_repo}/sites/#{domain_dashed}.yml", "w") do |f|
-      f.puts @site_data.stringify_keys.to_yaml
-    end
-  end
-
   def update(attrs)
     check_attributes(attrs)
     load_data!
@@ -79,6 +73,12 @@ class Site < LegacySite
 
   def domain_dash
     domain.gsub(".","--")
+  end
+
+  def rate_limit
+    # This only affects the image pipeline, and it means that irongrid will
+    # download images from a site at a rate of one every 2 seconds
+    2
   end
 
   def register
