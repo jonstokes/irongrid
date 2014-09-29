@@ -60,8 +60,8 @@ class ParserTest < ActiveRecord::Base
   end
 
   def stretched_json
-    return unless stretched_listing_queue
-    stretched_listing_queue[:json]
+    return unless stretched_listing_queue && stretched_listing_queue[:json]
+    stretched_listing_queue[:json].object
   end
 
   def irongrid_listing
@@ -81,16 +81,12 @@ class ParserTest < ActiveRecord::Base
   end
 
   def update_listing_data!
-    not_found = stretched_json.object.not_found?
-    is_valid = stretched_json.object.valid
+    not_found = stretched_json.not_found?
+    is_valid = stretched_json.valid
     classified_sold = nil
     self.listing_data_will_change!
-    if listing_data
-      listing_data.merge!(irongrid_listing.to_hash)
-    else
-      listing_data = irongrid_listing.try(:to_hash)
-    end
-    save
+    self.listing_data = self.stretched_json.try(:to_hash)
+    save!
   end
 
 
