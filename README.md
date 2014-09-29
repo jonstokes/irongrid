@@ -38,6 +38,30 @@ database accordingly.
 Note that the above is a vastly simplified version of what actually goes
 on, but it provides a good place to start.
 
+In general, I've tried to achieve the following division of labor with
+the above arrangement:
+
+1. Stretched.io -- this is a generic web crawling platform that can
+   crawl any type of page, and create a set of JSON objects from it.
+2. IronGrid -- this platform uses stretched.io to crawl product listings
+   from retail sites. So it embodies some domain-specific knowldge about
+listings, products, site catalog pages, shipping costs, and so on. It could theoretically be 
+used to crawl retail sites in any domain, as I'ved tried (but not yet
+completely succeeded) in pulling out any firearm-specific code from it.
+3. Ironsights-sites -- this repo is supposed to distill all of the
+   firearm-specific knowlege into one place. So IronGrid uses the
+scripts and YAML in this repo to do things like identify calibers,
+bullet weights, and so on.
+
+So you can see that IronGrid uses stretched.io to crawl retail sites and
+pull product listings, and ironsights-sites configures and uses both
+IronGrid and stretched.io to specifically crawl firearm-related websites
+and extract relevant data about products from the listings.
+
+A different repo similar to ironsights-sites could configure and use
+both stretched.io and IronGrid to crawl other types of retail sites,
+like survival food, fly fishing, etc.
+
 ### Setup
 
 1. Clone the repo
