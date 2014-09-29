@@ -11,6 +11,34 @@
 * Redis
 * Elasticsearch 1.0 or higher (`brew install elasticsearch`)
 
+### About IronGrid
+
+IronGrid uses stretched.io to crawl retail websites for product
+listings, and it dumps those listings into a database and search index. 
+
+The platform takes site adapter
+information from the `ironsights-sites` repo, including info that has been registered
+with stretched.io already, and uses it to crawl retail sites. It
+stretched does quite a bit of work to structure the listings it finds
+and extract data from them, but IronGrid does a bit more
+before writing the results to the database.
+
+![IronSights and stretched.io](http://scoperrific-site.s3.amazonaws.com/irongridmap.png)
+
+In the diagram above, you can see that we us the `validator` app to
+register our sites with stretched.io. (We can also use the `irongrid`
+repo to do this, if needed.) Once a site is registered, we can populate
+its session queue with sessions. After the session queue is populated,
+stretched.io will start to run those sessions, and will put the
+resulting listing objects that it finds into the site's object queue.
+
+When IronGrid detects that listing objects are showing up in the object
+queue, it'll pull them, do some more work on them, and update the
+database accordingly.
+
+Note that the above is a vastly simplified version of what actually goes
+on, but it provides a good place to start.
+
 ### Setup
 
 1. Clone the repo
