@@ -24,11 +24,15 @@ class CoreWorker < CoreModel
   end
 
   def self._workers
-    workers_for_class("#{self.name}")
+    retryable(on: Redis::TimeoutError) do
+      workers_for_class("#{self.name}")
+    end
   end
 
   def self._jobs
-    jobs_for_class("#{self.name}")
+    retryable(on: Redis::TimeoutError) do
+      jobs_for_class("#{self.name}")
+    end
   end
 
   def self.active_workers
