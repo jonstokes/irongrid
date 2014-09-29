@@ -47,9 +47,7 @@ class ParserTest < ActiveRecord::Base
       urls: [{ url: source_location }]
     )
     sleep 1 while site.session_queue.is_being_read?
-    puts "# Listings queue is size #{site.listings_queue.size}"
     @scraper = site.listings_queue.pop
-    @scraper
   end
 
   def stretched_listing_queue
@@ -106,51 +104,13 @@ class ParserTest < ActiveRecord::Base
 
   def check_listing_data
     listing_data.each do |attr, value|
-      next if attr == "item_data"
       if value && listing_json.nil?
         @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: nil listing" }
       elsif value != listing_json[attr]
-        next if %w(url digest image_download_attempted).include?(attr)
+        next if %w(url image_download_attempted).include?(attr)
         @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: #{listing_json[attr]}" }
       end
     end
-  end
-
-  def check_item_data
-    return unless listing_data['item_data']
-    listing_data['item_data'].each do |attr, value|
-      if value && listing_json.nil?
-        @scrape_errors << { pt: "#{attr}: #{value}", page: "#{attr}: nil listing" }
-      elsif ElasticSearchObject.is_object_in_index?(attr)
-        check_es_object(attr, value)
-      else
-        check_value(attr, value)
-      end
-    end
-  end
-
-  def check_value(attr, pt_value)
-    return if %w(description keywords image_download_attempted seller_domain).include?(attr)
-    return if (irongrid_value = listing_json['item_data'][attr]) == pt_value
-    return if pt_value.is_a?(String) && irongrid_value.is_a?(String) && (pt_value.downcase == irongrid_value.downcase)
-    @scrape_errors << { pt: "#{attr}: #{pt_value}", page: "#{attr}: #{irongrid_value}" }
-  end
-
-  def check_es_object(attr, pt_value)
-    pt_value = es_object_to_hash(pt_value)
-    irongrid_value = es_object_to_hash(listing_json['item_data'][attr])
-
-    pt_value.each do |k, v|
-      next if (v == "default") && (irongrid_value[k] == "hard")
-      unless irongrid_value[k] == v
-        @scrape_errors << { pt: "#{attr}.#{k}: #{v}", page: "#{attr}.#{k}: #{irongrid_value[k]}" }
-      end
-    end
-  end
-
-  def es_object_to_hash(varray)
-    varray ||= []
-    varray.reduce({}) {|result, hashie| result.merge!(hashie.to_h)}
   end
 
   def print_errors
