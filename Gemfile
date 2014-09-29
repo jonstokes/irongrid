@@ -28,7 +28,7 @@ gem 'capybara'
 gem 'hashie'
 gem 'tokenizer'
 
-gem 'stretched', path: "/Users/jstokes/Local/Repositories/stretched-rb"
+gem 'stretched', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git"
 
 
 # JRuby-specific gems
