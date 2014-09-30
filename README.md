@@ -2,8 +2,6 @@
 
 [![Code Climate](https://codeclimate.com/repos/533a34da695680591d00046a/badges/1fffa66023d44fe34379/gpa.png)](https://codeclimate.com/repos/533a34da695680591d00046a/feed)
 
-## Running
-
 ### Requirements
 
 * JRuby 1.7.10
@@ -61,6 +59,79 @@ and extract relevant data about products from the listings.
 A different repo similar to ironsights-sites could configure and use
 both stretched.io and IronGrid to crawl other types of retail sites,
 like survival food, fly fishing, etc.
+
+## How IronGrid crawls a site
+
+IronGrid crawls a site in two phases:
+
+1. The *catalog phase* is when the platform takes a set of seed links
+   that are given in a site's adapter file (under `sessions`) and uses
+them to compile a list of product pages to be crawled. These links are
+usually what I call "catalog pages", i.e. they're pages with links to
+multiple products. Here's a [catalog page for Bud's](http://www.budsgunshop.com/catalog/index.php/cPath/21_0), for instance.
+2. The *listings phase* is when the site's session queue is populated
+   with links to actual product pages, and stretched is crawling those
+pages, extracting listings, and pushing the results to the correct
+object queue so that IronGrid can consume them and put them into the
+database.
+
+### Catalog Phase, Step 1: Populate Session Queue
+
+![IronSights and stretched.io](http://scoperrific-site.s3.amazonaws.com/catalog-phase-1.png)
+
+IronGrid's PopulateSessionQueueWorker takes the `session`s defined in the
+site's adapter code and pushes them into the site's session queue on
+stretched.
+
+
+### Catalog Phase, Step 2: Pull Product Links
+
+![IronSights and stretched.io](http://scoperrific-site.s3.amazonaws.com/catalog-phase-2.png)
+
+As product links begin to show up in the site's product_link queue,
+ProductLinksWorkers will spawn and pop them and push them into a link
+set. 
+
+### Catalog Phase, Step 3: Prune, Refresh, Push
+![IronSights and stretched.io](http://scoperrific-site.s3.amazonaws.com/catalog-phase-3.png)
+
+Once stretched has finished running all of the sessions that were
+pushed into the session queue in step 1, and the product_link queue is
+empty, there will be a whole bunch of links in the link set. Some of
+those links will be new links that the system has never seen before,
+others will be links to product pages that were just recently updated
+and therefore don't need to be crawled again, and others will be links
+to product pages that are stale and need to be re-crawled. The
+platform's job now is to sort out which is which, and that is the
+purpose Step 2.
+
+First, the PruneLinksWorker goes through each link in the link set and
+sniffs it for freshness (i.e. its `updated_at` timestamp is within a certain window). 
+If it's fresh, it gets deleted from the set (to be re-added
+and re-crawled another day). If it's stale it stays. And if it's a brand
+new link it stays.
+
+*Note*: The link set (called a `LinkMessageQueue` in the code base for
+legacy reasons) is an actual redis set, meaning that all of the links in it
+are unique. There are no dupes.
+
+Once the PruneLinksWorker has ensured that all of the links in the link
+set are actually in need of (re)crawling, the RefreshLinksWorker checks
+the database for stale links for that site and dumps them into the link
+set, as well.
+
+Finally, the PushProductLinksWorker clears out the link set by creating
+new stretched.io sessions for all of the links in it and pushing those sessions back to the session queue.
+At this point, all of the sessions in the session queue will be
+(ideally) be product pages, so now the listings phase begins.
+
+### Listings Phase
+![IronSights and stretched.io](http://scoperrific-site.s3.amazonaws.com/listing-phase.png)
+
+In the listings phase, IronGrid's PullListingsWorker clears out the
+listings object queue and writes any valid listings to the database. It
+also deletes any invalid or `not_found` listings, does some final
+metadata extraction, and handles a few other chores.
 
 ### Setup
 
