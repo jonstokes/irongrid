@@ -1,7 +1,7 @@
 class SiteStatsWorker < CoreWorker
   include Trackable
 
-  sidekiq_options queue: :slow_db
+  sidekiq_options queue: :stats_slow_db
 
   LOG_RECORD_SCHEMA = {
     active_listings: Integer,
