@@ -32,6 +32,7 @@ class PullListingsWorker < CoreWorker
     return unless opts && init(opts)
 
     while !timed_out? && json = @object_queue.pop do
+      raise json.error if json.error? # Surface stretched errors to Airbrake
       json.site = site
       scraper = ParseJson.perform(json)
       update_image(scraper) if scraper.is_valid?
