@@ -12,13 +12,13 @@ Load irongrid loadables!
 
 ## /validator
 RAILS_ENV=production bundle exec rake site:add_new
-RAILS_ENV=production bundle exec rake site:update_all
 RAILS_ENV=production bundle exec rake stretched:register_all
 
 ## /stretched-node
 RAILS_ENV=production bundle exec rake user:create_all
 
-
+##/irongrid
+RAILS_ENV=production bundle exec rake site:load_scripts
 
 
 # EC2
