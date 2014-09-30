@@ -1,6 +1,5 @@
 def service_list
   %w(
-    Stretched::RunSessionsService
     ReadListingsService
     ReadProductLinksService
     PruneLinksService
