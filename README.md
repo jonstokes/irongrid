@@ -152,51 +152,52 @@ deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main
 
 Import the repository signing key, and update the package lists
 
-	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-	sudo apt-get update
-	sudo apt-get install postgresql-9.3 postgresql-contrib-9.3
+	$ wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+	$ sudo apt-get update
+	$ sudo apt-get install postgresql-9.3 postgresql-contrib-9.3
 
 (http://www.filippozanella.com/blog/setting-up-postgresql-on-ubuntu-precise12-04-ruby-on-rails-ror3-2-11-ruby1-9-3-and-heroku-gem2-34-0/)
 
-	sudo -u postgres psql postgres
+	$ sudo -u postgres psql postgres
 
-Seet a password, but leave it blank
+Set a password, but leave it blank (hit enter to leave this blank)
 
-	\password # hit enter and leave this blank
+	# \password 
 
 Exit out of Postgres commandline
 
-	\q
+	# \q
 
 Setup the databases
 
-	sudo -u postgres createdb irongrid_development
-	sudo -u postgres createdb irongrid_test
+	$ sudo -u postgres createdb irongrid_development
+	$ sudo -u postgres createdb irongrid_test
 
 ## Elasticsearch
-sudo apt-get install openjdk-7-jre-headless -y
+
+	$ sudo apt-get install openjdk-7-jre-headless -y
 
 per https://gist.github.com/wingdspur/2026107
 
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.9.deb
-sudo dpkg -i elasticsearch-0.90.9.deb
+	$ wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.9.deb
+	$ sudo dpkg -i elasticsearch-0.90.9.deb
 
 ## Phantomjs
 https://coderwall.com/p/rs63ea
 
-cd /usr/local/share
-sudo wget sudo wget https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2
-sudo tar xjf phantomjs-1.9.0-linux-x86_64.tar.bz2
-sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x8664/bin/phantomjs /usr/local/share/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x8664/bin/phantomjs /usr/local/bin/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
-phantomjs --version
+	$ cd /usr/local/share
+	$ sudo wget sudo wget https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2
+	$ sudo tar xjf phantomjs-1.9.0-linux-x86_64.tar.bz2
+	$ sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x8664/bin/phantomjs /usr/local/share/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x8664/bin/phantomjs /usr/local/bin/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.0-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+	$ phantomjs --version
 
-sudo rm /usr/local/share/phantomjs
-sudo rm /usr/local/bin/phantomjs
-sudo rm /usr/bin/phantomjs
-cd /usr/local/share
-sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
-sudo tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2
-sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x8664/bin/phantomjs /usr/local/share/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x8664/bin/phantomjs /usr/local/bin/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
-phantomjs --version
+	$ sudo rm /usr/local/share/phantomjs
+	$ sudo rm /usr/local/bin/phantomjs
+	$ sudo rm /usr/bin/phantomjs
+	$ cd /usr/local/share
+	$ sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
+	$ sudo tar xjf phantomjs-1.9.7-linux-x86_64.tar.bz2
+	$ sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x8664/bin/phantomjs /usr/local/share/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x8664/bin/phantomjs /usr/local/bin/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+	$ phantomjs --version
 
 
