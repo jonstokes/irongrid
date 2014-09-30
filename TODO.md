@@ -1,12 +1,4 @@
-# Shipping
-Run specs and parser tests with new extraction code to test it out
-If it passes, bring down the grid, then push new sites and registrations
-Bring up the grid
-
-#Bring up Stretched
-
-compare launch lines on instances to new lines in README, and make any
-fixes if needed
+# Bring up stretched.io
 
 Bring down grid
 
@@ -16,10 +8,24 @@ RAILS_ENV=production rails c:
   IRONGRID_REDIS_POOL.with { |c| c.flushdb }
   Sidekiq.redis { |c| c.flushdb }
 
+Load irongrid loadables!
+
+## /validator
 RAILS_ENV=production bundle exec rake site:add_new
+RAILS_ENV=production bundle exec rake site:update_all
 RAILS_ENV=production bundle exec rake stretched:register_all
 
-For each EC2 instance do:
-  git fetch && git pull && git checkout js-dsl
-  add STRETCHED_REDIS_URL on db 5 to config/application.yml
-  boot services with new lines from README
+## /stretched-node
+RAILS_ENV=production bundle exec rake user:create_all
+
+
+
+
+# EC2
+## irongrid
+git fetch && git pull && bundle install
+
+## stretched
+git clone https://github.com/jonstokes/stretched-node.git
+bundle install
+

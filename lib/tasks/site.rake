@@ -2,7 +2,7 @@ namespace :site do
 
   task :load_scripts => :environment do
     Site.each do |site|
-      site.load_scripts
+      site.load_scripts rescue next
     end
   end
 
