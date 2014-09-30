@@ -152,20 +152,26 @@ deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main
 
 Import the repository signing key, and update the package lists
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
-  sudo apt-key add -
-sudo apt-get update
-
-sudo apt-get install postgresql-9.3 postgresql-contrib-9.3
+	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+	sudo apt-get update
+	sudo apt-get install postgresql-9.3 postgresql-contrib-9.3
 
 (http://www.filippozanella.com/blog/setting-up-postgresql-on-ubuntu-precise12-04-ruby-on-rails-ror3-2-11-ruby1-9-3-and-heroku-gem2-34-0/)
 
-sudo -u postgres psql postgres
-\password # hit enter and leave this blank
-\q
+	sudo -u postgres psql postgres
 
-sudo -u postgres createdb irongrid_development
-sudo -u postgres createdb irongrid_test
+Seet a password, but leave it blank
+
+	\password # hit enter and leave this blank
+
+Exit out of Postgres commandline
+
+	\q
+
+Setup the databases
+
+	sudo -u postgres createdb irongrid_development
+	sudo -u postgres createdb irongrid_test
 
 ## Elasticsearch
 sudo apt-get install openjdk-7-jre-headless -y
