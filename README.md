@@ -89,7 +89,7 @@ stretched.
 ![IronSights and stretched.io](http://scoperrific-site.s3.amazonaws.com/catalog-phase-2.png)
 
 As product links begin to show up in the site's product_link queue,
-ProductLinksWorkers will spawn and pop them and push them into a link
+PullProductLinksWorkers will spawn and pop them and push them into a link
 set. 
 
 ### Catalog Phase, Step 3: Prune, Refresh, Push
@@ -103,17 +103,18 @@ others will be links to product pages that were just recently updated
 and therefore don't need to be crawled again, and others will be links
 to product pages that are stale and need to be re-crawled. The
 platform's job now is to sort out which is which, and that is the
-purpose Step 2.
+purpose of Step 2.
+
+*Note*: The link set (called a `LinkMessageQueue` in the code base for
+legacy reasons) is an actual redis set, meaning that all of the links in it
+are unique. There are no dupes.
+
 
 First, the PruneLinksWorker goes through each link in the link set and
 sniffs it for freshness (i.e. its `updated_at` timestamp is within a certain window). 
 If it's fresh, it gets deleted from the set (to be re-added
 and re-crawled another day). If it's stale it stays. And if it's a brand
 new link it stays.
-
-*Note*: The link set (called a `LinkMessageQueue` in the code base for
-legacy reasons) is an actual redis set, meaning that all of the links in it
-are unique. There are no dupes.
 
 Once the PruneLinksWorker has ensured that all of the links in the link
 set are actually in need of (re)crawling, the RefreshLinksWorker checks
@@ -122,7 +123,7 @@ set, as well.
 
 Finally, the PushProductLinksWorker clears out the link set by creating
 new stretched.io sessions for all of the links in it and pushing those sessions back to the session queue.
-At this point, all of the sessions in the session queue will be
+At this point, all of the sessions in the session queue will
 (ideally) be product pages, so now the listings phase begins.
 
 ### Listings Phase
@@ -133,7 +134,7 @@ listings object queue and writes any valid listings to the database. It
 also deletes any invalid or `not_found` listings, does some final
 metadata extraction, and handles a few other chores.
 
-### Setup
+## Setup
 
 1. Clone the repo
 2. `bundle install`
