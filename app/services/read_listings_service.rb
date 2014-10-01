@@ -10,7 +10,7 @@ class ReadListingsService < CoreService
   end
 
   def should_add_job?(site)
-    Stretched::ObjectQueue.new("#{site.domain}/listings").any? &&
+    site.listings_queue.any? &&
       PullListingsWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 end

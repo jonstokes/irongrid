@@ -10,7 +10,7 @@ class ReadProductLinksService < CoreService
   end
 
   def should_add_job?(site)
-    Stretched::ObjectQueue.new("#{site.domain}/product_links").any? &&
+    site.product_links_queue.any? &&
       PullProductLinksWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 end
