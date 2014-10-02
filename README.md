@@ -150,6 +150,30 @@ The IronGrid production dashboard is available at http://irongrid-dashboard.hero
 
 For the staging environment, the dashboard is at http://irongrid-dashboard-staging.herokuapp.com/
 
+# Bring up stretched.io for a clean boot
+
+Bring down grid
+
+RAILS_ENV=production rails c: 
+  VALIDATOR_REDIS_POOL.with { |c| c.flushdb }
+  STRETCHED_REDIS_POOL.with { |c| c.flushdb }
+  IRONGRID_REDIS_POOL.with { |c| c.flushdb }
+  Sidekiq.redis { |c| c.flushdb }
+
+Load irongrid loadables
+
+## /validator
+RAILS_ENV=production bundle exec rake site:add_new
+RAILS_ENV=production bundle exec rake stretched:register_all
+
+## /stretched-node
+RAILS_ENV=production bundle exec rake user:create_all
+
+##/irongrid
+RAILS_ENV=production bundle exec rake site:load_scripts
+
+
+
 # Misc Deployment Notes
 
 ## Boot sidekiq instances
