@@ -1,31 +1,14 @@
-# Bring up stretched.io
+# Multi-Engine work list
 
-Bring down grid
+1. In addition to a domain/shipping Loadable::Script, I need
+a domain/product_details Loadable::Script that runs in the 
+SetProductDetails interactor.
 
-RAILS_ENV=production rails c: 
-  VALIDATOR_REDIS_POOL.with { |c| c.flushdb }
-  STRETCHED_REDIS_POOL.with { |c| c.flushdb }
-  IRONGRID_REDIS_POOL.with { |c| c.flushdb }
-  Sidekiq.redis { |c| c.flushdb }
+2. Move the PPR calcs to this domain/product_details script.
 
-Load irongrid loadables!
+3. To generate the correct listing hash in the WriteListing phase,
+I'll have to break up the Listing model, with different Listing
+constants.
 
-## /validator
-RAILS_ENV=production bundle exec rake site:add_new
-RAILS_ENV=production bundle exec rake stretched:register_all
-
-## /stretched-node
-RAILS_ENV=production bundle exec rake user:create_all
-
-##/irongrid
-RAILS_ENV=production bundle exec rake site:load_scripts
-
-
-# EC2
-## irongrid
-git fetch && git pull && bundle install
-
-## stretched
-git clone https://github.com/jonstokes/stretched-node.git
-bundle install
-
+4. IG will need support for more than one ES index mapping, more than
+one set of synonyms, etc.
