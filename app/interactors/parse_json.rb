@@ -9,8 +9,7 @@ class ParseJson
     DeriveAttributes,
     ValidateListing,
     SetProductDetails,
-    SetPricePerRound,
-    CalculateShipping,
+    RunLoadableScripts,
     WriteListing,
   ]
 

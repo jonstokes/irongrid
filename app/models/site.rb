@@ -22,6 +22,7 @@ class Site < CoreModel
     :digest_attributes,
     :registrations,
     :sessions,
+    :loadables,
     :product_session_format
   ]
 
