@@ -8,6 +8,15 @@ module ElasticTools
       end
     end
 
+    def index_objects
+      Hashie::Mash.new(index_properties.select { |k, v| v["properties"] })
+    end
+
+    def index_fields
+      Hashie::Mash.new(index_properties.reject { |k, v| v["properties"] })
+    end
+
+
     def self.index_properties
       {
         properties: {
