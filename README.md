@@ -214,28 +214,28 @@ RAILS_ENV="production" DB_POOL=50 LISTINGS_INDEX="listings" jruby -Xcompile.invo
 ## Bitnami production enviroment setup
 
 ### Install software
-sudo apt-get update
-sudo apt-get autoremove
-sudo apt-get install git tmux daemon ack htop
+	$ sudo apt-get update
+	$ sudo apt-get autoremove
+	$ sudo apt-get install git tmux daemon ack htop
 
 ### Set up remote syslog
 per http://help.papertrailapp.com/kb/configuration/configuring-remote-syslog-from-unixlinux-and-bsdos-x
 
-sudo vim /etc/rsyslog.conf
+	$ sudo vim /etc/rsyslog.conf
 
-*.*                                         @logs.papertrailapp.com:20063
+	*.*                                         @logs.papertrailapp.com:20063
 
-sudo service rsyslog restart
+	$ sudo service rsyslog restart
 
 ### Git setup
-git clone http://github.com/jonstokes/irongrid.git
-cd irongrid/
-git checkout master
-sudo bundle install  # don't forget the sudo!
+	$ git clone http://github.com/jonstokes/irongrid.git
+	$ cd irongrid/
+	$ git checkout master
+	$ sudo bundle install  # don't forget the sudo!
 
-mkdir tmp/
-cp config/database.example.yml config/database.yml
-git config credential.helper store
+	$ mkdir tmp/
+	$ cp config/database.example.yml config/database.yml
+	$ git config credential.helper store
 
 ## Bitnami development enviroment setup
 ### Postgresql
