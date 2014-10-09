@@ -10,6 +10,6 @@ class SiteStatsService < CoreService
 
   def should_add_job?(site)
     return true unless time = site.stats.try(:[],:updated_at)
-    SiteStatsWorker.should_run?(domain) && ((Time.now - time) > SLEEP_INTERVAL)
+    SiteStatsWorker.should_run?(site.domain) && ((Time.now - time) > SLEEP_INTERVAL)
   end
 end
