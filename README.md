@@ -296,4 +296,13 @@ https://coderwall.com/p/rs63ea
 	$ sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x8664/bin/phantomjs /usr/local/share/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x8664/bin/phantomjs /usr/local/bin/phantomjs; sudo ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
 	$ phantomjs --version
 
+## OSX Development Environment Setup
+Install Homebrew
+	$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+Install the stack
+	$ \curl -sSL https://get.rvm.io | bash -s stable --ruby=jruby --gems=rails,puma
+	$ brew update
+	$ brew install postgres
+	$ brew install redis
+	$ brew install elasticsearch
