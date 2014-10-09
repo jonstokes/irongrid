@@ -61,11 +61,7 @@ module SidekiqUtils
   end
 
   def queues
-    unless Rails.env.test?
-      Sidekiq::Stats.new.queues.keys.reject{ |q| q == "fast_db" }
-    else
-      Sidekiq::Stats.new.queues.keys
-    end
+    Sidekiq::Stats.new.queues.keys
   end
 
   def clear_all_queues

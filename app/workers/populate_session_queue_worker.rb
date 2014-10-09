@@ -1,7 +1,7 @@
 class PopulateSessionQueueWorker < CoreWorker
   include Trackable
 
-  sidekiq_options :queue => :slow_db, :retry => true
+  sidekiq_options :queue => :crawls, :retry => true
 
   attr_accessor :site, :timer, :domain
   delegate :timed_out?, to: :timer

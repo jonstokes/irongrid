@@ -1,7 +1,7 @@
 class DeleteListingsWorker < CoreWorker
   include Trackable
 
-  sidekiq_options queue: :slow_db, retry: true
+  sidekiq_options queue: :db_slow_high, retry: true
 
   LOG_RECORD_SCHEMA = {
     listings_deleted: Integer

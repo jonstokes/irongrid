@@ -1,7 +1,7 @@
 class WriteListingWorker < CoreWorker
   include ConnectionWrapper
 
-  sidekiq_options queue: :fast_db, retry: true
+  sidekiq_options queue: :db_fast_high, retry: true
 
   def perform(msg)
     return unless msg = LinkMessage.new(msg)

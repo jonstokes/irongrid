@@ -2,7 +2,7 @@ class PruneLinksWorker < CoreWorker
   include Trackable
   include ConnectionWrapper
 
-  sidekiq_options queue: :slow_db, retry: true
+  sidekiq_options queue: :db_slow_high, retry: true
 
   LOG_RECORD_SCHEMA = {
     links_passed: Integer,
