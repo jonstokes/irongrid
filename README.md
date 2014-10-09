@@ -308,3 +308,7 @@ Install the stack
 	$ brew install postgres
 	$ brew install redis
 	$ brew install elasticsearch
+
+Install Bundler (if you haven't already):
+
+	$ gem install bundler
