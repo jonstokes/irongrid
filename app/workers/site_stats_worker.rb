@@ -43,5 +43,10 @@ class SiteStatsWorker < CoreWorker
 
     stop_tracking
   end
+
+  def self.should_run?(domain)
+    self.jobs_in_flight_with_domain(domain).empty?
+  end
+
 end
 
