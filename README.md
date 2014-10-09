@@ -298,9 +298,11 @@ https://coderwall.com/p/rs63ea
 
 ## OSX Development Environment Setup
 Install Homebrew
+
 	$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 Install the stack
+
 	$ \curl -sSL https://get.rvm.io | bash -s stable --ruby=jruby --gems=rails,puma
 	$ brew update
 	$ brew install postgres
