@@ -22,7 +22,6 @@ class Site < CoreModel
     :digest_attributes,
     :registrations,
     :sessions,
-    :loadables,
     :product_session_format
   ]
 
@@ -45,6 +44,10 @@ class Site < CoreModel
     load_data!
     @site_data.merge!(attrs)
     write_to_redis
+  end
+
+  def loadables
+    @site_data[:loadables] || []
   end
 
   def redis_pool
