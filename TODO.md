@@ -20,6 +20,9 @@ SetProductDetails interactor.
 
 2. Move the PPR calcs to this domain/product_details script.
 
+Bring back PPR and Shipping specs with new code
+
+
 3. To generate the correct listing hash in the WriteListing phase,
 I'll have to break up the Listing model, with different Listing
 constants.
