@@ -17,6 +17,7 @@ describe ParseJson do
     before :each do
       Stretched::Registration.clear_all
       register_globals
+      load_scripts
     end
 
     it "fails on an invalid listing" do
