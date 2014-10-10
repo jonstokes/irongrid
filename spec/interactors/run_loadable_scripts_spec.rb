@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RunLoadableScripts do
   before :each do
     @site = create_site "www.budsgunshop.com"
-    @site.load_scripts
+    load_scripts
   end
 
   describe "#perform" do
@@ -11,13 +11,12 @@ describe RunLoadableScripts do
       opts = {
         site: @site,
         current_price_in_cents: 1000,
-        discount_in_cents: 10,
         number_of_rounds: 10,
-        category1: "Guns"
+        discount_in_cents: 10,
+        category1: "Ammunition"
       }
       result = RunLoadableScripts.perform(opts)
 
-      puts "#{result.to_yaml}"
       expect(result.price_per_round_in_cents).to eq(100)
     end
   end

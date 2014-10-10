@@ -10,15 +10,15 @@ class ParserTest < ActiveRecord::Base
 
   before_save :send_html_to_s3
 
-  LISTING_DATA_ATTRIBUTES = Listing::ES_OBJECTS + Listing::ITEM_DATA_ATTRIBUTES
+  LISTING_DATA_ATTRIBUTES = Listing.es_objects + Listing.item_data_attributes
 
-  Listing::ES_OBJECTS.each do |key|
+  Listing.es_objects.each do |key|
     define_method key do
       listing_data['item_data'][key].detect { |attr| attr[key] }.try(:[], key) if listing_data.present?
     end
   end
 
-  Listing::ITEM_DATA_ATTRIBUTES.each do |key|
+  Listing.item_data_attributes.each do |key|
     next if %w(seller_domain type).include?(key)
     define_method key do
       listing_data['item_data'][key] if listing_data.present?

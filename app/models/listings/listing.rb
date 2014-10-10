@@ -143,6 +143,14 @@ class Listing < ActiveRecord::Base
     self[:auction_ends].strftime("%Y-%m-%dT%H:%M:%S") if self[:auction_ends]
   end
 
+  def self.es_objects
+    ElasticTools::IndexMapping.index_objects.keys
+  end
+
+  def self.item_data_attributes
+    ElasticTools::IndexMapping.index_fields.keys + GeoData::DATA_KEYS
+  end
+
   def self.register_percolator(percolator_name, json_query)
     Listing.index.register_percolator_query_as_json(percolator_name, json_query)
   end
@@ -221,7 +229,7 @@ class Listing < ActiveRecord::Base
   end
 
   def update_es_objects(new_item_data, final_item_data)
-    ES_OBJECTS.each do |attr|
+    Listing.es_objects.each do |attr|
       if should_overwrite_attribute?(new_item_data, attr)
         final_item_data.merge!(attr => new_item_data[attr])
       end
@@ -230,7 +238,7 @@ class Listing < ActiveRecord::Base
   end
 
   def udpate_other_item_data(new_item_data, final_item_data)
-    ITEM_DATA_ATTRIBUTES.each do |attr|
+    Listing.item_data_attributes.each do |attr|
       final_item_data.merge!(attr => new_item_data[attr]) if attr[/price/] || new_item_data[attr].present?
     end
     final_item_data
