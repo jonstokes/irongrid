@@ -7,14 +7,6 @@ module Loadable
       @attributes = {}
     end
 
-    def run(instance)
-      attributes.each do |attribute_name, value|
-        result = value.is_a?(Proc) ? value.call(instance) : value
-        instance[attribute_name.to_s] = result
-      end
-      instance
-    end
-
     def method_missing(name, *args, &block)
       if block_given?
         attributes[name.to_s] = block

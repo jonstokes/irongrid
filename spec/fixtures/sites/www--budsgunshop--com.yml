@@ -3,6 +3,10 @@ name: Bud's Gun Shop
 domain: www.budsgunshop.com
 read_interval: 1440
 timezone:
+loadables:
+  - globals/product_details
+  - www.budsgunshop.com/shipping_cost
+  - globals/shipping_details
 registrations:
   session_queue:
     www.budsgunshop.com: {}
