@@ -46,7 +46,7 @@ class Listing < ActiveRecord::Base
   end
 
   def self.item_data_attributes
-    ElasticTools::IndexMapping.index_fields.keys + GeoData::DATA_KEYS + [:affiliate_link_tag, :affiliate_program]
+    Listing::ITEM_DATA_ATTRIBUTES
   end
 
   Listing.es_objects.each do |key|
