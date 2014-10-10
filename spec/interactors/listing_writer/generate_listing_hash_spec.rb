@@ -94,14 +94,14 @@ describe ListingWriter::GenerateListingHash do
         expect(item.send(attr)).to eq(opts[attr.to_sym])
       end
     end
-    Listing::ITEM_DATA_ATTRIBUTES.each do |attr|
+    Listing.item_data_attributes.each do |attr|
       if attr == "keywords"
         expect(item.keywords).to eq(opts[:keywords].raw)
       else
         expect(item.send(attr)).to eq(opts[attr.to_sym])
       end
     end
-    Listing::ES_OBJECTS.each do |attr|
+    Listing.es_objects.each do |attr|
       expect(item.send(attr).map { |k| k.send(attr) }.compact.first).to eq(opts[attr.to_sym].raw)
       expect(item.send(attr).map(&:classification_type).compact.first).to eq(opts[attr.to_sym].classification_type)
     end

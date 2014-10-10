@@ -1,5 +1,5 @@
 Loadable::Script.define do
-  script "www.budsgunshop.com/shipping" do
+  script "www.budsgunshop.com/shipping_cost" do
     shipping_cost_in_cents do |instance|
       if instance[:category1] == "Guns"
         0
