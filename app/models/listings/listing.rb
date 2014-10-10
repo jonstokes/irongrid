@@ -70,7 +70,6 @@ class Listing < ActiveRecord::Base
     end
   end
 
-
   def to_indexed_json
     attributes_and_values = INDEXED_ATTRIBUTES.map do |attr|
       [attr.to_s, send(attr)]
