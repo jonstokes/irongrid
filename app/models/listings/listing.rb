@@ -41,6 +41,36 @@ class Listing < ActiveRecord::Base
   scope :active, -> { where(inactive: [nil, false]) }
   scope :inactive, -> { where(inactive: true) }
 
+  def self.es_objects
+    ElasticTools::IndexMapping.index_objects.keys
+  end
+
+  def self.item_data_attributes
+    ElasticTools::IndexMapping.index_fields.keys + GeoData::DATA_KEYS + [:affiliate_link_tag, :affiliate_program]
+  end
+
+  Listing.es_objects.each do |key|
+    define_method key do
+      item_data[key]
+    end
+
+    define_method "#{key}=" do |value|
+      item_data_will_change! unless item_data[key] == [{key => value}]
+      item_data[key] = [{key => value}]
+    end
+  end
+
+  Listing.item_data_attributes.each do |key|
+    define_method key do
+      item_data[key]
+    end
+    define_method "#{key}=" do |value|
+      item_data_will_change! unless item_data[key] == value
+      item_data[key] = value
+    end
+  end
+
+
   def to_indexed_json
     attributes_and_values = INDEXED_ATTRIBUTES.map do |attr|
       [attr.to_s, send(attr)]
@@ -141,14 +171,6 @@ class Listing < ActiveRecord::Base
 
   def auction_ends
     self[:auction_ends].strftime("%Y-%m-%dT%H:%M:%S") if self[:auction_ends]
-  end
-
-  def self.es_objects
-    ElasticTools::IndexMapping.index_objects.keys
-  end
-
-  def self.item_data_attributes
-    ElasticTools::IndexMapping.index_fields.keys + GeoData::DATA_KEYS
   end
 
   def self.register_percolator(percolator_name, json_query)
