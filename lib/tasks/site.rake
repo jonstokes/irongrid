@@ -1,5 +1,11 @@
 namespace :site do
 
+  task :flag_session_queues => :environment do
+    Site.each do |site|
+      site.session_queue.flag!
+    end
+  end
+
   task :load_scripts => :environment do
     Site.each do |site|
       site.load_scripts rescue next
