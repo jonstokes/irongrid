@@ -1,13 +1,11 @@
 class PullListingsWorker < CoreWorker
   include Trackable
-  include UpdateImage
 
   sidekiq_options :queue => :crawls, :retry => true
 
   LOG_RECORD_SCHEMA = {
     db_writes:       Integer,
     objects_deleted: Integer,
-    pages_read:      Integer,
     images_added:    Integer,
     transition:      String,
     next_jid:        String
@@ -32,6 +30,7 @@ class PullListingsWorker < CoreWorker
     return unless opts && init(opts)
 
     while !timed_out? && json = @object_queue.pop do
+      record_incr(:objects_deleted)
       raise json.error if json.error? # Surface stretched errors to Airbrake
       json.site = site
       scraper = ParseJson.perform(json)
@@ -50,6 +49,18 @@ class PullListingsWorker < CoreWorker
       next_jid = self.class.perform_async(domain: site.domain)
       record_set(:transition, "#{self.class.to_s}")
       record_set(:next_jid, next_jid)
+    end
+  end
+
+  def update_image(scraper)
+    return unless image_source = scraper.listing["item_data"]["image_source"]
+    if CDN.has_image?(image_source)
+      scraper.listing["item_data"]["image_download_attempted"] = true
+      scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
+    else
+      scraper.listing["item_data"]["image"] = CDN::DEFAULT_IMAGE_URL
+      @image_store.push image_source
+      record_incr(:images_added)
     end
   end
 
