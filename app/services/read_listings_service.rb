@@ -1,6 +1,6 @@
 class ReadListingsService < CoreService
 
-  SLEEP_INTERVAL = Rails.env.test? ? 0.1 : 10
+  SLEEP_INTERVAL = Rails.env.test? ? 0.1 : 120
 
   def each_job
     Site.each do |site|
