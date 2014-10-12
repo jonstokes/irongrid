@@ -14,8 +14,9 @@ class PruneLinksWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
-    return false unless PruneLinksWorker.should_run?(@domain) && i_am_alone_with_this_domain?
-    @link_store = LinkMessageQueue.new(domain: @domain)
+    @site = Site.new(domain: @domain)
+    return false unless PruneLinksWorker.should_run?(@site) && i_am_alone_with_this_domain?
+    @link_store = @site.link_message_queue
   end
 
   def perform(opts)
@@ -41,11 +42,11 @@ class PruneLinksWorker < CoreWorker
     record_set(:next_jid, next_jid)
   end
 
-  def self.should_run?(domain)
-    LinkMessageQueue.new(domain: domain).any? &&
-      !Stretched.session_queue_is_being_read?(domain) &&
-      Stretched::ObjectQueue.new("#{domain}/product_links").empty? &&
-      RefreshLinksWorker.jobs_in_flight_with_domain(domain).empty? &&
-      PushProductLinksWorker.jobs_in_flight_with_domain(domain).empty?
+  def self.should_run?(site)
+    site.link_message_queue.any? &&
+      !site.session_queue.is_being_read? &&
+      site.product_links_queue.empty? &&
+      RefreshLinksWorker.jobs_in_flight_with_domain(site.domain).empty? &&
+      PushProductLinksWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 end

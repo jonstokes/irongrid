@@ -31,7 +31,8 @@ class PopulateSessionQueueWorker < CoreWorker
   end
 
   def self.should_run?(site)
-    !site.session_queue.is_being_read? &&
+    site.should_read? &&
+      !site.session_queue.is_being_read? &&
       site.product_links_queue.empty? &&
       site.link_message_queue.empty? &&
       !prune_refresh_push_cycle_is_running?(site.domain)

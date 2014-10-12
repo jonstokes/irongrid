@@ -8,6 +8,7 @@ class PruneLinksService < CoreService
   end
 
   def should_add_job?(site)
-    PruneLinksWorker.should_run?(site.domain)
+    PruneLinksWorker.should_run?(site) &&
+      PruneLinksWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 end
