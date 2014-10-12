@@ -1,4 +1,5 @@
 class PruneLinksService < CoreService
+  SLEEP_INTERVAL = Rails.env.test? ? 1 : 120
 
   def each_job
     Site.each do |site|

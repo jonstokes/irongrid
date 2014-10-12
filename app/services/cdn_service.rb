@@ -1,5 +1,5 @@
 class CdnService < CoreService
-  SLEEP_INTERVAL = Rails.env.test? ? 1 : 10
+  SLEEP_INTERVAL = Rails.env.test? ? 1 : 60
 
   def each_job
     Site.each do |site|
