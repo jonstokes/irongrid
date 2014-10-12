@@ -13,9 +13,9 @@ class PopulateSessionQueueWorker < CoreWorker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
-    return false unless PopulateSessionQueueWorker.should_run?(@domain) && i_am_alone_with_this_domain?
-    @site = Site.new(domain: domain)
-    @session_queue = Stretched::SessionQueue.new(@domain)
+    @site = Site.new(domain: @domain)
+    return false unless PopulateSessionQueueWorker.should_run?(@site) && i_am_alone_with_this_domain?
+    @session_queue = @site.session_queue
     return false if @session_queue.any?
     track
     true
@@ -30,11 +30,11 @@ class PopulateSessionQueueWorker < CoreWorker
     stop_tracking
   end
 
-  def self.should_run?(domain)
-    !Stretched.session_queue_is_being_read?(domain) &&
-      Stretched::ObjectQueue.new("#{domain}/product_links").empty? &&
-      LinkMessageQueue.new(domain: domain).empty? &&
-      !prune_refresh_push_cycle_is_running?(domain)
+  def self.should_run?(site)
+    !site.session_queue.is_being_read? &&
+      site.product_links_queue.empty? &&
+      site.link_message_queue.empty? &&
+      !prune_refresh_push_cycle_is_running?(site.domain)
   end
 
   def self.prune_refresh_push_cycle_is_running?(domain)
