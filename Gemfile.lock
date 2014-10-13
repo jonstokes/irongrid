@@ -25,6 +25,12 @@ GIT
       stringex
       tokenizer
 
+GIT
+  remote: https://github.com/jonstokes/retryable.git
+  revision: cb4b912d484583629eb684486b87f282f34c46f5
+  specs:
+    retryable (0.0.1)
+
 GEM
   remote: http://rubygems.org/
   remote: http://7efe68ea:9c90e496@www.mikeperham.com/rubygems/
@@ -290,6 +296,7 @@ DEPENDENCIES
   rake
   rdoc
   redis
+  retryable!
   robotex
   rspec-mocks
   rspec-rails
