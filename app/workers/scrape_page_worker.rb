@@ -1,5 +1,5 @@
 class ScrapePageWorker < CoreWorker
-  include PageUtils
+  include Sunbro
 
   sidekiq_options :queue => :scrapes, :retry => false
 

@@ -120,7 +120,7 @@ module CDN
     end
 
     def download_image
-      raise "Connection required!" unless @http.is_a?(PageUtils::HTTP)
+      raise "Connection required!" unless @http.is_a?(Sunbro::HTTP)
       begin
         tries ||= 5
         @page = @http.fetch_page(source)

@@ -1,5 +1,5 @@
 class ParserTest < ActiveRecord::Base
-  include PageUtils
+  include Sunbro
   include Retryable
 
   attr_accessible :source_url, :seller_domain, :is_valid, :not_found, :classified_sold, :html_on_s3, :should_send_to_s3
@@ -169,7 +169,7 @@ class ParserTest < ActiveRecord::Base
   def send_html_to_s3
     return unless should_send_to_s3
 
-    @http ||= PageUtils::HTTP.new
+    @http ||= Sunbro::HTTP.new
     page = @http.fetch_page(url)
 
     s3 = AWS::S3.new(AWS_CREDENTIALS)

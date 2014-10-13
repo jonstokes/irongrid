@@ -1,5 +1,5 @@
 class Crawler
-  include PageUtils
+  include Sunbro
 
   %w(
     product_link_xpath

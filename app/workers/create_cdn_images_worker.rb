@@ -18,7 +18,7 @@ class CreateCdnImagesWorker < CoreWorker
     @site = Site.new(domain: domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
-    @http = PageUtils::HTTP.new
+    @http = Sunbro::HTTP.new
     true
   end
 

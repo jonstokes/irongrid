@@ -31,6 +31,17 @@ GIT
   specs:
     retryable (0.0.1)
 
+GIT
+  remote: https://github.com/jonstokes/sunbro.git
+  revision: d65227f2f4e5693c61d30ad3bddcccdf1904cb16
+  specs:
+    sunbro (0.0.1)
+      activesupport
+      capybara
+      net-http-persistent
+      nokogiri
+      poltergeist
+
 GEM
   remote: http://rubygems.org/
   remote: http://7efe68ea:9c90e496@www.mikeperham.com/rubygems/
@@ -306,6 +317,7 @@ DEPENDENCIES
   spork
   stretched!
   stringex
+  sunbro!
   therubyrhino
   thread_safe
   tire!

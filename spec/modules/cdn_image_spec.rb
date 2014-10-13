@@ -25,7 +25,7 @@ describe CDN::Image do
     end
 
     @image_source = "http://#{@site.domain}/images/1.png"
-    @http = PageUtils::HTTP.new
+    @http = Sunbro::HTTP.new
     CDN.clear!
   end
 
@@ -114,9 +114,9 @@ describe CDN::Image do
       }.to raise_error(RuntimeError)
     end
 
-    it "downloads the image to a PageUtils::Page object if the image exists" do
+    it "downloads the image to a Sunbro::Page object if the image exists" do
       image = CDN::Image.new(source: @image_source, http: @http)
-      expect(image.send(:download_image)).to be_a(PageUtils::Page)
+      expect(image.send(:download_image)).to be_a(Sunbro::Page)
       expect(image.page.image?).to be_true
     end
 

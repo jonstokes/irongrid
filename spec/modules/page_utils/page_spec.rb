@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'mocktra'
 
-describe PageUtils::Page do
+describe Sunbro::Page do
 
   before :each do
-    @http = PageUtils::HTTP.new
+    @http = Sunbro::HTTP.new
   end
 
   describe "#initialize", no_es: true do

@@ -251,7 +251,7 @@ describe PullListingsWorker do
     describe "where image_source exists on CDN already" do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
-        CDN::Image.create(source: image_source, http: PageUtils::HTTP.new)
+        CDN::Image.create(source: image_source, http: Sunbro::HTTP.new)
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
         job = WriteListingWorker._jobs.first
