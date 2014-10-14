@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
-  revision: 429e73d8c490562e4b4cb0554c22bedf9c223e8e
+  revision: 1c1cd4349f52b4772c3c04976aa9576cfc9bbf15
   specs:
     stretched (0.0.1)
       activesupport
@@ -33,7 +33,7 @@ GIT
 
 GIT
   remote: https://github.com/jonstokes/sunbro.git
-  revision: 950a36c1cd5d71d5f0a23f8513fc7f622d654243
+  revision: a131a1c8998eb113ff4c710f8d072d98edbe8253
   specs:
     sunbro (0.0.1)
       activesupport
