@@ -1,7 +1,7 @@
 Stretched::Script.define do
   script "globals/product_page" do
     url do |instance|
-      instance.url || page.url
+      instance.url || page.redirect_from || page.url
     end
 
     availability do |instance|
