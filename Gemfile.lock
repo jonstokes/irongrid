@@ -33,11 +33,12 @@ GIT
 
 GIT
   remote: https://github.com/jonstokes/sunbro.git
-  revision: d65227f2f4e5693c61d30ad3bddcccdf1904cb16
+  revision: 950a36c1cd5d71d5f0a23f8513fc7f622d654243
   specs:
     sunbro (0.0.1)
       activesupport
       capybara
+      hashie
       net-http-persistent
       nokogiri
       poltergeist
