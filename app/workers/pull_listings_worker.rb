@@ -32,7 +32,7 @@ class PullListingsWorker < CoreWorker
     while !timed_out? && json = @object_queue.pop do
       record_incr(:objects_deleted)
       if json.error?
-        notify "# STRETCHED ERROR: #{json.error}"
+        notify "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"
         next
       end
       json.site = site
