@@ -33,7 +33,7 @@ GIT
 
 GIT
   remote: https://github.com/jonstokes/sunbro.git
-  revision: a131a1c8998eb113ff4c710f8d072d98edbe8253
+  revision: 5168308ffda85fe35aa119dff7e0b1f97f0a46f9
   specs:
     sunbro (0.0.1)
       activesupport
