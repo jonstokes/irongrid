@@ -31,7 +31,10 @@ class PullListingsWorker < CoreWorker
 
     while !timed_out? && json = @object_queue.pop do
       record_incr(:objects_deleted)
-      next if json.error? # Surface stretched errors to Airbrake
+      if json.error?
+        notify "# STRETCHED ERROR: #{json.error}"
+        next
+      end
       json.site = site
       scraper = ParseJson.perform(json)
       update_image(scraper) if scraper.is_valid?
