@@ -68,7 +68,7 @@ class LinkMessage
       url:             scraper.url,
       page_is_valid:   scraper.is_valid?,
       page_not_found:  scraper.not_found?,
-      page_attributes: scraper.listing
+      page_attributes: scraper.listing.try(:to_hash)
     }
   end
 
