@@ -1,0 +1,31 @@
+--- !ruby/hash:Hashie::Mash
+object: !ruby/hash:Hashie::Mash
+  keywords: assault rifles, machine guns, gun dealer, firearms, firearms dealer, firearms
+  price_in_cents: 500
+  sale_price_in_cents: 500
+  type: RetailListing
+  availability: in_stock
+  location: 2121 NC HWY 172, Sneads Ferry, NC 28460
+  url: http://www.sfarmoryinc.com/
+  current_price_in_cents: 500
+  valid: false
+page: !ruby/hash:Hashie::Mash
+  url: http://www.sfarmoryinc.com/
+  headers: '{"cache-control":["no-store, no-cache, must-revalidate, post-check=0,
+    pre-check=0","no-cache=\"set-cookie\""],"content-type":["text/html"],"date":["Thu,
+    16 Oct 2014 20:21:26 GMT"],"expires":["Thu, 19 Nov 1981 08:52:00 GMT"],"pragma":["no-cache"],"server":["Apache/2.2.22
+    (Ubuntu)"],"set-cookie":["PHPSESSID=uncl6vqer18k05pd24o7lc4u47; path=/","dealer=deleted;
+    expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/","ad_link=deleted; expires=Thu,
+    01-Jan-1970 00:00:01 GMT","AWSELB=37FBA3B71E84DB872231268347979392CE3107AC3F8AAF205A475BB2B72C91FB62588088DD38EB054A8A270EA317EF1B8357154B7FE1ED8668423F84DEF9C38AE4ECECB810;PATH=/"],"vary":["Accept-Encoding"],"x-powered-by":["PHP/5.3.10-1ubuntu3.11"],"transfer-encoding":["chunked"],"connection":["keep-alive"]}'
+  body: true
+  code: 200
+  redirect_from: http://www.sfarmoryinc.com/product.diamondback-firearms-db380hp-380-acp-28-61-pink-poly-grip-frameblk-slide
+  response_time: 1038
+  fetched: true
+session: !ruby/hash:Hashie::Mash
+  key: 26ef36f6326d7b74df4929e99c67564e
+  started_at: '2014-10-16T20:19:49Z'
+  queue: www.sfarmoryinc.com
+  session_definition: globals/standard_html_session
+  object_adapter: www.sfarmoryinc.com/product_page
+key: 6d14b91b3df0647ce621aca50114f59c
