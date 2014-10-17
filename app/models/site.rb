@@ -146,7 +146,10 @@ class Site < CoreModel
 
   def self.create_site_from_local(domain)
     puts "Creating site #{domain} in redis from local repo..."
-    Site.new(domain: domain, source: :local).send(:write_to_redis)
+    site = Site.new(domain: domain, source: :local)
+    site.send(:write_to_redis)
+    site.register
+    site.load_scripts rescue nil
   end
 
   def self.update_site_from_local(site)
