@@ -1,0 +1,162 @@
+{
+  "ironsights_listing": {
+    "properties": {
+      "url": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "keywords": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "condition": {
+        "type": "string"
+      },
+      "location": {
+        "properties": {
+          "location": {
+            "type": "string"
+          },
+          "city": { "type": "string"},
+          "state": { "type": "string"},
+          "latitude": { "type": "string"},
+          "longitude": { "type": "string"},
+          "postal_code": { "type": "string"},
+          "country_code": { "type": "string"},
+          "coordinates": { "type": "string"},
+        }
+      },
+      "auction_ends": {
+        "type": "datetime"
+      },
+      "image_source": {
+        "type": "string"
+      },
+      "image_on_cdn": {
+        "type": "string"
+      },
+      "discount": {
+        "properties": {
+          "discount": "integer",
+          "with_shipping": "integer",
+          "percent": "float"
+        }
+      },
+      "price": {
+        "properties": {
+          "on_request": "boolean",
+          "current": {
+            "properties": {
+              "current": "integer",
+              "with_shipping": "integer"
+            }
+          },
+          "list": {
+            "properties": {
+              "list": "integer",
+              "with_shipping": "integer"
+            }
+          },
+          "sale": {
+            "properties": {
+              "sale": "integer",
+              "with_shipping": "integer"
+            }
+          },
+          "buy_now": {
+            "properties": {
+              "buy_now": "integer"
+            }
+          },
+          "current_bid": {
+            "properties": {
+              "current_bid": "integer"
+            }
+          },
+          "minimum_bid": {
+            "properties": {
+              "minimum_bid": "integer"
+            }
+          },
+          "reserve": {
+            "properties": {
+              "reserve": "integer",
+              "met": "boolean"
+            }
+          },
+          "per_round": {
+            "properties": {
+              "per_round": "integer",
+              "with_shipping": "integer"
+            }
+          }
+        }
+      },
+      "seller": {
+        "properties": {
+          "site_name": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          }
+        }
+      },
+      "product": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image_on_cdn": {
+            "type": "string"
+          },
+          "msrp": {
+            "type": "integer"
+          },
+          "category1": {
+            "type": "string"
+          },
+          "upc": {
+            "type": "string"
+          },
+          "mpn": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "manufacturer": {
+            "type": "string"
+          },
+          "caliber": {
+            "type": "string"
+          },
+          "caliber_category": {
+            "type": "string"
+          },
+          "number_of_rounds": {
+            "type": "string"
+          },
+          "grains": {
+            "type": "string"
+          },
+          "weight": {
+            "properties": {
+              "in_pounds": "float"
+            }
+          }
+        }
+      }
+    }
+  }
+}

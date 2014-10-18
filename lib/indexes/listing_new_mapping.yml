@@ -1,0 +1,176 @@
+---
+ironsights_listing:
+  mapping:
+
+    # Listing attributes
+    url:
+      type: string
+      analyzer: keyword
+    type:
+      type: string
+      analyzer: keyword
+    title:
+      type: string
+      boost: 5
+    keywords:
+      type: string
+      boost: 2
+    description:
+      type: string
+      boost: :4
+    condition:
+      type: string
+      analyzer: keyword
+    auction_ends:
+      type: date
+    created_at:
+      type: date
+    updated_at:
+      type: date
+    image_source:
+      type: string
+      analyzer: keyword
+    image_on_cdn:
+      type: string
+      analyzer: keyword
+    location:
+      properties:
+        location:
+          type: string
+          analyzer: keyword
+        city:
+          type: string
+          analyzer: keyword
+        state:
+          type: string,
+          analyzer: keyword
+        state_code:
+          type: string
+          analyzer: keyword
+        country:
+          type: string
+          analyzer: keyword
+        country_code:
+          type: string
+          analyzer: keyword
+        zip_code:
+          type: string
+          analyzer: keyword
+        postal_code:
+          type: string
+          analyzer: keyword
+        coordinates:
+          type: geo_point
+          lat_lon: true
+    discount:
+      properties:
+        discount:
+          type: integer
+        with_shipping:
+          type: integer
+        percent: float
+    shipping_cost:
+      properties:
+        shipping_cost:
+          type: integer
+    price:
+      properties:
+        on_request: boolean
+        current:
+          properties:
+            current:
+              type: integer
+            with_shipping:
+              type: integer
+        list:
+          properties:
+            list:
+              type: integer
+            with_shipping:
+              type: integer
+        sale:
+          properties:
+            sale:
+              type: integer
+            with_shipping:
+              type: integer
+        buy_now:
+          properties:
+            buy_now:
+              type: integer
+        current_bid:
+          properties:
+            current_bid:
+              type: integer
+        minimum_bid:
+          properties:
+            minimum_bid:
+              type: integer
+        reserve:
+          properties:
+            reserve:
+              type: integer
+            met:
+              type: boolean
+        per_round:
+          properties:
+            per_round:
+              type: integer
+            with_shipping:
+              type: integer
+
+    # Site attributes
+    seller:
+      properties:
+        site_name:
+          type: string
+          analyzer: keyword
+        domain:
+          type: string
+          analyzer: keyword
+
+    # Product attributes
+    product:
+      properties:
+        name:
+          type: string
+          analyzer: keyword
+        description:
+          type: string
+          analyzer: keyword
+        image_on_cdn:
+          type: string
+          analyzer: keyword
+        msrp:
+          type: integer
+        category1:
+          type: string
+          analyzer: category_keyword
+        upc:
+          type: string
+          analyzer: keyword
+        mpn:
+          type: string
+          analyzer: keyword
+        sku:
+          type: string
+          analyzer: keyword
+        manufacturer:
+          type: string
+          analyzer: keyword
+        caliber:
+          type: string
+          analyzer: keyword
+        caliber_category:
+          type: string
+          analyzer: keyword
+        number_of_rounds:
+          type: integer
+        grains:
+          type: integer
+        weight:
+          properties:
+            shipping:
+              type: float
+
+
