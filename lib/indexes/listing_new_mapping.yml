@@ -3,6 +3,9 @@ ironsights_listing:
   mapping:
 
     # Listing attributes
+    digest:
+      type: string
+      analyzer: keyword
     url:
       type: string
       analyzer: keyword
@@ -30,12 +33,14 @@ ironsights_listing:
       type: date
     updated_at:
       type: date
-    image_source:
-      type: string
-      analyzer: keyword
-    image_on_cdn:
-      type: string
-      analyzer: keyword
+    image:
+      properties:
+        source:
+          type: string
+          analyzer: keyword
+        cdn:
+          type: string
+          analyzer: keyword
     location:
       properties:
         location:
@@ -71,7 +76,12 @@ ironsights_listing:
           type: integer
         with_shipping:
           type: integer
-        percent: float
+        percent:
+          properties:
+            percent:
+              type: float
+            with_shipping:
+              type: float
     shipping_cost:
       properties:
         shipping_cost:
@@ -138,10 +148,13 @@ ironsights_listing:
         name:
           type: string
           analyzer: keyword
-        description:
+        short_description:
           type: string
           analyzer: keyword
-        image_on_cdn:
+        long_description:
+          type: string
+          analyzer: keyword
+        image:
           type: string
           analyzer: keyword
         msrp:
@@ -161,6 +174,12 @@ ironsights_listing:
         manufacturer:
           type: string
           analyzer: keyword
+        weight:
+          properties:
+            shipping:
+              type: float
+
+        # Index-specific properties
         caliber:
           type: string
           analyzer: keyword
@@ -171,9 +190,5 @@ ironsights_listing:
           type: integer
         grains:
           type: integer
-        weight:
-          properties:
-            shipping:
-              type: float
 
 
