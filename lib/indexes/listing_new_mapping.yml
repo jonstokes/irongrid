@@ -6,6 +6,9 @@ ironsights_listing:
     url:
       type: string
       analyzer: keyword
+    purchase_url:
+      type: string
+      analyzer: keyword
     type:
       type: string
       analyzer: keyword
