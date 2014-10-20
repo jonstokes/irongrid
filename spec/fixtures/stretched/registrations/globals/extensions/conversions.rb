@@ -1,3 +1,5 @@
+require 'addressable/uri'
+
 Stretched::Extension.define do
   extension "conversions" do
 
@@ -49,9 +51,16 @@ Stretched::Extension.define do
       end
     end
 
+    def clean_up_url(url)
+      return unless url
+      URI.parse(url)
+      url
+    rescue URI::InvalidURIError
+      escape_url(url)
+    end
+
     def clean_up_image_url(link)
-      retval = URI.encode(link) rescue nil
-      return unless retval
+      return unless retval = clean_up_url(link)
       retval = retval.split("?").first
       return unless is_valid_image_url?(retval)
       retval
@@ -76,6 +85,12 @@ Stretched::Extension.define do
 
     def avantlink_feed_link_postfix
       (Time.now - 1.day).strftime("%Y-%m-%d")
+    end
+
+    def escape_url(url)
+      Addressable::URI.escape(url)
+    rescue
+      nil
     end
 
   end

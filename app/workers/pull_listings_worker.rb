@@ -38,8 +38,11 @@ class PullListingsWorker < CoreWorker
       json.site = site
       scraper = ParseJson.perform(json)
       update_image(scraper) if scraper.is_valid?
-      msg = LinkMessage.new(scraper)
-      WriteListingWorker.perform_async(msg.to_h)
+      WriteListingWorker.perform_async(
+        listing: scraper.listing.try(:to_hash),
+        page:    page.to_hash,
+        status:  scraper.status
+      )
       record_incr(:db_writes)
     end
 

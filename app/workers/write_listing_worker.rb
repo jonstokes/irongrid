@@ -3,51 +3,70 @@ class WriteListingWorker < CoreWorker
 
   sidekiq_options queue: :db_fast_high, retry: true
 
-  def perform(msg)
-    return unless msg = LinkMessage.new(msg)
+  attr_reader :listing_data, :page, :status
 
-    if listing ||= db { Listing.find_by_url(msg.url) }
-      existing_listing(msg, listing)
+
+  def init(opts)
+    return unless opts
+    opts.symbolize_keys!
+    @listing_data = Hashie::Mash.new(opts[:listing])
+    @page = Hashie::Mash.new(opts[:page])
+    @status = opts[:status].try(:to_sym)
+    true
+  end
+
+  def perform(opts)
+    return unless init(opts)
+
+    url = @listing_data.url || @page.redirect_from || @page.url
+    if listing ||= db { Listing.find_by_url(url) }
+      update_existing_listing
     else
-      new_listing(msg)
+      create_new_listing
     end
   end
 
   private
 
-  def new_listing(msg)
-    if msg.page_is_valid?
-      return if db { Listing.find_by_digest(msg.page_attributes["digest"]) }
-      klass = eval msg.page_attributes["type"]
-      update_geo_data(msg)
-      db { klass.create(msg.page_attributes) }
+  def new_listing
+    if listing_data.valid?
+      return if db { Listing.find_by_digest(listing_data.digest) }
+      klass = eval listing_data[:type]
+      update_geo_data(listing_data)
+      listing_data.url ||= new_url
+      db { klass.create(listing_data.to_hash) }
     end
   rescue ActiveRecord::RecordNotUnique
-    notify "Listing not unique for message #{msg.to_h}", type: :error
+    notify "Listing not unique for message #{listing.to_hash}", type: :error
     return
   end
 
-  def existing_listing(msg, listing)
-    if msg.page_not_found?
+  def existing_listing(listing)
+    if status_not_found?
       db { listing.destroy }
-    elsif !msg.page_is_valid?
+    elsif status_invalid?
       listing.deactivate!
-    elsif dirty_only?(msg, listing)
+    elsif dirty_only?(listing_data, listing)
       listing.dirty_only!
-    elsif Listing.duplicate_digest?(listing, msg.page_attributes["digest"])
+    elsif Listing.duplicate_digest?(listing, listing_data.digest)
       db { listing.destroy }
     else
-      update_geo_data(msg)
-      listing.update_with_count(msg.page_attributes)
+      listing_data.url ||= new_url
+      update_geo_data(listing_data)
+      listing.update_with_count(listing_data.to_hash)
     end
   rescue ActiveRecord::RecordNotUnique
     notify "Listing #{listing.id} with digest #{listing.digest} and url #{listing.url} is not unique, msg is #{msg.to_h}", type: :error
     return
   end
 
-  def update_geo_data(msg)
-    geo_data = lookup_geo_data(msg.page_attributes["item_data"]["item_location"])
-    msg.page_attributes["item_data"].merge!(geo_data.to_h)
+  def new_url
+    (page.code == 301) ? page.url : page.redirect_from
+  end
+
+  def update_geo_data(listing_data)
+    geo_data = lookup_geo_data(listing_data.item_data.item_location)
+    listing_data.item_data.merge!(geo_data.to_h)
   end
 
   def lookup_geo_data(item_location)
@@ -58,7 +77,15 @@ class WriteListingWorker < CoreWorker
     end
   end
 
-  def dirty_only?(msg, listing)
-    msg.page_attributes && (listing.digest == msg.page_attributes["digest"])
+  def status_invalid?
+    status == :invalid
+  end
+
+  def status_not_found?
+    status == :not_found
+  end
+
+  def dirty_only?(listing_data, listing)
+    listing_data && (listing.digest == listing_data.digest)
   end
 end
