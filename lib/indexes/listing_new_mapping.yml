@@ -6,10 +6,10 @@ ironsights_listing:
     digest:
       type: string
       analyzer: keyword
-    url:
+    purchase_url:
       type: string
       analyzer: keyword
-    purchase_url:
+    url:
       type: string
       analyzer: keyword
     type:
