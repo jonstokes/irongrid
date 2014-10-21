@@ -19,8 +19,10 @@ class WriteListingWorker < CoreWorker
     return unless init(opts)
 
     url = @listing_data.url || @page.redirect_from || @page.url
+    @listing_data.url ||= new_url
+
     if listing ||= db { Listing.find_by_url(url) }
-      update_existing_listing
+      update_existing_listing(listing)
     else
       create_new_listing
     end
@@ -28,12 +30,11 @@ class WriteListingWorker < CoreWorker
 
   private
 
-  def new_listing
-    if listing_data.valid?
+  def create_new_listing
+    if status_valid?
       return if db { Listing.find_by_digest(listing_data.digest) }
       klass = eval listing_data[:type]
       update_geo_data(listing_data)
-      listing_data.url ||= new_url
       db { klass.create(listing_data.to_hash) }
     end
   rescue ActiveRecord::RecordNotUnique
@@ -41,27 +42,24 @@ class WriteListingWorker < CoreWorker
     return
   end
 
-  def existing_listing(listing)
-    if status_not_found?
+  def update_existing_listing(listing)
+    if should_destroy?(listing)
       db { listing.destroy }
     elsif status_invalid?
       listing.deactivate!
-    elsif dirty_only?(listing_data, listing)
-      listing.dirty_only!
-    elsif Listing.duplicate_digest?(listing, listing_data.digest)
-      db { listing.destroy }
     else
-      listing_data.url ||= new_url
       update_geo_data(listing_data)
       listing.update_with_count(listing_data.to_hash)
     end
   rescue ActiveRecord::RecordNotUnique
-    notify "Listing #{listing.id} with digest #{listing.digest} and url #{listing.url} is not unique, msg is #{msg.to_h}", type: :error
+    notify "Listing #{listing.id} with digest #{listing.digest} and url #{listing.url} is not unique", type: :error
     return
   end
 
-  def new_url
-    (page.code == 301) ? page.url : page.redirect_from
+  def should_destroy?(listing)
+    status_not_found? ||
+      [301, 302].include?(page.code) && !status_valid? ||
+      Listing.duplicate_digest?(listing, listing_data.digest)
   end
 
   def update_geo_data(listing_data)
@@ -81,11 +79,19 @@ class WriteListingWorker < CoreWorker
     status == :invalid
   end
 
+  def status_valid?
+    status == :success
+  end
+
   def status_not_found?
     status == :not_found
   end
 
-  def dirty_only?(listing_data, listing)
-    listing_data && (listing.digest == listing_data.digest)
+  def new_url
+    if page.code == 302    # Temporary redirect, so
+      page.redirect_from   # preserve original url
+    else
+      page.url
+    end
   end
 end
