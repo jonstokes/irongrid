@@ -69,8 +69,9 @@ describe PullListingsWorker do
       @worker.perform(domain: @site.domain)
       expect(WriteListingWorker._jobs.count).to eq(1)
       job = WriteListingWorker._jobs.first
-      msg = LinkMessage.new(job["args"].first)
-      expect(msg.page_not_found?).to be_true
+      args = Hashie::Mash.new job["args"].first
+      expect(args.status).to eq('not_found')
+      expect(args.page.code).to eq(404)
     end
 
     it "correctly tags a not_found link in redis" do
@@ -83,8 +84,8 @@ describe PullListingsWorker do
       @worker.perform(domain: @site.domain)
       expect(WriteListingWorker._jobs.count).to eq(1)
       job = WriteListingWorker._jobs.first
-      msg = LinkMessage.new(job["args"].first)
-      expect(msg.page_not_found?).to be_true
+      args = Hashie::Mash.new job["args"].first
+      expect(args.status).to eq('not_found')
     end
 
     it "correctly tags an invalid link in redis" do
@@ -98,8 +99,8 @@ describe PullListingsWorker do
       @worker.perform(domain: @site.domain)
       expect(WriteListingWorker._jobs.count).to eq(1)
       job = WriteListingWorker._jobs.first
-      msg = LinkMessage.new(job["args"].first)
-      expect(msg.page_is_valid?).to be_false
+      args = Hashie::Mash.new job["args"].first
+      expect(args.status).to eq('invalid')
     end
 
     it "correctly tags a valid link in redis" do
@@ -107,9 +108,9 @@ describe PullListingsWorker do
       @worker.perform(domain: @site.domain)
       expect(WriteListingWorker._jobs.count).to eq(1)
       job = WriteListingWorker._jobs.first
-      msg = LinkMessage.new(job["args"].first)
-      expect(msg.page_is_valid?).to be_true
-      expect(msg.page_attributes["digest"]).to eq("862e3a129f9da0c4a4ffdef2d4a6cb09")
+      args = Hashie::Mash.new job["args"].first
+      expect(args.status).to eq('success')
+      expect(args.listing["digest"]).to eq("862e3a129f9da0c4a4ffdef2d4a6cb09")
     end
 
     describe "write to listings table from a generic full product feed" do
@@ -135,11 +136,10 @@ describe PullListingsWorker do
         expect(WriteListingWorker._jobs.count).to eq(18)
         expect(LogRecordWorker._jobs.count).to eq(2)
         job = WriteListingWorker._jobs.first
-        msg = LinkMessage.new(job["args"].first)
-        expect(msg.url).to match(/ammo\.net/)
-        expect(msg.page_attributes["digest"]).not_to be_nil
-        expect(msg.page_is_valid?).to be_true
-        expect(msg.page_not_found?).to be_false
+        args = Hashie::Mash.new job["args"].first
+        expect(args.listing.url).to match(/ammo\.net/)
+        expect(args.listing.digest).not_to be_nil
+        expect(args.status).to eq('success')
       end
 
       it "should create WriteListingWorkers for modified listings with proper payload" do
@@ -152,12 +152,11 @@ describe PullListingsWorker do
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(18)
         job = WriteListingWorker._jobs.first
-        msg = LinkMessage.new(job["args"].first)
-        expect(msg.url).to match(/ammo\.net/)
-        expect(msg.page_attributes["digest"]).not_to be_nil
-        expect(msg.page_attributes["item_data"]["price_in_cents"]).to eq(1150)
-        expect(msg.page_is_valid?).to be_true
-        expect(msg.page_not_found?).to be_false
+        args = Hashie::Mash.new job["args"].first
+        expect(args.listing.url).to match(/ammo\.net/)
+        expect(args.listing.digest).not_to be_nil
+        expect(args.status).to eq('success')
+        expect(args.listing.item_data["price_in_cents"]).to eq(1150)
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do
@@ -195,11 +194,10 @@ describe PullListingsWorker do
         expect(WriteListingWorker._jobs.count).to eq(4)
         expect(LogRecordWorker._jobs.count).to eq(2)
         job = WriteListingWorker._jobs.first
-        msg = LinkMessage.new(job["args"].first)
-        expect(msg.url).to match(/avantlink\.com/)
-        expect(msg.page_attributes["digest"]).not_to be_nil
-        expect(msg.page_is_valid?).to be_true
-        expect(msg.page_not_found?).to be_false
+        args = Hashie::Mash.new job["args"].first
+        expect(args.listing.url).to match(/avantlink\.com/)
+        expect(args.listing.digest).not_to be_nil
+        expect(args.status).to eq('success')
       end
 
       it "should create WriteListingWorkers for modified listings with proper payload" do
@@ -211,12 +209,11 @@ describe PullListingsWorker do
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(4)
         job = WriteListingWorker._jobs.first
-        msg = LinkMessage.new(job["args"].first)
-        expect(msg.url).to match(/avantlink\.com/)
-        expect(msg.page_attributes["digest"]).not_to be_nil
-        expect(msg.page_attributes["item_data"]["price_in_cents"]).to eq(109)
-        expect(msg.page_is_valid?).to be_true
-        expect(msg.page_not_found?).to be_false
+        args = Hashie::Mash.new job["args"].first
+        expect(args.listing.url).to match(/avantlink\.com/)
+        expect(args.listing.digest).not_to be_nil
+        expect(args.status).to eq('success')
+        expect(args.listing.item_data["price_in_cents"]).to eq(109)
       end
 
       it "should create WriteListingWorkers for removed listings proper payload" do
@@ -228,11 +225,10 @@ describe PullListingsWorker do
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(4)
         job = WriteListingWorker._jobs.first
-        msg = LinkMessage.new(job["args"].first)
-        expect(msg.url).to match(/avantlink\.com/)
-        expect(msg.page_attributes['item_data']['availability']).to eq('out_of_stock')
-        expect(msg.page_is_valid?).to be_true
-        expect(msg.page_not_found?).to be_false
+        args = Hashie::Mash.new job["args"].first
+        expect(args.listing.url).to match(/avantlink\.com/)
+        expect(args.listing.item_data['availability']).to eq('out_of_stock')
+        expect(args.status).to eq('success')
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do
@@ -255,11 +251,11 @@ describe PullListingsWorker do
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
         job = WriteListingWorker._jobs.first
-        msg = LinkMessage.new(job["args"].first)
+        args = Hashie::Mash.new job["args"].first
         iq = ImageQueue.new(domain: @site.domain)
 
-        expect(msg.page_attributes["item_data"]["image_source"]).to eq(image_source)
-        expect(msg.page_attributes["item_data"]["image"]).to eq("https://s3.amazonaws.com/scoperrific-index-test/c8f0568ee6c444af95044486351932fb.JPG")
+        expect(args.listing["item_data"]["image_source"]).to eq(image_source)
+        expect(args.listing["item_data"]["image"]).to eq("https://s3.amazonaws.com/scoperrific-index-test/c8f0568ee6c444af95044486351932fb.JPG")
         expect(iq.pop).to be_nil
       end
     end
@@ -270,11 +266,11 @@ describe PullListingsWorker do
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
         job = WriteListingWorker._jobs.first
-        msg = LinkMessage.new(job["args"].first)
+        args = Hashie::Mash.new job["args"].first
         iq = ImageQueue.new(domain: @site.domain)
 
-        expect(msg.page_attributes["item_data"]["image_source"]).to eq(image_source)
-        expect(msg.page_attributes["item_data"]["image"]).to eq(CDN::DEFAULT_IMAGE_URL)
+        expect(args.listing["item_data"]["image_source"]).to eq(image_source)
+        expect(args.listing["item_data"]["image"]).to eq(CDN::DEFAULT_IMAGE_URL)
         expect(iq.pop).to eq(image_source)
       end
     end
