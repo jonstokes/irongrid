@@ -7,6 +7,9 @@ end
 
 describe WriteListingWorker do
 
+  # The desired behaviors for the following scenarios are broken out
+  # in a table here: http://goo.gl/20W6DF
+
   before :each do
     @site = create_site "www.retailer.com"
     @geo_data = FactoryGirl.create(:geo_data)

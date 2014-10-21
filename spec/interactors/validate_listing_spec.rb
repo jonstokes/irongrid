@@ -49,7 +49,7 @@ describe ValidateListing do
       )
 
       expect(result.success?).to be_false
-      expect(result.status).to eq(:auction_ended)
+      expect(result.status).to eq(:not_found)
     end
   end
 end
