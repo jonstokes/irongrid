@@ -38,7 +38,7 @@ class WriteListingWorker < CoreWorker
       db { klass.create(listing_data.to_hash) }
     end
   rescue ActiveRecord::RecordNotUnique
-    notify "Listing not unique for message #{listing.to_hash}", type: :error
+    notify "Listing not unique for message #{listing_data.to_hash}", type: :error
     return
   end
 
