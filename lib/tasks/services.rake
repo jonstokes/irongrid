@@ -9,6 +9,7 @@ def service_list
     CdnService
     UpdateListingImagesService
     SiteStatsService
+    DeleteListingsForFullFeedsService
   )
 end
 
