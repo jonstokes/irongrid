@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="Rails irongrid: development" uuid="7846dcc0-60ca-4a7d-97f3-bf06175b6660">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source source="LOCAL" name="Rails irongrid: test" uuid="9fcfb04f-d611-4061-83ab-049edffecf07">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source source="LOCAL" name="Rails irongrid: cucumber" uuid="f146645f-dd38-4a15-9d81-fe879dc2115b">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+</component>

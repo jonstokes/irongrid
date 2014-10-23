@@ -256,7 +256,9 @@ class Listing < ActiveRecord::Base
   def update_es_index
     return if Listing.index_updates_disabled?
     if inactive? || out_of_stock?
-      retryable { Listing.index.remove type.downcase.sub("listing","_listing"), id }
+      retryable do
+        Listing.index.remove type.downcase.sub('listing', '_listing'), id
+      end
     else
       retryable { update_index }
       retryable { notify_on_match } if should_notify?
