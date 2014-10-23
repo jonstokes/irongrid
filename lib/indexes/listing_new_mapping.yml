@@ -5,16 +5,16 @@ ironsights_listing:
     # Listing attributes
     digest:
       type: string
-      analyzer: keyword
+      index: not_analyzed
     purchase_url:
       type: string
-      analyzer: keyword
+      index: not_analyzed
     url:
       type: string
-      analyzer: keyword
+      index: not_analyzed
     type:
       type: string
-      analyzer: keyword
+      index: not_analyzed
     title:
       type: string
       boost: 5
@@ -26,7 +26,7 @@ ironsights_listing:
       boost: :4
     condition:
       type: string
-      analyzer: keyword
+      index: not_analyzed
     auction_ends:
       type: date
     created_at:
@@ -37,36 +37,36 @@ ironsights_listing:
       properties:
         source:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         cdn:
           type: string
-          analyzer: keyword
+          index: not_analyzed
     location:
       properties:
         location:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         city:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         state:
           type: string,
-          analyzer: keyword
+          index: not_analyzed
         state_code:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         country:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         country_code:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         zip_code:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         postal_code:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         coordinates:
           type: geo_point
           lat_lon: true
@@ -137,26 +137,26 @@ ironsights_listing:
       properties:
         site_name:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         domain:
           type: string
-          analyzer: keyword
+          index: not_analyzed
 
     # Product attributes
     product:
       properties:
         name:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         short_description:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         long_description:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         image:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         msrp:
           type: integer
         category1:
@@ -164,16 +164,16 @@ ironsights_listing:
           analyzer: category_keyword
         upc:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         mpn:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         sku:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         manufacturer:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         weight:
           properties:
             shipping:
@@ -182,10 +182,10 @@ ironsights_listing:
         # Index-specific properties
         caliber:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         caliber_category:
           type: string
-          analyzer: keyword
+          index: not_analyzed
         number_of_rounds:
           type: integer
         grains:
