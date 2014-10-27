@@ -38,7 +38,11 @@ class IndexObject
   end
 
   def self.mapping
-    Hashie::Mash.new YAML.load(ERB.new(File.read(self::MAPPING_FILE)).result)
+    Hashie::Mash.new YAML.load(ERB.new(File.read(mapping_file)).result)
+  end
+
+  def self.mapping_file
+    # override with call to Settings
   end
 
   def self.client
