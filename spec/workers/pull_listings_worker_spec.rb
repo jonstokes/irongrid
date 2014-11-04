@@ -134,7 +134,6 @@ describe PullListingsWorker do
 
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(18)
-        expect(LogRecordWorker._jobs.count).to eq(2)
         job = WriteListingWorker._jobs.first
         args = Hashie::Mash.new job["args"].first
         expect(args.listing.url).to match(/ammo\.net/)
@@ -192,7 +191,6 @@ describe PullListingsWorker do
 
         @worker.perform(domain: @site.domain)
         expect(WriteListingWorker._jobs.count).to eq(4)
-        expect(LogRecordWorker._jobs.count).to eq(2)
         job = WriteListingWorker._jobs.first
         args = Hashie::Mash.new job["args"].first
         expect(args.listing.url).to match(/avantlink\.com/)
