@@ -21,8 +21,8 @@ describe Location do
       Location.put(@key).should_not be_nil
       Location.count.should == 1
       loc = Location.first
-      loc.latitude.should == "30.25054399999999"
-      loc.longitude.should == "-97.74310799999999"
+      loc.latitude.should == 30.25054399999999
+      loc.longitude.should == -97.74310799999999
     end
 
     it "should return the object if the key already exists" do
