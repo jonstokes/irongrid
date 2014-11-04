@@ -42,10 +42,10 @@ RSpec.configure do |config|
 end
 
 IronBase::Settings.configure do |config|
-  config.env                   = 'listings-test'
+  config.env                   = 'test'
   config.redis_url             = Figaro.env.ironsights_redis_url
   config.elasticsearch_url     = Figaro.env.elasticsearch_url_local
-  config.elasticsearch_index   = 'test'
+  config.elasticsearch_index   = Listing.index_name
   config.logger                = Rails.logger
   config.synonyms              = {
       listing: %w(foo foobar),

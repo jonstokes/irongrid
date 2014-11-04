@@ -30,7 +30,7 @@ class Location < IronBase::IndexedObject
 
   def initialize(opts)
     super
-    @data.id.upcase!
+    id.upcase!
   end
 
   def self.put(key)
