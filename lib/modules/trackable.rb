@@ -4,19 +4,18 @@ module Trackable
 
   def track(opts={})
     return if @log_record_schema # Ignore repeated calls to #track, as in RefreshLinksWorker
-    @log_record_schema = self.class::LOG_RECORD_SCHEMA
     opts.symbolize_keys!
+    @log_record_schema = self.class::LOG_RECORD_SCHEMA
+    @record = { data: {} }
     @write_interval = opts[:write_interval] || 500
     @count = 0
-    initialize_log_record
     @tracking = true
     status_update(true)
   end
 
   def status_update(force = false)
     return unless force || ((@count += 1) % @write_interval) == 0
-    LogRecordWorker.perform_async(@record)
-    initialize_log_record
+    notify("#{@record.to_param}")
   end
 
   def record_set(attr, value)
@@ -53,26 +52,4 @@ module Trackable
     end
   end
 
-  def initialize_log_record
-    @record ||= {}
-    @record[:data] ||= {}
-    data = {}
-
-    self.class::LOG_RECORD_SCHEMA.each do |k, v|
-      if v == Integer
-        data[k] = 0
-      else
-        data[k] = v.new
-      end
-    end
-
-    data.merge!(domain: @domain, complete: false)
-
-    @record.merge!(
-      jid:   self.jid,
-      agent: "#{self.class}",
-      archived: false
-    )
-    @record[:data].merge!(data)
-  end
 end
