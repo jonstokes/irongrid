@@ -56,7 +56,7 @@ describe Location do
 
   describe "fetch_data", no_es: true do
     it "should populate the Location object's data field with the geolocation data" do
-      loc = Location.create(:key => @key)
+      loc = Location.create(:id => @key)
       loc.fetch_data
       loc.city.should == "Austin"
       loc.state.should == "Texas"
