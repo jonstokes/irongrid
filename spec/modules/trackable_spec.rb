@@ -50,20 +50,20 @@ describe Trackable do
   end
 
   describe "#status_update" do
-    it "generates a LogRecordWorker to update the status" do
-      @worker.track(write_interval: 1)    # Generates LogRecordWorker
-      @worker.status_update               # Generates LogRecordWorker
+    it "writes to the standard logger to update status" do
+      @worker.track(write_interval: 1)
       @worker.record_incr(:links_created)
-      @worker.status_update                # Generates LogRecordWorker
-      expect(LogRecordWorker.jobs.count).to eq(3)
+      expect(@worker).to receive(:notify)
+      @worker.status_update
     end
 
-    it "resets the record data after each status update with an outgoing LogRecordWorker" do
+    it "does not reset the record data after each status update" do
       @worker.track(write_interval: 1)
       5.times { @worker.record_incr(:links_created) }
       expect(@worker.record[:data][:links_created]).to eq(5)
       2.times { @worker.status_update }
-      expect(@worker.record[:data][:links_created]).to eq(0)
+      expect(@worker.record[:data][:links_created]).to eq(5)
+      expect(@worker.record.to_param).to include('links_created%5D=5')
     end
   end
 
