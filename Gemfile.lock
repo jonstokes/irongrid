@@ -43,6 +43,17 @@ GIT
       nokogiri
       poltergeist
 
+PATH
+  remote: /Users/jstokes/Local/Repositories/iron_base
+  specs:
+    iron_base (0.0.1)
+      activesupport
+      connection_pool
+      elasticsearch
+      hashie
+      interactor
+      redis
+
 GEM
   remote: http://rubygems.org/
   remote: http://7efe68ea:9c90e496@www.mikeperham.com/rubygems/
@@ -150,7 +161,7 @@ GEM
     htmlentities (4.3.2)
     i18n (0.6.11)
     image_voodoo (0.8.2)
-    interactor (2.1.0)
+    interactor (3.1.0)
     jdbc-postgres (9.3.1102)
     jruby-openssl (0.9.4)
       bouncy-castle-java (>= 1.5.0147)
@@ -299,7 +310,8 @@ DEPENDENCIES
   hashie
   htmlentities
   image_voodoo
-  interactor
+  interactor (= 3.1.0)
+  iron_base!
   jdbc-postgres
   jruby-openssl
   launchy
