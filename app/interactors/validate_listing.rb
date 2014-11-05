@@ -2,9 +2,8 @@ class ValidateListing
   include Interactor
 
   def call
-    context.fail!(status: :not_found) if (context.listing_json.type == 'AuctionListing') && auction_ended?
-    context.fail!(status: :invalid) if success? && !is_valid?
-    context[:listing] = {} unless success?
+    context.fail!(status: :not_found) if (context.listing.type == 'AuctionListing') && auction_ended?
+    context.fail!(status: :invalid) if context.success? && !is_valid?
   end
 
   def is_valid?
