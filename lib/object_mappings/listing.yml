@@ -1,7 +1,8 @@
 ---
 id: id
 engine: engine
-url: url
+url:
+  page: url
 type: type
 title: title
 keywords: keywords
