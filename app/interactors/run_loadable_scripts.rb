@@ -6,7 +6,7 @@ class RunLoadableScripts
         runner = Loadable::Script.runner(script_name)
         runner.attributes.each do |attribute_name, value|
           result = value.is_a?(Proc) ? value.call(Hashie::Mash.new(context)) : value
-          context[attribute_name.to_s] = result
+          context.listing[attribute_name] = result
         end
       end
     end
