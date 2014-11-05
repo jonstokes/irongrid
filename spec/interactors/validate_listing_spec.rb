@@ -24,28 +24,29 @@ describe ValidateListing do
       result = ValidateListing.call(
         listing_json: @listing_json,
         site: @site,
-        auction_ends: Time.now + 5.days
+        listing: Hashie::Mash.new(auction_ends: Time.now + 5.days)
       )
       expect(result.success?).to be_true
     end
 
     it "fails an invalid listing" do
-      @listing_json.valid = false
       result = ValidateListing.call(
-        listing_json: @listing_json,
+        listing_json: @listing_json.merge(valid: false),
         site: @site,
-        auction_ends: Time.now + 5.days
+        listing: Hashie::Mash.new(auction_ends: Time.now + 5.days)
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
     end
 
     it "fails an ended auction" do
-      @listing_json.type = "AuctionListing"
       result = ValidateListing.call(
-        listing_json: @listing_json,
+        listing_json: @listing_json.merge(type: 'AuctionListing'),
         site: @site,
-        auction_ends: Time.now - 1.day
+        listing: Hashie::Mash.new(
+            type: 'AuctionListing',
+            auction_ends: Time.now - 1.day
+        )
       )
 
       expect(result.success?).to be_false
