@@ -3,7 +3,7 @@ class DeriveAttributes < CoreModel
 
   def call
     context.listing.auction_ends = auction_ends
-    context.listing.purchase_url = purchase_url
+    context.listing.url.purchase = purchase_url
     context.listing.seller = {
         site_name: site.name,
         domain: site.domain
@@ -26,7 +26,7 @@ class DeriveAttributes < CoreModel
   end
 
   def url
-    context.listing.url
+    context.listing.url.page
   end
 
   def tagged_url
