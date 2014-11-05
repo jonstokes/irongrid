@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe DeriveAttributes do
-  describe "#perform" do
+  describe "#call" do
     before :each do
       @site = create_site "www.retailer.com"
       @listing_json = Hashie::Mash.new(
@@ -19,60 +19,73 @@ describe DeriveAttributes do
         "product_category1"   => "Guns",
         "product_sku"         => "1911-CIT45CSPHB"
       )
+      @listing = Hashie::Mash.new(
+          type: 'RetailListing',
+          url: { page: 'http://www.retailer.com/1' }
+      )
     end
 
-    it "correctly sets affiliate_program attribute for an affiliate" do
-      site = create_site "www.botach.com"
-      result = DeriveAttributes.perform(
-        type: @listing_json['type'],
-        site: site,
+    describe '#purchase_url' do
+      it 'returns the untagged url for a site without a link tag' do
+        result = DeriveAttributes.call(
+            site:         @site,
+            listing:      @listing,
+            listing_json: @listing_json,
+        )
+        expect(result.listing.url.purchase).to eq(@listing.url)
+      end
+
+      it 'returns an affiliate url for ShareASale site' do
+        site = create_site 'www.botach.com'
+        url = 'http://www.botach.com/fnh-scar-17s-7-62mm-battle-rifles-tan/'
+        sas_link = "http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&urllink=www%2Ebotach%2Ecom%2Ffnh%2Dscar%2D17s%2D7%2D62mm%2Dbattle%2Drifles%2Dtan%2F"
+
+        result = DeriveAttributes.call(
+            site:         site,
+            listing:      @listing.merge(url: { page: url }),
+            listing_json: @listing_json,
+        )
+        expect(result.listing.url.purchase).to eq(sas_link)
+      end
+
+      it 'returns the tagged url for a site with a link tag' do
+        site = Site.new(domain: 'www.luckygunner.com', source: :fixture)
+        site.send(:write_to_redis)
+        url = "http://#{site.domain}/product"
+        tagged_url = "#{url}#{site.affiliate_link_tag}"
+        result = DeriveAttributes.call(
+            site:         site,
+            listing:      @listing.merge(url: { page: url }),
+            listing_json: @listing_json,
+        )
+        expect(result.listing.url.purchase).to eq(tagged_url)
+
+      end
+    end
+
+    it "correctly sets seller attributes for a retail listing" do
+      result = DeriveAttributes.call(
+        site:         @site,
+        listing:      @listing,
         listing_json: @listing_json,
       )
-      expect(result.affiliate_program).to eq("ShareASale")
+
+      expect(result.listing.seller.domain).to eq(@site.domain)
+      expect(result.listing.seller.site_name).to eq(@site.name)
     end
 
-    it "correctly sets common attributes for a retail listing" do
-      result = DeriveAttributes.perform(
-        type: @listing_json['type'],
-        site: @site,
-        listing_json: @listing_json,
-      )
-
-      expect(result.title.raw).to eq(@listing_json['title'])
-      expect(result.category1.raw).to eq(@listing_json['product_category1'])
-      expect(result.category1.classification_type).to eq("hard")
-      expect(result.seller_domain).to eq(@site.domain)
-      expect(result.seller_name).to eq(@site.name)
-      expect(result.affiliate_link_tag).to be_nil
-    end
-
-    it "adds an affiliate link tag if the site has one" do
-      site = Site.new(domain: "www.luckygunner.com", source: :fixture)
-      site.send(:write_to_redis)
-
-      url = "http://www.luckygunner.com/product1"
-      listing_json = Hashie::Mash.new(
-        "title" => "Federal XM855 5.56 Ammo 62 Grain FMJ, 420rnds",
-        "url" => url,
-        "product_category1" => "Ammunition"
-      )
-      result = DeriveAttributes.perform(
-        type: @listing_json['type'],
-        site: site,
-        listing_json: listing_json,
-      )
-      expect(result.affiliate_link_tag).to eq("#rid=ironsights&amp;chan=search")
-    end
 
     it "correctly sets common attributes for an auction listing" do
-      @listing_json['type'] = "AuctionListing"
-      @listing_json.auction_ends = "09/10/2025"
-      result = DeriveAttributes.perform(
-        type: @listing_json['type'],
-        site: @site,
-        listing_json: @listing_json,
+      json = @listing_json.merge(
+          type: 'AuctionListing',
+          auction_ends: "09/10/2025"
       )
-      expect(result.auction_ends.to_s).to eq("2025-09-10 05:00:00 UTC")
+      result = DeriveAttributes.call(
+          site:         @site,
+          listing:      @listing,
+          listing_json: json
+      )
+      expect(result.listing.auction_ends.to_s).to eq("2025-09-10 05:00:00 UTC")
     end
   end
 end
