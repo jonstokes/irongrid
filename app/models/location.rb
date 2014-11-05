@@ -1,5 +1,4 @@
 class Location < IronBase::IndexedObject
-  include Retryable
   include Notifier
 
   attr_accessor :data, :key
