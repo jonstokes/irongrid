@@ -11,7 +11,7 @@ class DeriveAttributes < CoreModel
   end
 
   def auction_ends
-    return unless context.listing[:type] == "AuctionListing"
+    return unless context.listing[:type] == 'AuctionListing'
     ListingFormat.time(site: context.site, time: context.listing.auction_ends)
   end
 

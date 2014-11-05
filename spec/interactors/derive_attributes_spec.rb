@@ -32,7 +32,7 @@ describe DeriveAttributes do
             listing:      @listing,
             listing_json: @listing_json,
         )
-        expect(result.listing.url.purchase).to eq(@listing.url)
+        expect(result.listing.url.purchase).to eq(@listing.url.page)
       end
 
       it 'returns an affiliate url for ShareASale site' do
@@ -76,14 +76,11 @@ describe DeriveAttributes do
 
 
     it "correctly sets common attributes for an auction listing" do
-      json = @listing_json.merge(
-          type: 'AuctionListing',
-          auction_ends: "09/10/2025"
-      )
+      listing = @listing.merge(type: 'AuctionListing', auction_ends: "09/10/2025")
       result = DeriveAttributes.call(
           site:         @site,
-          listing:      @listing,
-          listing_json: json
+          listing:      listing,
+          listing_json: @listing_json
       )
       expect(result.listing.auction_ends.to_s).to eq("2025-09-10 05:00:00 UTC")
     end
