@@ -1,97 +1,50 @@
 class DeriveAttributes < CoreModel
   include Interactor
 
-  def perform
-    context[:title]              = title
-    context[:category1]          = product_category1
-    context[:seller_domain]      = site.domain
-    context[:seller_name]        = site.name
-    context[:affiliate_link_tag] = site.affiliate_link_tag
-    context[:affiliate_program]  = site.affiliate_program
-    context[:auction_ends]       = auction_ends
-    context[:caliber]            = product_caliber
-    context[:caliber_category]   = product_caliber_category
-    context[:manufacturer]       = product_manufacturer
-    context[:number_of_rounds]   = product_number_of_rounds
-    context[:grains]             = product_grains
-  end
-
-  def title
-    scrubbed = ProductDetails::Scrubber.scrub(listing_json.title, :inches, :punctuation, :color)
-    ElasticSearchObject.new(
-      "title",
-      raw: listing_json.title,
-      scrubbed: scrubbed,
-      normalized: scrubbed,
-      autocomplete: scrubbed
-    )
-  end
-
-  def product_caliber
-    return unless listing_json.product_caliber
-    ElasticSearchObject.new(
-      "caliber",
-      raw: listing_json.product_caliber,
-      classification_type: "hard"
-    )
-  end
-
-  def product_caliber_category
-    return unless listing_json.product_caliber_category
-    ElasticSearchObject.new(
-      "caliber_category",
-      raw: listing_json.product_caliber_category,
-      classification_type: "hard"
-    )
-  end
-
-  def product_manufacturer
-    return unless listing_json.product_manufacturer
-    ElasticSearchObject.new(
-      "manufacturer",
-      raw: listing_json.product_manufacturer,
-      classification_type: "hard"
-    )
-  end
-
-  def product_grains
-    return unless listing_json.product_grains
-    ElasticSearchObject.new(
-      "grains",
-      raw: listing_json.product_grains,
-      classification_type: "hard"
-    )
-  end
-
-  def product_number_of_rounds
-    return unless listing_json.product_number_of_rounds
-    ElasticSearchObject.new(
-      "number_of_rounds",
-      raw: listing_json.product_number_of_rounds,
-      classification_type: "hard"
-    )
-  end
-
-  def product_category1
-    hard_categorize("category1") ||
-      ElasticSearchObject.new(
-        "category1",
-        raw:                  "None",
-        classification_type: "fall_through"
-      )
-  end
-
-  def hard_categorize(cat)
-    return unless value = listing_json["product_#{cat}"]
-    ElasticSearchObject.new(
-      cat,
-      raw: value,
-      classification_type: "hard"
-    )
+  def call
+    context.listing.auction_ends = auction_ends
+    context.listing.purchase_url = purchase_url
+    context.listing.seller = {
+        site_name: site.name,
+        domain: site.domain
+    }
   end
 
   def auction_ends
     return unless type == "AuctionListing"
-    ListingFormat.time(site: site, time: listing_json['auction_ends'])
+    ListingFormat.time(site: site, time: context.listing.auction_ends)
+  end
+
+  def purchase_url
+    if affiliate_link_tag
+      tagged_url
+    elsif share_a_sale?
+      share_a_sale_url
+    else
+      url
+    end
+  end
+
+  def url
+    context.listing.url
+  end
+
+  def tagged_url
+    "#{url}#{affiliate_link_tag}"
+  end
+
+  def share_a_sale_url
+    link = url.split(/https?\:\/\//).last
+    link = link.to_query('urllink')
+    link = link.gsub(".","%2E").gsub("-","%2D")
+    "http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&#{link}"
+  end
+
+  def share_a_sale?
+    context.site.affiliate_program == "ShareASale"
+  end
+
+  def affiliate_link_tag
+    context.site.affiliate_link_tag
   end
 end
