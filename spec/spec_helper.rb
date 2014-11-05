@@ -40,18 +40,3 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
-
-IronBase::Settings.configure do |config|
-  config.env                   = 'test'
-  config.redis_url             = Figaro.env.ironsights_redis_url
-  config.elasticsearch_url     = Figaro.env.elasticsearch_url_local
-  config.elasticsearch_index   = Listing.index_name
-  config.logger                = Rails.logger
-  config.synonyms              = {
-      listing: %w(foo foobar),
-      product: ['foo => foobar'],
-      manufacturer: ['foo => foobar'],
-      caliber: ['foo => foobar']
-  }
-end
-
