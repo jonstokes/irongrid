@@ -5,14 +5,14 @@ class DeriveAttributes < CoreModel
     context.listing.auction_ends = auction_ends
     context.listing.url.purchase = purchase_url
     context.listing.seller = {
-        site_name: site.name,
-        domain: site.domain
+        site_name: context.site.name,
+        domain: context.site.domain
     }
   end
 
   def auction_ends
-    return unless type == "AuctionListing"
-    ListingFormat.time(site: site, time: context.listing.auction_ends)
+    return unless context.listing[:type] == "AuctionListing"
+    ListingFormat.time(site: context.site, time: context.listing.auction_ends)
   end
 
   def purchase_url
