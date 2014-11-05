@@ -1,0 +1,39 @@
+---
+engine: engine
+url: url
+type: type
+title: title
+keywords: keywords
+description: description
+condition: condition
+auction_ends: auction_ends
+availability: availability
+image:
+  source: image
+location:
+  source: location
+discount:
+  in_cents: discount_in_cents
+  percent: discount_percent
+  ppr_percent: discount_ppr_percent
+price:
+  on_request: price_on_request
+  current: current_price_in_cents
+  list: price_in_cents
+  sale: sale_price_in_cents
+  buy_now: buy_now_price_in_cents
+  current_bid: current_bid_in_cents
+  minimum_bid: minimum_bid_in_cents
+  reserve: reserve_in_cents
+  per_round: price_per_round_in_cents
+product:
+  upc: product_upc
+  sku: product_sku
+  mpn: product_mpn
+  manufacturer: product_manufacturer
+  weight:
+    shipping: weight_in_pounds
+  caliber: product_caliber
+  caliber_category: product_caliber_category
+  number_of_rounds: product_number_of_rounds
+  grains: product_grains
