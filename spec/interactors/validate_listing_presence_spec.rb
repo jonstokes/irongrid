@@ -6,7 +6,7 @@ describe ValidateListingPresence do
     create_site "www.retailer.com"
   end
 
-  describe "#perform" do
+  describe "#call" do
     it "returns true if the page was found" do
       json = Hashie::Mash.new(
         object: { seller_domain: "www.retailer.com" },
@@ -16,7 +16,7 @@ describe ValidateListingPresence do
           code: 200
         }
       )
-      result = ValidateListingPresence.perform(json)
+      result = ValidateListingPresence.call(json)
       expect(result.success?).to be_true
     end
 
@@ -29,7 +29,7 @@ describe ValidateListingPresence do
           code: 404
         }
       )
-      result = ValidateListingPresence.perform(json)
+      result = ValidateListingPresence.call(json)
       expect(result.success?).to be_false
     end
 
@@ -45,7 +45,7 @@ describe ValidateListingPresence do
           code: 200
         }
       )
-      result = ValidateListingPresence.perform(json)
+      result = ValidateListingPresence.call(json)
       expect(result.success?).to be_false
     end
   end

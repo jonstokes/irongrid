@@ -19,9 +19,9 @@ describe ValidateListing do
     )
   end
 
-  describe "#perform" do
+  describe "#call" do
     it "passes a valid listing" do
-      result = ValidateListing.perform(
+      result = ValidateListing.call(
         listing_json: @listing_json,
         site: @site,
         auction_ends: Time.now + 5.days
@@ -31,7 +31,7 @@ describe ValidateListing do
 
     it "fails an invalid listing" do
       @listing_json.valid = false
-      result = ValidateListing.perform(
+      result = ValidateListing.call(
         listing_json: @listing_json,
         site: @site,
         auction_ends: Time.now + 5.days
@@ -42,7 +42,7 @@ describe ValidateListing do
 
     it "fails an ended auction" do
       @listing_json.type = "AuctionListing"
-      result = ValidateListing.perform(
+      result = ValidateListing.call(
         listing_json: @listing_json,
         site: @site,
         auction_ends: Time.now - 1.day
