@@ -20,18 +20,19 @@ describe CopyAttributes do
         "current_price_in_cents" => 60000,
         "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS"
       )
-      result = CopyAttributes.perform(
+      listing = CopyAttributes.call(
         site: @site,
         listing_json: listing_json,
         type: "RetailListing"
-      )
-      expect(result.url).to eq(@url)
-      expect(result.item_condition).to eq("new")
-      expect(result.item_location).to eq("1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705")
-      expect(result.type).to eq("retail")
-      expect(result.availability).to eq("in_stock")
-      expect(result.price_in_cents).to eq(65000)
-      expect(result.sale_price_in_cents).to eq(60000)
+      ).listing
+
+      expect(listing.url).to eq(@url)
+      expect(listing.condition).to eq("new")
+      expect(listing.location.source).to eq("1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705")
+      expect(listing.type).to eq("retail")
+      expect(listing.availability).to eq("in_stock")
+      expect(listing.price.list).to eq(65000)
+      expect(listing.price.sale).to eq(60000)
     end
   end
 end
