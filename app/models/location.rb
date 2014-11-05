@@ -4,7 +4,55 @@ class Location < IronBase::IndexedObject
 
   attr_accessor :data, :key
 
-  REQUIRED_ATTRIBUTES = %w(id)
+  validate_presence :id
+  define_mapping(
+      location: {
+          properties: {
+              city: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              state: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              country: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              latitude: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              longitude: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              state_code: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              postal_code: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              country_code: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              coordinates: {
+                  type: 'string',
+                  index: 'not_analyzed'
+              },
+              updated_at: {
+                  type: 'date'
+              },
+              created_at: {
+                  type: 'date'
+              }
+          }
+      }
+  )
 
   DATA_KEYS = %w(
     city
@@ -73,55 +121,6 @@ class Location < IronBase::IndexedObject
 
   def self.default_location
     @@default_location ||= db { GeoData.get("UNKNOWN, UNITED STATES") }
-  end
-
-  def self.mapping
-    {
-        'properties' => {
-            city: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            state: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            country: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            latitude: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            longitude: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            state_code: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            postal_code: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            country_code: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            coordinates: {
-                type: 'string',
-                index: 'not_analyzed'
-            },
-            updated_at: {
-                type: 'date'
-            },
-            created_at: {
-                type: 'date'
-            }
-        }
-    }
   end
 
   private
