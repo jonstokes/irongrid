@@ -1,9 +1,9 @@
 Loadable::Script.define do
   script "www.budsgunshop.com/shipping_cost" do
     shipping_cost do |instance|
-      if instance.listing.product.category1 == "Guns"
+      if instance.listing.gun?
         instance.listing.shipping_cost = 0
-      elsif instance.listing.product.category1 == "Ammunition"
+      elsif instance.listing.ammo?
         instance.listing.shipping_cost = 995
       end
     end
