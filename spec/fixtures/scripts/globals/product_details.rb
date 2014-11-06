@@ -7,5 +7,12 @@ Loadable::Script.define do
         listing.price.current && listing.product.number_of_rounds
       listing.price.per_round = (listing.price.current.to_f / listing.product.number_of_rounds.to_f).round rescue nil
     end
+
+    discount_ppr_percent do |instance|
+      listing = instance.listing
+      next unless listing.discount && listing.price.per_round
+      list_ppr = (listing.price.list.to_f / listing.product.number_of_rounds.to_f).round
+      listing.discount.ppr_percent = (listing.price.per_round / list_ppr.to_f).round * 100
+    end
   end
 end

@@ -18,7 +18,6 @@ location:
 discount:
   in_cents: discount_in_cents
   percent: discount_percent
-  ppr_percent: discount_ppr_percent
 price:
   on_request: price_on_request
   current: current_price_in_cents
