@@ -42,9 +42,6 @@ module Loadable
       [Hashie::Mash.new(key: key, type: "Script" , data: source)]
     end
 
-    def self.write_redis_format(data); data; end
-    def self.read_redis_format(data); data; end
-
     def self.define(&block)
       definition_proxy = DefinitionProxy.new
       definition_proxy.instance_eval(&block)
