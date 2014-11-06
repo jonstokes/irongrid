@@ -18,7 +18,6 @@ Loadable::Script.define do
     #   ppr_discount_percent = (list_ppr / current_ppr).round * 100
     #
     #   if shipping_cost
-    #     discount ppr with shipping = list_ppr - current_ppr with shipping
     #     discount ppr percent with shipping = (list_ppr / current_ppr with shipping).round * 100
 
 
@@ -37,8 +36,8 @@ Loadable::Script.define do
       next unless listing.discount.try(:in_cents)
       listing.with_shipping.merge!(
           discount: {
-              in_cents: listing.price.current.list - listing.with_shipping.price.current,
-              percent: (listing.price.current.list.to_f / listing.with_shipping.price.current.to_f).round * 100
+              in_cents: calculate_discount_in_cents(listing.price.current.list, listing.with_shipping.price.current),
+              percent:  calculate_discount_percent(listing.price.current.list, listing.with_shipping.price.current)
           }
       )
     end
@@ -65,8 +64,8 @@ Loadable::Script.define do
 
       # ppr discounts with shipping
       if listing.with_shipping
-        ppr_discount_with_shipping = list_ppr - listing.with_shipping.price.per_round
-        listing.with_shipping.discount.ppr_percent = (list_ppr.to_f / ppr_discount_with_shipping.to_f).round * 100
+        listing.with_shipping.discount.ppr_percent =
+            calculate_discount_percent(list_ppr, listing.with_shipping.price.per_round)
       end
     end
   end
