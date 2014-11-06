@@ -45,9 +45,9 @@ module ListingWriter
       when "AuctionListing"
         DEFAULT_DIGEST_ATTRIBUTES + %w(auction_ends)
       when "RetailListing"
-        DEFAULT_DIGEST_ATTRIBUTES + %w(price_in_cents sale_price_in_cents price_on_request availability)
+        DEFAULT_DIGEST_ATTRIBUTES + %w(price.list price.sale price.on_request availability)
       when "ClassifiedListing"
-        DEFAULT_DIGEST_ATTRIBUTES + %w(sale_price_in_cents price_in_cents)
+        DEFAULT_DIGEST_ATTRIBUTES + %w(price.sale price.list)
       end
     end
   end

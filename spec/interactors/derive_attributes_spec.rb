@@ -19,7 +19,7 @@ describe DeriveAttributes do
         "product_category1"   => "Guns",
         "product_sku"         => "1911-CIT45CSPHB"
       )
-      @listing = Hashie::Mash.new(
+      @listing = IronBase::Listing.new(
           type: 'RetailListing',
           url: { page: 'http://www.retailer.com/1' }
       )
