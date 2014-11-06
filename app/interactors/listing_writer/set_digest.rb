@@ -29,7 +29,6 @@ module ListingWriter
         next unless value = instance_eval("context.listing.#{attr}")
         digest_string << "#{value}"
       end
-      puts "# #{digest_string}"
       Digest::MD5.hexdigest(digest_string)
     end
 
