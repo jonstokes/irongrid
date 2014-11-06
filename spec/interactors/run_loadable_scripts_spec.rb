@@ -50,28 +50,36 @@ describe RunLoadableScripts do
       load_scripts
     end
 
-    it "sets the shipping cost using a script" do
-      results = Shipping::SetShippingCost.perform(
-          category1: "Guns",
+    it 'sets the shipping cost using a script' do
+      listing = IronBase::Listing.new(
+          product: { category1: 'Guns' },
+      )
+      results = RunLoadableScripts.call(
+          listing: listing,
           site: @site,
           listing_json: Hashie::Mash.new
       )
-      expect(results.shipping_cost_in_cents).to eq(0)
+      expect(results.listing.shipping_cost).to eq(0)
 
-      results = Shipping::SetShippingCost.perform(
-          category1: "Ammunition",
+      listing = IronBase::Listing.new(
+          product: { category1: 'Ammunition' },
+      )
+      results = RunLoadableScripts.call(
+          listing: listing,
           site: @site,
           listing_json: Hashie::Mash.new
       )
-      expect(results.shipping_cost_in_cents).to eq(995)
+      expect(results.listing.shipping_cost).to eq(995)
 
-      results = Shipping::SetShippingCost.perform(
-          category1: "Optics",
+      listing = IronBase::Listing.new(
+          product: { category1: 'Optics' },
+      )
+      results = RunLoadableScripts.call(
+          listing: listing,
           site: @site,
           listing_json: Hashie::Mash.new
       )
-      expect(results.shipping_cost_in_cents).to be_nil
+      expect(results.listing.shipping_cost).to be_nil
     end
-
   end
 end
