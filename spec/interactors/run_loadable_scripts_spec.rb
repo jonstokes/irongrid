@@ -89,6 +89,7 @@ describe RunLoadableScripts do
       )
       expect(results.listing.shipping_cost).to eq(0)
       expect(results.listing.with_shipping.price.current).to eq(100)
+      expect(results.listing.with_shipping.discount).to be_nil
 
       listing = IronBase::Listing.new(
           price: { current: 100 },
@@ -141,6 +142,8 @@ describe RunLoadableScripts do
           listing_json: Hashie::Mash.new
       )
       expect(results.listing.with_shipping.discount.in_cents).to eq(0)
+      expect(results.listing.with_shipping.discount.percent).to eq(0)
+      expect(results.listing.with_shipping.discount.ppr_percent).to eq(0)
 
     end
 
