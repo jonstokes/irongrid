@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RunLoadableScripts do
   before :each do
-    @site = create_site "www.budsgunshop.com"
+    @site = create_site 'www.budsgunshop.com'
     load_scripts
   end
 
@@ -25,30 +25,29 @@ describe RunLoadableScripts do
   end
 
   describe 'Price per round calculations' do
-    it "calculates the current price per round" do
-      result = SetPricePerRound.perform(
-          current_price_in_cents: 100,
-          number_of_rounds: ElasticSearchObject.new("number_of_rounds", raw: 10),
-          category1: ElasticSearchObject.new("category1", raw: "Ammunition"),
-          listing_json: Hashie::Mash.new
+    it 'calculates the current price per round' do
+      listing = IronBase::Listing.new(
+          product: {
+              category1: 'Ammunition',
+              number_of_rounds: 10
+          },
+          price: {
+             current: 100
+          }
       )
-      expect(result.price_per_round_in_cents).to eq(10)
+      result = RunLoadableScripts.call(
+          listing: listing,
+          listing_json: Hashie::Mash.new,
+          site: @site
+      )
+      expect(result.listing.price.per_round).to eq(10)
     end
   end
 
   describe 'Shipping calculations', no_es: true do
     before :each do
-      @site = create_site "www.budsgunshop.com"
-      Loadable::Script.create_from_file("#{Rails.root}/spec/fixtures/scripts/www--budsgunshop--com.rb")
-    end
-
-    it "sets the shipping cost using the listing_json" do
-      results = Shipping::SetShippingCost.perform(
-          category1: "Guns",
-          site: @site,
-          listing_json: Hashie::Mash.new(shipping_cost_in_cents: 200)
-      )
-      expect(results.shipping_cost_in_cents).to eq(200)
+      @site = create_site 'www.budsgunshop.com'
+      load_scripts
     end
 
     it "sets the shipping cost using a script" do
