@@ -3,7 +3,6 @@ class SetProductDetails
 
   organize [
     ProductDetails::IdentifyProduct,
-    ProductDetails::SoftCategorize
   ]
 
 end
