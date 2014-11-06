@@ -11,12 +11,19 @@ describe RunLoadableScripts do
       opts = {
         site: @site,
         listing: IronBase::Listing.new(
-          price: { current: 1000 },
+          price: {
+              current: 1000,
+              sale: 1000,
+              list: 1100
+          },
           product: {
               number_of_rounds: 10,
               category1: 'Ammunition'
           },
-          discount: { in_cents: 10 },
+          discount: {
+              in_cents: 100,
+              percent: 10
+          },
         )
       }
       result = RunLoadableScripts.call(opts)
@@ -32,7 +39,8 @@ describe RunLoadableScripts do
               number_of_rounds: 10
           },
           price: {
-             current: 100
+             current: 100,
+             sale: 100
           }
       )
       result = RunLoadableScripts.call(
