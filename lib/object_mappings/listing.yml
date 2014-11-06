@@ -10,6 +10,7 @@ description: description
 condition: condition
 auction_ends: auction_ends
 availability: availability
+shipping_cost: shipping_cost_in_cents
 image:
   source: image
 location:

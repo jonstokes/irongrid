@@ -18,6 +18,7 @@ describe CopyAttributes do
         "price_in_cents" => 65000,
         "sale_price_in_cents" => 60000,
         "current_price_in_cents" => 60000,
+        'shipping_cost_in_cents' => 200,
         "description" => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS"
       )
       listing = CopyAttributes.call(
@@ -33,6 +34,7 @@ describe CopyAttributes do
       expect(listing.availability).to eq("in_stock")
       expect(listing.price.list).to eq(65000)
       expect(listing.price.sale).to eq(60000)
+      expect(listing.shipping_cost).to eq(200)
     end
   end
 end
