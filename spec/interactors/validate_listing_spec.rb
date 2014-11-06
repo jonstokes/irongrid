@@ -24,7 +24,7 @@ describe ValidateListing do
       result = ValidateListing.call(
         listing_json: @listing_json,
         site: @site,
-        listing: Hashie::Mash.new(auction_ends: Time.now + 5.days)
+        listing: IronBase::Listing.new(auction_ends: Time.now + 5.days)
       )
       expect(result.success?).to be_true
     end
@@ -33,7 +33,7 @@ describe ValidateListing do
       result = ValidateListing.call(
         listing_json: @listing_json.merge(valid: false),
         site: @site,
-        listing: Hashie::Mash.new(auction_ends: Time.now + 5.days)
+        listing: IronBase::Listing.new(auction_ends: Time.now + 5.days)
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
@@ -43,7 +43,7 @@ describe ValidateListing do
       result = ValidateListing.call(
         listing_json: @listing_json.merge(type: 'AuctionListing'),
         site: @site,
-        listing: Hashie::Mash.new(
+        listing: IronBase::Listing.new(
             type: 'AuctionListing',
             auction_ends: Time.now - 1.day
         )

@@ -5,7 +5,7 @@ describe ListingWriter::SetDigest do
     site = create_site 'www.hyattgunstore.com'
     opts = {
       site: site,
-      listing: Hashie::Mash.new(
+      listing: IronBase::Listing.new(
         url: {
             page: "http://www.hyattgunstore.com/federal-xm855-5.56-ammo-62-grain-fmj-420-rounds-on-30-round-stripper-clips.html",
             purchase: "http://www.hyattgunstore.com/federal-xm855-5.56-ammo-62-grain-fmj-420-rounds-on-30-round-stripper-clips.html"

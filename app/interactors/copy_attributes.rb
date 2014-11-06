@@ -3,7 +3,7 @@ class CopyAttributes
   include ObjectMapper
 
   def call
-    context.listing = Hashie::Mash.new
+    context.listing = IronBase::Listing.new
     transform(
         source: context.listing_json,
         destination: context.listing,

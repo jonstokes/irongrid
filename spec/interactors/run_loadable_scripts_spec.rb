@@ -10,7 +10,7 @@ describe RunLoadableScripts do
     it "runs the scripts in a site's scripts manifest" do
       opts = {
         site: @site,
-        listing: Hashie::Mash.new(
+        listing: IronBase::Listing.new(
           price: { current: 1000 },
           product: {
               number_of_rounds: 10,

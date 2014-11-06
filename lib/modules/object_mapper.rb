@@ -9,7 +9,7 @@ module ObjectMapper
             destination: field,
             mapping: value
         }
-        map_json(nopts)
+        transform(nopts)
         listing[key] = field unless field.empty?
       else
         next unless json[value]
