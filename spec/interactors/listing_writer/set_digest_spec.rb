@@ -60,6 +60,6 @@ describe ListingWriter::SetDigest do
     }
 
     result = ListingWriter::SetDigest.call(opts)
-    expect(result.listing.digest).to eq("88652bbf0db73e01bfbb2cb440eb8a60")
+    expect(result.listing.digest).to eq('36615699ca1729380e458eea27f35d8e')
   end
 end
