@@ -1,10 +1,11 @@
 Loadable::Script.define do
-  script "globals/product_details" do
+  script 'globals/product_details' do
     price_per_round_in_cents do |instance|
-      next instance[:price_per_round_in_cents] if instance[:price_per_round_in_cents]
-      next nil unless (instance[:category1] == "Ammunition") &&
-        instance[:current_price_in_cents] && instance[:number_of_rounds]
-      (instance[:current_price_in_cents].to_f / instance[:number_of_rounds].to_f).round rescue nil
+      listing = instance.listing
+      next if listing.price.per_round
+      next unless (listing.category1 == "Ammunition") &&
+        listing.price.current && listing.product.number_of_rounds
+      listing.price.per_round = (listing.price.current.to_f / listing.product.number_of_rounds.to_f).round rescue nil
     end
   end
 end

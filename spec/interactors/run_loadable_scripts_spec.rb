@@ -42,6 +42,25 @@ describe RunLoadableScripts do
       )
       expect(result.listing.price.per_round).to eq(10)
     end
+
+    it 'does not overwrite PPR if it is already present' do
+      listing = IronBase::Listing.new(
+          product: {
+              category1: 'Ammunition',
+              number_of_rounds: 10
+          },
+          price: {
+              current: 100,
+              per_round: 500
+          }
+      )
+      result = RunLoadableScripts.call(
+          listing: listing,
+          listing_json: Hashie::Mash.new,
+          site: @site
+      )
+      expect(result.listing.price.per_round).to eq(500)
+    end
   end
 
   describe 'Shipping calculations', no_es: true do
