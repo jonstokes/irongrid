@@ -6,18 +6,21 @@ describe RunLoadableScripts do
     load_scripts
   end
 
-  describe "#perform" do
+  describe '#call' do
     it "runs the scripts in a site's scripts manifest" do
       opts = {
         site: @site,
-        current_price_in_cents: 1000,
-        number_of_rounds: 10,
-        discount_in_cents: 10,
-        category1: "Ammunition"
+        listing: Hashie::Mash.new(
+          price: { current: 1000 },
+          product: {
+              number_of_rounds: 10,
+              category1: 'Ammunition'
+          },
+          discount: { in_cents: 10 },
+        )
       }
-      result = RunLoadableScripts.perform(opts)
-
-      expect(result.price_per_round_in_cents).to eq(100)
+      result = RunLoadableScripts.call(opts)
+      expect(result.listing.shipping_cost).to eq(995)
     end
   end
 end
