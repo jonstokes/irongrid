@@ -6,7 +6,7 @@ Loadable::Script.define do
     #   discount with shipping = list price - current price with shipping
     #   discount percent with shipping = (list price / current price with shipping) * 100
 
-    # next unless number of rounds
+    # next unless number of rounds exists and isn't zero
     #   current_ppr = current price / number of rounds
     #
     #   if shipping_cost
@@ -46,6 +46,7 @@ Loadable::Script.define do
 
       # current price per round
       next unless listing.ammo? && listing.product.number_of_rounds
+      next if listing.product.number_of_rounds.zero?
       listing.price.per_round ||=
           (listing.price.current.to_f / listing.product.number_of_rounds.to_f).round.to_i
 
