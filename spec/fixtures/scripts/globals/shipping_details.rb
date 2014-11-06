@@ -36,13 +36,15 @@ Loadable::Script.define do
     end
 
     discount_percent_with_shipping do |instance|
-      next unless instance.shipping.discount.in_cents
-      dp = (instance[:discount_in_cents_with_shipping].to_f / instance[:current_price_in_cents].to_f) * 100
-      dp.to_i
+      listing = instance.listing
+      next unless listing.with_shipping.discount.in_cents
+      listing.with_shipping.discount.percent =
+          ((listing.with_shipping.discount.in_cents.to_f / listing.price.current.to_f) * 100).to_i
     end
 
-    discount_ppr_with_shipping do |instance|
+    discount_ppr_percent_with_shipping do |instance|
       listing = instance.listing
+      next unless listing.with_shipping.discount && listing.price.per_round
     end
   end
 end
