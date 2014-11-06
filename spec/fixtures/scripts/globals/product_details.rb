@@ -1,5 +1,5 @@
 Loadable::Script.define do
-  script 'globals/product_details' do
+  script "globals/product_details" do
     # next unless shipping cost
     #   current price with shipping = current price + shipping cost
     # next unless discount
