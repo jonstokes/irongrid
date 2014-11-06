@@ -17,4 +17,15 @@ module ObjectMapper
       end
     end
   end
+
+  def reverse_map(opts)
+    source, value = opts[:source], opts[:value]
+    source.each do |k, v|
+      if v.is_a?(Hashie::Mash)
+        reverse_map(source: v,value: value)
+      else
+        return v if v == value
+      end
+    end
+  end
 end

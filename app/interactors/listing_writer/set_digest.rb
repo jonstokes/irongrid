@@ -5,28 +5,28 @@ module ListingWriter
     DEFAULT_DIGEST_ATTRIBUTES = %w(
       title
       keywords
-      image_source
+      image.source
       type
-      seller_domain
+      seller.domain
       condition
       location
-      product_category1
-      product_caliber_category
-      product_caliber
-      product_manufacturer
-      product_grains
-      product_number_of_rounds
-      current_price_in_cents
+      product.category1
+      product.caliber_category
+      product.caliber
+      product.manufacturer
+      product.grains
+      product.number_of_rounds
+      price.current
     )
 
-    def perform
+    def call
       context.listing.digest = digest
     end
 
     def digest
       digest_string = ''
       get_digest_attributes(default_digest_attributes).each do |attr|
-        next unless value = context.listing.send(attr)
+        next unless value = instance_eval("context.listing.#{attr}")
         digest_string << "#{value}"
       end
       Digest::MD5.hexdigest(digest_string)
@@ -39,7 +39,6 @@ module ListingWriter
       attrs.delete("defaults")
       attrs
     end
-
 
     def default_digest_attributes
       case context.listing.type
