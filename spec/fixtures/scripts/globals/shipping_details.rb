@@ -4,7 +4,6 @@ Loadable::Script.define do
       next unless instance[:current_price_in_cents]
       next instance[:current_price_in_cents] unless instance[:shipping_cost_in_cents]
       instance[:current_price_in_cents] + instance[:shipping_cost_in_cents]
-
     end
 
     price_per_round_in_cents_with_shipping do |instance|

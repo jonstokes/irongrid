@@ -14,7 +14,6 @@ class RunLoadableScripts
         )
         runner.attributes.each do |attribute_name, value|
           result = value.is_a?(Proc) ? value.call(instance) : value
-          context.listing[attribute_name] = result
         end
       end
     end
