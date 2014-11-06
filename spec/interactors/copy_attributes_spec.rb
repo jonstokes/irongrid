@@ -26,7 +26,7 @@ describe CopyAttributes do
         type: "RetailListing"
       ).listing
 
-      expect(listing.url).to eq(@url)
+      expect(listing.url.page).to eq(@url)
       expect(listing.condition).to eq("new")
       expect(listing.location.source).to eq("1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705")
       expect(listing.type).to eq("retail")

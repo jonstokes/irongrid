@@ -20,25 +20,20 @@ module ListingWriter
     )
 
     def perform
-      context[:digest] = digest
+      context.listing.digest = digest
     end
 
     def digest
-      digest_string = ""
+      digest_string = ''
       get_digest_attributes(default_digest_attributes).each do |attr|
-        attribute = attr.to_sym
-        next unless context[attribute]
-        if context[attribute].is_a?(ElasticSearchObject)
-          digest_string << "#{context[attribute].digest_string}"
-        else
-          digest_string << "#{context[attribute]}"
-        end
+        next unless value = context.listing.send(attr)
+        digest_string << "#{value}"
       end
       Digest::MD5.hexdigest(digest_string)
     end
 
     def get_digest_attributes(defaults)
-      return defaults unless attrs = site.digest_attributes
+      return defaults unless attrs = context.site.digest_attributes
       return attrs unless attrs.include?("defaults")
       attrs = defaults + attrs # order matters here, so no +=
       attrs.delete("defaults")
@@ -47,7 +42,7 @@ module ListingWriter
 
 
     def default_digest_attributes
-      case type
+      case context.listing.type
       when "AuctionListing"
         DEFAULT_DIGEST_ATTRIBUTES + %w(auction_ends)
       when "RetailListing"
