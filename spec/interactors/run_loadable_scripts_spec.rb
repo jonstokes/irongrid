@@ -23,4 +23,12 @@ describe RunLoadableScripts do
       expect(result.listing.shipping_cost).to eq(995)
     end
   end
+
+  describe 'Price per round calculations' do
+
+  end
+
+  describe 'Shipping calculations' do
+    
+  end
 end
