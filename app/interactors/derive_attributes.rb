@@ -2,7 +2,7 @@ class DeriveAttributes < CoreModel
   include Interactor
 
   def call
-    context.listing.auction_ends = auction_ends
+    context.listing.auction_ends = auction_ends if context.listing.auction?
     context.listing.url.purchase = purchase_url
     context.listing.seller = {
         site_name: context.site.name,
@@ -11,7 +11,6 @@ class DeriveAttributes < CoreModel
   end
 
   def auction_ends
-    return unless context.listing[:type] == 'AuctionListing'
     ListingFormat.time(site: context.site, time: context.listing.auction_ends)
   end
 

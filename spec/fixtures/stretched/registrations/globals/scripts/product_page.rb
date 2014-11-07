@@ -1,5 +1,9 @@
 Stretched::Script.define do
   script "globals/product_page" do
+    not_found do |instance|
+      instance.not_found? # Forces not_found to return a boolean instead of a string
+    end
+
     url do |instance|
       clean_up_url(instance.url)
     end
@@ -81,7 +85,7 @@ Stretched::Script.define do
     product_caliber do |instance|
       caliber = nil
       caliber_category = %w(rimfire_calibers handgun_calibers shotgun_calibers rifle_calibers).detect do |mapping_name|
-        mapping = Stretched::Mapping.find(mapping_name)
+        mapping = load_registration(type: :mapping, key: mapping_name)
         caliber = extract_metadata(:product_caliber, mapping, instance) ||
           extract_metadata(:title, mapping, instance) ||
           extract_metadata(:keywords, mapping, instance)
@@ -91,7 +95,7 @@ Stretched::Script.define do
     end
 
     product_manufacturer do |instance|
-      mapping = Stretched::Mapping.find("manufacturers")
+      mapping = load_registration(type: :mapping, key: "manufacturers")
       manufacturer = extract_metadata(:product_manufacturer, mapping, instance) ||
         extract_metadata(:title, mapping, instance) ||
         extract_metadata(:keywords, mapping, instance)
@@ -106,6 +110,12 @@ Stretched::Script.define do
 
     discount_percent do |instance|
       calculate_discount_percent(instance)
+    end
+
+    weight_in_pounds do |instance|
+      if instance.weight_in_pounds?
+        instance.weight_in_pounds.to_f
+      end
     end
 
     shipping_cost_in_cents do |instance|

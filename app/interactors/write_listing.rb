@@ -3,6 +3,6 @@ class WriteListing
 
   organize [
     ListingWriter::SetDigest,
-    ListingWriter::GenerateListingHash
+    ListingWriter::SaveListingToIndex,
   ]
 end
