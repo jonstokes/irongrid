@@ -5,6 +5,7 @@ class ParseJson
 
   organize [
     ValidateListingPresence,
+    FindOrCreateListing,
     CopyAttributes,
     DeriveAttributes,
     ValidateListing,

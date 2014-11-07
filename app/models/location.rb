@@ -119,7 +119,7 @@ class Location < IronBase::IndexedObject
   end
 
   def self.default_location
-    @@default_location ||= db { GeoData.get("UNKNOWN, UNITED STATES") }
+    @default_location ||= Location.get('UNKNOWN, UNITED STATES')
   end
 
   private
