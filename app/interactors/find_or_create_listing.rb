@@ -2,27 +2,25 @@ class FindOrCreateListing
   include Interactor
 
   def call
-    listing_purchase_url = listing_json.url || current_url
-    listing_id = if listing_json.id
-                   "#{listing_purchase_url}!#{listing_json.id}"
-                 else
-                   listing_purchase_url
-                 end
+    listing_purchase_url = listing_json.url || page_url
+    listing_id = tagged_url || listing_purchase_url
     context.listing = IronBase::Listing.find(listing_id) || IronBase::Listing.new
-    context.listing.url.page = current_url
-    context.listing.url.purchase = listing_purchase_url
+    context.listing.url = {
+        page: page_url,
+        purchase: listing_purchase_url
+    }
   end
 
-  def current_url
-    if page.code == 302    # Temporary redirect, so
-      page.redirect_from   # preserve original url
+  def tagged_url
+    "#{listing_purchase_url}!#{listing_json.id}" if listing_json.id
+  end
+
+  def page_url
+    if context.page.code == 302    # Temporary redirect, so
+      context.page.redirect_from   # preserve original url
     else
-      page.url
+      context.page.url
     end
-  end
-
-  def page
-    context.page
   end
 
   def listing_json
