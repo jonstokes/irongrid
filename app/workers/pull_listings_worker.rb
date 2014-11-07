@@ -31,24 +31,26 @@ class PullListingsWorker < CoreWorker
 
     while !timed_out? && json = @object_queue.pop do
       record_incr(:objects_deleted)
-      if json.error?
-        notify "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"
-        next
-      end
-      json.site = site
-      scraper = ParseJson.perform(json)
-      update_image(scraper) if scraper.is_valid?
-      scraper_status = scraper.success? ? :success : scraper.status
-      WriteListingWorker.perform_async(
-        listing: scraper.listing.try(:to_hash),
-        page:    scraper.page.to_hash,
-        status:  scraper_status
-      )
-      record_incr(:db_writes)
+      parse_and_write_object(json)
     end
 
     transition
     stop_tracking
+  end
+
+  def parse_and_write_object(json)
+    if json.error?
+      notify "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"
+      return
+    end
+
+    scraper = ParseJson.call(
+        site:         site,
+        listing_json: json.object,
+        page:         json.page
+    )
+    update_image(scraper) if scraper.is_valid? # TODO: what is diff between is_valid and success?
+    record_incr(:db_writes) if scraper.success?
   end
 
   def transition
