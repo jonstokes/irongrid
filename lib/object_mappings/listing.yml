@@ -1,8 +1,6 @@
 ---
 id: id
 engine: engine
-url:
-  purchase: url
 type: type
 title: title
 keywords: keywords
