@@ -50,10 +50,6 @@ module ListingWriter
       end
     end
 
-    def redirected?
-      [301, 302].include?(context.page.code)
-    end
-
     def status_invalid?
       status == :invalid
     end

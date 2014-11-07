@@ -8,15 +8,16 @@ will be a consolidated repo for multiple engines.
  * Globals should go index/globals/
 
 
+ set url
+ rollback { delete any existing listings at this url }
 
 # ValidateListingPresence
  if the url is not_found (either page.not_found or json.not_found)
-    delete any existing listings at this url
     fail(:not_found)
  end    
  
+ 
 # FindOrCreateListing
-
  rollback do
     if the listing is persisted?
         if from a redirect || status(:duplicate)
@@ -26,18 +27,20 @@ will be a consolidated repo for multiple engines.
         end
     end
  end
+ set id
  find or create listing object
- 
-# TransformJsonToListing
- copy attributes
- derive attributes
-  
+
+
+# MergeJsonIntoListing
+ copy attributes 
+  if auction is ended?
+    fail(:not_found)
   if the listing is invalid
-    fail(:invalid)
-    
+    fail(:invalid)    
  
 # FinishListingDetails
  add product details
+ run loadables for shipping, etc.
  add location
  set digest
  if the listing would dupe another digest

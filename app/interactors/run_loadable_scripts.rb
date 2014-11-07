@@ -1,6 +1,14 @@
 class RunLoadableScripts
   include Interactor
 
+    before do
+      # The loadables sometimes use these messages
+      context.message1 = context.listing_json.message1
+      context.message2 = context.listing_json.message2
+      context.message3 = context.listing_json.message3
+      context.message4 = context.listing_json.message4
+    end
+
     def call
       context.site.loadables.each do |script_name|
         runner = Loadable::Script.runner(script_name)

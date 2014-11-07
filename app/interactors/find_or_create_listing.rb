@@ -2,28 +2,41 @@ class FindOrCreateListing
   include Interactor
 
   def call
-    listing_purchase_url = listing_json.url || page_url
-    listing_id = tagged_url || listing_purchase_url
-    context.listing = IronBase::Listing.find(listing_id) || IronBase::Listing.new
-    context.listing.url = {
-        page: page_url,
-        purchase: listing_purchase_url
-    }
+    context.listing = IronBase::Listing.find(listing_id) || IronBase::Listing.new(id: listing_id)
   end
 
-  def tagged_url
-    "#{listing_purchase_url}!#{listing_json.id}" if listing_json.id
-  end
-
-  def page_url
-    if context.page.code == 302    # Temporary redirect, so
-      context.page.redirect_from   # preserve original url
-    else
-      context.page.url
+  rollback do
+    if context.listing.persisted?
+      if auction_ended? || page_redirected? || listing_is_duplicate?
+        context.listing.destroy
+      else
+        context.listing.deactivate!
+      end
     end
   end
 
-  def listing_json
-    context.listing_json
+  def listing_id
+    id_tagged_url || purchase_url
+  end
+
+  def id_tagged_url
+    return unless context.listing_json.id
+    "#{purchase_url}!#{listing_json.id}"
+  end
+
+  def purchase_url
+    context.url.purchase
+  end
+
+  def page_redirected?
+    [301, 302].include?(context.page.code)
+  end
+
+  def listing_is_duplicate?
+    context.status == :duplicate
+  end
+
+  def auction_ended?
+    context.listing.auction_ended?
   end
 end
