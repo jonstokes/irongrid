@@ -6,10 +6,6 @@ module ListingWriter
       context.listing
     end
 
-    def page
-      context.page
-    end
-
     def status
       context.status
     end
@@ -36,7 +32,7 @@ module ListingWriter
 
     def should_destroy?
       status_not_found? ||
-          [301, 302].include?(page.code) && !status_valid? ||
+          redirected? && status_invalid? ||
           listing.digest_would_be_duplicate?
     end
 
@@ -52,6 +48,10 @@ module ListingWriter
       else
         Location.default_location
       end
+    end
+
+    def redirected?
+      [301, 302].include?(context.page.code)
     end
 
     def status_invalid?

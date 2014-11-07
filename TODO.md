@@ -9,3 +9,43 @@ will be a consolidated repo for multiple engines.
 
 
 
+# ValidateListingPresence
+ if the url is not_found (either page.not_found or json.not_found)
+    delete any existing listings at this url
+    fail(:not_found)
+ end    
+ 
+# FindOrCreateListing
+
+ rollback do
+    if the listing is persisted?
+        if from a redirect || status(:duplicate)
+            destroy
+        else
+            deactivate
+        end
+    end
+ end
+ find or create listing object
+ 
+# TransformJsonToListing
+ copy attributes
+ derive attributes
+  
+  if the listing is invalid
+    fail(:invalid)
+    
+ 
+# FinishListingDetails
+ add product details
+ add location
+ set digest
+ if the listing would dupe another digest
+    fail(:duplicate)
+
+
+# WriteListingToIndex
+ update image
+ save listing
+
+   
