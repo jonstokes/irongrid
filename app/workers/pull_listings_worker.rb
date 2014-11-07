@@ -31,26 +31,26 @@ class PullListingsWorker < CoreWorker
 
     while !timed_out? && json = @object_queue.pop do
       record_incr(:objects_deleted)
-      parse_and_write_object(json)
+      next unless scraper = parse(json)
+      record_incr(:db_writes)
+      update_image(scraper)
     end
 
     transition
     stop_tracking
   end
 
-  def parse_and_write_object(json)
+  def parse(json)
     if json.error?
-      notify "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"
-      return
+      notify "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"; nil
+    else
+      scraper = ParseJson.call(
+          site:         site,
+          listing_json: json.object,
+          page:         json.page
+      )
+      scraper.success? ? scraper: nil
     end
-
-    scraper = ParseJson.call(
-        site:         site,
-        listing_json: json.object,
-        page:         json.page
-    )
-    update_image(scraper) if scraper.is_valid? # TODO: what is diff between is_valid and success?
-    record_incr(:db_writes) if scraper.success?
   end
 
   def transition
@@ -62,12 +62,13 @@ class PullListingsWorker < CoreWorker
   end
 
   def update_image(scraper)
-    return unless image_source = scraper.listing["item_data"]["image_source"]
+    return unless scraper.is_valid?
+    return unless image_source = scraper.listing.image.source
     if CDN.has_image?(image_source)
-      scraper.listing["item_data"]["image_download_attempted"] = true
-      scraper.listing["item_data"]["image"] = CDN.url_for_image(image_source)
+      scraper.listing.image.download_attempted = true
+      scraper.listing.image.cdn = CDN.url_for_image(image_source)
     else
-      scraper.listing["item_data"]["image"] = CDN::DEFAULT_IMAGE_URL
+      scraper.listing.image.cdn = CDN::DEFAULT_IMAGE_URL
       @image_store.push image_source
       record_incr(:images_added)
     end
