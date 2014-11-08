@@ -62,19 +62,6 @@ class WriteListingWorker < CoreWorker
       Listing.duplicate_digest?(listing, listing_data.digest)
   end
 
-  def update_geo_data(listing_data)
-    geo_data = lookup_geo_data(listing_data.item_data.item_location)
-    listing_data.item_data.merge!(geo_data.to_h)
-  end
-
-  def lookup_geo_data(item_location)
-    if item_location.present? && (loc = db { GeoData.put(item_location) })
-      loc
-    else
-      GeoData.default_location
-    end
-  end
-
   def status_invalid?
     status == :invalid
   end

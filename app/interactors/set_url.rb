@@ -36,7 +36,7 @@ class SetUrl
   end
 
   def base_url
-    listing_json.url || page_url
+    context.listing_json.url || page_url
   end
 
   def share_a_sale_url
@@ -52,9 +52,5 @@ class SetUrl
 
   def affiliate_link_tag
     context.site.affiliate_link_tag
-  end
-
-  def listing_json
-    context.listing_json
   end
 end
