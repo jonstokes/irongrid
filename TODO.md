@@ -11,13 +11,12 @@ will be a consolidated repo for multiple engines.
 # SetUrl
  Set context.url = { page and purchase }
  rollback { delete any existing listings at this url }
-
-# ValidateListingPresence
+   
+# FindOrCreateListing
  if the url is not_found (either page.not_found or json.not_found)
     fail(:not_found)
- end    
+ end  
  
-# FindOrCreateListing
  rollback do
     if the listing is persisted?
         if from a redirect || status(:duplicate)
@@ -27,6 +26,7 @@ will be a consolidated repo for multiple engines.
         end
     end
  end
+ 
  find or create listing object
 
 # MergeJsonIntoListing
