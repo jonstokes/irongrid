@@ -2,13 +2,7 @@ class ValidateListingPresence
   include Interactor
 
   def call
-    context.fail!(status: :not_found) if not_found?
-  end
-
-  def not_found?
-    page_not_found? ||
-        listing_json_not_found? ||
-        auction_ended?
+    context.fail!(status: :not_found) if page_not_found? || listing_json_not_found?
   end
 
   def listing_json_not_found?

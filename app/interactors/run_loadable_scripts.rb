@@ -21,7 +21,7 @@ class RunLoadableScripts
             message4: context.message4
         )
         runner.attributes.each do |attribute_name, value|
-          result = value.is_a?(Proc) ? value.call(instance) : value
+          value.call(instance)
         end
       end
     end

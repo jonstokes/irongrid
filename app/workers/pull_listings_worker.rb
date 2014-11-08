@@ -61,17 +61,4 @@ class PullListingsWorker < CoreWorker
     end
   end
 
-  def update_image(scraper)
-    return unless scraper.is_valid?
-    return unless image_source = scraper.listing.image.source
-    if CDN.has_image?(image_source)
-      scraper.listing.image.download_attempted = true
-      scraper.listing.image.cdn = CDN.url_for_image(image_source)
-    else
-      scraper.listing.image.cdn = CDN::DEFAULT_IMAGE_URL
-      @image_store.push image_source
-      record_incr(:images_added)
-    end
-  end
-
 end

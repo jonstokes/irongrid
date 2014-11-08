@@ -35,8 +35,4 @@ class FindOrCreateListing
   def listing_is_duplicate?
     context.status == :duplicate
   end
-
-  def auction_ended?
-    context.listing.auction_ended?
-  end
 end
