@@ -16,6 +16,7 @@ class MergeJsonIntoListing
         domain:    context.site.domain
     }
     context.fail!(status: :auction_ended) if context.listing.auction_ended?
+    context.listing.condition ||= 'Unknown'
   end
 
   def json_mapping

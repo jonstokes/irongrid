@@ -4,10 +4,6 @@ require 'mocktra'
 
 describe WriteJsonToIndex do
 
-  before :all do
-    #create_parser_tests
-  end
-
   describe '#call' do
     before :each do
       Stretched::Registration.clear_all
@@ -36,7 +32,7 @@ describe WriteJsonToIndex do
       expect(result.status).to eq(:invalid)
     end
 
-    it 'should correctly parse a standard, in-stock retail listing from Hyatt Gun Store' do
+    it 'correctly parses a standard, in-stock retail listing from Hyatt Gun Store' do
       site = create_site "www.hyattgunstore.com"
 
       listing = File.open("spec/fixtures/stretched/output/hyatt-standard-instock.json", "r") do |f|
@@ -51,7 +47,6 @@ describe WriteJsonToIndex do
       expect(result.success?).to be_true
       IronBase::Listing.refresh_index
 
-      puts "# #{result.listing.to_hash.to_yaml}"
       item = IronBase::Listing.find result.listing.id
 
       expect(item.product.category1).to eq("Ammunition")
@@ -68,41 +63,39 @@ describe WriteJsonToIndex do
       expect(item.price.current).to eq(34999)
     end
 
-    it "parses a standard, out of stock retail listing from Impact Guns" do
+    it 'parses a standard, out of stock retail listing from Impact Guns' do
       site = create_site "www.impactguns.com", source: :fixture
 
-      listing = File.open("spec/fixtures/stretched/output/impact-standard-outofstock.json", "r") do |f|
+      listing_json = File.open("spec/fixtures/stretched/output/impact-standard-outofstock.json", "r") do |f|
         JSON.parse(f.read)
-      end.first
+      end.first.merge(engine: 'ironsights')
 
       result = WriteJsonToIndex.call(
         page: @page,
-        listing_json: Hashie::Mash.new(listing),
+        listing_json: Hashie::Mash.new(listing_json),
         site:site
       )
 
       expect(result.success?).to be_true
-      expect(result.is_valid?).to be_true
-      expect(result.not_found?).to be_false
-      listing = Listing.create(result.listing)
+      IronBase::Listing.refresh_index
 
-      expect(listing.item_condition).to eq("new")
-      expect(listing.image_source).to eq("http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg")
+      listing = IronBase::Listing.find result.listing.id
+
+      expect(listing.condition).to eq("new")
+      expect(listing.image.source).to eq("http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg")
       expect(listing.keywords).to eq("Remington, Remington 22LR CYCLONE 36HP 5000 CAS, 10047700482016")
       expect(listing.description).to include("Remington-Remington")
-      expect(listing.price_in_cents).to be_nil
-      expect(listing.sale_price_in_cents).to be_nil
-      expect(listing.current_price_in_cents).to be_nil
+      expect(listing.price).to be_nil
       expect(listing.availability).to eq("out_of_stock")
-      expect(listing.item_location).to eq("2710 South 1900 West, Ogden, UT 84401")
+      expect(listing.location.source).to eq("2710 South 1900 West, Ogden, UT 84401")
     end
 
-    it "parses a classified listing from Armslist" do
+    it 'parses a classified listing from Armslist' do
       site = create_site "www.armslist.com"
 
       listing = File.open("spec/fixtures/stretched/output/armslist.json", "r") do |f|
         JSON.parse(f.read)
-      end.first
+      end.first.merge(engine: 'ironsights')
 
       result = WriteJsonToIndex.call(
         page: @page,
@@ -110,23 +103,21 @@ describe WriteJsonToIndex do
         site: site
       )
       expect(result.success?).to be_true
-      expect(result.is_valid?).to be_true
-      expect(result.not_found?).to be_false
-      listing = Listing.create(result.listing)
-      Listing.index.refresh
-      item = Listing.index.retrieve "classified_listing", listing.id
+      IronBase::Listing.refresh_index
 
-      expect(item.category1.map(&:category1).compact.first).to eq("Guns")
-      expect(item.title.map(&:title).compact.first).to eq("fast sale springfield xd 45")
-      expect(item.item_condition).to eq("Unknown")
-      expect(item.image_source).to eq("http://cdn2.armslist.com/sites/armslist/uploads/posts/2013/05/24/1667211_01_fast_sale_springfield_xd_45_640.jpg")
+      item = IronBase::Listing.find result.listing.id
+
+      expect(item.product.category1).to eq("Guns")
+      expect(item.title.downcase).to eq("fast sale springfield xd 45")
+      expect(item.condition).to eq("Unknown")
+      expect(item.image.source).to eq("http://cdn2.armslist.com/sites/armslist/uploads/posts/2013/05/24/1667211_01_fast_sale_springfield_xd_45_640.jpg")
       expect(item.keywords).to be_nil
       expect(item.description).to include("For sale a springfield xd")
-      expect(item.price_in_cents).to eq(52500)
-      expect(item.sale_price_in_cents).to be_nil
-      expect(item.current_price_in_cents).to eq(52500)
+      expect(item.price.list).to eq(52500)
+      expect(item.price.sale).to be_nil
+      expect(item.price.current).to eq(52500)
       expect(item.availability).to eq("in_stock")
-      expect(item.item_location).to include("Southwest Washington")
+      expect(item.location.source).to include("Southwest Washington")
     end
 
     it "parses a CTD retail listing using meta tags" do
@@ -134,7 +125,7 @@ describe WriteJsonToIndex do
 
       listing = File.open("spec/fixtures/stretched/output/ctd-meta-tags.json", "r") do |f|
         JSON.parse(f.read)
-      end.first
+      end.first.merge(engine: 'ironsights')
 
       result = WriteJsonToIndex.call(
         page: @page,
@@ -142,15 +133,13 @@ describe WriteJsonToIndex do
         site: site
       )
       expect(result.success?).to be_true
-      expect(result.is_valid?).to be_true
-      expect(result.not_found?).to be_false
-      listing = Listing.create(result.listing)
-      Listing.index.refresh
-      item = Listing.index.retrieve "retail_listing", listing.id
+      IronBase::Listing.refresh_index
+
+      item = IronBase::Listing.find result.listing.id
 
       expect(item.description).to include("Lightfield offers many great hunting")
-      expect(item.image_source).to eq("http://cdn1.cheaperthandirt.com/ctd_images/mdprod/3-0307867.jpg")
-      expect(item.price_in_cents).to eq(1221)
+      expect(item.image.source).to eq("http://cdn1.cheaperthandirt.com/ctd_images/mdprod/3-0307867.jpg")
+      expect(item.price.list).to eq(1221)
     end
 
     it "parses a BGS retail listing using meta_og tags" do
@@ -158,7 +147,7 @@ describe WriteJsonToIndex do
 
       listing = File.open("spec/fixtures/stretched/output/bgs-metaog-tags.json", "r") do |f|
         JSON.parse(f.read)
-      end.first
+      end.first.merge(engine: 'ironsights')
 
       result = WriteJsonToIndex.call(
         page: @page,
@@ -166,14 +155,12 @@ describe WriteJsonToIndex do
         site: site
       )
       expect(result.success?).to be_true
-      expect(result.is_valid?).to be_true
-      expect(result.not_found?).to be_false
-      listing = Listing.create(result.listing)
-      Listing.index.refresh
-      item = Listing.index.retrieve "retail_listing", listing.id
+      IronBase::Listing.refresh_index
 
-      expect(item.title.map(&:title).compact.first).to eq("Silva Olive Drab Compass")
-      expect(item.image_source).to eq("http://www.budsgunshop.com/catalog/images/15118.jpg")
+      item = IronBase::Listing.find result.listing.id
+
+      expect(item.title).to eq("Silva Olive Drab Compass")
+      expect(item.image.source).to eq("http://www.budsgunshop.com/catalog/images/15118.jpg")
     end
   end
 end
