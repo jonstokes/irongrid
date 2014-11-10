@@ -21,7 +21,7 @@ class FindOrCreateListing
 
   def id_tagged_url
     return unless context.listing_json.id
-    "#{purchase_url}!#{listing_json.id}"
+    "#{purchase_url}!#{context.listing_json.id}"
   end
 
   def purchase_url
