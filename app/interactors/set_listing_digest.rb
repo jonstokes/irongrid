@@ -26,10 +26,16 @@ class SetListingDigest
   def digest
     digest_string = ''
     get_digest_attributes(default_digest_attributes).each do |attr|
-      next unless value = instance_eval("context.listing.#{attr}")
+      next unless value = get_value(attr)
       digest_string << "#{value}"
     end
     Digest::MD5.hexdigest(digest_string)
+  end
+
+  def get_value(attr)
+    instance_eval("context.listing.#{attr}")
+  rescue
+    nil
   end
 
   def get_digest_attributes(defaults)
