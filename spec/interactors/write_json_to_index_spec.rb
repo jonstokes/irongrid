@@ -2,72 +2,70 @@ require 'spec_helper'
 require 'digest/md5'
 require 'mocktra'
 
-describe ParseJson do
+describe WriteJsonToIndex do
 
   before :all do
-    create_parser_tests
-    @page = Hashie::Mash.new(
-      fetched: true,
-      body: "string",
-      code: 200
-    )
+    #create_parser_tests
   end
 
-  describe "#perform" do
+  describe '#call' do
     before :each do
       Stretched::Registration.clear_all
       register_globals
       load_scripts
+      @page = Hashie::Mash.new(
+          fetched: true,
+          body: "string",
+          code: 200
+      )
     end
 
-    it "fails on an invalid listing" do
+    it 'fails on an invalid listing' do
       site = create_site "www.hyattgunstore.com"
 
       listing = File.open("spec/fixtures/stretched/output/hyatt-invalid.json", "r") do |f|
         JSON.parse(f.read)
       end.first
 
-      result = ParseJson.perform(
+      result = WriteJsonToIndex.call(
         page: @page,
-        object: Hashie::Mash.new(listing),
+        listing_json: Hashie::Mash.new(listing),
         site: site
       )
       expect(result.success?).to be_false
       expect(result.status).to eq(:invalid)
-      expect(result.is_valid?).to be_false
     end
 
-    it "should correctly parse a standard, in-stock retail listing from Hyatt Gun Store" do
+    it 'should correctly parse a standard, in-stock retail listing from Hyatt Gun Store' do
       site = create_site "www.hyattgunstore.com"
 
       listing = File.open("spec/fixtures/stretched/output/hyatt-standard-instock.json", "r") do |f|
         JSON.parse(f.read)
-      end.first
+      end.first.merge(engine: 'ironsights')
 
-      result = ParseJson.perform(
+      result = WriteJsonToIndex.call(
         page: @page,
-        object: Hashie::Mash.new(listing),
+        listing_json: Hashie::Mash.new(listing),
         site: site
       )
       expect(result.success?).to be_true
-      expect(result.is_valid?).to be_true
-      expect(result.not_found?).to be_false
-      listing = Listing.create(result.listing)
-      Listing.index.refresh
-      item = Listing.index.retrieve "retail_listing", listing.id
+      IronBase::Listing.refresh_index
 
-      expect(item.category1.map(&:category1).compact.first).to eq("Ammunition")
-      expect(item.seller_domain).to eq(site.domain)
-      expect(item.caliber_category.map(&:caliber_category).compact.first).to eq("rifle")
-      expect(item.manufacturer.map(&:manufacturer).compact.first).to eq("Federal")
-      expect(item.title.map(&:title).compact.first.downcase).to eq("federal xm855 5.56 ammo 62 grain fmj, 420 rounds, stripper clips in ammo can")
-      expect(item.item_condition.downcase).to eq("new")
-      expect(item.image_source.downcase).to eq("http://www.hyattgunstore.com/images/p/76472-p.jpg")
+      puts "# #{result.listing.to_hash.to_yaml}"
+      item = IronBase::Listing.find result.listing.id
+
+      expect(item.product.category1).to eq("Ammunition")
+      expect(item.seller.domain).to eq(site.domain)
+      expect(item.product.caliber_category).to eq("rifle")
+      expect(item.product.manufacturer).to eq("Federal")
+      expect(item.title.downcase).to eq("federal xm855 5.56 ammo 62 grain fmj, 420 rounds, stripper clips in ammo can")
+      expect(item.condition.downcase).to eq("new")
+      expect(item.image.source.downcase).to eq("http://www.hyattgunstore.com/images/p/76472-p.jpg")
       expect(item.keywords).to eq("Federal XM855 5.56mm 62 Grain FMJ, 420 Rounds on 30-Round Stripper Clips,")
       expect(item.description.downcase).to include("federal 5.56 ammo in a can is available in")
-      expect(item.price_in_cents).to be_nil
-      expect(item.sale_price_in_cents).to eq(34999)
-      expect(item.current_price_in_cents).to eq(34999)
+      expect(item.price.list).to be_nil
+      expect(item.price.sale).to eq(34999)
+      expect(item.price.current).to eq(34999)
     end
 
     it "parses a standard, out of stock retail listing from Impact Guns" do
@@ -77,9 +75,9 @@ describe ParseJson do
         JSON.parse(f.read)
       end.first
 
-      result = ParseJson.perform(
+      result = WriteJsonToIndex.call(
         page: @page,
-        object: Hashie::Mash.new(listing),
+        listing_json: Hashie::Mash.new(listing),
         site:site
       )
 
@@ -106,9 +104,9 @@ describe ParseJson do
         JSON.parse(f.read)
       end.first
 
-      result = ParseJson.perform(
+      result = WriteJsonToIndex.call(
         page: @page,
-        object: Hashie::Mash.new(listing),
+        listing_json: Hashie::Mash.new(listing),
         site: site
       )
       expect(result.success?).to be_true
@@ -138,9 +136,9 @@ describe ParseJson do
         JSON.parse(f.read)
       end.first
 
-      result = ParseJson.perform(
+      result = WriteJsonToIndex.call(
         page: @page,
-        object: Hashie::Mash.new(listing),
+        listing_json: Hashie::Mash.new(listing),
         site: site
       )
       expect(result.success?).to be_true
@@ -162,9 +160,9 @@ describe ParseJson do
         JSON.parse(f.read)
       end.first
 
-      result = ParseJson.perform(
+      result = WriteJsonToIndex.call(
         page: @page,
-        object: Hashie::Mash.new(listing),
+        listing_json: Hashie::Mash.new(listing),
         site: site
       )
       expect(result.success?).to be_true
