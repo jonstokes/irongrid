@@ -3,8 +3,8 @@ class MergeJsonIntoListing
   include ObjectMapper
 
   def call
-    context.fail!(status: :invalid) unless context.listing_json.is_valid?
-    context.listing.timezone = site.timezone
+    context.fail!(status: :invalid) unless context.listing_json.valid
+    context.listing.timezone = context.site.timezone
     transform(
         source:      context.listing_json,
         destination: context.listing,
