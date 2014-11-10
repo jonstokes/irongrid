@@ -31,13 +31,36 @@ class PullListingsWorker < CoreWorker
 
     while !timed_out? && json = @object_queue.pop do
       record_incr(:objects_deleted)
-      next unless scraper = parse(json)
+      if page_not_found?(json) || listing_json_not_found?(json)
+        destroy_listings(json)
+        next
+      end
+      parse(json)
       record_incr(:db_writes)
-      update_image(scraper)
     end
 
     transition
     stop_tracking
+  end
+
+  def destroy_listings(json)
+    [json.page.redirect_from, json.page.url].each do |url|
+      Listing.find_by_url(url).each do |listing|
+        listing.destroy
+      end
+    end
+  end
+
+  def listing_json_not_found?(json)
+    json.object.nil? || json.object.not_found
+  end
+
+  def page_not_found?(json)
+    !json.page.fetched? ||
+        json.page.error ||
+        !json.page.body? ||
+        json.page.code.nil? ||
+        (json.page.code.to_i == 404)
   end
 
   def parse(json)
