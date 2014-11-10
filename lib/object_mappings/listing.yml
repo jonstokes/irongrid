@@ -30,6 +30,7 @@ product:
   upc: product_upc
   sku: product_sku
   mpn: product_mpn
+  category1: product_category1
   manufacturer: product_manufacturer
   weight:
     shipping: weight_in_pounds
