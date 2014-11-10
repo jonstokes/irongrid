@@ -1,4 +1,4 @@
-class SetLocation
+class SetListingLocation
   include Interactor
 
   def call
