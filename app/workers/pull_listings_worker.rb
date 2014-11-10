@@ -35,8 +35,7 @@ class PullListingsWorker < CoreWorker
         destroy_listings_at_url(json)
         next
       end
-      parse(json)
-      record_incr(:db_writes)
+      record_incr(:db_writes) if parse(json)
     end
 
     transition
@@ -67,12 +66,12 @@ class PullListingsWorker < CoreWorker
     if json.error?
       notify "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"; nil
     else
-      scraper = ParseJson.call(
+      result = WriteJsonToIndex.call(
           site:         site,
           listing_json: json.object,
           page:         json.page
       )
-      scraper.success? ? scraper: nil
+      result.success?
     end
   end
 

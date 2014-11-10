@@ -2,6 +2,7 @@ class SetListingLocation
   include Interactor
 
   def call
+    listing.location ||= {}
     return if listing.location.coordinates
     geo_data = lookup_geo_data(listing.location.source)
     listing.location.merge!(geo_data.to_h)

@@ -1,16 +1,11 @@
 require 'spec_helper'
-require 'sidekiq/testing'
 
 describe PullListingsWorker do
+  class Mapper
+    include ObjectMapper
+  end
+
   before :each do
-    # Sidekiq
-    Sidekiq::Testing.disable!
-    clear_sidekiq
-
-    # Stretched
-    Stretched::Registration.clear_all
-    register_stretched_globals
-
     # IronGrid
     @site = create_site "www.retailer.com"
     LinkMessageQueue.new(domain: @site.domain).clear
@@ -51,19 +46,18 @@ describe PullListingsWorker do
     @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
   end
 
-  after :each do
-    clear_sidekiq
-    Sidekiq::Testing.fake!
-  end
-
   describe '#perform' do
     describe 'Existing listing' do
       it 'updates a listing with new attributes' do
-        existing_listing = create(:retail_listing, :stale)
+        existing_listing = create(:listing, :retail)
         page = @page.merge(url: existing_listing.url.page)
+        new_listing_json = Mapper.new.reverse_map(existing_listing).merge(
+            title: 'Updated Listing',
+            valid: true
+        ).to_hash
 
         @object_q.add @object.merge(
-            object: existing_listing.data.to_hash.merge(title: 'Updated Listing'),
+            object: new_listing_json,
             page:   page
         )
 
@@ -73,7 +67,7 @@ describe PullListingsWorker do
         listing = IronBase::Listing.first
         expect(listing.title).to eq('Updated Listing')
         expect(listing.url).to eq(existing_listing.url)
-        expect(listing.update_count).to eq(1)
+        expect(listing.persisted?).to be_true
         expect(updated_today?(listing)).to be_true
       end
 
