@@ -5,8 +5,10 @@ class UpdateListingImage
     return unless image_source = listing.image.try(:source)
     listing.image ||= {}
     if CDN.has_image?(image_source)
-      listing.image.download_attempted = true
-      listing.image.merge!(cdn: CDN.url_for_image(image_source))
+      listing.image.merge!(
+          cdn: CDN.url_for_image(image_source),
+          download_attempted: true
+      )
     else
       listing.image.merge!(cdn: CDN::DEFAULT_IMAGE_URL)
       ImageQueue.new(domain: context.site.domain).push image_source

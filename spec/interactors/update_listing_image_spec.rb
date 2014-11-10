@@ -40,8 +40,8 @@ describe UpdateListingImage do
           listing: @listing
       ).listing
       expect(@iq.size).to eq(0)
-
       expect(listing.image.cdn).to eq(CDN.url_for_image(@image_source))
+      expect(listing.image.download_attempted).to eq(true)
 
     end
   end
