@@ -12,6 +12,9 @@ will be a consolidated repo for multiple engines.
  Set context.url = { page and purchase }
    
 # FindOrCreateListing
+ set listing.id
+ find or create listing object
+ 
   rollback do
     if not_found
         delete any existing listings at this url
@@ -23,9 +26,6 @@ will be a consolidated repo for multiple engines.
         end
     end
  end
- 
- set listing.id
- find or create listing object
  
 # MergeJsonIntoListing
  set listing.url
