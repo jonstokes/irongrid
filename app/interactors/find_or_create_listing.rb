@@ -7,7 +7,7 @@ class FindOrCreateListing
 
   rollback do
     if context.listing.persisted?
-      if listing_is_duplicate? || page_redirected? || auction_ended?
+      if should_destroy?
         context.listing.destroy
       else
         context.listing.deactivate!
@@ -28,8 +28,18 @@ class FindOrCreateListing
     context.url.purchase
   end
 
+  def should_destroy?
+    listing_is_duplicate? ||
+        auction_ended? ||
+        (page_redirected? && listing_is_invalid?)
+  end
+
   def page_redirected?
     [301, 302].include?(context.page.code)
+  end
+
+  def listing_is_invalid?
+    context.status == :invalid
   end
 
   def auction_ended
