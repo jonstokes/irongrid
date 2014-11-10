@@ -10,8 +10,25 @@ describe FindOrCreateListing do
   end
 
   describe '#call' do
-    it 'should create a new listing object for a listing that does not exist in the index' do
-      pending 'Example'
+    it 'retrieves a listing object for a listing that already exists in the index' do
+      listing = create(:listing)
+      IronBase::Listing.refresh_index
+      listing2 = FindOrCreateListing.call(listing_json: listing.data, url: listing.url).listing
+      expect(listing2.persisted?).to eq(true)
+      expect(IronBase::Listing.count).to eq(1)
+      expect(IronBase::Listing.find(listing2.id).id).to eq(listing.id)
+    end
+
+    it 'returns a new, unsaved listing object when a listing with this id does not exist in the index' do
+      listing = create(:listing)
+      IronBase::Listing.refresh_index
+      listing2 = FindOrCreateListing.call(
+          listing_json: listing.data,
+          url: listing.url.merge(purchase: "#{@url}-123")
+      ).listing
+      expect(listing2.persisted?).to eq(false)
+      expect(IronBase::Listing.count).to eq(1)
+      expect(IronBase::Listing.find(listing2.id)).to be_nil
     end
   end
 
