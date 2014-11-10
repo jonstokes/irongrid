@@ -71,52 +71,66 @@ describe PullListingsWorker do
         expect(updated_today?(listing)).to be_true
       end
 
-      it "updates a feed listing with new attributes" do
-        existing_listing = FactoryGirl.create(:retail_listing, :stale)
-        page = @page.merge(
-            'url' => 'http://www.retailer.com/feed.xml'
-        )
-        listing_data = @listing_data.merge(
-            'url'    =>  existing_listing.url,
-            'digest' => 'bbbb'
-        )
-        WriteListingWorker.new.perform(
-            page:    page,
-            listing: listing_data,
-            status:  'success'
-        )
-        expect(Listing.count).to eq(1)
-        listing = Listing.first
-        expect(listing.digest).to eq("bbbb")
-        expect(listing.url).to eq(existing_listing.url)
-        expect(listing.update_count).to eq(1)
+      it 'updates a feed listing with new attributes' do
+        existing_listing = create(:listing, :retail)
+        existing_listing.url.page = 'http://www.retailer.com/feed.xml'
+        existing_listing.save
+
+        page = @page.merge(url: 'http://www.retailer.com/feed.xml')
+
+        new_listing_json = Mapper.new.reverse_map(existing_listing).merge(
+            title: 'Updated Listing',
+            url: existing_listing.url.purchase,
+            valid: true
+        ).to_hash
+
+        @object_q.add @object.merge(
+                          object: new_listing_json,
+                          page:   page
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+        expect(IronBase::Listing.count).to eq(1)
+        listing = IronBase::Listing.first
+        expect(listing.title).to eq('Updated Listing')
+        expect(listing.id).to eq(existing_listing.id)
+        expect(listing.url.page).to eq(existing_listing.url.page)
+        expect(listing.url.purchase).to eq(existing_listing.url.purchase)
         expect(updated_today?(listing)).to be_true
       end
 
-      it "deactivates an invalid feed listing" do
-        existing_listing = FactoryGirl.create(:retail_listing, :stale)
-        page = @page.merge(
-            'url' => 'http://www.retailer.com/feed.xml'
-        )
-        listing_data = @listing_data.merge(
-            'url'    => existing_listing.url,
-            'digest' => 'bbbb'
-        )
-        WriteListingWorker.new.perform(
-            page:    page,
-            listing: listing_data,
-            status:  'invalid'
-        )
-        expect(Listing.count).to eq(1)
-        listing = Listing.first
-        expect(listing.digest).to eq(existing_listing.digest)
-        expect(listing.url).to eq(existing_listing.url)
-        expect(listing.update_count).to eq(1)
-        expect(updated_today?(listing)).to be_true
+      it 'deactivates an invalid feed listing' do
+        existing_listing = create(:listing, :retail)
+        existing_listing.url.page = 'http://www.retailer.com/feed.xml'
+        existing_listing.save
+
+        page = @page.merge(url: 'http://www.retailer.com/feed.xml')
+
+        new_listing_json = Mapper.new.reverse_map(existing_listing).merge(
+            title: 'Updated Listing',
+            url: existing_listing.url.purchase,
+            valid: false
+        ).to_hash
+
+        @object_q.add @object.merge(
+                          object: new_listing_json,
+                          page:   page
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+        listing = IronBase::Listing.first
+
         expect(listing.inactive?).to be_true
+        expect(listing.digest).to eq(existing_listing.digest)
+        expect(listing.url.purchase).to eq(existing_listing.url.purchase)
+        expect(listing.url.page).to eq(existing_listing.url.page)
+        expect(listing.id).to eq(existing_listing.id)
+        expect(updated_today?(listing)).to be_true
       end
 
-      it "deactivates an invalid retail listing" do
+      it 'deactivates an invalid retail listing' do
         existing_listing = FactoryGirl.create(:retail_listing, :stale)
         page = @page.merge('url' => existing_listing.url)
 
@@ -125,7 +139,6 @@ describe PullListingsWorker do
             listing: @listing_data.merge("digest" => "bbbb"),
             status:  'invalid'
         )
-        expect(Listing.count).to eq(1)
         listing = Listing.first
         expect(listing.digest).to eq(existing_listing.digest)
         expect(listing.url).to eq(existing_listing.url)
@@ -253,12 +266,10 @@ describe PullListingsWorker do
 
     end
 
-
-
     it "pops objects from the ObjectQueue for the domain" do
       @object_q.add(@object)
       @worker.perform(domain: @site.domain)
-      expect(WriteListingWorker._jobs.count).to eq(1)
+      expect(@object_q.size).to eq(0)
     end
 
     it "correctly tags a 404 link" do
