@@ -6,14 +6,8 @@ class FindOrCreateListing
   end
 
   rollback do
-    if not_found?
-      [context.page.redirect_from, context.page.url].each do |url|
-        Listing.find_by_url(url).each do |listing|
-          listing.destroy
-        end
-      end
-    elsif context.listing.persisted?
-      if listing_is_duplicate? || page_redirected?
+    if context.listing.persisted?
+      if listing_is_duplicate? || page_redirected? || auction_ended?
         context.listing.destroy
       else
         context.listing.deactivate!
@@ -38,8 +32,8 @@ class FindOrCreateListing
     [301, 302].include?(context.page.code)
   end
 
-  def not_found?
-    context.status == :not_found
+  def auction_ended
+    context.status == :auction_ended
   end
 
   def listing_is_duplicate?

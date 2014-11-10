@@ -3,6 +3,7 @@ class MergeJsonIntoListing
   include ObjectMapper
 
   def call
+    context.fail!(status: :invalid) unless context.listing_json.is_valid?
     transform(
         source:      context.listing_json,
         destination: context.listing,
@@ -13,7 +14,11 @@ class MergeJsonIntoListing
         site_name: context.site.name,
         domain:    context.site.domain
     }
+    context.fail!(status: :auction_ended) if auction_ended?
+  end
 
+  def auction_ended?
+    context.listing.auction? && context.listing.auction_ended?
   end
 
   def json_mapping
