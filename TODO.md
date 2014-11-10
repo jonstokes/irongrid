@@ -16,9 +16,7 @@ will be a consolidated repo for multiple engines.
  find or create listing object
  
   rollback do
-    if not_found
-        delete any existing listings at this url
-    elsif the listing is persisted?
+    if the listing is persisted?
         if from a redirect || status(:duplicate)
             destroy
         else
@@ -28,16 +26,11 @@ will be a consolidated repo for multiple engines.
  end
  
 # MergeJsonIntoListing
+ fail :invalid if listing is invalid
  set listing.url
- copy listing attributes 
+ copy listing attributes
+ fail :auction_ended if auction ended?
  
-# ValidateListing
- if the url is not_found (either page.not_found or json.not_found or auction ended)
-    fail(:not_found)
- end 
- if the listing is invalid?
-    fail(:invalid)
-
 # SetProductDetails
  add product details
 

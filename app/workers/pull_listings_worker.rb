@@ -32,7 +32,7 @@ class PullListingsWorker < CoreWorker
     while !timed_out? && json = @object_queue.pop do
       record_incr(:objects_deleted)
       if page_not_found?(json) || listing_json_not_found?(json)
-        destroy_listings(json)
+        destroy_listings_at_url(json)
         next
       end
       parse(json)
@@ -43,7 +43,7 @@ class PullListingsWorker < CoreWorker
     stop_tracking
   end
 
-  def destroy_listings(json)
+  def destroy_listings_at_url(json)
     [json.page.redirect_from, json.page.url].each do |url|
       Listing.find_by_url(url).each do |listing|
         listing.destroy

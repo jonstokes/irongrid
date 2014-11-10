@@ -3,6 +3,9 @@ class MergeJsonIntoListing
   include ObjectMapper
 
   def call
+    # TODO: put all the timezone translation logic into IronBase::Listing
+    # TODO: Set timezone at same time as shipping on IronBase::Listing
+
     context.fail!(status: :invalid) unless context.listing_json.is_valid?
     transform(
         source:      context.listing_json,
