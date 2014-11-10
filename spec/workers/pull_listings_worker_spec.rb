@@ -18,16 +18,6 @@ describe PullListingsWorker do
     CDN.clear!
 
     # Vars
-    @worker = PullListingsWorker.new
-    @page = {
-      url:     "http://#{@site.domain}/1",
-      headers: "",
-      code:    200,
-      body:    true,
-      error:   nil,
-      fetched: true,
-      response_time: 100
-    }
     @listing_json = {
       "valid"               => true,
       "condition"           =>"new",
@@ -43,6 +33,16 @@ describe PullListingsWorker do
       "product_category1"   => "Guns",
       "product_sku"         => "1911-CIT45CSPHB",
     }
+    @worker = PullListingsWorker.new
+    @page = {
+        url:     "http://#{@site.domain}/1",
+        headers: "",
+        code:    200,
+        body:    true,
+        error:   nil,
+        fetched: true,
+        response_time: 100
+    }
     @object = {
       session: {},
       page: @page,
@@ -56,7 +56,211 @@ describe PullListingsWorker do
     Sidekiq::Testing.fake!
   end
 
-  describe "#perform" do
+  describe '#perform' do
+    describe 'Existing listing' do
+      it 'updates a listing with new attributes' do
+        existing_listing = create(:retail_listing, :stale)
+        page = @page.merge(url: existing_listing.url.page)
+
+        @object_q.add @object.merge(
+            object: existing_listing.data.to_hash.merge(title: 'Updated Listing'),
+            page:   page
+        )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+        expect(IronBase::Listing.count).to eq(1)
+        listing = IronBase::Listing.first
+        expect(listing.title).to eq('Updated Listing')
+        expect(listing.url).to eq(existing_listing.url)
+        expect(listing.update_count).to eq(1)
+        expect(updated_today?(listing)).to be_true
+      end
+
+      it "updates a feed listing with new attributes" do
+        existing_listing = FactoryGirl.create(:retail_listing, :stale)
+        page = @page.merge(
+            'url' => 'http://www.retailer.com/feed.xml'
+        )
+        listing_data = @listing_data.merge(
+            'url'    =>  existing_listing.url,
+            'digest' => 'bbbb'
+        )
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: listing_data,
+            status:  'success'
+        )
+        expect(Listing.count).to eq(1)
+        listing = Listing.first
+        expect(listing.digest).to eq("bbbb")
+        expect(listing.url).to eq(existing_listing.url)
+        expect(listing.update_count).to eq(1)
+        expect(updated_today?(listing)).to be_true
+      end
+
+      it "deactivates an invalid feed listing" do
+        existing_listing = FactoryGirl.create(:retail_listing, :stale)
+        page = @page.merge(
+            'url' => 'http://www.retailer.com/feed.xml'
+        )
+        listing_data = @listing_data.merge(
+            'url'    => existing_listing.url,
+            'digest' => 'bbbb'
+        )
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: listing_data,
+            status:  'invalid'
+        )
+        expect(Listing.count).to eq(1)
+        listing = Listing.first
+        expect(listing.digest).to eq(existing_listing.digest)
+        expect(listing.url).to eq(existing_listing.url)
+        expect(listing.update_count).to eq(1)
+        expect(updated_today?(listing)).to be_true
+        expect(listing.inactive?).to be_true
+      end
+
+      it "deactivates an invalid retail listing" do
+        existing_listing = FactoryGirl.create(:retail_listing, :stale)
+        page = @page.merge('url' => existing_listing.url)
+
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: @listing_data.merge("digest" => "bbbb"),
+            status:  'invalid'
+        )
+        expect(Listing.count).to eq(1)
+        listing = Listing.first
+        expect(listing.digest).to eq(existing_listing.digest)
+        expect(listing.url).to eq(existing_listing.url)
+        expect(listing.update_count).to eq(1)
+        expect(updated_today?(listing)).to be_true
+        expect(listing.active?).to be_false
+      end
+
+      it "deletes a listing that redirects to an invalid page" do
+        existing_listing = FactoryGirl.create(:retail_listing, :stale)
+        page = @page.merge(
+            'url'           => @not_found_redirect,
+            'redirect_from' => existing_listing.url,
+            'code'          => 301
+        )
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: @listing_data.merge("digest" => "bbbb"),
+            status:  'invalid'
+        )
+        expect(Listing.count).to eq(0)
+      end
+
+      it "deletes a listing that redirects to a not_found page" do
+        existing_listing = FactoryGirl.create(:retail_listing, :stale)
+        page = @page.merge(
+            'url'           => @not_found_redirect,
+            'redirect_from' => existing_listing.url,
+            'code'          => 301
+        )
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: @listing_data.merge("digest" => "bbbb"),
+            status:  'not_found'
+        )
+        expect(Listing.count).to eq(0)
+      end
+
+      it "updates a listing that 301 moved permanently with a new url" do
+        existing_listing = FactoryGirl.create(:retail_listing, :stale)
+        page = @page.merge(
+            'url'           => @redirect_url,
+            'redirect_from' => existing_listing.url,
+            'code'          => 301
+        )
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: @listing_data.merge("digest" => "bbbb"),
+            status:  'success'
+        )
+        expect(Listing.count).to eq(1)
+        listing = Listing.first
+        expect(listing.digest).to eq("bbbb")
+        expect(listing.url).to eq(@redirect_url)
+        expect(listing.update_count).to eq(1)
+        expect(updated_today?(listing)).to be_true
+      end
+
+      it "updates a listing that 302 moved temporarily, but keeps original url" do
+        existing_listing = FactoryGirl.create(:retail_listing, :stale)
+        page = @page.merge(
+            'url'           => @redirect_url,
+            'redirect_from' => existing_listing.url,
+            'code'          => 302
+        )
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: @listing_data.merge("digest" => "bbbb"),
+            status:  'success'
+        )
+        expect(Listing.count).to eq(1)
+        listing = Listing.first
+        expect(listing.digest).to eq("bbbb")
+        expect(listing.url).to eq(existing_listing.url)
+        expect(listing.update_count).to eq(1)
+        expect(updated_today?(listing)).to be_true
+      end
+
+      it "deletes a listing that 404s" do
+        existing_listing = FactoryGirl.create(:retail_listing, :stale)
+        page = @page.merge(
+            'url'           => existing_listing.url,
+            'code'          => 404
+        )
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: @listing_data.merge("digest" => "bbbb"),
+            status:  'not_found'
+        )
+        expect(Listing.count).to eq(0)
+      end
+
+      it "deletes a listing that is discovered to be a duplicate" do
+        # A retail listing is created in the database
+        listing_v1 = FactoryGirl.create(:retail_listing, :stale)
+
+        # Later, that same listing moves (HTTP 301) to a new url and goes on sale,
+        # so that the url, price, an digest are all different. This platform will
+        # therefore think this is a new listing, although it's really an updated
+        # version of listing_v1.
+        listing_v2 = FactoryGirl.create(:retail_listing)
+
+        # Now when we try to refresh listing_v1, the platform will realize that
+        # it has a dupe because the new url & digest for the refreshed listing_v1
+        # already exists in the database as listing_v2. Therefore
+        # we need to delete listing_v1.
+        page = @page.merge(
+            'url'           => listing_v2.url,
+            'redirect_from' => listing_v1.url,
+            'code'          => 301
+        )
+        WriteListingWorker.new.perform(
+            page:    page,
+            listing: @listing_data.merge("digest" => listing_v2.digest),
+            status:  'success'
+        )
+        expect(Listing.count).to eq(1)
+        expect { Listing.find(listing_v1.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        listing = Listing.find(listing_v2.id)
+
+        expect(listing.url).to eq(page['url'])
+        expect(listing.digest).to eq(listing_v2.digest)
+        expect(updated_today?(listing)).to be_true
+      end
+
+    end
+
+
+
     it "pops objects from the ObjectQueue for the domain" do
       @object_q.add(@object)
       @worker.perform(domain: @site.domain)
