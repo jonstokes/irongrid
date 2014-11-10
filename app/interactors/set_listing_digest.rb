@@ -1,4 +1,4 @@
-class SetDigest
+class SetListingDigest
   include Interactor
 
   DEFAULT_DIGEST_ATTRIBUTES = %w(
@@ -20,7 +20,7 @@ class SetDigest
 
   def call
     context.listing.digest = digest
-    context.fail(status: :duplicate) if context.listing.digest_would_be_duplicate?
+    context.fail(status: :duplicate) if context.listing.digest_is_duplicate?
   end
 
   def digest
