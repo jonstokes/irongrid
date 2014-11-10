@@ -119,21 +119,21 @@ FactoryGirl.define do
     updated_at { 10.days.ago }
   end
 
-  factory :auction_listing do
-    type "AuctionListing"
+  trait :auction do
+    type 'AuctionListing'
     auction_ends 10.days.from_now
-
-    trait :ended do
-      auction_ends 10.days.ago
-    end
   end
 
-  factory :classified_listing do
+  trait :ended_auction do
+    type 'AuctionListing'
+    auction_ends 2.days.ago
+  end
+
+  trait :classified do
     type "ClassifiedListing"
   end
 
-  factory :retail_listing do
+  trait :retail do
     type "RetailListing"
   end
-
 end

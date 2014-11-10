@@ -1,10 +1,5 @@
 require 'spec_helper'
 
-def updated_today?(listing)
-  update = Time.parse(listing.updated_at)
-  update >= Time.now
-end
-
 describe WriteListingWorker do
 
   # The desired behaviors for the following scenarios are broken out

@@ -40,3 +40,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+def updated_today?(listing)
+  update = listing.updated_at.is_a?(String) ? Time.parse(listing.updated_at) : listing.updated_at
+  update >= Time.now - 5.hours
+end

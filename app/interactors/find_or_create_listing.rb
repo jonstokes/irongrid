@@ -42,7 +42,7 @@ class FindOrCreateListing
     context.status == :invalid
   end
 
-  def auction_ended
+  def auction_ended?
     context.status == :auction_ended
   end
 
