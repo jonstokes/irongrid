@@ -8,15 +8,6 @@ class SetUrl
     )
   end
 
-  rollback do
-    next unless context.status == :not_found
-    [context.page.redirect_from, context.page.url].each do |url|
-      Listing.find_by_url(url).each do |listing|
-        listing.destroy
-      end
-    end
-  end
-
   def page_url
     if context.page.code == 302    # Temporary redirect, so
       context.page.redirect_from   # preserve original url

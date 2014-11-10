@@ -2,13 +2,18 @@ class FindOrCreateListing
   include Interactor
 
   def call
-    context.fail!(status: :not_found) if page_not_found? || listing_json_not_found?
     context.listing = IronBase::Listing.find(listing_id) || IronBase::Listing.new(id: listing_id)
   end
 
   rollback do
-    if context.listing.persisted?
-      if auction_ended? || page_redirected? || listing_is_duplicate?
+    if not_found?
+      [context.page.redirect_from, context.page.url].each do |url|
+        Listing.find_by_url(url).each do |listing|
+          listing.destroy
+        end
+      end
+    elsif context.listing.persisted?
+      if listing_is_duplicate? || page_redirected?
         context.listing.destroy
       else
         context.listing.deactivate!
@@ -33,19 +38,11 @@ class FindOrCreateListing
     [301, 302].include?(context.page.code)
   end
 
+  def not_found?
+    context.status == :not_found
+  end
+
   def listing_is_duplicate?
     context.status == :duplicate
-  end
-
-  def listing_json_not_found?
-    context.listing_json.nil? || context.listing_json.not_found
-  end
-
-  def page_not_found?
-    !page.fetched? || page.error || !page.body? || page.code.nil? || (page.code.to_i == 404)
-  end
-
-  def page
-    context.page
   end
 end

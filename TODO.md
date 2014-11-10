@@ -10,15 +10,12 @@ will be a consolidated repo for multiple engines.
 
 # SetUrl
  Set context.url = { page and purchase }
- rollback { delete any existing listings at this url }
    
 # FindOrCreateListing
- if the url is not_found (either page.not_found or json.not_found)
-    fail(:not_found)
- end  
- 
- rollback do
-    if the listing is persisted?
+  rollback do
+    if not_found
+        delete any existing listings at this url
+    elsif the listing is persisted?
         if from a redirect || status(:duplicate)
             destroy
         else
@@ -27,17 +24,20 @@ will be a consolidated repo for multiple engines.
     end
  end
  
- find or create listing object
-
-# MergeJsonIntoListing
- if the listing is invalid
-    fail(:invalid)  
- set listing.url
  set listing.id
- copy listing attributes 
- if auction is ended?
-    fail(:not_found)  
+ find or create listing object
  
+# MergeJsonIntoListing
+ set listing.url
+ copy listing attributes 
+ 
+# ValidateListing
+ if the url is not_found (either page.not_found or json.not_found or auction ended)
+    fail(:not_found)
+ end 
+ if the listing is invalid?
+    fail(:invalid)
+
 # SetProductDetails
  add product details
 

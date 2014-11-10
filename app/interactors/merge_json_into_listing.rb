@@ -3,8 +3,6 @@ class MergeJsonIntoListing
   include ObjectMapper
 
   def call
-    context.fail!(status: :invalid) unless context.listing_json.is_valid?
-
     transform(
         source:      context.listing_json,
         destination: context.listing,
@@ -16,9 +14,6 @@ class MergeJsonIntoListing
         domain:    context.site.domain
     }
 
-    # TODO: put all the timezone translation logic into IronBase::Listing
-    # TODO: Also add timezone to all auction listings in stretched
-    fail(:not_found) if context.listing.auction? && context.listing.auction_ended?
   end
 
   def json_mapping
