@@ -23,8 +23,9 @@ describe RunLoadableScripts do
           discount: {
               in_cents: 100,
               percent: 10
-          },
-        )
+          }
+        ),
+        listing_json: Hashie::Mash.new
       }
       result = RunLoadableScripts.call(opts)
       expect(result.listing.shipping_cost).to eq(995)
