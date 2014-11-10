@@ -1,14 +1,16 @@
 require 'spec_helper'
 
-describe ListingWriter::SetDigest do
+describe SetListingDigest do
   it 'should correctly digest a listing' do
+    url = "http://www.hyattgunstore.com/federal-xm855-5.56-ammo-62-grain-fmj-420-rounds-on-30-round-stripper-clips.html"
     site = create_site 'www.hyattgunstore.com'
     opts = {
       site: site,
       listing: IronBase::Listing.new(
+        id: url,
         url: {
-            page: "http://www.hyattgunstore.com/federal-xm855-5.56-ammo-62-grain-fmj-420-rounds-on-30-round-stripper-clips.html",
-            purchase: "http://www.hyattgunstore.com/federal-xm855-5.56-ammo-62-grain-fmj-420-rounds-on-30-round-stripper-clips.html"
+            page:     url,
+            purchase: url
         },
         type: "RetailListing",
         title: "Federal XM855 5.56 Ammo 62 Grain FMJ, 420 Rounds, Stripper Clips in Ammo Can",
@@ -59,7 +61,7 @@ describe ListingWriter::SetDigest do
       )
     }
 
-    result = ListingWriter::SetDigest.call(opts)
+    result = SetListingDigest.call(opts)
     expect(result.listing.digest).to eq('36615699ca1729380e458eea27f35d8e')
   end
 end
