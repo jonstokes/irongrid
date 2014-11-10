@@ -5,7 +5,7 @@ class FindOrCreateListing
     context.listing = IronBase::Listing.find(listing_id) || IronBase::Listing.new(id: listing_id)
   end
 
-  rollback do
+  def rollback
     if context.listing.persisted?
       if should_destroy?
         context.listing.destroy
