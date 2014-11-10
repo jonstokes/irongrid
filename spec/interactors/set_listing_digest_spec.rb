@@ -33,7 +33,7 @@ describe SetListingDigest do
           download_attempted: false
         },
         condition: "New",
-        availability: "In Stock",
+        availability: 'in_stock',
         price: {
           current: 34999,
           per_round: 83,
@@ -62,6 +62,6 @@ describe SetListingDigest do
     }
 
     result = SetListingDigest.call(opts)
-    expect(result.listing.digest).to eq('36615699ca1729380e458eea27f35d8e')
+    expect(result.listing.digest).to eq('e93a1a7683dcce0d3e063f74e21936e7')
   end
 end

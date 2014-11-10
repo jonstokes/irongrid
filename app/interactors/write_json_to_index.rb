@@ -9,8 +9,8 @@ class WriteJsonToIndex
     MergeJsonIntoListing,
     SetProductDetails,
     RunLoadableScripts,
-    SetListingLocation,
     SetListingDigest,
+    SetListingLocation,
     UpdateListingImage,
     SaveListingToIndex
   ]
