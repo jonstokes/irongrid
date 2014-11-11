@@ -21,7 +21,7 @@ module ObjectMapper
   def reverse_map(listing)
     json = Hashie::Mash.new
 
-    %w(engine type keywords description condition auction_ends availability).each do |attr|
+    %w(engine type title keywords description condition auction_ends availability).each do |attr|
       json[attr] = listing[attr]
     end
 
