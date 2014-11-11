@@ -32,7 +32,7 @@ describe PullListingsWorker do
     @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
 
     @listing = FactoryGirl.build(:listing, :retail, seller: { site_name: @site.name, domain: @site.domain })
-    @listing_json = Mapper.new.reverse_map(@listing).to_hash.deep_symbolize_keys.merge(valid: true)
+    @listing_json = Mapper.new.reverse_map(@listing).to_hash.deep_symbolize_keys.merge(valid: true).except(:url)
     @listing_data = @listing.data.merge(id: @listing.id)
   end
 
@@ -124,15 +124,16 @@ describe PullListingsWorker do
         expect(listing.seller.site_name).to eq(@site.name)
         expect(listing.seller.domain).to eq(@site.domain)
         expect(listing.condition).to eq("new")
-        expect(listing.city).to eq('Austin')
+        expect(listing.location.city).to eq('Austin')
       end
 
       it 'creates a new listing from a 302 temporary redirect' do
         page = @page.merge(
-            code: 301,
+            code: 302,
             url: 'http://www.retailer.com/2',
             redirect_from: 'http://www.retailer.com/1'
         )
+
         @object_q.add @object.merge(
                           object: @listing_json,
                           page:   page
@@ -145,7 +146,7 @@ describe PullListingsWorker do
         expect(listing.url.page).to eq('http://www.retailer.com/1')
         expect(listing.url.purchase).to eq('http://www.retailer.com/1')
         expect(listing.type).to eq("RetailListing")
-        expect(listing.item_condition).to eq("new")
+        expect(listing.condition).to eq("new")
       end
 
       it 'does not create a listing for a 404 page' do
