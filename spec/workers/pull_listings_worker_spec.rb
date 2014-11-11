@@ -59,12 +59,9 @@ describe PullListingsWorker do
       end
 
       it 'updates a feed listing with new attributes' do
-        Rails.logger.info "##  Creating existing listing..."
         existing_listing = IronBase::Listing.create(@listing_data)
-        Rails.logger.info "## Created #{existing_listing.id} with digest #{existing_listing.digest}"
         existing_listing.url.page = 'http://www.retailer.com/feed.xml'
         existing_listing.save
-        Rails.logger.info "##  Saved existing listing #{existing_listing.id} with digest #{existing_listing.digest}"
 
         IronBase::Listing.refresh_index
         page = @page.merge(url: existing_listing.url.page)
@@ -79,9 +76,7 @@ describe PullListingsWorker do
                           page:   page
                       )
 
-        Rails.logger.info "##  Running worker"
         @worker.perform(domain: @site.domain)
-        Rails.logger.info "## Worker finished!"
         IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(1)
         listing = IronBase::Listing.first
@@ -230,7 +225,7 @@ describe PullListingsWorker do
         expect(updated_today?(listing)).to be_true
       end
 
-      it "deletes a listing that 404s" do
+      it 'deletes a listing that 404s' do
         existing_listing = IronBase::Listing.create(@listing_data)
         IronBase::Listing.refresh_index
         page = @page.merge(
@@ -256,6 +251,7 @@ describe PullListingsWorker do
         # therefore think this is a new listing, although it's really an updated
         # version of listing_v1.
         listing_data_v2 = @listing_data.merge(
+            id: "#{listing_v1.url.page}-new-url",
             price: listing_v1.price.merge(sale: 1),
             url: {
                 page: "#{listing_v1.url.page}-new-url",
@@ -263,14 +259,15 @@ describe PullListingsWorker do
             }
         )
         listing_v2 = IronBase::Listing.create(listing_data_v2)
+        IronBase::Listing.refresh_index
 
         # Now when we try to refresh listing_v1, the platform will realize that
         # it has a dupe because the new url & digest for the refreshed listing_v1
         # already exists in the database as listing_v2. Therefore
         # we need to delete listing_v1.
         page = @page.merge(
-            url:           listing_v2.url,
-            redirect_from: listing_v1.url,
+            url:           listing_v2.url.page,
+            redirect_from: listing_v1.url.page,
             code:           301
         )
 
@@ -282,12 +279,13 @@ describe PullListingsWorker do
                           object: new_listing_json,
                           page:   page
                       )
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+        expect(IronBase::Listing.count).to eq(1)
+        expect(IronBase::Listing.find(listing_v1.id)).to be_nil
+        listing = IronBase::Listing.find(listing_v2.id)
 
-        expect(IronBase::Listing.search.size).to eq(1)
-        expect(Listing.find(listing_v1.id)).to be_nil
-        listing = Listing.find(listing_v2.id)
-
-        expect(listing.url).to eq(page[:url])
+        expect(listing.url.page).to eq(page[:url])
         expect(listing.digest).to eq(listing_v2.digest)
         expect(updated_today?(listing)).to be_true
       end
