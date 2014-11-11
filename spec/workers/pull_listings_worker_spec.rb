@@ -541,6 +541,7 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(4)
         listing = IronBase::Listing.first
         expect(listing.url.page).to match(/avantlink\.com/)
@@ -554,6 +555,7 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(4)
         listing = IronBase::Listing.first
         expect(listing.url.purchase).to match(/avantlink\.com/)
@@ -568,6 +570,7 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(4)
         listing = IronBase::Listing.first
         expect(listing.url.purchase).to match(/avantlink\.com/)
@@ -581,6 +584,7 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
         iq = ImageQueue.new(domain: @site.domain)
         expect(iq.size).to eq(4)
         expect(iq.pop).to match(/brownells\.com/)
