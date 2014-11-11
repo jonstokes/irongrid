@@ -479,20 +479,17 @@ describe PullListingsWorker do
         @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
 
-      it "should create new listings from a feed" do
+      it 'should create new listings from a feed' do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/full_product_feed.json") do |f|
           JSON.parse(f.read)
         end
 
         @object_q.add(objects)
-
         @worker.perform(domain: @site.domain)
-        expect(WriteListingWorker._jobs.count).to eq(18)
-        job = WriteListingWorker._jobs.first
-        args = Hashie::Mash.new job["args"].first
-        expect(args.listing.url).to match(/ammo\.net/)
-        expect(args.listing.digest).not_to be_nil
-        expect(args.status).to eq('success')
+        expect(IronBase::Listing.count).to eq(18)
+        listing = IronBase::Listing.first
+        expect(listing.url.purchase).to match(/ammo\.net/)
+        expect(listing.digest).not_to be_nil
       end
 
       it "should update listings from a feed" do
@@ -503,13 +500,11 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
-        expect(WriteListingWorker._jobs.count).to eq(18)
-        job = WriteListingWorker._jobs.first
-        args = Hashie::Mash.new job["args"].first
-        expect(args.listing.url).to match(/ammo\.net/)
-        expect(args.listing.digest).not_to be_nil
-        expect(args.status).to eq('success')
-        expect(args.listing.item_data["price_in_cents"]).to eq(1150)
+        expect(IronBase::Listing.count).to eq(18)
+        listing = IronBase::Listing.first
+        expect(listing.url.purchase).to match(/ammo\.net/)
+        expect(listing.digest).not_to be_nil
+        expect(listing.price.current).to eq(1150)
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do
@@ -544,12 +539,10 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
-        expect(WriteListingWorker._jobs.count).to eq(4)
-        job = WriteListingWorker._jobs.first
-        args = Hashie::Mash.new job["args"].first
-        expect(args.listing.url).to match(/avantlink\.com/)
+        expect(IronBase::Listing.count).to eq(4)
+        listing = IronBase::Listing.first
+        expect(listing.url.page).to match(/avantlink\.com/)
         expect(args.listing.digest).not_to be_nil
-        expect(args.status).to eq('success')
       end
 
       it "should update listings from a feed" do
@@ -559,13 +552,11 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
-        expect(WriteListingWorker._jobs.count).to eq(4)
-        job = WriteListingWorker._jobs.first
-        args = Hashie::Mash.new job["args"].first
-        expect(args.listing.url).to match(/avantlink\.com/)
-        expect(args.listing.digest).not_to be_nil
-        expect(args.status).to eq('success')
-        expect(args.listing.item_data["price_in_cents"]).to eq(109)
+        expect(IronBase::Listing.count).to eq(4)
+        listing = IronBase::Listing.first
+        expect(listing.url.purchase).to match(/avantlink\.com/)
+        expect(listing.digest).not_to be_nil
+        expect(listing.price.current).to eq(109)
       end
 
       it "should create WriteListingWorkers for removed listings proper payload" do
@@ -575,12 +566,10 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
-        expect(WriteListingWorker._jobs.count).to eq(4)
-        job = WriteListingWorker._jobs.first
-        args = Hashie::Mash.new job["args"].first
-        expect(args.listing.url).to match(/avantlink\.com/)
-        expect(args.listing.item_data['availability']).to eq('out_of_stock')
-        expect(args.status).to eq('success')
+        expect(IronBase::Listing.count).to eq(4)
+        listing = IronBase::Listing.first
+        expect(listing.url.purchase).to match(/avantlink\.com/)
+        expect(listing.availability).to eq('out_of_stock')
       end
 
       it "should add a link to the ImageQueue for each new or updated listing" do
@@ -602,12 +591,11 @@ describe PullListingsWorker do
         CDN::Image.create(source: image_source, http: Sunbro::HTTP.new)
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
-        job = WriteListingWorker._jobs.first
-        args = Hashie::Mash.new job["args"].first
         iq = ImageQueue.new(domain: @site.domain)
+        listing = IronBase::Listing.first
 
-        expect(args.listing["item_data"]["image_source"]).to eq(image_source)
-        expect(args.listing["item_data"]["image"]).to eq("https://s3.amazonaws.com/scoperrific-index-test/c8f0568ee6c444af95044486351932fb.JPG")
+        expect(listing.image.source).to eq(image_source)
+        expect(listing.image.cdn).to eq("https://s3.amazonaws.com/scoperrific-index-test/c8f0568ee6c444af95044486351932fb.JPG")
         expect(iq.pop).to be_nil
       end
     end
@@ -617,12 +605,11 @@ describe PullListingsWorker do
         image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
-        job = WriteListingWorker._jobs.first
-        args = Hashie::Mash.new job["args"].first
         iq = ImageQueue.new(domain: @site.domain)
+        listing = IronBase::Listing.first
 
-        expect(args.listing["item_data"]["image_source"]).to eq(image_source)
-        expect(args.listing["item_data"]["image"]).to eq(CDN::DEFAULT_IMAGE_URL)
+        expect(listing.image.source).to eq(image_source)
+        expect(listing.image.cdn).to eq(CDN::DEFAULT_IMAGE_URL)
         expect(iq.pop).to eq(image_source)
       end
     end
