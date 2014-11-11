@@ -32,11 +32,169 @@ describe PullListingsWorker do
     @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
 
     @listing = FactoryGirl.build(:listing, :retail, seller: { site_name: @site.name, domain: @site.domain })
-    @listing_json = Mapper.new.reverse_map(@listing).to_hash.merge(valid: true)
+    @listing_json = Mapper.new.reverse_map(@listing).to_hash.deep_symbolize_keys.merge(valid: true)
     @listing_data = @listing.data.merge(id: @listing.id)
   end
 
   describe '#perform' do
+    describe 'New listing' do
+      it 'creates a new listing from a page' do
+        @object_q.add @object.merge(
+                          object: @listing_json,
+                          page:   @page
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+        expect(IronBase::Listing.count).to eq(1)
+        listing = IronBase::Listing.first
+        expect(listing.url.page).to eq(@page[:url])
+        expect(listing.type).to eq('RetailListing')
+        expect(listing.seller.site_name).to eq(@site.name)
+        expect(listing.seller.domain).to eq(@site.domain)
+        expect(listing.condition).to eq('new')
+        expect(listing.location.city).to eq('Austin')
+      end
+
+      it 'creates a new listing from a feed' do
+        page = @page[:url].merge(page: 'http://www.retailer.com/feed.xml')
+        @object_q.add @object.merge(
+                          object: @listing_json,
+                          page:   page
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+
+        expect(IronBase::Listing.count).to eq(1)
+        listing = IronBase::Listing.first
+        expect(listing.url.page).to eq(page['url'])
+        expect(listing.type).to eq("RetailListing")
+        expect(listing.seller.site_name).to eq(@site.name)
+        expect(listing.seller.domain).to eq(@site.domain)
+        expect(listing.condition).to eq("new")
+        expect(listing.location.city).to eq('Austin')
+      end
+
+      it 'does not create a new listing for an invalid page' do
+        @object_q.add @object.merge(
+                          object: @listing_json.merge(valid: false),
+                          page:   @page
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+        expect(IronBase::Listing.count).to eq(0)
+      end
+
+      it 'does not create a new listing for a page that redirects to an invalid page' do
+        @object_q.add @object.merge(
+                          object: @listing_json.merge(valid: false),
+                          page:   {
+                              code: 301,
+                              url: 'http://www.retailer.com/2',
+                              redirect_from: 'http://www.retailer.com/1'
+                          }
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+        expect(IronBase::Listing.count).to eq(0)
+      end
+
+      it 'creates a new listing from a 301 permanent redirect' do
+        @object_q.add @object.merge(
+                          object: @listing_json,
+                          page:   {
+                              code: 301,
+                              url: 'http://www.retailer.com/2',
+                              redirect_from: 'http://www.retailer.com/1'
+                          }
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+
+        expect(IronBase::Listing.count).to eq(1)
+        listing = IronBase::Listing.first
+        expect(listing.url.page).to eq('http://www.retailer.com/2')
+        expect(listing.url.purchase).to eq('http://www.retailer.com/2')
+        expect(listing.type).to eq("RetailListing")
+        expect(listing.seller.site_name).to eq(@site.name)
+        expect(listing.seller.domain).to eq(@site.domain)
+        expect(listing.condition).to eq("new")
+        expect(listing.city).to eq('Austin')
+      end
+
+      it 'creates a new listing from a 302 temporary redirect' do
+        @object_q.add @object.merge(
+                          object: @listing_json,
+                          page:   {
+                              code: 301,
+                              url: 'http://www.retailer.com/2',
+                              redirect_from: 'http://www.retailer.com/1'
+                          }
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+
+        listing = IronBase::Listing.first
+        expect(listing.url.page).to eq('http://www.retailer.com/1')
+        expect(listing.url.purchase).to eq('http://www.retailer.com/1')
+        expect(listing.type).to eq("RetailListing")
+        expect(listing.item_condition).to eq("new")
+      end
+
+      it 'does not create a listing for a 404 page' do
+        @object_q.add @object.merge(
+                          object: @listing_json,
+                          page:   {
+                              code: 404,
+                              url: 'http://www.retailer.com/2',
+                          }
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+
+        expect(IronBase::Listing.count).to eq(0)
+      end
+
+      it 'does not create a listing for an invalid feed item' do
+        page = @page(url: 'http://www.retailer.com/feed.xml')
+        @object_q.add @object.merge(
+                          object: @listing_json.merge(valid: false),
+                          page:   page
+                      )
+
+        @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
+        expect(Listing.count).to eq(0)
+      end
+
+      it 'does not create a duplicate listing' do
+        url1 = 'http://www.retailer.com/1'
+        url2 = 'http://www.retailer.com/2'
+        IronBase::Listing.create(
+            @listing_data.merge(
+                url: {
+                    purchase: url1,
+                    page: url1
+                }
+            )
+        )
+
+        @object_q.add @object.merge(
+                          object: @listing_json,
+                          page: @page
+                      )
+        expect(Listing.count).to eq(1)
+        listing = Listing.first
+        expect(listing.url).to eq(url1)
+      end
+    end
+
     describe 'Existing listing' do
       it 'updates a listing with new attributes' do
         existing_listing = IronBase::Listing.create(@listing_data)
