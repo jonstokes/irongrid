@@ -16,16 +16,16 @@ class FindOrCreateListing
   end
 
   def listing_id
-    id_tagged_url || purchase_url
+    id_tagged_url || id_base_url
   end
 
   def id_tagged_url
     return unless context.listing_json.id
-    "#{purchase_url}!#{context.listing_json.id}"
+    "#{id_base_url}!#{context.listing_json.id}"
   end
 
-  def purchase_url
-    context.url.purchase
+  def id_base_url
+    context.page.redirect_from || context.url.purchase
   end
 
   def should_destroy?
