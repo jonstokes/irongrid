@@ -57,10 +57,9 @@ describe PullListingsWorker do
       end
 
       it 'creates a new listing from a feed' do
-        page = @page[:url].merge(page: 'http://www.retailer.com/feed.xml')
         @object_q.add @object.merge(
                           object: @listing_json,
-                          page:   page
+                          page:   @page.merge(url: 'http://www.retailer.com/feed.xml')
                       )
 
         @worker.perform(domain: @site.domain)
@@ -68,7 +67,7 @@ describe PullListingsWorker do
 
         expect(IronBase::Listing.count).to eq(1)
         listing = IronBase::Listing.first
-        expect(listing.url.page).to eq(page['url'])
+        expect(listing.url.page).to eq('http://www.retailer.com/feed.xml')
         expect(listing.type).to eq("RetailListing")
         expect(listing.seller.site_name).to eq(@site.name)
         expect(listing.seller.domain).to eq(@site.domain)
@@ -88,13 +87,14 @@ describe PullListingsWorker do
       end
 
       it 'does not create a new listing for a page that redirects to an invalid page' do
+        page = @page.merge(
+            code: 301,
+            url: 'http://www.retailer.com/2',
+            redirect_from: 'http://www.retailer.com/1'
+        )
         @object_q.add @object.merge(
                           object: @listing_json.merge(valid: false),
-                          page:   {
-                              code: 301,
-                              url: 'http://www.retailer.com/2',
-                              redirect_from: 'http://www.retailer.com/1'
-                          }
+                          page:   page
                       )
 
         @worker.perform(domain: @site.domain)
@@ -103,13 +103,14 @@ describe PullListingsWorker do
       end
 
       it 'creates a new listing from a 301 permanent redirect' do
+        page = @page.merge(
+            code: 301,
+            url: 'http://www.retailer.com/2',
+            redirect_from: 'http://www.retailer.com/1'
+        )
         @object_q.add @object.merge(
                           object: @listing_json,
-                          page:   {
-                              code: 301,
-                              url: 'http://www.retailer.com/2',
-                              redirect_from: 'http://www.retailer.com/1'
-                          }
+                          page:   page
                       )
 
         @worker.perform(domain: @site.domain)
@@ -127,13 +128,14 @@ describe PullListingsWorker do
       end
 
       it 'creates a new listing from a 302 temporary redirect' do
+        page = @page.merge(
+            code: 301,
+            url: 'http://www.retailer.com/2',
+            redirect_from: 'http://www.retailer.com/1'
+        )
         @object_q.add @object.merge(
                           object: @listing_json,
-                          page:   {
-                              code: 301,
-                              url: 'http://www.retailer.com/2',
-                              redirect_from: 'http://www.retailer.com/1'
-                          }
+                          page:   page
                       )
 
         @worker.perform(domain: @site.domain)
@@ -147,12 +149,13 @@ describe PullListingsWorker do
       end
 
       it 'does not create a listing for a 404 page' do
+        page = @page.merge(
+            code: 404,
+            url: 'http://www.retailer.com/2'
+        )
         @object_q.add @object.merge(
                           object: @listing_json,
-                          page:   {
-                              code: 404,
-                              url: 'http://www.retailer.com/2',
-                          }
+                          page:   page
                       )
 
         @worker.perform(domain: @site.domain)
@@ -162,10 +165,9 @@ describe PullListingsWorker do
       end
 
       it 'does not create a listing for an invalid feed item' do
-        page = @page(url: 'http://www.retailer.com/feed.xml')
         @object_q.add @object.merge(
                           object: @listing_json.merge(valid: false),
-                          page:   page
+                          page:   @page.merge(url: 'http://www.retailer.com/feed.xml')
                       )
 
         @worker.perform(domain: @site.domain)
@@ -186,12 +188,17 @@ describe PullListingsWorker do
         )
 
         @object_q.add @object.merge(
-                          object: @listing_json,
-                          page: @page
+                          object: @listing_json.merge(
+                              url: {
+                                  purchase: url2,
+                                  page: url2
+                              }
+                          ),
+                          page: @page.merge(url: url2)
                       )
-        expect(Listing.count).to eq(1)
-        listing = Listing.first
-        expect(listing.url).to eq(url1)
+        expect(IronBase::Listing.count).to eq(1)
+        listing = IronBase::Listing.first
+        expect(listing.url.page).to eq(url1)
       end
     end
 
