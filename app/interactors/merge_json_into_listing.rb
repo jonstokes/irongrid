@@ -18,6 +18,7 @@ class MergeJsonIntoListing
     context.fail!(status: :auction_ended) if context.listing.auction_ended?
     context.listing.condition ||= 'Unknown'
     context.listing.availability ||= 'Unknown'
+    context.listing.engine ||= 'ironsights'
   end
 
   def json_mapping

@@ -25,7 +25,9 @@ class FindOrCreateListing
   end
 
   def id_base_url
-    context.page.redirect_from || context.url.purchase
+    context.listing_json.url ||
+        context.page.redirect_from ||
+        context.url.purchase
   end
 
   def should_destroy?
