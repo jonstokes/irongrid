@@ -42,7 +42,7 @@ class Listing < ActiveRecord::Base
   scope :inactive, -> { where(inactive: true) }
 
   def self.es_objects
-    ElasticTools::IndexMapping.index_objects.keys
+    []
   end
 
   def self.item_data_attributes
@@ -233,7 +233,7 @@ class Listing < ActiveRecord::Base
     original_index = Tire.index(Listing.index_name).url.split(Listing.index_name).first
     Tire.configure { reset :url }
     Listing.index.delete
-    ElasticTools::IndexMapping.generate(Listing.index_name)
+    # ElasticTools::IndexMapping.generate(Listing.index_name)
     Listing.index.refresh
     Tire.configure { url original_index }
   end

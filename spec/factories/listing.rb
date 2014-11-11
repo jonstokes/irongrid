@@ -17,8 +17,13 @@ FactoryGirl.define do
     sequence(:url) do |n|
       { page: "#{base_url}#{n}", purchase: "#{base_url}#{n}" }
     end
-    sequence(:digest) { |n| "digest-#{n}" }
+    type              { 'RetailListing'}
     engine            { 'ironsights' }
+    condition         { 'new' }
+    availability      { 'in_stock' }
+    location do
+      { source: '1213 Newning Ave., Austin, TX 78704' }
+    end
     image do
       {
           source: "http://scoperrific.com/bogus_image.png",
@@ -53,7 +58,7 @@ FactoryGirl.define do
     end
     seller do
       {
-          site_name: 'Retailer',
+          site_name: 'Test Retailer',
           domain:     domain
       }
     end
