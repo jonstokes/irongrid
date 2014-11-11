@@ -154,13 +154,13 @@ describe PullListingsWorker do
       end
 
       it 'deletes a listing that redirects to an invalid page' do
-        existing_listing = create(:listing, :retail)
+        existing_listing = IronBase::Listing.create(@listing_data)
         page = @page.merge(
             url: @not_found_redirect,
-            redirect_from: existing_listing.url,
+            redirect_from: existing_listing.url.page,
             code: 301
         )
-        new_listing_json = Mapper.new.reverse_map(existing_listing).merge(valid: false).to_hash
+        new_listing_json = @listing_json.merge(valid: false)
         @object_q.add @object.merge(
                           object: new_listing_json,
                           page:   page
@@ -171,14 +171,14 @@ describe PullListingsWorker do
         expect(IronBase::Listing.search).to be_empty
       end
 
-      it "deletes a listing that redirects to a not_found page" do
-        existing_listing = create(:listing, :retail)
+      it 'deletes a listing that redirects to a not_found page' do
+        existing_listing = IronBase::Listing.create(@listing_data)
         page = @page.merge(
             url: @not_found_redirect,
-            redirect_from: existing_listing.url,
+            redirect_from: existing_listing.url.page,
             code: 301
         )
-        new_listing_json = Mapper.new.reverse_map(existing_listing).merge(not_found: true).to_hash
+        new_listing_json = @listing_json.merge(valid: false)
         @object_q.add @object.merge(
                           object: new_listing_json,
                           page:   page
@@ -189,17 +189,16 @@ describe PullListingsWorker do
         expect(IronBase::Listing.search).to be_empty
       end
 
-      it "updates a listing that 301 moved permanently with a new url" do
-        existing_listing = create(:listing, :retail)
+      it 'updates a listing that 301 moved permanently with a new url' do
+        existing_listing = IronBase::Listing.create(@listing_data)
         redirect_url = "#{existing_listing.url.page}123"
         page = @page.merge(
             url: redirect_url,
-            redirect_from: existing_listing.url,
+            redirect_from: existing_listing.url.page,
             code: 301
         )
-        new_listing_json = Mapper.new.reverse_map(existing_listing).merge(valid: true).to_hash
         @object_q.add @object.merge(
-                          object: new_listing_json,
+                          object: @listing_json,
                           page:   page
                       )
 
@@ -212,17 +211,16 @@ describe PullListingsWorker do
         expect(updated_today?(listing)).to be_true
       end
 
-      it "updates a listing that 302 moved temporarily, but keeps original url" do
-        existing_listing = create(:listing, :retail)
+      it 'updates a listing that 302 moved temporarily, but keeps original url' do
+        existing_listing = IronBase::Listing.create(@listing_data)
         redirect_url = "#{existing_listing.url.page}123"
         page = @page.merge(
             url: redirect_url,
-            redirect_from: existing_listing.url,
+            redirect_from: existing_listing.url.page,
             code: 302
         )
-        new_listing_json = Mapper.new.reverse_map(existing_listing).merge(valid: true).to_hash
         @object_q.add @object.merge(
-                          object: new_listing_json,
+                          object: @listing_json,
                           page:   page
                       )
 
@@ -236,14 +234,13 @@ describe PullListingsWorker do
       end
 
       it "deletes a listing that 404s" do
-        existing_listing = create(:listing, :retail)
+        existing_listing = IronBase::Listing.create(@listing_data)
         page = @page.merge(
             url:  existing_listing.url,
             code: 404
         )
-        new_listing_json = Mapper.new.reverse_map(existing_listing).merge(valid: true).to_hash
         @object_q.add @object.merge(
-                          object: new_listing_json,
+                          object: @listing_json,
                           page:   page
                       )
 
@@ -252,15 +249,22 @@ describe PullListingsWorker do
         expect(IronBase::Listing.search).to be_empty
       end
 
-      it "deletes a listing that is discovered to be a duplicate" do
+      it 'deletes a listing that is discovered to be a duplicate' do
         # A retail listing is created in the database
-        listing_v1 = create(:listing, :retail)
+        listing_v1 = IronBase::Listing.create(@listing_data)
 
         # Later, that same listing moves (HTTP 301) to a new url and goes on sale,
         # so that the url, price, an digest are all different. This platform will
         # therefore think this is a new listing, although it's really an updated
         # version of listing_v1.
-        listing_v2 = create(:listing, :retail)
+        listing_data_v2 = @listing_data.merge(
+            price: listing_v1.price.merge(sale: 1),
+            url: {
+                page: "#{listing_v1.url.page}-new-url",
+                purchase: "#{listing_v1.url.page}-new-url"
+            }
+        )
+        listing_v2 = IronBase::Listing.create(listing_data_v2)
 
         # Now when we try to refresh listing_v1, the platform will realize that
         # it has a dupe because the new url & digest for the refreshed listing_v1
