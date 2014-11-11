@@ -181,6 +181,7 @@ describe PullListingsWorker do
         url2 = 'http://www.retailer.com/2'
         IronBase::Listing.create(
             @listing_data.merge(
+                id: url1,
                 url: {
                     purchase: url1,
                     page: url1
@@ -190,6 +191,7 @@ describe PullListingsWorker do
 
         @object_q.add @object.merge(
                           object: @listing_json.merge(
+                              id: url2,
                               url: {
                                   purchase: url2,
                                   page: url2
@@ -197,6 +199,8 @@ describe PullListingsWorker do
                           ),
                           page: @page.merge(url: url2)
                       )
+        IronBase::Listing.refresh_index
+        @worker.perform(domain: @site.domain)
         expect(IronBase::Listing.count).to eq(1)
         listing = IronBase::Listing.first
         expect(listing.url.page).to eq(url1)
@@ -287,7 +291,7 @@ describe PullListingsWorker do
       it 'deactivates an invalid retail listing' do
         existing_listing = IronBase::Listing.create(@listing_data)
         IronBase::Listing.refresh_index
-        page = @page.merge(url: existing_listing.url)
+        page = @page.merge(url: existing_listing.url.page)
         new_listing_json = @listing_json.merge(valid: false)
 
         @object_q.add @object.merge(
@@ -475,7 +479,7 @@ describe PullListingsWorker do
         @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
 
-      it "should create WriteListingWorkers for new listings with proper payload" do
+      it "should create new listings from a feed" do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/full_product_feed.json") do |f|
           JSON.parse(f.read)
         end
@@ -491,7 +495,7 @@ describe PullListingsWorker do
         expect(args.status).to eq('success')
       end
 
-      it "should create WriteListingWorkers for modified listings with proper payload" do
+      it "should update listings from a feed" do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/full_product_feed_updates.json") do |f|
           JSON.parse(f.read)
         end
@@ -533,7 +537,7 @@ describe PullListingsWorker do
         @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
 
-      it "should create WriteListingWorkers for new listings with proper payload" do
+      it "should create create listings from a feed" do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed.json") do |f|
           JSON.parse(f.read)
         end
@@ -548,7 +552,7 @@ describe PullListingsWorker do
         expect(args.status).to eq('success')
       end
 
-      it "should create WriteListingWorkers for modified listings with proper payload" do
+      it "should update listings from a feed" do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed_update.json") do |f|
           JSON.parse(f.read)
         end
