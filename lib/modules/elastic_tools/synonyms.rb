@@ -1,80 +1,46 @@
 module ElasticTools
   module Synonyms
-    class Dictionary
-      attr_reader :calibers, :manufacturers
-
-      def initialize
-        @calibers = ThreadSafe::Cache.new
-        @calibers['handgun'] = ElasticTools::Synonyms.category_keywords("handgun calibers")
-        @calibers['rimfire'] = ElasticTools::Synonyms.category_keywords("rimfire calibers")
-        @calibers['shotgun'] = ElasticTools::Synonyms.category_keywords("shotgun calibers")
-        @calibers['rifle'] = ElasticTools::Synonyms.category_keywords("rifle calibers")
-        @manufacturers = ElasticTools::Synonyms.category_keywords("manufacturers")
+    def self.convert_mapping(mapping)
+      str = ""
+      mapping.each do |term|
+        str << "#{term},"
       end
-
-      def all_keywords
-        manufacturers + handgun_calibers + rimfire_calibers + shotgun_calibers + rifle_calibers
-      end
+      str[0..-2]
     end
 
-    class Synonyms
-      def general_synonym_lines
-        @general_synonym_lines ||= File.readlines("#{Rails.root}/lib/elasticsearch/synonyms.txt").map(&:strip).reject(&:blank?)
+    def self.synonyms
+      calibers = Stretched::Mapping.find('handgun_calibers').data
+      calibers.merge!(Stretched::Mapping.find('rifle_calibers').data)
+      calibers.merge!(Stretched::Mapping.find('shotgun_calibers').data)
+      calibers.merge!(Stretched::Mapping.find('rimfire_calibers').data)
+      manufacturers = Stretched::Mapping.find('manufacturers').data
+
+      caliber = []
+      calibers.each do |term, mapping|
+        next unless mapping
+        caliber << "#{convert_mapping(mapping)} => #{term}"
       end
 
-      def caliber_synonym_lines
-        @caliber_synonym_lines ||= File.readlines("#{Rails.root}/lib/elasticsearch/caliber_synonyms.txt").map(&:strip).reject(&:blank?)
+      manufacturer = []
+      manufacturers.each do |term, mapping|
+        next unless mapping
+        manufacturer << "#{convert_mapping(mapping)} => #{term}"
       end
 
-      def manufacturer_synonym_lines
-        @manufacturer_synonym_lines ||= File.readlines("#{Rails.root}/lib/elasticsearch/manufacturer_synonyms.txt").map(&:strip).reject(&:blank?)
+      product = caliber + manufacturer
+
+      listing = []
+      calibers.merge(manufacturers).each do |term, mapping|
+        next unless mapping
+        listing << "#{term},#{convert_mapping(mapping)}"
       end
 
-      def all_synonym_lines
-        general_synonym_lines + caliber_synonym_lines + manufacturer_synonym_lines
-      end
-
-      def equivalent_synonyms
-        @equivalent_synonyms ||= explicit_mappings.map { |line| line.downcase.sub(" => ", ",").gsub("_", " ") }
-      end
-
-      def explicit_mappings(opt=nil)
-        lines = case opt
-                when :caliber
-                  caliber_synonym_lines
-                when :manufacturer
-                  manufacturer_synonym_lines
-                else
-                  all_synonym_lines.map { |l| l.gsub("_", " ") }
-                end
-
-        lines.reject do |line|
-          (line[0] == "#") || !line["=>"]
-        end
-      end
-
-      def category_keywords(category)
-        start = all_synonym_lines.index("# #{category} - begin") + 1
-        finish = all_synonym_lines.index("# #{category} - end") - 1
-        lines = all_synonym_lines[start..finish]
-        lines.reject { |line| line["#"] || line.strip.empty?}.map do |line|
-          line["=>"] ? line.split("=>").last.strip : line
-        end
-      end
-    end
-
-    class << self
-      delegate :explicit_mappings, :equivalent_synonyms, :category_keywords, to: :synonyms
-      delegate :caliber_synonym_lines, :manufacturer_synonym_lines, to: :synonyms
-      delegate :manufacturers, :calibers, to: :dictionary
-
-      def synonyms
-        @synonyms ||= Synonyms.new
-      end
-
-      def dictionary
-        @dictionary ||= Dictionary.new
-      end
+      {
+          listing: listing,
+          product: product,
+          caliber: caliber,
+          manufacturer: manufacturer
+      }
     end
   end
 end

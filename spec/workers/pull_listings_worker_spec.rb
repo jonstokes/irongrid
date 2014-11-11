@@ -14,21 +14,6 @@ describe PullListingsWorker do
     CDN.clear!
 
     # Vars
-    @listing_json = {
-      "valid"               => true,
-      "condition"           =>"new",
-      "type"                =>"RetailListing",
-      "availability"        =>"in_stock",
-      "location"            =>"1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705",
-      "title"               => "CITADEL 1911 COMPACT .45ACP 3 1/2\" HOGUE BLACK", 
-      "keywords"            => "CITADEL 1911 COMPACT .45ACP",
-      "image"               => "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG",
-      "price_in_cents"      => "65000",
-      "sale_price_in_cents" => "65000",
-      "description"         => ".45ACP, 3 1/2\" BARREL, HOGUE BLACK GRIPS",
-      "product_category1"   => "Guns",
-      "product_sku"         => "1911-CIT45CSPHB",
-    }
     @worker = PullListingsWorker.new
     @page = {
         url:     "http://#{@site.domain}/1",
@@ -46,7 +31,7 @@ describe PullListingsWorker do
     }
     @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
 
-    @listing = build(:listing, :retail)
+    @listing = FactoryGirl.build(:listing, :retail, seller: { site_name: @site.name, domain: @site.domain })
     @listing_json = Mapper.new.reverse_map(@listing).to_hash.merge(valid: true)
     @listing_data = @listing.data.merge(id: @listing.id)
   end
@@ -105,6 +90,7 @@ describe PullListingsWorker do
         existing_listing = IronBase::Listing.create(@listing_data)
         existing_listing.url.page = 'http://www.retailer.com/feed.xml'
         existing_listing.save
+        IronBase::Listing.refresh_index
 
         page = @page.merge(url: 'http://www.retailer.com/feed.xml')
 
@@ -133,6 +119,7 @@ describe PullListingsWorker do
 
       it 'deactivates an invalid retail listing' do
         existing_listing = IronBase::Listing.create(@listing_data)
+        IronBase::Listing.refresh_index
         page = @page.merge(url: existing_listing.url)
         new_listing_json = @listing_json.merge(valid: false)
 
@@ -155,6 +142,7 @@ describe PullListingsWorker do
 
       it 'deletes a listing that redirects to an invalid page' do
         existing_listing = IronBase::Listing.create(@listing_data)
+        IronBase::Listing.refresh_index
         page = @page.merge(
             url: @not_found_redirect,
             redirect_from: existing_listing.url.page,
@@ -173,6 +161,7 @@ describe PullListingsWorker do
 
       it 'deletes a listing that redirects to a not_found page' do
         existing_listing = IronBase::Listing.create(@listing_data)
+        IronBase::Listing.refresh_index
         page = @page.merge(
             url: @not_found_redirect,
             redirect_from: existing_listing.url.page,
@@ -191,6 +180,7 @@ describe PullListingsWorker do
 
       it 'updates a listing that 301 moved permanently with a new url' do
         existing_listing = IronBase::Listing.create(@listing_data)
+        IronBase::Listing.refresh_index
         redirect_url = "#{existing_listing.url.page}123"
         page = @page.merge(
             url: redirect_url,
@@ -206,6 +196,8 @@ describe PullListingsWorker do
         IronBase::Listing.refresh_index
 
         listing = IronBase::Listing.first
+        puts "# Existing: #{existing_listing.to_yaml}"
+        puts "# Listing:  #{listing.to_yaml}"
         expect(listing.url.page).to eq(redirect_url)
         expect(listing.digest).to eq(existing_listing.digest)
         expect(updated_today?(listing)).to be_true
@@ -213,6 +205,7 @@ describe PullListingsWorker do
 
       it 'updates a listing that 302 moved temporarily, but keeps original url' do
         existing_listing = IronBase::Listing.create(@listing_data)
+        IronBase::Listing.refresh_index
         redirect_url = "#{existing_listing.url.page}123"
         page = @page.merge(
             url: redirect_url,
@@ -235,8 +228,9 @@ describe PullListingsWorker do
 
       it "deletes a listing that 404s" do
         existing_listing = IronBase::Listing.create(@listing_data)
+        IronBase::Listing.refresh_index
         page = @page.merge(
-            url:  existing_listing.url,
+            url:  existing_listing.url.page,
             code: 404
         )
         @object_q.add @object.merge(
@@ -308,7 +302,7 @@ describe PullListingsWorker do
         ImageQueue.new(domain: @site.domain).clear
 
         Stretched::Registration.clear_all
-        register_stretched_globals
+        register_globals
         @site.register
         @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
@@ -366,7 +360,7 @@ describe PullListingsWorker do
         ImageQueue.new(domain: @site.domain).clear
 
         Stretched::Registration.clear_all
-        register_stretched_globals
+        register_globals
         @site.register
         @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end

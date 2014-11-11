@@ -1,10 +1,3 @@
-def register_stretched_globals
-  Stretched::Extension.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/extensions/conversions.rb")
-  Stretched::Script.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/product_page.rb")
-  Stretched::Script.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/scripts/globals/validation.rb")
-  Stretched::Registration.create_from_file("#{Rails.root}/spec/fixtures/stretched/registrations/globals.yml")
-end
-
 def register_globals
   Dir["#{Rails.root}/spec/fixtures/stretched/registrations/globals/extensions/*.rb"].each do |filename|
     Stretched::Extension.create_from_file(filename)
