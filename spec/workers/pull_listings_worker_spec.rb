@@ -59,11 +59,15 @@ describe PullListingsWorker do
       end
 
       it 'updates a feed listing with new attributes' do
+        Rails.logger.info "##  Creating existing listing..."
         existing_listing = IronBase::Listing.create(@listing_data)
+        Rails.logger.info "## Created #{existing_listing.id} with digest #{existing_listing.digest}"
         existing_listing.url.page = 'http://www.retailer.com/feed.xml'
         existing_listing.save
+        Rails.logger.info "##  Saved existing listing #{existing_listing.id} with digest #{existing_listing.digest}"
 
-        page = @page.merge(url: 'http://www.retailer.com/feed.xml')
+        IronBase::Listing.refresh_index
+        page = @page.merge(url: existing_listing.url.page)
 
         new_listing_json = @listing_json.merge(
             title: 'Updated Listing',
@@ -75,7 +79,9 @@ describe PullListingsWorker do
                           page:   page
                       )
 
+        Rails.logger.info "##  Running worker"
         @worker.perform(domain: @site.domain)
+        Rails.logger.info "## Worker finished!"
         IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(1)
         listing = IronBase::Listing.first
@@ -196,8 +202,6 @@ describe PullListingsWorker do
         IronBase::Listing.refresh_index
 
         listing = IronBase::Listing.first
-        puts "# Existing: #{existing_listing.to_yaml}"
-        puts "# Listing:  #{listing.to_yaml}"
         expect(listing.url.page).to eq(redirect_url)
         expect(listing.digest).to eq(existing_listing.digest)
         expect(updated_today?(listing)).to be_true

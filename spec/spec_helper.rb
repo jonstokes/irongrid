@@ -38,8 +38,13 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "random"
+  config.order = 'random'
 end
+
+Rails.logger.info '########################################################################################################################################'
+Rails.logger.info "############  Test Run #{Time.now}"
+Rails.logger.info '########################################################################################################################################'
+
 
 def updated_today?(listing)
   update = listing.updated_at.is_a?(String) ? Time.parse(listing.updated_at) : listing.updated_at
