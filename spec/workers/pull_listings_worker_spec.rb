@@ -486,6 +486,7 @@ describe PullListingsWorker do
 
         @object_q.add(objects)
         @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(18)
         listing = IronBase::Listing.first
         expect(listing.url.purchase).to match(/ammo\.net/)
@@ -500,6 +501,7 @@ describe PullListingsWorker do
         @object_q.add(objects)
 
         @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(18)
         listing = IronBase::Listing.first
         expect(listing.url.purchase).to match(/ammo\.net/)
