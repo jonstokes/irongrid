@@ -5,9 +5,9 @@ class DeleteListingsForFullFeedsService < CoreService
     CoreService.mutex.synchronize {
       Site.full_product_feed_sites.each do |site|
         next if Stretched::ObjectQueue.new("#{site.domain}/listings").any?
-        query_hash = IronBase::Search::Search.new(
+          query_hash = IronBase::Search::Search.new(
             filters: {
-                no_image: nil,
+                stale: site.read_at,
                 domain: site.domain
             }
         ).query_hash
