@@ -10,7 +10,7 @@ describe DeleteListingsForFullFeedsService do
   end
 
   describe "#run" do
-    it "creates DeleteListingsWorker jobs for all listings older than site.read_at if listing OBQ is empty" do
+    it 'creates DeleteListingsWorker jobs for all listings older than site.read_at if listing OBQ is empty' do
       Sidekiq::Testing.fake!
 
       site = create_site "ammo.net"
@@ -18,9 +18,12 @@ describe DeleteListingsForFullFeedsService do
 
       removed = []
       kept = []
-      5.times { removed << FactoryGirl.create(:retail_listing, seller_domain: "ammo.net", updated_at: Time.now - 10.days) }
+      5.times do
+        removed << create(:listing, seller: { domain: "ammo.net" }, updated_at: Time.now - 10.days)
+      end
       sleep 1
-      5.times { kept << FactoryGirl.create(:retail_listing, seller_domain: "ammo.net") }
+      5.times { kept << create(:listing, seller: { domain: "ammo.net" }) }
+      IronBase::Listing.refresh_index
 
       @service.track
       @service.start_jobs
@@ -34,7 +37,7 @@ describe DeleteListingsForFullFeedsService do
       end
     end
 
-    it "creates DeleteListingsWorker jobs for no listings older than site.read_at if listing OBQ is not empty" do
+    it 'creates DeleteListingsWorker jobs for no listings older than site.read_at if listing OBQ is not empty' do
       Sidekiq::Testing.fake!
 
       object = {
@@ -49,8 +52,12 @@ describe DeleteListingsForFullFeedsService do
       site = create_site "ammo.net"
       site.update(read_at: Time.now - 1.day)
 
-      5.times { FactoryGirl.create(:retail_listing, seller_domain: "ammo.net", updated_at: Time.now - 10.days) }
-      5.times { FactoryGirl.create(:retail_listing, seller_domain: "ammo.net") }
+      5.times do
+        create(:listing, seller: { domain: "ammo.net" }, updated_at: Time.now - 10.days)
+      end
+      sleep 1
+      5.times { create(:listing, seller: { domain: "ammo.net" }) }
+      IronBase::Listing.refresh_index
       @service.track
       @service.start_jobs
       @service.stop_tracking
