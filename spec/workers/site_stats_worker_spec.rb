@@ -4,9 +4,9 @@ describe SiteStatsWorker do
   describe "#perform" do
     it "generates site stats for a site" do
       site = create_site "www.retailer.com"
-      FactoryGirl.create(:retail_listing)
-      stalest = FactoryGirl.create(:retail_listing, updated_at: Time.now - 10.days)
-      FactoryGirl.create(:retail_listing, :inactive)
+      FactoryGirl.create(:listing)
+      stalest = FactoryGirl.create(:listing, updated_at: Time.now - 10.days)
+      FactoryGirl.create(:listing, :inactive)
 
       worker = SiteStatsWorker.new
       worker.perform(domain: site.domain)
