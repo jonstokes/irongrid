@@ -3,25 +3,21 @@ require 'sidekiq/testing'
 
 describe PushProductLinksWorker do
   before :each do
+    #Stretched
+    Stretched::Registration.clear_all
+    register_globals
+
     # Sidekiq
     Sidekiq::Testing.disable!
     clear_sidekiq
 
-    # Stretched
-    Stretched::Registration.clear_all
-    register_stretched_globals
-    register_site "www.budsgunshop.com"
-
     # IronGrid
     @site = create_site "www.budsgunshop.com"
-    LinkMessageQueue.new(domain: @site.domain).clear
-    ImageQueue.new(domain: @site.domain).clear
-    CDN.clear!
-
-    # Vars
+    @site.register
+    @site.link_message_queue.clear
     @worker = PushProductLinksWorker.new
     @session_q = Stretched::SessionQueue.new(@site.domain)
-    @link_store = LinkMessageQueue.new(domain: @site.domain)
+    @link_store = @site.link_message_queue
     @msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/1")
   end
 
