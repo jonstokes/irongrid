@@ -23,7 +23,7 @@ class PruneLinksWorker < CoreWorker
     return unless opts && init(opts)
     track
     @link_store.each_message do |msg|
-      if (listing = IronBase::Listing.find_by_url(msg.url)) && listing.try(:fresh?)
+      if (listing = IronBase::Listing.find_by_url(msg.url).first) && listing.try(:fresh?)
         @link_store.rem(msg.url)
         record_incr(:links_pruned)
       else

@@ -5,7 +5,7 @@ describe PruneLinksWorker do
   before :each do
     # Stretched
     Stretched::Registration.clear_all
-    register_stretched_globals
+    register_globals
     register_site "www.retailer.com"
 
     # Sidekiq
@@ -14,8 +14,7 @@ describe PruneLinksWorker do
 
     @site = create_site "www.retailer.com"
     @worker = PruneLinksWorker.new
-    @lq = LinkMessageQueue.new(domain: @site.domain)
-    @lq.clear
+    @site.link_message_queue.clear
     Sidekiq::Worker.clear_all
   end
 
@@ -24,88 +23,82 @@ describe PruneLinksWorker do
     Sidekiq::Testing.fake!
   end
 
-  describe "#perform" do
+  describe '#perform' do
     it "should remove a link from the LinkMessageQueue if it's fresh, and leave it if it's stale" do
       fresh_listing = nil
-      msg = nil
       5.times do |i|
-        fresh_listing = FactoryGirl.create(:listing)
-        @lq.push LinkMessage.new(url: fresh_listing.url, jid: "abcd123")
-        @lq.push LinkMessage.new(url: "http://#{@site.domain}/#{i + 100}", jid: "abcd123")
+        fresh_listing = create(:listing, seller: { domain: @site.domain })
+        @site.link_message_queue.push LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
       end
 
-      stale_listing = FactoryGirl.create(:listing, updated_at: Time.now - 5.days)
-      msg = LinkMessage.new(url: stale_listing.url, jid: "abcd123")
-      @lq.push msg
+      stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
+      msg = LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
+      @site.link_message_queue.push msg
+      IronBase::Listing.refresh_index
       @worker.perform(domain: @site.domain)
-      expect(@lq.has_key?(stale_listing.url)).to be_true
-      expect(@lq.has_key?(fresh_listing.url)).to be_false
-      expect(@lq.size).to eq(6)
+      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to be_true
+      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to be_false
+      expect(@site.link_message_queue.size).to eq(1)
     end
 
-    it "exits early if the site is still being read" do
-      session_queue = Stretched::SessionQueue.new(@site.domain)
+    it 'exits early if the site is still being read' do
       PopulateSessionQueueWorker.new.perform(domain: @site.domain)
       fresh_listing = nil
-      msg = nil
-      5.times do |i|
-        fresh_listing = FactoryGirl.create(:retail_listing)
-        @lq.push LinkMessage.new(url: fresh_listing.url, jid: "abcd123")
-        @lq.push LinkMessage.new(url: "http://#{@site.domain}/#{i + 100}", jid: "abcd123")
-      end
 
-      stale_listing = FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days)
-      msg = LinkMessage.new(url: stale_listing.url, jid: "abcd123")
-      @lq.push msg
+      5.times do |i|
+        fresh_listing = create(:listing, seller: { domain: @site.domain })
+        @site.link_message_queue.push LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
+      end
+      stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
+      IronBase::Listing.refresh_index
+      msg = LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
+      @site.link_message_queue.push msg
       @worker.perform(domain: @site.domain)
-      expect(@lq.has_key?(stale_listing.url)).to be_true
-      expect(@lq.has_key?(fresh_listing.url)).to be_true
-      expect(@lq.size).to eq(11)
+
+      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to be_true
+      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to be_true
+      expect(@site.link_message_queue.size).to eq(6)
     end
 
-    it "exits early if there are still product links in the queue for the site" do
-      object_queue = Stretched::ObjectQueue.new("#{@site.domain}/product_links")
+    it 'exits early if there are still product links in the queue for the site' do
       object = {
         page: { url: "http://#{@site.domain}/1" },
         object: { product_link: "http://#{@site.domain}/1" },
         session: {}
       }
-      object_queue.add(object)
+      @site.product_links_queue.add(object)
 
       fresh_listing = nil
-      msg = nil
       5.times do |i|
-        fresh_listing = FactoryGirl.create(:retail_listing)
-        @lq.push LinkMessage.new(url: fresh_listing.url, jid: "abcd123")
-        @lq.push LinkMessage.new(url: "http://#{@site.domain}/#{i + 100}", jid: "abcd123")
+        fresh_listing = create(:listing, seller: { domain: @site.domain })
+        @site.link_message_queue.push LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
       end
-
-      stale_listing = FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days)
-      msg = LinkMessage.new(url: stale_listing.url, jid: "abcd123")
-      @lq.push msg
+      stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
+      IronBase::Listing.refresh_index
+      msg = LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
+      @site.link_message_queue.push msg
       @worker.perform(domain: @site.domain)
-      expect(@lq.has_key?(stale_listing.url)).to be_true
-      expect(@lq.has_key?(fresh_listing.url)).to be_true
-      expect(@lq.size).to eq(11)
+
+      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to be_true
+      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to be_true
+      expect(@site.link_message_queue.size).to eq(6)
     end
-
-
   end
 
   describe "#transition" do
     it "transitions to RefreshLinksWorker if there are any links" do
-      listing = FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days)
-      @lq.push LinkMessage.new(url: listing.url, jid: "abcd123")
+      listing = FactoryGirl.create(:listing, updated_at: Time.now - 5.days)
+      @site.link_message_queue.push LinkMessage.new(url: listing.url.page, jid: "abcd123")
       @worker.perform(domain: @site.domain)
-      expect(@lq.size).to eq(1)
+      expect(@site.link_message_queue.size).to eq(1)
       expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
     end
 
     it "does not transition to RefreshLinksWorker if there are no links" do
-      listing = FactoryGirl.create(:retail_listing)
-      @lq.push LinkMessage.new(url: listing.url, jid: "abcd123")
+      listing = FactoryGirl.create(:listing)
+      @site.link_message_queue.push LinkMessage.new(url: listing.url.page, jid: "abcd123")
       @worker.perform(domain: @site.domain)
-      expect(@lq.size).to eq(0)
+      expect(@site.link_message_queue.size).to eq(0)
       expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(0)
     end
   end

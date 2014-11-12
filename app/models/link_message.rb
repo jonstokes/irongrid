@@ -30,7 +30,7 @@ class LinkMessage
   def initialize(attrs)
     new_from_hash(attrs) if attrs.is_a?(Hash)
     new_from_listing(attrs) if attrs.is_a?(Listing)
-    new_from_scraper(attrs) if attrs.is_a?(ParseJson)
+    new_from_scraper(attrs) if attrs.is_a?(WriteJsonToIndex)
   end
 
   def update(attrs)
