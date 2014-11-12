@@ -7,18 +7,7 @@ describe PullProductLinksWorker do
     Sidekiq::Testing.disable!
     clear_sidekiq
 
-    # Stretched
-    Stretched::Registration.clear_all
-    register_stretched_globals
-    register_site "www.budsgunshop.com"
-
-    # IronGrid
     @site = create_site "www.budsgunshop.com"
-    LinkMessageQueue.new(domain: @site.domain).clear
-    ImageQueue.new(domain: @site.domain).clear
-    CDN.clear!
-
-    # Vars
     @worker = PullProductLinksWorker.new
     @page = {
       url:     "http://#{@site.domain}/catalog/1",
