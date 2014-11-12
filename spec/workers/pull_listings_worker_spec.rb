@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PullListingsWorker do
   class Mapper
-    include ObjectMapper
+    extend ObjectMapper
   end
 
   before :each do
@@ -24,16 +24,16 @@ describe PullListingsWorker do
         fetched: true,
         response_time: 100
     }
-    @object = {
-      session: {},
-      page: @page,
-      object: @listing_json
-    }
     @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
-
     @listing = FactoryGirl.build(:listing, :retail, seller: { site_name: @site.name, domain: @site.domain })
-    @listing_json = Mapper.new.reverse_map(@listing).to_hash.deep_symbolize_keys.merge(valid: true).except(:url)
+    @listing_json = Mapper.json_from_listing(@listing)
     @listing_data = @listing.data.merge(id: @listing.id)
+    @object = {
+        session: {},
+        page: @page,
+        object: @listing_json
+    }
+
   end
 
   describe '#perform' do
@@ -441,9 +441,7 @@ describe PullListingsWorker do
             code:           301
         )
 
-        new_listing_json = Mapper.new.reverse_map(listing_v2).merge(
-            valid: true,
-        ).to_hash
+        new_listing_json = Mapper.json_from_listing(listing_v2)
 
         @object_q.add @object.merge(
                           object: new_listing_json,
@@ -534,7 +532,7 @@ describe PullListingsWorker do
         @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
 
-      it "should create create listings from a feed" do
+      it 'should create create listings from an Avantlink feed' do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed.json") do |f|
           JSON.parse(f.read)
         end
@@ -545,10 +543,10 @@ describe PullListingsWorker do
         expect(IronBase::Listing.count).to eq(4)
         listing = IronBase::Listing.first
         expect(listing.url.page).to match(/avantlink\.com/)
-        expect(args.listing.digest).not_to be_nil
+        expect(listing.digest).not_to be_nil
       end
 
-      it "should update listings from a feed" do
+      it 'should update listings from an Avantlink feed' do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed_update.json") do |f|
           JSON.parse(f.read)
         end
@@ -560,10 +558,10 @@ describe PullListingsWorker do
         listing = IronBase::Listing.first
         expect(listing.url.purchase).to match(/avantlink\.com/)
         expect(listing.digest).not_to be_nil
-        expect(listing.price.current).to eq(109)
+        expect(listing.price.list).to eq(109)
       end
 
-      it "should create WriteListingWorkers for removed listings proper payload" do
+      it 'should remove listings from an Avantlink feed' do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed_remove.json") do |f|
           JSON.parse(f.read)
         end
@@ -577,7 +575,7 @@ describe PullListingsWorker do
         expect(listing.availability).to eq('out_of_stock')
       end
 
-      it "should add a link to the ImageQueue for each new or updated listing" do
+      it 'should add a link to the ImageQueue for each new or updated listing' do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed.json") do |f|
           JSON.parse(f.read)
         end
@@ -591,12 +589,13 @@ describe PullListingsWorker do
       end
     end
 
-    describe "where image_source exists on CDN already" do
+    describe 'where image_source exists on CDN already' do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
-        image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
+        image_source = "http://scoperrific.com/bogus_image.png"
         CDN::Image.create(source: image_source, http: Sunbro::HTTP.new)
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
         iq = ImageQueue.new(domain: @site.domain)
         listing = IronBase::Listing.first
 
@@ -606,11 +605,12 @@ describe PullListingsWorker do
       end
     end
 
-    describe "where image_source does not exist on CDN already" do
+    describe 'where image_source does not exist on CDN already' do
       it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
-        image_source = "http://www.emf-company.com/store/pc/catalog/1911CITCSPHBat10MED.JPG"
+        image_source = "http://scoperrific.com/bogus_image.png"
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
+        IronBase::Listing.refresh_index
         iq = ImageQueue.new(domain: @site.domain)
         listing = IronBase::Listing.first
 

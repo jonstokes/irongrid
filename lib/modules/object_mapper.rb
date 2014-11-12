@@ -18,6 +18,14 @@ module ObjectMapper
     end
   end
 
+  #
+  # The following functions are just used for specs
+  #
+
+  def json_from_listing(listing)
+    reverse_map(listing).to_hash.deep_symbolize_keys.merge(valid: true).except(:url)
+  end
+
   def reverse_map(listing)
     json = Hashie::Mash.new
 
