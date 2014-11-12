@@ -29,7 +29,7 @@ class LinkMessage
 
   def initialize(attrs)
     new_from_hash(attrs) if attrs.is_a?(Hash)
-    new_from_listing(attrs) if attrs.is_a?(Listing)
+    new_from_listing(attrs) if attrs.is_a?(IronBase::Listing)
     new_from_scraper(attrs) if attrs.is_a?(WriteJsonToIndex)
   end
 
@@ -57,7 +57,7 @@ class LinkMessage
 
   def new_from_listing(listing)
     @data = {
-      url:            listing.bare_url,
+      url:            listing.url.page,
       listing_id:     listing.id,
       listing_digest: listing.digest,
     }

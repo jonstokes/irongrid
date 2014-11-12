@@ -5,8 +5,6 @@ describe PruneLinksWorker do
   before :each do
     # Stretched
     Stretched::Registration.clear_all
-    register_globals
-    register_site "www.retailer.com"
 
     # Sidekiq
     Sidekiq::Testing.disable!
