@@ -5,7 +5,7 @@ class ReadProductLinksService < CoreService
   def each_job
     Site.each do |site|
       next unless should_add_job?(site)
-      yield(klass: "PullProductLinksWorker", arguments: {domain: site.domain})
+      yield(klass: 'PullProductLinksWorker', arguments: {domain: site.domain})
     end
   end
 

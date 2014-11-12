@@ -4,10 +4,8 @@ class UpdateListingImagesService < CoreService
   def each_job
     CoreService.mutex.synchronize {
       begin
-        db do
-          Listing.no_image.find_in_batches do |batch|
-            yield(klass: "UpdateListingImagesWorker", arguments: batch.map(&:id))
-          end
+        IronBase::Listing.with_each_no_image do |batch|
+          yield(klass: 'UpdateListingImagesWorker', arguments: batch.map(&:id))
         end
       end
     }
