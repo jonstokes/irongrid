@@ -7,7 +7,7 @@ class DeleteEndedAuctionsService < CoreService
     CoreService.mutex.synchronize {
       begin
         db do
-          Listing.ended_auctions.find_in_batches do |batch|
+          Listing.with_each_ended_auction do |batch|
             yield(klass: "DeleteListingsWorker", arguments: batch.map(&:id))
           end
         end
