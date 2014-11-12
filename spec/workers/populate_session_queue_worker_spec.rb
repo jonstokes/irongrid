@@ -9,7 +9,7 @@ describe PopulateSessionQueueWorker do
 
     # Stretched
     Stretched::Registration.clear_all
-    register_stretched_globals
+    register_globals
 
     # IronGrid
     @site = create_site "www.budsgunshop.com"
