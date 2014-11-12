@@ -1,34 +1,44 @@
 require 'spec_helper'
 
+def auction_count
+  IronBase::Listing.count do |search|
+    search.filters = { listing_type: ['AuctionListing'] }
+  end
+end
+
 describe DeleteListingsWorker do
-  it "deletes all ended auctions" do
+  it 'deletes all ended auctions' do
     site = create_site "www.gunbroker.com"
-    5.times { FactoryGirl.create(:auction_listing) }
+    5.times { FactoryGirl.create(:listing, :auction) }
     auctions = []
-    2.times { auctions << FactoryGirl.create(:auction_listing, :ended) }
-    DeleteListingsWorker.new.perform(auctions)
-    expect(AuctionListing.all.count).to eq(5)
-    expect {
-      Listing.find auctions.first.id
-    }.to raise_error(ActiveRecord::RecordNotFound)
-    expect {
-      Listing.find auctions.last.id
-    }.to raise_error(ActiveRecord::RecordNotFound)
+    2.times { auctions << FactoryGirl.create(:listing, :ended_auction) }
+    IronBase::Listing.refresh_index
+    DeleteListingsWorker.new.perform(auctions.map(&:id))
+    IronBase::Listing.refresh_index
+    expect(
+        IronBase::Listing.find auctions.first.id
+    ).to be_nil
+    expect(
+        IronBase::Listing.find auctions.last.id
+    ).to be_nil
+    expect(auction_count).to eq(5)
   end
 
-  it "does not fail when it encounters a listing that has already been deleted" do
+  it 'does not fail when it encounters a listing that has already been deleted' do
     site = create_site "www.gunbroker.com"
-    5.times { FactoryGirl.create(:auction_listing) }
+    5.times { FactoryGirl.create(:listing, :auction) }
     auctions = []
-    2.times { auctions << FactoryGirl.create(:auction_listing, :ended) }
-    DeleteListingsWorker.new.perform(auctions)
-    expect(AuctionListing.all.count).to eq(5)
-    expect {
-      Listing.find auctions.first.id
-    }.to raise_error(ActiveRecord::RecordNotFound)
-    expect {
-      Listing.find auctions.last.id
-    }.to raise_error(ActiveRecord::RecordNotFound)
+    2.times { auctions << FactoryGirl.create(:listing, :ended_auction) }
+    IronBase::Listing.refresh_index
+    DeleteListingsWorker.new.perform(auctions.map(&:id))
+    IronBase::Listing.refresh_index
+    expect(
+      IronBase::Listing.find auctions.first.id
+    ).to be_nil
+    expect(
+      IronBase::Listing.find auctions.last.id
+    ).to be_nil
+    expect(auction_count).to eq(5)
     expect {
       DeleteListingsWorker.new.perform(auctions)
     }.not_to raise_error

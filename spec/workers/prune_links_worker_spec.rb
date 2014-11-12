@@ -29,12 +29,12 @@ describe PruneLinksWorker do
       fresh_listing = nil
       msg = nil
       5.times do |i|
-        fresh_listing = FactoryGirl.create(:retail_listing)
+        fresh_listing = FactoryGirl.create(:listing)
         @lq.push LinkMessage.new(url: fresh_listing.url, jid: "abcd123")
         @lq.push LinkMessage.new(url: "http://#{@site.domain}/#{i + 100}", jid: "abcd123")
       end
 
-      stale_listing = FactoryGirl.create(:retail_listing, updated_at: Time.now - 5.days)
+      stale_listing = FactoryGirl.create(:listing, updated_at: Time.now - 5.days)
       msg = LinkMessage.new(url: stale_listing.url, jid: "abcd123")
       @lq.push msg
       @worker.perform(domain: @site.domain)
