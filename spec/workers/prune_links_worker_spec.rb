@@ -83,18 +83,20 @@ describe PruneLinksWorker do
     end
   end
 
-  describe "#transition" do
-    it "transitions to RefreshLinksWorker if there are any links" do
-      listing = FactoryGirl.create(:listing, updated_at: Time.now - 5.days)
-      @site.link_message_queue.push LinkMessage.new(url: listing.url.page, jid: "abcd123")
+  describe '#transition' do
+    it 'transitions to RefreshLinksWorker if there are any links' do
+      stale = FactoryGirl.create(:listing, updated_at: Time.now - 5.days)
+      IronBase::Listing.refresh_index
+      @site.link_message_queue.push LinkMessage.new(url: stale.url.page, jid: "abcd123")
       @worker.perform(domain: @site.domain)
       expect(@site.link_message_queue.size).to eq(1)
       expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
     end
 
-    it "does not transition to RefreshLinksWorker if there are no links" do
-      listing = FactoryGirl.create(:listing)
-      @site.link_message_queue.push LinkMessage.new(url: listing.url.page, jid: "abcd123")
+    it 'does not transition to RefreshLinksWorker if there are no links' do
+      fresh = FactoryGirl.create(:listing, seller: { domain: @site.domain })
+      IronBase::Listing.refresh_index
+      @site.link_message_queue.push LinkMessage.new(url: fresh.url.page, jid: "abcd123")
       @worker.perform(domain: @site.domain)
       expect(@site.link_message_queue.size).to eq(0)
       expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(0)
