@@ -6,12 +6,12 @@ describe DeleteEndedAuctionsService do
     @service = DeleteEndedAuctionsService.new
   end
 
-  describe "#run", no_es: true do
-    it "generates DeleteListingsWorker jobs for batches of ended auctions" do
+  describe '#run', no_es: true do
+    it 'generates DeleteListingsWorker jobs for batches of ended auctions' do
       Sidekiq::Testing.fake!
-      5.times { FactoryGirl.create(:auction_listing) }
+      5.times { FactoryGirl.create(:listing, :auction) }
       auctions = []
-      5.times { auctions << FactoryGirl.create(:auction_listing, :ended) }
+      5.times { auctions << FactoryGirl.create(:listing, :ended_auction) }
 
       @service.track
       @service.start_jobs
