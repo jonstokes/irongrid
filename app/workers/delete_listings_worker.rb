@@ -7,10 +7,11 @@ class DeleteListingsWorker < CoreWorker
     listings_deleted: Integer
   }
 
+  # TODO: Refactor to use bulk API
   def perform(listing_ids)
     track
     listing_ids.each do |id|
-      listing = Listing.find(id) rescue nil
+      listing = IronBase::Listing.find(id)
       next unless listing
       record_incr(:listings_deleted) if listing.destroy
     end

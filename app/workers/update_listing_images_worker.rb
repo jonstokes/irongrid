@@ -11,12 +11,12 @@ class UpdateListingImagesWorker < CoreWorker
   def perform(listing_ids)
     track
     listing_ids.each do |id|
-      next unless listing = Listing.find(id) rescue nil
-      update_listing(listing) && next unless listing.image_source.present?
+      next unless listing = IronBase::Listing.find(id)
+      update_listing(listing) && next unless listing.image.source.try(:present?)
 
-      image = CDN::Image.new(source: listing.image_source)
+      image = CDN::Image.new(source: listing.image.source)
       if image.exists?
-        listing.image = image.cdn_url
+        listing.image.cdn = image.cdn_url
         update_listing(listing)
       end
     end
@@ -24,9 +24,8 @@ class UpdateListingImagesWorker < CoreWorker
   end
 
   def update_listing(listing)
-    listing.image_download_attempted = true
-    listing.item_data_will_change!
-    db { listing.update_record_without_timestamping }
+    listing.image.download_attempted = true
+    listing.update_record_without_timestamping
     record_incr(:listings_updated)
   end
 end
