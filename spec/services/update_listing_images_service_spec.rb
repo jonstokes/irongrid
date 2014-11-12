@@ -10,7 +10,8 @@ describe UpdateListingImagesService do
   describe "#run", no_es: true do
     it "generates UpdateListingImagesWorker jobs for batches of recently updated listings with no image" do
       listings = []
-      5.times { listings << FactoryGirl.create(:retail_listing, :no_image) }
+      5.times { listings << create(:listing, :no_image) }
+      IronBase::Listing.refresh_index
 
       @service.track
       @service.start_jobs
