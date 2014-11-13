@@ -591,7 +591,7 @@ describe PullListingsWorker do
 
     describe 'where image_source exists on CDN already' do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
-        image_source = "http://scoperrific.com/bogus_image.png"
+        image_source = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
         CDN::Image.create(source: image_source, http: Sunbro::HTTP.new)
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
@@ -600,7 +600,7 @@ describe PullListingsWorker do
         listing = IronBase::Listing.first
 
         expect(listing.image.source).to eq(image_source)
-        expect(listing.image.cdn).to eq("https://s3.amazonaws.com/scoperrific-index-test/c8f0568ee6c444af95044486351932fb.JPG")
+        expect(listing.image.cdn).to eq("https://s3.amazonaws.com/scoperrific-index-test/75f7a54c58bc2e392b56f46897ad2e68.png")
         expect(iq.pop).to be_nil
       end
     end

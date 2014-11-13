@@ -26,7 +26,7 @@ FactoryGirl.define do
     end
     image do
       {
-          source: "http://scoperrific.com/bogus_image.png",
+          source: SPEC_IMAGE_1,
           cdn: nil
       }
     end
