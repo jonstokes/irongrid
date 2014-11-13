@@ -34,41 +34,12 @@ class Listing < ActiveRecord::Base
   validate :digest, :uniqueness => true
 
   attr_accessible :type, :url, :digest, :inactive, :item_data, :geo_data_id, :update_count,
-    :seller_domain, :auction_ends, :image, :image_download_attempted, :upc, :mpn, :sku
+                  :seller_domain, :auction_ends, :image, :image_download_attempted, :upc, :mpn, :sku
 
   scope :ended_auctions, -> { where("type = ? AND auction_ends < ?", "AuctionListing", (Time.now.utc - 1.day).to_s) }
   scope :no_image, -> { where("image_download_attempted = ? AND updated_at > ?", false, 1.days.ago) }
   scope :active, -> { where(inactive: [nil, false]) }
   scope :inactive, -> { where(inactive: true) }
-
-  def self.es_objects
-    []
-  end
-
-  def self.item_data_attributes
-    Listing::ITEM_DATA_ATTRIBUTES
-  end
-
-  Listing.es_objects.each do |key|
-    define_method key do
-      item_data[key]
-    end
-
-    define_method "#{key}=" do |value|
-      item_data_will_change! unless item_data[key] == [{key => value}]
-      item_data[key] = [{key => value}]
-    end
-  end
-
-  Listing.item_data_attributes.each do |key|
-    define_method key do
-      item_data[key]
-    end
-    define_method "#{key}=" do |value|
-      item_data_will_change! unless item_data[key] == value
-      item_data[key] = value
-    end
-  end
 
   def to_indexed_json
     attributes_and_values = INDEXED_ATTRIBUTES.map do |attr|
@@ -233,7 +204,7 @@ class Listing < ActiveRecord::Base
     original_index = Tire.index(Listing.index_name).url.split(Listing.index_name).first
     Tire.configure { reset :url }
     Listing.index.delete
-    # ElasticTools::IndexMapping.generate(Listing.index_name)
+    ElasticTools::IndexMapping.generate(Listing.index_name)
     Listing.index.refresh
     Tire.configure { url original_index }
   end
@@ -250,7 +221,7 @@ class Listing < ActiveRecord::Base
   end
 
   def update_es_objects(new_item_data, final_item_data)
-    Listing.es_objects.each do |attr|
+    ES_OBJECTS.each do |attr|
       if should_overwrite_attribute?(new_item_data, attr)
         final_item_data.merge!(attr => new_item_data[attr])
       end
@@ -259,7 +230,7 @@ class Listing < ActiveRecord::Base
   end
 
   def udpate_other_item_data(new_item_data, final_item_data)
-    Listing.item_data_attributes.each do |attr|
+    ITEM_DATA_ATTRIBUTES.each do |attr|
       final_item_data.merge!(attr => new_item_data[attr]) if attr[/price/] || new_item_data[attr].present?
     end
     final_item_data
@@ -269,7 +240,7 @@ class Listing < ActiveRecord::Base
     original_classification_type = read_classification_type(item_data, attr)
     new_classification_type = read_classification_type(new_item_data, attr)
     (new_classification_type == 'hard') ||
-      ((original_classification_type == 'soft') && (new_classification_type == 'metadata'))
+        ((original_classification_type == 'soft') && (new_classification_type == 'metadata'))
   end
 
   def read_classification_type(item_data_hash, attr)
