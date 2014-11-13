@@ -7,13 +7,13 @@ describe UpdateListingImagesWorker do
 
   it 'updates listings that have no images when their images are on the CDN without stepping on updated_at timestamp' do
     listing = create(:listing, :no_image)
-    CDN::Image.create(source: listing.image_source, http: Sunbro::HTTP.new)
+    CDN::Image.create(source: listing.image.source, http: Sunbro::HTTP.new)
     sleep 1
     UpdateListingImagesWorker.new.perform([listing.id])
     IronBase::Listing.refresh_index
     same_listing = IronBase::Listing.first
     expect(same_listing.image.cdn).to eq(CDN::Image.new(source: listing.image.source).cdn_url)
-    expect(same_listing.updated_at).to eq(listing.updated_at)
+    expect(same_listing.updated_at.to_i).to eq(listing.updated_at.to_i)
     expect(same_listing.image.download_attempted).to be_true
   end
 
