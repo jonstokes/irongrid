@@ -12,8 +12,8 @@ module ObjectMapper
         transform(nopts)
         listing[key] = field unless field.empty?
       else
-        next unless json[value]
-        listing[key] = json[value]
+        next unless json.send(value)
+        listing[key] = json.send(value)
       end
     end
   end
@@ -63,6 +63,10 @@ module ObjectMapper
 
   class Mapper
     include ObjectMapper
+  end
+
+  def self.transform(opts)
+    Mapper.new.transform(opts)
   end
 
   def self.json_from_listing(listing)
