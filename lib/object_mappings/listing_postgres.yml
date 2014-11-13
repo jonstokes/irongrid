@@ -1,0 +1,67 @@
+---
+#id
+#updated_at
+#created_at
+#digest
+type: type
+url:
+  page: bare_url
+  purchase: url
+seller:
+  site_name: seller_name
+  domain: seller_domain
+image:
+  source: image_source
+  cdn: image
+  download_attempted: image_download_attempted
+auction_ends: auction_ends
+engine: 'ironsights'
+shipping_cost: shipping_cost_in_cents
+discount:
+  in_cents: discount_in_cents
+  percent: discount_percent
+with_shipping:
+  discount:
+    in_cents: discount_in_cents_with_shipping
+    percent: discount_percent_with_shipping
+  price:
+    current: current_price_in_cents_with_shipping
+    per_round: price_per_round_in_cents_with_shipping
+title: title
+keywords: keywords
+description: description
+condition: item_condition
+location:
+  source: item_location
+  city: city
+  state: state
+  country: country
+  latitude: latitude
+  longitude: longitude
+  state_code: state_code
+  postal_code: postal_code
+  country_code: country_code
+  coordinates: coordinates
+availability: availability
+price:
+  current: current_price_in_cents
+  per_round: price_per_round_in_cents
+  on_request: price_on_request
+  list: price_in_cents
+  sale: sale_price_in_cents
+  buy_now: buy_now_price_in_cents
+  current_bid: current_bid_in_cents
+  minimum_bid: minimum_bid_in_cents
+  reserve: reserve_in_cents
+product:
+  upc: upc
+  sku: sku
+  mpn: mpn
+  category1: category1
+  manufacturer: manufacturer
+  weight:
+    shipping: weight_in_pounds
+  caliber: caliber
+  caliber_category: caliber_category
+  number_of_rounds: number_of_rounds
+  grains: grains
