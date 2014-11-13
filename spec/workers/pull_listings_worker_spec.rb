@@ -607,7 +607,7 @@ describe PullListingsWorker do
 
     describe 'where image_source does not exist on CDN already' do
       it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
-        image_source = "http://scoperrific.com/bogus_image.png"
+        image_source = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
         @object_q.add(@object)
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
