@@ -1,52 +1,18 @@
-# Multi-Engine work list
+# For IronGrid Migration
+ * Convert all loadables to new format
+ * Move over all ironsights-sites adapters to new loadables manifest
+ * Set up production IAM key, bucket, policy, etc. for S3 snapshot backups and test it out.
 
- * Make synonyms work with IronBase::Settings (testing needed)
+# Bring up test migration for front end
+Delete Test Found cluster
+Bring up new Found cluster and set ELASTICSEARCH_URL_REMOTE to it in application.yml
 
- * I'll want to rename ironsights-sites to irongrid-sites, because this
-will be a consolidated repo for multiple engines.
+RAILS_ENV=production bundle exec rake index:create_with_alias
 
- * Globals should go index/globals/
+Set INDEX_NAME in application.yml to actual index name (not alias) from previous command output
 
+RAILS_ENV=production bundle exec migrate:geo_data
+RAILS_ENV=production bundle exec migrate:listings
 
-# SetUrl
- Set context.url = { page and purchase }
-   
-# FindOrCreateListing
- set listing.id
- find or create listing object
- 
-  rollback do
-    if the listing is persisted?
-        if from a redirect || status(:duplicate)
-            destroy
-        else
-            deactivate
-        end
-    end
- end
- 
-# MergeJsonIntoListing
- fail :invalid if listing is invalid
- set listing.url
- copy listing attributes
- fail :auction_ended if auction ended?
- 
-# SetProductDetails
- add product details
-
-# RunLoadables
- run loadables for shipping, etc.
-
-# SetLocation
- add location
-
-# SetDigest
- set digest
- if the listing would dupe another digest
-    fail(:duplicate)
-
-# SaveListingToIndex
- update image
- save listing
-
-   
+# For front end
+ * Once the migration is done, start work on front end
