@@ -25,7 +25,7 @@ describe Loadable::Script do
       script = Loadable::Script.create_from_file(@source_file).first
       reg = Loadable::Script.find(script.key)
       expect(reg).to be_a(Loadable::Script)
-      expect(reg.key).to eq("www.budsgunshop.com/shipping")
+      expect(reg.key).to eq("www.budsgunshop.com/shipping_cost")
       expect(reg.data).to include("Loadable::Script.define")
     end
   end

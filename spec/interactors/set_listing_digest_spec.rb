@@ -62,6 +62,6 @@ describe SetListingDigest do
     }
 
     result = SetListingDigest.call(opts)
-    expect(result.listing.digest).to eq('e93a1a7683dcce0d3e063f74e21936e7')
+    expect(result.listing.digest).to eq('4e9ae7a4270c5d38ef59302226058a81')
   end
 end
