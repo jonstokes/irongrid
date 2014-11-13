@@ -1,8 +1,8 @@
 ---
-#id
 #updated_at
 #created_at
 #digest
+id: url
 type: type
 url:
   page: bare_url

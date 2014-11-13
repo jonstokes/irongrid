@@ -27,9 +27,6 @@ class Listing < ActiveRecord::Base
   index.add_alias "auction_listings"
   index.add_alias "classified_listings"
 
-  after_save :update_es_index
-  after_destroy :update_es_index
-
   validate :url, :uniqueness => true
   validate :digest, :uniqueness => true
 
@@ -41,12 +38,20 @@ class Listing < ActiveRecord::Base
   scope :active, -> { where(inactive: [nil, false]) }
   scope :inactive, -> { where(inactive: true) }
 
-  def to_indexed_json
+  def to_hash
     attributes_and_values = INDEXED_ATTRIBUTES.map do |attr|
       [attr.to_s, send(attr)]
     end
 
-    Hash[attributes_and_values].merge(item_data).to_json
+    Hash[attributes_and_values].merge(item_data)
+  end
+
+  def to_indexed_json
+    to_hash.to_json
+  end
+
+  def to_hashie
+    Hashie::Mash.new to_hash
   end
 
   def url
@@ -129,18 +134,6 @@ class Listing < ActiveRecord::Base
 
   def out_of_stock?
     item_data["availability"] == "out_of_stock"
-  end
-
-  def created_at
-    self[:created_at].strftime("%Y-%m-%dT%H:%M:%S") if self[:created_at]
-  end
-
-  def updated_at
-    self[:updated_at].strftime("%Y-%m-%dT%H:%M:%S") if self[:updated_at]
-  end
-
-  def auction_ends
-    self[:auction_ends].strftime("%Y-%m-%dT%H:%M:%S") if self[:auction_ends]
   end
 
   def self.register_percolator(percolator_name, json_query)

@@ -42,3 +42,45 @@ namespace :index do
     )
   end
 end
+
+
+def json_mapping
+  @json_to_es_mapping ||= Hashie::Mash.new YAML.load_file "#{Rails.root}/lib/object_mappings/listing_postgres.yml"
+end
+
+def copy_listing(opts)
+  ObjectMapper.transform(opts.merge(mapping: json_mapping))
+  listing, es_listing = opts[:source], opts[:destination]
+  es_listing.updated_at = listing.updated_at.putc
+  es_listing.created_at = listing.created_at.utc
+end
+
+namespace :migrate do
+  task listings: :environment do
+    IronBase::Listing.record_timestamps = false
+
+    Listing.find_each do |listing|
+      es_listing = IronBase::Listing.new
+      copy_listing(source: listing, destination: es_listing)
+      es_listing.send(:run_validations)
+      es_listing.set_digest!
+      es_listing.persist!
+    end
+  end
+
+  task geo_data: :environment do
+    GeoData.find_each do |loc|
+      Location.create(
+          id: loc.key,
+          city: loc.city,
+          state: loc.state,
+          country: loc.country,
+          latitude: loc.latitude,
+          longitude: loc.longitude,
+          state_code: loc.state_code,
+          postal_code: loc.postal_code,
+          country_code: loc.country_code
+      )
+    end
+  end
+end
