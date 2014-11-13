@@ -5,7 +5,7 @@ read_interval: 1440
 timezone:
 loadables:
   - www.budsgunshop.com/shipping_cost
-  - globals/product_details
+  - ironsights/globals/product_details
 registrations:
   session_queue:
     www.budsgunshop.com: {}
