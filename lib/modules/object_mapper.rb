@@ -60,4 +60,12 @@ module ObjectMapper
     json.product_grains = listing.product.grains
     json
   end
+
+  class Mapper
+    include ObjectMapper
+  end
+
+  def self.json_from_listing(listing)
+    Mapper.new.json_from_listing(listing)
+  end
 end
