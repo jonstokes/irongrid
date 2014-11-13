@@ -20,12 +20,12 @@ describe LinkMessage do
     end
 
     it "creates a new LinkMessage object from a Listing object" do
-      listing = FactoryGirl.create(:retail_listing)
+      listing = FactoryGirl.create(:listing)
       msg = LinkMessage.new(listing)
       expect(msg).to be_a(LinkMessage)
       expect(msg.url).to match(/www\.retailer\.com\/\d/)
-      expect(msg.listing_digest).to match(/digest\-\d/)
-      expect(msg.listing_id).to be_a(Integer)
+      expect(msg.listing_digest).to eq(listing.digest)
+      expect(msg.listing_id).to eq(listing.id)
     end
   end
 
