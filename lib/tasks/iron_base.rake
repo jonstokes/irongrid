@@ -64,7 +64,9 @@ namespace :migrate do
     Listing.find_each do |listing|
       es_listing = IronBase::Listing.new
       copy_listing(source: listing, destination: es_listing)
-      es_listing.save
+      es_listing.send(:run_validations)
+      es_listing.send(:set_digest!)
+      es_listing.send(:persist!)
     end
   end
 
