@@ -16,11 +16,32 @@ def json_mapping
   @json_to_es_mapping ||= Hashie::Mash.new YAML.load_file "#{Rails.root}/lib/object_mappings/listing_postgres.yml"
 end
 
+def mappings
+  @mappings ||= begin
+    list = {}
+    %w(rimfire_calibers handgun_calibers shotgun_calibers rifle_calibers).each do |key|
+      list.merge!(key => Stretched::Mapping.find(key))
+    end
+    list
+  end
+end
+
+def mapping_has_term?(mapping, term)
+  (mapping.terms + mapping.terms.map(&:downcase)).include?(term)
+end
+
+def correct_caliber_category(listing)
+  mappings.each do |mapping_name, mapping|
+    return mapping_name.split("_calibers").first if mapping_has_term?(mapping, listing.caliber)
+  end
+end
+
 def copy_listing(opts)
   ObjectMapper.transform(opts.merge(mapping: json_mapping))
   listing, es_listing = opts[:source], opts[:destination]
   es_listing.id = listing.url
   es_listing.engine = 'ironsights'
+  es_listing.caliber_category = correct_caliber_category(listing) if listing.caliber && listing.caliber_category.nil?
   es_listing.updated_at = listing.updated_at.utc
   es_listing.created_at = listing.created_at.utc
 end
