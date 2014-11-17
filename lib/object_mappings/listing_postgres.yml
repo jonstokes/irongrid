@@ -2,7 +2,6 @@
 #updated_at
 #created_at
 #digest
-id: url
 type: type
 url:
   page: bare_url
@@ -15,7 +14,6 @@ image:
   cdn: image
   download_attempted: image_download_attempted
 auction_ends: auction_ends
-engine: 'ironsights'
 shipping_cost: shipping_cost_in_cents
 discount:
   in_cents: discount_in_cents

@@ -12,6 +12,19 @@ def put_mappings
   Location.put_mapping
 end
 
+def json_mapping
+  @json_to_es_mapping ||= Hashie::Mash.new YAML.load_file "#{Rails.root}/lib/object_mappings/listing_postgres.yml"
+end
+
+def copy_listing(opts)
+  ObjectMapper.transform(opts.merge(mapping: json_mapping))
+  listing, es_listing = opts[:source], opts[:destination]
+  es_listing.id = listing.url
+  es_listing.engine = 'ironsights'
+  es_listing.updated_at = listing.updated_at.utc
+  es_listing.created_at = listing.created_at.utc
+end
+
 namespace :index do
   task create: :environment do
     IronBase::Settings.configure do |config|
@@ -20,7 +33,7 @@ namespace :index do
 
     IronBase::Index.create(
         index: index_name,
-        filename: 'ironsights_v1'
+        filename: 'ironsights_v1.yml'
     )
     put_mappings
   end
@@ -33,7 +46,7 @@ namespace :index do
 
     IronBase::Index.create(
         index: index_name,
-        filename: 'ironsights_v1'
+        filename: 'ironsights_v1.yml'
     )
     put_mappings
     IronBase::Index.create_alias(
@@ -41,18 +54,6 @@ namespace :index do
         alias: 'listings'
     )
   end
-end
-
-
-def json_mapping
-  @json_to_es_mapping ||= Hashie::Mash.new YAML.load_file "#{Rails.root}/lib/object_mappings/listing_postgres.yml"
-end
-
-def copy_listing(opts)
-  ObjectMapper.transform(opts.merge(mapping: json_mapping))
-  listing, es_listing = opts[:source], opts[:destination]
-  es_listing.updated_at = listing.updated_at.utc
-  es_listing.created_at = listing.created_at.utc
 end
 
 namespace :migrate do
