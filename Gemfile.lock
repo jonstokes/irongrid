@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
-  revision: a5e6286925bc63663c974f1bf172e954e302afa4
+  revision: ca8c7a9271f77f2f917c24bbe7316205a6178db2
   specs:
     stretched (0.0.1)
       activesupport
