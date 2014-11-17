@@ -56,7 +56,12 @@ module ListingConstants
 
   ES_OBJECTS.each do |key|
     define_method key do
-      item_data[key]
+      next unless item_data[key]
+      begin
+        item_data[key].select {|h| h.has_key?(key)}.first[key].select {|h| h.has_key? key}.first[key]
+      rescue NoMethodError
+        item_data[key].select {|h| h.has_key?(key)}.first[key]
+      end
     end
 
     define_method "#{key}=" do |value|
