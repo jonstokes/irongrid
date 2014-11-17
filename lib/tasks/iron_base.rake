@@ -51,20 +51,19 @@ end
 def copy_listing(opts)
   ObjectMapper.transform(opts.merge(mapping: json_mapping))
   listing, es_listing = opts[:source], opts[:destination]
-  es_listing.updated_at = listing.updated_at.putc
+  es_listing.updated_at = listing.updated_at.utc
   es_listing.created_at = listing.created_at.utc
 end
 
 namespace :migrate do
   task listings: :environment do
     IronBase::Listing.record_timestamps = false
+    IronBase::Listing.run_percolators = false
 
     Listing.find_each do |listing|
       es_listing = IronBase::Listing.new
       copy_listing(source: listing, destination: es_listing)
-      es_listing.send(:run_validations)
-      es_listing.set_digest!
-      es_listing.persist!
+      es_listing.save
     end
   end
 
