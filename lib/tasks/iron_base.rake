@@ -26,13 +26,20 @@ def mappings
   end
 end
 
-def mapping_has_term?(mapping, term)
-  (mapping.terms + mapping.terms.map(&:downcase)).include?(term)
-end
-
 def correct_caliber_category(listing)
   mappings.each do |mapping_name, mapping|
-    return mapping_name.split("_calibers").first if mapping_has_term?(mapping, listing.caliber)
+    return mapping_name.split("_calibers").first if mapping.has_term?(listing.caliber, ignore_case: true)
+  end
+  nil
+end
+
+def correct_caliber(es_listing, listing)
+  return unless listing.caliber
+  category = correct_caliber_category(listing)
+  if category
+    es_listing.product.caliber_category = category
+  else
+    es_listing.product.caliber = nil
   end
 end
 
@@ -41,7 +48,7 @@ def copy_listing(opts)
   listing, es_listing = opts[:source], opts[:destination]
   es_listing.id = listing.url
   es_listing.engine = 'ironsights'
-  es_listing.caliber_category = correct_caliber_category(listing) if listing.caliber && listing.caliber_category.nil?
+  correct_caliber(es_listing, listing)
   es_listing.updated_at = listing.updated_at.utc
   es_listing.created_at = listing.created_at.utc
 end
