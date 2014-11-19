@@ -78,6 +78,7 @@ namespace :index do
         filename: 'ironsights_v1.yml'
     )
     sleep 5
+    IronBase::Settings.configure { |c| c.index_name = index_name }
     put_mappings
     sleep 5
     IronBase::Index.create_alias(
