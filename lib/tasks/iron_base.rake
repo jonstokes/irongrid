@@ -79,7 +79,7 @@ namespace :index do
     put_mappings
     IronBase::Index.create_alias(
         index: index_name,
-        alias: 'listings'
+        alias: 'ironsights'
     )
   end
 end
