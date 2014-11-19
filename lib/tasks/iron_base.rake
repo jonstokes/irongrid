@@ -63,6 +63,7 @@ namespace :index do
         index: index_name,
         filename: 'ironsights_v1.yml'
     )
+    sleep 5
     put_mappings
   end
 
@@ -76,7 +77,9 @@ namespace :index do
         index: index_name,
         filename: 'ironsights_v1.yml'
     )
+    sleep 5
     put_mappings
+    sleep 5
     IronBase::Index.create_alias(
         index: index_name,
         alias: 'ironsights'
