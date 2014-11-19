@@ -90,15 +90,18 @@ end
 
 namespace :migrate do
   task listings: :environment do
+    include Retryable
     IronBase::Listing.record_timestamps = false
     IronBase::Listing.run_percolators = false
 
     Listing.find_each do |listing|
-      es_listing = IronBase::Listing.new
-      copy_listing(source: listing, destination: es_listing)
-      es_listing.send(:run_validations)
-      es_listing.send(:set_digest!)
-      es_listing.send(:persist!)
+      retryable do
+        es_listing = IronBase::Listing.new
+        copy_listing(source: listing, destination: es_listing)
+        es_listing.send(:run_validations)
+        es_listing.send(:set_digest!)
+        es_listing.send(:persist!)
+      end
     end
   end
 
