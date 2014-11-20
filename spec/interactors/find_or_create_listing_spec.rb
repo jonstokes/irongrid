@@ -54,7 +54,7 @@ describe FindOrCreateListing do
           url: Hashie::Mash.new(page: page_url, purchase: purchase_url),
           page: page
       ).listing
-      expect(listing.id).to eq(purchase_url)
+      expect(listing.id).to eq(Digest::MD5.hexdigest(purchase_url))
     end
 
     it 'should use an id tagged url when there is an id tag in the listing json' do
@@ -74,7 +74,7 @@ describe FindOrCreateListing do
           url: Hashie::Mash.new(page: page_url, purchase: purchase_url),
           page: page
       ).listing
-      expect(listing.id).to eq("#{purchase_url}!#{id_tag}")
+      expect(listing.id).to eq(Digest::MD5.hexdigest("#{purchase_url}!#{id_tag}"))
     end
   end
 end
