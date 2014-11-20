@@ -12,7 +12,7 @@ FactoryGirl.define do
       base_url { "http://#{domain}/" }
     end
 
-    sequence(:id)     { |n| "#{base_url}#{n}"}
+    sequence(:id)     { |n| Digest::MD5.hexdigest("#{base_url}#{n}")}
     sequence(:title)  { |n| "Listing Title - #{n}" }
     sequence(:url) do |n|
       { page: "#{base_url}#{n}", purchase: "#{base_url}#{n}" }

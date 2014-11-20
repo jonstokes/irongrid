@@ -16,7 +16,7 @@ class FindOrCreateListing
   end
 
   def listing_id
-    id_tagged_url || id_base_url
+    Digest::MD5.hexdigest(id_tagged_url || id_base_url)
   end
 
   def id_tagged_url
