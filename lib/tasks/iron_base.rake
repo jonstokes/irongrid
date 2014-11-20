@@ -46,7 +46,7 @@ end
 def copy_listing(opts)
   ObjectMapper.transform(opts.merge(mapping: json_mapping))
   listing, es_listing = opts[:source], opts[:destination]
-  es_listing.id = listing.url
+  es_listing.id = Digest::MD5.hexdigest(listing.url)
   es_listing.engine = 'ironsights'
   correct_caliber(es_listing, listing)
   es_listing.updated_at = listing.updated_at.utc
