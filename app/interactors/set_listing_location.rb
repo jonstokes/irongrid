@@ -5,7 +5,7 @@ class SetListingLocation
     listing.location ||= {}
     return if listing.location.coordinates
     geo_data = lookup_geo_data(listing.location.source)
-    listing.location.merge!(geo_data.to_h)
+    listing.location.merge!(geo_data.listing_location)
   end
 
   def lookup_geo_data(item_location)
