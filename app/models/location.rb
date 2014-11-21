@@ -80,6 +80,10 @@ class Location < IronBase::IndexedObject
     id.upcase!
   end
 
+  def listing_location
+    to_h.except(:latitude, :longitude, :updated_at, :created_at)
+  end
+
   def self.put(key)
     raise "Key cannot be nil!" unless key.present?
     id = key.upcase.strip
