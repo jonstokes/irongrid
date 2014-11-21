@@ -327,7 +327,7 @@ describe PullListingsWorker do
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
-        expect(IronBase::Listing.search).to be_empty
+        expect(IronBase::Listing.count).to be_zero
       end
 
       it 'deletes a listing that redirects to a not_found page' do
@@ -346,7 +346,7 @@ describe PullListingsWorker do
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
-        expect(IronBase::Listing.search).to be_empty
+        expect(IronBase::Listing.count).to be_zero
       end
 
       it 'updates a listing that 301 moved permanently with a new url' do
@@ -409,7 +409,7 @@ describe PullListingsWorker do
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
-        expect(IronBase::Listing.search).to be_empty
+        expect(IronBase::Listing.count).to be_zero
       end
 
       it 'deletes a listing that is discovered to be a duplicate' do
