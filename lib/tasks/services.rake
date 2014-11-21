@@ -39,6 +39,22 @@ def clear_sidekiq_queues
   end
 end
 
+def clear_site_queues
+  domains = YAML.load_file("../ironsights-sites/sites/site_manifest.yml")
+  domains.each do |domain|
+    site = Site.new(domain: domain, source: :local) rescue next
+    next if site.session_queue.size.zero? && site.listings_queue.size.zero? && site.product_links_queue.size.zero? && site.link_message_queue.size.zero?
+    puts "## #{site.domain}"
+    puts "   SNQ: #{site.session_queue.size}" unless site.session_queue.size.zero?
+    puts "   LQ:  #{site.listings_queue.size}" unless site.listings_queue.size.zero?
+    puts "   PLQ: #{site.product_links_queue.size}" unless site.product_links_queue.size.zero?
+    puts "   LMQ: #{site.link_message_queue.size}" unless site.link_message_queue.size.zero?
+    site.session_queue.clear
+    site.link_message_queue.clear
+    site.product_links_queue.clear
+  end
+end
+
 def clear_link_messages
   notify "Clearing all LinkMessages..."
   LinkMessageQueue.with_redis do |conn|
