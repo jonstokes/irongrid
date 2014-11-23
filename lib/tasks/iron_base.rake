@@ -70,7 +70,12 @@ namespace :index do
   task create_with_alias: :environment do
     index_name = generate_index_name
     IronBase::Settings.configure do |config|
-      config.synonyms = ElasticTools::Synonyms.synonyms
+      config.synonyms = {
+          listing: %w(foo foobar),
+          product: ['foo => foobar'],
+          manufacturer: ['foo => foobar'],
+          caliber: ['foo => foobar']
+      }
     end
 
     IronBase::Index.create(

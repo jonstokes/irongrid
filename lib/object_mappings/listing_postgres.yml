@@ -34,8 +34,6 @@ location:
   city: city
   state: state
   country: country
-  latitude: latitude
-  longitude: longitude
   state_code: state_code
   postal_code: postal_code
   country_code: country_code
