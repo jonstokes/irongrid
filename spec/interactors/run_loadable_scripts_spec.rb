@@ -28,7 +28,7 @@ describe RunLoadableScripts do
         listing_json: Hashie::Mash.new
       }
       result = RunLoadableScripts.call(opts)
-      expect(result.listing.shipping_cost).to eq(995)
+      expect(result.listing.shipping.cost).to eq(995)
     end
   end
 
@@ -88,7 +88,7 @@ describe RunLoadableScripts do
           site: @site,
           listing_json: Hashie::Mash.new
       )
-      expect(results.listing.shipping_cost).to eq(0)
+      expect(results.listing.shipping.cost).to eq(0)
       expect(results.listing.with_shipping.price.current).to eq(100)
       expect(results.listing.with_shipping.discount).to be_nil
 
@@ -104,7 +104,7 @@ describe RunLoadableScripts do
           site: @site,
           listing_json: Hashie::Mash.new
       )
-      expect(results.listing.shipping_cost).to eq(995)
+      expect(results.listing.shipping.cost).to eq(995)
       expect(results.listing.with_shipping.price.current).to eq(1095)
       expect(results.listing.with_shipping.price.per_round).to eq(11)
 
@@ -116,7 +116,7 @@ describe RunLoadableScripts do
           site: @site,
           listing_json: Hashie::Mash.new
       )
-      expect(results.listing.shipping_cost).to be_nil
+      expect(results.listing.shipping.cost).to be_nil
       expect(results.listing.with_shipping).to be_nil
     end
 
@@ -135,7 +135,7 @@ describe RunLoadableScripts do
               in_cents: 10,
               percent: 10
           },
-          shipping_cost: 10
+          shipping: { cost: 10 }
       )
       results = RunLoadableScripts.call(
           listing: listing,

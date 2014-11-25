@@ -45,7 +45,7 @@ describe MergeJsonIntoListing do
       expect(listing.availability).to eq('in_stock')
       expect(listing.price.list).to eq(65000)
       expect(listing.price.sale).to eq(60000)
-      expect(listing.shipping_cost).to eq(200)
+      expect(listing.shipping.cost).to eq(200)
       expect(listing.seller.domain).to eq(@site.domain)
       expect(listing.seller.site_name).to eq(@site.name)
     end
