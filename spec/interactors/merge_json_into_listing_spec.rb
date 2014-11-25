@@ -40,7 +40,6 @@ describe MergeJsonIntoListing do
       expect(listing.url.page).to eq(@url.page)
       expect(listing.url.purchase).to eq(@url.purchase)
       expect(listing.condition).to eq('new')
-      expect(listing.location.id).to eq('1900 East Warner Ave. Ste., 1-D, Santa Ana, CA 92705'.upcase)
       expect(listing.type).to eq('RetailListing')
       expect(listing.availability).to eq('in_stock')
       expect(listing.price.list).to eq(65000)
