@@ -34,9 +34,9 @@ module ObjectMapper
     end
 
     json.url = listing['url']['purchase']
-    json.shipping_cost_in_cents = listing['shipping']['cost']
+    json.shipping_cost_in_cents = listing['shipping']['cost'] rescue nil
     json.image = listing['image']['source']
-    json.location = listing['location']['source'] rescue nil
+    json.location = listing['location']['id'] rescue nil
     json.discount_in_cents = listing['discount']['in_cents'] rescue nil
     json.discount_percent = listing['discount']['percent'] rescue nil
     json.price_on_request = listing['price']['on_request'] rescue nil

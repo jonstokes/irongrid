@@ -49,11 +49,11 @@ def copy_listing(opts)
   es_listing['id'] = Digest::MD5.hexdigest(listing.url)
   es_listing['engine'] = 'ironsights'
   correct_caliber(es_listing, listing)
-  es_listing['shipping']['cost'] = listing.shipping_cost_in_cents
   es_listing['shipping']['included'] = !!listing.shipping_cost_in_cents
   es_listing['price']['on_request'] = !!listing.price_on_request
   es_listing['updated_at'] = listing.updated_at.utc
   es_listing['created_at'] = listing.created_at.utc
+  es_listing['location']['id'] = listing.item_location.strip.upcase
 end
 
 namespace :index do

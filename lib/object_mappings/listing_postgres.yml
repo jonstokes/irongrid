@@ -31,7 +31,6 @@ keywords: keywords
 description: description
 condition: item_condition
 location:
-  source: item_location
   city: city
   state: state
   country: country
