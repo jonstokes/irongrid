@@ -14,7 +14,8 @@ image:
   cdn: image
   download_attempted: image_download_attempted
 auction_ends: auction_ends
-shipping_cost: shipping_cost_in_cents
+shipping:
+  cost: shipping_cost_in_cents
 discount:
   in_cents: discount_in_cents
   percent: discount_percent
@@ -34,6 +35,8 @@ location:
   city: city
   state: state
   country: country
+  latitude: latitude
+  longitude: longitude
   state_code: state_code
   postal_code: postal_code
   country_code: country_code
