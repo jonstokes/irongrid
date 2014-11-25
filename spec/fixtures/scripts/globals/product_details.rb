@@ -23,11 +23,15 @@ Loadable::Script.define do
     with_shipping do |instance|
       listing = instance.listing
 
+      # shipping included
+      listing.shipping ||= {}
+      listing.shipping.included = !!listing.shipping.cost
+
       # current price with shipping
-      next unless listing.shipping_cost && listing.price.try(:current)
+      next unless listing.shipping.cost && listing.price.try(:current)
       listing.with_shipping = {
           price: {
-              current: (listing.price.current + listing.shipping_cost)
+              current: (listing.price.current + listing.shipping.cost)
           }
       }
 
