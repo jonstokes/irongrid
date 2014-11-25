@@ -46,11 +46,12 @@ end
 def copy_listing(opts)
   ObjectMapper.transform(opts.merge(mapping: json_mapping))
   listing, es_listing = opts[:source], opts[:destination]
-  es_listing.id = Digest::MD5.hexdigest(listing.url)
-  es_listing.engine = 'ironsights'
+  es_listing['id'] = Digest::MD5.hexdigest(listing.url)
+  es_listing['engine'] = 'ironsights'
   correct_caliber(es_listing, listing)
   es_listing['shipping']['cost'] = listing.shipping_cost_in_cents
   es_listing['shipping']['included'] = !!listing.shipping_cost_in_cents
+  es_listing['price']['on_request'] = !!listing.price_on_request
   es_listing['updated_at'] = listing.updated_at.utc
   es_listing['created_at'] = listing.created_at.utc
 end
@@ -97,6 +98,7 @@ namespace :migrate do
     IronBase::Listing.run_percolators = false
 
     Listing.find_each do |listing|
+      next if listing.active? && listing.price.nil? && !listing.price_on_request
       retryable do
         es_listing = IronBase::Listing.new
         copy_listing(source: listing, destination: es_listing)

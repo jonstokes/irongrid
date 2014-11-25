@@ -45,7 +45,6 @@ availability: availability
 price:
   current: current_price_in_cents
   per_round: price_per_round_in_cents
-  on_request: price_on_request
   list: price_in_cents
   sale: sale_price_in_cents
   buy_now: buy_now_price_in_cents
