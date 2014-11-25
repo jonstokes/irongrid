@@ -1,4 +1,5 @@
 # For IronGrid Migration
+ * Get shipping cost working again
  * Convert all loadables to new format
  * Move over all ironsights-sites adapters to new loadables manifest
  * Set up production IAM key, bucket, policy, etc. for S3 snapshot backups and test it out.
