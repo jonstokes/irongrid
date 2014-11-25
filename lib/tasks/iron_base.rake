@@ -63,7 +63,7 @@ namespace :index do
     end
 
     IronBase::Index.create(
-        index: index_name,
+        index: generate_index_name,
         filename: 'ironsights_v1.yml'
     )
     sleep 5
