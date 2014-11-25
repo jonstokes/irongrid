@@ -50,7 +50,10 @@ def copy_listing(opts)
   es_listing['engine'] = 'ironsights'
   correct_caliber(es_listing, listing)
   es_listing['shipping']['included'] = !!listing.shipping_cost_in_cents if es_listing['shipping']
-  es_listing['price']['on_request'] = !!listing.price_on_request
+  if listing.price_on_request
+    es_listing['price'] ||= {}
+    es_listing['price']['on_request'] = !!listing.price_on_request
+  end
   es_listing['updated_at'] = listing.updated_at.utc
   es_listing['created_at'] = listing.created_at.utc
   es_listing['location']['id'] = listing.item_location.strip.upcase
