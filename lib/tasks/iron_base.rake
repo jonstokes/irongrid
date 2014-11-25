@@ -34,12 +34,12 @@ def correct_caliber_category(listing)
 end
 
 def correct_caliber(es_listing, listing)
-  return unless listing.caliber
+  return unless listing['caliber']
   category = correct_caliber_category(listing)
   if category
-    es_listing.product.caliber_category = category
+    es_listing['product']['caliber_category'] = category
   else
-    es_listing.product.caliber = nil
+    es_listing['product']['caliber'] = nil
   end
 end
 
@@ -49,8 +49,10 @@ def copy_listing(opts)
   es_listing.id = Digest::MD5.hexdigest(listing.url)
   es_listing.engine = 'ironsights'
   correct_caliber(es_listing, listing)
-  es_listing.updated_at = listing.updated_at.utc
-  es_listing.created_at = listing.created_at.utc
+  es_listing['shipping']['cost'] = listing.shipping_cost_in_cents
+  es_listing['shipping']['included'] = !!listing.shipping_cost_in_cents
+  es_listing['updated_at'] = listing.updated_at.utc
+  es_listing['created_at'] = listing.created_at.utc
 end
 
 namespace :index do
@@ -70,12 +72,7 @@ namespace :index do
   task create_with_alias: :environment do
     index_name = generate_index_name
     IronBase::Settings.configure do |config|
-      config.synonyms = {
-          listing: %w(foo foobar),
-          product: ['foo => foobar'],
-          manufacturer: ['foo => foobar'],
-          caliber: ['foo => foobar']
-      }
+      config.synonyms = ElasticTools::Synonyms.synonyms
     end
 
     IronBase::Index.create(
