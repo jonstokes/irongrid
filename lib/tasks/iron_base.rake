@@ -56,7 +56,10 @@ def copy_listing(opts)
   end
   es_listing['updated_at'] = listing.updated_at.utc
   es_listing['created_at'] = listing.created_at.utc
-  es_listing['location']['id'] = listing.item_location.strip.upcase
+  es_listing['location']['id'] =  listing.item_location.strip.upcase
+rescue Exception => e
+  puts "Listing #{listing.id} raised error"
+  raise e
 end
 
 namespace :index do
