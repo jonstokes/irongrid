@@ -133,11 +133,13 @@ namespace :index do
       config.synonyms = ElasticTools::Synonyms.synonyms
     end
 
+    index_name = generate_index_name
     IronBase::Index.create(
-        index: generate_index_name,
+        index: index_name,
         filename: 'ironsights_v1.yml'
     )
     sleep 5
+    IronBase::Settings.configure { |c| c.elasticsearch_index = index_name }
     put_mappings
   end
 
