@@ -87,7 +87,7 @@ describe WriteJsonToIndex do
       expect(listing.description).to include("Remington-Remington")
       expect(listing.price).to be_nil
       expect(listing.availability).to eq("out_of_stock")
-      expect(listing.location.source).to eq("2710 South 1900 West, Ogden, UT 84401")
+      expect(listing.location.id).to eq("2710 South 1900 West, Ogden, UT 84401".upcase)
     end
 
     it 'parses a classified listing from Armslist' do
@@ -117,7 +117,7 @@ describe WriteJsonToIndex do
       expect(item.price.sale).to be_nil
       expect(item.price.current).to eq(52500)
       expect(item.availability).to eq("in_stock")
-      expect(item.location.source).to include("Southwest Washington")
+      expect(item.location.id).to include("Southwest Washington".upcase)
     end
 
     it "parses a CTD retail listing using meta tags" do
@@ -126,7 +126,7 @@ describe WriteJsonToIndex do
       listing = File.open("spec/fixtures/stretched/output/ctd-meta-tags.json", "r") do |f|
         JSON.parse(f.read)
       end.first.merge(engine: 'ironsights')
-
+      
       result = WriteJsonToIndex.call(
         page: @page,
         listing_json: Hashie::Mash.new(listing),

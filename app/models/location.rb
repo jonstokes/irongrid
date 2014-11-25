@@ -81,7 +81,10 @@ class Location < IronBase::IndexedObject
   end
 
   def listing_location
-    to_h.except(:latitude, :longitude, :updated_at, :created_at)
+    data_in_index_format.except(*%w(latitude longitude updated_at created_at)).merge(
+        'id' => id,
+        'coordinates' => coordinates
+    )
   end
 
   def self.put(key)
@@ -116,10 +119,6 @@ class Location < IronBase::IndexedObject
         "country"      => result.country,
         "country_code" => result.country_code
     )
-  end
-
-  def to_h
-    data.merge("coordinates" => coordinates)
   end
 
   def self.default_location

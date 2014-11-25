@@ -11,8 +11,6 @@ availability: availability
 shipping_cost: shipping_cost_in_cents
 image:
   source: image
-location:
-  source: location
 discount:
   in_cents: discount_in_cents
   percent: discount_percent
