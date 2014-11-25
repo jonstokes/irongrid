@@ -48,7 +48,7 @@ def copy_listing(opts)
   es_listing['id'] = Digest::MD5.hexdigest(listing.url)
   es_listing.inactive = !!listing.inactive
   es_listing['engine'] = 'ironsights'
-  es_listing.digest = listing.digest
+  # es_listing.digest = listing.digest => This is set automatically now
   es_listing.url = {
       page: listing.bare_url,
       purchase: listing.url
