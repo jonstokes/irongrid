@@ -3,7 +3,7 @@ module ObjectMapper
     json, listing, mapping = opts[:source], opts[:destination], opts[:mapping]
     mapping.each do |key, value|
       if value.is_a?(Hashie::Mash)
-        field = Hashie::Mash.new
+        field = {}
         nopts = {
             source: json,
             destination: field,
