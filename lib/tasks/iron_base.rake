@@ -46,47 +46,29 @@ end
 def copy_listing(opts)
   listing, es_listing = opts[:source], opts[:destination]
   es_listing['id'] = Digest::MD5.hexdigest(listing.url)
+  es_listing.inactive = !!listing.inactive
   es_listing['engine'] = 'ironsights'
+  es_listing.digest = listing.digest
+  es_listing.url = {
+      page: listing.bare_url,
+      purchase: listing.url
+  }
   es_listing.type = listing.type
   es_listing.title = listing.title
   es_listing.keywords = listing.keywords
   es_listing.description = listing.description
   es_listing.condition = listing.item_condition
-
-  es_listing.url = {
-      page: listing.bare_url,
-      purchase: listing.url
-  }
-  es_listing.seller = {
-      site_name: listing.seller_name,
-      domain: listing.seller_domain
-  }
+  es_listing.auction_ends = listing.auction_ends
+  es_listing['created_at'] = listing.created_at.utc
+  es_listing['updated_at'] = listing.updated_at.utc
+  es_listing.availability = listing.availability
   es_listing.image = {
       source: listing.image_source,
       cdn: listing.image,
       download_attempted: listing.image_download_attempted
   }
-  es_listing.auction_ends = listing.auction_ends
-  es_listing.shipping = {
-      cost: listing.shipping_cost_in_cents,
-      included: !!listing.shipping_cost_in_cents
-  }
-  es_listing.discount = {
-      in_cents: listing.discount_in_cents,
-      percent: listing.discount_percent
-  }
-  es_listing.with_shipping = {
-    discount: {
-        in_cents: listing.discount_in_cents_with_shipping,
-        percent: listing.discount_percent_with_shipping
-    },
-    price: {
-        current: listing.current_price_in_cents_with_shipping,
-        per_round: listing.price_per_round_in_cents_with_shipping
-    }
-  }
   es_listing.location = {
-      id: listing.item_location.upcase,
+      id: listing.item_location.strip.upcase,
       city: listing.city,
       state: listing.state,
       country: listing.country,
@@ -95,7 +77,24 @@ def copy_listing(opts)
       country_code: listing.country_code,
       coordinates: listing.coordinates
   }
-  es_listing.availability = listing.availability
+  es_listing.with_shipping = {
+      discount: {
+          in_cents: listing.discount_in_cents_with_shipping,
+          percent: listing.discount_percent_with_shipping
+      },
+      price: {
+          current: listing.current_price_in_cents_with_shipping,
+          per_round: listing.price_per_round_in_cents_with_shipping
+      }
+  }
+  es_listing.discount = {
+      in_cents: listing.discount_in_cents,
+      percent: listing.discount_percent
+  }
+  es_listing.shipping = {
+      cost: listing.shipping_cost_in_cents,
+      included: !!listing.shipping_cost_in_cents
+  }
   es_listing.price = {
       on_request: !!listing.price_on_request,
       current: listing.current_price_in_cents,
@@ -106,6 +105,10 @@ def copy_listing(opts)
       current_bid: listing.current_bid_in_cents,
       mininum_bid: listing.minimum_bid_in_cents,
       reserve: listing.reserve_in_cents
+  }
+  es_listing.seller = {
+      site_name: listing.seller_name,
+      domain: listing.seller_domain
   }
   es_listing.product = {
       upc: listing.upc,
@@ -121,10 +124,6 @@ def copy_listing(opts)
       number_of_rounds: listing.number_of_rounds,
       grains: listing.grains
   }
-  es_listing['updated_at'] = listing.updated_at.utc
-  es_listing['created_at'] = listing.created_at.utc
-  es_listing['location']['id'] =  listing.item_location.strip.upcase
-
   correct_caliber(es_listing, listing)
 end
 
