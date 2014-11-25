@@ -44,22 +44,88 @@ def correct_caliber(es_listing, listing)
 end
 
 def copy_listing(opts)
-  ObjectMapper.transform(opts.merge(mapping: json_mapping))
   listing, es_listing = opts[:source], opts[:destination]
   es_listing['id'] = Digest::MD5.hexdigest(listing.url)
   es_listing['engine'] = 'ironsights'
-  correct_caliber(es_listing, listing)
-  es_listing['shipping']['included'] = !!listing.shipping_cost_in_cents if es_listing['shipping']
-  if listing.price_on_request
-    es_listing['price'] ||= {}
-    es_listing['price']['on_request'] = !!listing.price_on_request
-  end
+  es_listing.type = listing.type
+  es_listing.title = listing.title
+  es_listing.keywords = listing.keywords
+  es_listing.description = listing.description
+  es_listing.condition = listing.item_condition
+
+  es_listing.url = {
+      page: listing.bare_url,
+      purchase: listing.url
+  }
+  es_listing.seller = {
+      site_name: listing.seller_name,
+      domain: listing.seller_domain
+  }
+  es_listing.image = {
+      source: listing.image_source,
+      cdn: listing.image,
+      download_attempted: listing.image_download_attempted
+  }
+  es_listing.auction_ends = listing.auction_ends
+  es_listing.shipping = {
+      cost: listing.shipping_cost_in_cents,
+      included: !!listing.shipping_cost_in_cents
+  }
+  es_listing.discount = {
+      in_cents: listing.discount_in_cents,
+      percent: listing.discount_percent
+  }
+  es_listing.with_shipping = {
+    discount: {
+        in_cents: listing.discount_in_cents_with_shipping,
+        percent: listing.discount_percent_with_shipping
+    },
+    price: {
+        current: listing.current_price_in_cents_with_shipping,
+        per_round: listing.price_per_round_in_cents_with_shipping
+    }
+  }
+  es_listing.location = {
+      id: listing.item_location.upcase,
+      city: listing.city,
+      state: listing.state,
+      country: listing.country,
+      state_code: listing.state_code,
+      postal_code: listing.postal_code,
+      country_code: listing.country_code,
+      coordinates: listing.coordinates
+  }
+  es_listing.availability = listing.availability
+  es_listing.price = {
+      on_request: !!listing.price_on_request,
+      current: listing.current_price_in_cents,
+      per_round: listing.price_per_round_in_cents,
+      list: listing.price_in_cents,
+      sale: listing.sale_price_in_cents,
+      buy_now: listing.buy_now_price_in_cents,
+      current_bid: listing.current_bid_in_cents,
+      mininum_bid: listing.minimum_bid_in_cents,
+      reserve: listing.reserve_in_cents
+  }
+  es_listing.product = {
+      upc: listing.upc,
+      sku: listing.sku,
+      mpn: listing.mpn,
+      category1: listing.category1,
+      manufacturer: listing.manufacturer,
+      weight: {
+          shipping: listing.weight_in_pounds
+      },
+      caliber: listing.caliber,
+      caliber_category: listing.caliber_category,
+      number_of_rounds: listing.number_of_rounds,
+      grains: listing.grains
+  }
   es_listing['updated_at'] = listing.updated_at.utc
   es_listing['created_at'] = listing.created_at.utc
   es_listing['location']['id'] =  listing.item_location.strip.upcase
-rescue Exception => e
-  puts "Listing #{listing.id} raised error"
-  raise e
+
+  correct_caliber(es_listing, listing)
 end
 
 namespace :index do
@@ -104,7 +170,6 @@ namespace :migrate do
     IronBase::Listing.run_percolators = false
 
     Listing.find_each do |listing|
-      next if listing.active? && listing.price.nil? && !listing.price_on_request
       retryable do
         es_listing = IronBase::Listing.new
         copy_listing(source: listing, destination: es_listing)
