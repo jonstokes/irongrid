@@ -6,6 +6,10 @@ def generate_index_name
   "ironsights-#{Rails.env}-#{timestamp}"
 end
 
+def set_index(index_name)
+  IronBase::Settings.configure { |c| c.elasticsearch_index = index_name }
+end
+
 def put_mappings
   IronBase::Listing.put_mapping
   IronBase::Product.put_mapping
@@ -127,40 +131,57 @@ def copy_listing(opts)
   correct_caliber(es_listing, listing)
 end
 
+def configure_synonyms
+  IronBase::Settings.configure do |config|
+    config.synonyms = ElasticTools::Synonyms.synonyms
+  end
+end
+
+def create_index
+  index_name = generate_index_name
+  IronBase::Index.create(
+      index: index_name,
+      filename: 'ironsights_v1.yml'
+  )
+  sleep 5
+  index_name
+end
+
+def create_alias(index_name)
+  IronBase::Index.create_alias(
+      index: index_name,
+      alias: 'ironsights'
+  )
+end
+
+def copy_to_index(listing)
+  retryable do
+    es_listing = IronBase::Listing.new
+    copy_listing(source: listing, destination: es_listing)
+    es_listing.send(:run_validations)
+    es_listing.send(:set_digest!)
+    es_listing.send(:persist!)
+  end
+  return true
+rescue Exception => e
+  puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect}"
+  return false
+end
+
 namespace :index do
   task create: :environment do
-    IronBase::Settings.configure do |config|
-      config.synonyms = ElasticTools::Synonyms.synonyms
-    end
-
-    index_name = generate_index_name
-    IronBase::Index.create(
-        index: index_name,
-        filename: 'ironsights_v1.yml'
-    )
-    sleep 5
-    IronBase::Settings.configure { |c| c.elasticsearch_index = index_name }
+    configure_synonyms
+    index = create_index
+    set_index(index)
     put_mappings
   end
 
   task create_with_alias: :environment do
-    index_name = generate_index_name
-    IronBase::Settings.configure do |config|
-      config.synonyms = ElasticTools::Synonyms.synonyms
-    end
-
-    IronBase::Index.create(
-        index: index_name,
-        filename: 'ironsights_v1.yml'
-    )
-    sleep 5
-    IronBase::Settings.configure { |c| c.elasticsearch_index = index_name }
+    configure_synonyms
+    index = create_index
+    set_index(index)
     put_mappings
-    sleep 5
-    IronBase::Index.create_alias(
-        index: index_name,
-        alias: 'ironsights'
-    )
+    create_alias(index)
   end
 end
 
@@ -170,14 +191,13 @@ namespace :migrate do
     IronBase::Listing.record_timestamps = false
     IronBase::Listing.run_percolators = false
 
+    configure_synonyms
+    index = create_index
+    set_index(index)
+    put_mappings
+
     Listing.find_each do |listing|
-      retryable do
-        es_listing = IronBase::Listing.new
-        copy_listing(source: listing, destination: es_listing)
-        es_listing.send(:run_validations)
-        es_listing.send(:set_digest!)
-        es_listing.send(:persist!)
-      end
+      break unless copy_to_index(listing)
     end
   end
 
