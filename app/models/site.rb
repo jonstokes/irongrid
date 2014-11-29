@@ -109,6 +109,10 @@ class Site < CoreModel
     @lmq ||= LinkMessageQueue.new(domain: domain)
   end
 
+  def image_queue
+    @imgq ||= ImageQueue.new(domain: domain)
+  end
+
   def load_scripts
     filename = "#{Figaro.env.sites_repo}/sites/irongrid_scripts/#{domain.gsub('.','--')}.rb"
     Loadable::Script.create_from_file(filename)

@@ -11,7 +11,7 @@ class UpdateListingImage
       )
     else
       listing.image.merge!(cdn: CDN::DEFAULT_IMAGE_URL)
-      ImageQueue.new(domain: context.site.domain).push image_source
+      context.site.image_queue.push image_source
     end
   end
 

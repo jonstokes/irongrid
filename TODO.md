@@ -21,6 +21,9 @@ RAILS_ENV=production bundle exec migrate:listings
 # #############################
 # Product Id
 
+## UpdateProductImagesWorker
+Need to set this up, along with a service for it
+
 ## PullProductsWorker
 
 Pop product json from queue

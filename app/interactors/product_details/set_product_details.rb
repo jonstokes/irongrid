@@ -10,7 +10,6 @@ module ProductDetails
           name: product_attribute(:name),
           short_description: product_attribute(:short_description),
           long_description: product_attribute(:long_description),
-          image: product_attribute(:image),
           msrp: product_attribute(:msrp),
           category1: product_attribute(:category1),
           mpn: product_attribute(:mpn),
@@ -22,7 +21,7 @@ module ProductDetails
           number_of_rounds: product_attribute(:number_of_rounds),
           grains: product_attribute(:grains)
       }
-      # This won't work. Also, weight is missing!
+      # This won't work. Also, weight and image are missing!
       context.listing.product = product
     end
 
