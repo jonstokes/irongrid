@@ -27,8 +27,10 @@ price:
   per_round: price_per_round_in_cents
 product:
   upc: product_upc
-  sku: product_sku
-  mpn: product_mpn
+  sku:
+    raw: product_sku
+  mpn:
+    raw: product_mpn
   category1: product_category1
   manufacturer: product_manufacturer
   weight:
