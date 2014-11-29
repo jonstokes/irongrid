@@ -59,14 +59,13 @@ products = find_by_mpn || find_by_sku
 context.product = products.select { prod w/ most info and votes }
 
 SetProductDetails
+return unless context.product
 if context.upc_match
     listing.product = context.product
 else
-    listing.product.category1 ||= product.category
-    listing.product.caliber_category ||= product.caliber_category
+    listing.product.category1 ||= most popular product.category
+    listing.product.caliber_category ||= most popular product.caliber_category
     etc.
-
-
 
 
 ## FindProduct
