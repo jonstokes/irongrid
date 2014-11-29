@@ -51,12 +51,9 @@ product.save
 IdentifyByUpc
 If product = find_by_upc
     context.product = product
-    context.upc_match = true
-
-IdentifyBySkuOrMpn
-return if context.upc_match
-products = find_by_mpn || find_by_sku
-context.product = products.select { prod w/ most info and votes }
+else
+    products = find_by_mpn || find_by_sku
+    context.product = products.select { prod w/ most info and votes }
 
 SetProductDetails
 return unless context.product
