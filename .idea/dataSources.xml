@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2483678189">
+  <component name="DataSourceManagerImpl" format="xml" hash="1677369191">
     <data-source source="LOCAL" name="Rails irongrid: development" uuid="7846dcc0-60ca-4a7d-97f3-bf06175b6660">
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -21,4 +21,3 @@
     </data-source>
   </component>
 </project>
-
