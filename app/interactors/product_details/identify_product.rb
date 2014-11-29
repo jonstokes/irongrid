@@ -15,11 +15,13 @@ module ProductDetails
     end
 
     def mpn
-      context.listing_json.product_mpn
+      return unless arg = context.listing_json.product_mpn
+      IronBase::Product.normalize(arg)
     end
 
     def sku
-      context.listing_json.product_sku
+      return unless arg = context.listing_json.product_sku
+      IronBase::Product.normalize(arg)
     end
 
   end
