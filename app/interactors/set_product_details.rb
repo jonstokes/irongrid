@@ -3,6 +3,7 @@ class SetProductDetails
 
   organize [
     ProductDetails::IdentifyProduct,
+    ProductDetails::SetProductDetails
   ]
 
 end

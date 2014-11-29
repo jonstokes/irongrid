@@ -7,7 +7,7 @@ class WriteJsonToIndex
     SetUrl,
     FindOrCreateListing,
     MergeJsonIntoListing,
-    SetProductDetails,
+    #SetProductDetails,
     RunLoadableScripts,
     SetListingDigest,
     SetListingLocation,
