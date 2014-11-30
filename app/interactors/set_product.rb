@@ -1,4 +1,4 @@
-class SetProductDetails
+class SetProduct
   include Interactor::Organizer
 
   organize [
