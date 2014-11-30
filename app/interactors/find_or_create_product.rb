@@ -16,11 +16,11 @@ class FindOrCreateProduct
 
   def mpn
     return unless context.product_json.mpn.present?
-    IronBase::Product.normalize(context.product_json.mpn)
+    context.product_json.mpn
   end
 
   def sku
     return unless context.product_json.sku.present?
-    IronBase::Product.normalize(context.product_json.sku)
+    context.product_json.sku
   end
 end

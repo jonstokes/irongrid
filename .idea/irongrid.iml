@@ -120,6 +120,22 @@
     </content>
     <orderEntry type="jdk" jdkName="RVM: jruby-1.7.11 [irongrid]" jdkType="JRUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="iron_base (v0.0.1, /Users/jstokes/Local/Repositories/iron_base) [path][gem]">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../iron_base/lib" />
+          <root url="file://$MODULE_DIR$/../iron_base/log" />
+          <root url="file://$MODULE_DIR$/../iron_base/tmp" />
+          <root url="file://$MODULE_DIR$/../iron_base/.idea" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../iron_base/lib" />
+          <root url="file://$MODULE_DIR$/../iron_base/log" />
+          <root url="file://$MODULE_DIR$/../iron_base/tmp" />
+          <root url="file://$MODULE_DIR$/../iron_base/.idea" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v4.0.2, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionpack (v4.0.2, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activemodel (v4.0.2, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
@@ -168,7 +184,6 @@
     <orderEntry type="library" scope="PROVIDED" name="i18n (v0.6.11, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="image_voodoo (v0.8.2, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="interactor (v3.1.0, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="iron_base (v0.0.1@cea693, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jdbc-postgres (v9.3.1102, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jruby-openssl (v0.9.4, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.8.1, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
