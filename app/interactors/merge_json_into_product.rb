@@ -2,7 +2,7 @@ class MergeJsonIntoProduct
   include Interactor
 
   def call
-    return if context.product.complete?
+    context.fail! if context.product.complete?
     context.product.mpn = context.product_json.mpn
     context.product.sku = context.product_json.sku
     context.product.weight ||= { shipping: context.product_json.weight }

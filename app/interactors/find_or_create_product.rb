@@ -2,7 +2,7 @@ class FindOrCreateProduct
   include Interactor
 
   def call
-    return unless context.product_json.upc.present? # We have to have a UPC
+    context.fail! unless context.product_json.upc.present? # We have to have a UPC
     context.product = find_by_upc ||
         find_by_mpn ||
         find_by_sku ||
