@@ -2,14 +2,11 @@ class FindOrCreateProduct
   include Interactor
 
   def call
-    context.product = IronBase::Product.find_by_upc if upc
+    return unless upc # We have to have a UPC
+    context.product = IronBase::Product.find_by_upc(upc)
     context.product ||= IronBase::Product.find_by_mpn(mpn).hits.first if mpn
     context.product ||= IronBase::Product.find_by_sku(sku).hits.first if sku
-    context.product ||= IronBase::Product.new(
-        upc: context.product_json.upc,
-        mpn: context.product_json.mpn,
-        sku: context.product_json.sku
-    )
+    context.product ||= IronBase::Product.new(upc: upc)
   end
 
   def upc
