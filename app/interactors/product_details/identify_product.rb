@@ -3,25 +3,27 @@ module ProductDetails
     include Interactor
 
     def call
-      return if upc && context.product = IronBase::Product.find_by_upc(upc)
-      mpn_products = IronBase::Product.find_by_mpn(mpn)
-      return context.products = mpn_products if mpn_products.hits.any?
-      sku_products = IronBase::Product.find_by_sku(sku)
-      context.products = sku_products if sku_products.any?
+      return if context.product = find_by_upc
+      context.products = mpn_products || sku_products
     end
 
-    def upc
-      context.listing_json.product_upc
+    def find_by_upc
+      return unless context.listing_json.product_upc.present?
+      IronBase::Product.find_by_upc(context.listing_json.product_upc)
     end
 
-    def mpn
-      return unless arg = context.listing_json.product_mpn
-      IronBase::Product.normalize(arg)
+    def mpn_products
+      return unless context.listing_json.product_mpn.present?
+      mpn = IronBase::Product.normalize(context.listing_json.product_mpn)
+      products = IronBase::Product.find_by_mpn(mpn)
+      products.hits.any? ? products : nil
     end
 
-    def sku
-      return unless arg = context.listing_json.product_sku
-      IronBase::Product.normalize(arg)
+    def sku_products
+      return unless context.listing_json.product_sku.present?
+      sku = IronBase::Product.normalize(context.listing_json.product_sku)
+      products = IronBase::Product.find_by_sku(sku)
+      products.hits.any? ? products : nil
     end
 
   end
