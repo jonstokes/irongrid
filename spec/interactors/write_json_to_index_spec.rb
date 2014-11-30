@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'digest/md5'
 require 'mocktra'
 
-describe WriteJsonToIndex do
+describe WriteListingToIndex do
 
   describe '#call' do
     before :each do
@@ -23,7 +23,7 @@ describe WriteJsonToIndex do
         JSON.parse(f.read)
       end.first
 
-      result = WriteJsonToIndex.call(
+      result = WriteListingToIndex.call(
         page: @page,
         listing_json: Hashie::Mash.new(listing),
         site: site
@@ -39,7 +39,7 @@ describe WriteJsonToIndex do
         JSON.parse(f.read)
       end.first.merge(engine: 'ironsights')
 
-      result = WriteJsonToIndex.call(
+      result = WriteListingToIndex.call(
         page: @page,
         listing_json: Hashie::Mash.new(listing),
         site: site
@@ -70,7 +70,7 @@ describe WriteJsonToIndex do
         JSON.parse(f.read)
       end.first.merge(engine: 'ironsights')
 
-      result = WriteJsonToIndex.call(
+      result = WriteListingToIndex.call(
         page: @page,
         listing_json: Hashie::Mash.new(listing_json),
         site:site
@@ -97,7 +97,7 @@ describe WriteJsonToIndex do
         JSON.parse(f.read)
       end.first.merge(engine: 'ironsights')
 
-      result = WriteJsonToIndex.call(
+      result = WriteListingToIndex.call(
         page: @page,
         listing_json: Hashie::Mash.new(listing),
         site: site
@@ -127,7 +127,7 @@ describe WriteJsonToIndex do
         JSON.parse(f.read)
       end.first.merge(engine: 'ironsights')
       
-      result = WriteJsonToIndex.call(
+      result = WriteListingToIndex.call(
         page: @page,
         listing_json: Hashie::Mash.new(listing),
         site: site
@@ -149,7 +149,7 @@ describe WriteJsonToIndex do
         JSON.parse(f.read)
       end.first.merge(engine: 'ironsights')
 
-      result = WriteJsonToIndex.call(
+      result = WriteListingToIndex.call(
         page: @page,
         listing_json: Hashie::Mash.new(listing),
         site: site

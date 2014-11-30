@@ -68,7 +68,7 @@ class PullListingsWorker < CoreWorker
     if json.error?
       notify "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"; nil
     else
-      result = WriteJsonToIndex.call(
+      result = WriteListingToIndex.call(
           site:         site,
           listing_json: json.object,
           page:         json.page
