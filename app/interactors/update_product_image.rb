@@ -2,6 +2,7 @@ class UpdateProductImage
   include Interactor
 
   def call
+    return unless context.site
     context.product.image ||= {}
     return unless image_source = context.product.image[:source]
     if CDN.has_image?(image_source)
