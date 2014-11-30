@@ -2,25 +2,25 @@ class FindOrCreateProduct
   include Interactor
 
   def call
-    return unless upc # We have to have a UPC
-    context.product = IronBase::Product.find_by_upc(upc)
-    context.product ||= IronBase::Product.find_by_mpn(mpn).hits.first if mpn
-    context.product ||= IronBase::Product.find_by_sku(sku).hits.first if sku
-    context.product ||= IronBase::Product.new(upc: upc)
+    return unless context.product_json.upc.present? # We have to have a UPC
+    context.product = find_by_upc ||
+        find_by_mpn ||
+        find_by_sku ||
+        IronBase::Product.new(upc: context.product_json.upc)
   end
 
-  def upc
-    return unless context.product_json.upc.present?
-    context.product_json.upc
+  def find_by_upc
+    IronBase::Product.find_by_upc(context.product_json.upc)
   end
 
-  def mpn
+  def find_by_mpn
     return unless context.product_json.mpn.present?
-    context.product_json.mpn
+    IronBase::Product.find_by_mpn(context.product_json.mpn).hits.first
   end
 
-  def sku
+  def find_by_sku
     return unless context.product_json.sku.present?
-    context.product_json.sku
+    IronBase::Product.find_by_sku(context.product_json.sku).hits.first
   end
+
 end
