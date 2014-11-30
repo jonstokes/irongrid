@@ -7,7 +7,7 @@ class MergeJsonIntoProduct
     context.product.sku = context.product_json.sku
     context.product.weight ||= { shipping: context.product_json.weight }
     context.product.image ||= {
-        source: context.product_json.image_source,
+        source: context.product_json.image,
         cdn: context.image_cdn,
         download_attempted: !!context.image_download_attempted
     }

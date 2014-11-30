@@ -129,6 +129,7 @@ def copy_listing(opts)
       grains: listing.grains
   }
   correct_caliber(es_listing, listing)
+  es_listing
 end
 
 def configure_synonyms
@@ -154,7 +155,7 @@ def create_alias(index_name)
   )
 end
 
-def copy_to_index(listing)
+def copy_listing_to_index(listing)
   retryable do
     es_listing = IronBase::Listing.new
     copy_listing(source: listing, destination: es_listing)
@@ -166,6 +167,22 @@ def copy_to_index(listing)
 rescue Exception => e
   puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect}"
   return false
+end
+
+def copy_product_to_index(listing)
+  product_json = listing.product.deep_dup
+  product_json.merge!(
+      name: listing.title,
+      image: listing.image.source,
+      weight: listing.product.weight.shipping,
+      long_description: listing.description,
+  )
+
+  WriteListingToIndex.call(
+      product_json: product_json,
+      image_download_attempted: listing.image.download_attempted,
+      image_cdn: listing.image.cdn
+  )
 end
 
 namespace :index do
@@ -197,7 +214,8 @@ namespace :migrate do
     put_mappings
 
     Listing.find_each do |listing|
-      break unless copy_to_index(listing)
+      break unless es_listing = copy_listing_to_index(listing)
+      copy_product_to_index(es_listing)
     end
   end
 
