@@ -175,10 +175,10 @@ def copy_product_to_index(listing)
       name: listing.title,
       image: listing.image.source,
       weight: listing.product.weight.shipping,
-      long_description: listing.description,
+      long_description: listing.description
   )
 
-  WriteListingToIndex.call(
+  WriteProductToIndex.call(
       product_json: product_json,
       image_download_attempted: listing.image.download_attempted,
       image_cdn: listing.image.cdn
