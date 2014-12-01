@@ -9,6 +9,8 @@ class MergeJsonIntoProduct
         destination: context.product,
         mapping:     json_mapping
     )
+    context.product.mpn = context.product_json.mpn
+    context.product.sku = context.product_json.sku
     context.product.save
   end
 

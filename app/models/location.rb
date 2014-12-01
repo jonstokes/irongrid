@@ -80,7 +80,7 @@ class Location < IronBase::IndexedObject
     id.upcase!
   end
 
-  def listing_location
+  def normalized_for_listing
     data_in_index_format.except(*%w(latitude longitude updated_at created_at)).merge(
         'id' => id,
         'coordinates' => coordinates

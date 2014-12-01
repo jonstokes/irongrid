@@ -2,8 +2,6 @@
 engine: engine
 complete: complete
 upc: upc
-mpn: mpn
-sku: sku
 name: name
 description:
   short: short_description
