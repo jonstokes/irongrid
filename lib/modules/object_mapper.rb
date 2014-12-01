@@ -18,6 +18,26 @@ module ObjectMapper
     end
   end
 
+  def merge(opts)
+    json, listing, mapping = opts[:source], opts[:destination], opts[:mapping]
+    mapping.each do |key, value|
+      if value.is_a?(Hashie::Mash)
+        field = {}
+        nopts = {
+            source: json,
+            destination: field,
+            mapping: value
+        }
+        transform(nopts)
+        listing[key] ||= field unless field.empty?
+      else
+        next unless json[value]
+        listing[key] ||= json[value]
+      end
+    end
+  end
+
+
   #
   # The following functions are just used for specs
   #

@@ -1,24 +1,23 @@
 class MergeJsonIntoProduct
   include Interactor
+  include ObjectMapper
 
   def call
     context.fail! if context.product.complete?
-    context.product.mpn = context.product_json.mpn
-    context.product.sku = context.product_json.sku
-    context.product.weight ||= { shipping: context.product_json.weight }
-    context.product.image ||= {
-        source: context.product_json.image,
-        cdn: context.image_cdn,
-        download_attempted: !!context.image_download_attempted
-    }
-    context.product.description ||= {
-        long: context.product_json.long_description,
-        short: context.product_json.short_description
-    }
-    IronBase::Product.properties.except(:weight, :image, :description).each do |attr|
-      context.product[attr] ||= context.product_json[attr]
-    end
+    merge(
+        source:      context.product_json,
+        destination: context.product,
+        mapping:     json_mapping
+    )
     context.product.save
+  end
+
+  def json_mapping
+    self.class.json_mapping
+  end
+
+  def self.json_mapping
+    @json_to_es_mapping ||= Hashie::Mash.new YAML.load_file "#{Rails.root}/lib/object_mappings/product.yml"
   end
 
 end

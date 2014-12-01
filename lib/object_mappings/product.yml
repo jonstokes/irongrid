@@ -1,0 +1,29 @@
+---
+engine: engine
+complete: complete
+upc: upc
+mpn: mpn
+sku: sku
+name: name
+description:
+  short: short_description
+  long: long_description
+image:
+  source: image
+  cdn: image_cdn
+  download_attempted: image_download_attempted
+msrp: msrp
+category1: category1
+manufacturer: manufacturer
+weight:
+  shipping: weight
+caliber: caliber
+caliber_category: caliber_category
+ammo_type: ammo_type
+number_of_rounds: number_of_rounds
+material: material
+grains: grains
+velocity: velocity
+load_type: load_type
+bullet_type: bullet_type
+shell_length: shell_length

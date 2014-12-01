@@ -173,16 +173,16 @@ def copy_product_to_index(listing)
   product_json = listing.product.deep_dup
   product_json.merge!(
       name: listing.title,
+      engine: listing.engine,
       image: listing.image.source,
       weight: listing.product.weight.shipping,
-      long_description: listing.description
+      long_description: listing.description,
+      image_download_attempted: listing.image.download_attempted,
+      image_cdn: listing.image.cdn,
+      msrp: listing.price
   )
 
-  WriteProductToIndex.call(
-      product_json: product_json,
-      image_download_attempted: listing.image.download_attempted,
-      image_cdn: listing.image.cdn
-  )
+  WriteProductToIndex.call(product_json: product_json)
 end
 
 namespace :index do
