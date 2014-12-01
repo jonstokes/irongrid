@@ -1,3 +1,6 @@
+* Item condition needs to be expanded to included Reman and Reload
+* Adapters need new product aspects in them
+
 # For IronGrid Migration
  * Get shipping cost working again
  * Convert all loadables to new format

@@ -27,10 +27,8 @@ price:
   per_round: price_per_round_in_cents
 product:
   upc: product_upc
-  sku:
-    raw: product_sku
-  mpn:
-    raw: product_mpn
+  sku: product_sku
+  mpn: product_mpn
   category1: product_category1
   manufacturer: product_manufacturer
   weight:
@@ -39,3 +37,8 @@ product:
   caliber_category: product_caliber_category
   number_of_rounds: product_number_of_rounds
   grains: product_grains
+  casing: product_casing
+  velocity: product_velocity
+  load: product_load
+  bullet_type: product_bullet_type
+  shell_length: product_shell_length
