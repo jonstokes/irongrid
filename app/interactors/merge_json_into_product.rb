@@ -11,7 +11,11 @@ class MergeJsonIntoProduct
         cdn: context.image_cdn,
         download_attempted: !!context.image_download_attempted
     }
-    IronBase::Product.properties.except(:mpn, :sku, :weight, :image).each do |attr|
+    context.product.shell_length ||= {
+        inches: context.product_json.shell_length_in_inches,
+        millimeters: context.product_json.shell_length_in_millimeters
+    }
+    IronBase::Product.properties.except(:mpn, :sku, :weight, :image, :shell_length).each do |attr|
       context.product[attr] ||= context.product_json[attr]
     end
     context.product.save
