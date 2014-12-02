@@ -235,8 +235,8 @@ namespace :migrate do
     put_mappings
 
     Listing.find_each do |listing|
-      break unless copy_listing_to_index(listing)
-      break unless copy_product_to_index(listing)
+      copy_listing_to_index(listing)
+      copy_product_to_index(listing)
     end
   end
 
