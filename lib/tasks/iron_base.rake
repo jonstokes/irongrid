@@ -120,9 +120,6 @@ def copy_listing(opts)
       mpn: listing.mpn,
       category1: listing.category1,
       manufacturer: listing.manufacturer,
-      weight: {
-          shipping: listing.weight_in_pounds
-      },
       caliber: listing.caliber,
       caliber_category: listing.caliber_category,
       number_of_rounds: listing.number_of_rounds,
@@ -156,30 +153,42 @@ def create_alias(index_name)
 end
 
 def copy_listing_to_index(listing)
+  es_listing = IronBase::Listing.new
   retryable do
-    es_listing = IronBase::Listing.new
     copy_listing(source: listing, destination: es_listing)
     es_listing.send(:run_validations)
     es_listing.send(:set_digest!)
     es_listing.send(:persist!)
   end
-  return true
+  return es_listing
 rescue Exception => e
   puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect}"
-  return false
+  return nil
+end
+
+def turn_on_logging
+  IronBase::Settings.configure {|c| c.logger = Rails.logger}
 end
 
 def copy_product_to_index(listing)
-  product_json = listing.product.deep_dup
-  product_json.merge!(
+  product_json = Hashie::Mash.new(
+      engine: 'ironsights',
+      upc: listing.upc,
+      sku: listing.sku,
+      mpn: listing.mpn,
       name: listing.title,
-      engine: listing.engine,
-      image: listing.image.source,
-      weight: listing.product.weight.shipping,
       long_description: listing.description,
-      image_download_attempted: listing.image.download_attempted,
-      image_cdn: listing.image.cdn,
-      msrp: listing.price
+      image: listing.image_source,
+      image_download_attempted: listing.image_download_attempted,
+      image_cdn: listing.image,
+      msrp: listing.price_in_cents,
+      category1: listing.category1,
+      manufacturer: listing.manufacturer,
+      weight: listing.weight_in_pounds,
+      caliber: listing.caliber,
+      caliber_category: listing.caliber_category,
+      number_of_rounds: listing.number_of_rounds,
+      grains: listing.grains,
   )
 
   WriteProductToIndex.call(product_json: product_json)
@@ -215,7 +224,7 @@ namespace :migrate do
 
     Listing.find_each do |listing|
       break unless es_listing = copy_listing_to_index(listing)
-      copy_product_to_index(es_listing)
+      copy_product_to_index(listing)
     end
   end
 

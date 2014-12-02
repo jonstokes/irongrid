@@ -11,7 +11,6 @@ class MergeJsonIntoProduct
     )
     context.product.mpn = context.product_json.mpn
     context.product.sku = context.product_json.sku
-    context.product.save
   end
 
   def json_mapping

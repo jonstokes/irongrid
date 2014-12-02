@@ -7,7 +7,8 @@ class WriteProductToIndex
 
   organize [
      FindOrCreateProduct,
+     MergeJsonIntoProduct,
      UpdateProductImage,
-     WriteProductToIndex
+     SaveProductToIndex
   ]
 end
