@@ -162,7 +162,7 @@ def copy_listing_to_index(listing)
   end
   return es_listing
 rescue Exception => e
-  puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect}"
+  puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect} when indexing listing"
   return nil
 end
 
@@ -192,6 +192,10 @@ def copy_product_to_index(listing)
   )
 
   WriteProductToIndex.call(product_json: product_json)
+  true
+rescue Exception => e
+  puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect} when indexing product"
+  return nil
 end
 
 namespace :index do
@@ -223,8 +227,8 @@ namespace :migrate do
     put_mappings
 
     Listing.find_each do |listing|
-      break unless es_listing = copy_listing_to_index(listing)
-      copy_product_to_index(listing)
+      break unless copy_listing_to_index(listing)
+      break unless copy_product_to_index(listing)
     end
   end
 
