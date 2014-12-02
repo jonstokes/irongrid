@@ -191,8 +191,7 @@ def copy_product_to_index(listing)
       grains: listing.grains,
   )
 
-  product_json.category1 = nil if category_classification_type(listing) != 'hard'
-
+  product_json.category1 = nil unless category_is_hard_classified(listing)
   WriteProductToIndex.call(product_json: product_json)
   true
 rescue Exception => e
@@ -200,8 +199,9 @@ rescue Exception => e
   return nil
 end
 
-def category_classification_type(listing)
-  listing.item_data['category1'].detect {|h| h['classification_type']}['classification_type']
+def category_is_hard_classified(listing)
+  class_type = listing.item_data['category1'].detect {|h| h['classification_type']}['classification_type']
+  %w(hard metadata).include?(class_type)
 rescue
   nil
 end
