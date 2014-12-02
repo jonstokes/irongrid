@@ -191,11 +191,19 @@ def copy_product_to_index(listing)
       grains: listing.grains,
   )
 
+  product_json.category1 = nil if category_classification_type(listing) != 'hard'
+
   WriteProductToIndex.call(product_json: product_json)
   true
 rescue Exception => e
   puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect} when indexing product"
   return nil
+end
+
+def category_classification_type(listing)
+  listing.item_data['category1'].detect {|h| h['classification_type']}['classification_type']
+rescue
+  nil
 end
 
 namespace :index do
