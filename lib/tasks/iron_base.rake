@@ -192,7 +192,7 @@ def copy_product_to_index(listing)
   )
 
   product_json.category1 = nil unless category_is_hard_classified(listing)
-  WriteProductToIndex.call(product_json: product_json)
+  retryable(sleep: 0.5) { WriteProductToIndex.call(product_json: product_json) }
   true
 rescue Exception => e
   puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect} when indexing product"
