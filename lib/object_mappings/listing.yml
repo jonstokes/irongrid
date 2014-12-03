@@ -29,12 +29,8 @@ product:
   upc: product_upc
   sku: product_sku
   mpn: product_mpn
-  description:
-    long: description
   category1: product_category1
   manufacturer: product_manufacturer
-  weight:
-    shipping: weight_in_pounds
   caliber: product_caliber
   caliber_category: product_caliber_category
   number_of_rounds: product_number_of_rounds
