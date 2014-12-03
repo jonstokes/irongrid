@@ -199,6 +199,7 @@ def copy_product_to_index(listing)
       caliber_category: listing.caliber_category,
       number_of_rounds: listing.number_of_rounds,
       grains: listing.grains,
+      url: listing.url
   )
 
   product_json.category1 = nil unless category_is_hard_classified(listing)
@@ -245,6 +246,21 @@ namespace :migrate do
 
     Listing.find_each do |listing|
       copy_listing_to_index(listing)
+      product = copy_product_to_index(listing)
+      correct_product_caliber(product) if product
+    end
+  end
+
+  task products: :environment do
+    include Retryable
+
+    configure_synonyms
+    index = create_index
+    set_index(index)
+    put_mappings
+
+    Listing.where("type = 'RetailListing' AND upc IS NOT NULL").find_each do |listing|
+      next unless listing.upc.present? && listing.upc[/[^0]+/]
       product = copy_product_to_index(listing)
       correct_product_caliber(product) if product
     end
