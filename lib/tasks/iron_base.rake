@@ -30,20 +30,30 @@ def mappings
   end
 end
 
-def correct_caliber_category(listing)
+def correct_caliber_category(caliber)
   mappings.each do |mapping_name, mapping|
-    return mapping_name.split("_calibers").first if mapping.has_term?(listing.caliber, ignore_case: true)
+    return mapping_name.split("_calibers").first if mapping.has_term?(caliber, ignore_case: true)
   end
   nil
 end
 
 def correct_caliber(es_listing, listing)
   return unless listing['caliber']
-  category = correct_caliber_category(listing)
+  category = correct_caliber_category(listing.caliber)
   if category
     es_listing['product']['caliber_category'] = category
   else
     es_listing['product']['caliber'] = nil
+  end
+end
+
+def correct_product_caliber(product)
+  return unless product.caliber
+  if category = correct_caliber_category(product.caliber)
+    product.caliber_category = category
+    product.save
+  else
+    product.caliber = nil
   end
 end
 
@@ -192,8 +202,7 @@ def copy_product_to_index(listing)
   )
 
   product_json.category1 = nil unless category_is_hard_classified(listing)
-  retryable(sleep: 0.5) { WriteProductToIndex.call(product_json: product_json) }
-  true
+  retryable(sleep: 0.5) { WriteProductToIndex.call(product_json: product_json) }.product
 rescue Exception => e
   puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect} when indexing product"
   return nil
@@ -236,7 +245,8 @@ namespace :migrate do
 
     Listing.find_each do |listing|
       copy_listing_to_index(listing)
-      copy_product_to_index(listing)
+      product = copy_product_to_index(listing)
+      correct_product_caliber(product) if product
     end
   end
 
