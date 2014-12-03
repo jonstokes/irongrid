@@ -10,7 +10,7 @@ class FindOrCreateProduct
   end
 
   def find_by_upc
-    IronBase::Product.find_by_upc(context.product_json.upc)
+    IronBase::Product.find_by_upc(context.product_json.upc).hits.first
   end
 
   def find_by_mpn
