@@ -10,17 +10,17 @@ class FindOrCreateProduct
   end
 
   def find_by_upc
-    IronBase::Product.find_by_upc(context.product_json.upc).hits.first
+    IronBase::Product.find_by_upc(context.product_json.upc).first
   end
 
   def find_by_mpn
     return unless context.product_json.mpn.present?
-    IronBase::Product.find_by_mpn(context.product_json.mpn).hits.first
+    IronBase::Product.find_by_mpn(context.product_json.mpn).first
   end
 
   def find_by_sku
     return unless context.product_json.sku.present?
-    IronBase::Product.find_by_sku(context.product_json.sku).hits.first
+    IronBase::Product.find_by_sku(context.product_json.sku).first
   end
 
 end
