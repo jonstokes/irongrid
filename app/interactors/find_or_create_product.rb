@@ -29,6 +29,6 @@ class FindOrCreateProduct
     hits.select! { |hit| hit.category1 == context.product_json.category1 } if context.product_json.category1
     hits.select! { |hit| hit.caliber_category == context.product_json.caliber_category } if context.product_json.caliber_category
     hits.select! { |hit| hit.manufacturer == context.product_json.manufacturer } if context.product_json.manufacturer
-    hits
+    hits.first
   end
 end
