@@ -15,12 +15,20 @@ class FindOrCreateProduct
 
   def find_by_mpn
     return unless context.product_json.mpn.present?
-    IronBase::Product.find_by_mpn(context.product_json.mpn).first
+    hits = IronBase::Product.find_by_mpn(context.product_json.mpn)
+    prune_hits(hits)
   end
 
   def find_by_sku
     return unless context.product_json.sku.present?
-    IronBase::Product.find_by_sku(context.product_json.sku).first
+    hits = IronBase::Product.find_by_sku(context.product_json.sku)
+    prune_hits(hits)
   end
 
+  def prune_hits(hits)
+    hits.select! { |hit| hit.category1 == context.product_json.category1 } if context.product_json.category1
+    hits.select! { |hit| hit.caliber_category == context.product_json.caliber_category } if context.product_json.caliber_category
+    hits.select! { |hit| hit.manufacturer == context.product_json.manufacturer } if context.product_json.manufacturer
+    hits
+  end
 end
