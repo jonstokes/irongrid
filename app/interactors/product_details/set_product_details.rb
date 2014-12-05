@@ -3,7 +3,7 @@ module ProductDetails
     include Interactor
 
     before do
-      context.listing.product_details = context.listing.product.dup
+      context.listing.product_source = context.listing.product.dup
     end
 
     def call
