@@ -3,7 +3,7 @@ class FindOrCreateProduct
 
   def call
     # This tries to find a product with a pretty strict usage of normalized UPC, MPN, and SKU
-    context.fail! unless context.product_json.upc.present? # We have to have a UPC
+    context.fail! unless context.product_json.present? && context.product_json.upc.present?
     context.product ||= find_by_upc ||
                         find_by_mpn ||
                         find_by_sku ||

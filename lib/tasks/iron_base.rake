@@ -180,7 +180,7 @@ def turn_on_logging
   IronBase::Settings.configure {|c| c.logger = Rails.logger}
 end
 
-def copy_product_to_index(listing)
+def copy_product_to_index(listing, es_listing = nil)
   product_json = Hashie::Mash.new(
       engine: 'ironsights',
       upc: listing.upc,
@@ -199,7 +199,7 @@ def copy_product_to_index(listing)
       caliber_category: listing.caliber_category,
       number_of_rounds: listing.number_of_rounds,
       grains: listing.grains,
-      url: listing.url
+      source: es_listing.try(:id) || listing.id
   )
 
   product_json.category1 = nil unless category_is_hard_classified(listing)
@@ -245,8 +245,8 @@ namespace :migrate do
     put_mappings
 
     Listing.find_each do |listing|
-      copy_listing_to_index(listing)
-      product = copy_product_to_index(listing)
+      es_listing = copy_listing_to_index(listing)
+      product = copy_product_to_index(listing, es_listing)
       correct_product_caliber(product) if product
     end
   end

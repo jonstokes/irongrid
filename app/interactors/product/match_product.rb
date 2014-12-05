@@ -6,6 +6,7 @@ class MatchProduct
     # Since the out put of this interactor only fills in listing metadata, and will never
     # write to the canonical Product index, it's ok if it's less accurate.
 
+    context.fail! unless context.product_json.present?
     match_on_mpn || match_on_sku || match_on_attributes
   end
 
