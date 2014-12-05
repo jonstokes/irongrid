@@ -8,7 +8,6 @@ module ProductDetails
 
     def call
       return unless context.product
-      context.listing.product ||= {}
       context.listing.product = context.product.merge(context.listing.product)
     end
 

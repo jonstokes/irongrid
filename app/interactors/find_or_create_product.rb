@@ -3,10 +3,10 @@ class FindOrCreateProduct
 
   def call
     context.fail! unless context.product_json.upc.present? # We have to have a UPC
-    context.product = find_by_upc ||
-        find_by_mpn ||
-        find_by_sku ||
-        IronBase::Product.new(upc: context.product_json.upc)
+    context.product ||= find_by_upc ||
+                        find_by_mpn ||
+                        find_by_sku ||
+                        IronBase::Product.new(context.product_json)
   end
 
   def find_by_upc
