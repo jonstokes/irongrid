@@ -2,6 +2,10 @@ module ProductDetails
   class SetProductDetails
     include Interactor
 
+    before do
+      context.listing.product_details = context.listing.product.dup
+    end
+
     def call
       return unless context.product
       context.listing.product ||= {}
