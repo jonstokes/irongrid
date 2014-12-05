@@ -2,7 +2,7 @@ class SaveProductToIndex
   include Interactor
 
   def call
-    context.product.save
+    context.product.save(prune_invalid_attributes: true)
   end
 end
 

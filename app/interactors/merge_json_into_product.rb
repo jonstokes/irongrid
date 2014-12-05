@@ -4,7 +4,7 @@ class MergeJsonIntoProduct
 
   def call
     context.fail! if context.product.complete?
-    merge(
+    transform(
         source:      context.product_json,
         destination: context.product,
         mapping:     json_mapping
