@@ -2,6 +2,7 @@ class FindOrCreateProduct
   include Interactor
 
   def call
+    # This tries to find a product with a pretty strict usage of normalized UPC, MPN, and SKU
     context.fail! unless context.product_json.upc.present? # We have to have a UPC
     context.product ||= find_by_upc ||
                         find_by_mpn ||
