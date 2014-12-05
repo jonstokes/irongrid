@@ -13,19 +13,6 @@ GIT
       rest-client (~> 1.6)
 
 GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
-  revision: b98af153ada23bca15d6824905fe48fcd8c26164
-  branch: js-product
-  specs:
-    iron_base (0.0.1)
-      activesupport
-      connection_pool
-      elasticsearch
-      hashie
-      interactor
-      redis
-
-GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
   revision: cc2680f4b9a9d93f6020e2caef438f1bd25b2299
   specs:
@@ -55,6 +42,17 @@ GIT
       net-http-persistent
       nokogiri
       poltergeist
+
+PATH
+  remote: ../iron_base
+  specs:
+    iron_base (0.0.1)
+      activesupport
+      connection_pool
+      elasticsearch
+      hashie
+      interactor
+      redis
 
 GEM
   remote: http://rubygems.org/
