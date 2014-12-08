@@ -83,6 +83,7 @@ namespace :migrate do
     Listing.find_each do |listing|
       migration = ListingMigration.new(listing)
       migration.write_listing_to_index
+      migration.verify
       migration.fix_listing_metadata
     end
   end

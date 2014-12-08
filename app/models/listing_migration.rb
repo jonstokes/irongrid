@@ -18,6 +18,10 @@ class ListingMigration
     @es_listing = result.listing
   end
 
+  def verify
+    # Verify that listing was copied correctly here, and raise error if it wasn't.
+  end
+
   def fix_listing_metadata
     IronBase::Listing.record_timestamps = false
     @es_listing.update(
