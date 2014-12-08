@@ -21,7 +21,7 @@ class MatchProduct
   def match_on_attributes
     # Take existing captured product attrs, and try to match as many as
     # possible
-    return nil unless attribute_filters.size >= 3 # Use at least three attrs
+    return nil unless attribute_filters.size >= 4 # Use at least three attrs plus engine
     query_hash = {
         query: {
             filtered: {

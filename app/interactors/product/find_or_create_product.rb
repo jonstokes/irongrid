@@ -3,43 +3,48 @@ class FindOrCreateProduct
 
   def call
     # This tries to find a product with a pretty strict usage of normalized UPC, MPN, and SKU
-    context.fail! unless context.product_json.present? && context.product_json.upc.present?
+    context.fail! unless product_source.present? && product_source.any?
     context.product ||= find_by_upc ||
                         find_by_mpn ||
                         find_by_sku ||
-                        IronBase::Product.new(context.product_json)
+                        IronBase::Product.new
+  end
+
+  def product_source
+    context.listing.product_source
   end
 
   def find_by_upc
-    IronBase::Product.find_by_upc(context.product_json.upc).first
+    return unless product_source.upc.present?
+    IronBase::Product.find_by_upc(product_source.upc).first
   end
 
   def find_by_mpn
-    return unless context.product_json.mpn.present?
-    hits = IronBase::Product.find_by_mpn(context.product_json.mpn)
+    return unless product_source.mpn.present?
+    hits = IronBase::Product.find_by_mpn(product_source.mpn)
     hits = prune_hits(hits)
     order_hits_by_best_match(hits).first
   end
 
   def find_by_sku
-    return unless context.product_json.sku.present?
-    hits = IronBase::Product.find_by_sku(context.product_json.sku)
+    return unless product_source.sku.present?
+    hits = IronBase::Product.find_by_sku(product_source.sku)
     hits = prune_hits(hits)
     order_hits_by_best_match(hits).first
   end
 
   def prune_hits(hits)
     hits.select! do |hit|
-      hit.category1.nil? || (hit.category1 == context.product_json.category1)
-    end if context.product_json.category1
+      hit.category1.nil? || (hit.category1 == product_source.category1)
+    end if product_source.category1
 
     hits.select! do |hit|
-      hit.manufacturer.nil? || (hit.manufacturer == context.product_json.manufacturer)
-    end if context.product_json.manufacturer
+      hit.manufacturer.nil? || (hit.manufacturer == product_source.manufacturer)
+    end if product_source.manufacturer
 
     hits.select! do |hit|
-      hit.caliber_category.nil? || (hit.caliber_category == context.product_json.caliber_category)
-    end if context.product_json.caliber_category
+      hit.caliber_category.nil? || (hit.caliber_category == product_source.caliber_category)
+    end if product_source.caliber_category
 
     hits
   end
@@ -53,7 +58,7 @@ class FindOrCreateProduct
   def score(hit)
     count = 0
     hit.send(:data_in_index_format).each do |k, v|
-      count += 1 if context.product_json[k] == v
+      count += 1 if product_source[k] == v
     end
     count
   end
