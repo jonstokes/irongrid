@@ -82,14 +82,21 @@ session_definition:
         "type": "string",
         "enum": ["Guns", "Ammunition", "Optics", "Accessories", "None"]
       },
+      "product_manufacturer":     { "type": "string" },
+      "product_caliber":          { "type": "string" },
       "product_caliber_category": {
         "type": "string",
         "enum": ["Handgun", "Rifle", "Rimfire", "Shotgun"]
       },
-      "product_manufacturer":     { "type": "string" },
-      "product_caliber":          { "type": "string" },
+      "product_ammo_type":        { "type": "string" },
+      "product_material":         { "type": "string" },
       "product_grains":           { "type": "integer" },
       "product_number_of_rounds": { "type": "integer" },
+      "product_shot_size":        { "type": "integer" },
+      "product_velocity":         { "type": "integer" },
+      "product_load_type":        { "type": "string" },
+      "product_bullet_type":      { "type": "string" },
+      "product_shell_length":     { "type": "float" },
       "message1":                 { "type": "string" },
       "message2":                 { "type": "string" },
       "message3":                 { "type": "string" },

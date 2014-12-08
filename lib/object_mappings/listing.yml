@@ -31,7 +31,7 @@ product_source:
   mpn: product_mpn
   category1: product_category1
   manufacturer: product_manufacturer
-  weight: product_weight
+  weight: product_weight_shipping
   caliber: product_caliber
   caliber_category: product_caliber_category
   ammo_type: product_ammo_type
