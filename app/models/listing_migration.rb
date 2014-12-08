@@ -29,7 +29,6 @@ class ListingMigration
             source: listing.image_source
         }
     )
-    @es_listing.save
     IronBase::Listing.record_timestamps = true
   end
 
