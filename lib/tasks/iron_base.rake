@@ -42,8 +42,10 @@ def correct_caliber(es_listing, listing)
   category = correct_caliber_category(listing.caliber)
   if category
     es_listing['product']['caliber_category'] = category
+    es_listing['product_source']['caliber_category'] = category
   else
     es_listing['product']['caliber'] = nil
+    es_listing['product_source']['caliber'] = nil
   end
 end
 
@@ -59,6 +61,8 @@ end
 
 def copy_listing(opts)
   listing, es_listing = opts[:source], opts[:destination]
+  category1 = category_is_hard_classified(listing) ? listing.category1 : nil
+  caliber_category = correct_caliber_category(listing.caliber)
   es_listing['id'] = Digest::MD5.hexdigest(listing.url)
   es_listing.inactive = !!listing.inactive
   es_listing['engine'] = 'ironsights'
@@ -128,14 +132,25 @@ def copy_listing(opts)
       upc: listing.upc,
       sku: listing.sku,
       mpn: listing.mpn,
-      category1: listing.category1,
+      category1: category1,
       manufacturer: listing.manufacturer,
       caliber: listing.caliber,
-      caliber_category: listing.caliber_category,
+      caliber_category: caliber_category,
       number_of_rounds: listing.number_of_rounds,
       grains: listing.grains
   }
-  correct_caliber(es_listing, listing)
+  es_listing.product_source = {
+      upc: listing.upc,
+      sku: listing.sku,
+      mpn: listing.mpn,
+      category1: category1,
+      manufacturer: listing.manufacturer,
+      caliber: listing.caliber,
+      caliber_category: caliber_category,
+      number_of_rounds: listing.number_of_rounds,
+      grains: listing.grains,
+      weight: listing.weight_in_pounds,
+  }
   es_listing
 end
 
@@ -233,6 +248,28 @@ namespace :index do
   end
 end
 
+task build_products: :environment do
+  query_hash = {
+      query: {
+          filtered: {
+              filter: {
+                  bool: {
+                      must: [
+                          { exists: { field: 'product_source.upc' } },
+                          { term: { type: 'RetailListing' } }
+                      ]
+                  }
+              }
+          }
+      }
+  }
+  IronBase::Listing.find_each(query_hash) do |batch|
+    batch.each do |listing|
+      WriteProductToIndex.call(product_json: listing.product_source)
+    end
+  end
+end
+
 namespace :migrate do
   task listings: :environment do
     include Retryable
@@ -245,24 +282,7 @@ namespace :migrate do
     put_mappings
 
     Listing.find_each do |listing|
-      es_listing = copy_listing_to_index(listing)
-      product = copy_product_to_index(listing, es_listing)
-      correct_product_caliber(product) if product
-    end
-  end
-
-  task products: :environment do
-    include Retryable
-
-    configure_synonyms
-    index = create_index
-    set_index(index)
-    put_mappings
-
-    Listing.where("type = 'RetailListing' AND upc IS NOT NULL").find_each do |listing|
-      next unless listing.upc.present? && listing.upc[/[^0]+/]
-      product = copy_product_to_index(listing)
-      correct_product_caliber(product) if product
+      copy_listing_to_index(listing)
     end
   end
 

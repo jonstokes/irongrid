@@ -39,8 +39,8 @@ module ObjectMapper
 
 
   #
-  # The following functions are just used for specs
-  #
+  # The following functions are used for specs and
+  # for the rake tasks that rebuilds the prod db
 
   def json_from_listing(listing)
     reverse_map(listing).to_hash.deep_symbolize_keys.merge(valid: true).except(:url)
