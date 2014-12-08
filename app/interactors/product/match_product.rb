@@ -26,15 +26,11 @@ class MatchProduct
         query: {
             filtered: {
                 filter: {
-                    bool: {
-                        must: attribute_filters,
-                        minimum_should_match: 3
-                    }
+                    bool: { should: attribute_filters }
                 }
             }
         }
     }
-    return nil unless attribute_filters.size >= 3 # Match at least three attrs
     results = IronBase::Product.search(query_hash)
     results.hits.any? ? results.hits.first : nil
   end
@@ -43,11 +39,9 @@ class MatchProduct
     # TODO: Use map
     @attribute_filters ||= begin
       filters = []
-      context.listing_json.each do |k, v|
-        next unless !!k[/product_/]
-        next if %w(product_mpn product_sku product_upc).include?(k) || v.nil?
-        attr = k.split('product_').last
-        filters << { term: { attr => v } }
+      context.product_json.each do |k, v|
+        next if %w(mpn sku upc long_description weight image name image_download_attempted image_cdn).include?(k) || v.nil?
+        filters << { term: { k => v } }
       end
       filters
     end
