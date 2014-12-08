@@ -8,8 +8,29 @@ class ListingMigration
     @listing = opts[:listing]
   end
 
-  def write_json_to_stretched_queue
-    site.listings_queue.add(page: page, json: json)
+  def write_json_to_index
+    result = WriteListingToIndex.call(
+        site:         site,
+        listing_json: json,
+        page:         page
+    )
+    raise "Listing #{listing.id} failed to write to index." unless result.success?
+    @es_listing = result.listing
+  end
+
+  def fix_listing_metadata
+    IronBase::Listing.record_timestamps = false
+    @es_listing.update(
+        created_at: listing.created_at.utc,
+        updated_at: listing.updated_at.utc,
+        image: {
+            cdn: listing.cdn_image,
+            download_attempted: listing.image_download_attempted,
+            source: listing.image_source
+        }
+    )
+    @es_listing.save
+    IronBase::Listing.record_timestamps = true
   end
 
   def page

@@ -81,8 +81,9 @@ namespace :migrate do
     include Retryable
 
     Listing.find_each do |listing|
-      ListingMigration.new(listing).write_json_to_stretched_queue
-      sleep 1 # Throttle so that the grid can keep up and redis doesn't get filled
+      migration = ListingMigration.new(listing)
+      migration.write_json_to_index
+      migration.fix_listing_metadata
     end
   end
 
