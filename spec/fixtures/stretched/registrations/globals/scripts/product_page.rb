@@ -112,9 +112,9 @@ Stretched::Script.define do
       calculate_discount_percent(instance)
     end
 
-    weight_in_pounds do |instance|
-      if instance.weight_in_pounds?
-        instance.weight_in_pounds.to_f
+    product_weight_shipping do |instance|
+      if instance.product_weight_shipping?
+        instance.product_weight_shipping.to_f
       end
     end
 

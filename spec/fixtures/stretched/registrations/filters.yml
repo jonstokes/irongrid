@@ -1,8 +1,0 @@
----
-filter:
-  accept_grains:
-    - accept: !ruby/regexp '/\d{1,3}/'
-  accept_box_rounds:
-    - accept: !ruby/regexp '/\d{1,5}/'
-
-

@@ -18,5 +18,3 @@ class SetProduct
     MatchProduct.call(product_json: context.listing.product).product
   end
 end
-
-# This is all tangled up. I need to be copying everything once and pulling it over!

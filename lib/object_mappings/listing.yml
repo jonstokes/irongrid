@@ -25,18 +25,21 @@ price:
   minimum_bid: minimum_bid_in_cents
   reserve: reserve_in_cents
   per_round: price_per_round_in_cents
-product:
+product_source:
   upc: product_upc
   sku: product_sku
   mpn: product_mpn
   category1: product_category1
   manufacturer: product_manufacturer
+  weight: product_weight
   caliber: product_caliber
   caliber_category: product_caliber_category
+  ammo_type: product_ammo_type
   number_of_rounds: product_number_of_rounds
+  material: product_material
   grains: product_grains
-  casing: product_casing
+  shot_size: product_shot_size
   velocity: product_velocity
-  load: product_load
+  load_type: product_load_type
   bullet_type: product_bullet_type
   shell_length: product_shell_length
