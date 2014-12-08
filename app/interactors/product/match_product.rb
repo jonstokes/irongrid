@@ -6,8 +6,12 @@ class MatchProduct
     # Since the out put of this interactor only fills in listing metadata, and will never
     # write to the canonical Product index, it's ok if it's less accurate.
 
-    context.fail! unless context.product_json.present?
+    context.fail! unless product_source.present? && product_source.any?
     match_on_mpn || match_on_sku || match_on_attributes
+  end
+  
+  def product_source
+    context.listing.product_source
   end
 
   def match_on_mpn
@@ -39,7 +43,7 @@ class MatchProduct
     # TODO: Use map
     @attribute_filters ||= begin
       filters = []
-      context.product_json.each do |k, v|
+      product_source.each do |k, v|
         next if %w(mpn sku upc long_description weight image name image_download_attempted image_cdn).include?(k) || v.nil?
         filters << { term: { k => v } }
       end
