@@ -41,6 +41,7 @@ class ListingMigration
 
   def json
     {
+        valid:                    true,
         url:                      listing_url,
         engine:                   'ironsights',
         type:                     listing.type,
