@@ -1,3 +1,10 @@
+# Migration
+
+1. Migrate GeoData to Location
+2. Migrate listings
+3. Update listing timestamps, image_download_attempted, and image_cdn
+
+# Punch List
 * Item condition needs to be expanded to included Reman and Reload
 * Adapters: weight_in_pounds => product_weight_shipping
 * Adapters need new product aspects in them
