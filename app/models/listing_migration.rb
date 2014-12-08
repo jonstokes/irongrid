@@ -77,6 +77,7 @@ class ListingMigration
   end
 
   def caliber_category
+    # Fixes for busted caliber categories
     @caliber_category ||= begin
       ListingMigration.mappings.each do |mapping_name, mapping|
         return mapping_name.split("_calibers").first if mapping.has_term?(caliber, ignore_case: true)
@@ -86,6 +87,7 @@ class ListingMigration
   end
 
   def category1
+    # Only capture hard-classified categories
     @category1 ||= begin
       category_is_hard_classified? ? listing.category1 : nil
     end
@@ -124,7 +126,7 @@ class ListingMigration
 
   def category_is_hard_classified?
     class_type = listing.item_data['category1'].detect {|h| h['classification_type']}['classification_type']
-    %w(hard metadata).include?(class_type)
+    class_type == 'hard'
   rescue
     nil
   end

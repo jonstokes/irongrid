@@ -3,9 +3,10 @@
 1. Create index
 2. Migrate GeoData to Location
 3. Migrate listings
-4. Update listing timestamps, image_download_attempted, and image_cdn
 
 # Punch List
+* Specs for ListingMigration and dry run
+
 * Item condition needs to be expanded to included Reman and Reload
 * Adapters: weight_in_pounds => product_weight_shipping
 * Adapters need new product aspects in them
