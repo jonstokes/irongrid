@@ -20,6 +20,9 @@ class ListingMigration
 
   def verify
     # Verify that listing was copied correctly here, and raise error if it wasn't.
+    unless (@es_listing.url.page == page_url) && (@es_listing.url.purchase == listing.url)
+      raise " Url mismatch for listing #{listing.id}:\n  ES is #{@es_listing.url}, listing is #{listing.url}, page is #{page_url}"
+    end
   end
 
   def fix_listing_metadata
