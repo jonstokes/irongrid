@@ -113,6 +113,10 @@ class Site < CoreModel
     @imgq ||= ImageQueue.new(domain: domain)
   end
 
+  def feed_adapter
+    @feed_adapter ||= Stretched::ObjectAdapter.new("#{domain}/product_feed") rescue nil
+  end
+
   def load_scripts
     filename = "#{Figaro.env.sites_repo}/sites/irongrid_scripts/#{domain.gsub('.','--')}.rb"
     Loadable::Script.create_from_file(filename)

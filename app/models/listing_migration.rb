@@ -110,11 +110,27 @@ class ListingMigration
 
   def page_url
     # If the listing is from a feed, return that url
-    # Otherwise return base_url
+    # Otherwise return listing.bare_url
+
+    @page_url ||= feed_url || listing.bare_url
   end
 
   def listing_url
-    listing.bare_url # I think we need something else here
+    if feed_url
+      listing.bare_url
+    else
+      nil
+    end
+  end
+
+  def feed_url
+    @feed_url ||= begin
+      if site.feed_adapter
+        site.sessions.first.urls.first.url
+      else
+        nil
+      end
+    end
   end
 
 end

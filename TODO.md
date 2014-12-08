@@ -1,8 +1,9 @@
 # Migration
 
-1. Migrate GeoData to Location
-2. Migrate listings
-3. Update listing timestamps, image_download_attempted, and image_cdn
+1. Create index
+2. Migrate GeoData to Location
+3. Migrate listings
+4. Update listing timestamps, image_download_attempted, and image_cdn
 
 # Punch List
 * Item condition needs to be expanded to included Reman and Reload

@@ -39,20 +39,6 @@ def create_alias(index_name)
   )
 end
 
-def copy_listing_to_index(listing)
-  es_listing = IronBase::Listing.new
-  retryable do
-    copy_listing(source: listing, destination: es_listing)
-    es_listing.send(:run_validations)
-    es_listing.send(:set_digest!)
-    es_listing.send(:persist!)
-  end
-  return es_listing
-rescue Exception => e
-  puts "## Listing #{listing.id} raised error #{e.message}. #{e.inspect} when indexing listing"
-  return nil
-end
-
 def turn_on_logging
   IronBase::Settings.configure {|c| c.logger = Rails.logger}
 end
@@ -74,44 +60,7 @@ namespace :index do
   end
 end
 
-task build_products: :environment do
-  query_hash = {
-      query: {
-          filtered: {
-              filter: {
-                  bool: {
-                      must: [
-                          { exists: { field: 'product_source.upc' } },
-                          { term: { type: 'RetailListing' } }
-                      ]
-                  }
-              }
-          }
-      }
-  }
-  IronBase::Listing.find_each(query_hash) do |batch|
-    batch.each do |listing|
-      WriteProductToIndex.call(product_json: listing.product_source)
-    end
-  end
-end
-
 namespace :migrate do
-  task listings: :environment do
-    include Retryable
-    IronBase::Listing.record_timestamps = false
-    IronBase::Listing.run_percolators = false
-
-    configure_synonyms
-    index = create_index
-    set_index(index)
-    put_mappings
-
-    Listing.find_each do |listing|
-      copy_listing_to_index(listing)
-    end
-  end
-
   task geo_data: :environment do
     GeoData.find_each do |loc|
       Location.create(
@@ -125,6 +74,21 @@ namespace :migrate do
           postal_code: loc.postal_code,
           country_code: loc.country_code
       )
+    end
+  end
+
+  task listings: :environment do
+    include Retryable
+
+    Listing.find_each do |listing|
+      ListingMigration.new(listing).write_json_to_stretched_queue
+      sleep 1 # Throttle so that the grid can keep up and redis doesn't get filled
+    end
+  end
+
+  task listing_data: :environment do
+    Listing.find_each do |listing|
+      es_listing = IronBase::Listing.find
     end
   end
 end
