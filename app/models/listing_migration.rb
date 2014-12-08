@@ -8,7 +8,7 @@ class ListingMigration
     @listing = opts[:listing]
   end
 
-  def write_json_to_index
+  def write_listing_to_index
     result = WriteListingToIndex.call(
         site:         site,
         listing_json: json,

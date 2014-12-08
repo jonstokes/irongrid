@@ -82,14 +82,8 @@ namespace :migrate do
 
     Listing.find_each do |listing|
       migration = ListingMigration.new(listing)
-      migration.write_json_to_index
+      migration.write_listing_to_index
       migration.fix_listing_metadata
-    end
-  end
-
-  task listing_data: :environment do
-    Listing.find_each do |listing|
-      es_listing = IronBase::Listing.find
     end
   end
 end
