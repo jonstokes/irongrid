@@ -70,8 +70,22 @@ describe ListingMigration do
 
       listing = IronBase::Listing.first
       product = IronBase::Product.first
+      location = IronBase::Location.first
 
       expect(listing.title).to eq(@title)
+      expect(listing.price.current).to eq(attrs.item_data.current_price_in_cents)
+      expect(listing.price.list).to eq(attrs.item_data.price_in_cents)
+      expect(listing.price.sale).to eq(attrs.item_data.sale_price_in_cents)
+      expect(listing.availability).to eq(attrs.item_data.availability)
+      expect(listing.condition).to eq(attrs.item_data.item_condition)
+      expect(listing.location.city).to eq(attrs.item_data.city)
+      expect(listing.location.id).to eq(location.id)
+      expect(listing.product.id).to eq(product.id)
+
+      expect(location.city).to eq(attrs.item_data.location.city)
+      expect(location.coordinates).to eq(attrs.item_data.location.coordinates)
+      expect(location.id).to eq(attrs.item_data.item_location)
+
       expect(listing.product.upc).to eq([attrs.upc])
       expect(listing.product.caliber).to eq(@caliber)
 
