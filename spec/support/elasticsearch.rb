@@ -8,6 +8,8 @@ RSpec.configure do |config|
   config.before :each do
     IronBase::Index.create(index: IronBase::Settings.elasticsearch_index, filename: 'ironsights_v1.yml')
     IronBase::Listing.put_mapping
+    IronBase::Product.put_mapping
+    IronBase::Location.put_mapping
   end
 
   config.after :each do

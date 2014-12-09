@@ -8,7 +8,8 @@ class WriteListingToIndex
       listing.location ||= {}
       return if listing.location.coordinates
       geo_data = lookup_geo_data(context.listing_json.location)
-      listing.location = IronBase::DenormalizeLocationForListing.call(location: geo_data).denormalized_location
+      result = IronBase::DenormalizeLocationForListing.call(location: geo_data)
+      listing.location = result.denormalized_location
     end
 
     def lookup_geo_data(item_location)
