@@ -1,13 +1,14 @@
-class MatchProduct
+class MatchProductByAttributes
   include Interactor
 
   def call
     # This tries to match products with a looser mpn, sku, and attribute search.
     # Since the out put of this interactor only fills in listing metadata, and will never
     # write to the canonical Product index, it's ok if it's less accurate.
-
-    context.fail! unless product_source.present? && product_source.any?
-    match_on_mpn || match_on_sku || match_on_attributes
+    context.product ||= match_on_mpn ||
+                        match_on_sku ||
+                        match_on_attributes ||
+                        IronBase::Product.new
   end
   
   def product_source
@@ -15,14 +16,17 @@ class MatchProduct
   end
 
   def match_on_mpn
+    return unless product_source.present? && product_source.any?
     # TODO: some sort of fuzzy match
   end
 
   def match_on_sku
-    # TODO
+    return unless product_source.present? && product_source.any?
+    # TODO: some sort of fuzzy match
   end
 
   def match_on_attributes
+    return unless product_source.present? && product_source.any?
     # Take existing captured product attrs, and try to match as many as
     # possible
     return nil unless attribute_filters.size >= 4 # Use at least three attrs plus engine

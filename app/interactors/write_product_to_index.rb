@@ -7,7 +7,7 @@ class WriteProductToIndex
 
   organize [
      FindOrCreateProduct,
-     MergeSourceIntoProduct,
+     IronBase::ImportListingToProduct,
      UpdateProductImage,
      SaveProductToIndex
   ]
