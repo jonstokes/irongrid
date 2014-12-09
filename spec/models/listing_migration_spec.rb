@@ -8,6 +8,18 @@ describe ListingMigration do
     register_site @site.domain
     load_scripts
     location = create(:geo_data)
+    IronBase::Location.create(
+        id: location.key,
+        city: location.city,
+        state: location.state,
+        country: location.country,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        state_code: location.state_code,
+        postal_code: location.postal_code,
+        country_code: location.country_code
+    )
+    IronBase::Location.refresh_index
     @title = 'Listing title'
     @caliber = '.45 ACP'
     @listing_attrs = {
@@ -82,8 +94,8 @@ describe ListingMigration do
       expect(listing.location.id).to eq(location.id)
       expect(listing.product.id).to eq(product.id)
 
-      expect(location.city).to eq(attrs.item_data.location.city)
-      expect(location.coordinates).to eq(attrs.item_data.location.coordinates)
+      expect(location.city).to eq(attrs.item_data.city)
+      expect(location.coordinates).to eq(attrs.item_data.coordinates)
       expect(location.id).to eq(attrs.item_data.item_location)
 
       expect(listing.product.upc).to eq([attrs.upc])

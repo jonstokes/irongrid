@@ -63,6 +63,7 @@ class ListingMigration
         discount_in_cents:        listing.discount_in_cents,
         discount_percent:         listing.discount_percent,
         shipping_cost_in_cents:   listing.shipping_cost_in_cents,
+        current_price_in_cents:   listing.current_price_in_cents,
         price_on_request:         listing.price_on_request,
         price_in_cents:           listing.price_in_cents,
         sale_price_in_cents:      listing.sale_price_in_cents,
