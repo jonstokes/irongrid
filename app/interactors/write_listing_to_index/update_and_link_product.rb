@@ -1,4 +1,4 @@
-class UpdateAndSetProduct
+class UpdateAndLinkProduct
   include Interactor::Organizer
 
   # This set of interactors begins with listing.product_source, and first tries to use

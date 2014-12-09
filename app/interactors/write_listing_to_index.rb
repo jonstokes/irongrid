@@ -7,7 +7,7 @@ class WriteListingToIndex
     SetUrl,
     FindOrCreateListing,
     MergeJsonIntoListing,
-    UpdateAndSetProduct,
+    UpdateAndLinkProduct,
     RunLoadableScripts,
     SetListingDigest,
     LinkDenormalizedLocation,
