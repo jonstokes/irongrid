@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SetListingLocation do
+describe LinkDenormalizedLocation do
 
   before :each do
     @location = "1213 Newning Ave., Austin TX"
@@ -12,7 +12,7 @@ describe SetListingLocation do
 
   describe '#call' do
     it 'sets the listing location' do
-      listing = SetListingLocation.call(listing_json: @listing_json, listing: @listing).listing
+      listing = LinkDenormalizedLocation.call(listing_json: @listing_json, listing: @listing).listing
       puts "# Listing location: #{listing.location}"
       expect(listing.location.id).to eq(@location.upcase)
       expect(listing.location.state_code).to eq('TX')

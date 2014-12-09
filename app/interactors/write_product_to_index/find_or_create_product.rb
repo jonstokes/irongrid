@@ -1,9 +1,12 @@
 class FindOrCreateProduct
   include Interactor
 
+  before do
+    context.listing.product_source ||= Hashie::Mash.new
+  end
+
   def call
     # This tries to find a product with a pretty strict usage of normalized UPC, MPN, and SKU
-    context.fail! unless product_source.present? && product_source.any?
     context.product ||= find_by_upc ||
                         find_by_mpn ||
                         find_by_sku ||

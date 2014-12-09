@@ -10,7 +10,7 @@ class WriteListingToIndex
     UpdateAndSetProduct,
     RunLoadableScripts,
     SetListingDigest,
-    SetListingLocation,
+    LinkDenormalizedLocation,
     UpdateListingImage,
     SaveListingToIndex
   ]

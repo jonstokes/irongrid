@@ -3,8 +3,7 @@ class SaveProductToIndex
 
   def call
     # Don't actually save the product to the index unless there was a UPC in the listing's product_source
-    context.fail! unless should_write_product_to_index?
-    context.product.save(prune_invalid_attributes: true)
+    context.product.save(prune_invalid_attributes: true) if should_write_product_to_index?
   end
 
   def should_write_product_to_index?

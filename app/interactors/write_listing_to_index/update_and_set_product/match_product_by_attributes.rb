@@ -1,6 +1,10 @@
 class MatchProductByAttributes
   include Interactor
 
+  before do
+    context.product = nil unless context.product.try(:persisted?)
+  end
+
   def call
     # This tries to match products with a looser mpn, sku, and attribute search.
     # Since the out put of this interactor only fills in listing metadata, and will never
