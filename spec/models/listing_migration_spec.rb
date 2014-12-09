@@ -50,7 +50,7 @@ describe ListingMigration do
             caliber: [ { 'caliber' => @caliber } ],
             caliber_category: [ { 'caliber_category' => 'handgun' } ],
             manufacturer: [ { 'manufacturer' => 'Remington' } ],
-            category1: [ { 'category1' => 'Ammunition' } ],
+            category1: [ { 'category1' => 'Ammunition' }, { 'classification_type' => 'hard' } ],
             grains: [ { 'grains' => 101 } ],
             number_of_rounds: [ { 'number_of_rounds' => 10 } ],
             price_per_round_in_cents: 10,
@@ -94,6 +94,7 @@ describe ListingMigration do
       expect(listing.product.upc).to eq([attrs.upc])
       expect(listing.product.caliber).to eq(@caliber)
       expect(listing.product.number_of_rounds).to eq(10)
+      expect(listing.product.category1).to eq('Ammunition')
 
       expect(location.city).to eq(attrs.item_data.city)
       expect(location.coordinates).to eq(attrs.item_data.coordinates)
@@ -126,11 +127,30 @@ describe ListingMigration do
 
   describe 'fix_listing_metadata' do
     it 'fixes the caliber_category for a listing when necessary' do
-      pending 'Example'
+      @listing_attrs['item_data'].merge!('caliber_category' => nil)
+      listing = Listing.create(@listing_attrs)
+      migration = ListingMigration.new(listing)
+      migration.write_listing_to_index
+      IronBase::Listing.refresh_index
+
+      expect(IronBase::Listing.count).to eq(1)
+
+      listing = IronBase::Listing.first
+      expect(listing.product.caliber_category).to eq('handgun')
     end
 
     it 'Only returns a hard-categorized category' do
-      pending 'Example'
+      category = [ { 'category1' => 'Ammunition' }, { 'classification_type' => 'soft' } ]
+      @listing_attrs['item_data'].merge!('category1' => category)
+      listing = Listing.create(@listing_attrs)
+      migration = ListingMigration.new(listing)
+      migration.write_listing_to_index
+      IronBase::Listing.refresh_index
+
+      expect(IronBase::Listing.count).to eq(1)
+
+      listing = IronBase::Listing.first
+      expect(listing.product.category1).to be_nil
     end
 
     it 'copies over the timestamps for a listing' do
