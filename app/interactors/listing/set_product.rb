@@ -2,14 +2,8 @@ class SetProduct
   include Interactor
 
   def call
-    unless context.product
-      context.product = match_product_by_attributes || IronBase::Product.new
-      context.product.import_from_listing!(context.listing) # Merge original captured attrs back in
-    end
-    context.listing.product = context.product.normalized_for_listing
+    context.listing.product = denormalize_for_listing(context.product)
   end
 
-  def match_product_by_attributes
-    MatchProduct.call(listing: context.listing).product
-  end
+
 end
