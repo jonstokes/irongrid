@@ -10,8 +10,6 @@
 * Item condition needs to be expanded to included Reman and Reload
 * Adapters: weight_in_pounds => product_weight_shipping
 * Adapters need new product aspects in them
-* Reduce duplication of normalized product fields in listing schema
-    * add product.normalized_for_listing method
 
 # For IronGrid Migration
  * Get shipping cost working again
