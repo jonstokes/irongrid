@@ -13,7 +13,7 @@ end
 def put_mappings
   IronBase::Listing.put_mapping
   IronBase::Product.put_mapping
-  Location.put_mapping
+  IronBase::Location.put_mapping
 end
 
 def configure_synonyms

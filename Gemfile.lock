@@ -50,6 +50,7 @@ PATH
       activesupport
       connection_pool
       elasticsearch
+      geocoder
       hashie
       interactor
       redis

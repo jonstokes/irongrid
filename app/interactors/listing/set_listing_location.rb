@@ -9,10 +9,10 @@ class SetListingLocation
   end
 
   def lookup_geo_data(item_location)
-    if item_location.present? && (loc = Location.put(item_location))
+    if item_location.present? && (loc = IronBase::Location.put(item_location))
       loc
     else
-      Location.default_location
+      IronBase::Location.default_location
     end
   end
 
