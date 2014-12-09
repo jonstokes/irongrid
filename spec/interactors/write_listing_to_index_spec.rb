@@ -162,5 +162,29 @@ describe WriteListingToIndex do
       expect(item.title).to eq("Silva Olive Drab Compass")
       expect(item.image.source).to eq("http://www.budsgunshop.com/catalog/images/15118.jpg")
     end
+
+    it 'adds a product to the index, and links that product to the listing' do
+      site = create_site "www.budsgunshop.com"
+
+      listing = File.open("spec/fixtures/stretched/output/bgs-metaog-tags.json", "r") do |f|
+        JSON.parse(f.read)
+      end.first.merge(engine: 'ironsights')
+
+      result = WriteListingToIndex.call(
+          page: @page,
+          listing_json: Hashie::Mash.new(listing),
+          site: site
+      )
+      expect(result.success?).to be_true
+      IronBase::Listing.refresh_index
+
+      expect(IronBase::Product.count).to eq(1)
+      product = IronBase::Product.first
+      expect(product.upc).not_to be_nil
+
+      item = IronBase::Listing.find result.listing.id
+      expect(item.product_source.id).not_to be_nil
+    end
+
   end
 end
