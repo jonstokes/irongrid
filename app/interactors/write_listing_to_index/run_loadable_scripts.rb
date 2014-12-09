@@ -1,5 +1,6 @@
-class RunLoadableScripts
-  include Interactor
+class WriteListingToIndex
+  class RunLoadableScripts
+    include Interactor
 
     before do
       # The loadables sometimes use these messages
@@ -26,4 +27,5 @@ class RunLoadableScripts
       end
     end
 
+  end
 end

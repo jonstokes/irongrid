@@ -1,8 +1,10 @@
-class SaveListingToIndex
-  include Interactor
+class WriteListingToIndex
+  class SaveListingToIndex
+    include Interactor
 
-  def call
-    context.listing.save
+    def call
+      context.listing.save
+    end
   end
 end
 

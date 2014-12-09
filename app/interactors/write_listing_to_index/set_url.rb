@@ -1,47 +1,49 @@
-class SetUrl
-  include Interactor
+class WriteListingToIndex
+  class SetUrl
+    include Interactor
 
-  def call
-    context.url = Hashie::Mash.new(
-        page: page_url,
-        purchase: purchase_url
-    )
-  end
-
-  def page_url
-    if context.page.code == 302    # Temporary redirect, so
-      context.page.redirect_from   # preserve original url
-    else
-      context.page.url
+    def call
+      context.url = Hashie::Mash.new(
+          page: page_url,
+          purchase: purchase_url
+      )
     end
-  end
 
-  def purchase_url
-    if affiliate_link_tag
-      "#{base_url}#{affiliate_link_tag}"
-    elsif share_a_sale?
-      share_a_sale_url
-    else
-      base_url
+    def page_url
+      if context.page.code == 302    # Temporary redirect, so
+        context.page.redirect_from   # preserve original url
+      else
+        context.page.url
+      end
     end
-  end
 
-  def base_url
-    context.listing_json.url || page_url
-  end
+    def purchase_url
+      if affiliate_link_tag
+        "#{base_url}#{affiliate_link_tag}"
+      elsif share_a_sale?
+        share_a_sale_url
+      else
+        base_url
+      end
+    end
 
-  def share_a_sale_url
-    link = base_url.split(/https?\:\/\//).last
-    link = link.to_query('urllink')
-    link = link.gsub(".","%2E").gsub("-","%2D")
-    "http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&#{link}"
-  end
+    def base_url
+      context.listing_json.url || page_url
+    end
 
-  def share_a_sale?
-    context.site.affiliate_program == "ShareASale"
-  end
+    def share_a_sale_url
+      link = base_url.split(/https?\:\/\//).last
+      link = link.to_query('urllink')
+      link = link.gsub(".","%2E").gsub("-","%2D")
+      "http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&#{link}"
+    end
 
-  def affiliate_link_tag
-    context.site.affiliate_link_tag
+    def share_a_sale?
+      context.site.affiliate_program == "ShareASale"
+    end
+
+    def affiliate_link_tag
+      context.site.affiliate_link_tag
+    end
   end
 end
