@@ -2,10 +2,10 @@ class ListingMigration
   include Retryable
   include Notifier
 
-  attr_accessor :listing
+  attr_accessor :listing, :es_listing
 
   def initialize(listing)
-    @listing = opts[:listing]
+    @listing = listing
   end
 
   def write_listing_to_index
@@ -40,14 +40,14 @@ class ListingMigration
   end
 
   def page
-    {
+    Hashie::Mash.new(
         code: 200,
         url: page_url
-    }
+    )
   end
 
   def json
-    {
+    Hashie::Mash.new(
         valid:                    true,
         url:                      listing_url,
         engine:                   'ironsights',
@@ -80,20 +80,22 @@ class ListingMigration
         product_caliber_category: caliber_category,
         product_number_of_rounds: listing.number_of_rounds,
         product_grains:           listing.grains
-    }
+    )
   end
 
   def caliber_category
+    return unless listing.caliber
     # Fixes for busted caliber categories
     @caliber_category ||= begin
       ListingMigration.mappings.each do |mapping_name, mapping|
-        return mapping_name.split("_calibers").first if mapping.has_term?(caliber, ignore_case: true)
+        return mapping_name.split("_calibers").first if mapping.has_term?(listing.caliber, ignore_case: true)
       end
       nil
     end
   end
 
   def category1
+    return unless listing.category1
     # Only capture hard-classified categories
     @category1 ||= begin
       category_is_hard_classified? ? listing.category1 : nil
