@@ -159,7 +159,7 @@ class ListingMigration
   def feed_url
     @feed_url ||= begin
       if site.feed_adapter
-        site.sessions.first.urls.first.url
+        site.sessions.first['urls'].first['url']
       else
         nil
       end

@@ -114,7 +114,7 @@ class Site < CoreModel
   end
 
   def feed_adapter
-    @feed_adapter ||= Stretched::ObjectAdapter.new("#{domain}/product_feed") rescue nil
+    @feed_adapter ||= Stretched::ObjectAdapter.find("#{domain}/product_feed") rescue nil
   end
 
   def load_scripts

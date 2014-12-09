@@ -1,5 +1,66 @@
 require 'spec_helper'
 
+def populate_listing_attrs(site)
+  location = create(:geo_data)
+  IronBase::Location.create(
+      id: location.key,
+      city: location.city,
+      state: location.state,
+      country: location.country,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      state_code: location.state_code,
+      postal_code: location.postal_code,
+      country_code: location.country_code
+  )
+  IronBase::Location.refresh_index
+
+  @listing_attrs = {
+      url: "http://#{site.domain}/1",
+      digest: 'abcd123',
+      upc: '10001',
+      sku: 'sku-10001',
+      mpn: 'mpn-10001',
+      type: 'RetailListing',
+      image: 'http://assets.scoperrific.com/1.jpg',
+      image_download_attempted: true,
+      seller_domain: site.domain,
+      auction_ends: Time.now,
+      item_data: {
+          title: [ { 'title' => @title } ],
+          description: 'Listing description',
+          shipping_cost_in_cents: 90,
+          discount_in_cents: 100,
+          weight_in_pounds: 2,
+          seller_name: site.name,
+          image_source: "http://#{@site.domain}/image.jpg",
+          item_condition: 'new',
+          item_location: location.key,
+          availability: 'in_stock',
+          current_price_in_cents: 1000,
+          price_in_cents: 1100,
+          sale_price_in_cents: 1000,
+          caliber: [ { 'caliber' => @caliber } ],
+          caliber_category: [ { 'caliber_category' => 'handgun' } ],
+          manufacturer: [ { 'manufacturer' => 'Remington' } ],
+          category1: [ { 'category1' => 'Ammunition' }, { 'classification_type' => 'hard' } ],
+          grains: [ { 'grains' => 101 } ],
+          number_of_rounds: [ { 'number_of_rounds' => 10 } ],
+          price_per_round_in_cents: 10,
+          city: location.city,
+          state: location.state,
+          country: location.country,
+          latitude: location.latitude,
+          longitude: location.longitude,
+          state_code: location.state_code,
+          postal_code: location.postal_code,
+          country_code: location.country_code,
+          coordinates: location.coordinates
+      }
+  }
+  @listing_attrs.deep_stringify_keys!
+end
+
 describe ListingMigration do
 
   before :each do
@@ -7,65 +68,9 @@ describe ListingMigration do
     register_globals
     register_site @site.domain
     load_scripts
-    location = create(:geo_data)
-    IronBase::Location.create(
-        id: location.key,
-        city: location.city,
-        state: location.state,
-        country: location.country,
-        latitude: location.latitude,
-        longitude: location.longitude,
-        state_code: location.state_code,
-        postal_code: location.postal_code,
-        country_code: location.country_code
-    )
-    IronBase::Location.refresh_index
     @title = 'Listing title'
     @caliber = '.45 ACP'
-    @listing_attrs = {
-        url: "http://#{@site.domain}/1",
-        digest: 'abcd123',
-        upc: '10001',
-        sku: 'sku-10001',
-        mpn: 'mpn-10001',
-        type: 'RetailListing',
-        image: 'http://assets.scoperrific.com/1.jpg',
-        image_download_attempted: true,
-        seller_domain: @site.domain,
-        auction_ends: Time.now,
-        item_data: {
-            title: [ { 'title' => @title } ],
-            description: 'Listing description',
-            shipping_cost_in_cents: 90,
-            discount_in_cents: 100,
-            weight_in_pounds: 2,
-            seller_name: @site.name,
-            image_source: "http://#{@site.domain}/image.jpg",
-            item_condition: 'new',
-            item_location: location.key,
-            availability: 'in_stock',
-            current_price_in_cents: 1000,
-            price_in_cents: 1100,
-            sale_price_in_cents: 1000,
-            caliber: [ { 'caliber' => @caliber } ],
-            caliber_category: [ { 'caliber_category' => 'handgun' } ],
-            manufacturer: [ { 'manufacturer' => 'Remington' } ],
-            category1: [ { 'category1' => 'Ammunition' }, { 'classification_type' => 'hard' } ],
-            grains: [ { 'grains' => 101 } ],
-            number_of_rounds: [ { 'number_of_rounds' => 10 } ],
-            price_per_round_in_cents: 10,
-            city: location.city,
-            state: location.state,
-            country: location.country,
-            latitude: location.latitude,
-            longitude: location.longitude,
-            state_code: location.state_code,
-            postal_code: location.postal_code,
-            country_code: location.country_code,
-            coordinates: location.coordinates
-        }
-    }
-    @listing_attrs.deep_stringify_keys!
+    populate_listing_attrs(@site)
   end
 
   describe 'write_listing_to_index' do
@@ -186,21 +191,46 @@ describe ListingMigration do
 
   describe 'page_url' do
     it 'gives the feed url for a feed listing' do
-      pending "Example"
+      site = create_site "ammo.net"
+      site.register
+      populate_listing_attrs(site)
+      attrs = Hashie::Mash.new @listing_attrs
+      listing = Listing.create(@listing_attrs)
+      migration = ListingMigration.new(listing)
+
+      expect(migration.send(:page_url)).to eq(site.sessions.first['urls'].first['url'])
+
+      migration.write_listing_to_index
+      IronBase::Listing.refresh_index
+      es_listing = IronBase::Listing.first
+
+      expect(es_listing.url.purchase).to eq(attrs.url)
+      expect(es_listing.url.page).to eq(site.sessions.first['urls'].first['url'])
     end
 
     it 'gives the bare_url for a non-feed listing' do
-      pending "Example"
+      listing = Listing.create(@listing_attrs)
+      migration = ListingMigration.new(listing)
+      expect(migration.send(:page_url)).to eq(listing.bare_url)
     end
   end
 
   describe 'listing_url' do
     it 'gives the bare_url for a feed listing' do
-      pending "EXample"
+      site = create_site "ammo.net"
+      site.register
+      populate_listing_attrs(site)
+      attrs = Hashie::Mash.new @listing_attrs
+      listing = Listing.create(@listing_attrs)
+      migration = ListingMigration.new(listing)
+
+      expect(migration.send(:listing_url)).to eq(listing.bare_url)
     end
 
     it 'gives nil for a non-feed listing' do
-      pending "Example"
+      listing = Listing.create(@listing_attrs)
+      migration = ListingMigration.new(listing)
+      expect(migration.send(:listing_url)).to be_nil
     end
   end
 end
