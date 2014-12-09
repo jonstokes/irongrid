@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SetUrl do
+describe WriteListingToIndex::SetUrl do
   before :each do
     @site = create_site "www.retailer.com"
     @listing_json = Hashie::Mash.new(
@@ -26,7 +26,7 @@ describe SetUrl do
 
   describe '#purchase_url' do
     it 'returns the untagged url for a site without a link tag' do
-      result = SetUrl.call(
+      result = WriteListingToIndex::SetUrl.call(
           site:         @site,
           page:         @page,
           listing_json: @listing_json,
@@ -39,7 +39,7 @@ describe SetUrl do
       url = 'http://www.botach.com/fnh-scar-17s-7-62mm-battle-rifles-tan/'
       sas_link = "http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&urllink=www%2Ebotach%2Ecom%2Ffnh%2Dscar%2D17s%2D7%2D62mm%2Dbattle%2Drifles%2Dtan%2F"
 
-      result = SetUrl.call(
+      result = WriteListingToIndex::SetUrl.call(
           site:         site,
           page:         @page.merge(url: "http://#{site.domain}/feed.xml"),
           listing_json: @listing_json.merge(url: url),
@@ -52,7 +52,7 @@ describe SetUrl do
       site.send(:write_to_redis)
       url = "http://#{site.domain}/product"
       tagged_url = "#{url}#{site.affiliate_link_tag}"
-      result = SetUrl.call(
+      result = WriteListingToIndex::SetUrl.call(
           site:         site,
           page:         @page.merge(url: url),
           listing_json: @listing_json,

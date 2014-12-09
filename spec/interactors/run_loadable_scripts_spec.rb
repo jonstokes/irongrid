@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RunLoadableScripts do
+describe WriteListingToIndex::RunLoadableScripts do
   before :each do
     @site = create_site 'www.budsgunshop.com'
     load_scripts
@@ -27,7 +27,7 @@ describe RunLoadableScripts do
         ),
         listing_json: Hashie::Mash.new
       }
-      result = RunLoadableScripts.call(opts)
+      result = WriteListingToIndex::RunLoadableScripts.call(opts)
       expect(result.listing.shipping.cost).to eq(995)
     end
   end
@@ -44,7 +44,7 @@ describe RunLoadableScripts do
              sale: 100
           }
       )
-      result = RunLoadableScripts.call(
+      result = WriteListingToIndex::RunLoadableScripts.call(
           listing: listing,
           listing_json: Hashie::Mash.new,
           site: @site
@@ -63,7 +63,7 @@ describe RunLoadableScripts do
               per_round: 500
           }
       )
-      result = RunLoadableScripts.call(
+      result = WriteListingToIndex::RunLoadableScripts.call(
           listing: listing,
           listing_json: Hashie::Mash.new,
           site: @site
@@ -83,7 +83,7 @@ describe RunLoadableScripts do
           price: { current: 100 },
           product: { category1: 'Guns' },
       )
-      results = RunLoadableScripts.call(
+      results = WriteListingToIndex::RunLoadableScripts.call(
           listing: listing,
           site: @site,
           listing_json: Hashie::Mash.new
@@ -99,7 +99,7 @@ describe RunLoadableScripts do
               number_of_rounds: 100
           }
       )
-      results = RunLoadableScripts.call(
+      results = WriteListingToIndex::RunLoadableScripts.call(
           listing: listing,
           site: @site,
           listing_json: Hashie::Mash.new
@@ -111,7 +111,7 @@ describe RunLoadableScripts do
       listing = IronBase::Listing.new(
           product: { category1: 'Optics' },
       )
-      results = RunLoadableScripts.call(
+      results = WriteListingToIndex::RunLoadableScripts.call(
           listing: listing,
           site: @site,
           listing_json: Hashie::Mash.new
@@ -137,7 +137,7 @@ describe RunLoadableScripts do
           },
           shipping: { cost: 10 }
       )
-      results = RunLoadableScripts.call(
+      results = WriteListingToIndex::RunLoadableScripts.call(
           listing: listing,
           site: @site,
           listing_json: Hashie::Mash.new

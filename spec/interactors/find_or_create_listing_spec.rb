@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FindOrCreateListing do
+describe WriteListingToIndex::FindOrCreateListing do
   describe '#call' do
     it 'retrieves a listing object for a listing that already exists in the index' do
       listing = create(:listing)
@@ -10,7 +10,7 @@ describe FindOrCreateListing do
           url: listing.url.page
       )
       IronBase::Listing.refresh_index
-      listing2 = FindOrCreateListing.call(
+      listing2 = WriteListingToIndex::FindOrCreateListing.call(
           listing_json: listing_json,
           page:         page,
           url:          listing.url
@@ -29,7 +29,7 @@ describe FindOrCreateListing do
           url: 'http://www.retailer.com/1'
       )
       IronBase::Listing.refresh_index
-      listing = FindOrCreateListing.call(
+      listing = WriteListingToIndex::FindOrCreateListing.call(
           listing_json: listing_json,
           url: Hashie::Mash.new(page: page.url, purchase: page.url),
           page: page
@@ -49,7 +49,7 @@ describe FindOrCreateListing do
           code: 200,
           url: page_url
       )
-      listing = FindOrCreateListing.call(
+      listing = WriteListingToIndex::FindOrCreateListing.call(
           listing_json: listing_json,
           url: Hashie::Mash.new(page: page_url, purchase: purchase_url),
           page: page
@@ -69,7 +69,7 @@ describe FindOrCreateListing do
           code: 200,
           url: page_url
       )
-      listing = FindOrCreateListing.call(
+      listing = WriteListingToIndex::FindOrCreateListing.call(
           listing_json: listing_json,
           url: Hashie::Mash.new(page: page_url, purchase: purchase_url),
           page: page

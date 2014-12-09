@@ -3,7 +3,7 @@ require 'mocktra'
 require 'webmock/rspec'
 
 
-describe UpdateListingImage do
+describe WriteListingToIndex::UpdateListingImage do
   before :each do
     @site = create_site "www.retailer.com"
     @image_source = "http://www.retailer.com/images/1.png"
@@ -17,7 +17,7 @@ describe UpdateListingImage do
 
   describe '#call' do
     it 'adds an image to the site site image queue if the listing image is not on the CDN' do
-      listing = UpdateListingImage.call(
+      listing = WriteListingToIndex::UpdateListingImage.call(
           site: @site,
           listing: @listing
       ).listing
@@ -35,7 +35,7 @@ describe UpdateListingImage do
       http = Sunbro::HTTP.new
       CDN::Image.create(source: @image_source, http: http)
 
-      listing = UpdateListingImage.call(
+      listing = WriteListingToIndex::UpdateListingImage.call(
           site: @site,
           listing: @listing
       ).listing

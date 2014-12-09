@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MergeJsonIntoListing do
+describe WriteListingToIndex::MergeJsonIntoListing do
   describe '#call', no_es: true do
     before :each do
       @site = create_site "www.retailer.com"
@@ -30,7 +30,7 @@ describe MergeJsonIntoListing do
     end
 
     it 'correctly copies attributes for a listing' do
-      listing = MergeJsonIntoListing.call(
+      listing = WriteListingToIndex::MergeJsonIntoListing.call(
         site:         @site,
         listing_json: @listing_json,
         listing:      @listing,
@@ -54,7 +54,7 @@ describe MergeJsonIntoListing do
           type:         'AuctionListing',
           auction_ends: '09/10/2025 11:00:00' #Central Time is default zone
       )
-      result = MergeJsonIntoListing.call(
+      result = WriteListingToIndex::MergeJsonIntoListing.call(
           site:         @site,
           listing:      @listing,
           listing_json: listing_json
@@ -68,7 +68,7 @@ describe MergeJsonIntoListing do
           type:         'AuctionListing',
           auction_ends: 2.hours.ago
       )
-      result = MergeJsonIntoListing.call(
+      result = WriteListingToIndex::MergeJsonIntoListing.call(
           site:         @site,
           listing:      @listing,
           listing_json: listing_json

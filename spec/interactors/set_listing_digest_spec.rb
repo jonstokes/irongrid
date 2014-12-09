@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SetListingDigest do
+describe WriteListingToIndex::SetListingDigest do
   it 'should correctly digest a listing' do
     url = "http://www.hyattgunstore.com/federal-xm855-5.56-ammo-62-grain-fmj-420-rounds-on-30-round-stripper-clips.html"
     site = create_site 'www.hyattgunstore.com'
@@ -61,7 +61,7 @@ describe SetListingDigest do
       )
     }
 
-    result = SetListingDigest.call(opts)
+    result = WriteListingToIndex::SetListingDigest.call(opts)
     expect(result.listing.digest).to eq('4e9ae7a4270c5d38ef59302226058a81')
   end
 end
