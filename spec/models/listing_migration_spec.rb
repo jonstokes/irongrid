@@ -117,15 +117,6 @@ describe ListingMigration do
       expect(product.number_of_rounds).to eq(10)
     end
 
-  end
-
-  describe 'verify' do
-    it 'verifies the url format of the new listing' do
-      pending 'Example'
-    end
-  end
-
-  describe 'fix_listing_metadata' do
     it 'fixes the caliber_category for a listing when necessary' do
       @listing_attrs['item_data'].merge!('caliber_category' => nil)
       listing = Listing.create(@listing_attrs)
@@ -153,9 +144,38 @@ describe ListingMigration do
       expect(listing.product.category1).to be_nil
     end
 
-    it 'copies over the timestamps for a listing' do
+  end
+
+  describe 'verify' do
+    it 'verifies the url format of the new listing' do
       pending 'Example'
     end
+  end
+
+  describe 'fix_listing_metadata' do
+    it 'copies over the timestamps and image data for a listing' do
+      listing = Listing.create(@listing_attrs)
+      migration = ListingMigration.new(listing)
+      migration.write_listing_to_index
+      IronBase::Listing.refresh_index
+
+      expect(IronBase::Listing.count).to eq(1)
+
+      es_listing = IronBase::Listing.first
+      expect(es_listing.updated_at.to_i).not_to eq(listing.updated_at.utc.to_i)
+      expect(es_listing.created_at.to_i).not_to eq(listing.created_at.utc.to_i)
+
+      migration.fix_listing_metadata
+      IronBase::Listing.refresh_index
+
+      es_listing = IronBase::Listing.first
+      expect(es_listing.updated_at.to_i).to eq(listing.updated_at.utc.to_i)
+      expect(es_listing.created_at.to_i).to eq(listing.created_at.utc.to_i)
+      expect(es_listing.image.cdn).to eq(listing.image)
+      expect(es_listing.image.source).to eq(listing.item_data['image_source'])
+      expect(es_listing.image.download_attempted).to eq(listing.image_download_attempted)
+    end
+
   end
 
   describe 'json' do

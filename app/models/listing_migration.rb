@@ -31,9 +31,9 @@ class ListingMigration
         created_at: listing.created_at.utc,
         updated_at: listing.updated_at.utc,
         image: {
-            cdn: listing.cdn_image,
+            cdn: listing.image,
             download_attempted: listing.image_download_attempted,
-            source: listing.image_source
+            source: listing.item_data['image_source']
         }
     )
     IronBase::Listing.record_timestamps = true
