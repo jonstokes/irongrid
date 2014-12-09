@@ -52,7 +52,6 @@ describe ListingMigration do
             manufacturer: [ { 'manufacturer' => 'Remington' } ],
             category1: [ { 'category1' => 'Ammunition' } ],
             grains: [ { 'grains' => 101 } ],
-            material: 'brass',
             number_of_rounds: [ { 'number_of_rounds' => 10 } ],
             price_per_round_in_cents: 10,
             city: location.city,
@@ -78,7 +77,6 @@ describe ListingMigration do
       IronBase::Listing.refresh_index
 
       expect(IronBase::Listing.count).to eq(1)
-      expect(IronBase::Product.count).to eq(1)
 
       listing = IronBase::Listing.first
       product = IronBase::Product.first
@@ -93,20 +91,31 @@ describe ListingMigration do
       expect(listing.location.city).to eq(attrs.item_data.city)
       expect(listing.location.id).to eq(location.id)
       expect(listing.product.id).to eq(product.id)
+      expect(listing.product.upc).to eq([attrs.upc])
+      expect(listing.product.caliber).to eq(@caliber)
+      expect(listing.product.number_of_rounds).to eq(10)
 
       expect(location.city).to eq(attrs.item_data.city)
       expect(location.coordinates).to eq(attrs.item_data.coordinates)
       expect(location.id).to eq(attrs.item_data.item_location)
-
-      expect(listing.product.upc).to eq([attrs.upc])
-      expect(listing.product.caliber).to eq(@caliber)
-
-      expect(product.name).to eq(@title)
     end
 
     it 'also writes a product to the index' do
-      pending 'Example'
+      attrs = Hashie::Mash.new(@listing_attrs)
+      listing = Listing.create(@listing_attrs)
+      migration = ListingMigration.new(listing)
+      migration.write_listing_to_index
+      IronBase::Listing.refresh_index
+
+      expect(IronBase::Listing.count).to eq(1)
+      product = IronBase::Product.first
+
+      expect(product.name).to eq(@title)
+      expect(product.upc).to eq([attrs.upc])
+      expect(product.caliber).to eq(@caliber)
+      expect(product.number_of_rounds).to eq(10)
     end
+
   end
 
   describe 'verify' do
