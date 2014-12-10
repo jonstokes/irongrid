@@ -1,6 +1,7 @@
 # Migration
 
- - Run this in dev
+ - Run this in dev in an AWS box
+ - Edit application.yml accordingly, so that redis is local, etc.
  - Create all sites and stretched registrations in dev
  - load all site scripts in dev
  - Create index
@@ -8,16 +9,8 @@
  - Migrate listings
 
 # Punch List
- - Specs for ListingMigration and dry run
- - Adapters: weight_in_pounds => product_weight_shipping
- - Convert all loadables to new format
- - Move over all ironsights-sites adapters to new loadables manifest
-
  * Item condition needs to be expanded to included Reman and Reload
  * Adapters need new product aspects in them
-
-# For IronGrid Migration
- - Get shipping cost working again
  * Set up production IAM key, bucket, policy, etc. for S3 snapshot backups and test it out.
 
 # Bring up test migration for front end
