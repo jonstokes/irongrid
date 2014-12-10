@@ -11,7 +11,6 @@ class WriteListingToIndex
           destination: context.listing,
           mapping:     json_mapping
       )
-      context.listing.url = context.url
       context.listing.seller = {
           site_name: context.site.name,
           domain:    context.site.domain

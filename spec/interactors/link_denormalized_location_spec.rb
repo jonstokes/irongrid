@@ -13,7 +13,6 @@ describe WriteListingToIndex::LinkDenormalizedLocation do
   describe '#call' do
     it 'sets the listing location' do
       listing = WriteListingToIndex::LinkDenormalizedLocation.call(listing_json: @listing_json, listing: @listing).listing
-      puts "# Listing location: #{listing.location}"
       expect(listing.location.id).to eq(@location.upcase)
       expect(listing.location.state_code).to eq('TX')
       expect(listing.location.coordinates).to eq("#{@lat},#{@lon}")

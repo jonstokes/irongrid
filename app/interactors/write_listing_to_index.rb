@@ -4,7 +4,6 @@ class WriteListingToIndex
   # Expect context to have site, page, listing_json
 
   organize [
-    SetUrl,
     FindOrCreateListing,
     MergeJsonIntoListing,
     UpdateAndLinkProduct,
