@@ -62,6 +62,7 @@ end
 
 namespace :migrate do
   task geo_data: :environment do
+    IronBase::Settings.configure { |c| c.logger = nil }
     GeoData.find_each do |loc|
       IronBase::Location.create(
           id: loc.key,
@@ -79,7 +80,7 @@ namespace :migrate do
 
   task listings: :environment do
     include Retryable
-
+    IronBase::Settings.configure { |c| c.logger = nil }
     Listing.find_each do |listing|
       migration = ListingMigration.new(listing)
       migration.write_listing_to_index
