@@ -19,7 +19,6 @@ class WriteListingToIndex
       context.listing.condition ||= 'Unknown'
       context.listing.availability ||= 'Unknown'
       context.listing.engine ||= 'ironsights'
-      context.listing.shipping ||= {} # Loadables will blow up if shipping is nil
     end
 
     def json_mapping
