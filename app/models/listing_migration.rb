@@ -9,11 +9,13 @@ class ListingMigration
   end
 
   def write_listing_to_index
-    result = WriteListingToIndex.call(
-        site:         site,
-        listing_json: json,
-        page:         page
-    )
+    result = retryable(sleep: 0.5) do
+      WriteListingToIndex.call(
+          site:         site,
+          listing_json: json,
+          page:         page
+      )
+    end
     raise "Listing #{listing.id} failed to write to index with error #{result.error}." unless result.success?
     @es_listing = result.listing
   end
