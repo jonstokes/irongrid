@@ -84,6 +84,8 @@ namespace :migrate do
 
   task listings: :environment do
     include Retryable
+    Rails.application.eager_load!
+    
     IronBase::Settings.configure { |c| c.logger = nil }
     Listing.find_each do |listing|
       migration = ListingMigration.new(listing)
