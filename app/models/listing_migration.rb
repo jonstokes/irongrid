@@ -127,6 +127,7 @@ class ListingMigration
   end
 
   def self.site_from_domain(domain)
+    puts "# Looking up domain #{domain}"
     sites.detect do |site|
       site.domain == domain
     end
