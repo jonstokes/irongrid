@@ -76,15 +76,15 @@ class WriteListingToIndex
     end
 
     def listing_is_invalid?
-      context.status == :invalid
+      context.error == 'invalid'
     end
 
     def auction_ended?
-      context.status == :auction_ended
+      context.error == 'auction_ended'
     end
 
     def listing_is_duplicate?
-      context.status == :duplicate
+      context.error == 'duplicate'
     end
   end
 end

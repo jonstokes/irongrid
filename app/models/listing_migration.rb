@@ -14,7 +14,7 @@ class ListingMigration
         listing_json: json,
         page:         page
     )
-    raise "Listing #{listing.id} failed to write to index." unless result.success?
+    raise "Listing #{listing.id} failed to write to index with error #{result.error}." unless result.success?
     @es_listing = result.listing
   end
 

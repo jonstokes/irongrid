@@ -4,7 +4,7 @@ class WriteListingToIndex
     include ObjectMapper
 
     def call
-      context.fail!(status: :invalid) unless context.listing_json.valid
+      context.fail!(error: 'invalid') unless context.listing_json.valid
       context.listing.timezone = context.site.timezone
       transform(
           source:      context.listing_json,
@@ -15,7 +15,7 @@ class WriteListingToIndex
           site_name: context.site.name,
           domain:    context.site.domain
       }
-      context.fail!(status: :auction_ended) if context.listing.auction_ended?
+      context.fail!(error: 'auction_ended') if context.listing.auction_ended?
       context.listing.condition ||= 'Unknown'
       context.listing.availability ||= 'Unknown'
       context.listing.engine ||= 'ironsights'
