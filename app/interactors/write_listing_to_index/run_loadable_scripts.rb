@@ -2,9 +2,7 @@ class WriteListingToIndex
   class RunLoadableScripts
     include Interactor
 
-    Dir["#{Figaro.env.sites_repo}/sites/irongrid_scripts/**/*.rb"].each do |filename|
-      Loadable::Script.create_from_file(filename)
-    end
+    Loadable::Script.find_or_create('ironsights/globals/product_details')
 
     before do
       # The loadables sometimes use these messages
