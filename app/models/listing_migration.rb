@@ -56,7 +56,7 @@ class ListingMigration
         keywords:                 listing.keywords,
         description:              listing.description,
         condition:                listing.item_condition,
-        auction_ends:             listing.auction_ends.utc,
+        auction_ends:             listing.auction_ends.try(:utc),
         availability:             listing.availability,
         image:                    listing.image_source,
         location:                 listing.item_location,
