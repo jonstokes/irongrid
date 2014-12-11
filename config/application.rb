@@ -21,15 +21,10 @@ module Irongrid
     config.eager_load_paths += %W(#{config.root}/lib/modules)
     config.eager_load_paths += %W(#{config.root}/lib/modules/elastic_tools)
     config.eager_load_paths += %W(#{config.root}/lib/modules/product_details)
-    config.eager_load_paths += %W(#{config.root}/lib/modules/page_utils)
     config.eager_load_paths += %W(#{config.root}/lib/modules/cdn)
-    config.eager_load_paths += %W(#{config.root}/lib/modules/stretched)
     config.eager_load_paths += %W(#{config.root}/app/models/core)
     config.eager_load_paths += %W(#{config.root}/app/models/concerns)
     config.eager_load_paths += %W(#{config.root}/app/models/listings)
-    config.eager_load_paths += %W(#{config.root}/app/models/queues)
-    config.eager_load_paths += %W(#{config.root}/app/models/sets)
-    config.eager_load_paths += %W(#{config.root}/app/models/listing_cleaners)
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
