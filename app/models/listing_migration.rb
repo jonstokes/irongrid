@@ -127,10 +127,19 @@ class ListingMigration
   end
 
   def self.site_from_domain(domain)
-    puts "# Looking up domain #{domain}"
+    find_site || load_site
+  end
+
+  def self.find_site
     sites.detect do |site|
       site.domain == domain
     end
+  end
+
+  def self.load_site
+    site = Site.new(domain: domain, source: :local)
+    sites << site
+    site
   end
 
   private
