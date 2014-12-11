@@ -7,6 +7,10 @@ namespace :site do
   end
 
   task :load_scripts => :environment do
+    Dir["#{Figaro.env.sites_repo}/loadables/ironsights/**/*.rb"].each do |filename|
+      Loadable::Script.create_from_file(filename)
+    end
+
     Site.each do |site|
       site.load_scripts rescue next
     end

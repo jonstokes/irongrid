@@ -2,8 +2,6 @@ class WriteListingToIndex
   class RunLoadableScripts
     include Interactor
 
-    Loadable::Script.find_or_create('ironsights/globals/product_details')
-
     before do
       # The loadables sometimes use these messages
       context.message1 = context.listing_json.message1
@@ -28,6 +26,5 @@ class WriteListingToIndex
         end
       end
     end
-
   end
 end
