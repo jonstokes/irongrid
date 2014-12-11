@@ -82,16 +82,22 @@ namespace :migrate do
     end
   end
 
+  def migrate(listing)
+    migration = ListingMigration.new(listing)
+    migration.write_listing_to_index
+    migration.verify
+    migration.fix_listing_metadata
+  rescue Exception => e
+    puts "# Listing #{listing.id} raised error #{e.message}"
+  end
+
   task listings: :environment do
     include Retryable
     Rails.application.eager_load!
     
     IronBase::Settings.configure { |c| c.logger = nil }
     Listing.find_each do |listing|
-      migration = ListingMigration.new(listing)
-      migration.write_listing_to_index
-      migration.verify
-      migration.fix_listing_metadata
+      migrate(listing)
     end
   end
 end

@@ -18,7 +18,7 @@ class WriteProductToIndex
     def product_source
       context.listing.product_source
     end
-    
+
     def find_by_upc
       return unless product_source.upc.present?
       IronBase::Product.find_by_upc(product_source.upc).first
