@@ -2,6 +2,10 @@ class WriteListingToIndex
   class RunLoadableScripts
     include Interactor
 
+    Dir["#{Figaro.env.sites_repo}/sites/irongrid_scripts/**/*.rb"].each do |filename|
+      Loadable::Script.create_from_file(filename)
+    end
+
     before do
       # The loadables sometimes use these messages
       context.message1 = context.listing_json.message1
