@@ -29,7 +29,7 @@ describe WriteListingToIndex do
         site: site
       )
       expect(result.success?).to be_false
-      expect(result.status).to eq(:invalid)
+      expect(result.error).to eq('invalid')
     end
 
     it 'correctly parses a standard, in-stock retail listing from Hyatt Gun Store' do
