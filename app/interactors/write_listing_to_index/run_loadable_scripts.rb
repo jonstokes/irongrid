@@ -6,17 +6,23 @@ class WriteListingToIndex
       # Loadables will blow up if these are nil
       context.listing.price ||= {}
       context.product.weight ||= {}
+      context.listing.shipping ||= {}
     end
 
     def call
       context.site.loadables.each do |attribute, script_name|
         runner = Loadable::Script.runner(script_name)
         runner.with_context(context) do
-          runner.actions.each_value do |action|
-            action.call
+          runner.actions.each do |setter, action|
+            value = action.call
+            self.send(setter, value) if value
           end
         end
       end
+    end
+
+    def shipping_cost(value)
+      context.listing.shipping.cost = value
     end
   end
 end

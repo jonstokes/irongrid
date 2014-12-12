@@ -1,9 +1,9 @@
 Loadable::Script.define do
-  script "www.budsgunshop.com/shipping_cost" do
+  script "www.budsgunshop.com/shipping" do
     shipping_cost do
-      if listing.gun?
+      if product.guns?
         0
-      elsif listing.ammo?
+      elsif product.ammunition?
         995
       end
     end
