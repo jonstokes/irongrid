@@ -25,6 +25,7 @@ module Ironsights
     end
 
     def shipping_included?
+      listing.shipping ||= {}
       listing.shipping.included ||= !!shipping_cost
     end
 

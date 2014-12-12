@@ -2,6 +2,12 @@ class WriteListingToIndex
   class IronsightsListingDetails
     include Interactor::Organizer
 
+    before do
+      # Interactors will blow up if these are nil
+      context.listing.price ||= {}
+      context.product.weight ||= {}
+    end
+
     organize CalculateDiscount,
              CalculatePriceWithShipping,
              CalculateDiscountWithShipping,
