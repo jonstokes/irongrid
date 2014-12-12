@@ -27,5 +27,25 @@ describe WriteListingToIndex::RunLoadableScripts do
       result = WriteListingToIndex::RunLoadableScripts.call(opts)
       expect(result.listing.shipping.cost).to eq(995)
     end
+
+    it 'exposes common variables to the script' do
+      site = create_site 'www.midwayusa.com'
+      load_scripts
+      opts = {
+          site: site,
+          listing: IronBase::Listing.new(
+              price: {
+                  current: 1000,
+                  sale: 1000,
+                  list: 1100
+              },
+          ),
+          product: IronBase::Product.new(weight: { shipping: 0.5 }),
+          listing_json: Hashie::Mash.new(message2: true)
+      }
+      result = WriteListingToIndex::RunLoadableScripts.call(opts)
+      expect(result.listing.shipping.cost).to eq(899)
+
+    end
   end
 end

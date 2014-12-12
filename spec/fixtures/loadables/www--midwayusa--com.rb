@@ -6,7 +6,7 @@ Loadable::Script.define do
       if ships_free && price && (price >= 2500)
         0
       elsif weight
-        ship_weight = weight.to_f.ceil
+        ship_weight = weight.ceil
         if dot
           if weight < 1.0
             899
