@@ -13,11 +13,11 @@ module Ironsights
     end
 
     def with_shipping
-      context.listing.with_shipping ||= {}
+      listing.with_shipping ||= {}
     end
 
     def shipping_cost
-      context.listing.shipping.try(:cost)
+      listing.shipping.try(:cost)
     end
 
     def weight
@@ -25,7 +25,7 @@ module Ironsights
     end
 
     def shipping_included?
-      context.listing.shipping.included ||= !!shipping_cost
+      listing.shipping.included ||= !!shipping_cost
     end
 
     def number_of_rounds
