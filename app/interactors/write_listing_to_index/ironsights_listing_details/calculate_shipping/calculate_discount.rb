@@ -5,7 +5,7 @@ class WriteListingToIndex
         include Interactor
 
         def call
-          return unless context.discount
+          return if context.discount.nil? || context.discount.zero?
           context.with_shipping.merge!(
               discount: {
                   in_cents: calculate_discount_in_cents(context.price.list, context.with_shipping.price.current),

@@ -16,17 +16,17 @@ class WriteListingToIndex
 
         def current_price_with_shipping
           return unless context.price.current
-          context.price.current + context.shipping.cost
+          context.price.current + context.shipping_cost
         end
 
         def list_price_with_shipping
           return unless context.price.list
-          context.price.list + context.shipping.cost
+          context.price.list + context.shipping_cost
         end
 
         def sale_price_with_shipping
           return unless context.price.sale
-          context.price.sale + context.shipping.cost
+          context.price.sale + context.shipping_cost
         end
       end
     end

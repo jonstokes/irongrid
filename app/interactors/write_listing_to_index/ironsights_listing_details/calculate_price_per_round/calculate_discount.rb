@@ -1,11 +1,11 @@
 class WriteListingToIndex
   class IronsightsListingDetails
     class CalculatePricePerRound
-      class Discount
+      class CalculateDiscount
         include Interactor
 
         def call
-          return unless context.list_ppr
+          return unless context.discount && !context.discount.zero? && context.list_ppr
           context.discount_ppr_percent = calculate_discount_percent(context.list_ppr, context.price_per_round)
         end
 
