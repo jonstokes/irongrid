@@ -23,12 +23,8 @@ Loadable::Script.define do
     with_shipping do |instance|
       listing = instance.listing
 
-      # shipping included
-      listing.shipping ||= {}
-      listing.shipping.included = !!listing.shipping.cost
-
       # current price with shipping
-      next unless listing.shipping.cost && listing.price.try(:current)
+      next unless listing.shipping.try(:cost) && listing.price.try(:current)
       listing.with_shipping = {
           price: {
               current: (listing.price.current + listing.shipping.cost)
@@ -49,7 +45,7 @@ Loadable::Script.define do
       listing = instance.listing
 
       # current price per round
-      next unless listing.ammo? && listing.product.number_of_rounds
+      next unless listing.ammo? && listing.product.number_of_rounds && listing.price
       next if listing.product.number_of_rounds.zero?
       listing.price.per_round ||=
           (listing.price.current.to_f / listing.product.number_of_rounds.to_f).round.to_i
