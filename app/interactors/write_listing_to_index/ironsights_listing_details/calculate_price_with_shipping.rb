@@ -21,8 +21,8 @@ class WriteListingToIndex
       end
 
       def list_price_with_shipping
-        return unless listing.price.list
-        listing.price.list + shipping_cost
+        return unless list_price
+        list_price + shipping_cost
       end
 
       def sale_price_with_shipping
