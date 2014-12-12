@@ -46,14 +46,14 @@ module Ironsights
       (price.to_f / number_of_rounds.to_f).round.to_i
     end
 
-    def calculate_discount_in_cents(list_price, sale_price)
-      return 0 unless list_price > sale_price
-      list_price - sale_price
+    def calculate_discount_in_cents(list, sale)
+      return 0 unless list > sale
+      list - sale
     end
 
-    def calculate_discount_percent(list_price, sale_price)
-      return 0 unless (list_price > sale_price) && !sale_price.zero?
-      (list_price.to_f / sale_price.to_f).round * 100
+    def calculate_discount_percent(list, sale)
+      return 0 unless (list > sale) && !sale.zero?
+      (list.to_f / sale.to_f).round * 100
     end
 
     def should_calculate_ppr?

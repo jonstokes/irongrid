@@ -2,7 +2,8 @@ class WriteListingToIndex
   class IronsightsListingDetails
     include Interactor::Organizer
 
-    organize CalculatePriceWithShipping,
+    organize CalculateDiscount,
+             CalculatePriceWithShipping,
              CalculateDiscountWithShipping,
              CalculatePricePerRound,
              CalculatePricePerRoundWithShipping,
