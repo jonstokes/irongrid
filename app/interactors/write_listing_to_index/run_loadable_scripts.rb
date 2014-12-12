@@ -10,7 +10,7 @@ class WriteListingToIndex
     end
 
     def call
-      context.site.loadables.each do |attribute, script_name|
+      context.site.loadables.each do |script_name|
         runner = Loadable::Script.runner(script_name)
         runner.with_context(context) do
           runner.actions.each do |setter, action|

@@ -16,15 +16,12 @@ describe WriteListingToIndex::RunLoadableScripts do
               sale: 1000,
               list: 1100
           },
-          product: {
-              number_of_rounds: 10,
-              category1: 'Ammunition'
-          },
           discount: {
               in_cents: 100,
               percent: 10
           }
         ),
+        product: IronBase::Product.new(number_of_rounds: 10, category1: 'Ammunition'),
         listing_json: Hashie::Mash.new
       }
       result = WriteListingToIndex::RunLoadableScripts.call(opts)

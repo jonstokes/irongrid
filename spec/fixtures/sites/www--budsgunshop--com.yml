@@ -4,8 +4,7 @@ domain: www.budsgunshop.com
 read_interval: 1440
 timezone:
 loadables:
-  - www.budsgunshop.com/shipping_cost
-  - ironsights/globals/product_details
+  - www.budsgunshop.com/shipping
 registrations:
   session_queue:
     www.budsgunshop.com: {}

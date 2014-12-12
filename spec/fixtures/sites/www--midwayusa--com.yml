@@ -3,6 +3,8 @@ name: Midway USA
 domain: www.midwayusa.com
 read_interval: 14400
 timezone:
+loadables:
+  - www.midwayusa.com/shipping
 registrations:
   session_queue:
     www.midwayusa.com: {}
