@@ -78,7 +78,7 @@ class ListingMigration
         product_mpn:              listing.mpn,
         product_category1:        category1,
         product_manufacturer:     listing.manufacturer,
-        product_weight_shipping:  listing.weight_in_pounds,
+        product_weight_shipping:  listing.weight_in_pounds.try(:to_f),
         product_caliber:          listing.caliber,
         product_caliber_category: caliber_category,
         product_number_of_rounds: listing.number_of_rounds,
