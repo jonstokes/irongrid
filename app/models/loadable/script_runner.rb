@@ -2,9 +2,44 @@ module Loadable
   class ScriptRunner
 
     attr_reader :attributes
+    attr_accessor :context
 
     def initialize
       @attributes = {}
+    end
+
+    def listing
+      @context.listing
+    end
+
+    def product
+      @context.product
+    end
+
+    def listing_json
+      @context.listing_json
+    end
+
+    def message1
+      @context.listing_json.message1
+    end
+
+    def message2
+      @context.listing_json.message2
+    end
+
+    def message3
+      @context.listing_json.message3
+    end
+
+    def message4
+      @context.listing_json.message4
+    end
+
+    def with_context(new_context)
+      @context = new_context
+      yield
+      @context = nil
     end
 
     def calculate_discount_in_cents(list_price, sale_price)
