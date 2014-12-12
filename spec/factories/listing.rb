@@ -24,6 +24,9 @@ FactoryGirl.define do
     location do
       { id: '1213 Newning Ave., Austin, TX 78704' }
     end
+    shipping do
+      { cost: 100 }
+    end
     image do
       {
           source: SPEC_IMAGE_1,
