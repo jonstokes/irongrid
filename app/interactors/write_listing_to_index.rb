@@ -8,7 +8,6 @@ class WriteListingToIndex
     MergeJsonIntoListing,
     UpdateAndLinkProduct,
     RunLoadableScripts,
-    IronsightsListingDetails,
     SetListingDigest,
     LinkDenormalizedLocation,
     #UpdateListingImage,
