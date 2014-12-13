@@ -28,10 +28,6 @@ class WriteListingToIndex
       context.listing.shipping = nil if context.listing.shipping.empty?
     end
 
-    def listing
-      context.listing
-    end
-
     def extend_runner(runner)
       runner.send(:extend, Ironsights::ListingCalculations)
     end
@@ -43,23 +39,23 @@ class WriteListingToIndex
     end
 
     def discount(value)
-      listing.discount = value
+      context.listing.discount = value
     end
 
     def discount_with_shipping(value)
-      listing.with_shipping.discount = value
+      context.listing.with_shipping.discount = value
     end
 
     def price_per_round(value)
-      listing.price.per_round = value
+      context.listing.price.per_round = value
     end
 
     def price_per_round_with_shipping(value)
-      listing.with_shipping.price.per_round = value
+      context.listing.with_shipping.price.per_round = value
     end
 
     def price_with_shipping(value)
-      listing.with_shipping = value
+      context.listing.with_shipping = value
     end
 
   end
