@@ -9,43 +9,43 @@ module Loadable
     end
 
     def listing
-      @context.listing
+      context.listing
     end
 
     def product
-      @context.product
-    end
-
-    def category1
-      @context.product.category1
-    end
-
-    def weight
-      @context.product.weight.shipping
-    end
-
-    def price
-      @context.listing.price.current
+      context.product
     end
 
     def listing_json
-      @context.listing_json
+      context.listing_json
+    end
+
+    def category1
+      product.category1
+    end
+
+    def weight
+      product.weight.shipping
+    end
+
+    def price
+      listing.price.current
     end
 
     def message1
-      @context.listing_json.message1
+      listing_json.message1
     end
 
     def message2
-      @context.listing_json.message2
+      listing_json.message2
     end
 
     def message3
-      @context.listing_json.message3
+      listing_json.message3
     end
 
     def message4
-      @context.listing_json.message4
+      listing_json.message4
     end
 
     def with_context(new_context)
