@@ -4,6 +4,11 @@ domain: www.budsgunshop.com
 read_interval: 1440
 timezone:
 loadables:
+  - ironsights/globals/calculate_discount
+  - ironsights/globals/calculate_price_with_shipping
+  - ironsights/globals/calculate_discount_with_shipping
+  - ironsights/globals/calculate_price_per_round
+  - ironsights/globals/calculate_price_per_round_with_shipping
   - www.budsgunshop.com/shipping
 registrations:
   session_queue:

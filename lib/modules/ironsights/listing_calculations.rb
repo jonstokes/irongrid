@@ -1,11 +1,36 @@
 module Ironsights
   module ListingCalculations
+
+    def listing
+      context.listing
+    end
+
     def product
       context.product
     end
 
-    def listing
-      context.listing
+    def listing_json
+      context.listing_json
+    end
+
+    def message1
+      listing_json.message1
+    end
+
+    def message2
+      listing_json.message2
+    end
+
+    def message3
+      listing_json.message3
+    end
+
+    def message4
+      listing_json.message4
+    end
+
+    def current_price
+      listing.price.try(:current)
     end
 
     def discounted?

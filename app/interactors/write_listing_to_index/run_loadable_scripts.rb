@@ -12,6 +12,7 @@ class WriteListingToIndex
     def call
       context.site.loadables.each do |script_name|
         runner = Loadable::Script.runner(script_name)
+        extend_runner(runner)
         runner.with_context(context) do
           runner.actions.each do |setter, action|
             value = action.call
@@ -21,8 +22,14 @@ class WriteListingToIndex
       end
     end
 
+    def extend_runner(runner)
+      runner.send(:extend, Ironsights::ListingCalculations)
+    end
+
     def shipping_cost(value)
       context.listing.shipping.cost = value
     end
+
+
   end
 end

@@ -8,46 +8,6 @@ module Loadable
       @actions = {}
     end
 
-    def listing
-      context.listing
-    end
-
-    def product
-      context.product
-    end
-
-    def listing_json
-      context.listing_json
-    end
-
-    def category1
-      product.category1
-    end
-
-    def weight
-      product.weight.shipping
-    end
-
-    def price
-      listing.price.current
-    end
-
-    def message1
-      listing_json.message1
-    end
-
-    def message2
-      listing_json.message2
-    end
-
-    def message3
-      listing_json.message3
-    end
-
-    def message4
-      listing_json.message4
-    end
-
     def with_context(new_context)
       @context = new_context
       yield
