@@ -66,8 +66,10 @@ describe WriteListingToIndex::IronsightsListingDetails do
 
       expect(listing.discount.in_cents).to eq(1000)
       expect(listing.discount.percent).to eq(50)
+      expect(listing.discount.ppr_percent).to eq(50)
       expect(listing.with_shipping.discount.in_cents).to eq(900)
       expect(listing.with_shipping.discount.percent).to eq(45)
+      expect(listing.with_shipping.discount.ppr_percent).to eq(45)
     end
 
   end
