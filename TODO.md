@@ -9,6 +9,7 @@
  - Migrate listings
 
 # Punch List
+ * Enable in-memory caching for loadables
  * Item condition needs to be expanded to included Reman and Reload
  * Adapters need new product aspects in them
  * Set up production IAM key, bucket, policy, etc. for S3 snapshot backups and test it out.

@@ -102,7 +102,7 @@ describe WriteListingToIndex::RunLoadableScripts do
         listing = build(:listing)
         listing.with_shipping = nil
         listing.discount = nil
-        listing.price.current = listing.price.sale = 999
+        listing.price.current = listing.price.sale = 700
 
         product = IronBase::Product.new(
             category1: 'Ammunition',
@@ -115,10 +115,11 @@ describe WriteListingToIndex::RunLoadableScripts do
             site:    @site
         ).listing
 
-        expect(listing.discount.in_cents).to eq(1000)
-        expect(listing.discount.percent).to eq(50)
-        expect(listing.with_shipping.discount.in_cents).to eq(900)
-        expect(listing.with_shipping.discount.percent).to eq(45)
+        expect(listing.discount.in_cents).to eq(1299)
+        expect(listing.discount.percent).to eq(65)
+        expect(listing.shipping.cost).to eq(995)
+        expect(listing.with_shipping.discount.in_cents).to eq(1199)
+        expect(listing.with_shipping.discount.percent).to eq(60)
       end
 
     end
