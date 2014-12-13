@@ -5,6 +5,8 @@ module Loadable
 
     attr_accessor :key, :data
 
+    @cache = {}
+
     TABLE = "site-scripts"
 
     def initialize(opts)
@@ -108,17 +110,23 @@ module Loadable
     end
 
     def self.find(key)
-      # TODO: Cache this in a hash locally so that the app
-      # doesn't have to hit redis every single time
+      return @cache[key] if @cache.has_key?(key)
+
       data = with_redis do |conn|
         conn.get "#{TABLE}::#{key}"
       end
 
       if data
-        self.new(key: key, data: read_redis_format(data))
+        script = self.new(key: key, data: read_redis_format(data))
+        @cache[key] = script
+        script
       else
         raise "No such script with key #{key}!"
       end
+    end
+
+    def self.cache
+      @cache
     end
 
     def self.get_source(filename)
