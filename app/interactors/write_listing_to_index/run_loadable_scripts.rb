@@ -29,7 +29,9 @@ class WriteListingToIndex
     end
 
     def extend_runner(runner)
-      runner.send(:extend, Ironsights::ListingCalculations)
+      if context.listing.engine == 'ironsights'
+        runner.send(:extend, Ironsights::ListingCalculations)
+      end
     end
 
     # Setters

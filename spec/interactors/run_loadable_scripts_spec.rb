@@ -19,7 +19,8 @@ describe WriteListingToIndex::RunLoadableScripts do
           discount: {
               in_cents: 100,
               percent: 10
-          }
+          },
+          engine: 'ironsights'
         ),
         product: IronBase::Product.new(number_of_rounds: 10, category1: 'Ammunition'),
         listing_json: Hashie::Mash.new
@@ -39,9 +40,10 @@ describe WriteListingToIndex::RunLoadableScripts do
                   sale: 1000,
                   list: 1100
               },
+              engine: 'ironsights'
           ),
           product: IronBase::Product.new(weight: { shipping: 0.5 }),
-          listing_json: Hashie::Mash.new(message2: true)
+          listing_json: Hashie::Mash.new(message2: true),
       }
       result = WriteListingToIndex::RunLoadableScripts.call(opts)
       expect(result.listing.shipping.cost).to eq(899)
