@@ -108,6 +108,8 @@ module Loadable
     end
 
     def self.find(key)
+      # TODO: Cache this in a hash locally so that the app
+      # doesn't have to hit redis every single time
       data = with_redis do |conn|
         conn.get "#{TABLE}::#{key}"
       end

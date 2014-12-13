@@ -13,8 +13,6 @@ class WriteListingToIndex
              CalculateDiscountWithShipping,
              CalculatePricePerRound,
              CalculatePricePerRoundWithShipping,
-             CalculateDiscountPprPercent,
-             CalculateDiscountPprPercentWithShipping
 
     after do
       context.listing.price = nil if context.listing.price.empty?
