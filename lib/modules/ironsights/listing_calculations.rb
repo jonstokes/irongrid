@@ -54,7 +54,8 @@ module Ironsights
 
     def calculate_discount_percent(list, sale)
       return 0 unless (list > sale) && !sale.zero?
-      (list.to_f / sale.to_f).round * 100
+      discount_amount = calculate_discount_in_cents(list, sale)
+      ((discount_amount.to_f / list.to_f) * 100).round
     end
 
     def should_calculate_ppr?

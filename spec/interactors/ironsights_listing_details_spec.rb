@@ -48,7 +48,27 @@ describe WriteListingToIndex::IronsightsListingDetails do
       expect(result.listing.with_shipping.price.per_round).to eq(210)
     end
 
-    
+    it 'calculates the discount with shipping' do
+      listing = build(:listing)
+      listing.with_shipping = nil
+      listing.discount = nil
+      listing.price.current = listing.price.sale = 999
+
+      product = IronBase::Product.new(
+          category1: 'Ammunition',
+          number_of_rounds: 10
+      )
+
+      listing = WriteListingToIndex::IronsightsListingDetails.call(
+          listing: listing,
+          product: product
+      ).listing
+
+      expect(listing.discount.in_cents).to eq(1000)
+      expect(listing.discount.percent).to eq(50)
+      expect(listing.with_shipping.discount.in_cents).to eq(900)
+      expect(listing.with_shipping.discount.percent).to eq(45)
+    end
 
   end
 end
