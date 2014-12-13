@@ -22,9 +22,15 @@ class WriteListingToIndex
       end
     end
 
+    def listing
+      context.listing
+    end
+
     def extend_runner(runner)
       runner.send(:extend, Ironsights::ListingCalculations)
     end
+
+    # Setters
 
     def shipping_cost(value)
       context.listing.shipping.cost = value
@@ -48,10 +54,6 @@ class WriteListingToIndex
 
     def price_with_shipping(value)
       listing.with_shipping = value
-    end
-
-    def listing
-      context.listing
     end
 
   end
