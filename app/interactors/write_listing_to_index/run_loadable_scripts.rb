@@ -30,6 +30,29 @@ class WriteListingToIndex
       context.listing.shipping.cost = value
     end
 
+    def discount(value)
+      listing.discount = value
+    end
+
+    def discount_with_shipping(value)
+      listing.with_shipping.discount = value
+    end
+
+    def price_per_round(value)
+      listing.price.per_round = value
+    end
+
+    def price_per_round_with_shipping(value)
+      listing.with_shipping.price.per_round = value
+    end
+
+    def price_with_shipping(value)
+      listing.with_shipping = value
+    end
+
+    def listing
+      context.listing
+    end
 
   end
 end
