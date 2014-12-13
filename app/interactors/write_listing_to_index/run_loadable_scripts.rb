@@ -7,6 +7,11 @@ class WriteListingToIndex
       context.listing.price ||= {}
       context.product.weight ||= {}
       context.listing.shipping ||= {}
+
+      # Later there will be elsif clauses for bunkerplex, etc.
+      if ironsights?
+        extend Ironsights::ListingSetters
+      end
     end
 
     def call
@@ -29,35 +34,13 @@ class WriteListingToIndex
     end
 
     def extend_runner(runner)
-      if context.listing.engine == 'ironsights'
+      if ironsights?
         runner.send(:extend, Ironsights::ListingCalculations)
       end
     end
 
-    # Setters
-
-    def shipping_cost(value)
-      context.listing.shipping.cost = value
-    end
-
-    def discount(value)
-      context.listing.discount = value
-    end
-
-    def discount_with_shipping(value)
-      context.listing.with_shipping.discount = value
-    end
-
-    def price_per_round(value)
-      context.listing.price.per_round = value
-    end
-
-    def price_per_round_with_shipping(value)
-      context.listing.with_shipping.price.per_round = value
-    end
-
-    def price_with_shipping(value)
-      context.listing.with_shipping = value
+    def ironsights?
+      context.listing.engine == 'ironsights'
     end
 
   end
