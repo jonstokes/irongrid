@@ -37,7 +37,7 @@ class WriteListingToIndex
       script_name, setter, action = opts[:script_name], opts[:setter], opts[:action]
       action.call
     rescue Exception => e
-      raise "Error in script #{script_name}, setter #{setter}: #{e.message}"
+      raise "Error in script #{script_name}, setter #{setter} for site #{context.site.domain}: #{e.message}"
     end
 
     def extend_runner(runner)
