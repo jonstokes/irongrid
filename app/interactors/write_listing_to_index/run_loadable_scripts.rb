@@ -20,7 +20,7 @@ class WriteListingToIndex
         extend_runner(runner)
         runner.with_context(context) do
           runner.actions.each do |setter, action|
-            value = do_action(script: script_name, setter: setter, action: action)
+            value = do_action(script_name: script_name, setter: setter, action: action)
             self.send(setter, value) if value
           end
         end
