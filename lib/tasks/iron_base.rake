@@ -88,7 +88,8 @@ namespace :migrate do
     migration.verify
     migration.fix_listing_metadata
   rescue Exception => e
-    puts "# Listing #{listing.id} raised error #{e.message}"
+    puts "# Listing #{listing.id} raised error #{e.message}."
+    puts "#{e.backtrace}"
   end
 
   task listings: :environment do
