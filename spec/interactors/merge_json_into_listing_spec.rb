@@ -72,7 +72,7 @@ describe WriteListingToIndex::MergeJsonIntoListing do
           listing_json: listing_json
       )
       expect(result.success?).to eq(false)
-      expect(result.status).to eq(:auction_ended)
+      expect(result.error).to eq('auction_ended')
     end
   end
 end
