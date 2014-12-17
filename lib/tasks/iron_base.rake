@@ -92,10 +92,42 @@ namespace :migrate do
     puts "#{e.backtrace}"
   end
 
+  task script_sites: :environment do
+    include Retryable
+    Rails.application.eager_load!
+    IronBase::Settings.configure { |c| c.logger = nil }
+
+    domains = [
+        'www.midwayusa.com',
+        'www.brownells.com',
+        'www.budsgunshop.com',
+        'www.deansgunshop.com',
+        'www.highplainsgun.com',
+        'www.hitekestore.com',
+        'www.hyattgunstore.com',
+        'www.hoosierarmory.com',
+        'www.ironsightsguns.com',
+        'www.lg-outdoors.com',
+        'www.midwayusa.com',
+        'www.mrgundealer.com',
+        'www.premiertactical.com',
+        'www.schuylerarmsco.com',
+        'www.sfarmory.com',
+        'www.sheridanoutfittersinc.com',
+        'www.sportsmanswarehouse.com',
+        'www.zxgun.biz'
+    ]
+
+    Listing.where(seller_domain: domains).find_each do |listing|
+      migrate(listing)
+    end
+
+  end
+
   task listings: :environment do
     include Retryable
     Rails.application.eager_load!
-    
+
     IronBase::Settings.configure { |c| c.logger = nil }
     Listing.find_each do |listing|
       migrate(listing)
