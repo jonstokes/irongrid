@@ -118,10 +118,16 @@ namespace :migrate do
         'www.zxgun.biz'
     ]
 
-    Listing.where(seller_domain: domains).find_each do |listing|
-      migrate(listing)
+    Listing.where(seller_domain: domains).find_in_batches do |batch|
+      MigrationWorker.perform(batch.map(&:id))
+      wait_for_jobs
     end
+  end
 
+  def wait_for_jobs
+    while MigrationWorker._jobs.any?
+      sleep 0.5
+    end
   end
 
   task listings: :environment do
