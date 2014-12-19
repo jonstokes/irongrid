@@ -119,7 +119,7 @@ namespace :migrate do
     ]
 
     Listing.where(seller_domain: domains).find_in_batches do |batch|
-      MigrationWorker.perform(batch.map(&:id))
+      MigrationWorker.perform_async(batch.map(&:id))
       wait_for_jobs
     end
   end
