@@ -43,6 +43,23 @@ def turn_on_logging
   IronBase::Settings.configure {|c| c.logger = Rails.logger}
 end
 
+def migrate(listing)
+  migration = ListingMigration.new(listing)
+  migration.write_listing_to_index
+  migration.verify
+  migration.fix_listing_metadata
+rescue Exception => e
+  puts "# Listing #{listing.id} raised error #{e.message}."
+  puts "#{e.backtrace}"
+end
+
+def wait_for_jobs
+  while MigrationWorker._jobs.any?
+    sleep 0.5
+  end
+end
+
+
 namespace :index do
   task create: :environment do
     configure_synonyms
@@ -82,16 +99,6 @@ namespace :migrate do
     end
   end
 
-  def migrate(listing)
-    migration = ListingMigration.new(listing)
-    migration.write_listing_to_index
-    migration.verify
-    migration.fix_listing_metadata
-  rescue Exception => e
-    puts "# Listing #{listing.id} raised error #{e.message}."
-    puts "#{e.backtrace}"
-  end
-
   task script_sites: :environment do
     include Retryable
     Rails.application.eager_load!
@@ -124,19 +131,14 @@ namespace :migrate do
     end
   end
 
-  def wait_for_jobs
-    while MigrationWorker._jobs.any?
-      sleep 0.5
-    end
-  end
-
   task listings: :environment do
     include Retryable
     Rails.application.eager_load!
 
     IronBase::Settings.configure { |c| c.logger = nil }
     Listing.find_each do |listing|
-      migrate(listing)
+      MigrationWorker.perform_async(batch.map(&:id))
+      wait_for_jobs
     end
   end
 end
