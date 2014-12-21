@@ -136,7 +136,7 @@ namespace :migrate do
     Rails.application.eager_load!
 
     IronBase::Settings.configure { |c| c.logger = nil }
-    Listing.find_each do |listing|
+    Listing.find_in_batches do |batch|
       MigrationWorker.perform_async(batch.map(&:id))
       wait_for_jobs
     end
