@@ -27,7 +27,7 @@ describe PullListingsWorker do
     @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
     @listing = FactoryGirl.build(:listing, :retail, seller: { site_name: @site.name, domain: @site.domain })
     @listing_json = Mapper.json_from_listing(@listing)
-    @listing_data = @listing.data.merge(id: @listing.id)
+    @listing_data = @listing.send(:data_in_index_format).merge('id' => @listing.id)
     @object = {
         session: {},
         page: @page,
@@ -189,16 +189,15 @@ describe PullListingsWorker do
             )
         )
 
-        @object_q.add @object.merge(
-                          object: @listing_json.merge(
-                              id: url2,
-                              url: {
-                                  purchase: url2,
-                                  page: url2
-                              }
-                          ),
-                          page: @page.merge(url: url2)
-                      )
+        @object.merge!(
+            object: @listing_json.merge(
+                id: url2,
+                url: url2
+            ),
+            page: @page.merge(url: url2)
+        )
+
+        @object_q.add @object
         IronBase::Listing.refresh_index
         @worker.perform(domain: @site.domain)
         expect(IronBase::Listing.count).to eq(1)
