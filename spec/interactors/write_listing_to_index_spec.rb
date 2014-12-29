@@ -49,7 +49,7 @@ describe WriteListingToIndex do
 
       item = IronBase::Listing.find result.listing.id
 
-      expect(item.product.category1).to eq("Ammunition")
+      expect(item.product.category1).to eq("ammunition")
       expect(item.seller.domain).to eq(site.domain)
       expect(item.product.caliber_category).to eq("rifle")
       expect(item.product.manufacturer).to eq("Federal")
@@ -85,7 +85,7 @@ describe WriteListingToIndex do
       expect(listing.image.source).to eq("http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg")
       expect(listing.keywords).to eq("Remington, Remington 22LR CYCLONE 36HP 5000 CAS, 10047700482016")
       expect(listing.description).to include("Remington-Remington")
-      expect(listing.price).to be_nil
+      expect(listing.price).to be_empty
       expect(listing.availability).to eq("out_of_stock")
       expect(listing.location.id).to eq("2710 South 1900 West, Ogden, UT 84401".upcase)
     end
@@ -107,9 +107,9 @@ describe WriteListingToIndex do
 
       item = IronBase::Listing.find result.listing.id
 
-      expect(item.product.category1).to eq("Guns")
+      expect(item.product.category1).to eq("guns")
       expect(item.title.downcase).to eq("fast sale springfield xd 45")
-      expect(item.condition).to eq("Unknown")
+      expect(item.condition).to eq("unknown")
       expect(item.image.source).to eq("http://cdn2.armslist.com/sites/armslist/uploads/posts/2013/05/24/1667211_01_fast_sale_springfield_xd_45_640.jpg")
       expect(item.keywords).to be_nil
       expect(item.description).to include("For sale a springfield xd")
