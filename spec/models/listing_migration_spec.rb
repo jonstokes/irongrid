@@ -161,6 +161,7 @@ describe ListingMigration do
     it 'copies over the timestamps and image data for a listing' do
       listing = Listing.create(@listing_attrs)
       migration = ListingMigration.new(listing)
+      sleep 1
       migration.write_listing_to_index
       IronBase::Listing.refresh_index
 
