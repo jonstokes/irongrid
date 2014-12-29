@@ -99,7 +99,7 @@ describe ListingMigration do
       expect(listing.product.upc).to eq([attrs.upc])
       expect(listing.product.caliber).to eq(@caliber)
       expect(listing.product.number_of_rounds).to eq(10)
-      expect(listing.product.category1).to eq('Ammunition')
+      expect(listing.product.category1).to eq('ammunition')
 
       expect(location.city).to eq(attrs.item_data.city)
       expect(location.coordinates).to eq(attrs.item_data.coordinates)

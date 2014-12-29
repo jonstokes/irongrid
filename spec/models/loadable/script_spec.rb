@@ -4,7 +4,7 @@ describe Loadable::Script do
 
   before :each do
     Loadable::Script.with_redis { |conn| conn.flushdb }
-    @source_file = "#{Rails.root}/spec/fixtures/scripts/www--budsgunshop--com.rb"
+    @source_file = "#{Rails.root}/spec/fixtures/loadables/www--budsgunshop--com.rb"
     @source = File.open(@source_file) { |f| f.read }
     @script = Loadable::Script.new(
         key: "www.budsgunshop.com/shipping",
@@ -25,7 +25,7 @@ describe Loadable::Script do
       script = Loadable::Script.create_from_file(@source_file).first
       reg = Loadable::Script.find(script.key)
       expect(reg).to be_a(Loadable::Script)
-      expect(reg.key).to eq("www.budsgunshop.com/shipping_cost")
+      expect(reg.key).to eq("www.budsgunshop.com/shipping")
       expect(reg.data).to include("Loadable::Script.define")
     end
   end
