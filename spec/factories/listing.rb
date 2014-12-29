@@ -2,9 +2,7 @@ FactoryGirl.define do
   factory :listing, class: IronBase::Listing do
 
     to_create do |listing|
-      listing.send(:run_validations)
-      listing.persist!
-      listing.send(:notify_on_match)
+      listing.update_record_without_timestamping
     end
 
     ignore do
@@ -33,18 +31,6 @@ FactoryGirl.define do
           cdn: nil
       }
     end
-    with_shipping {
-      {
-          price: {
-              current: 165,
-              sale:    165
-          },
-          discount: {
-              in_cents: 0,
-              percent: 0
-          }
-      }
-    }
     price do
       {
           current: 1999,
