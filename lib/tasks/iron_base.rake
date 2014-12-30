@@ -80,22 +80,9 @@ end
 namespace :migrate do
   task geo_data: :environment do
     IronBase::Settings.configure { |c| c.logger = nil }
-    GeoData.find_each do |loc|
-      begin
-        IronBase::Location.create(
-            id: loc.key,
-            city: loc.city,
-            state: loc.state,
-            country: loc.country,
-            latitude: loc.latitude,
-            longitude: loc.longitude,
-            state_code: loc.state_code,
-            postal_code: loc.postal_code,
-            country_code: loc.country_code
-        )
-      rescue
-        next
-      end
+    GeoData.find_in_batches do |batch|
+      MigrationWorker.perform_async(klass: 'GeoData', record_ids: batch.map(&:id))
+      wait_for_jobs
     end
   end
 
@@ -137,7 +124,7 @@ namespace :migrate do
 
     IronBase::Settings.configure { |c| c.logger = nil }
     Listing.find_in_batches do |batch|
-      MigrationWorker.perform_async(batch.map(&:id))
+      MigrationWorker.perform_async(klass: 'Listing', record_ids: batch.map(&:id))
       wait_for_jobs
     end
   end
