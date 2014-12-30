@@ -2,22 +2,22 @@ class ListingMigration
   include Retryable
   include Notifier
 
-  attr_accessor :listing, :es_listing
+  attr_accessor :listing, :es_listing, :interactor
 
   def initialize(listing)
     @listing = listing
   end
 
   def write_listing_to_index
-    result = retryable(sleep: 0.5) do
+    @interactor = retryable(sleep: 0.5) do
       WriteListingToIndex.call(
           site:         site,
           listing_json: json,
           page:         page
       )
     end
-    raise "Listing #{listing.id} failed to write to index with error #{result.error}." unless result.success?
-    @es_listing = result.listing
+    raise "Listing #{listing.id} failed to write to index with error #{@interactor.error}." unless @interactor.success?
+    @es_listing = @interactor.listing
   end
 
   def verify
