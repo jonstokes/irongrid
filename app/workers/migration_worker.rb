@@ -6,6 +6,7 @@ class MigrationWorker < CoreWorker
     opts.symbolize_keys!
     klass, record_ids = opts[:klass].constantize, opts[:record_ids]
     IronBase::Settings.configure { |c| c.logger = nil }
+    IronBase::Listing.run_percolators = false
     record_ids.each do |id|
       obj = klass.find id
       if klass == Listing
