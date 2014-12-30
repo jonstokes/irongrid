@@ -28,17 +28,14 @@ class ListingMigration
   end
 
   def fix_listing_metadata
-    IronBase::Listing.record_timestamps = false
-    @es_listing.update(
-        created_at: listing.created_at.utc,
-        updated_at: listing.updated_at.utc,
-        image: {
-            cdn: listing.image,
-            download_attempted: listing.image_download_attempted,
-            source: listing.item_data['image_source']
-        }
-    )
-    IronBase::Listing.record_timestamps = true
+    @es_listing.updated_at = listing.updated_at.utc
+    @es_listing.created_at = listing.created_at.utc
+    @es_listing.image = {
+        cdn: listing.image,
+        download_attempted: listing.image_download_attempted,
+        source: listing.item_data['image_source']
+    }
+    @es_listing.update_record_without_timestamping
   end
 
   def page
