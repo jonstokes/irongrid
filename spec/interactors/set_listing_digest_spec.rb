@@ -62,6 +62,6 @@ describe WriteListingToIndex::SetListingDigest do
     }
 
     result = WriteListingToIndex::SetListingDigest.call(opts)
-    expect(result.listing.digest).to eq('4e9ae7a4270c5d38ef59302226058a81')
+    expect(result.listing.digest).to eq('497cd335d53bac0cb389ae085df255fb')
   end
 end
