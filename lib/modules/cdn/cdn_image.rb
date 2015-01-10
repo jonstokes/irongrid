@@ -56,8 +56,8 @@ module CDN
 
       begin
         ImageVoodoo.with_image(file_name) do |img|
-          if img.width > 200
-            img.thumbnail(200) { |thumb| thumb.save(thumb_file_name) }
+          if img.width > IMAGE_WIDTH
+            img.thumbnail(IMAGE_WIDTH) { |thumb| thumb.save(thumb_file_name) }
           end
         end
       rescue Exception

@@ -1,3 +1,4 @@
+IMAGE_WIDTH = 400
 ENV_BUCKET_POSTFIX = case Rails.env
       when "production"; ""
       when "development"; "-staging"
