@@ -53,7 +53,8 @@ registrations:
         location:
         - value: 200 South Front Street, Montezuma, Iowa 50171
 affiliate_link_tag:
-affiliate_program:
+affiliate_link_prefix: "http://www.avantlink.com/click.php?tt=cl&mi=10077&pw=151211&"
+affiliate_program: AvantLink
 digest_attributes:
 product_session_format: {}
 sessions:

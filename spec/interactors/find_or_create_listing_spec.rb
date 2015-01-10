@@ -92,6 +92,19 @@ describe WriteListingToIndex::FindOrCreateListing do
       expect(listing.url.purchase).to eq(sas_link)
     end
 
+    it 'returns an affiliate url for an AvantLink site' do
+      site = create_site 'www.brownells.com'
+      url = 'http://www.brownells.com/ammunition/handgun-ammo/45-auto-185gr-z-max-20bx-10ca-hdy90902-sku105000034-45019-102120.aspx'
+      aff_link = 'http://www.avantlink.com/click.php?tt=cl&mi=10077&pw=151211&url=http%3A%2F%2Fwww.brownells.com%2Fammunition%2Fhandgun-ammo%2F45-auto-185gr-z-max-20bx-10ca-hdy90902-sku105000034-45019-102120.aspx'
+
+      listing = WriteListingToIndex::FindOrCreateListing.call(
+          site:         site,
+          page:         @page.merge(url: "http://#{site.domain}/feed.xml"),
+          listing_json: @listing_json.merge(url: url),
+      ).listing
+      expect(listing.url.purchase).to eq(aff_link)
+    end
+
     it 'returns the tagged url for a site with a link tag' do
       site = Site.new(domain: 'www.luckygunner.com', source: :fixture)
       site.send(:write_to_redis)

@@ -82,6 +82,7 @@ registrations:
         seller_domain:
         - value: www.botach.com
 affiliate_link_tag:
+affiliate_link_prefix: 'http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&'
 affiliate_program: ShareASale
 digest_attributes:
 product_session_format:

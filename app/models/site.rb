@@ -19,6 +19,7 @@ class Site < CoreModel
     :stats,
     :affiliate_link_tag,
     :affiliate_program,
+    :affiliate_link_prefix,
     :digest_attributes,
     :registrations,
     :sessions,

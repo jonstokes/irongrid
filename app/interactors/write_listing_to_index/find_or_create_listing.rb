@@ -31,16 +31,23 @@ class WriteListingToIndex
         "#{base_url}#{affiliate_link_tag}"
       elsif share_a_sale?
         share_a_sale_url
+      elsif avantlink?
+        avantlink_url
       else
         base_url
       end
+    end
+
+    def avantlink_url
+      link = base_url.to_query('url')
+      "#{context.site.affiliate_link_prefix}#{link}"
     end
 
     def share_a_sale_url
       link = base_url.split(/https?\:\/\//).last
       link = link.to_query('urllink')
       link = link.gsub(".","%2E").gsub("-","%2D")
-      "http://www.shareasale.com/r.cfm?u=882338&b=358708&m=37742&afftrack=&#{link}"
+      "#{context.site.affiliate_link_prefix}#{link}"
     end
 
     def base_url
@@ -60,7 +67,11 @@ class WriteListingToIndex
     end
 
     def share_a_sale?
-      context.site.affiliate_program == "ShareASale"
+      context.site.affiliate_program.try(:downcase) == 'shareasale'
+    end
+
+    def avantlink?
+      context.site.affiliate_program.try(:downcase) == 'avantlink'
     end
 
     # Rollback status checkers
