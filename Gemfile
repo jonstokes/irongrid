@@ -31,7 +31,7 @@ gem 'tokenizer'
 gem 'elasticsearch'
 gem 'elasticsearch-rails'
 
-gem 'iron_base', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git", branch: 'js-product'
+gem 'iron_base', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git", branch: 'master'
 #gem 'iron_base', path: "../iron_base"
 gem 'stretched', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git"
 #gem 'stretched', path: "/Users/jstokes/Local/Repositories/stretched-rb"
