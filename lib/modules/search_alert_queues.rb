@@ -54,6 +54,6 @@ module SearchAlertQueues
   end
 
   def self.push(opts)
-    AlertQueue.new(opts[:percolator_name]).push(opts[:listing_id])
+    AlertQueue.new(opts[:percolator_name]).push(opts[:current_listing_id])
   end
 end

@@ -199,7 +199,7 @@ describe ListingMigration do
       listing = Listing.create(@listing_attrs)
       migration = ListingMigration.new(listing)
 
-      expect(migration.send(:page_url)).to eq(site.sessions.first['urls'].first['url'])
+      expect(migration.send(:current_url)).to eq(site.sessions.first['urls'].first['url'])
 
       migration.write_listing_to_index
       IronBase::Listing.refresh_index
@@ -212,7 +212,7 @@ describe ListingMigration do
     it 'gives the bare_url for a non-feed listing' do
       listing = Listing.create(@listing_attrs)
       migration = ListingMigration.new(listing)
-      expect(migration.send(:page_url)).to eq(listing.bare_url)
+      expect(migration.send(:current_url)).to eq(listing.bare_url)
     end
   end
 

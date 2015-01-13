@@ -25,7 +25,7 @@ describe LinkMessage do
       expect(msg).to be_a(LinkMessage)
       expect(msg.url).to match(/www\.retailer\.com\/\d/)
       expect(msg.listing_digest).to eq(listing.digest)
-      expect(msg.listing_id).to eq(listing.id)
+      expect(msg.current_listing_id).to eq(listing.id)
     end
   end
 

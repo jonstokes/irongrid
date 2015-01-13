@@ -15,7 +15,7 @@ class LinkMessage
     :page_classified_sold,
     :raw_attributes,
     :listing_digest,
-    :listing_id,
+    :current_listing_id,
     :dirty_only
   ]
 
@@ -58,7 +58,7 @@ class LinkMessage
   def new_from_listing(listing)
     @data = {
       url:            listing.url.page,
-      listing_id:     listing.id,
+      current_listing_id:     listing.id,
       listing_digest: listing.digest,
     }
   end

@@ -26,7 +26,7 @@ describe RefreshLinksWorker do
       IronBase::Listing.refresh_index
       RefreshLinksWorker.new.perform(domain: @site.domain)
       msg = LinkMessageQueue.find(stale_listing.url.page)
-      expect(msg.listing_id).to eq(stale_listing.id)
+      expect(msg.current_listing_id).to eq(stale_listing.id)
       expect(msg.listing_digest).to eq(stale_listing.digest)
 
       lq = LinkMessageQueue.new(domain: "www.retailer.com")

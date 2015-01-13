@@ -13,16 +13,34 @@ class WriteListingToIndex
     end
 
     def call
-      context.listing = IronBase::Listing.find(listing_id) || IronBase::Listing.new(id: listing_id)
+      context.listing = find_or_create_listing
       context.listing.url = {
           purchase: purchase_url,
-          page: page_url
+          page: current_url
       }
     end
 
-    def listing_id
+    def find_or_create_listing
+      listing = IronBase::Listing.find(original_listing_id)
+      return listing if listing
+
+      if current_listing_id != original_listing_id
+        listing = IronBase::Listing.find(current_listing_id)
+        return listing if listing
+      end
+
+      IronBase::Listing.new(id: current_listing_id)
+    end
+
+    def current_listing_id
       Digest::MD5.hexdigest(
           "#{base_url}#{context.listing_json.id}"
+      )
+    end
+
+    def original_listing_id
+      Digest::MD5.hexdigest(
+          "#{original_url}#{context.listing_json.id}"
       )
     end
 
@@ -51,15 +69,19 @@ class WriteListingToIndex
     end
 
     def base_url
-      context.listing_json.url || page_url
+      context.listing_json.url || current_url
     end
 
-    def page_url
+    def current_url
       if context.page.code == 302    # Temporary redirect, so
         context.page.redirect_from   # preserve original url
       else
         context.page.url
       end
+    end
+
+    def original_url
+      context.listing_json.url || context.page.redirect_from || context.page.url
     end
 
     def affiliate_link_tag

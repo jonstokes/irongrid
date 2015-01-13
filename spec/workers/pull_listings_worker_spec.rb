@@ -351,10 +351,11 @@ describe PullListingsWorker do
       it 'updates a listing that 301 moved permanently with a new url' do
         existing_listing = IronBase::Listing.create(@listing_data)
         IronBase::Listing.refresh_index
-        redirect_url = "#{existing_listing.url.page}123"
+        original_url = existing_listing.url.page
+        redirect_url = "#{original_url}123"
         page = @page.merge(
             url: redirect_url,
-            redirect_from: existing_listing.url.page,
+            redirect_from: original_url,
             code: 301
         )
         @object_q.add @object.merge(

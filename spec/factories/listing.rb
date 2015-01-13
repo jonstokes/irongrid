@@ -53,7 +53,7 @@ FactoryGirl.define do
     end
     product do
       {
-          category1: 'Guns'
+          category1: 'guns'
       }
     end
     created_at { 2.days.ago.utc }
@@ -62,19 +62,19 @@ FactoryGirl.define do
 
   trait :optics do
     product do
-      { category1: 'Optics' }
+      { category1: 'optics' }
     end
   end
 
   trait :ammo do
     product do
-      { category1: 'Ammunition' }
+      { category1: 'ammunition' }
     end
   end
 
   trait :firearm do
     product do
-      { category1: 'Guns' }
+      { category1: 'guns' }
     end
   end
 

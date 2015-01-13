@@ -242,7 +242,7 @@ class Listing < ActiveRecord::Base
 
   def notify_on_match
     percolate.each do |match|
-      SearchAlertQueues.push(listing_id: self.id, percolator_name: match['_id'])
+      SearchAlertQueues.push(current_listing_id: self.id, percolator_name: match['_id'])
     end
   end
 
