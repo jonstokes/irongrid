@@ -2,6 +2,14 @@ class MigrationWorker < CoreWorker
 
   sidekiq_options queue: :migration, retry: true
 
+  EXCLUDE_DOMAINS = %w(
+      www.brownells.com
+      www.guncasket.com
+      www.policestore.com
+      www.sinclairintl.com
+      www.sportsmanswarehouse.com
+  )
+
   def perform(opts)
     opts.symbolize_keys!
     klass, record_ids = opts[:klass].constantize, opts[:record_ids]
@@ -35,7 +43,7 @@ class MigrationWorker < CoreWorker
   end
 
   def migrate_listing(listing)
-    return if listing.seller_domain == 'www.brownells.com'
+    return if EXCLUDE_DOMAINS.include? listing.seller_domain
     migration = ListingMigration.new(listing)
     migration.write_listing_to_index
     migration.verify
