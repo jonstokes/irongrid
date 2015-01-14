@@ -35,7 +35,7 @@ class MigrationWorker < CoreWorker
   end
 
   def migrate_listing(listing)
-    return if listing.seller.domain == 'www.brownells.com'
+    return if listing.seller_domain == 'www.brownells.com'
     migration = ListingMigration.new(listing)
     migration.write_listing_to_index
     migration.verify
