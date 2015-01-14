@@ -89,7 +89,7 @@ namespace :delete do
     )
     search.filters.merge!(seller_domain: seller_domains)
     IronBase::Listing.find_each(search.query_hash) do |batch|
-      DeleteListingsWorker.perform_async(batch.map(&id))
+      DeleteListingsWorker.perform_async(batch.map(&:id))
       wait_for_jobs(DeleteListingsWorker)
     end
   end
