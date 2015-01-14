@@ -53,8 +53,8 @@ rescue Exception => e
   puts "#{e.backtrace}"
 end
 
-def wait_for_jobs
-  while MigrationWorker._jobs.any?
+def wait_for_jobs(klass)
+  while klass._jobs.any?
     sleep 0.5
   end
 end
@@ -77,12 +77,29 @@ namespace :index do
   end
 end
 
+namespace :delete do
+  task listings: :environment do
+    search = IronBase::Search::Search.new
+    search.seller_domain = %w(
+      www.brownells.com
+      www.guncasket.com
+      www.policestore.com
+      www.sinclairintl.com
+      www.sportsmanswarehouse.com
+    )
+    IronBase::Listing.find_each(search.query_hash) do |batch|
+      DeleteListingsWorker.perform_async(batch.map(&id))
+      wait_for_jobs(DeleteListingsWorker)
+    end
+  end
+end
+
 namespace :migrate do
   task geo_data: :environment do
     IronBase::Settings.configure { |c| c.logger = nil }
     GeoData.find_in_batches do |batch|
       MigrationWorker.perform_async(klass: 'GeoData', record_ids: batch.map(&:id))
-      wait_for_jobs
+      wait_for_jobs(MigrationWorker)
     end
   end
 
@@ -114,7 +131,7 @@ namespace :migrate do
 
     Listing.where(seller_domain: domains).find_in_batches do |batch|
       MigrationWorker.perform_async(batch.map(&:id))
-      wait_for_jobs
+      wait_for_jobs(MigrationWorker)
     end
   end
 
@@ -125,7 +142,7 @@ namespace :migrate do
     IronBase::Settings.configure { |c| c.logger = nil }
     Listing.find_in_batches do |batch|
       MigrationWorker.perform_async(klass: 'Listing', record_ids: batch.map(&:id))
-      wait_for_jobs
+      wait_for_jobs(MigrationWorker)
     end
   end
 end
