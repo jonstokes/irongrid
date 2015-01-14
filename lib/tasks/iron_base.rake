@@ -77,6 +77,17 @@ namespace :index do
   end
 end
 
+namespace :snapshot do
+  task create_repository: :environment do
+    IronBase::Snapshot.create_repository
+  end
+
+  task create: :environment do
+    IronBase::Snapshot.create(indexes: IronBase::Settings.elasticsearch_index)
+  end
+
+end
+
 namespace :delete do
   task listings: :environment do
     search = IronBase::Search::Search.new
