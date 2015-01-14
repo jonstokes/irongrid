@@ -8,7 +8,7 @@ class WriteProductToIndex
   organize [
      FindOrCreateProduct,
      IronBase::UpdateProductFromListing,
-     UpdateProductImage,
+     #UpdateProductImage,
      SaveProductToIndex
   ]
 end

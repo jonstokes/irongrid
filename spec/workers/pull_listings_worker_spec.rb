@@ -351,11 +351,10 @@ describe PullListingsWorker do
       it 'updates a listing that 301 moved permanently with a new url' do
         existing_listing = IronBase::Listing.create(@listing_data)
         IronBase::Listing.refresh_index
-        original_url = existing_listing.url.page
-        redirect_url = "#{original_url}123"
+        redirect_url = "#{existing_listing.url.page}123"
         page = @page.merge(
             url: redirect_url,
-            redirect_from: original_url,
+            redirect_from: existing_listing.url.page,
             code: 301
         )
         @object_q.add @object.merge(
@@ -594,7 +593,7 @@ describe PullListingsWorker do
         image_source = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
         CDN::Image.create(source: image_source, http: Sunbro::HTTP.new)
         @object_q.add(@object)
-        @worker.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain, site: @site)
         IronBase::Listing.refresh_index
         iq = ImageQueue.new(domain: @site.domain)
         listing = IronBase::Listing.first
@@ -609,7 +608,7 @@ describe PullListingsWorker do
       it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
         image_source = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
         @object_q.add(@object)
-        @worker.perform(domain: @site.domain)
+        @worker.perform(domain: @site.domain, site: @site)
         IronBase::Listing.refresh_index
         iq = ImageQueue.new(domain: @site.domain)
         listing = IronBase::Listing.first

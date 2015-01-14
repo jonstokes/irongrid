@@ -72,13 +72,13 @@ describe CDN::Image do
   end
 
   describe "#resize" do
-    it "resizes an image that's greater than 200px width" do
+    it "resizes an image that's greater than 400px width" do
       image = CDN::Image.new(source: @image_source, http: @http)
       image.download
       image.resize
       expect(image.file_name).to eq(image.send(:thumb_file_name))
       expect(File.exists?(image.send(:temp_file_name))).to be_false
-      expect(image_width(image.file_name)).to eq(200)
+      expect(image_width(image.file_name)).to eq(400)
 
       image.delete_file!
     end
