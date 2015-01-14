@@ -80,13 +80,14 @@ end
 namespace :delete do
   task listings: :environment do
     search = IronBase::Search::Search.new
-    search.seller_domain = %w(
+    seller_domains = %w(
       www.brownells.com
       www.guncasket.com
       www.policestore.com
       www.sinclairintl.com
       www.sportsmanswarehouse.com
     )
+    search.filters = [ seller_domain: seller_domains ]
     IronBase::Listing.find_each(search.query_hash) do |batch|
       DeleteListingsWorker.perform_async(batch.map(&id))
       wait_for_jobs(DeleteListingsWorker)
