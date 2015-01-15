@@ -4,11 +4,10 @@ class DeleteListingsForFullFeedsService < CoreService
   def each_job
     CoreService.mutex.synchronize {
       Site.full_product_feed_sites.each do |site|
-        next if Stretched::ObjectQueue.new("#{site.domain}/listings").any?
-        stale_threshold = site.read_at || 1.days.ago
+        next if Stretched::ObjectQueue.new("#{site.domain}/listings").any? || site.read_at.nil?
           query_hash = IronBase::Search::Search.new(
             filters: {
-                stale: stale_threshold,
+                stale: site.read_at,
                 domain: site.domain
             }
         ).query_hash
