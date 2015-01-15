@@ -8,7 +8,7 @@ class DeleteListingsForFullFeedsService < CoreService
           query_hash = IronBase::Search::Search.new(
             filters: {
                 stale: site.read_at,
-                domain: site.domain
+                seller_domain: site.domain
             }
         ).query_hash
         IronBase::Listing.find_each(query_hash) do |batch|
