@@ -192,11 +192,13 @@ Load irongrid loadables
 
 	RAILS_ENV="production" REDIS_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q scrapes,10 -q db_slow_high,4 -q db_slow_low,3 -q crawl_images,2 -c 25 2>&1 | logger -t sidekiq
 
+	RAILS_ENV="production" REDIS_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q db_slow_high -q db_slow_low -q crawls -q crawl_images -c 25 2>&1 | logger -t sidekiq
 
 ### Emergency xlarge:
 
 	RAILS_ENV="production" DB_POOL=10 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx5376m -J-Xms5376m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q utils -c 5
 
+	RAILS_ENV="production" REDIS_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,4 -c 25 2>&1 | logger -t sidekiq
 
 ## Bitnami production enviroment setup
 
