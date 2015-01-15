@@ -37,7 +37,7 @@ describe DeleteListingsForFullFeedsService do
       end
     end
 
-    it 'creates DeleteListingsWorker jobs for all listings older than 1 day ago if site.read_at is nil and listing OBQ is empty' do
+    it 'creates no DeleteListingsWorker jobs for all listings older than 1 day ago if site.read_at is nil' do
       Sidekiq::Testing.fake!
 
       site = create_site "ammo.net"
@@ -56,12 +56,7 @@ describe DeleteListingsForFullFeedsService do
       @service.start_jobs
       @service.stop_tracking
 
-      expect(DeleteListingsWorker.jobs.count).to eq(1)
-      job = DeleteListingsWorker.jobs.first
-      job["args"].first.each do |id|
-        expect(removed.map(&:id)).to include(id)
-        expect(kept.map(&:id)).not_to include(id)
-      end
+      expect(DeleteListingsWorker.jobs.count).to eq(0)
     end
 
 
