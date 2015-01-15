@@ -37,6 +37,34 @@ describe DeleteListingsForFullFeedsService do
       end
     end
 
+    it 'creates DeleteListingsWorker jobs for all listings older than 1 day ago if site.read_at is nil and listing OBQ is empty' do
+      Sidekiq::Testing.fake!
+
+      site = create_site "ammo.net"
+      site.update(read_at: nil)
+
+      removed = []
+      kept = []
+      5.times do
+        removed << create(:listing, seller: { domain: "ammo.net" }, updated_at: Time.now - 10.days)
+      end
+      sleep 1
+      5.times { kept << create(:listing, seller: { domain: "ammo.net" }) }
+      IronBase::Listing.refresh_index
+
+      @service.track
+      @service.start_jobs
+      @service.stop_tracking
+
+      expect(DeleteListingsWorker.jobs.count).to eq(1)
+      job = DeleteListingsWorker.jobs.first
+      job["args"].first.each do |id|
+        expect(removed.map(&:id)).to include(id)
+        expect(kept.map(&:id)).not_to include(id)
+      end
+    end
+
+
     it 'creates DeleteListingsWorker jobs for no listings older than site.read_at if listing OBQ is not empty' do
       Sidekiq::Testing.fake!
 
