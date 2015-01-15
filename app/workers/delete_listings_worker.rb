@@ -13,7 +13,7 @@ class DeleteListingsWorker < CoreWorker
     listing_ids.each do |id|
       listing = IronBase::Listing.find(id)
       next unless listing
-      record_incr(:listings_deleted) if listing.destroy
+      record_incr(:listings_deleted) if retryable(sleep: 1) { listing.destroy }
     end
     stop_tracking
   end
