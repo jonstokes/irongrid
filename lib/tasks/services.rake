@@ -8,9 +8,10 @@ def service_list
     ReadListingsService
     CdnService
     UpdateListingImagesService
-    SiteStatsService
-    DeleteListingsForFullFeedsService
   )
+
+  # SiteStatsService
+  # DeleteListingsForFullFeedsService
 end
 
 def notify(string)
