@@ -14,11 +14,12 @@ class DeleteListingsWorker < CoreWorker
     batch2 = listing_ids[250..500].try(:compact)
 
     if batch1.try(:any?)
-      IronBase::Listing.bulk_delete(batch1)
+      retryable(sleep: 1) { IronBase::Listing.bulk_delete(batch1) }
       record_set(:listings_deleted, batch1.size)
     end
+    
     if batch2.try(:any?)
-      IronBase::Listing.bulk_delete(batch2)
+      retryable(sleep: 1) { IronBase::Listing.bulk_delete(batch2) }
       record_set(:listings_deleted, batch2.size)
     end
 
