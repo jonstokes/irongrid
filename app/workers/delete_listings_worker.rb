@@ -10,11 +10,20 @@ class DeleteListingsWorker < CoreWorker
   # TODO: Refactor to use bulk API
   def perform(listing_ids)
     track
-    listing_ids.each do |id|
-      listing = IronBase::Listing.find(id)
-      next unless listing
-      record_incr(:listings_deleted) if retryable(sleep: 1) { listing.destroy }
+    batch1 = listing_ids[0..249].try(:compact)
+    batch2 = listing_ids[250..500].try(:compact)
+
+    if batch1.try(:any?)
+      IronBase::Listing.bulk_delete(batch1)
+      record_set(:listings_deleted, batch1.size)
     end
+    if batch2.try(:any?)
+      IronBase::Listing.bulk_delete(batch2)
+      record_set(:listings_deleted, batch2.size)
+    end
+
+    stop_tracking
+  rescue Elasticsearch::Transport::Transport::Errors::InternalServerError
     stop_tracking
   end
 
