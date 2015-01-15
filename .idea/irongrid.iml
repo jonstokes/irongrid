@@ -168,7 +168,6 @@
     <orderEntry type="library" scope="PROVIDED" name="i18n (v0.6.11, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="image_voodoo (v0.8.2, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="interactor (v3.1.0, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="iron_base (v0.0.1@113d13, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jdbc-postgres (v9.3.1102, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jruby-openssl (v0.9.4, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.8.1, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
@@ -224,7 +223,6 @@
     <orderEntry type="library" scope="PROVIDED" name="tokenizer (v0.1.1, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="treetop (v1.4.15, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v0.3.41, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="uuidtools (v2.1.4, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webmock (v1.17.4, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="websocket-driver (v0.3.3, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v2.0.0, RVM: jruby-1.7.11 [irongrid]) [gem]" level="application" />
