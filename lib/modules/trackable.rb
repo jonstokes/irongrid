@@ -30,7 +30,8 @@ module Trackable
   end
 
   def stop_tracking
-    @record[:data][:complete] = true
+    @record[:complete] = true
+    @record[:stopped] = Time.now.utc.iso8601
     @tracking = false
     status_update(true)
   end
@@ -43,15 +44,16 @@ module Trackable
 
   def initialize_log_record
     @record = {
+        host:   Socket.gethostname,
         agent: {
             name:   "#{self.class.name}",
             thread: "#{Thread.current.object_id}",
             jid:    self.jid,
         },
-        data: {
-            domain: @domain,
-            complete: false
-        }
+        domain: @site.try(:domain) || @domain,
+        complete: false,
+        started: Time.now.utc.iso8601,
+        data: {}
     }
 
     self.class::LOG_RECORD_SCHEMA.each do |k, v|
