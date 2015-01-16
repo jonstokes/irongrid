@@ -1,5 +1,4 @@
 module Trackable
-  include Notifier
   attr_reader :record
 
   def track(opts={})
@@ -15,7 +14,7 @@ module Trackable
 
   def status_update(force = false)
     return unless force || ((@count += 1) % @write_interval) == 0
-    notify("#{@record.to_json}")
+    $log.info(@record.to_json)
   end
 
   def record_set(attr, value)
@@ -43,26 +42,24 @@ module Trackable
   private
 
   def initialize_log_record
-    @record ||= {}
-    @record[:data] ||= {}
-    data = {}
+    @record = {
+        agent: {
+            name: "#{self.class}",
+            jid:   self.jid,
+        },
+        data: {
+            domain: @domain,
+            complete: false
+        }
+    }
 
     self.class::LOG_RECORD_SCHEMA.each do |k, v|
       if v == Integer
-        data[k] = 0
+        @record[:data][k] = 0
       else
-        data[k] = v.new
+        @record[:data][k] = v.new
       end
     end
-
-    data.merge!(domain: @domain, complete: false)
-
-    @record.merge!(
-        jid:   self.jid,
-        agent: "#{self.class}",
-        archived: false
-    )
-    @record[:data].merge!(data)
   end
 
   def log_record_attributes

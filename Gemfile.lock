@@ -172,6 +172,7 @@ GEM
     launchy (2.4.2-java)
       addressable (~> 2.3)
       spoon (~> 0.0.1)
+    logglier (0.2.11)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -318,6 +319,7 @@ DEPENDENCIES
   jdbc-postgres
   jruby-openssl
   launchy
+  logglier
   mocktra
   net-http-persistent
   nokogiri

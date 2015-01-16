@@ -27,7 +27,7 @@ gem 'poltergeist'
 gem 'capybara'
 gem 'hashie'
 gem 'tokenizer'
-
+gem 'logglier'
 gem 'elasticsearch'
 gem 'elasticsearch-rails'
 

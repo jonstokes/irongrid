@@ -4,11 +4,12 @@ class PullListingsWorker < CoreWorker
   sidekiq_options :queue => :crawls, :retry => true
 
   LOG_RECORD_SCHEMA = {
-    db_writes:       Integer,
-    objects_deleted: Integer,
-    images_added:    Integer,
-    transition:      String,
-    next_jid:        String
+    listings_created: Integer,
+    listings_deleted: Integer,
+    objects_deleted:  Integer,
+    images_added:     Integer,
+    transition:       String,
+    next_jid:         String
   }
 
   attr_accessor :domain, :timer, :site
@@ -35,7 +36,7 @@ class PullListingsWorker < CoreWorker
         destroy_listings_at_url(json)
         next
       end
-      record_incr(:db_writes) if parse(json)
+      record_incr(:listings_created) if parse(json)
     end
 
     transition
@@ -47,6 +48,7 @@ class PullListingsWorker < CoreWorker
     [json.page.redirect_from, json.page.url].compact.each do |url|
       next unless listings = retryable { IronBase::Listing.find_by_url(url) }
       listings.each do |listing|
+        record_incr(:listings_deleted)
         retryable { listing.destroy }
       end
     end
