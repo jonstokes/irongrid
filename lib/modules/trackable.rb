@@ -44,8 +44,9 @@ module Trackable
   def initialize_log_record
     @record = {
         agent: {
-            name: "#{self.class}",
-            jid:   self.jid,
+            name:   "#{self.class.name}",
+            thread: "#{Thread.current.object_id}",
+            jid:    self.jid,
         },
         data: {
             domain: @domain,

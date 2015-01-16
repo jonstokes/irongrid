@@ -1,5 +1,5 @@
 def service_list
-  %w(
+  @service_list ||= %w(
     ReadListingsService
     ReadProductLinksService
     PruneLinksService
@@ -10,7 +10,7 @@ def service_list
     UpdateListingImagesService
     SiteStatsService
     DeleteListingsForFullFeedsService
-  )
+  ).uniq
 end
 
 def notify(string)
@@ -89,24 +89,15 @@ namespace :service do
     notify "Clean booting services for #{Rails.env.upcase} environment:"
     reset_sidekiq_stats
     clear_sidekiq_queues
-    SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
     boot_services
   end
 
   task :boot_all => :environment do
     notify "Booting services for #{Rails.env.upcase} environment:"
     reset_sidekiq_stats
-    SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
     boot_services
   end
-
-  task :reboot_all => :environment do
-    notify "Rebooting services for #{Rails.env.upcase} environment:"
-    SiteStatsWorker.perform_async(domain: "www.midwayusa.com")
-    reset_sidekiq_stats
-    boot_services
-  end
-
+  
   task :clear_all_grid_state => :environment do
     clear_link_messages
     reset_sidekiq_stats
