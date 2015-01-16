@@ -15,7 +15,7 @@ module Trackable
 
   def status_update(force = false)
     return unless force || ((@count += 1) % @write_interval) == 0
-    notify("#{@record.to_param}")
+    notify("#{@record.to_json}")
   end
 
   def record_set(attr, value)
