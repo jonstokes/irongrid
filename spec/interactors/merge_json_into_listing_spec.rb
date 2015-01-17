@@ -8,8 +8,9 @@ describe WriteListingToIndex::MergeJsonIntoListing do
           purchase: "http://#{@site.domain}/product/1",
           page: "http://#{@site.domain}/product/1"
       )
+      @id = Digest::MD5.hexdigest(@url.page)
       @listing_json = Hashie::Mash.new(
-          id:                     Digest::MD5.hexdigest(@url.page),
+          id:                     'SKU-123',
           valid:                  true,
           condition:              'new',
           type:                   'RetailListing',
@@ -24,7 +25,8 @@ describe WriteListingToIndex::MergeJsonIntoListing do
       )
       @listing = IronBase::Listing.new(
           type: 'RetailListing',
-          url: @url
+          url: @url,
+          id: @id
       )
     end
 
@@ -35,6 +37,7 @@ describe WriteListingToIndex::MergeJsonIntoListing do
         listing:      @listing,
       ).listing
 
+      expect(listing.id).to eq(@id)
       expect(listing.url.page).to eq(@url.page)
       expect(listing.url.purchase).to eq(@url.purchase)
       expect(listing.condition).to eq('new')
