@@ -1,4 +1,5 @@
 module Trackable
+  include Retryable
   attr_reader :record
 
   def track(opts={})
@@ -14,7 +15,7 @@ module Trackable
 
   def status_update(force = false)
     return unless force || ((@count += 1) % @write_interval) == 0
-    $log.info(@record.to_json)
+    retryable { $log.info(@record.to_json) }
   end
 
   def record_set(attr, value)
