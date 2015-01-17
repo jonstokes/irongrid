@@ -23,29 +23,23 @@ class SiteStatsWorker < CoreWorker
     return unless opts && init(opts)
     track
 
-    Rails.logger.info "#### Active Count"
     active_listings = IronBase::Listing.active_count_for_domain(domain)
     @site.update_stats(active_listings: active_listings)
     record_set(:active_listings, active_listings)
 
-    Rails.logger.info "#### Inactive Count"
     inactive_listings = IronBase::Listing.inactive_count_for_domain(domain)
     @site.update_stats(inactive_listings: inactive_listings)
     record_set(:inactive_listings, inactive_listings)
 
-    Rails.logger.info "#### Stale Count"
     stale_listings = IronBase::Listing.stale_count_for_domain(domain)
     @site.update_stats(stale_listings: stale_listings)
     record_set(:stale_listings, stale_listings)
 
-    Rails.logger.info "#### Stalest"
     if stalest_listing = IronBase::Listing.stalest_for_domain(domain)
       time = stalest_listing.updated_at.to_time
       @site.update_stats(stalest_listing: time)
       record_set(:stalest_listing, time)
     end
-
-    Rails.logger.info "#### Done"
 
     stop_tracking
   end
