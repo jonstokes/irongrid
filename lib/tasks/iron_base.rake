@@ -93,10 +93,7 @@ namespace :delete do
     search = IronBase::Search::Search.new
     seller_domains = %w(
       www.brownells.com
-      www.guncasket.com
-      www.policestore.com
-      www.sinclairintl.com
-      www.sportsmanswarehouse.com
+      www.midwayusa.com
     )
     search.filters.merge!(seller_domain: seller_domains)
     IronBase::Listing.find_each(search.query_hash) do |batch|
