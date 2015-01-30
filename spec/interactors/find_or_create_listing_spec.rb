@@ -43,7 +43,7 @@ describe WriteListingToIndex::FindOrCreateListing do
 
       expect(listing2.persisted?).to eq(true)
       expect(IronBase::Listing.count).to eq(1)
-      expect(IronBase::Listing.find(listing2.id).id).to eq(listing.id)
+      expect(IronBase::Listing.find(listing2.id).hits.first.id).to eq(listing.id)
     end
 
     it 'returns a new, unsaved listing object when a listing with this id does not exist in the index' do

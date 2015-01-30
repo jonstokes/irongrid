@@ -21,12 +21,12 @@ class WriteListingToIndex
     end
 
     def find_or_create_listing
-      listing = IronBase::Listing.find(original_listing_id)
-      return listing if listing
+      results = IronBase::Listing.find(original_listing_id)
+      return results.hits.first if results
 
       if current_listing_id != original_listing_id
-        listing = IronBase::Listing.find(current_listing_id)
-        return listing if listing
+        results = IronBase::Listing.find(current_listing_id)
+        return results.hits.first if results
       end
 
       IronBase::Listing.new(id: current_listing_id)

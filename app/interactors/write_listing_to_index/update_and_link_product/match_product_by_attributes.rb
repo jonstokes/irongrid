@@ -36,16 +36,18 @@ class WriteListingToIndex
         # Take existing captured product attrs, and try to match as many as
         # possible
         return nil unless attribute_filters.size >= 4 # Use at least three attrs plus engine
-        query_hash = {
-            query: {
-                filtered: {
-                    filter: {
-                        bool: { should: attribute_filters }
+        q = IronBase::Document::Search.new(
+            query_hash: {
+                query: {
+                    filtered: {
+                        filter: {
+                            bool: { should: attribute_filters }
+                        }
                     }
                 }
             }
-        }
-        results = IronBase::Product.search(query_hash)
+        )
+        results = IronBase::Product.search(q)
         results.hits.any? ? results.hits.first : nil
       end
 

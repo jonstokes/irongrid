@@ -11,7 +11,8 @@ class UpdateListingImagesWorker < CoreWorker
   def perform(listing_ids)
     track
     listing_ids.each do |id|
-      next unless listing = IronBase::Listing.find(id)
+      next unless results = IronBase::Listing.find(id)
+      listing = results.hits.first
       update_listing(listing) && next unless listing.image.source.try(:present?)
 
       image = CDN::Image.new(source: listing.image.source)

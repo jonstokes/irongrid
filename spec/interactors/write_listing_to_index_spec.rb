@@ -47,7 +47,7 @@ describe WriteListingToIndex do
       expect(result.success?).to be_true
       IronBase::Listing.refresh_index
 
-      item = IronBase::Listing.find result.listing.id
+      item = IronBase::Listing.find(result.listing.id).hits.first
 
       expect(item.product.category1).to eq("ammunition")
       expect(item.seller.domain).to eq(site.domain)
@@ -79,7 +79,7 @@ describe WriteListingToIndex do
       expect(result.success?).to be_true
       IronBase::Listing.refresh_index
 
-      listing = IronBase::Listing.find result.listing.id
+      listing = IronBase::Listing.find(result.listing.id).hits.first
 
       expect(listing.condition).to eq("new")
       expect(listing.image.source).to eq("http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg")
@@ -105,7 +105,7 @@ describe WriteListingToIndex do
       expect(result.success?).to be_true
       IronBase::Listing.refresh_index
 
-      item = IronBase::Listing.find result.listing.id
+      item = IronBase::Listing.find(result.listing.id).hits.first
 
       expect(item.product.category1).to eq("guns")
       expect(item.title.downcase).to eq("fast sale springfield xd 45")
@@ -135,7 +135,7 @@ describe WriteListingToIndex do
       expect(result.success?).to be_true
       IronBase::Listing.refresh_index
 
-      item = IronBase::Listing.find result.listing.id
+      item = IronBase::Listing.find(result.listing.id).hits.first
 
       expect(item.description).to include("Lightfield offers many great hunting")
       expect(item.image.source).to eq("http://cdn1.cheaperthandirt.com/ctd_images/mdprod/3-0307867.jpg")
@@ -157,7 +157,7 @@ describe WriteListingToIndex do
       expect(result.success?).to be_true
       IronBase::Listing.refresh_index
 
-      item = IronBase::Listing.find result.listing.id
+      item = IronBase::Listing.find(result.listing.id).hits.first
 
       expect(item.title).to eq("Silva Olive Drab Compass")
       expect(item.image.source).to eq("http://www.budsgunshop.com/catalog/images/15118.jpg")
@@ -182,7 +182,7 @@ describe WriteListingToIndex do
       product = IronBase::Product.first
       expect(product.upc).not_to be_nil
 
-      item = IronBase::Listing.find result.listing.id
+      item = IronBase::Listing.find(result.listing.id).hits.first
       expect(item.product_source.id).not_to be_nil
     end
 
