@@ -14,6 +14,7 @@ describe ReadSitesService do
 
   it "should use DMS" do
     pending "Example"
+    expect(true).to eq(false)
   end
 
   describe "PopulateSessionQueue sites", no_es: true do
@@ -38,6 +39,7 @@ describe ReadSitesService do
 
     it "should not generate a PopulateSessionQueue for a site if the site has sessions pending" do
       pending "Populate session queue with sessions for site"
+      expect(true).to eq(false)
 
       @service.start
       @service.stop
@@ -46,6 +48,7 @@ describe ReadSitesService do
 
     it "should not generate a PopulateSessionQueue for a site if the site has product links pending" do
       pending "Populate session queue with sessions for site"
+      expect(true).to eq(false)
 
       @service.start
       @service.stop

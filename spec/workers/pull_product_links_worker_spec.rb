@@ -50,10 +50,12 @@ describe PullProductLinksWorker do
   describe "#transition" do
     it "transitions to self if it times out while the site's ObjectQueue is not empty" do
       pending "Example"
+      expect(true).to eq(false)
     end
 
     it "does not transition to self if the site's ObjectQueue is empty" do
       pending "Example"
+      expect(true).to eq(false)
     end
   end
 

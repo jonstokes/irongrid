@@ -10,6 +10,7 @@ describe Site do
   describe "#initialize" do
     it "should load its data from local repo when source: is :local" do
       pending "Example"
+      expect(true).to eq(false)
     end
 
     it "should load its data from fixtures when source: is :fixture" do
@@ -29,6 +30,7 @@ describe Site do
 
     it "should load its data from github when source: is :github" do
       pending "Example"
+      expect(true).to eq(false)
     end
   end
 

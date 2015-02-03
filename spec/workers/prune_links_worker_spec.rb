@@ -34,8 +34,8 @@ describe PruneLinksWorker do
       @site.link_message_queue.push msg
       IronBase::Listing.refresh_index
       @worker.perform(domain: @site.domain)
-      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to be_true
-      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to be_false
+      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to eq(true)
+      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to eq(false)
       expect(@site.link_message_queue.size).to eq(1)
     end
 
@@ -53,8 +53,8 @@ describe PruneLinksWorker do
       @site.link_message_queue.push msg
       @worker.perform(domain: @site.domain)
 
-      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to be_true
-      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to be_true
+      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to eq(true)
+      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to eq(true)
       expect(@site.link_message_queue.size).to eq(6)
     end
 
@@ -77,8 +77,8 @@ describe PruneLinksWorker do
       @site.link_message_queue.push msg
       @worker.perform(domain: @site.domain)
 
-      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to be_true
-      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to be_true
+      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to eq(true)
+      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to eq(true)
       expect(@site.link_message_queue.size).to eq(6)
     end
   end

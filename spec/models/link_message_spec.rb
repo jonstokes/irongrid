@@ -16,7 +16,7 @@ describe LinkMessage do
       expect(msg).to be_a(LinkMessage)
       expect(msg.url).to match(/www\.retailer\.com\/\d/)
       expect(msg.page_attributes.keys).to include("digest")
-      expect(msg.page_is_valid).to be_true
+      expect(msg.page_is_valid).to eq(true)
     end
 
     it "creates a new LinkMessage object from a Listing object" do
@@ -41,18 +41,21 @@ describe LinkMessage do
   describe "db attributes" do
     it "has db_digest and db_id attributes if the link is in the db" do
       pending "Example"
+      expect(true).to eq(false)
     end
   end
 
   describe "scraped attributes" do
     it "has digest and attributes" do
       pending "Example"
+      expect(true).to eq(false)
     end
   end
 
   describe "scraped status checks" do
     it "responds to not_found? and is_valid?" do
       pending "Example"
+      expect(true).to eq(false)
     end
   end
 end

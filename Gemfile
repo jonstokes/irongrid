@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 source "https://7efe68ea:9c90e496@gems.contribsys.com/"
 ruby '2.0.0', :engine => 'jruby', :engine_version => '1.7.19'
 
-gem "rails", "4.0.2"
+gem "rails", "4.2.0"
 gem 'figaro'
 gem "protected_attributes"
 gem 'redis'

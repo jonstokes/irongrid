@@ -25,7 +25,7 @@ describe CreateCdnImagesWorker do
       worker = CreateCdnImagesWorker.new
       worker.perform(domain: @site.domain)
       WebMock.should have_requested(:get, "www.retailer.com/images/1.png")
-      expect(CDN.has_image?(image_source)).to be_true
+      expect(CDN.has_image?(image_source)).to eq(true)
     end
   end
 

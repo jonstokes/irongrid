@@ -28,7 +28,7 @@ describe WriteListingToIndex do
         listing_json: Hashie::Mash.new(listing),
         site: site
       )
-      expect(result.success?).to be_false
+      expect(result.success?).to eq(false)
       expect(result.error).to eq('invalid')
     end
 
@@ -44,7 +44,7 @@ describe WriteListingToIndex do
         listing_json: Hashie::Mash.new(listing),
         site: site
       )
-      expect(result.success?).to be_true
+      expect(result.success?).to eq(true)
       IronBase::Listing.refresh_index
 
       item = IronBase::Listing.find(result.listing.id).hits.first
@@ -76,7 +76,7 @@ describe WriteListingToIndex do
         site:site
       )
 
-      expect(result.success?).to be_true
+      expect(result.success?).to eq(true)
       IronBase::Listing.refresh_index
 
       listing = IronBase::Listing.find(result.listing.id).hits.first
@@ -102,7 +102,7 @@ describe WriteListingToIndex do
         listing_json: Hashie::Mash.new(listing),
         site: site
       )
-      expect(result.success?).to be_true
+      expect(result.success?).to eq(true)
       IronBase::Listing.refresh_index
 
       item = IronBase::Listing.find(result.listing.id).hits.first
@@ -132,7 +132,7 @@ describe WriteListingToIndex do
         listing_json: Hashie::Mash.new(listing),
         site: site
       )
-      expect(result.success?).to be_true
+      expect(result.success?).to eq(true)
       IronBase::Listing.refresh_index
 
       item = IronBase::Listing.find(result.listing.id).hits.first
@@ -154,7 +154,7 @@ describe WriteListingToIndex do
         listing_json: Hashie::Mash.new(listing),
         site: site
       )
-      expect(result.success?).to be_true
+      expect(result.success?).to eq(true)
       IronBase::Listing.refresh_index
 
       item = IronBase::Listing.find(result.listing.id).hits.first
@@ -175,7 +175,7 @@ describe WriteListingToIndex do
           listing_json: Hashie::Mash.new(listing),
           site: site
       )
-      expect(result.success?).to be_true
+      expect(result.success?).to eq(true)
       IronBase::Listing.refresh_index
 
       expect(IronBase::Product.count).to eq(1)

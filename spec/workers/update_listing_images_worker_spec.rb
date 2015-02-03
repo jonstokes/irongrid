@@ -14,7 +14,7 @@ describe UpdateListingImagesWorker do
     same_listing = IronBase::Listing.first
     expect(same_listing.image.cdn).to eq(CDN::Image.new(source: listing.image.source).cdn_url)
     expect(same_listing.updated_at.to_i).to eq(listing.updated_at.to_i)
-    expect(same_listing.image.download_attempted).to be_true
+    expect(same_listing.image.download_attempted).to eq(true)
   end
 
   it 'marks the listing as image_download_attempted if the listing has no image_source' do
@@ -28,10 +28,11 @@ describe UpdateListingImagesWorker do
     same_listing = IronBase::Listing.first
     expect(same_listing.image.source).to be_nil
     expect(same_listing.image.cdn).to eq(CDN::DEFAULT_IMAGE_URL)
-    expect(same_listing.image.download_attempted).to be_true
+    expect(same_listing.image.download_attempted).to eq(true)
   end
 
   it 'does nothing if the listing has been deleted' do
     pending "Example"
+    expect(true).to eq(false)
   end
 end

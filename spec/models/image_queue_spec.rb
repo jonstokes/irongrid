@@ -27,14 +27,14 @@ describe ImageQueue do
 
     it "adds a single key" do
       link =  "http://www.rspec.com/1"
-      expect(@store.add(link)).to be_true
+      expect(@store.add(link)).to eq(true)
       @store.size.should == 1
     end
 
     it "does not add a key twice" do
       link =  "http://www.rspec.com/1"
       @store.add(link)
-      expect(@store.add(link)).to be_false
+      expect(@store.add(link)).to eq(false)
       expect(@store.size).to eq(1)
     end
 
@@ -57,7 +57,7 @@ describe ImageQueue do
     it "should add a previously popped link" do
       expect(@store.add(@links)).to eq(3)
       link = @store.pop
-      expect(@store.add(link)).to be_true
+      expect(@store.add(link)).to eq(true)
       expect(@store.size).to eq(3)
     end
   end
@@ -86,7 +86,7 @@ describe ImageQueue do
       @store.add(links)
       link = @store.pop
       link.should_not be_nil
-      @store.has_key?(link).should be_false
+      @store.has_key?(link).should eq(false)
     end
   end
 end

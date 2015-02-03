@@ -223,8 +223,8 @@ describe PullListingsWorker do
         listing = IronBase::Listing.first
         expect(listing.title).to eq('Updated Listing')
         expect(listing.url).to eq(existing_listing.url)
-        expect(listing.persisted?).to be_true
-        expect(updated_today?(listing)).to be_true
+        expect(listing.persisted?).to eq(true)
+        expect(updated_today?(listing)).to eq(true)
       end
 
       it 'updates a feed listing with new attributes' do
@@ -253,7 +253,7 @@ describe PullListingsWorker do
         expect(listing.id).to eq(existing_listing.id)
         expect(listing.url.page).to eq(existing_listing.url.page)
         expect(listing.url.purchase).to eq(existing_listing.url.purchase)
-        expect(updated_today?(listing)).to be_true
+        expect(updated_today?(listing)).to eq(true)
       end
 
       it 'deactivates an invalid feed listing' do
@@ -279,12 +279,12 @@ describe PullListingsWorker do
         IronBase::Listing.refresh_index
         listing = IronBase::Listing.first
 
-        expect(listing.inactive?).to be_true
+        expect(listing.inactive?).to eq(true)
         expect(listing.digest).to eq(existing_listing.digest)
         expect(listing.url.purchase).to eq(existing_listing.url.purchase)
         expect(listing.url.page).to eq(existing_listing.url.page)
         expect(listing.id).to eq(existing_listing.id)
-        expect(updated_today?(listing)).to be_true
+        expect(updated_today?(listing)).to eq(true)
       end
 
       it 'deactivates an invalid retail listing' do
@@ -302,12 +302,12 @@ describe PullListingsWorker do
         IronBase::Listing.refresh_index
         listing = IronBase::Listing.first
 
-        expect(listing.inactive?).to be_true
+        expect(listing.inactive?).to eq(true)
         expect(listing.digest).to eq(existing_listing.digest)
         expect(listing.url.purchase).to eq(existing_listing.url.purchase)
         expect(listing.url.page).to eq(existing_listing.url.page)
         expect(listing.id).to eq(existing_listing.id)
-        expect(updated_today?(listing)).to be_true
+        expect(updated_today?(listing)).to eq(true)
       end
 
       it 'deletes a listing that redirects to an invalid page' do
@@ -368,7 +368,7 @@ describe PullListingsWorker do
         listing = IronBase::Listing.first
         expect(listing.url.page).to eq(redirect_url)
         expect(listing.digest).to eq(existing_listing.digest)
-        expect(updated_today?(listing)).to be_true
+        expect(updated_today?(listing)).to eq(true)
       end
 
       it 'updates a listing that 302 moved temporarily, but keeps original url' do
@@ -391,7 +391,7 @@ describe PullListingsWorker do
         listing = IronBase::Listing.first
         expect(listing.url.page).to eq(existing_listing.url.page)
         expect(listing.digest).to eq(existing_listing.digest)
-        expect(updated_today?(listing)).to be_true
+        expect(updated_today?(listing)).to eq(true)
       end
 
       it 'deletes a listing that 404s' do
@@ -454,7 +454,7 @@ describe PullListingsWorker do
 
         expect(listing.url.page).to eq(page[:url])
         expect(listing.digest).to eq(listing_v2.digest)
-        expect(updated_today?(listing)).to be_true
+        expect(updated_today?(listing)).to eq(true)
       end
     end
 
@@ -623,10 +623,12 @@ describe PullListingsWorker do
   describe "#transition" do
     it "transitions to self if it times out while the site's ObjectQueue is not empty" do
       pending "Example"
+      expect(true).to eq(false)
     end
 
     it "does not transition to self if the site's ObjectQueue is empty" do
       pending "Example"
+      expect(true).to eq(false)
     end
   end
 

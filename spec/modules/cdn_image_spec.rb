@@ -32,16 +32,16 @@ describe CDN::Image do
   describe "::create" do
     it "pulls an image from the web, resizes it, and puts it on s3" do
       image = CDN::Image.create(source: @image_source, http: @http)
-      expect(File.exists?(image.send(:temp_file_name))).to be_false
-      expect(File.exists?(image.send(:thumb_file_name))).to be_false
-      expect(image.exists?).to be_true
+      expect(File.exists?(image.send(:temp_file_name))).to eq(false)
+      expect(File.exists?(image.send(:thumb_file_name))).to eq(false)
+      expect(image.exists?).to eq(true)
     end
   end
 
   describe "::exists?" do
     it "returns true if an image exists on s3" do
       image = CDN::Image.create(source: @image_source, http: @http)
-      expect(CDN::Image.exists?(image.source)).to be_true
+      expect(CDN::Image.exists?(image.source)).to eq(true)
     end
   end
 
@@ -77,7 +77,7 @@ describe CDN::Image do
       image.download
       image.resize
       expect(image.file_name).to eq(image.send(:thumb_file_name))
-      expect(File.exists?(image.send(:temp_file_name))).to be_false
+      expect(File.exists?(image.send(:temp_file_name))).to eq(false)
       expect(image_width(image.file_name)).to eq(400)
 
       image.delete_file!
@@ -90,9 +90,9 @@ describe CDN::Image do
       image.download
       image.resize
       image.write_to_s3
-      expect(image.exists?).to be_true
+      expect(image.exists?).to eq(true)
       image.destroy!
-      expect(image.exists?).to be_false
+      expect(image.exists?).to eq(false)
     end
   end
   describe "#write_to_s3" do
@@ -101,8 +101,8 @@ describe CDN::Image do
       image.download
       image.resize
       image.write_to_s3
-      expect(image.exists?).to be_true
-      expect(File.exists?(image.file_name)).to be_false
+      expect(image.exists?).to eq(true)
+      expect(File.exists?(image.file_name)).to eq(false)
     end
   end
 
@@ -117,7 +117,7 @@ describe CDN::Image do
     it "downloads the image to a Sunbro::Page object if the image exists" do
       image = CDN::Image.new(source: @image_source, http: @http)
       expect(image.send(:download_image)).to be_a(Sunbro::Page)
-      expect(image.page.image?).to be_true
+      expect(image.page.image?).to eq(true)
     end
 
     it "returns nil if the downloaded object is not an image" do
@@ -136,7 +136,7 @@ describe CDN::Image do
       image = CDN::Image.new(source: @image_source, http: @http)
       image.send(:download_image)
       expect(image.send(:write_to_file)).to eq(image.send(:temp_file_name))
-      expect(File.exists?(image.send(:temp_file_name))).to be_true
+      expect(File.exists?(image.send(:temp_file_name))).to eq(true)
       expect(File.size(image.send(:temp_file_name))).not_to be_zero
       expect(image.file_name).to eq(image.send(:temp_file_name))
 
@@ -145,6 +145,7 @@ describe CDN::Image do
 
     it "returns nil if the temp file is zero length" do
       pending "Figure out how to do this"
+      expect(true).to eq(false)
     end
   end
 end

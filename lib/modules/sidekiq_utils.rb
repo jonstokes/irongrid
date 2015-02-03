@@ -61,7 +61,7 @@ module SidekiqUtils
   end
 
   def queues
-    Sidekiq::Stats.new.queues.keys
+    Sidekiq::Stats::Queues.new.lengths.keys
   end
 
   def clear_all_queues

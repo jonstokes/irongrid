@@ -22,7 +22,7 @@ describe LinkMessageQueue do
     end
 
     it "adds a single key" do
-      expect(@store.add(@links.first)).to be_true
+      expect(@store.add(@links.first)).to eq(1)
       expect(@store.size).to eq(1)
     end
 
@@ -47,7 +47,7 @@ describe LinkMessageQueue do
     it "should add a previously popped link" do
       expect(@store.add(@links)).to eq(3)
       link = @store.pop
-      expect(@store.add(link)).to be_true
+      expect(@store.add(link)).to eq(1)
       expect(@store.size).to eq(3)
     end
   end
@@ -56,7 +56,7 @@ describe LinkMessageQueue do
     it "removes a link" do
       @store.add(@links).should == 3
       @store.rem(@links.first.url)
-      expect(@store.has_key?(@links.first.url)).to be_false
+      expect(@store.has_key?(@links.first.url)).to eq(false)
     end
   end
 
@@ -81,7 +81,7 @@ describe LinkMessageQueue do
       @store.add(@links.first.dup.update(page_attributes: {'foo' => 1, 'bar' => 2}))
       link = @store.pop
       expect(link).not_to be_nil
-      expect(@store.has_key?(link.url)).to be_false
+      expect(@store.has_key?(link.url)).to eq(false)
       expect(LinkMessageQueue.find(link.url)).to be_nil
       expect(link).to be_a(LinkMessage)
       expect(link.url['http']).not_to be_nil

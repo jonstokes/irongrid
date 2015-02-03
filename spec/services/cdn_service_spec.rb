@@ -19,6 +19,7 @@ describe CdnService do
 
   it "should use DMS", no_es: true do
     pending "Example"
+    expect(true).to eq(false)
   end
 
   describe "#run", no_es: true do

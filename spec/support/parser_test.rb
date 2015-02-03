@@ -1,11 +1,3 @@
-RSpec.configure do |config|
-  config.before :each do
-    if example.metadata[:parser_tests] == true
-      create_parser_tests
-    end
-  end
-end
-
 
 def load_listing_source(type, seller, item)
   url = html = nil

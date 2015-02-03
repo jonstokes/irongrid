@@ -14,6 +14,7 @@ describe ReadListingsService do
 
   it "should use DMS" do
     pending "Example"
+    expect(true).to eq(false)
   end
 
   describe "PullListingsWorker sites", no_es: true do
