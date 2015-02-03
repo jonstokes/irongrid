@@ -42,9 +42,8 @@ class PruneLinksWorker < CoreWorker
   end
 
   def self.should_run?(site)
-    site.session_queue.empty? &&
-      !site.session_queue.is_being_read? &&
-      site.product_links_queue.empty? &&
+    site.session_queue.empty? && !site.session_queue.is_being_read? &&
+      site.product_links_queue.empty? && PullProductLinksWorker.jobs_in_flight_with_domain(site.domain).empty? &&
       RefreshLinksWorker.jobs_in_flight_with_domain(site.domain).empty? &&
       PushProductLinksWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
