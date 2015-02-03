@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 source "https://7efe68ea:9c90e496@gems.contribsys.com/"
+ruby '2.0.0', :engine => 'jruby', :engine_version => '1.7.19'
 
 gem "rails", "4.0.2"
 gem 'figaro'
@@ -15,8 +16,6 @@ gem 'aws-sdk'
 gem 'net-http-persistent'
 gem "geocoder"
 gem 'connection_pool'
-gem "tire", :git => "git://github.com/karmi/retire.git", :branch => "master"
-gem 'tire-contrib'
 gem 'stringex'
 gem 'yell-rails'
 gem 'yell-adapters-syslog'
@@ -33,8 +32,8 @@ gem 'elasticsearch-rails'
 
 gem 'iron_base', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git", branch: 'master'
 #gem 'iron_base', path: "../iron_base"
-gem 'stretched', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git"
-#gem 'stretched', path: "/Users/jstokes/Local/Repositories/stretched-rb"
+#gem 'stretched', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git"
+gem 'stretched', path: "/Users/jstokes/Local/Repositories/stretched-rb"
 gem 'retryable', git: "https://github.com/jonstokes/retryable.git"
 gem 'sunbro', git: "https://github.com/jonstokes/sunbro.git"
 
