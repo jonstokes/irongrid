@@ -12,7 +12,8 @@ describe DeleteEndedAuctionsService do
       5.times { FactoryGirl.create(:listing, :auction) }
       auctions = []
       5.times { auctions << FactoryGirl.create(:listing, :ended_auction) }
-
+      IronBase::Listing.refresh_index
+      
       @service.track
       @service.start_jobs
       @service.stop_tracking
