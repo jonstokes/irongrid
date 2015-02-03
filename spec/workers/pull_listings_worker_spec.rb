@@ -173,7 +173,7 @@ describe PullListingsWorker do
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
-        expect(Listing.count).to eq(0)
+        expect(IronBase::Listing.count).to eq(0)
       end
 
       it 'does not create a duplicate listing' do
