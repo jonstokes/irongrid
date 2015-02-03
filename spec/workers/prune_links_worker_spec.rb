@@ -93,13 +93,13 @@ describe PruneLinksWorker do
       expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
     end
 
-    it 'does not transition to RefreshLinksWorker if there are no links' do
+    it 'transitions to RefreshLinksWorker even if there are no links' do
       fresh = FactoryGirl.create(:listing, seller: { domain: @site.domain })
       IronBase::Listing.refresh_index
       @site.link_message_queue.push LinkMessage.new(url: fresh.url.page, jid: "abcd123")
       @worker.perform(domain: @site.domain)
       expect(@site.link_message_queue.size).to eq(0)
-      expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(0)
+      expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
     end
   end
 end

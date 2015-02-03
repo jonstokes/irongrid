@@ -1,5 +1,5 @@
 class PullProductLinksWorker < CoreWorker
-
+  include Trackable
   sidekiq_options :queue => :crawls, :retry => true
 
   LOG_RECORD_SCHEMA = {
@@ -19,14 +19,18 @@ class PullProductLinksWorker < CoreWorker
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @link_store = LinkMessageQueue.new(domain: site.domain)
     @object_q = Stretched::ObjectQueue.new("#{site.domain}/product_links")
+    track
     true
   end
 
   def perform(opts)
     return unless init(opts)
     while !timed_out? && obj = @object_q.pop
+      record_incr(:objects_deleted)
       next unless obj.object && obj.object.product_link
+      record_incr(:links_created)
       @link_store.push LinkMessage.new(url: obj.object.product_link)
     end
+    stop_tracking
   end
 end
