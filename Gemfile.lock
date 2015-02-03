@@ -1,4 +1,31 @@
 GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
+  revision: a1b8797831b1f336a48d7e88f52b320f434551b6
+  branch: master
+  specs:
+    iron_base (0.0.1)
+      activesupport
+      connection_pool
+      elasticsearch
+      geocoder
+      hashie
+      interactor
+      redis
+
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
+  revision: 8753f4ced827e9c671c1d1adf682a9affde8fa38
+  specs:
+    stretched (0.0.1)
+      activesupport
+      connection_pool
+      hashie
+      nokogiri
+      redis
+      stringex
+      tokenizer
+
+GIT
   remote: https://github.com/jonstokes/retryable.git
   revision: cb4b912d484583629eb684486b87f282f34c46f5
   specs:
@@ -15,30 +42,6 @@ GIT
       net-http-persistent
       nokogiri
       poltergeist
-
-PATH
-  remote: ../iron_base
-  specs:
-    iron_base (0.0.1)
-      activesupport
-      connection_pool
-      elasticsearch
-      geocoder
-      hashie
-      interactor
-      redis
-
-PATH
-  remote: /Users/jstokes/Local/Repositories/stretched-rb
-  specs:
-    stretched (0.0.1)
-      activesupport
-      connection_pool
-      hashie
-      nokogiri
-      redis
-      stringex
-      tokenizer
 
 GEM
   remote: http://rubygems.org/
