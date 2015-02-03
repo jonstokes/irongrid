@@ -36,14 +36,13 @@ class PruneLinksWorker < CoreWorker
   end
 
   def transition
-    return if @link_store.empty?
     next_jid = RefreshLinksWorker.perform_async(domain: @domain)
     record_set(:transition, "RefreshLinksWorker")
     record_set(:next_jid, next_jid)
   end
 
   def self.should_run?(site)
-    site.link_message_queue.any? &&
+    site.session_queue.empty? &&
       !site.session_queue.is_being_read? &&
       site.product_links_queue.empty? &&
       RefreshLinksWorker.jobs_in_flight_with_domain(site.domain).empty? &&
