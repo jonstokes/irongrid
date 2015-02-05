@@ -34,7 +34,6 @@ class CoreService < CoreModel
   def run
     notify "Starting #{self.class} service."
     CoreService.mutex.synchronize { track }
-    notify "Started tracking for #{self.class}."
     begin
       start_jobs
       CoreService.mutex.synchronize { status_update }
@@ -44,14 +43,12 @@ class CoreService < CoreModel
   end
 
   def start_jobs
-    notify "Starting jobs for #{self.class}..."
     each_job do |job|
       klass = job[:klass].constantize
       jid = klass.perform_async(job[:arguments])
       notify "Starting job #{jid} #{job[:klass]} with #{job[:arguments]}."
       record_incr(:jobs_started)
     end
-    notify "... jobs for #{self.class} started!"
   end
 
   def each_job
