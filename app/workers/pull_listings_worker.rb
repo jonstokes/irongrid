@@ -45,7 +45,9 @@ class PullListingsWorker < CoreWorker
 
   def destroy_listings_at_url(json)
     # TODO: Improve this with the bulk listings API
-    [json.page.redirect_from, json.page.url].compact.each do |url|
+    redirect = URI.unescape(json.page.redirect_from) rescue nil
+    page = URI.unescape(json.page.url) rescue nil
+    [json.page.redirect_from, redirect, json.page.url, page].compact.each do |url|
       next unless listings = retryable { IronBase::Listing.find_by_url(url) }
       listings.each do |listing|
         record_incr(:listings_deleted)
