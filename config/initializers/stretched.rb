@@ -1,4 +1,4 @@
-user = Figaro.env.stretched_user rescue "#{Rails.env}@ironsights.com"
+user = Figaro.env.stretched_user || "#{Rails.env}@ironsights.com"
 pool = Figaro.env.redis_pool.to_i rescue 10
 
 Stretched::Settings.configure do |config|
