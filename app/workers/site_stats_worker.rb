@@ -39,6 +39,8 @@ class SiteStatsWorker < CoreWorker
       time = stalest_listing.updated_at.to_time
       @site.update_stats(stalest_listing: time)
       record_set(:stalest_listing, time)
+    else
+      @site.update_stats(stalest_listing: nil)
     end
 
     stop_tracking
