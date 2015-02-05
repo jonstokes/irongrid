@@ -19,10 +19,10 @@ end
 
 def start_service(svc)
   service_class = svc.constantize
-  notify "Starting service #{svc}..."
+  notify "Booting service #{svc}..."
   service = service_class.new
   service.start
-  notify "  #{service_class} started!"
+  notify "  #{service_class} booted!"
   service
 end
 
