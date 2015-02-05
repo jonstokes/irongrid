@@ -3,10 +3,6 @@ require 'sidekiq/testing'
 
 describe PushProductLinksWorker do
   before :each do
-    #Stretched
-    Stretched::Registration.clear_all
-    register_globals
-
     # Sidekiq
     Sidekiq::Testing.disable!
     clear_sidekiq
@@ -16,7 +12,6 @@ describe PushProductLinksWorker do
     @site.register
     @site.link_message_queue.clear
     @worker = PushProductLinksWorker.new
-    @session_q = Stretched::SessionQueue.new(@site.domain)
     @link_store = @site.link_message_queue
     @msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/1")
   end
@@ -32,9 +27,9 @@ describe PushProductLinksWorker do
       @link_store.add(@msg)
       @worker.perform(domain: @site.domain)
       expect(@link_store.size).to be_zero
-      expect(@session_q.size).to eq(1)
+      expect(@site.session_queue.size).to eq(1)
 
-      ssn = @session_q.pop
+      ssn = @site.session_queue.pop
       expect(ssn.queue_name).to eq("www.budsgunshop.com")
       expect(ssn.session_definition.key).to eq("globals/standard_html_session")
       expect(ssn.object_adapters.count).to eq(1)
@@ -51,9 +46,9 @@ describe PushProductLinksWorker do
 
       @worker.perform(domain: @site.domain)
       expect(@link_store.size).to eq(100)
-      expect(@session_q.size).to eq(1)
+      expect(@site.session_queue.size).to eq(1)
 
-      ssn = @session_q.pop
+      ssn = @site.session_queue.pop
       expect(ssn.queue_name).to eq("www.budsgunshop.com")
       expect(ssn.session_definition.key).to eq("globals/standard_html_session")
       expect(ssn.object_adapters.count).to eq(1)
@@ -70,9 +65,9 @@ describe PushProductLinksWorker do
 
       @worker.perform(domain: @site.domain)
       expect(@link_store).to be_empty
-      expect(@session_q.size).to eq(1)
+      expect(@site.session_queue.size).to eq(1)
 
-      ssn = @session_q.pop
+      ssn = @site.session_queue.pop
       expect(ssn.queue_name).to eq("www.budsgunshop.com")
       expect(ssn.session_definition.key).to eq("globals/standard_html_session")
       expect(ssn.object_adapters.count).to eq(1)

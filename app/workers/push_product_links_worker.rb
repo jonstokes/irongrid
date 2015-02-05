@@ -50,6 +50,7 @@ class PushProductLinksWorker < CoreWorker
   end
 
   def new_session
+    return unless @urls.try(:any?)
     site.product_session_format.merge('urls' => url_list)
   end
 

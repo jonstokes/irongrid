@@ -1,6 +1,6 @@
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
-  revision: 4a79613152e50ff48b11df7e87d9b43c14c47e11
+  revision: f8872a91b2fb1a1ba80636865d836925da192abf
   branch: master
   specs:
     iron_base (0.0.1)
@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
-  revision: 8753f4ced827e9c671c1d1adf682a9affde8fa38
+  revision: 382c6a52f2bf79e2b5061e815d76beec3137502d
   specs:
     stretched (0.0.1)
       activesupport

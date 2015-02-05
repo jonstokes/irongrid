@@ -24,7 +24,6 @@ describe PullListingsWorker do
         fetched: true,
         response_time: 100
     }
-    @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
     @listing = FactoryGirl.build(:listing, :retail, seller: { site_name: @site.name, domain: @site.domain })
     @listing_json = Mapper.json_from_listing(@listing)
     @listing_data = @listing.send(:data_in_index_format).merge('id' => @listing.id)
@@ -39,7 +38,7 @@ describe PullListingsWorker do
   describe '#perform' do
     describe 'New listing' do
       it 'creates a new listing from a page' do
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json,
                           page:   @page
                       )
@@ -57,7 +56,7 @@ describe PullListingsWorker do
       end
 
       it 'creates a new listing from a feed' do
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json,
                           page:   @page.merge(url: 'http://www.retailer.com/feed.xml')
                       )
@@ -76,7 +75,7 @@ describe PullListingsWorker do
       end
 
       it 'does not create a new listing for an invalid page' do
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json.merge(valid: false),
                           page:   @page
                       )
@@ -92,7 +91,7 @@ describe PullListingsWorker do
             url: 'http://www.retailer.com/2',
             redirect_from: 'http://www.retailer.com/1'
         )
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json.merge(valid: false),
                           page:   page
                       )
@@ -108,7 +107,7 @@ describe PullListingsWorker do
             url: 'http://www.retailer.com/2',
             redirect_from: 'http://www.retailer.com/1'
         )
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json,
                           page:   page
                       )
@@ -134,7 +133,7 @@ describe PullListingsWorker do
             redirect_from: 'http://www.retailer.com/1'
         )
 
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json,
                           page:   page
                       )
@@ -154,7 +153,7 @@ describe PullListingsWorker do
             code: 404,
             url: 'http://www.retailer.com/2'
         )
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json,
                           page:   page
                       )
@@ -166,7 +165,7 @@ describe PullListingsWorker do
       end
 
       it 'does not create a listing for an invalid feed item' do
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json.merge(valid: false),
                           page:   @page.merge(url: 'http://www.retailer.com/feed.xml')
                       )
@@ -197,7 +196,7 @@ describe PullListingsWorker do
             page: @page.merge(url: url2)
         )
 
-        @object_q.add @object
+        @site.listings_queue.add @object
         IronBase::Listing.refresh_index
         @worker.perform(domain: @site.domain)
         expect(IronBase::Listing.count).to eq(1)
@@ -212,7 +211,7 @@ describe PullListingsWorker do
         page = @page.merge(url: existing_listing.url.page)
         new_listing_json = @listing_json.merge(title: 'Updated Listing')
 
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
             object: new_listing_json,
             page:   page
         )
@@ -240,7 +239,7 @@ describe PullListingsWorker do
             url: existing_listing.url.purchase,
         )
 
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: new_listing_json,
                           page:   page
                       )
@@ -270,7 +269,7 @@ describe PullListingsWorker do
             valid: false
         )
 
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: new_listing_json,
                           page:   page
                       )
@@ -293,7 +292,7 @@ describe PullListingsWorker do
         page = @page.merge(url: existing_listing.url.page)
         new_listing_json = @listing_json.merge(valid: false)
 
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: new_listing_json,
                           page:   page
                       )
@@ -319,7 +318,7 @@ describe PullListingsWorker do
             code: 301
         )
         new_listing_json = @listing_json.merge(valid: false)
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: new_listing_json,
                           page:   page
                       )
@@ -338,7 +337,7 @@ describe PullListingsWorker do
             code: 301
         )
         new_listing_json = @listing_json.merge(valid: false)
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: new_listing_json,
                           page:   page
                       )
@@ -357,7 +356,7 @@ describe PullListingsWorker do
             redirect_from: existing_listing.url.page,
             code: 301
         )
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json,
                           page:   page
                       )
@@ -380,7 +379,7 @@ describe PullListingsWorker do
             redirect_from: existing_listing.url.page,
             code: 302
         )
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json,
                           page:   page
                       )
@@ -401,7 +400,7 @@ describe PullListingsWorker do
             url:  existing_listing.url.page,
             code: 404
         )
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: @listing_json,
                           page:   page
                       )
@@ -442,7 +441,7 @@ describe PullListingsWorker do
 
         new_listing_json = Mapper.json_from_listing(listing_v2)
 
-        @object_q.add @object.merge(
+        @site.listings_queue.add @object.merge(
                           object: new_listing_json,
                           page:   page
                       )
@@ -459,9 +458,9 @@ describe PullListingsWorker do
     end
 
     it "pops objects from the ObjectQueue for the domain" do
-      @object_q.add(@object)
+      @site.listings_queue.add(@object)
       @worker.perform(domain: @site.domain)
-      expect(@object_q.size).to eq(0)
+      expect(@site.listings_queue.size).to eq(0)
     end
 
     describe "write to listings table from a generic full product feed" do
@@ -473,7 +472,6 @@ describe PullListingsWorker do
         Stretched::Registration.clear_all
         register_globals
         @site.register
-        @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
 
       it 'should create new listings from a feed' do
@@ -481,7 +479,7 @@ describe PullListingsWorker do
           JSON.parse(f.read)
         end
 
-        @object_q.add(objects)
+        @site.listings_queue.add(objects)
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(18)
@@ -495,7 +493,7 @@ describe PullListingsWorker do
           JSON.parse(f.read)
         end
 
-        @object_q.add(objects)
+        @site.listings_queue.add(objects)
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
@@ -510,7 +508,7 @@ describe PullListingsWorker do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/full_product_feed.json") do |f|
           JSON.parse(f.read)
         end
-        @object_q.add(objects)
+        @site.listings_queue.add(objects)
 
         @worker.perform(domain: @site.domain)
         iq = ImageQueue.new(domain: @site.domain)
@@ -528,14 +526,13 @@ describe PullListingsWorker do
         Stretched::Registration.clear_all
         register_globals
         @site.register
-        @object_q = Stretched::ObjectQueue.new("#{@site.domain}/listings")
       end
 
       it 'should create create listings from an Avantlink feed' do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed.json") do |f|
           JSON.parse(f.read)
         end
-        @object_q.add(objects)
+        @site.listings_queue.add(objects)
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
@@ -549,7 +546,7 @@ describe PullListingsWorker do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed_update.json") do |f|
           JSON.parse(f.read)
         end
-        @object_q.add(objects)
+        @site.listings_queue.add(objects)
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
@@ -564,7 +561,7 @@ describe PullListingsWorker do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed_remove.json") do |f|
           JSON.parse(f.read)
         end
-        @object_q.add(objects)
+        @site.listings_queue.add(objects)
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
@@ -578,7 +575,7 @@ describe PullListingsWorker do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed.json") do |f|
           JSON.parse(f.read)
         end
-        @object_q.add(objects)
+        @site.listings_queue.add(objects)
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
@@ -592,7 +589,7 @@ describe PullListingsWorker do
       it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
         image_source = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
         CDN::Image.create(source: image_source, http: Sunbro::HTTP.new)
-        @object_q.add(@object)
+        @site.listings_queue.add(@object)
         @worker.perform(domain: @site.domain, site: @site)
         IronBase::Listing.refresh_index
         iq = ImageQueue.new(domain: @site.domain)
@@ -607,7 +604,7 @@ describe PullListingsWorker do
     describe 'where image_source does not exist on CDN already' do
       it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
         image_source = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
-        @object_q.add(@object)
+        @site.listings_queue.add(@object)
         @worker.perform(domain: @site.domain, site: @site)
         IronBase::Listing.refresh_index
         iq = ImageQueue.new(domain: @site.domain)

@@ -3,9 +3,6 @@ require 'sidekiq/testing'
 
 describe PruneLinksWorker do
   before :each do
-    # Stretched
-    Stretched::Registration.clear_all
-
     # Sidekiq
     Sidekiq::Testing.disable!
     clear_sidekiq
@@ -28,6 +25,8 @@ describe PruneLinksWorker do
         fresh_listing = create(:listing, seller: { domain: @site.domain })
         @site.link_message_queue.push LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
       end
+
+      puts "### Site has product link adapter: #{@site.product_link_adapter}"
 
       stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
       msg = LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")

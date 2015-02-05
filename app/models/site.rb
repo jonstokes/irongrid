@@ -118,6 +118,14 @@ class Site < CoreModel
     @feed_adapter ||= Stretched::ObjectAdapter.find("#{domain}/product_feed") rescue nil
   end
 
+  def product_page_adapter
+    @product_page_adapter ||= Stretched::ObjectAdapter.find("#{domain}/product_page") rescue nil
+  end
+
+  def product_link_adapter
+    @product_link_adapter ||= Stretched::ObjectAdapter.find("#{domain}/product_link") rescue nil
+  end
+
   def load_scripts
     filename = "#{Figaro.env.sites_repo}/sites/irongrid_scripts/#{domain.gsub('.','--')}.rb"
     Loadable::Script.create_from_file(filename)

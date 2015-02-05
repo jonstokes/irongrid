@@ -23,8 +23,7 @@ describe PullProductLinksWorker do
       page: @page,
       object: { product_link: "http://#{@site.domain}/1" }
     }
-    @object_q = Stretched::ObjectQueue.new("#{@site.domain}/product_links")
-    @object_q.clear
+    @site.product_links_queue.clear
     @link_store = LinkMessageQueue.new(domain: @site.domain)
     @link_store.clear
   end
@@ -37,9 +36,9 @@ describe PullProductLinksWorker do
   describe "#perform" do
 
     it "pops a product link from the OBQ and pushes it to the LMQ" do
-      @object_q.add(@object)
+      @site.product_links_queue.add(@object)
       @worker.perform(domain: @site.domain)
-      expect(@object_q.size).to be_zero
+      expect(@site.product_links_queue.size).to be_zero
       expect(@link_store.size).to eq(1)
 
       msg = @link_store.pop

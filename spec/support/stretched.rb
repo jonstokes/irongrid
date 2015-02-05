@@ -1,3 +1,8 @@
+def initialize_stretched
+  Stretched::Registration.clear_all
+  register_globals
+end
+
 def register_globals
   Dir["#{Rails.root}/spec/fixtures/stretched/registrations/globals/extensions/*.rb"].each do |filename|
     Stretched::Extension.create_from_file(filename)
@@ -18,3 +23,10 @@ def register_site(domain)
   source = YAML.load_file("#{Rails.root}/spec/fixtures/sites/#{domain.gsub(".","--")}.yml")['registrations']
   Stretched::Registration.create_from_source source
 end
+
+RSpec.configure do |config|
+  config.before(:each) do
+    initialize_stretched
+  end
+end
+
