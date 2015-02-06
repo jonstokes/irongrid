@@ -1,5 +1,4 @@
-class DeleteListingsWorker < CoreWorker
-  include Trackable
+class DeleteListingsWorker < Bellbro::Worker
 
   sidekiq_options queue: :db_slow_high, retry: true
 

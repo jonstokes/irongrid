@@ -1,4 +1,4 @@
-class MigrationWorker < CoreWorker
+class MigrationWorker < Bellbro::Worker
 
   sidekiq_options queue: :migration, retry: true
 

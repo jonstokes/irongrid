@@ -1,4 +1,4 @@
-class CdnService < CoreService
+class CdnService < Bellbro::Service
   SLEEP_INTERVAL = Rails.env.test? ? 1 : 60
 
   def each_job

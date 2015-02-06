@@ -1,6 +1,4 @@
-class UpdateListingImagesWorker < CoreWorker
-  include ConnectionWrapper
-  include Trackable
+class UpdateListingImagesWorker < Bellbro::Worker
 
   sidekiq_options queue: :db_slow_low, retry: true
 

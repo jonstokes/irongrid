@@ -1,2 +1,2 @@
-class DeleteCdnImagesWorker < CoreWorker
+class DeleteCdnImagesWorker < Bellbro::Worker
 end

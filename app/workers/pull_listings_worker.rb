@@ -1,5 +1,4 @@
-class PullListingsWorker < CoreWorker
-  include Trackable
+class PullListingsWorker < Bellbro::Worker
 
   sidekiq_options :queue => :crawls, :retry => true
 

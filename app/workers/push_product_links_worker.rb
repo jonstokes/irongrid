@@ -1,5 +1,4 @@
-class PushProductLinksWorker < CoreWorker
-  include Trackable
+class PushProductLinksWorker < Bellbro::Worker
 
   sidekiq_options :queue => :crawls, :retry => true
 

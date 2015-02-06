@@ -1,4 +1,4 @@
-class SiteStatsService < CoreService
+class SiteStatsService < Bellbro::Service
 
   def each_job
     Site.each do |site|

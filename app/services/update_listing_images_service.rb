@@ -1,8 +1,7 @@
-class UpdateListingImagesService < CoreService
-  include ConnectionWrapper
+class UpdateListingImagesService < Bellbro::Service
 
   def each_job
-    CoreService.mutex.synchronize {
+    Bellbro::Service.mutex.synchronize {
       begin
         IronBase::Listing.with_each_no_image do |batch|
           yield(klass: 'UpdateListingImagesWorker', arguments: batch.map(&:id))

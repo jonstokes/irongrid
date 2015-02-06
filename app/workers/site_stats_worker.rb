@@ -1,5 +1,4 @@
-class SiteStatsWorker < CoreWorker
-  include Trackable
+class SiteStatsWorker < Bellbro::Worker
 
   sidekiq_options queue: :db_slow_low
 

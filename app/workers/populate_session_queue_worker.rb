@@ -1,5 +1,4 @@
-class PopulateSessionQueueWorker < CoreWorker
-  include Trackable
+class PopulateSessionQueueWorker < Bellbro::Worker
 
   sidekiq_options :queue => :crawls, :retry => true
 

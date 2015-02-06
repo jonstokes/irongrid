@@ -1,4 +1,4 @@
-class TestWorker < CoreWorker
+class TestWorker < Bellbro::Worker
   sidekiq_options :queue => :crawls, :retry => false
 
   attr_reader :site, :page_queue

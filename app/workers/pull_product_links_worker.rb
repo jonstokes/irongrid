@@ -1,5 +1,4 @@
-class PullProductLinksWorker < CoreWorker
-  include Trackable
+class PullProductLinksWorker < Bellbro::Worker
   sidekiq_options :queue => :crawls, :retry => true
 
   LOG_RECORD_SCHEMA = {

@@ -1,4 +1,4 @@
-class ReadSitesService < CoreService
+class ReadSitesService < Bellbro::Service
   SLEEP_INTERVAL = Rails.env.test? ? 0.1 : 60
 
   def each_job

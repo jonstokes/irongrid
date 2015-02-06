@@ -1,4 +1,4 @@
-class PruneLinksService < CoreService
+class PruneLinksService < Bellbro::Service
   SLEEP_INTERVAL = Rails.env.test? ? 1 : 120
 
   def each_job

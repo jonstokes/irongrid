@@ -1,7 +1,4 @@
-class RefreshLinksWorker < CoreWorker
-  include ConnectionWrapper
-  include Trackable
-
+class RefreshLinksWorker < Bellbro::Worker
   sidekiq_options queue: :db_slow_high, retry: true
 
   LOG_RECORD_SCHEMA = {

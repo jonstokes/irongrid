@@ -1,4 +1,4 @@
-class ReadProductLinksService < CoreService
+class ReadProductLinksService < Bellbro::Service
 
   SLEEP_INTERVAL = Rails.env.test? ? 0.1 : 120
 

@@ -1,6 +1,4 @@
-class PruneLinksWorker < CoreWorker
-  include Trackable
-  include ConnectionWrapper
+class PruneLinksWorker < Bellbro::Worker
 
   sidekiq_options queue: :db_slow_high, retry: true
 
