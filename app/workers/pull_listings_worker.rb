@@ -20,7 +20,7 @@ class PullListingsWorker < Bellbro::Worker
     @site = IronCore::Site.new(domain: @domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @object_queue = Stretched::ObjectQueue.new("#{site.domain}/listings")
-    @image_store = ImageQueue.new(domain: site.domain)
+    @image_store = IronCore::ImageQueue.new(domain: site.domain)
     return false unless @object_queue.any?
     track
     true

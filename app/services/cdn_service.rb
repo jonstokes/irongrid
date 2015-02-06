@@ -9,7 +9,7 @@ class CdnService < Bellbro::Service
   end
 
   def should_add_job?(site)
-    ImageQueue.new(domain: site.domain).any? &&
+    IronCore::ImageQueue.new(domain: site.domain).any? &&
       CreateCdnImagesWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 end

@@ -9,7 +9,7 @@ describe CreateCdnImagesWorker do
     @site = create_site "www.retailer.com"
     Sidekiq::Worker.clear_all
     CDN.clear!
-    ImageQueue.new(domain: @site.domain).clear
+    IronCore::ImageQueue.new(domain: @site.domain).clear
     Mocktra(@site.domain) do
       get '/images/1.png' do
         send_file "#{Rails.root}/spec/fixtures/images/test-image.png"
@@ -20,7 +20,7 @@ describe CreateCdnImagesWorker do
   describe "#perform" do
     it "downloads an image that's not already on the CDN" do
       image_source = "http://www.retailer.com/images/1.png"
-      iq = ImageQueue.new(domain: @site.domain)
+      iq = IronCore::ImageQueue.new(domain: @site.domain)
       iq.push image_source
       worker = CreateCdnImagesWorker.new
       worker.perform(domain: @site.domain)
@@ -31,7 +31,7 @@ describe CreateCdnImagesWorker do
 
   describe "#transition" do
     it "transitions to self if the image queue is not empty" do
-      iq = ImageQueue.new(domain: @site.domain)
+      iq = IronCore::ImageQueue.new(domain: @site.domain)
       5.times { |i| iq.push "http://#{@site.domain}/images/#{i}.png" }
       worker = CreateCdnImagesWorker.new
       worker.perform(domain: @site.domain, timeout: 1)
@@ -39,7 +39,7 @@ describe CreateCdnImagesWorker do
     end
 
     it "does not transition to self if the image queue is empty" do
-      iq = ImageQueue.new(domain: @site.domain)
+      iq = IronCore::ImageQueue.new(domain: @site.domain)
       iq.push "http://#{@site.domain}/images/1.png"
       worker = CreateCdnImagesWorker.new
       worker.perform(domain: @site.domain, timeout: 1)

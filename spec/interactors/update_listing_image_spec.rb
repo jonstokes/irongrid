@@ -8,7 +8,7 @@ describe WriteListingToIndex::UpdateListingImage do
     @site = create_site "www.retailer.com"
     @image_source = "http://www.retailer.com/images/1.png"
     CDN.clear!
-    @iq = ImageQueue.new(domain: @site.domain)
+    @iq = IronCore::ImageQueue.new(domain: @site.domain)
     @iq.clear
     @listing = IronBase::Listing.new(
         attributes_for(:listing).merge(image: { source: @image_source })

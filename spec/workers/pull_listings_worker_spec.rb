@@ -10,7 +10,7 @@ describe PullListingsWorker do
     @site = create_site "www.retailer.com"
     @not_found_redirect = "http://#{@site.domain}/"
     IronCore::LinkMessageQueue.new(domain: @site.domain).clear
-    ImageQueue.new(domain: @site.domain).clear
+    IronCore::ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
 
     # Vars
@@ -467,7 +467,7 @@ describe PullListingsWorker do
       before :each do
         @site = create_site "ammo.net"
         IronCore::LinkMessageQueue.new(domain: @site.domain).clear
-        ImageQueue.new(domain: @site.domain).clear
+        IronCore::ImageQueue.new(domain: @site.domain).clear
 
         Stretched::Registration.clear_all
         register_globals
@@ -504,14 +504,14 @@ describe PullListingsWorker do
         expect(listing.price.current).to eq(1150)
       end
 
-      it "should add a link to the ImageQueue for each new or updated listing" do
+      it "should add a link to the IronCore::ImageQueue for each new or updated listing" do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/full_product_feed.json") do |f|
           JSON.parse(f.read)
         end
         @site.listings_queue.add(objects)
 
         @worker.perform(domain: @site.domain)
-        iq = ImageQueue.new(domain: @site.domain)
+        iq = IronCore::ImageQueue.new(domain: @site.domain)
         expect(iq.size).to eq(18)
         expect(iq.pop).to match(/cloudfront\.net/)
       end
@@ -521,7 +521,7 @@ describe PullListingsWorker do
       before :each do
         @site = create_site "www.brownells.com"
         IronCore::LinkMessageQueue.new(domain: @site.domain).clear
-        ImageQueue.new(domain: @site.domain).clear
+        IronCore::ImageQueue.new(domain: @site.domain).clear
 
         Stretched::Registration.clear_all
         register_globals
@@ -571,7 +571,7 @@ describe PullListingsWorker do
         expect(listing.availability).to eq('out_of_stock')
       end
 
-      it 'should add a link to the ImageQueue for each new or updated listing' do
+      it 'should add a link to the IronCore::ImageQueue for each new or updated listing' do
         objects = File.open("#{Rails.root}/spec/fixtures/stretched/output/test_feed.json") do |f|
           JSON.parse(f.read)
         end
@@ -579,20 +579,20 @@ describe PullListingsWorker do
 
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
-        iq = ImageQueue.new(domain: @site.domain)
+        iq = IronCore::ImageQueue.new(domain: @site.domain)
         expect(iq.size).to eq(4)
         expect(iq.pop).to match(/brownells\.com/)
       end
     end
 
     describe 'where image_source exists on CDN already' do
-      it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the ImageQueue" do
+      it "correctly populates 'image' attribute with the CDN url for image_source and does not add image_source to the IronCore::ImageQueue" do
         image_source = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
         CDN::Image.create(source: image_source, http: Sunbro::HTTP.new)
         @site.listings_queue.add(@object)
         @worker.perform(domain: @site.domain, site: @site)
         IronBase::Listing.refresh_index
-        iq = ImageQueue.new(domain: @site.domain)
+        iq = IronCore::ImageQueue.new(domain: @site.domain)
         listing = IronBase::Listing.first
 
         expect(listing.image.source).to eq(image_source)
@@ -602,12 +602,12 @@ describe PullListingsWorker do
     end
 
     describe 'where image_source does not exist on CDN already' do
-      it "adds the image_source url to the ImageQueue and sets 'image' attribute to default" do
+      it "adds the image_source url to the IronCore::ImageQueue and sets 'image' attribute to default" do
         image_source = "https://scoperrific-site.s3.amazonaws.com/test-image.png"
         @site.listings_queue.add(@object)
         @worker.perform(domain: @site.domain, site: @site)
         IronBase::Listing.refresh_index
-        iq = ImageQueue.new(domain: @site.domain)
+        iq = IronCore::ImageQueue.new(domain: @site.domain)
         listing = IronBase::Listing.first
 
         expect(listing.image.source).to eq(image_source)
