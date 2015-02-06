@@ -2,14 +2,14 @@ class PullListingsWorker < Bellbro::Worker
 
   sidekiq_options :queue => :crawls, :retry => true
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     listings_created: Integer,
     listings_deleted: Integer,
     objects_deleted:  Integer,
     images_added:     Integer,
     transition:       String,
     next_jid:         String
-  }
+  )
 
   attr_accessor :domain, :timer, :site
   delegate :timed_out?, to: :timer

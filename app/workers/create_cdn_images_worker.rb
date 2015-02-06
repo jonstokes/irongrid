@@ -2,11 +2,11 @@ class CreateCdnImagesWorker < Bellbro::Worker
 
   sidekiq_options :queue => :crawl_images, :retry => false
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     images_created: Integer,
     transition:     String,
     next_jid:       String
-  }
+  )
 
   attr_reader :domain, :timer
 

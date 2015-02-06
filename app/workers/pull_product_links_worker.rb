@@ -1,12 +1,12 @@
 class PullProductLinksWorker < Bellbro::Worker
   sidekiq_options :queue => :crawls, :retry => true
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     objects_deleted: Integer,
     links_created:   Integer,
     transition:      String,
     next_jid:        String
-  }
+  )
 
   attr_accessor :domain, :timer, :site
   delegate :timed_out?, to: :timer

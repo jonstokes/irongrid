@@ -2,12 +2,12 @@ class PushProductLinksWorker < Bellbro::Worker
 
   sidekiq_options :queue => :crawls, :retry => true
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     links_deleted:   Integer,
     sessions_pushed: Integer,
     transition:      String,
     next_jid:        String
-  }
+  )
 
   attr_accessor :domain, :timer, :site
   delegate :timed_out?, to: :timer

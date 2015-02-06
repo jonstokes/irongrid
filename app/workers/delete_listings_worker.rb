@@ -2,9 +2,9 @@ class DeleteListingsWorker < Bellbro::Worker
 
   sidekiq_options queue: :db_slow_high, retry: true
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     listings_deleted: Integer
-  }
+  )
 
   # TODO: Refactor to use bulk API
   def perform(listing_ids)

@@ -2,12 +2,12 @@ class SiteStatsWorker < Bellbro::Worker
 
   sidekiq_options queue: :db_slow_low
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     active_listings: Integer,
     inactive_listings: Integer,
     stale_listings: Integer,
     stalest_listing: Time
-  }
+  )
 
   attr_reader :domain
 

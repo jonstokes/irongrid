@@ -2,12 +2,12 @@ class PruneLinksWorker < Bellbro::Worker
 
   sidekiq_options queue: :db_slow_high, retry: true
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     links_passed: Integer,
     links_pruned: Integer,
     transition:   String,
     next_jid:     String
-  }
+  )
 
   def init(opts)
     opts.symbolize_keys!

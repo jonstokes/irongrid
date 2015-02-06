@@ -2,9 +2,9 @@ class UpdateListingImagesWorker < Bellbro::Worker
 
   sidekiq_options queue: :db_slow_low, retry: true
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     listings_updated: Integer,
-  }
+  )
 
   def perform(listing_ids)
     track

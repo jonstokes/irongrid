@@ -5,9 +5,9 @@ class PopulateSessionQueueWorker < Bellbro::Worker
   attr_accessor :site, :timer, :domain
   delegate :timed_out?, to: :timer
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     sessions_added:  Integer,
-  }
+  )
 
   def init(opts)
     opts.symbolize_keys!

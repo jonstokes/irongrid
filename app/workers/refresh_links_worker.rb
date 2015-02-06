@@ -1,11 +1,11 @@
 class RefreshLinksWorker < Bellbro::Worker
   sidekiq_options queue: :db_slow_high, retry: true
 
-  LOG_RECORD_SCHEMA = {
+  track_with_schema(
     links_created: Integer,
     transition:    String,
     next_jid:      String
-  }
+  )
 
   attr_reader :domain, :site
   attr_accessor :scraper
