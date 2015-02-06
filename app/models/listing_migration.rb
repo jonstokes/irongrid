@@ -117,7 +117,7 @@ class ListingMigration < Bellbro::Bell
   def self.sites
     @sites ||= begin
       puts '# Loading sites...'
-      s = Site.all
+      s = IronCore::Site.all
       puts "#   #{s.count} sites loaded!"
       s
     end
@@ -134,7 +134,7 @@ class ListingMigration < Bellbro::Bell
   end
 
   def self.load_site(domain)
-    site = Site.new(domain: domain, source: :local)
+    site = IronCore::Site.new(domain: domain, source: :local)
     sites << site
     site
   end

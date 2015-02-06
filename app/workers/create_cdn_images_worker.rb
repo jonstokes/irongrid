@@ -14,7 +14,7 @@ class CreateCdnImagesWorker < Bellbro::Worker
     opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
     @image_store = ImageQueue.new(domain: domain)
-    @site = Site.new(domain: domain)
+    @site = IronCore::Site.new(domain: domain)
     @rate_limiter = RateLimiter.new(@site.rate_limit)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @http = Sunbro::HTTP.new

@@ -106,7 +106,7 @@ describe WriteListingToIndex::FindOrCreateListing do
     end
 
     it 'returns the tagged url for a site with a link tag' do
-      site = Site.new(domain: 'www.luckygunner.com', source: :fixture)
+      site = IronCore::Site.new(domain: 'www.luckygunner.com', source: :fixture)
       site.send(:write_to_redis)
       url = "http://#{site.domain}/product"
       tagged_url = "#{url}#{site.affiliate_link_tag}"

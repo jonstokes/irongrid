@@ -13,7 +13,7 @@ class RefreshLinksWorker < Bellbro::Worker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && (@domain = opts[:domain])
-    @site = Site.new(domain: domain, source: :redis)
+    @site = IronCore::Site.new(domain: domain, source: :redis)
     @link_store = @site.link_message_queue
     true
   end

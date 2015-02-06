@@ -12,7 +12,7 @@ class PruneLinksWorker < Bellbro::Worker
   def init(opts)
     opts.symbolize_keys!
     return false unless @domain = opts[:domain]
-    @site = Site.new(domain: @domain)
+    @site = IronCore::Site.new(domain: @domain)
     return false unless PruneLinksWorker.should_run?(@site) && i_am_alone_with_this_domain?
     @link_store = @site.link_message_queue
   end

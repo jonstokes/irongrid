@@ -33,7 +33,7 @@ describe PopulateSessionQueueWorker do
       expect(@site.read_at).to be_nil
       @worker.perform(domain: @site.domain)
       puts "#{@site.read_at}"
-      expect(Site.new(domain: @site.domain, source: :redis).read_at).not_to be_nil
+      expect(IronCore::Site.new(domain: @site.domain, source: :redis).read_at).not_to be_nil
     end
 
     it "does nothing if the site's product link queue is populated" do

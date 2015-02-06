@@ -14,7 +14,7 @@ class PullProductLinksWorker < Bellbro::Worker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
-    @site = Site.new(domain: @domain)
+    @site = IronCore::Site.new(domain: @domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @link_store = LinkMessageQueue.new(domain: site.domain)
     @object_q = Stretched::ObjectQueue.new("#{site.domain}/product_links")

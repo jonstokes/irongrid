@@ -17,7 +17,7 @@ class PullListingsWorker < Bellbro::Worker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
-    @site = Site.new(domain: @domain)
+    @site = IronCore::Site.new(domain: @domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @object_queue = Stretched::ObjectQueue.new("#{site.domain}/listings")
     @image_store = ImageQueue.new(domain: site.domain)

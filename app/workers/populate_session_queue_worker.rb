@@ -12,7 +12,7 @@ class PopulateSessionQueueWorker < Bellbro::Worker
   def init(opts)
     opts.symbolize_keys!
     return false unless opts && @domain = opts[:domain]
-    @site = Site.new(domain: @domain)
+    @site = IronCore::Site.new(domain: @domain)
     return false unless PopulateSessionQueueWorker.should_run?(@site) && i_am_alone_with_this_domain?
     @session_queue = @site.session_queue
     return false if @session_queue.any?
