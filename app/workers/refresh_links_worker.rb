@@ -36,7 +36,7 @@ class RefreshLinksWorker < Bellbro::Worker
   end
 
   def clean_up
-    notify "Refresh links for #{domain} finished."
+    ring "Refresh links for #{domain} finished."
   end
 
   def transition

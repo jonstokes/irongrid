@@ -73,7 +73,7 @@ class PullListingsWorker < Bellbro::Worker
 
   def parse(json)
     if json.error?
-      notify "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"; nil
+      ring "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"; nil
     else
       result = WriteListingToIndex.call(
           site:         site,
