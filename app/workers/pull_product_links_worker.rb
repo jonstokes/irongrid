@@ -16,7 +16,7 @@ class PullProductLinksWorker < Bellbro::Worker
     return false unless opts && @domain = opts[:domain]
     @site = IronCore::Site.new(domain: @domain)
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
-    @link_store = LinkMessageQueue.new(domain: site.domain)
+    @link_store = IronCore::LinkMessageQueue.new(domain: site.domain)
     @object_q = Stretched::ObjectQueue.new("#{site.domain}/product_links")
     track
     true
@@ -28,7 +28,7 @@ class PullProductLinksWorker < Bellbro::Worker
       record_incr(:objects_deleted)
       next unless obj.object && obj.object.product_link
       record_incr(:links_created)
-      @link_store.push LinkMessage.new(url: obj.object.product_link)
+      @link_store.push IronCore::LinkMessage.new(url: obj.object.product_link)
     end
     stop_tracking
   end

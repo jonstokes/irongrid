@@ -105,7 +105,7 @@ to product pages that are stale and need to be re-crawled. The
 platform's job now is to sort out which is which, and that is the
 purpose of Step 2.
 
-*Note*: The link set (called a `LinkMessageQueue` in the code base for
+*Note*: The link set (called a `IronCore::LinkMessageQueue` in the code base for
 legacy reasons) is an actual redis set, meaning that all of the links in it
 are unique. There are no dupes.
 

@@ -66,7 +66,7 @@ namespace :site do
   desc "Jumpstart scrapes on sites with link_data"
   task :scrape_all => :environment do
     Site.each do |site|
-      if LinkMessageQueue.new(domain: site.domain).any?
+      if IronCore::LinkMessageQueue.new(domain: site.domain).any?
         PruneLinksWorker.perform_async(domain: site.domain)
       end
     end

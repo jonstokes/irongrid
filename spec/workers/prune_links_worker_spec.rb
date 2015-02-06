@@ -19,11 +19,11 @@ describe PruneLinksWorker do
   end
 
   describe '#perform' do
-    it "should remove a link from the LinkMessageQueue if it's fresh, and leave it if it's stale" do
+    it "should remove a link from the IronCore::LinkMessageQueue if it's fresh, and leave it if it's stale" do
       fresh_listing = nil
       5.times do |i|
         fresh_listing = create(:listing, seller: { domain: @site.domain })
-        @site.link_message_queue.push LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
+        @site.link_message_queue.push IronCore::LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
       end
 
       puts "### Site has product link adapter: #{@site.product_link_adapter}"
@@ -44,11 +44,11 @@ describe PruneLinksWorker do
 
       5.times do |i|
         fresh_listing = create(:listing, seller: { domain: @site.domain })
-        @site.link_message_queue.push LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
+        @site.link_message_queue.push IronCore::LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
       end
       stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
       IronBase::Listing.refresh_index
-      msg = LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
+      msg = IronCore::LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
       @site.link_message_queue.push msg
       @worker.perform(domain: @site.domain)
 
@@ -68,11 +68,11 @@ describe PruneLinksWorker do
       fresh_listing = nil
       5.times do |i|
         fresh_listing = create(:listing, seller: { domain: @site.domain })
-        @site.link_message_queue.push LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
+        @site.link_message_queue.push IronCore::LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
       end
       stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
       IronBase::Listing.refresh_index
-      msg = LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
+      msg = IronCore::LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
       @site.link_message_queue.push msg
       @worker.perform(domain: @site.domain)
 
@@ -86,7 +86,7 @@ describe PruneLinksWorker do
     it 'transitions to RefreshLinksWorker if there are any links' do
       stale = FactoryGirl.create(:listing, updated_at: Time.now - 5.days)
       IronBase::Listing.refresh_index
-      @site.link_message_queue.push LinkMessage.new(url: stale.url.page, jid: "abcd123")
+      @site.link_message_queue.push IronCore::LinkMessage.new(url: stale.url.page, jid: "abcd123")
       @worker.perform(domain: @site.domain)
       expect(@site.link_message_queue.size).to eq(1)
       expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
@@ -95,7 +95,7 @@ describe PruneLinksWorker do
     it 'transitions to RefreshLinksWorker even if there are no links' do
       fresh = FactoryGirl.create(:listing, seller: { domain: @site.domain })
       IronBase::Listing.refresh_index
-      @site.link_message_queue.push LinkMessage.new(url: fresh.url.page, jid: "abcd123")
+      @site.link_message_queue.push IronCore::LinkMessage.new(url: fresh.url.page, jid: "abcd123")
       @worker.perform(domain: @site.domain)
       expect(@site.link_message_queue.size).to eq(0)
       expect(RefreshLinksWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LinkMessage do
+describe IronCore::LinkMessage do
   before :each do
     @attrs = {
       url:             "http://www.retailer.com/1",
@@ -12,8 +12,8 @@ describe LinkMessage do
 
   describe "::new" do
     it "creates a new LinkMessage object from an opts hash" do
-      msg = LinkMessage.new(@attrs)
-      expect(msg).to be_a(LinkMessage)
+      msg = IronCore::LinkMessage.new(@attrs)
+      expect(msg).to be_a(IronCore::LinkMessage)
       expect(msg.url).to match(/www\.retailer\.com\/\d/)
       expect(msg.page_attributes.keys).to include("digest")
       expect(msg.page_is_valid).to eq(true)
@@ -21,8 +21,8 @@ describe LinkMessage do
 
     it "creates a new LinkMessage object from a Listing object" do
       listing = FactoryGirl.create(:listing)
-      msg = LinkMessage.new(listing)
-      expect(msg).to be_a(LinkMessage)
+      msg = IronCore::LinkMessage.new(listing)
+      expect(msg).to be_a(IronCore::LinkMessage)
       expect(msg.url).to match(/www\.retailer\.com\/\d/)
       expect(msg.listing_digest).to eq(listing.digest)
       expect(msg.current_listing_id).to eq(listing.id)
@@ -31,7 +31,7 @@ describe LinkMessage do
 
   describe "#update" do
     it "updates the link's data" do
-      msg = LinkMessage.new(@attrs)
+      msg = IronCore::LinkMessage.new(@attrs)
       msg.update(page_is_valid: false)
       expect(msg.page_is_valid?).to eq(false)
     end

@@ -19,7 +19,7 @@ class PushProductLinksWorker < Bellbro::Worker
     @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
     @urls = Set.new
     @session_q = Stretched::SessionQueue.new(site.domain)
-    @link_store = LinkMessageQueue.new(domain: site.domain)
+    @link_store = IronCore::LinkMessageQueue.new(domain: site.domain)
     track
     true
   end

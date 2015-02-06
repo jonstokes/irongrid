@@ -13,7 +13,7 @@ describe PushProductLinksWorker do
     @site.link_message_queue.clear
     @worker = PushProductLinksWorker.new
     @link_store = @site.link_message_queue
-    @msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/1")
+    @msg = IronCore::LinkMessage.new(url: "http://#{@site.domain}/catalog/1")
   end
 
   after :each do
@@ -40,7 +40,7 @@ describe PushProductLinksWorker do
   describe "#transition" do
     it "transitions to self if it finishes while the site's LMQ is not empty" do
       400.times do |i|
-        msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/#{i}")
+        msg = IronCore::LinkMessage.new(url: "http://#{@site.domain}/catalog/#{i}")
         @link_store.add(msg)
       end
 
@@ -59,7 +59,7 @@ describe PushProductLinksWorker do
 
     it "does not transition to self if the site's LMQ is empty" do
       200.times do |i|
-        msg = LinkMessage.new(url: "http://#{@site.domain}/catalog/#{i}")
+        msg = IronCore::LinkMessage.new(url: "http://#{@site.domain}/catalog/#{i}")
         @link_store.add(msg)
       end
 

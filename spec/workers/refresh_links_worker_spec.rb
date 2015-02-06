@@ -9,7 +9,7 @@ describe RefreshLinksWorker do
     clear_sidekiq
 
     @site = create_site "www.retailer.com"
-    LinkMessageQueue.new(domain: "www.retailer.com").clear
+    IronCore::LinkMessageQueue.new(domain: "www.retailer.com").clear
     Sidekiq::Worker.clear_all
   end
 
@@ -25,11 +25,11 @@ describe RefreshLinksWorker do
       FactoryGirl.create(:listing, updated_at: Time.now)
       IronBase::Listing.refresh_index
       RefreshLinksWorker.new.perform(domain: @site.domain)
-      msg = LinkMessageQueue.find(stale_listing.url.page)
+      msg = IronCore::LinkMessageQueue.find(stale_listing.url.page)
       expect(msg.current_listing_id).to eq(stale_listing.id)
       expect(msg.listing_digest).to eq(stale_listing.digest)
 
-      lq = LinkMessageQueue.new(domain: "www.retailer.com")
+      lq = IronCore::LinkMessageQueue.new(domain: "www.retailer.com")
       expect(@site.link_message_queue.size).to eq(6)
       expect(lq.pop.url).to match(/retailer\.com/)
     end

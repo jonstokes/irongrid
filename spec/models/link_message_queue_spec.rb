@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe LinkMessageQueue do
+describe IronCore::LinkMessageQueue do
 
   before :all do
-    @store = LinkMessageQueue.new(domain: "www.retailer.com")
+    @store = IronCore::LinkMessageQueue.new(domain: "www.retailer.com")
   end
 
   before :each do
-    @links = (1..3).map { |i| LinkMessage.new(url: "http://www.retailer.com/#{i}") }
+    @links = (1..3).map { |i| IronCore::LinkMessage.new(url: "http://www.retailer.com/#{i}") }
   end
 
   after :each do
@@ -39,7 +39,7 @@ describe LinkMessageQueue do
     end
 
     it "will not add a link from a different domain" do
-      @links << LinkMessage.new(url: "http://www.foo.com/")
+      @links << IronCore::LinkMessage.new(url: "http://www.foo.com/")
       @store.add(@links).should == 3
       @store.size.should == 3
     end
@@ -82,8 +82,8 @@ describe LinkMessageQueue do
       link = @store.pop
       expect(link).not_to be_nil
       expect(@store.has_key?(link.url)).to eq(false)
-      expect(LinkMessageQueue.find(link.url)).to be_nil
-      expect(link).to be_a(LinkMessage)
+      expect(IronCore::LinkMessageQueue.find(link.url)).to be_nil
+      expect(link).to be_a(IronCore::LinkMessage)
       expect(link.url['http']).not_to be_nil
       expect(link.page_attributes).to eq({'foo' => 1, 'bar' => 2})
     end

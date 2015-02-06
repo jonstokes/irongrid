@@ -9,7 +9,7 @@ describe PopulateSessionQueueWorker do
 
     # IronGrid
     @site = create_site "www.budsgunshop.com"
-    LinkMessageQueue.new(domain: @site.domain).clear
+    IronCore::LinkMessageQueue.new(domain: @site.domain).clear
 
     # Vars
     @worker = PopulateSessionQueueWorker.new
@@ -49,7 +49,7 @@ describe PopulateSessionQueueWorker do
     end
 
     it "does nothing if the site's LMQ is populated" do
-      LinkMessageQueue.new(domain: @site.domain).add(LinkMessage.new(url: @url))
+      IronCore::LinkMessageQueue.new(domain: @site.domain).add(IronCore::LinkMessage.new(url: @url))
       @worker.perform(domain: @site.domain)
       expect(@site.session_queue.size).to be_zero
     end

@@ -24,7 +24,7 @@ class RefreshLinksWorker < Bellbro::Worker
     IronBase::Listing.with_each_stale(@domain) do |batch|
       batch.each do |listing|
         next if @link_store.has_key?(listing.url.page)
-        msg = LinkMessage.new(listing)
+        msg = IronCore::LinkMessage.new(listing)
         msg.update(jid: jid)
         record_incr(:links_created) unless @link_store.add(msg).zero?
         status_update

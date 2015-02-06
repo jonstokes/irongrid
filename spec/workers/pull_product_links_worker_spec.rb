@@ -24,7 +24,7 @@ describe PullProductLinksWorker do
       object: { product_link: "http://#{@site.domain}/1" }
     }
     @site.product_links_queue.clear
-    @link_store = LinkMessageQueue.new(domain: @site.domain)
+    @link_store = IronCore::LinkMessageQueue.new(domain: @site.domain)
     @link_store.clear
   end
 

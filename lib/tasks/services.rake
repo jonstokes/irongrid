@@ -56,8 +56,8 @@ def clear_site_queues
 end
 
 def clear_link_messages
-  notify "Clearing all LinkMessages..."
-  LinkMessageQueue.with_redis do |conn|
+  notify "Clearing all IronCore::LinkMessages..."
+  IronCore::LinkMessageQueue.with_redis do |conn|
     cursor = 0
     begin
       results = conn.scan(cursor)

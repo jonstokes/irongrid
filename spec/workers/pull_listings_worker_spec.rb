@@ -9,7 +9,7 @@ describe PullListingsWorker do
     # IronGrid
     @site = create_site "www.retailer.com"
     @not_found_redirect = "http://#{@site.domain}/"
-    LinkMessageQueue.new(domain: @site.domain).clear
+    IronCore::LinkMessageQueue.new(domain: @site.domain).clear
     ImageQueue.new(domain: @site.domain).clear
     CDN.clear!
 
@@ -466,7 +466,7 @@ describe PullListingsWorker do
     describe "write to listings table from a generic full product feed" do
       before :each do
         @site = create_site "ammo.net"
-        LinkMessageQueue.new(domain: @site.domain).clear
+        IronCore::LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
 
         Stretched::Registration.clear_all
@@ -520,7 +520,7 @@ describe PullListingsWorker do
     describe "write to listings table from Avantlink feed" do
       before :each do
         @site = create_site "www.brownells.com"
-        LinkMessageQueue.new(domain: @site.domain).clear
+        IronCore::LinkMessageQueue.new(domain: @site.domain).clear
         ImageQueue.new(domain: @site.domain).clear
 
         Stretched::Registration.clear_all
