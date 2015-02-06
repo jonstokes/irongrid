@@ -1,5 +1,5 @@
 module CDN
-  include Retryable
+  include Bellbro::Retryable
 
   CDN_BASE_URL = Rails.env.test? ? "http://assets.scoperrific.com/" : "http://d27bctd90ej7xn.cloudfront.net/"
   DEFAULT_IMAGE_URL = "http://assets.scoperrific.com/no-image-200x140.png"

@@ -1,6 +1,5 @@
 module CDN
-  class Image < CoreModel
-    include Retryable
+  class Image < BellBro::Bell
 
     attr_reader :source, :page, :file, :file_name, :s3, :http
 

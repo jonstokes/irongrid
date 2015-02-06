@@ -1,8 +1,7 @@
-class DeleteListingsForFullFeedsService < CoreService
-  include ConnectionWrapper
+class DeleteListingsForFullFeedsService < Bellbro::Service
 
   def each_job
-    CoreService.mutex.synchronize {
+    Bellbro::Service.mutex.synchronize {
       Site.full_product_feed_sites.each do |site|
         next unless site.session_queue.empty? && site.listings_queue.empty? && site.read_at
           query_hash = IronBase::Listing::Search.new(

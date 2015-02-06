@@ -31,12 +31,14 @@ gem 'elasticsearch'
 gem 'elasticsearch-rails'
 gem 'iron_base'
 
+gem 'sunbro'
+gem 'bellbro'
+
 gem 'iron_base'
 #gem 'iron_base', path: "../iron_base"
-gem 'stretched', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git"
+gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
+gem 'stretched'
 #gem 'stretched', path: "/Users/jstokes/Local/Repositories/stretched-rb"
-gem 'retryable', git: "https://github.com/jonstokes/retryable.git"
-gem 'sunbro', git: "https://github.com/jonstokes/sunbro.git"
 
 
 # JRuby-specific gems

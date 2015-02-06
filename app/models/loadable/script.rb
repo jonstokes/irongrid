@@ -1,7 +1,9 @@
 module Loadable
   class Script
-    include Retryable
-    include IrongridRedisPool
+    include Bellbro::Retryable
+    include Bellbro::Pool
+
+    pool IronCore::Settings.irongrid_redis_pool
 
     attr_accessor :key, :data
 

@@ -2,7 +2,7 @@ module SearchAlertQueues
   class AlertQueue
     MAX_QUEUE_SIZE = 30
 
-    include Retryable
+    include Bellbro::Retryable
 
     attr_reader :listing_id, :percolator_name
 

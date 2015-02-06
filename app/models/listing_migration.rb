@@ -1,6 +1,4 @@
-class ListingMigration
-  include Retryable
-  include Notifier
+class ListingMigration < Bellbro::Bell
 
   attr_accessor :listing, :es_listing, :interactor
 
