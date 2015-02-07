@@ -36,7 +36,8 @@ gem 'bellbro'
 
 gem 'iron_base'
 #gem 'iron_base', path: "../iron_base"
-gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
+#gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
+gem 'iron_core', path: '../iron_core'
 gem 'stretched'
 #gem 'stretched', path: "/Users/jstokes/Local/Repositories/stretched-rb"
 

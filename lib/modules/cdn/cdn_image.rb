@@ -1,5 +1,5 @@
 module CDN
-  class Image < BellBro::Bell
+  class Image < Bellbro::Bell
 
     attr_reader :source, :page, :file, :file_name, :s3, :http
 
