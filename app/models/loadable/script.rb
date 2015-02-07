@@ -3,7 +3,7 @@ module Loadable
     include Bellbro::Retryable
     include Bellbro::Pool
 
-    pool IronCore::Settings.irongrid_redis_pool
+    pool :irongrid_redis_pool
 
     attr_accessor :key, :data
 
@@ -52,14 +52,14 @@ module Loadable
     end
 
     def self.count
-      with_redis do |conn|
+      with_connection do |conn|
         conn.scard TABLE
       end
     end
 
     def self.write_to_redis(reg_hash)
       key, registration_type, data = reg_hash[:key], reg_hash[:type], reg_hash[:data]
-      with_redis do |conn|
+      with_connection do |conn|
         conn.sadd "#{TABLE}", "#{key}"
         conn.set "#{TABLE}::#{key}", write_redis_format(data)
       end
@@ -70,7 +70,7 @@ module Loadable
     end
 
     def self.keys
-      with_redis do |conn|
+      with_connection do |conn|
         conn.smembers "#{TABLE}"
       end.select do |key|
         registration_type = self.name.split("::").last
@@ -86,7 +86,7 @@ module Loadable
 
     def self.unregister(reg_hash)
       key, registration_type = reg_hash[:key], reg_hash[:type]
-      with_redis do |conn|
+      with_connection do |conn|
         conn.srem "#{TABLE}", "#{key}"
         conn.del "#{TABLE}::#{key}"
       end
@@ -114,7 +114,7 @@ module Loadable
     def self.find(key)
       return @cache[key] if @cache.has_key?(key)
 
-      data = with_redis do |conn|
+      data = with_connection do |conn|
         conn.get "#{TABLE}::#{key}"
       end
 
