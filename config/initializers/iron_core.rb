@@ -17,7 +17,7 @@ ironsights = ConnectionPool.new(size: pool_size) do
   Redis.new(url: Figaro.env.ironsights_redis_pool)
 end
 
-Bellbro::Settings.configure do |config|
+IronCore::Settings.configure do |config|
   config.connection_pools = {
       irongrid_redis_pool:   irongrid,
       validator_redis_pool:  validator,
