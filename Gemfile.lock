@@ -1,8 +1,17 @@
 PATH
+  remote: ../bellbro
+  specs:
+    bellbro (0.0.9)
+      activesupport
+      airbrake
+      redis
+      sidekiq
+
+PATH
   remote: ../iron_core
   specs:
     iron_core (0.0.1)
-      bellbro (= 0.0.8)
+      bellbro
       stretched
       sunbro
 
@@ -66,11 +75,6 @@ GEM
     aws-sdk-v1 (1.61.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    bellbro (0.0.8)
-      activesupport
-      airbrake
-      redis
-      sidekiq
     builder (3.2.2)
     capybara (2.4.4)
       mime-types (>= 1.16)
@@ -298,7 +302,7 @@ DEPENDENCIES
   annotate
   awesome_print
   aws-sdk
-  bellbro
+  bellbro!
   capybara
   connection_pool
   cucumber-rails

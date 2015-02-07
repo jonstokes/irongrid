@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Loadable::Script do
 
   before :each do
-    Loadable::Script.with_redis { |conn| conn.flushdb }
+    Loadable::Script.with_connection { |conn| conn.flushdb }
     @source_file = "#{Rails.root}/spec/fixtures/loadables/www--budsgunshop--com.rb"
     @source = File.open(@source_file) { |f| f.read }
     @script = Loadable::Script.new(

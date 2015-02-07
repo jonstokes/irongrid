@@ -3,8 +3,11 @@ module SearchAlertQueues
     MAX_QUEUE_SIZE = 30
 
     include Bellbro::Retryable
+    include Bellbro::Pool
 
     attr_reader :listing_id, :percolator_name
+
+    pool :ironsights_redis_pool
 
     def initialize(percolator_name)
       @percolator_name = percolator_name
@@ -20,8 +23,7 @@ module SearchAlertQueues
 
     def push(listing_id)
       shift while full?
-      with_redis do |conn|
-        stamp = utc_timestamp
+      with_connection do |conn|
         conn.zadd(percolator_key, utc_timestamp, listing_id)
       end
     end
@@ -31,7 +33,7 @@ module SearchAlertQueues
     end
 
     def shift
-      with_redis do |conn|
+      with_connection do |conn|
         items = conn.zrange(percolator_key, 0, 0)
         conn.zremrangebyrank(percolator_key, 0, 0)
         items.first.try(:to_i)
@@ -39,16 +41,8 @@ module SearchAlertQueues
     end
 
     def size
-      with_redis do |conn|
+      with_connection do |conn|
         conn.zcard(percolator_key)
-      end
-    end
-
-    private
-
-    def with_redis(&block)
-      retryable(sleep: 0.5) do
-        IRONSIGHTS_REDIS_POOL.with &block
       end
     end
   end

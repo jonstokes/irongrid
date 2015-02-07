@@ -32,7 +32,7 @@ gem 'elasticsearch-rails'
 gem 'iron_base'
 
 gem 'sunbro'
-gem 'bellbro'
+gem 'bellbro', path: '../bellbro'
 
 gem 'iron_base'
 #gem 'iron_base', path: "../iron_base"
