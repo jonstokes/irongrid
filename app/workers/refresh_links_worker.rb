@@ -24,7 +24,7 @@ class RefreshLinksWorker < Bellbro::Worker
     IronBase::Listing.with_each_stale(@domain) do |batch|
       batch.each do |listing|
         next if @link_store.has_key?(listing.url.page)
-        msg = IronCore::LinkMessage.new(listing)
+        msg = convert_to_link_message(listing)
         msg.update(jid: jid)
         record_incr(:links_created) unless @link_store.add(msg).zero?
         status_update
@@ -33,6 +33,14 @@ class RefreshLinksWorker < Bellbro::Worker
     clean_up
     transition
     stop_tracking
+  end
+
+  def convert_to_link_message(listing)
+    IronCore::LinkMessage.new(
+        url:                listing.url.page,
+        current_listing_id: listing.id,
+        listing_digest:     listing.digest,
+    )
   end
 
   def clean_up
