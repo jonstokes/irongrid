@@ -1,4 +1,5 @@
 class SiteStatsService < Bellbro::Service
+  track_with_schema jobs_started: Integer
 
   def each_job
     IronCore::Site.each do |site|

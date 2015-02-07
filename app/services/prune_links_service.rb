@@ -1,5 +1,6 @@
 class PruneLinksService < Bellbro::Service
   SLEEP_INTERVAL = Rails.env.test? ? 1 : 120
+  track_with_schema jobs_started: Integer
 
   def each_job
     IronCore::Site.each do |site|
