@@ -1,8 +1,6 @@
 def pool_size
   size = Figaro.env.redis_pool.to_i
-  size.zero? ? 5 : size
-rescue
-  10
+  size.zero? ? 10 : size
 end
 
 irongrid = ConnectionPool.new(size: pool_size) do
