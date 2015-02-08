@@ -1,7 +1,7 @@
 PATH
   remote: ../bellbro
   specs:
-    bellbro (0.0.9)
+    bellbro (0.0.10)
       activesupport
       airbrake
       redis

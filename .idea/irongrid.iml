@@ -121,7 +121,7 @@
     <orderEntry type="jdk" jdkName="RVM: jruby-1.7.18 [irongrid]" jdkType="JRUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="bellbro (v0.0.9, /Users/jstokes/Local/Repositories/bellbro) [path][gem]">
+      <library name="bellbro (v0.0.10, /Users/jstokes/Local/Repositories/bellbro) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../bellbro/lib" />
           <root url="file://$MODULE_DIR$/../bellbro/.idea" />
