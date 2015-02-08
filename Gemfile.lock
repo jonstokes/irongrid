@@ -11,7 +11,6 @@ PATH
   remote: ../iron_core
   specs:
     iron_core (0.0.1)
-      bellbro
       stretched
       sunbro
 

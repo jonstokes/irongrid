@@ -1,6 +1,5 @@
 class CdnService < Bellbro::Service
-  SLEEP_INTERVAL = Rails.env.test? ? 1 : 60
-
+  poll_interval Rails.env.test? ? 1 : 60
   track_with_schema jobs_started: Integer
 
   def each_job

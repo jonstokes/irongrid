@@ -29,7 +29,6 @@ gem 'tokenizer'
 gem 'logglier'
 gem 'elasticsearch'
 gem 'elasticsearch-rails'
-gem 'iron_base'
 
 gem 'sunbro'
 gem 'bellbro', path: '../bellbro'
