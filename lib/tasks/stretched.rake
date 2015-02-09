@@ -22,10 +22,12 @@ namespace :stretched do
     task create_all: :environment do
       %w(
         production@ironsights.com
+        staging@ironsights.com
         development@ironsights.com
         test@ironsights.com
         production-validator@ironsights.com
         development-validator@ironsights.com
+        staging-validator@ironsights.com
         test-validator@ironsights.com
       ).each do |user|
         Stretched::User.create(user)

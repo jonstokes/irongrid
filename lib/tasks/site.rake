@@ -5,13 +5,13 @@ namespace :site do
     filename = "#{Figaro.env.sites_repo}/sites/site_manifest.yml"
     domains = YAML.load_file(filename)
     raise "No sites found in #{filename}" unless domains
-    Site.add_domains(domains)
+    IronCore::Site.add_domains(domains)
   end
 
   desc "Update site attributes without overwriting stats"
   task :update_all => :environment do
-    Site.each do |site|
-      Site.update_site_from_local(site)
+    IronCore::Site.each do |site|
+      IronCore::Site.update_site_from_local(site)
     end
   end
 
@@ -20,7 +20,7 @@ namespace :site do
       Loadable::Script.create_from_file(filename)
     end
 
-    Site.each do |site|
+    IronCore::Site.each do |site|
       site.load_scripts rescue next
     end
   end
@@ -36,18 +36,18 @@ namespace :site do
   desc "Copy a site from the local repo to redis"
   task :copy => :environment do
     raise "Must set DOMAIN" unless domain = ENV['DOMAIN']
-    Site.create_site_from_local(domain)
+    IronCore::Site.create_site_from_local(domain)
   end
 
   task :flag_session_queues => :environment do
-    Site.each do |site|
+    IronCore::Site.each do |site|
       site.session_queue.flag!
     end
   end
 
   desc "Run stats for all active sites"
   task :stats => :environment do
-    Site.each do |site|
+    IronCore::Site.each do |site|
       SiteStatsWorker.perform_async(domain: site.domain) unless SiteStatsWorker.jobs_in_flight_with_domain(site.domain).any?
     end
   end
@@ -56,18 +56,18 @@ namespace :site do
   task :delete_dead => :environment do
     YAML.load_file("tmp/dead.yml").each do |domain|
       puts "Removing #{domain}"
-      site = Site.new(domain: domain) rescue nil
+      site = IronCore::Site.new(domain: domain) rescue nil
       next unless site
       site.session_queue.clear
       site.listings_queue.clear
       site.product_links_queue.clear
-      Site.remove_domain(domain)
+      IronCore::Site.remove_domain(domain)
     end
   end
 
   desc "Jumpstart scrapes on sites with link_data"
   task :scrape_all => :environment do
-    Site.each do |site|
+    IronCore::Site.each do |site|
       if IronCore::LinkMessageQueue.new(domain: site.domain).any?
         PruneLinksWorker.perform_async(domain: site.domain)
       end
@@ -95,7 +95,7 @@ namespace :site do
         listing.destroy
         listing.send(:update_es_index)
       end
-      site = Site.new(domain: domain)
+      site = IronCore::Site.new(domain: domain)
       puts "  Clearing listings queue of size #{site.listings_queue.size}"
       site.listings_queue.clear
     end
@@ -123,7 +123,7 @@ namespace :site do
   task :generate_fixtures => :environment do
     domains = YAML.load_file("spec/fixtures/sites/manifest.yml")
     domains.each do |domain|
-      site = Site.new(domain: domain, source: :local)
+      site = IronCore::Site.new(domain: domain, source: :local)
       filename = "spec/fixtures/sites/#{domain.gsub(".","--")}.yml"
       puts "Writing #{site.domain} to #{filename}"
       File.open(filename, "w") do |f|
@@ -135,7 +135,7 @@ namespace :site do
   def fix_site(domain)
     puts "Fixing #{domain}"
     legacy_site = LegacySite.new(domain: domain, source: :local)
-    site = Site.new(domain: domain, source: :local)
+    site = IronCore::Site.new(domain: domain, source: :local)
     next unless site.site_data[:registrations]['object_adapter']["#{domain}/product_link"]
     filters = {
       'filters' => [ 'prefix' => legacy_site.link_prefix  ]
