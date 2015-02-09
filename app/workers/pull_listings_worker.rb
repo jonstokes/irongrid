@@ -1,4 +1,4 @@
-class PullListingsWorker < Bellbro::Worker
+class PullListingsWorker < BaseWorker
 
   sidekiq_options :queue => :crawls, :retry => true
 
@@ -11,25 +11,15 @@ class PullListingsWorker < Bellbro::Worker
     next_jid:         String
   )
 
-  attr_accessor :domain, :timer, :site
-  delegate :timed_out?, to: :timer
+  before :track
+  after :transition, :stop_tracking
 
-  def init(opts)
-    opts.symbolize_keys!
-    return false unless opts && @domain = opts[:domain]
-    @site = IronCore::Site.new(domain: @domain)
-    @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
-    @object_queue = Stretched::ObjectQueue.new("#{site.domain}/listings")
-    @image_store = IronCore::ImageQueue.new(domain: site.domain)
-    return false unless @object_queue.any?
-    track
-    true
+  def self.should_run?(site)
+    super && site.listings_queue.any?
   end
 
-  def perform(opts)
-    return unless opts && init(opts)
-
-    while !timed_out? && json = @object_queue.pop do
+  def call
+    while !timed_out? && json = site.listings_queue.pop do
       record_incr(:objects_deleted)
       if page_not_found?(json) || listing_json_not_found?(json)
         destroy_listings_at_url(json)
@@ -37,10 +27,16 @@ class PullListingsWorker < Bellbro::Worker
       end
       record_incr(:listings_created) if parse(json)
     end
-
-    transition
-    stop_tracking
   end
+
+  def transition
+    return if site.listings_queue.empty?
+    next_jid = self.class.perform_async(domain: site.domain)
+    record_set(:transition, "#{self.class.to_s}")
+    record_set(:next_jid, next_jid)
+  end
+
+  private
 
   def destroy_listings_at_url(json)
     # TODO: Improve this with the bulk listings API
@@ -83,13 +79,4 @@ class PullListingsWorker < Bellbro::Worker
       result.success?
     end
   end
-
-  def transition
-    if @object_queue.any?
-      next_jid = self.class.perform_async(domain: site.domain)
-      record_set(:transition, "#{self.class.to_s}")
-      record_set(:next_jid, next_jid)
-    end
-  end
-
 end

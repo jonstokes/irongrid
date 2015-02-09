@@ -1,5 +1,5 @@
-class PullProductLinksWorker < Bellbro::Worker
-  sidekiq_options :queue => :crawls, :retry => true
+class PullProductLinksWorker < BaseWorker
+  sidekiq_options queue: :crawls, retry: true
 
   track_with_schema(
     objects_deleted: Integer,
@@ -8,28 +8,19 @@ class PullProductLinksWorker < Bellbro::Worker
     next_jid:        String
   )
 
-  attr_accessor :domain, :timer, :site
-  delegate :timed_out?, to: :timer
+  before :track
+  after :stop_tracking
 
-  def init(opts)
-    opts.symbolize_keys!
-    return false unless opts && @domain = opts[:domain]
-    @site = IronCore::Site.new(domain: @domain)
-    @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
-    @link_store = IronCore::LinkMessageQueue.new(domain: site.domain)
-    @object_q = Stretched::ObjectQueue.new("#{site.domain}/product_links")
-    track
-    true
-  end
-
-  def perform(opts)
-    return unless init(opts)
-    while !timed_out? && obj = @object_q.pop
+  def call(opts)
+    while !timed_out? && obj = site.product_links_queue.pop
       record_incr(:objects_deleted)
       next unless obj.object && obj.object.product_link
       record_incr(:links_created)
-      @link_store.push IronCore::LinkMessage.new(url: obj.object.product_link)
+      site.link_message_queue.push IronCore::LinkMessage.new(url: obj.object.product_link)
     end
-    stop_tracking
+  end
+
+  def self.should_run?(site)
+    site.product_links_queue.any?
   end
 end

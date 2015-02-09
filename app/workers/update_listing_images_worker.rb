@@ -1,4 +1,4 @@
-class UpdateListingImagesWorker < Bellbro::Worker
+class UpdateListingImagesWorker < BaseWorker
 
   sidekiq_options queue: :db_slow_low, retry: true
 
@@ -6,8 +6,14 @@ class UpdateListingImagesWorker < Bellbro::Worker
     listings_updated: Integer,
   )
 
-  def perform(listing_ids)
-    track
+  before :track
+  after :stop_tracking
+
+  def listing_ids
+    @context
+  end
+
+  def call
     listing_ids.each do |id|
       next unless results = IronBase::Listing.find(id)
       listing = results.hits.first
@@ -19,8 +25,9 @@ class UpdateListingImagesWorker < Bellbro::Worker
         update_listing(listing)
       end
     end
-    stop_tracking
   end
+
+  private
 
   def update_listing(listing)
     listing.image.download_attempted = true

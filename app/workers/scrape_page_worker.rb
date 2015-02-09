@@ -1,35 +1,32 @@
-class ScrapePageWorker < Bellbro::Worker
-  include Sunbro
+class ScrapePageWorker < BaseWorker
+  sidekiq_options queue: :scrapes, retry: false
 
-  sidekiq_options :queue => :scrapes, :retry => false
-
-  attr_reader :domain, :site, :session, :domain, :user
-
-  def init(opts)
-    opts.symbolize_keys!
-    return false unless @domain = opts[:domain]
-    return false unless @user = opts[:user]
-    return false unless session_source = opts[:session]
-    @session = YAML.load(session_source)
-    @site = IronCore::Site.new(
-        domain: @domain,
-        user:   @user,
-    )
-    true
+  def should_run?
+    user && session && site
   end
 
-  def perform(opts)
-    results = {}
-    return unless opts && init(opts)
+  def user
+    @user ||= context[:user]
+  end
+
+  def session
+    @session ||= YAML.load(context[:session]) rescue nil
+  end
+
+  def site
+    @site ||= IronCore::Site.new(
+        domain: domain,
+        user:   user
+    )
+  end
+
+  def call
     populate_session_queue
     results = pull_results
     IronCore::ValidatorQueue.add(jid, results)
   rescue Exception => e
     results.merge!(error: "#{e.inspect}. #{e.backtrace}")
     IronCore::ValidatorQueue.add(jid, results)
-    results
-  ensure
-    close_http_connections
   end
 
   private

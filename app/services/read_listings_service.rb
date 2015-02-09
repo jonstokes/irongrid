@@ -11,7 +11,7 @@ class ReadListingsService < Bellbro::Service
   end
 
   def should_add_job?(site)
-    site.listings_queue.any? &&
+    PullListingsWorker.should_run?(site) &&
       PullListingsWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 end

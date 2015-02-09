@@ -1,4 +1,4 @@
-class PruneLinksWorker < Bellbro::Worker
+class PruneLinksWorker < BaseWorker
 
   sidekiq_options queue: :db_slow_high, retry: true
 
@@ -9,28 +9,19 @@ class PruneLinksWorker < Bellbro::Worker
     next_jid:     String
   )
 
-  def init(opts)
-    opts.symbolize_keys!
-    return false unless @domain = opts[:domain]
-    @site = IronCore::Site.new(domain: @domain)
-    return false unless PruneLinksWorker.should_run?(@site) && i_am_alone_with_this_domain?
-    @link_store = @site.link_message_queue
-  end
+  before :track
+  after :transition, :stop_tracking
 
-  def perform(opts)
-    return unless opts && init(opts)
-    track
-    @link_store.each_message do |msg|
+  def call
+    site.link_message_queue.each_message do |msg|
       if (listing = IronBase::Listing.find_by_url(msg.url).first) && listing.try(:fresh?)
-        @link_store.rem(msg.url)
+        site.link_message_queue.rem(msg.url)
         record_incr(:links_pruned)
       else
         record_incr(:links_passed)
       end
       status_update
     end
-    transition
-    stop_tracking
   end
 
   def transition
@@ -41,9 +32,8 @@ class PruneLinksWorker < Bellbro::Worker
 
   def self.should_run?(site)
     site.product_link_adapter && # Don't run unless the site actually uses the LMQ
-      site.session_queue.empty? && !site.session_queue.is_being_read? &&
-      site.product_links_queue.empty? && PullProductLinksWorker.jobs_in_flight_with_domain(site.domain).empty? &&
-      RefreshLinksWorker.jobs_in_flight_with_domain(site.domain).empty? &&
-      PushProductLinksWorker.jobs_in_flight_with_domain(site.domain).empty?
+      site.session_queue_inactive? &&
+      site.product_links_queue.empty? &&
+      !prune_refresh_push_cycle_is_running?(domain)
   end
 end

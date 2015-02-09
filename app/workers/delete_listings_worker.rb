@@ -1,4 +1,4 @@
-class DeleteListingsWorker < Bellbro::Worker
+class DeleteListingsWorker < BaseWorker
 
   sidekiq_options queue: :db_slow_high, retry: true
 
@@ -6,9 +6,10 @@ class DeleteListingsWorker < Bellbro::Worker
     listings_deleted: Integer
   )
 
-  # TODO: Refactor to use bulk API
-  def perform(listing_ids)
-    track
+  before :track
+  after :stop_tracking
+
+  def call
     batch1 = listing_ids[0..249].try(:compact)
     batch2 = listing_ids[250..500].try(:compact)
 
@@ -21,11 +22,14 @@ class DeleteListingsWorker < Bellbro::Worker
       retryable(sleep: 1) { IronBase::Listing.bulk_delete(batch2) }
       record_set(:listings_deleted, batch2.size)
     end
-
-    stop_tracking
   rescue Elasticsearch::Transport::Transport::Errors::InternalServerError
-    stop_tracking
   end
+
+  def should_run?
+    listing_ids.try(:any?)
+  end
+
+  def listing_ids; @context; end
 
   def self.queued_jobs
     jobs_for_class("DeleteListingsWorker")

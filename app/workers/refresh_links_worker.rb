@@ -1,4 +1,4 @@
-class RefreshLinksWorker < Bellbro::Worker
+class RefreshLinksWorker < BaseWorker
   sidekiq_options queue: :db_slow_high, retry: true
 
   track_with_schema(
@@ -7,33 +7,29 @@ class RefreshLinksWorker < Bellbro::Worker
     next_jid:      String
   )
 
-  attr_reader :domain, :site
-  attr_accessor :scraper
+  before :track
+  after { ring "Refresh links for #{domain} finished." }
+  after :transition, :stop_tracking
 
-  def init(opts)
-    opts.symbolize_keys!
-    return false unless opts && (@domain = opts[:domain])
-    @site = IronCore::Site.new(domain: domain, source: :redis)
-    @link_store = @site.link_message_queue
-    true
-  end
-
-  def perform(opts)
-    return unless opts && init(opts)
-    track
+  def call
     IronBase::Listing.with_each_stale(@domain) do |batch|
       batch.each do |listing|
-        next if @link_store.has_key?(listing.url.page)
+        next if site.link_message_queue.has_key?(listing.url.page)
         msg = convert_to_link_message(listing)
         msg.update(jid: jid)
-        record_incr(:links_created) unless @link_store.add(msg).zero?
+        record_incr(:links_created) unless site.link_message_queue.add(msg).zero?
         status_update
       end
     end
-    clean_up
-    transition
-    stop_tracking
   end
+
+  def transition
+    next_jid = PushProductLinksWorker.perform_async(domain: domain)
+    record_set(:transition, "PushLinksWorker")
+    record_set(:next_jid, next_jid)
+  end
+
+  private
 
   def convert_to_link_message(listing)
     IronCore::LinkMessage.new(
@@ -41,15 +37,5 @@ class RefreshLinksWorker < Bellbro::Worker
         current_listing_id: listing.id,
         listing_digest:     listing.digest,
     )
-  end
-
-  def clean_up
-    ring "Refresh links for #{domain} finished."
-  end
-
-  def transition
-    next_jid = PushProductLinksWorker.perform_async(domain: domain)
-    record_set(:transition, "PushLinksWorker")
-    record_set(:next_jid, next_jid)
   end
 end

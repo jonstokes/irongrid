@@ -11,7 +11,7 @@ class ReadProductLinksService < Bellbro::Service
   end
 
   def should_add_job?(site)
-    site.product_links_queue.any? &&
+    PullProductLinksWorker.should_run?(site) &&
       PullProductLinksWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 end

@@ -1,6 +1,6 @@
-class PushProductLinksWorker < Bellbro::Worker
+class PushProductLinksWorker < BaseWorker
 
-  sidekiq_options :queue => :crawls, :retry => true
+  sidekiq_options queue: :crawls, retry: true
 
   track_with_schema(
     links_deleted:   Integer,
@@ -9,40 +9,34 @@ class PushProductLinksWorker < Bellbro::Worker
     next_jid:        String
   )
 
-  attr_accessor :domain, :timer, :site
-  delegate :timed_out?, to: :timer
-
-  def init(opts)
-    opts.symbolize_keys!
-    return false unless opts && @domain = opts[:domain]
-    @site = IronCore::Site.new(domain: @domain)
-    @timer = RateLimiter.new(opts[:timeout] || 1.hour.to_i)
+  before do
     @urls = Set.new
-    @session_q = Stretched::SessionQueue.new(site.domain)
-    @link_store = IronCore::LinkMessageQueue.new(domain: site.domain)
-    track
-    true
   end
 
-  def perform(opts)
-    return unless init(opts)
-    while !timed_out? && !finished? && msg = @link_store.pop
+  before :track
+  after :transition, :stop_tracking
+
+  def call
+    while !timed_out? && !finished? && msg = site.link_message_queue.pop
       record_incr(:links_deleted)
       @urls << msg.url
     end
 
-    record_set :sessions_pushed, @session_q.push(new_session).count
-    transition
-    stop_tracking
+    record_set :sessions_pushed, site.session_queue.push(new_session).count
   end
 
   def transition
-    if @link_store.any?
-      next_jid = self.class.perform_async(domain: site.domain)
-      record_set(:transition, "#{self.class.to_s}")
-      record_set(:next_jid, next_jid)
-    end
+    return unless should_run?
+    next_jid = self.class.perform_async(domain: site.domain)
+    record_set(:transition, "#{self.class.to_s}")
+    record_set(:next_jid, next_jid)
   end
+
+  def self.should_run?(site)
+    site.link_message_queue.any?
+  end
+
+  private
 
   def finished?
     @urls.size >= 300
