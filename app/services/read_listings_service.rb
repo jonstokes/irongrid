@@ -1,6 +1,6 @@
 class ReadListingsService < Bellbro::Service
 
-  poll_interval Rails.env.test? ? 0.1 : 120
+  poll_interval 120
   track_with_schema jobs_started: Integer
 
   def each_job

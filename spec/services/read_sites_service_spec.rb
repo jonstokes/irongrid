@@ -19,7 +19,7 @@ describe ReadSitesService do
 
   describe "PopulateSessionQueue sites", no_es: true do
     before :each do
-      @site = create_site "www.retailer.com"
+      @site = create_site "www.budsgunshop.com"
       @service = ReadSitesService.new
     end
 
@@ -38,18 +38,17 @@ describe ReadSitesService do
     end
 
     it "should not generate a PopulateSessionQueue for a site if the site has sessions pending" do
-      pending "Populate session queue with sessions for site"
-      expect(true).to eq(false)
-
+      @site.session_queue.add @site.sessions
       @service.start
       @service.stop
       expect(PopulateSessionQueueWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty
     end
 
     it "should not generate a PopulateSessionQueue for a site if the site has product links pending" do
-      pending "Populate session queue with sessions for site"
-      expect(true).to eq(false)
-
+      @site.product_links_queue.add(
+         json: nil,
+         page: {}
+      )
       @service.start
       @service.stop
       expect(PopulateSessionQueueWorker.jobs_in_flight_with_domain(@site.domain)).to be_empty

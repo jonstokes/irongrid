@@ -30,7 +30,7 @@ class UpdateListingImagesWorker < BaseWorker
   def should_run?
     true
   end
-  
+
   private
 
   def update_listing(listing)
