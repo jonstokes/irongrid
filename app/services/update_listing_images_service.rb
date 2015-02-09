@@ -3,12 +3,8 @@ class UpdateListingImagesService < Bellbro::Service
   poll_interval 3600
 
   def each_job
-    Bellbro::Service.mutex.synchronize {
-      begin
-        IronBase::Listing.with_each_no_image do |batch|
-          yield(klass: 'UpdateListingImagesWorker', arguments: batch.map(&:id))
-        end
-      end
-    }
+    IronBase::Listing.with_each_no_image do |batch|
+      yield(klass: 'UpdateListingImagesWorker', arguments: batch.map(&:id))
+    end
   end
 end

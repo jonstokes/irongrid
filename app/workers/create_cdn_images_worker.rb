@@ -24,8 +24,8 @@ class CreateCdnImagesWorker < BaseWorker
     close_http_connections
   end
 
-  def should_run?
-    site.image_queue.any?
+  def self.should_run?(site)
+    super && site.image_queue.any?
   end
 
   def transition

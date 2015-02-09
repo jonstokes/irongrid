@@ -1,10 +1,6 @@
 class ScrapePageWorker < BaseWorker
   sidekiq_options queue: :scrapes, retry: false
 
-  def should_run?
-    user && session && site
-  end
-
   def user
     @user ||= context[:user]
   end
@@ -27,6 +23,10 @@ class ScrapePageWorker < BaseWorker
   rescue Exception => e
     results.merge!(error: "#{e.inspect}. #{e.backtrace}")
     IronCore::ValidatorQueue.add(jid, results)
+  end
+
+  def should_run?
+    user && session && site
   end
 
   private

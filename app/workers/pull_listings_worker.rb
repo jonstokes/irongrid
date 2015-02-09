@@ -14,10 +14,6 @@ class PullListingsWorker < BaseWorker
   before :track
   after :transition, :stop_tracking
 
-  def self.should_run?(site)
-    super && site.listings_queue.any?
-  end
-
   def call
     while !timed_out? && json = site.listings_queue.pop do
       record_incr(:objects_deleted)
@@ -34,6 +30,10 @@ class PullListingsWorker < BaseWorker
     next_jid = self.class.perform_async(domain: site.domain)
     record_set(:transition, "#{self.class.to_s}")
     record_set(:next_jid, next_jid)
+  end
+
+  def self.should_run?(site)
+    super && site.listings_queue.any?
   end
 
   private

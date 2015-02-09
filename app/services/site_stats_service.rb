@@ -10,6 +10,7 @@ class SiteStatsService < Bellbro::Service
   end
 
   def should_add_job?(site)
-    SiteStatsWorker.should_run?(site.domain)
+    SiteStatsWorker.should_run?(site.domain) &&
+        SiteStatsWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 end

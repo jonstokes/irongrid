@@ -21,6 +21,6 @@ class PullProductLinksWorker < BaseWorker
   end
 
   def self.should_run?(site)
-    site.product_links_queue.any?
+    super && site.product_links_queue.any?
   end
 end

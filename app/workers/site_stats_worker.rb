@@ -19,10 +19,6 @@ class SiteStatsWorker < BaseWorker
     get_stalest_listing
   end
 
-  def self.should_run?(domain)
-    self.jobs_in_flight_with_domain(domain).empty?
-  end
-
   private
 
   def get_active_listings

@@ -33,7 +33,7 @@ class PushProductLinksWorker < BaseWorker
   end
 
   def self.should_run?(site)
-    site.link_message_queue.any?
+    super && site.link_message_queue.any?
   end
 
   private
