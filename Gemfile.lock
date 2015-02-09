@@ -240,7 +240,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    stretched (0.1.0)
+    stretched (0.1.1)
       activesupport
       bellbro
       connection_pool
@@ -309,7 +309,7 @@ DEPENDENCIES
   hashie
   image_voodoo
   interactor (= 3.1.0)
-  iron_base (~> 0.0.1)
+  iron_base (~> 0.0.1)!
   iron_core (~> 0.0.2)!
   jdbc-postgres
   jruby-openssl
@@ -330,7 +330,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-pro
   spork
-  stretched (~> 0.1.0)
+  stretched (~> 0.1.1)!
   stringex
   sunbro (~> 0.1.0)
   therubyrhino

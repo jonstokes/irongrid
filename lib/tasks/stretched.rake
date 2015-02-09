@@ -1,66 +1,35 @@
-def register_globals
-  Stretched::Registration.create_from_file("#{Figaro.env.sites_repo}/globals/registrations.yml")
-end
-
-def register_extensions
-  Dir.glob("#{Figaro.env.sites_repo}/globals/extensions/*.rb").each do |filename|
-    puts "# Registering #{filename}..."
-    Stretched::Extension.create_from_file(filename)
-  end
-end
-
-def register_mappings
-  Dir.glob("#{Figaro.env.sites_repo}/globals/mappings/*.yml").each do |filename|
-    puts "# Registering #{filename}..."
-    Stretched::Mapping.create_from_file(filename)
-  end
-end
-
-def register_scripts
-  Dir.glob("#{Figaro.env.sites_repo}/globals/scripts/*.rb").each do |filename|
-    puts "# Registering #{filename}..."
-    Stretched::Script.create_from_file(filename)
-  end
-  Dir.glob("#{Figaro.env.sites_repo}/sites/irongrid_scripts/*.rb").each do |filename|
-    puts "# Registering #{filename}..."
-    Stretched::Script.create_from_file(filename)
-  end
-  Dir.glob("#{Figaro.env.sites_repo}/sites/stretched_scripts/*.rb").each do |filename|
-    puts "# Registering #{filename}..."
-    Stretched::Script.create_from_file(filename)
-  end
-end
-
-def register_sites
-  Site.each do |site|
-    begin
-      site.register
-    rescue Exception => e
-      puts e.message
-      next
-    end
-  end
+def stretched_user
+  ENV['STRETCHED_USER'] || Stretched::Settings.user
 end
 
 namespace :stretched do
-  task :register_all => :environment do
-    register_globals
-    register_mappings
-    register_extensions
-    register_scripts
-    register_sites
+  namespace :registration do
+    task :create_all => :environment do
+      StretchedUtils.register_globals(stretched_user)
+      StretchedUtils.register_sites(stretched_user)
+    end
+
+    task :create_globals => :environment do
+      StretchedUtils.register_globals(stretched_user)
+    end
+
+    task :create_sites => :environment do
+      StretchedUtils.register_sites(stretched_user)
+    end
   end
 
-  task :register_globals => :environment do
-    register_globals
+  namespace :user do
+    task create_all: :environment do
+      %w(
+        production@ironsights.com
+        development@ironsights.com
+        test@ironsights.com
+        production-validator@ironsights.com
+        development-validator@ironsights.com
+        test-validator@ironsights.com
+      ).each do |user|
+        Stretched::User.create(user)
+      end
+    end
   end
-
-  task :register_sites => :environment do
-    register_sites
-  end
-
-  task :register_scripts => :environment do
-    register_scripts
-  end
-
 end

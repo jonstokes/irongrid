@@ -1,8 +1,17 @@
 namespace :site do
 
-  task :flag_session_queues => :environment do
+  desc "Add new sites from site manifest to redis"
+  task :add_new => :environment do
+    filename = "#{Figaro.env.sites_repo}/sites/site_manifest.yml"
+    domains = YAML.load_file(filename)
+    raise "No sites found in #{filename}" unless domains
+    Site.add_domains(domains)
+  end
+
+  desc "Update site attributes without overwriting stats"
+  task :update_all => :environment do
     Site.each do |site|
-      site.session_queue.flag!
+      Site.update_site_from_local(site)
     end
   end
 
@@ -30,24 +39,17 @@ namespace :site do
     Site.create_site_from_local(domain)
   end
 
+  task :flag_session_queues => :environment do
+    Site.each do |site|
+      site.session_queue.flag!
+    end
+  end
+
   desc "Run stats for all active sites"
   task :stats => :environment do
     Site.each do |site|
       SiteStatsWorker.perform_async(domain: site.domain) unless SiteStatsWorker.jobs_in_flight_with_domain(site.domain).any?
     end
-  end
-
-  desc "Update site attributes without overwriting stats"
-  task :update_all => :environment do
-    Site.each do |site|
-      Site.update_site_from_local(site)
-    end
-  end
-
-  desc "Add new sites from site manifest to redis"
-  task :add_new => :environment do
-    domains = YAML.load_file("../ironsights-sites/sites/site_manifest.yml")
-    Site.add_domains(domains)
   end
 
   desc "Remove deactivated sites"
