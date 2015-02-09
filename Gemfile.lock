@@ -2,7 +2,6 @@ GEM
   remote: http://rubygems.org/
   remote: https://7efe68ea:9c90e496@gems.contribsys.com/
   remote: https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/
-  remote: https://gem.fury.io/jonstokes/
   specs:
     actionmailer (4.2.0)
       actionpack (= 4.2.0)
