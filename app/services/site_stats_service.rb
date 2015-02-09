@@ -1,16 +1,5 @@
-class SiteStatsService < Bellbro::Service
+class SiteStatsService < BaseService
   track_with_schema jobs_started: Integer
   poll_interval 3600
-
-  def each_job
-    IronCore::Site.each do |site|
-      next unless should_add_job?(site)
-      yield(klass: "SiteStatsWorker", arguments: {domain: site.domain})
-    end
-  end
-
-  def should_add_job?(site)
-    SiteStatsWorker.should_run?(site.domain) &&
-        SiteStatsWorker.jobs_in_flight_with_domain(site.domain).empty?
-  end
+  worker_class SiteStatsWorker
 end

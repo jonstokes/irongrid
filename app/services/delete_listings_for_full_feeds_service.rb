@@ -1,12 +1,13 @@
-class DeleteListingsForFullFeedsService < Bellbro::Service
+class DeleteListingsForFullFeedsService < BaseService
   track_with_schema jobs_started: Integer
   poll_interval 3600
+  worker_class DeleteListingsWorker
 
   def each_job
     IronCore::Site.full_product_feed_sites.each do |site|
       next unless should_add_job?(site)
       IronBase::Listing.find_each(query_hash(site)) do |batch|
-        yield(klass: 'DeleteListingsWorker', arguments: batch.map(&:id))
+        yield(batch.map(&:id))
       end
     end
   end
