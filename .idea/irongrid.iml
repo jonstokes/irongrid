@@ -133,6 +133,24 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="iron_base (v0.0.1, /Users/jstokes/Local/Repositories/iron_base) [path][gem]">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../iron_base/lib" />
+          <root url="file://$MODULE_DIR$/../iron_base/log" />
+          <root url="file://$MODULE_DIR$/../iron_base/tmp" />
+          <root url="file://$MODULE_DIR$/../iron_base/data" />
+          <root url="file://$MODULE_DIR$/../iron_base/.idea" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../iron_base/lib" />
+          <root url="file://$MODULE_DIR$/../iron_base/log" />
+          <root url="file://$MODULE_DIR$/../iron_base/tmp" />
+          <root url="file://$MODULE_DIR$/../iron_base/data" />
+          <root url="file://$MODULE_DIR$/../iron_base/.idea" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="iron_core (v0.0.1, /Users/jstokes/Local/Repositories/iron_core) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../iron_core/lib" />
@@ -141,6 +159,20 @@
         <SOURCES>
           <root url="file://$MODULE_DIR$/../iron_core/lib" />
           <root url="file://$MODULE_DIR$/../iron_core/.idea" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="sunbro (v0.0.1, /Users/jstokes/Local/Repositories/sunbro) [path][gem]">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../sunbro/lib" />
+          <root url="file://$MODULE_DIR$/../sunbro/.idea" />
+          <root url="file://$MODULE_DIR$/../sunbro/tasks" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../sunbro/lib" />
+          <root url="file://$MODULE_DIR$/../sunbro/.idea" />
+          <root url="file://$MODULE_DIR$/../sunbro/tasks" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -193,7 +225,6 @@
     <orderEntry type="library" scope="PROVIDED" name="i18n (v0.7.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="image_voodoo (v0.8.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="interactor (v3.1.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="iron_base (v0.0.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jdbc-postgres (v9.3.1102, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jruby-openssl (v0.9.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.8.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -239,7 +270,6 @@
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v2.2.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stretched (v0.0.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringex (v2.5.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sunbro (v0.0.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="therubyrhino (v2.0.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="therubyrhino_jar (v1.7.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v0.19.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />

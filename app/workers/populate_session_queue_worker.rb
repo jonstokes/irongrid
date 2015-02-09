@@ -1,17 +1,13 @@
 class PopulateSessionQueueWorker < BaseWorker
 
   sidekiq_options :queue => :crawls, :retry => true
-
-  attr_accessor :site, :timer, :domain
-  delegate :timed_out?, to: :timer
-
   track_with_schema(
     sessions_added:  Integer,
   )
 
   before :track
   after { site.mark_read! }
-  after :transition, :stop_tracking
+  after :stop_tracking
 
   def call
     site.session_queue.add(site.sessions)

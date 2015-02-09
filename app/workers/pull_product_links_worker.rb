@@ -11,7 +11,7 @@ class PullProductLinksWorker < BaseWorker
   before :track
   after :stop_tracking
 
-  def call(opts)
+  def call
     while !timed_out? && obj = site.product_links_queue.pop
       record_incr(:objects_deleted)
       next unless obj.object && obj.object.product_link

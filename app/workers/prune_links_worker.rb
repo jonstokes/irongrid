@@ -34,6 +34,6 @@ class PruneLinksWorker < BaseWorker
     site.product_link_adapter && # Don't run unless the site actually uses the LMQ
       site.session_queue_inactive? &&
       site.product_links_queue.empty? &&
-      !prune_refresh_push_cycle_is_running?(domain)
+      !prune_refresh_push_cycle_is_running?(site.domain)
   end
 end

@@ -8,11 +8,33 @@ PATH
       sidekiq
 
 PATH
+  remote: ../iron_base
+  specs:
+    iron_base (0.0.1)
+      activesupport
+      connection_pool
+      elasticsearch
+      geocoder
+      hashie
+      interactor
+      redis
+
+PATH
   remote: ../iron_core
   specs:
     iron_core (0.0.1)
       stretched
-      sunbro
+
+PATH
+  remote: ../sunbro
+  specs:
+    sunbro (0.0.1)
+      activesupport
+      capybara
+      hashie
+      net-http-persistent
+      nokogiri
+      poltergeist
 
 GEM
   remote: http://rubygems.org/
@@ -134,14 +156,6 @@ GEM
     i18n (0.7.0)
     image_voodoo (0.8.7)
     interactor (3.1.0)
-    iron_base (0.0.1)
-      activesupport
-      connection_pool
-      elasticsearch
-      geocoder
-      hashie
-      interactor
-      redis
     jdbc-postgres (9.3.1102)
     jruby-openssl (0.9.6-java)
     json (1.8.2-java)
@@ -257,13 +271,6 @@ GEM
       stringex
       tokenizer
     stringex (2.5.2)
-    sunbro (0.0.1)
-      activesupport
-      capybara
-      hashie
-      net-http-persistent
-      nokogiri
-      poltergeist
     therubyrhino (2.0.4)
       therubyrhino_jar (>= 1.7.3)
     therubyrhino_jar (1.7.4)
@@ -316,7 +323,7 @@ DEPENDENCIES
   hashie
   image_voodoo
   interactor (= 3.1.0)
-  iron_base
+  iron_base!
   iron_core!
   jdbc-postgres
   jruby-openssl
@@ -339,7 +346,7 @@ DEPENDENCIES
   spork
   stretched
   stringex
-  sunbro
+  sunbro!
   therubyrhino
   thread_safe
   tokenizer
