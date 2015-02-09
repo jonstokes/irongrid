@@ -5,7 +5,9 @@ class DeleteListingsForFullFeedsService < Bellbro::Service
   def each_job
     IronCore::Site.full_product_feed_sites.each do |site|
       next unless should_add_job?(site)
-      delete_listings_for_site(site)
+      IronBase::Listing.find_each(query_hash(site)) do |batch|
+        yield(klass: 'DeleteListingsWorker', arguments: batch.map(&:id))
+      end
     end
   end
 
@@ -14,11 +16,7 @@ class DeleteListingsForFullFeedsService < Bellbro::Service
     site.session_queue.empty? && site.listings_queue.empty? && site.read_at
   end
 
-  def delete_listings_for_site(site)
-    IronBase::Listing.find_each(query_hash(site)) do |batch|
-      yield(klass: 'DeleteListingsWorker', arguments: batch.map(&:id))
-    end
-  end
+  private
 
   def query_hash(site)
     IronBase::Listing::Search.new(

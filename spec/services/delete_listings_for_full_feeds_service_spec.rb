@@ -5,7 +5,9 @@ describe DeleteListingsForFullFeedsService do
 
   before :each do
     @service = DeleteListingsForFullFeedsService.new
-    Stretched::ObjectQueue.new("ammo.net/listings").clear
+    @site = create_site "ammo.net"
+    @site.session_queue.clear
+    @site.listings_queue.clear
     clear_sidekiq
   end
 
@@ -13,9 +15,7 @@ describe DeleteListingsForFullFeedsService do
     it 'creates DeleteListingsWorker jobs for all listings older than site.read_at if listing OBQ is empty' do
       Sidekiq::Testing.fake!
 
-      site = create_site "ammo.net"
-      site.update(read_at: Time.now - 1.day)
-
+      @site.update(read_at: Time.now - 1.day)
       removed = []
       kept = []
       5.times do
@@ -40,8 +40,8 @@ describe DeleteListingsForFullFeedsService do
     it 'creates no DeleteListingsWorker jobs for all listings older than 1 day ago if site.read_at is nil' do
       Sidekiq::Testing.fake!
 
-      site = create_site "ammo.net"
-      site.update(read_at: nil)
+      @site = create_site "ammo.net"
+      @site.update(read_at: nil)
 
       removed = []
       kept = []
@@ -56,7 +56,7 @@ describe DeleteListingsForFullFeedsService do
       @service.start_jobs
       @service.stop_tracking
 
-      expect(DeleteListingsWorker.jobs.count).to eq(0)
+      expect(DeleteListingsWorker.jobs.count).to be_zero
     end
 
 
@@ -70,10 +70,8 @@ describe DeleteListingsForFullFeedsService do
           url: "http://ammo.net/1"
         }
       }
-      Stretched::ObjectQueue.new("ammo.net/listings").add(object)
-
-      site = create_site "ammo.net"
-      site.update(read_at: Time.now - 1.day)
+      @site.listings_queue.add(object)
+      @site.update(read_at: Time.now - 1.day)
 
       5.times do
         create(:listing, seller: { domain: "ammo.net" }, updated_at: Time.now - 10.days)
