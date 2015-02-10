@@ -1,4 +1,4 @@
-config_hash = YAML.load_file("#{Rails.root}/config/redis.yml")
+config_hash = YAML.load_file("#{Rails.root}/config/redis.yml")[Rails.env]
 connection_hash = ThreadSafe::Cache.new
 
 config_hash.each do |env, config|
