@@ -1,0 +1,54 @@
+production:
+  irongrid_redis_pool:
+    pool: 30
+    url: Figaro.env.irongrid_redis_url
+  stretched_redis_pool:
+    pool: 25
+    url: Figaro.env.stretched_redis_url
+  validator_redis_pool:
+    pool: 1
+    url: Figaro.env.validator_redis_url
+  ironsights_redis_pool:
+    pool: 15
+    url: Figaro.env.ironsights_redis_url
+staging:
+  irongrid_redis_pool:
+    pool: 5
+    url: Figaro.env.irongrid_redis_url
+  stretched_redis_pool:
+    pool: 5
+    url: Figaro.env.stretched_redis_url
+  validator_redis_pool:
+    pool: 5
+    url: Figaro.env.validator_redis_url
+  ironsights_redis_pool:
+    pool: 1
+    url: Figaro.env.ironsights_redis_url
+development:
+  irongrid_redis_pool:
+    pool: 5
+    url: Figaro.env.irongrid_redis_url
+  stretched_redis_pool:
+    pool: 5
+    url: Figaro.env.stretched_redis_url
+  validator_redis_pool:
+    pool: 5
+    url: Figaro.env.validator_redis_url
+  ironsights_redis_pool:
+    pool: 5
+    url: Figaro.env.ironsights_redis_url
+test:
+  irongrid_redis_pool:
+    pool: 2
+    url: Figaro.env.irongrid_redis_url
+  stretched_redis_pool:
+    pool: 2
+    url: Figaro.env.stretched_redis_url
+  validator_redis_pool:
+    pool: 2
+    url: Figaro.env.validator_redis_url
+  ironsights_redis_pool:
+    pool: 2
+    url: Figaro.env.ironsights_redis_url
+
+

@@ -1,20 +1,10 @@
-def pool_size
-  size = Figaro.env.redis_pool.to_i
-  size.zero? ? 10 : size
-end
-
+config_hash = YAML.load_file("#{Rails.root}/config/redis.yml")
 connection_hash = ThreadSafe::Cache.new
-connection_hash[:stretched_redis_pool] = ConnectionPool.new(size: pool_size) do
-  Redis.new(url: Figaro.env.stretched_redis_url)
-end
-connection_hash[:irongrid_redis_pool] = ConnectionPool.new(size: pool_size) do
-  Redis.new(url: Figaro.env.irongrid_redis_url)
-end
-connection_hash[:validator_redis_pool] = ConnectionPool.new(size: pool_size) do
-  Redis.new(url: Figaro.env.validator_redis_url)
-end
-connection_hash[:ironsights_redis_pool] = ConnectionPool.new(size: pool_size) do
-  Redis.new(url: Figaro.env.ironsights_redis_url)
+
+config_hash.each do |env, config|
+  connection_hash[env.to_sym] = ConnectionPool.new(size: config[:pool]) do
+    Redis.new(url: config[:url])
+  end
 end
 
 Bellbro::Settings.configure do |config|
