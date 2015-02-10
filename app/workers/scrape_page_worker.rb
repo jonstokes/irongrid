@@ -1,6 +1,8 @@
 class ScrapePageWorker < BaseWorker
   sidekiq_options queue: :scrapes, retry: false
 
+  attr_reader :site
+
   def user
     @user ||= context[:user]
   end
@@ -9,11 +11,9 @@ class ScrapePageWorker < BaseWorker
     @session ||= YAML.load(context[:session]) rescue nil
   end
 
-  def site
-    @site ||= IronCore::Site.new(
-        domain: domain,
-        user:   user
-    )
+  before do
+    @site = IronCore::Site.find(domain, source: :validator_redis_pool)
+    @site.user = user
   end
 
   def call
@@ -33,7 +33,7 @@ class ScrapePageWorker < BaseWorker
 
   def populate_session_queue
     site.session_queue.push session
-    sleep 1 while site.session_queue.is_being_read?
+    sleep 1 while site.session_queue_active?
   end
 
   def pull_results

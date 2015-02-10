@@ -12,7 +12,7 @@ describe SiteStatsWorker do
       worker = SiteStatsWorker.new
       worker.perform(domain: site.domain)
 
-      s = IronCore::Site.new(domain: site.domain, source: :redis)
+      s = IronCore::Site.find(site.domain)
       expect(s.site_data[:stats][:inactive_listings]).to eq(1)
       expect(s.site_data[:stats][:active_listings]).to eq(2)
       expect(s.site_data[:stats][:stalest_listing].strftime("%Y-%m-%dT%H:%M:%S")).to eq(stalest.updated_at.strftime("%Y-%m-%dT%H:%M:%S"))

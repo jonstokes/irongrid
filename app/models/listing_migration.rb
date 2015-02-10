@@ -134,7 +134,7 @@ class ListingMigration < Bellbro::Bell
   end
 
   def self.load_site(domain)
-    site = IronCore::Site.new(domain: domain, source: :local)
+    site = IronCore::Site.find(domain, source: :local)
     sites << site
     site
   end

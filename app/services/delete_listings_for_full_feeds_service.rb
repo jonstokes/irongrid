@@ -4,7 +4,7 @@ class DeleteListingsForFullFeedsService < BaseService
   worker_class DeleteListingsWorker
 
   def each_job
-    IronCore::Site.full_product_feed_sites.each do |site|
+    IronCore::Site.each_full_product_feed_site do |site|
       next unless should_add_job?(site)
       IronBase::Listing.find_each(query_hash(site)) do |batch|
         yield(batch.map(&:id))
@@ -14,7 +14,7 @@ class DeleteListingsForFullFeedsService < BaseService
 
   def should_add_job?(site)
     DeleteListingsWorker.jobs_in_flight_with_domain(site.domain).empty? &&
-    site.session_queue.empty? && site.listings_queue.empty? && site.read_at
+    site.session_queue.empty? && site.listings_queue.empty? && site.read_at?
   end
 
   private

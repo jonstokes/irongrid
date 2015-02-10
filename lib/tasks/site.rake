@@ -11,7 +11,8 @@ namespace :site do
   desc "Update site attributes without overwriting stats"
   task :update_all => :environment do
     IronCore::Site.each do |site|
-      IronCore::Site.update_site_from_local(site)
+      site.update_from_local
+      site.register
     end
   end
 
@@ -36,7 +37,7 @@ namespace :site do
   desc "Copy a site from the local repo to redis"
   task :copy => :environment do
     raise "Must set DOMAIN" unless domain = ENV['DOMAIN']
-    IronCore::Site.create_site_from_local(domain)
+    IronCore::Site.create_from_source(domain, source: :local)
   end
 
   task :flag_session_queues => :environment do
@@ -56,7 +57,7 @@ namespace :site do
   task :delete_dead => :environment do
     YAML.load_file("tmp/dead.yml").each do |domain|
       puts "Removing #{domain}"
-      site = IronCore::Site.new(domain: domain) rescue nil
+      site = IronCore::Site.find(domain) rescue nil
       next unless site
       site.session_queue.clear
       site.listings_queue.clear
@@ -95,7 +96,7 @@ namespace :site do
         listing.destroy
         listing.send(:update_es_index)
       end
-      site = IronCore::Site.new(domain: domain)
+      site = IronCore::Site.find(domain)
       puts "  Clearing listings queue of size #{site.listings_queue.size}"
       site.listings_queue.clear
     end
@@ -123,7 +124,7 @@ namespace :site do
   task :generate_fixtures => :environment do
     domains = YAML.load_file("spec/fixtures/sites/manifest.yml")
     domains.each do |domain|
-      site = IronCore::Site.new(domain: domain, source: :local)
+      site = IronCore::Site.find(domain, source: :local)
       filename = "spec/fixtures/sites/#{domain.gsub(".","--")}.yml"
       puts "Writing #{site.domain} to #{filename}"
       File.open(filename, "w") do |f|
@@ -134,8 +135,8 @@ namespace :site do
 
   def fix_site(domain)
     puts "Fixing #{domain}"
-    legacy_site = LegacySite.new(domain: domain, source: :local)
-    site = IronCore::Site.new(domain: domain, source: :local)
+    legacy_site = LegacySite.find(domain, source: :local)
+    site = IronCore::Site.find(domain, source: :local)
     next unless site.site_data[:registrations]['object_adapter']["#{domain}/product_link"]
     filters = {
       'filters' => [ 'prefix' => legacy_site.link_prefix  ]

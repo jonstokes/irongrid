@@ -8,8 +8,7 @@ describe CdnService do
     clear_sidekiq
     @service = CdnService.new
     @site = create_site "www.retailer.com"
-    @iq = IronCore::ImageQueue.new(domain: @site.domain)
-    @iq.clear
+    @site.image_queue.clear
   end
 
   after :each do
@@ -24,15 +23,16 @@ describe CdnService do
 
   describe "#run", no_es: true do
     it "generates a CreateCdnImagesWorker for a site with a non-empty IronCore::ImageQueue" do
-      5.times { |i| @iq.push "http://www.retailer.com/images/#{i}.png" }
+      5.times { |i| @site.image_queue.push "http://www.retailer.com/images/#{i}.png" }
       CreateCdnImagesWorker.perform_async(domain: "www.foo.com")
       @service.start
       @service.stop
+      expect(CreateCdnImagesWorker.jobs_in_flight_with_domain("www.foo.com").count).to eq(1)
       expect(CreateCdnImagesWorker.jobs_in_flight_with_domain(@site.domain).count).to eq(1)
     end
 
     it "does not generates a CreateCdnImagesWorker for a site that already has images being read" do
-      5.times { |i| @iq.push "http://www.retailer.com/images/#{i}.png" }
+      5.times { |i| @site.image_queue.push "http://www.retailer.com/images/#{i}.png" }
       CreateCdnImagesWorker.perform_async(domain: @site.domain)
       @service.start
       @service.stop
