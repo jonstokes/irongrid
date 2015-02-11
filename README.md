@@ -207,10 +207,11 @@ daemon -U -r --stdout=syslog -n irongrid-services -D /home/bitnami/irongrid -- j
 daemon -U -r --stdout=syslog -n irongrid-sidekiq -D /home/bitnami/irongrid -- jruby --2.0 -S bundle exec sidekiq -r /home/bitnami/irongrid -q scrapes
 
 
+## Staging deploy
 
-RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec rake service:boot --trace
-RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 5
-RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q scrapes -c 5
+RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec rake service:boot --trace 2>&1 | logger -t sidekiq
+RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 5 2>&1 | logger -t sidekiq
+RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q scrapes -c 5 2>&1 | logger -t sidekiq
 
 
 ## Boot sidekiq instances
