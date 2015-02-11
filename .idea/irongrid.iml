@@ -176,7 +176,6 @@
     <orderEntry type="library" scope="PROVIDED" name="jruby-openssl (v0.9.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.8.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="launchy (v2.4.3, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="logglier (v0.2.11, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.0.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.6.3, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mime-types (v2.4.3, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />

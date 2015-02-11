@@ -276,12 +276,6 @@ GEM
     websocket-extensions (0.1.1)
     xpath (2.0.0)
       nokogiri (~> 1.3)
-    yell (2.0.5)
-    yell-adapters-syslog (2.0.2)
-      yell (~> 2.0)
-    yell-rails (2.0.0)
-      rails (>= 3)
-      yell (~> 2.0)
 
 PLATFORMS
   java
@@ -336,5 +330,3 @@ DEPENDENCIES
   therubyrhino
   thread_safe
   tokenizer
-  yell-adapters-syslog
-  yell-rails

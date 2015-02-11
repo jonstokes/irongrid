@@ -19,8 +19,6 @@ gem 'net-http-persistent'
 gem "geocoder"
 gem 'connection_pool'
 gem 'stringex'
-gem 'yell-rails'
-gem 'yell-adapters-syslog'
 gem 'interactor', '3.1.0'
 gem 'poltergeist'
 gem 'capybara'
