@@ -1,3 +1,5 @@
+require 'syslogger'
+
 Irongrid::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -49,7 +51,7 @@ Irongrid::Application.configure do
   # config.log_tags = [ :subdomain, :uuid ]
 
   # Use a different logger for distributed setups.
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  config.logger = Syslogger.new('IronGrid', Syslog::LOG_PID, Syslog::LOG_LOCAL7)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store

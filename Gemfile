@@ -29,6 +29,7 @@ gem 'tokenizer'
 gem 'logglier'
 gem 'elasticsearch'
 gem 'elasticsearch-rails'
+gem 'syslogger', '~> 1.6.0'
 
 gem 'sunbro', '~> 0.1.0'
 gem 'bellbro', '~> 0.1.2'
