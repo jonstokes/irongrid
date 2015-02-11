@@ -1,11 +1,3 @@
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
-  revision: 797c2ae86c567ac65e166143753fd343ce3c4e06
-  specs:
-    iron_core (0.0.3)
-      bellbro (~> 0.1.1)
-      stretched (~> 0.1.0)
-
 GEM
   remote: http://rubygems.org/
   remote: https://7efe68ea:9c90e496@gems.contribsys.com/
@@ -139,6 +131,9 @@ GEM
       hashie
       interactor
       redis
+    iron_core (0.0.4)
+      bellbro (~> 0.1.1)
+      stretched (~> 0.1.0)
     jdbc-postgres (9.3.1102)
     jruby-openssl (0.9.6-java)
     json (1.8.2-java)
@@ -309,7 +304,7 @@ DEPENDENCIES
   image_voodoo
   interactor (= 3.1.0)
   iron_base (~> 0.0.1)!
-  iron_core!
+  iron_core (~> 0.0.4)!
   jdbc-postgres
   jruby-openssl
   launchy
