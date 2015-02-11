@@ -120,6 +120,18 @@
     </content>
     <orderEntry type="jdk" jdkName="RVM: jruby-1.7.18 [irongrid]" jdkType="JRUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="iron_core (v0.0.3, /Users/jstokes/Local/Repositories/iron_core) [path][gem]">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../iron_core/lib" />
+          <root url="file://$MODULE_DIR$/../iron_core/.idea" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../iron_core/lib" />
+          <root url="file://$MODULE_DIR$/../iron_core/.idea" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionpack (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionview (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -171,7 +183,6 @@
     <orderEntry type="library" scope="PROVIDED" name="image_voodoo (v0.8.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="interactor (v3.1.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="iron_base (v0.0.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="iron_core (v0.0.3, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jdbc-postgres (v9.3.1102, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jruby-openssl (v0.9.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.8.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -230,9 +241,6 @@
     <orderEntry type="library" scope="PROVIDED" name="websocket-driver (v0.5.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="websocket-extensions (v0.1.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v2.0.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="yell (v2.0.5, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="yell-adapters-syslog (v2.0.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="yell-rails (v2.0.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />
