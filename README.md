@@ -176,6 +176,45 @@ Load irongrid loadables
 
 # Misc Deployment Notes
 
+RAILS_ENV="production" REDIS_POOL=50 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 50
+
+RAILS_ENV="production" REDIS_POOL=30 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,10 -q crawl_images,2 -q scrapes,1 -q db_slow_high,1 -q db_slow_low,1 -c 25
+
+
+RAILS_ENV="production" REDIS_POOL=20 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec rake service:boot --trace
+
+RAILS_ENV="production" REDIS_POOL=20 DB_POOL=5 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m --2.0 -S bundle exec rake service:boot_all --trace
+
+
+RAILS_ENV="production" REDIS_POOL=20 DB_POOL=5 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1536m -J-Xms1536m --2.0 -S bundle exec rails c
+
+
+curl -O https://www.loggly.com/install/configure-linux.sh
+sudo bash configure-linux.sh -a firetop -u jonstokes
+
+4XXQcBwHbC3jpV
+
+wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.1.deb
+
+
+
+daemon -U -r --stdout=syslog -n validator -D /home/bitnami/validator -- jruby --2.0 -S bundle exec rails s
+
+daemon -U -r --stdout=syslog -n stretched-services -D /home/bitnami/stretched -- jruby --2.0 -S bundle exec rake service:boot_all
+
+daemon -U -r --stdout=syslog -n stretched-sidekiq -D /home/bitnami/stretched -- jruby --2.0 -S bundle exec sidekiq -r /home/bitnami/stretched-node -q stretched
+
+daemon -U -r --stdout=syslog -n irongrid-services -D /home/bitnami/irongrid -- jruby --2.0 -S bundle exec rake service:boot_all
+
+daemon -U -r --stdout=syslog -n irongrid-sidekiq -D /home/bitnami/irongrid -- jruby --2.0 -S bundle exec sidekiq -r /home/bitnami/irongrid -q scrapes
+
+
+
+RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec rake service:boot --trace
+RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 5
+RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q scrapes -c 5
+
+
 ## Boot sidekiq instances
 
 ### Services ip-10-29-184-221
