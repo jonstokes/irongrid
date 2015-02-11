@@ -13,7 +13,7 @@ class PushProductLinksWorker < BaseWorker
     @urls = Set.new
   end
 
-  before :track
+  before :should_run?, :track
   after :transition, :stop_tracking
 
   def call

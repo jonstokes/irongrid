@@ -7,7 +7,7 @@ class RefreshLinksWorker < BaseWorker
     next_jid:      String
   )
 
-  before :track
+  before :should_run?, :track
   after { ring "Refresh links for #{domain} finished." }
   after :transition, :stop_tracking
 

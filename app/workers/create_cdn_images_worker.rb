@@ -9,8 +9,9 @@ class CreateCdnImagesWorker < BaseWorker
     next_jid:       String
   )
 
-  before :track
+  before :should_run?, :track
   after :transition, :stop_tracking
+  always :close_http_connections
 
   def call
     while !timer.timed_out? && (image_source = site.image_queue.pop) do
@@ -20,8 +21,6 @@ class CreateCdnImagesWorker < BaseWorker
       record_incr(:images_created)
       status_update
     end
-  ensure
-    close_http_connections
   end
 
   def self.should_run?(site)

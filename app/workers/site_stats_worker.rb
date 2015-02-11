@@ -9,7 +9,7 @@ class SiteStatsWorker < BaseWorker
     stalest_listing: Time
   )
 
-  before :track
+  before :should_run?, :track
   after :stop_tracking
 
   def call

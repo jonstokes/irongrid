@@ -25,7 +25,7 @@ class BaseWorker < Bellbro::Worker
   end
 
   def should_run?
-    self.class.should_run?(site) && i_am_alone_with_this_domain?
+    (self.class.should_run?(site) && i_am_alone_with_this_domain?) || abort!
   end
 
   def self.should_run?(site)

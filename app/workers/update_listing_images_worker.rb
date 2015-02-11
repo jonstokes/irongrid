@@ -6,7 +6,7 @@ class UpdateListingImagesWorker < BaseWorker
     listings_updated: Integer,
   )
 
-  before :track
+  before :should_run?, :track
   after :stop_tracking
 
   def listing_ids
@@ -28,7 +28,7 @@ class UpdateListingImagesWorker < BaseWorker
   end
 
   def should_run?
-    true
+    listing_ids.try(:any?) || abort!
   end
 
   private

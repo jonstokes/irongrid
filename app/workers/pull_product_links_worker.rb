@@ -8,7 +8,7 @@ class PullProductLinksWorker < BaseWorker
     next_jid:        String
   )
 
-  before :track
+  before :should_run?, :track
   after :stop_tracking
 
   def call

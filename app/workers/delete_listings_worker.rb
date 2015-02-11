@@ -6,7 +6,7 @@ class DeleteListingsWorker < BaseWorker
     listings_deleted: Integer
   )
 
-  before :track
+  before :should_run?, :track
   after :stop_tracking
 
   def call
@@ -26,7 +26,7 @@ class DeleteListingsWorker < BaseWorker
   end
 
   def should_run?
-    listing_ids.try(:any?)
+    listing_ids.try(:any?) || abort!
   end
 
   def listing_ids; @context; end

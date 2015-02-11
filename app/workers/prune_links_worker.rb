@@ -9,7 +9,7 @@ class PruneLinksWorker < BaseWorker
     next_jid:     String
   )
 
-  before :track
+  before :should_run?, :track
   after :transition, :stop_tracking
 
   def call

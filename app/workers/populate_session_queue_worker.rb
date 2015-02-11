@@ -5,7 +5,7 @@ class PopulateSessionQueueWorker < BaseWorker
     sessions_added:  Integer,
   )
 
-  before :track
+  before :should_run?, :track
   after { site.mark_read! }
   after :stop_tracking
 

@@ -26,8 +26,6 @@ describe PruneLinksWorker do
         @site.link_message_queue.push IronCore::LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
       end
 
-      puts "### Site has product link adapter: #{@site.product_link_adapter}"
-
       stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
       msg = IronCore::LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
       @site.link_message_queue.push msg
