@@ -192,8 +192,6 @@ RAILS_ENV="production" REDIS_POOL=20 DB_POOL=5 jruby -Xcompile.invokedynamic=tru
 curl -O https://www.loggly.com/install/configure-linux.sh
 sudo bash configure-linux.sh -a firetop -u jonstokes
 
-4XXQcBwHbC3jpV
-
 wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.1.deb
 
 
