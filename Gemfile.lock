@@ -131,7 +131,7 @@ GEM
       hashie
       interactor
       redis
-    iron_core (0.0.4)
+    iron_core (0.0.5)
       bellbro (~> 0.1.1)
       stretched (~> 0.1.0)
     jdbc-postgres (9.3.1102)
@@ -304,7 +304,7 @@ DEPENDENCIES
   image_voodoo
   interactor (= 3.1.0)
   iron_base (~> 0.0.1)!
-  iron_core (~> 0.0.4)!
+  iron_core (~> 0.0.5)!
   jdbc-postgres
   jruby-openssl
   launchy

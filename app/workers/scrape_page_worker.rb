@@ -11,7 +11,7 @@ class ScrapePageWorker < BaseWorker
 
   def site
     @site ||= begin
-      s = IronCore::Site.find(domain, source: :validator_redis_pool)
+      s = IronCore::Site.find(domain)
       s.user = user
       s
     end
@@ -33,7 +33,7 @@ class ScrapePageWorker < BaseWorker
   private
 
   def populate_session_queue
-    ring "Populating session queue for #{site} [#{site.pool}] and user #{site.user}"
+    ring "Populating session queue for #{site.domain} and user #{site.user}"
     site.session_queue.push session
     sleep 1 while site.session_queue_active?
   end

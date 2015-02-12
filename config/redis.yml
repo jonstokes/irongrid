@@ -5,9 +5,6 @@ production:
   stretched_redis_pool:
     pool: 25
     url: stretched_redis_url
-  validator_redis_pool:
-    pool: 1
-    url: validator_redis_url
   ironsights_redis_pool:
     pool: 15
     url: ironsights_redis_url
@@ -18,9 +15,6 @@ staging:
   stretched_redis_pool:
     pool: 5
     url: stretched_redis_url
-  validator_redis_pool:
-    pool: 5
-    url: validator_redis_url
   ironsights_redis_pool:
     pool: 1
     url: ironsights_redis_url
@@ -31,9 +25,6 @@ development:
   stretched_redis_pool:
     pool: 5
     url: stretched_redis_url
-  validator_redis_pool:
-    pool: 5
-    url: validator_redis_url
   ironsights_redis_pool:
     pool: 5
     url: ironsights_redis_url
@@ -44,9 +35,6 @@ test:
   stretched_redis_pool:
     pool: 2
     url: stretched_redis_url
-  validator_redis_pool:
-    pool: 2
-    url: validator_redis_url
   ironsights_redis_pool:
     pool: 2
     url: ironsights_redis_url
