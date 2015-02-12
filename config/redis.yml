@@ -13,7 +13,7 @@ staging:
     ironsights: 6
     sidekiq:    7
     irongrid:   8
-    stretched:  9
+    stretched:  10
 development:
   pool: 5
   url:  redis_url
@@ -29,6 +29,6 @@ test:
     ironsights: 6
     sidekiq:    7
     irongrid:   8
-    stretched:  9
+    stretched:  10
 
 
