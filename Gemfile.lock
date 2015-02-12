@@ -131,7 +131,7 @@ GEM
       hashie
       interactor
       redis
-    iron_core (0.0.6)
+    iron_core (0.0.7)
       bellbro (~> 0.1.1)
       stretched (~> 0.1.0)
     jdbc-postgres (9.3.1102)
