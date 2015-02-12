@@ -7,7 +7,7 @@ module SearchAlertQueues
 
     attr_reader :listing_id, :percolator_name
 
-    pool :ironsights_redis_pool
+    set_db :ironsights
 
     def initialize(percolator_name)
       @percolator_name = percolator_name

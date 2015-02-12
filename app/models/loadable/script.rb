@@ -3,7 +3,7 @@ module Loadable
     include Bellbro::Retryable
     include Bellbro::Pool
 
-    pool :irongrid_redis_pool
+    set_db :irongrid
 
     attr_accessor :key, :data
 
