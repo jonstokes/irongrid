@@ -131,7 +131,7 @@ GEM
       hashie
       interactor
       redis
-    iron_core (0.0.5)
+    iron_core (0.0.6)
       bellbro (~> 0.1.1)
       stretched (~> 0.1.0)
     jdbc-postgres (9.3.1102)
@@ -239,7 +239,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    stretched (0.1.1)
+    stretched (0.1.2)
       activesupport
       bellbro
       connection_pool
