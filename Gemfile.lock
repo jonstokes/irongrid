@@ -1,29 +1,3 @@
-PATH
-  remote: ../bellbro
-  specs:
-    bellbro (0.1.2)
-      activesupport
-      airbrake
-      redis
-      sidekiq
-
-PATH
-  remote: ../iron_core
-  specs:
-    iron_core (0.0.7)
-
-PATH
-  remote: ../stretched-rb
-  specs:
-    stretched (0.1.2)
-      activesupport
-      connection_pool
-      hashie
-      nokogiri
-      redis
-      stringex
-      tokenizer
-
 GEM
   remote: http://rubygems.org/
   remote: https://7efe68ea:9c90e496@gems.contribsys.com/
@@ -84,6 +58,11 @@ GEM
     aws-sdk-v1 (1.61.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
+    bellbro (0.1.3)
+      activesupport
+      airbrake
+      redis
+      sidekiq
     builder (3.2.2)
     capybara (2.4.4)
       mime-types (>= 1.16)
@@ -152,6 +131,9 @@ GEM
       hashie
       interactor
       redis
+    iron_core (0.0.8)
+      bellbro (~> 0.1.3)
+      stretched (~> 0.1.3)
     jdbc-postgres (9.3.1102)
     jruby-openssl (0.9.6-java)
     json (1.8.2-java)
@@ -257,6 +239,15 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    stretched (0.1.3)
+      activesupport
+      bellbro (~> 0.1.3)
+      connection_pool
+      hashie
+      nokogiri
+      redis
+      stringex
+      tokenizer
     stringex (2.5.2)
     sunbro (0.1.0)
       activesupport
@@ -297,7 +288,7 @@ DEPENDENCIES
   annotate
   awesome_print
   aws-sdk
-  bellbro!
+  bellbro (~> 0.1.3)
   capybara
   connection_pool
   cucumber-rails
@@ -313,7 +304,7 @@ DEPENDENCIES
   image_voodoo
   interactor (= 3.1.0)
   iron_base (~> 0.0.1)!
-  iron_core!
+  iron_core (~> 0.0.8)!
   jdbc-postgres
   jruby-openssl
   launchy
@@ -332,7 +323,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-pro
   spork
-  stretched!
+  stretched (~> 0.1.3)!
   stringex
   sunbro (~> 0.1.0)
   syslogger (~> 1.6.0)

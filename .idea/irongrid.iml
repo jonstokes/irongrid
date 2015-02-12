@@ -132,32 +132,6 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library name="iron_core (v0.0.7, /Users/jstokes/Local/Repositories/iron_core) [path][gem]">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../iron_core/lib" />
-          <root url="file://$MODULE_DIR$/../iron_core/.idea" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../iron_core/lib" />
-          <root url="file://$MODULE_DIR$/../iron_core/.idea" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="stretched (v0.1.2, /Users/jstokes/Local/Repositories/stretched-rb) [path][gem]">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../stretched-rb/lib" />
-          <root url="file://$MODULE_DIR$/../stretched-rb/.idea" />
-          <root url="file://$MODULE_DIR$/../stretched-rb/tasks" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../stretched-rb/lib" />
-          <root url="file://$MODULE_DIR$/../stretched-rb/.idea" />
-          <root url="file://$MODULE_DIR$/../stretched-rb/tasks" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionpack (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionview (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
