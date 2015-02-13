@@ -22,3 +22,6 @@ Sidekiq.configure_client do |config|
   end
 end
 
+IronBase::Settings.configure do |config|
+  config.redis_pool = Sidekiq.redis_pool
+end
