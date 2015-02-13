@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-source "http://7efe68ea:9c90e496@gems.contribsys.com/"
+source "https://7efe68ea:9c90e496@gems.contribsys.com/"
 source 'http://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 
 ruby '2.0.0', :engine => 'jruby', :engine_version => '1.7.18'
@@ -29,14 +29,14 @@ gem 'elasticsearch-rails'
 gem 'syslogger', '~> 1.6.0'
 
 gem 'sunbro', '~> 0.1.0'
-#gem 'bellbro', '~> 0.1.4'
+gem 'bellbro', '~> 0.2.0'
 gem 'iron_base', '~> 0.0.1', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
-#gem 'iron_core', '~> 0.0.8', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
-#gem 'stretched', '~> 0.1.3', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
+gem 'iron_core', '~> 0.0.9', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
+gem 'stretched', '~> 0.1.4', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 
-gem 'bellbro', path: '../bellbro'
-gem 'stretched', path: '../stretched-rb'
-gem 'iron_core', path: '../iron_core'
+#gem 'bellbro', path: '../bellbro'
+#gem 'stretched', path: '../stretched-rb'
+#gem 'iron_core', path: '../iron_core'
 
 # JRuby-specific gems
 gem 'execjs'
