@@ -1,6 +1,5 @@
 production:
   pool: 20
-  url:  redis_url
   databases:
     ironsights: 0
     sidekiq:    1
@@ -8,7 +7,6 @@ production:
     stretched:  5
 staging:
   pool: 5
-  url:  redis_url
   databases:
     ironsights: 6
     sidekiq:    7
@@ -16,7 +14,6 @@ staging:
     stretched:  10
 development:
   pool: 5
-  url:  redis_url
   databases:
     ironsights: 0
     sidekiq:    1
@@ -24,7 +21,6 @@ development:
     stretched:  5
 test:
   pool: 5
-  url:  redis_url
   databases:
     ironsights: 6
     sidekiq:    7

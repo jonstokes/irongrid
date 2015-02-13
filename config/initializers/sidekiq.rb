@@ -1,5 +1,5 @@
 def sidekiq_redis_url
-  "#{Figaro.env.redis_url}#{Bellbro::Settings.db_directory[:sidekiq]}"
+  "#{Bellbro::Settings.redis_url}#{Bellbro::Settings.redis_databases[:sidekiq]}"
 end
 
 Sidekiq.configure_server do |config|
