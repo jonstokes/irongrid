@@ -29,7 +29,7 @@ gem 'elasticsearch-rails'
 gem 'syslogger', '~> 1.6.0'
 
 gem 'sunbro', '~> 0.1.0'
-gem 'bellbro', '~> 0.1.3'
+gem 'bellbro', '~> 0.1.4'
 gem 'iron_base', '~> 0.0.1', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 gem 'iron_core', '~> 0.0.8', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 gem 'stretched', '~> 0.1.3', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'

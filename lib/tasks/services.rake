@@ -70,10 +70,12 @@ def clear_link_messages
 end
 
 def boot_services
-  BaseService.mutex { notify "Initializing mutex..." }
+  BaseService.mutex.synchronize { notify "Initializing mutex..." }
   services = []
   service_list.each do |svc|
-    services << start_service(svc)
+    BaseService.mutex.synchronize do
+      services << start_service(svc)
+    end
     sleep 1
   end
   notify "All services booted!"
