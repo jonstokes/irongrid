@@ -1,5 +1,5 @@
 production:
-  pool: 30
+  pool: 20
   url:  redis_url
   databases:
     ironsights: 0
