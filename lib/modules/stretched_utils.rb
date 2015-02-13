@@ -18,6 +18,7 @@ module StretchedUtils
     def initialize(user)
       raise "Sites repo not found at #{Figaro.env.sites_repo}" unless Dir.exists?(Figaro.env.sites_repo)
       @user = user
+      Stretched::Settings.configure { |c| c.cache_registrations = false }
     end
 
     def register_globals
