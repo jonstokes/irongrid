@@ -13,15 +13,17 @@ class PruneLinksWorker < BaseWorker
   after :transition, :stop_tracking
 
   def call
+    links_to_prune = []
     site.link_message_queue.each_message do |msg|
       if (listing = IronBase::Listing.find_by_url(msg.url).first) && listing.try(:fresh?)
-        site.link_message_queue.rem(msg.url)
+        links_to_prune << msg.url
         record_incr(:links_pruned)
       else
         record_incr(:links_passed)
       end
       status_update
     end
+    site.link_message_queue.rem(links_to_prune)
   end
 
   def transition

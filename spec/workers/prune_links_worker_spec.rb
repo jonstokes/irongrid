@@ -20,20 +20,29 @@ describe PruneLinksWorker do
 
   describe '#perform' do
     it "should remove a link from the IronCore::LinkMessageQueue if it's fresh, and leave it if it's stale" do
-      fresh_listing = nil
-      5.times do |i|
-        fresh_listing = create(:listing, seller: { domain: @site.domain })
-        @site.link_message_queue.push IronCore::LinkMessage.new(url: fresh_listing.url.page, jid: "abcd123")
+      stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
+      puts "## Stale url: #{stale_listing.url.page}"
+      @site.link_message_queue.push IronCore::LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
+
+      fresh_listings = []
+      5.times do
+        fresh_listings << create(:listing, seller: { domain: @site.domain })
       end
 
-      stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
-      msg = IronCore::LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
-      @site.link_message_queue.push msg
+      messages = fresh_listings.map do |listing|
+        puts "## Fresh url: #{listing.url.page}"
+        IronCore::LinkMessage.new(url: listing.url.page, jid: "abcd123")
+      end
+      @site.link_message_queue.push messages
+
       IronBase::Listing.refresh_index
       @worker.perform(domain: @site.domain)
-      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to eq(true)
-      expect(@site.link_message_queue.has_key?(fresh_listing.url.page)).to eq(false)
+
       expect(@site.link_message_queue.size).to eq(1)
+      expect(@site.link_message_queue.has_key?(stale_listing.url.page)).to eq(true)
+      fresh_listings.each do |listing|
+        expect(@site.link_message_queue.has_key?(listing.url.page)).to eq(false)
+      end
     end
 
     it 'exits early if the site is still being read' do
