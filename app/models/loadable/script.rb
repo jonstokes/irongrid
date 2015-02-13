@@ -1,7 +1,7 @@
 module Loadable
   class Script
     include Bellbro::Retryable
-    include Bellbro::Pool
+    include Bellbro::RedisPool
 
     set_db :irongrid
 
