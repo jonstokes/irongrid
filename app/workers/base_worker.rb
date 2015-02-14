@@ -20,6 +20,7 @@ class BaseWorker < Bellbro::Worker
   end
 
   def i_am_alone_with_this_domain?
+    ring "Checking aloneness for #{domain}: jobs => #{self.class.jobs_with_domain(domain).inspect}, workers => #{self.class.workers_with_domain(domain)}"
     self.class.jobs_with_domain(domain).select { |j| jid != j[:jid] }.empty? &&
         self.class.workers_with_domain(domain).select { |j| jid != j[:jid] }.empty?
   end

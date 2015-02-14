@@ -9,10 +9,15 @@ class PruneLinksWorker < BaseWorker
     next_jid:     String
   )
 
-  before :should_run?, :track
+  before :testing, :should_run?, :track
   after :transition, :stop_tracking
 
+  def testing
+    ring "Should run? #{should_run?}: #{!!site.product_link_adapter}, #{site.session_queue_inactive?}, #{site.product_links_queue.empty?}, #{!self.class.prune_refresh_push_cycle_is_running?(site.domain)}"
+  end
+
   def call
+    ring "Called with site #{site.domain}, LMQ size is #{site.link_message_queue.size}"
     links_to_prune = []
     site.link_message_queue.each_message do |msg|
       if (listing = IronBase::Listing.find_by_url(msg.url).first) && listing.try(:fresh?)
@@ -24,10 +29,12 @@ class PruneLinksWorker < BaseWorker
       status_update
     end
     site.link_message_queue.rem(links_to_prune)
+    ring "# Finished site #{site.domain}. Final LMQ size is #{site.link_message_queue.size}. Pruned #{links_to_prune.size} links."
   end
 
   def transition
     next_jid = RefreshLinksWorker.perform_async(domain: @domain)
+    ring "Transitioned to #{next_jid}"
     record_set(:transition, "RefreshLinksWorker")
     record_set(:next_jid, next_jid)
   end
