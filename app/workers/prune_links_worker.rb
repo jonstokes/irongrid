@@ -38,4 +38,10 @@ class PruneLinksWorker < BaseWorker
       site.product_links_queue.empty? &&
       !prune_refresh_push_cycle_is_running?(site.domain)
   end
+
+  def self.prune_refresh_push_cycle_is_running?(domain)
+    RefreshLinksWorker.jobs_in_flight_with_domain(domain).any? ||
+      PushProductLinksWorker.jobs_in_flight_with_domain(domain).any?
+  end
+
 end

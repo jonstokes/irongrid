@@ -29,6 +29,12 @@ class RefreshLinksWorker < BaseWorker
     record_set(:next_jid, next_jid)
   end
 
+  def self.prune_refresh_push_cycle_is_running?(domain)
+    PruneLinksWorker.jobs_in_flight_with_domain(domain).any? ||
+        PushProductLinksWorker.jobs_in_flight_with_domain(domain).any?
+  end
+
+
   private
 
   def convert_to_link_message(listing)

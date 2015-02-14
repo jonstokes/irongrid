@@ -36,6 +36,12 @@ class PushProductLinksWorker < BaseWorker
     super && site.link_message_queue.any?
   end
 
+  def self.prune_refresh_push_cycle_is_running?(domain)
+    PruneLinksWorker.jobs_in_flight_with_domain(domain).any? ||
+        RefreshLinksWorker.jobs_in_flight_with_domain(domain).any?
+  end
+
+
   private
 
   def finished?
