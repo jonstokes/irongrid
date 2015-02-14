@@ -32,7 +32,7 @@ gem 'sunbro', '~> 0.1.0'
 gem 'bellbro', '~> 0.2.1'
 gem 'iron_base', '~> 0.0.1', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 gem 'iron_core', '~> 0.0.10', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
-gem 'stretched', '~> 0.1.4', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
+gem 'stretched', '~> 0.1.5', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 
 #gem 'bellbro', path: '../bellbro'
 #gem 'stretched', path: '../stretched-rb'

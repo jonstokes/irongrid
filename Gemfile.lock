@@ -132,7 +132,7 @@ GEM
       hashie
       interactor
       redis
-    iron_core (0.0.10)
+    iron_core (0.0.11)
       bellbro (~> 0.2.0)
       stretched (~> 0.1.4)
     jdbc-postgres (9.3.1102)
@@ -240,9 +240,9 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    stretched (0.1.4)
+    stretched (0.1.5)
       activesupport
-      bellbro (~> 0.2.0)
+      bellbro (~> 0.2.1)
       hashie
       nokogiri
       redis
@@ -323,7 +323,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-pro
   spork
-  stretched (~> 0.1.4)!
+  stretched (~> 0.1.5)!
   stringex
   sunbro (~> 0.1.0)
   syslogger (~> 1.6.0)
