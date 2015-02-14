@@ -1,30 +1,66 @@
 production:
-  pool: 20
-  databases:
-    ironsights: 0
-    sidekiq:    1
-    irongrid:   2
-    stretched:  5
+  ironsights:
+    database: 0
+    url:      redis_url
+    pool:     5
+  sidekiq:
+    database: 1
+    url:      redis_url
+  irongrid:
+    database: 2
+    url:      redis_url
+    pool:     5
+  stretched:
+    database: 5
+    url:      redis_url
+    pool:     30
 staging:
-  pool: 5
-  databases:
-    ironsights: 6
-    sidekiq:    7
-    irongrid:   8
-    stretched:  10
+  ironsights:
+    database: 6
+    url:      redis_url
+    pool:     1
+  sidekiq:
+    database: 7
+    url:      redis_url
+  irongrid:
+    database: 8
+    url:      redis_url
+    pool:     5
+  stretched:
+    database: 10
+    url:      redis_url
+    pool:     5
 development:
-  pool: 5
-  databases:
-    ironsights: 0
-    sidekiq:    1
-    irongrid:   2
-    stretched:  5
+  ironsights:
+    database: 0
+    url:      redis_url
+    pool:     5
+  sidekiq:
+    database: 1
+    url:      redis_url
+  irongrid:
+    database: 2
+    url:      redis_url
+    pool:     5
+  stretched:
+    database: 5
+    url:      redis_url
+    pool:     30
 test:
-  pool: 5
-  databases:
-    ironsights: 6
-    sidekiq:    7
-    irongrid:   8
-    stretched:  10
+  ironsights:
+    database: 6
+    url:      redis_url
+    pool:     1
+  sidekiq:
+    database: 7
+    url:      redis_url
+  irongrid:
+    database: 8
+    url:      redis_url
+    pool:     5
+  stretched:
+    database: 10
+    url:      redis_url
+    pool:     5
 
 

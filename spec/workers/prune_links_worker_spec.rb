@@ -21,7 +21,6 @@ describe PruneLinksWorker do
   describe '#perform' do
     it "should remove a link from the IronCore::LinkMessageQueue if it's fresh, and leave it if it's stale" do
       stale_listing = create(:listing, updated_at: Time.now - 5.days, seller: { domain: @site.domain })
-      puts "## Stale url: #{stale_listing.url.page}"
       @site.link_message_queue.push IronCore::LinkMessage.new(url: stale_listing.url.page, jid: "abcd123")
 
       fresh_listings = []
@@ -30,7 +29,6 @@ describe PruneLinksWorker do
       end
 
       messages = fresh_listings.map do |listing|
-        puts "## Fresh url: #{listing.url.page}"
         IronCore::LinkMessage.new(url: listing.url.page, jid: "abcd123")
       end
       @site.link_message_queue.push messages
