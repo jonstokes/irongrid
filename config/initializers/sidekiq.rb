@@ -21,7 +21,3 @@ Sidekiq.configure_client do |config|
     chain.add Sidekiq::Middleware::Client::Batch
   end
 end
-
-IronBase::Settings.configure do |config|
-  config.redis_pool = Sidekiq.redis_pool
-end

@@ -171,6 +171,7 @@
     <orderEntry type="library" scope="PROVIDED" name="image_voodoo (v0.8.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="interactor (v3.1.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="iron_base (v0.0.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="iron_core (v0.0.10, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jdbc-postgres (v9.3.1102, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jruby-openssl (v0.9.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.8.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />

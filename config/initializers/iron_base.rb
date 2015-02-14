@@ -11,4 +11,5 @@ IronBase::Settings.configure do |config|
   config.aws_region            = 'us-east-1'
   config.snapshot_repository   = 'irongrid-backup'
   config.allow_nil_fields      = true
+  config.redis_pool            = Bellbro::Settings.redis_pool
 end
