@@ -1,6 +1,6 @@
 class BaseWorker < Bellbro::Worker
   def site
-    @site ||= IronCore::Site.find(domain) rescue nil
+    @site ||= IronCore::Site.find(domain)
   end
 
   def timer
