@@ -124,7 +124,7 @@ GEM
     i18n (0.7.0)
     image_voodoo (0.8.7)
     interactor (3.1.0)
-    iron_base (0.0.1)
+    iron_base (0.0.2)
       activesupport
       connection_pool
       elasticsearch
@@ -303,7 +303,7 @@ DEPENDENCIES
   hashie
   image_voodoo
   interactor (= 3.1.0)
-  iron_base (~> 0.0.1)!
+  iron_base (~> 0.0.2)!
   iron_core (~> 0.0.13)!
   jdbc-postgres
   jruby-openssl

@@ -30,13 +30,14 @@ gem 'syslogger', '~> 1.6.0'
 
 gem 'sunbro', '~> 0.1.0'
 gem 'bellbro', '~> 0.2.2'
-gem 'iron_base', '~> 0.0.1', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
+gem 'iron_base', '~> 0.0.2', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 gem 'iron_core', '~> 0.0.13', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 gem 'stretched', '~> 0.1.5', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 
 #gem 'bellbro', path: '../bellbro'
 #gem 'stretched', path: '../stretched-rb'
 #gem 'iron_core', path: '../iron_core'
+#gem 'iron_base', path: '../iron_base'
 
 # JRuby-specific gems
 gem 'execjs'
