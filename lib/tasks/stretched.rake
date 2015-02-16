@@ -1,20 +1,16 @@
-def stretched_user
-  ENV['STRETCHED_USER'] || Stretched::Settings.user
-end
-
 namespace :stretched do
   namespace :registration do
     task :create_all => :environment do
-      StretchedUtils.register_globals(stretched_user)
-      StretchedUtils.register_sites(stretched_user)
+      StretchedUtils.register_globals
+      StretchedUtils.register_sites
     end
 
     task :create_globals => :environment do
-      StretchedUtils.register_globals(stretched_user)
+      StretchedUtils.register_globals
     end
 
     task :create_sites => :environment do
-      StretchedUtils.register_sites(stretched_user)
+      StretchedUtils.register_sites
     end
   end
 

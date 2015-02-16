@@ -1,16 +1,24 @@
 module StretchedUtils
 
-  def self.register_globals(user)
+  def self.register_globals(user=nil)
+    user ||= stretched_user
     StretchedUtils::Utils.new(user).register_globals
   end
 
-  def self.register_site(domain, user)
+  def self.register_site(domain, user=nil)
+    user ||= stretched_user
     StretchedUtils::Utils.new(user).register_site(domain)
   end
 
-  def self.register_sites(user)
+  def self.register_sites(user=nil)
+    user ||= stretched_user
     StretchedUtils::Utils.new(user).register_sites
   end
+
+  def self.stretched_user
+    ENV['STRETCHED_USER'] || Stretched::Settings.user
+  end
+
 
   class Utils
     attr_reader :user

@@ -1,15 +1,35 @@
-namespace :site do
+def create_all_loadables
+  Dir["#{Figaro.env.sites_repo}/loadables/ironsights/**/*.rb"].each do |filename|
+    Loadable::Script.create_from_file(filename)
+  end
+end
 
+def load_all_scripts
+  IronCore::Site.each do |site|
+    site.load_scripts rescue next
+  end
+end
+
+def create_all_sites
+  filename = "#{Figaro.env.sites_repo}/sites/site_manifest.yml"
+  domains = YAML.load_file(filename)
+  raise "No sites found in #{filename}" unless domains
+  IronCore::Site.add_domains(domains)
+end
+
+namespace :site do
   desc "Add new sites from site manifest to redis"
   task :add_new => :environment do
-    filename = "#{Figaro.env.sites_repo}/sites/site_manifest.yml"
-    domains = YAML.load_file(filename)
-    raise "No sites found in #{filename}" unless domains
-    IronCore::Site.add_domains(domains)
+    StretchedUtils.register_globals
+    create_all_loadables
+    create_all_sites
+    load_all_scripts
   end
 
   desc "Update site attributes without overwriting stats"
   task :update_all => :environment do
+    StretchedUtils.register_globals
+    create_all_loadables
     IronCore::Site.each do |site|
       site.update_from_local
       site.register
@@ -17,13 +37,8 @@ namespace :site do
   end
 
   task :load_scripts => :environment do
-    Dir["#{Figaro.env.sites_repo}/loadables/ironsights/**/*.rb"].each do |filename|
-      Loadable::Script.create_from_file(filename)
-    end
-
-    IronCore::Site.each do |site|
-      site.load_scripts rescue next
-    end
+    create_all_loadables
+    load_all_scripts
   end
 
   desc "Copy all sites from github to redis"
