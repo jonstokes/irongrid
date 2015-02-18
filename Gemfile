@@ -28,12 +28,10 @@ gem 'elasticsearch'
 gem 'elasticsearch-rails'
 gem 'syslogger', '~> 1.6.0'
 
-gem 'sunbro', '~> 0.1.0'
+gem 'sunbro', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git"
 gem 'bellbro', '~> 0.2.2'
 gem 'iron_base', '~> 0.0.2', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
-#gem 'iron_core', '~> 0.0.13', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
 gem 'stretched', '~> 0.1.5', :source => 'https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/'
-
 gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
 
 #gem 'bellbro', path: '../bellbro'

@@ -6,6 +6,18 @@ GIT
       bellbro (~> 0.2.2)
       stretched (~> 0.1.5)
 
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git
+  revision: 2e57f6fd1947c8b8076807aa9af359d0a9695ff9
+  specs:
+    sunbro (0.1.0)
+      activesupport
+      capybara
+      hashie
+      nokogiri
+      poltergeist
+      rest-client
+
 GEM
   remote: http://rubygems.org/
   remote: https://7efe68ea:9c90e496@gems.contribsys.com/
@@ -159,6 +171,7 @@ GEM
     multi_test (0.1.1)
     multipart-post (2.0.0)
     net-http-persistent (2.9.4)
+    netrc (0.10.2)
     nokogiri (1.6.6.2-java)
     poltergeist (1.5.1)
       capybara (~> 2.1)
@@ -202,6 +215,9 @@ GEM
     redis (3.2.0)
     redis-namespace (1.5.1)
       redis (~> 3.0, >= 3.0.4)
+    rest-client (1.7.2)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     robotex (1.0.0)
     rspec-core (3.2.0)
       rspec-support (~> 3.2.0)
@@ -254,13 +270,6 @@ GEM
       stringex
       tokenizer
     stringex (2.5.2)
-    sunbro (0.1.0)
-      activesupport
-      capybara
-      hashie
-      net-http-persistent
-      nokogiri
-      poltergeist
     syslogger (1.6.0)
     therubyrhino (2.0.4)
       therubyrhino_jar (>= 1.7.3)
@@ -330,7 +339,7 @@ DEPENDENCIES
   spork
   stretched (~> 0.1.5)!
   stringex
-  sunbro (~> 0.1.0)
+  sunbro!
   syslogger (~> 1.6.0)
   therubyrhino
   thread_safe
