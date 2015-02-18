@@ -31,7 +31,7 @@ namespace :site do
     StretchedUtils.register_globals
     create_all_loadables
     IronCore::Site.each do |site|
-      site.update_from_local
+      site.update(read_at: nil) if site.update_from_local
       site.register
     end
   end
