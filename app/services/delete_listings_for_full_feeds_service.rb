@@ -14,7 +14,7 @@ class DeleteListingsForFullFeedsService < BaseService
 
   def should_add_job?(site)
     PullListingsWorker.jobs_in_flight_with_domain(site.domain).empty? &&
-      site.session_queue.empty? && site.listings_queue.empty? && site.read_at?
+      site.session_queue.empty? && site.listings_queue.empty? && site.read_at
   end
 
   private

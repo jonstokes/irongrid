@@ -185,6 +185,7 @@
     <orderEntry type="library" scope="PROVIDED" name="multi_test (v0.1.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multipart-post (v2.0.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-http-persistent (v2.9.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="netrc (v0.10.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.6.6.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="poltergeist (v1.5.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="protected_attributes (v1.0.8, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -200,6 +201,7 @@
     <orderEntry type="library" scope="PROVIDED" name="rdoc (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis (v3.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-namespace (v1.5.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rest-client (v1.7.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="robotex (v1.0.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -207,8 +209,8 @@
     <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v3.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="safe_yaml (v1.0.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sidekiq (v3.3.1, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sidekiq-pro (v1.9.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sidekiq (v3.3.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sidekiq-pro (v2.0.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sinatra (v1.4.5, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spoon (v0.0.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spork (v0.9.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -216,7 +218,7 @@
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v2.2.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stretched (v0.1.5, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringex (v2.5.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sunbro (v0.1.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sunbro (v0.1.0@4657bd, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="syslogger (v1.6.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="therubyrhino (v2.0.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="therubyrhino_jar (v1.7.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
