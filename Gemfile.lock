@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git
-  revision: 4657bdf4295be6a55a6027f48473764194807019
+  revision: 2947cb3332cbdc1945847b544726fb70e7fd0400
   specs:
     sunbro (0.1.0)
       activesupport
