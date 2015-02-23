@@ -6,8 +6,7 @@ describe WriteListingToIndex do
 
   describe '#call' do
     before :each do
-      Stretched::Registration.clear_all
-      register_globals
+      initialize_stretched
       load_scripts
       @page = Hashie::Mash.new(
           fetched: true,

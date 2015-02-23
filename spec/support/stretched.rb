@@ -1,5 +1,5 @@
 def initialize_stretched
-  Stretched::Registration.clear_all
+  Stretched::Registration.with_connection { |c| c.flushdb }
   register_globals
 end
 

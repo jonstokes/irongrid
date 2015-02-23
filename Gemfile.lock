@@ -1,10 +1,46 @@
 GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git
+  revision: 31f2a1a4f4449546f63e54c912a0d0cc2979b2e7
+  specs:
+    bellbro (0.2.2)
+      activesupport
+      airbrake
+      redis
+      sidekiq
+
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
+  revision: 76129faf6ae794354cdf5b6d39d9c155614d1dce
+  specs:
+    iron_base (0.0.2)
+      activesupport
+      connection_pool
+      elasticsearch
+      geocoder
+      hashie
+      interactor
+      redis
+
+GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
   revision: c32ba4d548e4fa39056b03957613b51d6ffac353
   specs:
     iron_core (0.0.13)
       bellbro (~> 0.2.2)
       stretched (~> 0.1.5)
+
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
+  revision: 6f56ed184ee72ea25ae2e24984db3c8714fef6a2
+  specs:
+    stretched (0.1.6)
+      activesupport
+      bellbro (~> 0.2.2)
+      hashie
+      nokogiri
+      redis
+      stringex
+      tokenizer
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git
@@ -21,8 +57,6 @@ GIT
 GEM
   remote: http://rubygems.org/
   remote: https://7efe68ea:9c90e496@gems.contribsys.com/
-  remote: http://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/
-  remote: https://Hxqs-zwMFzgDeyLkBbss@gem.fury.io/jonstokes/
   specs:
     actionmailer (4.2.0)
       actionpack (= 4.2.0)
@@ -79,11 +113,6 @@ GEM
     aws-sdk-v1 (1.61.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    bellbro (0.2.2)
-      activesupport
-      airbrake
-      redis
-      sidekiq
     builder (3.2.2)
     capybara (2.4.4)
       mime-types (>= 1.16)
@@ -144,14 +173,6 @@ GEM
     i18n (0.7.0)
     image_voodoo (0.8.7)
     interactor (3.1.0)
-    iron_base (0.0.2)
-      activesupport
-      connection_pool
-      elasticsearch
-      geocoder
-      hashie
-      interactor
-      redis
     jdbc-postgres (9.3.1102)
     jruby-openssl (0.9.6-java)
     json (1.8.2-java)
@@ -261,14 +282,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    stretched (0.1.5)
-      activesupport
-      bellbro (~> 0.2.1)
-      hashie
-      nokogiri
-      redis
-      stringex
-      tokenizer
     stringex (2.5.2)
     syslogger (1.6.0)
     therubyrhino (2.0.4)
@@ -302,7 +315,7 @@ DEPENDENCIES
   annotate
   awesome_print
   aws-sdk
-  bellbro (~> 0.2.2)
+  bellbro (~> 0.2.2)!
   capybara
   connection_pool
   cucumber-rails
@@ -337,7 +350,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-pro
   spork
-  stretched (~> 0.1.5)!
+  stretched (~> 0.1.6)!
   stringex
   sunbro!
   syslogger (~> 1.6.0)

@@ -171,7 +171,6 @@
     <orderEntry type="library" scope="PROVIDED" name="image_voodoo (v0.8.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="interactor (v3.1.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="iron_base (v0.0.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="iron_core (v0.0.13@5635a8, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jdbc-postgres (v9.3.1102, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jruby-openssl (v0.9.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.8.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -218,7 +217,6 @@
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v2.2.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stretched (v0.1.5, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringex (v2.5.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sunbro (v0.1.0@4657bd, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="syslogger (v1.6.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="therubyrhino (v2.0.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="therubyrhino_jar (v1.7.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
