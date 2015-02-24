@@ -1,4 +1,4 @@
-module Site
+  module Site
   class AddNew
     include Interactor
 

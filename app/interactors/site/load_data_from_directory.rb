@@ -13,7 +13,7 @@ module Site
     end
 
     def filename
-      "#{directory}/#{domain_dash}.yml"
+      context.filename ||= "#{directory}/#{domain_dash}.yml"
     end
 
     def domain_dash

@@ -1,4 +1,4 @@
-module IronCore
+module Site
   class UpdateAll
     include Interactor
 

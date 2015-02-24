@@ -11,6 +11,7 @@ module StretchedUtils
 
 
   class Utils
+    include Bellbro::Ringable
     attr_reader :user
 
     def initialize(user)
@@ -21,27 +22,27 @@ module StretchedUtils
 
     def register_extensions
       Dir["#{Figaro.env.sites_repo}/globals/extensions/*.rb"].each do |filename|
-        outlog "Creating extension from #{filename} for user #{user}"
+        ring "Creating extension from #{filename} for user #{user}"
         Stretched::Extension.create_from_file(filename, user)
       end
     end
 
     def register_scripts
       Dir["#{Figaro.env.sites_repo}/globals/scripts/*.rb"].each do |filename|
-        outlog "Creating script from #{filename} for user #{user}"
+        ring "Creating script from #{filename} for user #{user}"
         Stretched::Script.create_from_file(filename, user)
       end
     end
 
     def register_mappings
       Dir["#{Figaro.env.sites_repo}/globals/mappings/*.yml"].each do |filename|
-        outlog "Creating mapping from #{filename} for user #{user}"
+        ring "Creating mapping from #{filename} for user #{user}"
         Stretched::Mapping.create_from_file(filename, user)
       end
     end
 
     def create_registrations
-      outlog "Creating registrations from globals/registrations.yml for user #{user}"
+      ring "Creating registrations from globals/registrations.yml for user #{user}"
       Stretched::Registration.create_from_file("#{Figaro.env.sites_repo}/globals/registrations.yml", user)
     end
 
@@ -50,11 +51,6 @@ module StretchedUtils
       register_scripts
       register_mappings
       create_registrations
-    end
-
-    def outlog(string)
-      return if Rails.env.test?
-      puts "# #{string}"
     end
   end
 

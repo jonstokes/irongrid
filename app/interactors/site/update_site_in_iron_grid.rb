@@ -3,16 +3,26 @@ module Site
     include Interactor
     include Bellbro::Ringable
 
+    before do
+      @changed = false
+    end
+
     def call
+      ring "Updating site data for #{domain} from #{directory}..."
       local_site = IronCore::Site.new(context.site_data)
-      context.changed = false
-      ring "Updating #{domain} from #{directory}..."
       site_data.members.each do |attr|
         next if [:read_at, :stats].include?(attr)
-        context.changed = (site_data[attr] != local_site.site_data[attr])
+        @changed = (site_data[attr] != local_site.site_data[attr])
         site_data[attr] = local_site.site_data[attr]
       end
-      site.save
+    end
+
+    after do
+      if @changed
+        ring "  ...#{domain} site data changed."
+        site.save
+        site.update(read_at: nil)
+      end
     end
 
     def domain
@@ -28,7 +38,7 @@ module Site
     end
 
     def site
-      context.site
+      context.site ||= IronCore::Site.find domain
     end
 
     def site_data
