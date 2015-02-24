@@ -106,8 +106,7 @@ describe WriteListingToIndex::FindOrCreateListing do
     end
 
     it 'returns the tagged url for a site with a link tag' do
-      site = IronCore::Site.find('www.luckygunner.com', source: :fixture)
-      site.save
+      site = create_site('www.luckygunner.com')
       url = "http://#{site.domain}/product"
       tagged_url = "#{url}#{site.affiliate_link_tag}"
 

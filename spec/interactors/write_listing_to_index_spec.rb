@@ -63,7 +63,7 @@ describe WriteListingToIndex do
     end
 
     it 'parses a standard, out of stock retail listing from Impact Guns' do
-      site = create_site "www.impactguns.com", source: :fixture
+      site = create_site "www.impactguns.com"
 
       listing_json = File.open("spec/fixtures/stretched/output/impact-standard-outofstock.json", "r") do |f|
         JSON.parse(f.read)

@@ -22,14 +22,6 @@ GIT
       redis
 
 GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
-  revision: c32ba4d548e4fa39056b03957613b51d6ffac353
-  specs:
-    iron_core (0.0.13)
-      bellbro (~> 0.2.2)
-      stretched (~> 0.1.5)
-
-GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
   revision: 6f56ed184ee72ea25ae2e24984db3c8714fef6a2
   specs:
@@ -53,6 +45,14 @@ GIT
       nokogiri
       poltergeist
       rest-client
+
+PATH
+  remote: ../iron_core
+  specs:
+    iron_core (0.0.13)
+      bellbro (~> 0.2.2)
+      interactor
+      stretched (~> 0.1.5)
 
 GEM
   remote: http://rubygems.org/
