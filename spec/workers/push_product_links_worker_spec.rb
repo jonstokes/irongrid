@@ -9,7 +9,6 @@ describe PushProductLinksWorker do
 
     # IronGrid
     @site = create_site "www.budsgunshop.com"
-    @site.register
     @site.link_message_queue.clear
     @worker = PushProductLinksWorker.new
     @link_store = @site.link_message_queue

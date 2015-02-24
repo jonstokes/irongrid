@@ -467,7 +467,6 @@ describe PullListingsWorker do
       before :each do
         initialize_stretched
         @site = create_site "ammo.net"
-        @site.register
         @site.link_message_queue.clear
         @site.image_queue.clear
       end
@@ -519,7 +518,6 @@ describe PullListingsWorker do
       before :each do
         initialize_stretched
         @site = create_site "www.brownells.com"
-        @site.register
         @site.link_message_queue.clear
         @site.image_queue.clear
       end

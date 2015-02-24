@@ -40,7 +40,7 @@ describe DeleteListingsWorker do
     ).to be_nil
     expect(auction_count).to eq(5)
     expect {
-      DeleteListingsWorker.new.perform(auctions)
+      DeleteListingsWorker.new.perform(auctions.map(&:id))
     }.not_to raise_error
   end
 
