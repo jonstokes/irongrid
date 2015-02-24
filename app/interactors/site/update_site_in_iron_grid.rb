@@ -1,11 +1,12 @@
 module Site
   class UpdateSiteInIronGrid
     include Interactor
+    include Bellbro::Ringable
 
     def call
       local_site = IronCore::Site.new(context.site_data)
       context.changed = false
-      puts "Updating #{domain} from #{directory}..."
+      ring "Updating #{domain} from #{directory}..."
       site_data.members.each do |attr|
         next if [:read_at, :stats].include?(attr)
         context.changed = (site_data[attr] != local_site.site_data[attr])
