@@ -176,10 +176,9 @@ Load irongrid loadables
 
 # Misc Deployment Notes
 
-RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 50 2>&1 | logger -t sidekiq
+RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -J-Djruby.reify.classes=true --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 50 2>&1 | logger -t sidekiq
 
 RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,10 -q crawl_images,2 -q db_slow_high,1 -q db_slow_low,1 -c 25  2>&1 | logger -t sidekiq
-
 RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid  -q db_slow_high,10 -q db_slow_low,5 -q crawls,1 -q crawl_images,2 -c 25  2>&1 | logger -t sidekiq
 
 
@@ -197,6 +196,13 @@ sudo bash configure-linux.sh -a firetop -u jonstokes
 wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.1.deb
 
 
+## m3.large stretched
+RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx3g -J-Xms3g --profile.api -J-Xrunhprof --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 25
+
+
+RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx3g -J-Xms3g --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 25 2>&1 | logger -t sidekiq
+
+
 
 daemon -U -r --stdout=syslog -n validator -D /home/bitnami/validator -- jruby --2.0 -S bundle exec rails s
 
@@ -212,11 +218,7 @@ daemon -U -r --stdout=syslog -n irongrid-sidekiq -D /home/bitnami/irongrid -- jr
 ## Staging deploy
 
 RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec rake service:boot --trace 2>&1 | logger -t sidekiq
-
-
-RAILS_ENV="staging" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 5 2>&1 | logger -t sidekiq
-
-
+RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 5 2>&1 | logger -t sidekiq
 RAILS_ENV="staging" REDIS_POOL=3 jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q scrapes -c 5 2>&1 | logger -t sidekiq
 
 
