@@ -176,7 +176,7 @@ Load irongrid loadables
 
 # Misc Deployment Notes
 
-RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -J-Djruby.reify.classes=true --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 50 2>&1 | logger -t sidekiq
+RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m -J-Djruby.reify.classes=true --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 25 2>&1 | logger -t sidekiq
 
 RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,10 -q crawl_images,2 -q db_slow_high,1 -q db_slow_low,1 -c 25  2>&1 | logger -t sidekiq
 RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid  -q db_slow_high,10 -q db_slow_low,5 -q crawls,1 -q crawl_images,2 -c 25  2>&1 | logger -t sidekiq
@@ -194,6 +194,14 @@ curl -O https://www.loggly.com/install/configure-linux.sh
 sudo bash configure-linux.sh -a firetop -u jonstokes
 
 wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.1.deb
+
+
+
+RAILS_ENV="production" jruby -J-Xmx1792m -J-Xms1792m -J-Djruby.reify.classes=true --2.0 -S bundle exec sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 25 2>&1 | logger -t sidekiq
+
+
+# Diagnostic deploy
+RAILS_ENV="production" jruby -J-Djruby.reify.classes=true -J-Xmx1792m -J-Xms1792m --2.0 -S sidekiq -q stretched -c 25  2>&1 | logger -t sidekiq
 
 
 ## m3.large stretched
