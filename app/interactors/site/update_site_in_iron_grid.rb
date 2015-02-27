@@ -9,20 +9,23 @@ module Site
 
     def call
       ring "Updating site data for #{domain} from #{directory}..."
-      local_site = IronCore::Site.new(context.site_data)
-      site_data.members.each do |attr|
+      site.site_data.members.each do |attr|
         next if [:read_at, :stats].include?(attr)
-        @changed = (site_data[attr] != local_site.site_data[attr])
-        site_data[attr] = local_site.site_data[attr]
+        @changed = (site.site_data[attr] != local_site.site_data[attr])
+        site.site_data[attr] = local_site.site_data[attr]
       end
+      site.save
     end
 
     after do
       if @changed
         ring "  ...#{domain} site data changed."
-        site.save
         site.update(read_at: nil)
       end
+    end
+
+    def local_site
+      context.local_site ||= IronCore::Site.new(context.site_data)
     end
 
     def domain
@@ -39,10 +42,6 @@ module Site
 
     def site
       context.site ||= IronCore::Site.find domain
-    end
-
-    def site_data
-      site.site_data
     end
   end
 end

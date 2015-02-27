@@ -23,7 +23,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
-  revision: 7abc5411f21416118c48b5e9212be47e7e4ca9c4
+  revision: 3cada2f5778d579436c4056f9cdf77a9370938e8
   specs:
     iron_core (0.0.14)
       bellbro (~> 0.2.2)
@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
-  revision: 6f56ed184ee72ea25ae2e24984db3c8714fef6a2
+  revision: e54ca19fea10b5a8d5c9774121bd16f89b62c470
   specs:
     stretched (0.1.6)
       activesupport

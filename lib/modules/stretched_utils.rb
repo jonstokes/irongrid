@@ -44,6 +44,11 @@ module StretchedUtils
     def create_registrations
       ring "Creating registrations from globals/registrations.yml for user #{user}"
       Stretched::Registration.create_from_file("#{Figaro.env.sites_repo}/globals/registrations.yml", user)
+
+      Dir["#{Figaro.env.sites_repo}/globals/*.yml"].each do |filename|
+        ring "Creating registration from #{filename} for user #{user}"
+        Stretched::Registration.create_from_file(filename, user)
+      end
     end
 
     def register_globals
