@@ -2,10 +2,6 @@ module Site
   class LoadDataFromDirectory
     include Interactor
 
-    before do
-      context.filename = filename
-    end
-
     def call
       context.site_data = YAML.load_file(filename)
       context.stretched_scripts = Dir["#{directory}/stretched_scripts/#{domain_dash}/*.rb"]
@@ -16,16 +12,16 @@ module Site
       context.filename ||= "#{directory}/#{domain_dash}.yml"
     end
 
-    def domain_dash
-      domain.gsub(".","--")
-    end
-
     def directory
       context.directory ||= IronCore::Site.sites_dir
     end
 
     def user
       context.user ||= Stretched::Settings.user
+    end
+
+    def domain_dash
+      domain.gsub(".","--")
     end
 
     def domain
