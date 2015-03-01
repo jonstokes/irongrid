@@ -21,11 +21,11 @@ module Site
     end
 
     def directory
-      context.directory
+      context.directory ||= IronCore::Site.sites_dir
     end
 
     def user
-      context.user
+      context.user ||= Stretched::Settings.user
     end
 
     def domain
