@@ -16,10 +16,6 @@ module Site
       context.directory ||= IronCore::Site.sites_dir
     end
 
-    def user
-      context.user ||= Stretched::Settings.user
-    end
-
     def domain_dash
       domain.gsub(".","--")
     end

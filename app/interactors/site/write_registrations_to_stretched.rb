@@ -4,8 +4,13 @@ module Site
     include Bellbro::Ringable
 
     def call
-      ring "Creating registrations for site #{context.site.domain} for user #{context.user}"
-      Stretched::Registration.create_from_source(context.site.registrations, context.user)
+      ring "Creating registrations for site #{context.site.domain} for user #{user}"
+      Stretched::Registration.create_from_source(context.site.registrations, user)
     end
+
+    def user
+      context.user ||= Stretched::Settings.user
+    end
+
   end
 end
