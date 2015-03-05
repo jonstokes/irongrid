@@ -26,6 +26,22 @@ namespace :site do
     )
   end
 
+  desc "Delete all listings for a site"
+  task delete_all_listings: :environment do
+    next unless domain = ENV['DOMAIN']
+    query_hash = IronBase::Listing::Search.new(
+        filters: {
+            seller_domain: domain
+        }
+    ).query_hash
+
+    puts "Deleting listings for #{domain} with query #{query_hash.inspect}"
+    sleep 5
+    IronBase::Listing.find_each(query_hash) do |batch|
+      DeleteListingsWorker.perform_async(batch.map(&:id))
+    end
+  end
+
   task :flag_session_queues => :environment do
     IronCore::Site.each do |site|
       site.session_queue.flag!
