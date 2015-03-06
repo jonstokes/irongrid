@@ -22,9 +22,14 @@ class DeleteListingsForFullFeedsService < BaseService
   def query_hash(site)
     IronBase::Listing::Search.new(
         filters: {
-            stale: site.read_at,
+            stale: threshold(site),
             seller_domain: site.domain
         }
     ).query_hash
+  end
+
+  def threshold(site)
+    return site.read_at - 4.hours unless site.read_interval
+    site.read_at - site.read_interval
   end
 end

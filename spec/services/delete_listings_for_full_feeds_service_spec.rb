@@ -9,12 +9,15 @@ describe DeleteListingsForFullFeedsService do
     @site.session_queue.clear
     @site.listings_queue.clear
     clear_sidekiq
+    Sidekiq::Testing.disable!
+  end
+
+  after :each do
+    Sidekiq::Testing.fake!
   end
 
   describe "#run" do
     it 'creates DeleteListingsWorker jobs for all listings older than site.read_at if listing OBQ is empty' do
-      Sidekiq::Testing.fake!
-
       @site.update(read_at: Time.now - 1.day)
       removed = []
       kept = []
@@ -29,8 +32,8 @@ describe DeleteListingsForFullFeedsService do
       @service.start_jobs
       @service.stop_tracking
 
-      expect(DeleteListingsWorker.jobs.count).to eq(1)
-      job = DeleteListingsWorker.jobs.first
+      expect(DeleteListingsWorker._jobs.count).to eq(1)
+      job = DeleteListingsWorker._jobs.first
       job["args"].first.each do |id|
         expect(removed.map(&:id)).to include(id)
         expect(kept.map(&:id)).not_to include(id)
@@ -38,8 +41,6 @@ describe DeleteListingsForFullFeedsService do
     end
 
     it 'creates no DeleteListingsWorker jobs for all listings older than 1 day ago if site.read_at is nil' do
-      Sidekiq::Testing.fake!
-
       @site = create_site "ammo.net"
       @site.update(read_at: nil)
 
@@ -56,13 +57,11 @@ describe DeleteListingsForFullFeedsService do
       @service.start_jobs
       @service.stop_tracking
 
-      expect(DeleteListingsWorker.jobs.count).to be_zero
+      expect(DeleteListingsWorker._jobs.count).to be_zero
     end
 
 
     it 'creates DeleteListingsWorker jobs for no listings older than site.read_at if listing OBQ is not empty' do
-      Sidekiq::Testing.fake!
-
       object = {
         page: { url: "http://ammo.net/1" },
         session: {},
@@ -83,7 +82,7 @@ describe DeleteListingsForFullFeedsService do
       @service.start_jobs
       @service.stop_tracking
 
-      expect(DeleteListingsWorker.jobs.count).to be_zero
+      expect(DeleteListingsWorker._jobs.count).to be_zero
     end
 
   end

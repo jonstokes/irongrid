@@ -22,7 +22,8 @@ class DeleteListingsWorker < BaseWorker
       retryable(sleep: 1) { IronBase::Listing.bulk_delete(batch2) }
       record_set(:listings_deleted, batch2.size)
     end
-  rescue Elasticsearch::Transport::Transport::Errors::InternalServerError
+  rescue Elasticsearch::Transport::Transport::Errors::InternalServerError => e
+    gong "A listing batch raised #{e.message}"
   end
 
   def should_run?
