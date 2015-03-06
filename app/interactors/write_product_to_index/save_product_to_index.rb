@@ -7,6 +7,9 @@ class WriteProductToIndex
       return unless should_write_product_to_index?
       context.product.save(prune_invalid_attributes: true)
       context.listing.product_source.id = context.product.id
+    rescue Elasticsearch::Transport::Transport::Errors::InternalServerError => e
+      Airbrake.notify(e)
+      gong "Listing #{context.listing.url.page} raised #{e.message}"
     end
 
     def should_write_product_to_index?
