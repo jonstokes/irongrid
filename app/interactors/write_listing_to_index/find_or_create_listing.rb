@@ -65,7 +65,6 @@ class WriteListingToIndex
 
     def linkconnector_url
       link = base_url.to_query('url')
-      puts "# Generating LinkConnector url from #{link}"
       "#{context.site.affiliate_link_prefix}#{link}#{context.site.affiliate_link_tag}"
     end
 

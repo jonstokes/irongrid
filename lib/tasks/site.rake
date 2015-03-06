@@ -26,26 +26,36 @@ namespace :site do
     )
   end
 
-  desc "Delete all listings for a site"
-  task delete_all_listings: :environment do
-    next unless domain = ENV['DOMAIN']
-    query_hash = IronBase::Listing::Search.new(
-        filters: {
-            seller_domain: domain
-        }
-    ).query_hash
-
-    puts "Deleting listings for #{domain} with query #{query_hash.inspect}"
-    sleep 5
-    IronBase::Listing.find_each(query_hash) do |batch|
-      DeleteListingsWorker.perform_async(batch.map(&:id))
-    end
-  end
-
   task :flag_session_queues => :environment do
     IronCore::Site.each do |site|
       site.session_queue.flag!
     end
+  end
+
+  desc "Update affiliate urls"
+  task update_affiliates: :environment do
+    ['www.swva-arms.com', 'www.gunsinternational.com'].each do |domain|
+      site = IronCore::Site.find domain
+      IronBase::Listing.find_each(query_hash(domain)) do |batch|
+        batch.each do |listing|
+          listing.url.purchase = to_affiliate_url(listing.url.purchase, site)
+          listing.save
+        end
+      end
+    end
+  end
+
+  def query_hash(domain)
+    IronBase::Listing::Search.new(
+        filters: {
+            seller_domain: domain
+        }
+    ).query_hash
+  end
+
+  def to_affiliate_url(base_url, site)
+    link = base_url.to_query('url')
+    "#{site.affiliate_link_prefix}#{link}#{site.affiliate_link_tag}"
   end
 
   desc "Run stats for all active sites"
