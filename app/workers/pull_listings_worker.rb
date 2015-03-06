@@ -18,7 +18,7 @@ class PullListingsWorker < BaseWorker
     ring "Pulling listings for #{site.domain} with queue size #{site.listings_queue.size}"
     while !timed_out? && json = site.listings_queue.pop do
       record_incr(:objects_deleted)
-      if page_not_found?(json) || listing_json_not_found?(json)
+      if (page_not_found?(json) || listing_json_not_found?(json)) && !site.full_feed
         destroy_listings_at_url(json)
         next
       end
