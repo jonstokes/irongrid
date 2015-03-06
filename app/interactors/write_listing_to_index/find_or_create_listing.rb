@@ -45,12 +45,14 @@ class WriteListingToIndex
     end
 
     def purchase_url
-      if affiliate_link_tag
-        "#{base_url}#{affiliate_link_tag}"
-      elsif share_a_sale?
+      if share_a_sale?
         share_a_sale_url
       elsif avantlink?
         avantlink_url
+      elsif linkconnector?
+        linkconnector_url
+      elsif affiliate_link_tag
+        "#{base_url}#{affiliate_link_tag}"
       else
         base_url
       end
@@ -59,6 +61,12 @@ class WriteListingToIndex
     def avantlink_url
       link = base_url.to_query('url')
       "#{context.site.affiliate_link_prefix}#{link}"
+    end
+
+    def linkconnector_url
+      link = base_url.to_query('url')
+      puts "# Generating LinkConnector url from #{link}"
+      "#{context.site.affiliate_link_prefix}#{link}#{context.site.affiliate_link_tag}"
     end
 
     def share_a_sale_url
@@ -94,6 +102,10 @@ class WriteListingToIndex
 
     def avantlink?
       context.site.affiliate_program.try(:downcase) == 'avantlink'
+    end
+
+    def linkconnector?
+      context.site.affiliate_program.try(:downcase) == 'linkconnector'
     end
 
     # Rollback status checkers

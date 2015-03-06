@@ -105,6 +105,19 @@ describe WriteListingToIndex::FindOrCreateListing do
       expect(listing.url.purchase).to eq(aff_link)
     end
 
+    it 'returns an affiliate url for a LinkConnector site' do
+      site = create_site 'www.swva-arms.com'
+      url = 'https://www.swva-arms.com/p-92318-winchester-ammo-usa38spvp-usa-38-special-fmj-130-gr-100box5case.aspx'
+      aff_link = 'http://www.linkconnector.com/ta.php?lc=122286000012005300&url=https%3A%2F%2Fwww.swva-arms.com%2Fp-92318-winchester-ammo-usa38spvp-usa-38-special-fmj-130-gr-100box5case.aspx&lcpt=0&lcpf=0'
+
+      listing = WriteListingToIndex::FindOrCreateListing.call(
+          site:         site,
+          page:         @page.merge(url: "http://#{site.domain}/feed.xml"),
+          listing_json: @listing_json.merge(url: url),
+      ).listing
+      expect(listing.url.purchase).to eq(aff_link)
+    end
+
     it 'returns the tagged url for a site with a link tag' do
       site = create_site('www.luckygunner.com')
       url = "http://#{site.domain}/product"

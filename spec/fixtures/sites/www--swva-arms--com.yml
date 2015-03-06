@@ -1,0 +1,190 @@
+---
+name: SWVA Arms
+domain: www.swva-arms.com
+read_interval: 21600
+loadables:
+  - www.swva-arms.com/shipping
+  - ironsights/globals/calculate_discount
+  - ironsights/globals/calculate_price_with_shipping
+  - ironsights/globals/calculate_discount_with_shipping
+  - ironsights/globals/calculate_price_per_round
+  - ironsights/globals/calculate_price_per_round_with_shipping
+registrations:
+  session_queue:
+    www.swva-arms.com: {}
+  object_adapter:
+    www.swva-arms.com/product_page:
+      $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_title_description
+      queue: www.swva-arms.com/listings
+      attribute:
+        title:
+        - find_by_xpath:
+            xpath: //td[@id='productPageInfoCell']/div[@id='productInfoWrap']/div[@class='contents']/h1[@class='ProductNameText']
+        - find_by_xpath:
+            xpath: //title
+        description:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@id='descriptiontab']
+        image:
+        - find_by_xpath:
+            xpath: //img[@id='productImage']/@src
+          filters:
+          - prefix: 'http:'
+        price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='pricingBlock']/div[@class='productPageMsrp']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        - find_by_xpath:
+            xpath: //div[@class='pricingBlock']/div[@class='productPagePrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        sale_price_in_cents:
+        - find_by_xpath:
+            xpath: //div[@class='pricingBlock']/div[@class='productPagePrice']/span[@class='variantprice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@class='stockBlock']/div[@class='StockHint StockHint_InStock']
+            pattern: !ruby/regexp '/in stock/i'
+        - value: out_of_stock
+        condition:
+        - label_by_xpath:
+            label: New
+            xpath: //div[@class='product-secondary clearfix']/div[@class='imageanddetails']/div[@class='product-details']/ul/li
+            pattern: !ruby/regexp '/condition:\s*New$/i'
+        - label_by_xpath:
+            label: Used
+            xpath: //span[@id='prodAvailStatus']
+            pattern: !ruby/regexp '/condition:\s*used$/i'
+        - value: new
+        product_sku:
+        - find_by_xpath:
+            xpath: //div[@id='productInfoWrap']//div[@class='productNumbers']/span[@class='productNumber']
+            pattern: !ruby/regexp '/sku:\s*\w*/i'
+          filters:
+          - reject: !ruby/regexp '/sku:/i'
+        product_upc:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/upc:\s*\d+/i'
+          filters:
+          - accept: !ruby/regexp '/\d+/i'
+        product_mpn:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/Manufacturer Item Number:\s*.*$/i'
+          filters:
+          - reject: !ruby/regexp '/Manufacturer Item Number:\s*/i'
+        product_velocity:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/muzzle velocity:\s*\d+\s*fps/i'
+          filters:
+          - accept: !ruby/regexp '/\d+/i'
+        product_weight_shipping:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/Weight:\s*[\d\.]*/i'
+          filters:
+          - reject: !ruby/regexp '/weight:\s*/i'
+        product_number_of_rounds:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/rounds per box:\s*\d+/i'
+          filters:
+          - accept: !ruby/regexp '/\d{1,5}/i'
+        product_caliber:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/(caliber|gauge):\s*.*/i'
+        product_bullet_type:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/bullet type:\s*.*/i'
+        product_shot_size:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/shot size:\s*.*/i'
+          filters:
+          - accept: !ruby/regexp '/\d+/'
+        product_grains:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/bullet weight:\s*\d{1,3}\s*gr/i'
+          filters:
+          - accept: !ruby/regexp '/\d{1,3}/i'
+        product_manufacturer:
+        - find_by_xpath:
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/brand:\s*.*$/i'
+        product_category1:
+        - label_by_xpath:
+            label: 'Ammunition'
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/item type:\s*ammunition/i'
+        - label_by_xpath:
+            label: 'Reloading'
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/item type:\s*reloading/i'
+        - label_by_xpath:
+            label: 'Optics'
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/item type:\s*optics/i'
+        - label_by_xpath:
+            label: 'Accessories'
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/item type:\s*accessory/i'
+        - label_by_xpath:
+            label: 'Guns'
+            xpath: //div[@id='productPage']/div[@id='producttabs']/div[@id='tabs-description']/div[@class='specAttributes']/table[@class='attributeTable']
+            pattern: !ruby/regexp '/item type:\s*(.*gun|revolver|rifle)/i'
+        type:
+        - value: RetailListing
+        location:
+        - value: 5401 Fallowater Ln Ste H, Roanoke, Virginia, 24018-0949
+    www.swva-arms.com/product_link:
+      $key: globals/product_link
+      xpath: //td[@class='entityPageProdNameCell']/a
+      queue: www.swva-arms.com/product_links
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+          filters:
+          - prefix: 'http://www.swva-arms.com/'
+affiliate_program: LinkConnector
+affiliate_link_prefix: 'http://www.linkconnector.com/ta.php?lc=122286000012005300&'
+affiliate_link_tag: '&lcpt=0&lcpf=0'
+product_session_format:
+  queue: www.swva-arms.com
+  session_definition: globals/standard_dhtml_session
+  object_adapters:
+  - www.swva-arms.com/product_page
+sessions:
+- queue: www.swva-arms.com
+  session_definition: globals/standard_dhtml_session
+  object_adapters:
+  - www.swva-arms.com/product_link
+  urls:
+  - url: http://www.swva-arms.com/c-32-reloading.aspx?pagesize=100&inventoryfilter=1&pagenum=PAGENUM
+    start_at_page: 1
+    stop_at_page: 18
+  - url: http://www.swva-arms.com/c-26-optics.aspx?pagesize=100&inventoryfilter=1&pagenum=PAGENUM
+    start_at_page: 1
+    stop_at_page: 27
+  - url: http://www.swva-arms.com/c-6-muzzleloading.aspx?pagesize=100&inventoryfilter=1&pagenum=PAGENUM
+    start_at_page: 1
+    stop_at_page: 4
+  - url: http://www.swva-arms.com/c-11-gun-accessories.aspx?pagesize=100&inventoryfilter=1&pagenum=PAGENUM
+    start_at_page: 1
+    stop_at_page: 55
+  - url: http://www.swva-arms.com/c-45-firearms.aspx?pagesize=100&inventoryfilter=1&pagenum=PAGENUM
+    start_at_page: 1
+    stop_at_page: 28
+  - url: http://www.swva-arms.com/c-43-ammunition.aspx?pagesize=100&inventoryfilter=1&pagenum=PAGENUM
+    start_at_page: 1
+    stop_at_page: 35
+
