@@ -1,6 +1,7 @@
 class WriteProductToIndex
   class SaveProductToIndex
     include Interactor
+    include Bellbro::Ringable
 
     def call
       # Don't actually save the product to the index unless there was a UPC in the listing's product_source
