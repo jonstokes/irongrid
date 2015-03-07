@@ -1,6 +1,7 @@
 class WriteListingToIndex
   class SaveListingToIndex
     include Interactor
+    include Bellbro::Ringable
 
     def call
       context.listing.save
