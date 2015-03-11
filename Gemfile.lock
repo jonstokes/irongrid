@@ -9,19 +9,6 @@ GIT
       sidekiq
 
 GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
-  revision: 75dee95b2b39a55c72f6b6ff287b3bc2d9591d56
-  specs:
-    iron_base (0.0.2)
-      activesupport
-      connection_pool
-      elasticsearch
-      geocoder
-      hashie
-      interactor
-      redis
-
-GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
   revision: 3cada2f5778d579436c4056f9cdf77a9370938e8
   specs:
@@ -54,6 +41,18 @@ GIT
       nokogiri
       poltergeist
       rest-client
+
+PATH
+  remote: ../iron_base
+  specs:
+    iron_base (0.0.2)
+      activesupport
+      connection_pool
+      elasticsearch
+      geocoder
+      hashie
+      interactor
+      redis
 
 GEM
   remote: http://rubygems.org/
@@ -331,7 +330,7 @@ DEPENDENCIES
   hashie
   image_voodoo
   interactor (= 3.1.0)
-  iron_base (~> 0.0.2)!
+  iron_base!
   iron_core!
   jdbc-postgres
   jruby-openssl

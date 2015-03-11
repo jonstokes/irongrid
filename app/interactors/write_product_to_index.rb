@@ -7,7 +7,7 @@ class WriteProductToIndex
 
   organize [
      FindOrCreateProduct,
-     IronBase::UpdateProductFromListing,
+     IronBase::UpdateProductFromListing, # Preserve captured product_source attrs in listing's product object
      #UpdateProductImage,
      SaveProductToIndex
   ]

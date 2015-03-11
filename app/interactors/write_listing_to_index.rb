@@ -6,7 +6,8 @@ class WriteListingToIndex
   organize [
     FindOrCreateListing,
     MergeJsonIntoListing,
-    UpdateAndLinkProduct,
+    WriteProductToIndex,
+    LinkDenormalizedProduct,
     RunLoadableScripts,
     SetListingDigest,
     LinkDenormalizedLocation,
