@@ -103,7 +103,28 @@ namespace :delete do
   end
 end
 
+def update_product(listing)
+  return unless listing.product_source.present?
+  return if listing.product_source.upc || listing.product_source.mpn || listing.product_source.sku
+
+  listing.product_source.each do |k, v|
+    listing.product[k] = v
+  end
+
+  listing.product.name        = listing.title
+  listing.product.msrp        = listing.price.list
+  listing.save
+end
+
 namespace :migrate do
+
+  task fix_products: :environment do
+    IronBase::Listing.record_timestamps = false
+    IronBase::Listing.find_each do |listing|
+      update_product(listing)
+    end
+  end
+
   task geo_data: :environment do
     IronBase::Settings.configure { |c| c.logger = nil }
     GeoData.find_in_batches do |batch|
