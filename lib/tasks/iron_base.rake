@@ -111,6 +111,8 @@ def update_product(listing)
     listing.product[k] = v
   end
 
+  listing.product_source.id   = nil
+  listing.product.id          = nil
   listing.product.name        = listing.title
   listing.product.msrp        = listing.price.list
   listing.save
