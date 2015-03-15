@@ -21,21 +21,21 @@ module StretchedUtils
     end
 
     def register_extensions
-      Dir["#{Figaro.env.sites_repo}/globals/extensions/*.rb"].each do |filename|
+      Dir["#{Figaro.env.sites_repo}/stretched/globals/ironsights/extensions/*.rb"].each do |filename|
         ring "Creating extension from #{filename} for user #{user}"
         Stretched::Extension.create_from_file(filename, user)
       end
     end
 
     def register_scripts
-      Dir["#{Figaro.env.sites_repo}/globals/scripts/*.rb"].each do |filename|
+      Dir["#{Figaro.env.sites_repo}/stretched/globals/ironsights/scripts/*.rb"].each do |filename|
         ring "Creating script from #{filename} for user #{user}"
         Stretched::Script.create_from_file(filename, user)
       end
     end
 
     def register_mappings
-      Dir["#{Figaro.env.sites_repo}/globals/mappings/*.yml"].each do |filename|
+      Dir["#{Figaro.env.sites_repo}/stretched/globals/ironsights/mappings/*.yml"].each do |filename|
         ring "Creating mapping from #{filename} for user #{user}"
         Stretched::Mapping.create_from_file(filename, user)
       end
@@ -43,9 +43,9 @@ module StretchedUtils
 
     def create_registrations
       ring "Creating registrations from globals/registrations.yml for user #{user}"
-      Stretched::Registration.create_from_file("#{Figaro.env.sites_repo}/globals/registrations.yml", user)
+      Stretched::Registration.create_from_file("#{Figaro.env.sites_repo}/stretched/globals/ironsights/registrations.yml", user)
 
-      Dir["#{Figaro.env.sites_repo}/globals/*.yml"].each do |filename|
+      Dir["#{Figaro.env.sites_repo}/stretched/globals/ironsights/*.yml"].each do |filename|
         ring "Creating registration from #{filename} for user #{user}"
         Stretched::Registration.create_from_file(filename, user)
       end
