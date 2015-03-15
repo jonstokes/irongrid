@@ -23,7 +23,7 @@ class DeleteListingsWorker < BaseWorker
       record_set(:listings_deleted, batch2.size)
     end
   rescue Elasticsearch::Transport::Transport::Errors::InternalServerError => e
-    gong "A listing batch raised #{e.message}"
+    error "A listing batch raised #{e.message}"
   end
 
   def should_run?

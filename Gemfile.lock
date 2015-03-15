@@ -1,14 +1,4 @@
 GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git
-  revision: 31f2a1a4f4449546f63e54c912a0d0cc2979b2e7
-  specs:
-    bellbro (0.2.2)
-      activesupport
-      airbrake
-      redis
-      sidekiq
-
-GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
   revision: b73665adad51eef695508a21b500eaee33b3e58c
   specs:
@@ -20,15 +10,6 @@ GIT
       hashie
       interactor
       redis
-
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
-  revision: 3cada2f5778d579436c4056f9cdf77a9370938e8
-  specs:
-    iron_core (0.0.14)
-      bellbro (~> 0.2.2)
-      interactor
-      stretched (~> 0.1.5)
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
@@ -54,6 +35,38 @@ GIT
       nokogiri
       poltergeist
       rest-client
+
+PATH
+  remote: ../bellbro
+  specs:
+    bellbro (0.2.2)
+      activesupport
+      airbrake
+      redis
+      retryable
+      sidekiq
+
+PATH
+  remote: ../iron_core
+  specs:
+    iron_core (0.0.14)
+      interactor
+
+PATH
+  remote: ../pool_boy
+  specs:
+    pool_boy (0.0.1)
+      activesupport
+      connection_pool
+      figaro
+      redis
+      retryable
+      thread_safe
+
+PATH
+  remote: ../shout
+  specs:
+    shout (0.0.1)
 
 GEM
   remote: http://rubygems.org/
@@ -240,6 +253,7 @@ GEM
     rest-client (1.7.3)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    retryable (2.0.1)
     robotex (1.0.0)
     rspec-core (3.2.0)
       rspec-support (~> 3.2.0)
@@ -316,7 +330,7 @@ DEPENDENCIES
   annotate
   awesome_print
   aws-sdk
-  bellbro (~> 0.2.2)!
+  bellbro!
   capybara
   connection_pool
   cucumber-rails
@@ -340,6 +354,7 @@ DEPENDENCIES
   net-http-persistent
   nokogiri
   poltergeist
+  pool_boy!
   protected_attributes
   rails (= 4.2.0)
   rake
@@ -348,6 +363,7 @@ DEPENDENCIES
   robotex
   rspec-mocks
   rspec-rails
+  shout!
   sidekiq
   sidekiq-pro
   spork

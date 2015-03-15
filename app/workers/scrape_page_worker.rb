@@ -33,7 +33,7 @@ class ScrapePageWorker < BaseWorker
   private
 
   def populate_session_queue
-    ring "Populating session queue for #{site.domain} and user #{site.user}"
+    log "Populating session queue for #{site.domain} and user #{site.user}"
     site.session_queue.push session
     sleep 1 while site.session_queue_active?
   end

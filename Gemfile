@@ -27,15 +27,18 @@ gem 'elasticsearch'
 gem 'elasticsearch-rails'
 gem 'syslogger', '~> 1.6.0'
 
+#gem 'pool_boy', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/pool_boy.git"
 gem 'sunbro', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git"
-gem 'bellbro', '~> 0.2.2', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git'
+#gem 'bellbro', '~> 0.2.2', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git'
 gem 'iron_base', '~> 0.0.2', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git'
 gem 'stretched', '~> 0.1.6' ,git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git"
-gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
+#gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
 
-#gem 'bellbro', path: '../bellbro'
+gem 'shout', path: '../shout'
+gem 'pool_boy', path: '../pool_boy'
+gem 'bellbro', path: '../bellbro'
 #gem 'stretched', path: '../stretched-rb'
-#gem 'iron_core', path: '../iron_core'
+gem 'iron_core', path: '../iron_core'
 #gem 'iron_base', path: '../iron_base'
 
 # JRuby-specific gems
