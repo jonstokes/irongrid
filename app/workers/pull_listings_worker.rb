@@ -43,10 +43,10 @@ class PullListingsWorker < BaseWorker
   def destroy_listings_at_url(json)
     # TODO: Improve this with the bulk listings API
     possible_index_urls(json).each do |url|
-      next unless listings = retryable { IronBase::Listing.find_by_url(url) }
+      next unless listings = Retryable.retryable { IronBase::Listing.find_by_url(url) }
       listings.each do |listing|
         record_incr(:listings_deleted)
-        retryable { listing.destroy }
+        Retryable.retryable { listing.destroy }
       end
     end
   end

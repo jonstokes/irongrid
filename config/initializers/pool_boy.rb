@@ -1,1 +1,0 @@
-PoolBoy.initialize_redis!

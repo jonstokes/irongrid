@@ -1,5 +1,4 @@
 module CDN
-  include Bellbro::Retryable
 
   CDN_BASE_URL = Rails.env.test? ? "http://assets.scoperrific.com/" : "http://d27bctd90ej7xn.cloudfront.net/"
   DEFAULT_IMAGE_URL = "http://assets.scoperrific.com/no-image-200x140.png"
@@ -9,13 +8,13 @@ module CDN
   end
 
   def self.count
-    retryable do
+    Retryable.retryable do
       s3_objects.count
     end
   end
 
   def self.clear!
-    retryable do
+    Retryable.retryable do
       s3_objects.each { |item| item.delete }
     end
   end
