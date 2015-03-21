@@ -51,7 +51,7 @@ class PushProductLinksWorker < BaseWorker
 
   def new_session
     return unless @urls.try(:any?)
-    site.product_session_format.merge('urls' => url_list)
+    Stretched::Session.new site.product_session_format.merge('urls' => url_list)
   end
 
   def url_list
