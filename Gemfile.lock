@@ -142,13 +142,13 @@ GEM
       rails (>= 3, < 5)
     database_cleaner (1.4.0)
     diff-lcs (1.2.5)
-    elasticsearch (1.0.6)
-      elasticsearch-api (= 1.0.6)
-      elasticsearch-transport (= 1.0.6)
-    elasticsearch-api (1.0.6)
+    elasticsearch (1.0.8)
+      elasticsearch-api (= 1.0.7)
+      elasticsearch-transport (= 1.0.7)
+    elasticsearch-api (1.0.7)
       multi_json
     elasticsearch-rails (0.1.6)
-    elasticsearch-transport (1.0.6)
+    elasticsearch-transport (1.0.7)
       faraday
       multi_json
     erubis (2.7.0)
