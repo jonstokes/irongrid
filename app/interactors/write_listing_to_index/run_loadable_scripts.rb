@@ -16,13 +16,15 @@ class WriteListingToIndex
 
     def call
       context.site.loadables.each do |script_name|
-        runner = Loadable::Script.runner(script_name)
-        extend_runner(runner)
-        runner.with_context(context) do
-          runner.actions.each do |setter, action|
-            value = do_action(script_name: script_name, setter: setter, action: action)
-            self.send(setter, value) if value
-          end
+        runner = Loaded::Script.runner(key: script_name, user: "#{Rails.env}@irongrid.com")
+        runner.set_context(
+            listing:      context.listing,
+            product:      context.product,
+            listing_json: context.listing_json
+        )
+        instance = runner.run
+        instance.each do |setter, value|
+          self.send(setter, value) if value
         end
       end
     end
@@ -31,19 +33,6 @@ class WriteListingToIndex
       context.listing.price = nil if context.listing.price.empty?
       context.product.weight = nil if context.product.weight.empty?
       context.listing.shipping = nil if context.listing.shipping.empty?
-    end
-
-    def do_action(opts)
-      script_name, setter, action = opts[:script_name], opts[:setter], opts[:action]
-      action.call
-    rescue Exception => e
-      raise "Error in script #{script_name}, setter #{setter} for site #{context.site.domain}: #{e.message}"
-    end
-
-    def extend_runner(runner)
-      if ironsights?
-        runner.send(:extend, Ironsights::ListingCalculations)
-      end
     end
 
     def ironsights?

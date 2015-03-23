@@ -1,5 +1,6 @@
-Loadable::Script.define do
-  script "www.midwayusa.com/shipping" do
+Loaded::Script.define "www.midwayusa.com/shipping" do
+  extensions 'ironsights/globals/extensions/*'
+  script do
     shipping_cost do
       ships_free = message1
       dot = message2

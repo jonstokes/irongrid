@@ -1,5 +1,6 @@
-Loadable::Script.define do
-  script "www.budsgunshop.com/shipping" do
+Loaded::Script.define "www.budsgunshop.com/shipping" do
+  extensions 'ironsights/globals/extensions/*'
+  script do
     shipping_cost do
       if product.guns?
         0

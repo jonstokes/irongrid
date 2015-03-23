@@ -1,6 +1,5 @@
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git
-  revision: c39f01da7b3a22745aed416ce2b2806d40300b16
+PATH
+  remote: ../bellbro
   specs:
     bellbro (0.2.2)
       activesupport
@@ -9,9 +8,8 @@ GIT
       retryable
       sidekiq
 
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
-  revision: b13cd078f6f933286aa62a59c67e19e8516cd04d
+PATH
+  remote: ../iron_base
   specs:
     iron_base (0.0.2)
       activesupport
@@ -23,17 +21,21 @@ GIT
       redis
       retryable
 
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
-  revision: d94b6ab22e484408f75262082e4f64341ca81478
+PATH
+  remote: ../iron_core
   specs:
     iron_core (0.0.14)
       activesupport
       interactor
 
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/pool_boy.git
-  revision: fdb21f2dbc749d9ce7a8d82bcdaad20e9eab2d82
+PATH
+  remote: ../loaded
+  specs:
+    loaded (0.0.1)
+      thread_safe
+
+PATH
+  remote: ../pool_boy
   specs:
     pool_boy (0.0.1)
       activesupport
@@ -43,15 +45,19 @@ GIT
       retryable
       thread_safe
 
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/shout.git
-  revision: 64e4d8b4e4d4a91e524eb5baa6ae3c25132afb83
+PATH
+  remote: ../redis_objects
+  specs:
+    redis_objects (0.0.1)
+      redis
+
+PATH
+  remote: ../shout
   specs:
     shout (0.0.1)
 
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
-  revision: c9dd216755b5721ede1ec86c677a0387bd32cc1a
+PATH
+  remote: ../stretched-rb
   specs:
     stretched (0.1.6)
       activesupport
@@ -61,17 +67,16 @@ GIT
       stringex
       tokenizer
 
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git
-  revision: cec549dcd4c295aee68c667febd6b87aa110da59
+PATH
+  remote: ../sunbro
   specs:
     sunbro (0.1.1)
       activesupport
       capybara
-      hashie
       nokogiri
       poltergeist
       rest-client
+      retryable
 
 GEM
   remote: http://rubygems.org/
@@ -335,7 +340,7 @@ DEPENDENCIES
   annotate
   awesome_print
   aws-sdk
-  bellbro (~> 0.2.2)!
+  bellbro!
   capybara
   connection_pool
   cucumber-rails
@@ -350,11 +355,12 @@ DEPENDENCIES
   hashie
   image_voodoo
   interactor (= 3.1.0)
-  iron_base (~> 0.0.2)!
+  iron_base!
   iron_core!
   jdbc-postgres
   jruby-openssl
   launchy
+  loaded!
   mocktra
   net-http-persistent
   nokogiri
@@ -365,6 +371,7 @@ DEPENDENCIES
   rake
   rdoc
   redis
+  redis_objects!
   retryable
   robotex
   rspec-mocks
@@ -373,7 +380,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-pro
   spork
-  stretched (~> 0.1.6)!
+  stretched!
   stringex
   sunbro!
   syslogger (~> 1.6.0)

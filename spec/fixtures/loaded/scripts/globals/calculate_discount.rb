@@ -1,5 +1,6 @@
-Loadable::Script.define do
-  script "ironsights/globals/calculate_discount" do
+Loaded::Script.define "ironsights/globals/calculate_discount" do
+  extensions 'ironsights/globals/extensions/*'
+  script do
     discount do
       next if discounted? || !list_price
       {
