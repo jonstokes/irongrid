@@ -1,7 +1,7 @@
 class WriteProductToIndex
   class SaveProductToIndex
     include Interactor
-    include Bellbro::Ringable
+    include Shout
 
     def call
       # Don't actually save the product to the index unless there was a UPC in the listing's product_source
@@ -10,7 +10,7 @@ class WriteProductToIndex
       context.listing.product_source.id = context.product.id
     rescue Elasticsearch::Transport::Transport::Errors::InternalServerError => e
       Airbrake.notify(e)
-      gong "Listing #{context.listing.url.page} raised #{e.message}"
+      error "Listing #{context.listing.url.page} raised #{e.message}"
     end
 
     def should_write_product_to_index?

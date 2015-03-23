@@ -1,5 +1,5 @@
 def sidekiq_redis_url
-  Bellbro::Settings.redis_config[:sidekiq][:url]
+  PoolBoy::Settings.redis_config[:sidekiq][:url]
 end
 
 Sidekiq.configure_server do |config|

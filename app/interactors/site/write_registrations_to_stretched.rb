@@ -1,10 +1,10 @@
 module Site
   class WriteRegistrationsToStretched
     include Interactor
-    include Bellbro::Ringable
+    include Shout
 
     def call
-      ring "Creating registrations for site #{context.site.domain} for user #{user}"
+      log "Creating registrations for site #{context.site.domain} for user #{user}"
       Stretched::Registration.create_from_source(context.site.registrations, user)
     end
 

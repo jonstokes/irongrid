@@ -15,7 +15,7 @@ class PullListingsWorker < BaseWorker
   after :transition, :stop_tracking
 
   def call
-    ring "Pulling listings for #{site.domain} with queue size #{site.listings_queue.size}"
+    log "Pulling listings for #{site.domain} with queue size #{site.listings_queue.size}"
     while !timed_out? && json = site.listings_queue.pop do
       record_incr(:objects_deleted)
       if (page_not_found?(json) || listing_json_not_found?(json)) && !site.full_feed
@@ -24,7 +24,7 @@ class PullListingsWorker < BaseWorker
       end
       record_incr(:listings_created) if parse(json)
     end
-    ring "Pulled #{record[:data][:objects_deleted]} listings for #{site.domain}. Queue size is #{site.listings_queue.size}"
+    log "Pulled #{record[:data][:objects_deleted]} listings for #{site.domain}. Queue size is #{site.listings_queue.size}"
   end
 
   def transition
@@ -43,10 +43,10 @@ class PullListingsWorker < BaseWorker
   def destroy_listings_at_url(json)
     # TODO: Improve this with the bulk listings API
     possible_index_urls(json).each do |url|
-      next unless listings = retryable { IronBase::Listing.find_by_url(url) }
+      next unless listings = Retryable.retryable { IronBase::Listing.find_by_url(url) }
       listings.each do |listing|
         record_incr(:listings_deleted)
-        retryable { listing.destroy }
+        Retryable.retryable { listing.destroy }
       end
     end
   end
@@ -71,7 +71,7 @@ class PullListingsWorker < BaseWorker
 
   def parse(json)
     if json.error?
-      ring "# STRETCHED ERROR on page #{json.page.url}\n#{json.error}"; nil
+      error "Stretched error on page #{json.page.url}\n#{json.error}"; nil
     else
       result = WriteListingToIndex.call(
           site:         site,

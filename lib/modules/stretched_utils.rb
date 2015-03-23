@@ -11,7 +11,7 @@ module StretchedUtils
 
 
   class Utils
-    include Bellbro::Ringable
+    include Shout
     attr_reader :user
 
     def initialize(user)
@@ -22,31 +22,31 @@ module StretchedUtils
 
     def register_extensions
       Dir["#{Figaro.env.sites_repo}/stretched/globals/ironsights/extensions/*.rb"].each do |filename|
-        ring "Creating extension from #{filename} for user #{user}"
+        puts "Creating extension from #{filename} for user #{user}"
         Stretched::Extension.create_from_file(filename, user)
       end
     end
 
     def register_scripts
       Dir["#{Figaro.env.sites_repo}/stretched/globals/ironsights/scripts/*.rb"].each do |filename|
-        ring "Creating script from #{filename} for user #{user}"
+        puts "Creating script from #{filename} for user #{user}"
         Stretched::Script.create_from_file(filename, user)
       end
     end
 
     def register_mappings
       Dir["#{Figaro.env.sites_repo}/stretched/globals/ironsights/mappings/*.yml"].each do |filename|
-        ring "Creating mapping from #{filename} for user #{user}"
+        puts "Creating mapping from #{filename} for user #{user}"
         Stretched::Mapping.create_from_file(filename, user)
       end
     end
 
     def create_registrations
-      ring "Creating registrations from globals/registrations.yml for user #{user}"
+      puts "Creating registrations from globals/registrations.yml for user #{user}"
       Stretched::Registration.create_from_file("#{Figaro.env.sites_repo}/stretched/globals/ironsights/registrations.yml", user)
 
       Dir["#{Figaro.env.sites_repo}/stretched/globals/ironsights/*.yml"].each do |filename|
-        ring "Creating registration from #{filename} for user #{user}"
+        puts "Creating registration from #{filename} for user #{user}"
         Stretched::Registration.create_from_file(filename, user)
       end
     end

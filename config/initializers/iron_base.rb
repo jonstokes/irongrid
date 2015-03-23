@@ -1,3 +1,5 @@
+PoolBoy.initialize_redis!
+
 IronBase::Settings.configure do |config|
   config.env                   = Rails.env
   config.redis_url             = Figaro.env.ironsights_redis_url
@@ -11,5 +13,5 @@ IronBase::Settings.configure do |config|
   config.aws_region            = 'us-east-1'
   config.snapshot_repository   = 'irongrid-backup'
   config.allow_nil_fields      = true
-  config.redis_pool            = Bellbro::Settings.redis_pool[:ironsights]
+  config.redis_pool            = PoolBoy::Settings.redis_pool[:ironsights]
 end

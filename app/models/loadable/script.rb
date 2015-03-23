@@ -1,6 +1,7 @@
 module Loadable
-  class Script < Bellbro::Bell
-    include Bellbro::RedisPool
+  class Script
+    include PoolBoy
+    include Shout
 
     set_db :irongrid
 

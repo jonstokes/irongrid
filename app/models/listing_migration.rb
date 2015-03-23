@@ -1,4 +1,4 @@
-class ListingMigration < Bellbro::Bell
+class ListingMigration
 
   attr_accessor :listing, :es_listing, :interactor
 
@@ -7,7 +7,7 @@ class ListingMigration < Bellbro::Bell
   end
 
   def write_listing_to_index
-    @interactor = retryable(sleep: 0.5) do
+    @interactor = Retryable.retryable(sleep: 0.5) do
       WriteListingToIndex.call(
           site:         site,
           listing_json: json,
