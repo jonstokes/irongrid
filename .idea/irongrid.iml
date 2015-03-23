@@ -120,6 +120,24 @@
     </content>
     <orderEntry type="jdk" jdkName="RVM: jruby-1.7.18 [irongrid]" jdkType="JRUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="iron_base (v0.0.2, /Users/jstokes/Local/Repositories/iron_base) [path][gem]">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../iron_base/lib" />
+          <root url="file://$MODULE_DIR$/../iron_base/log" />
+          <root url="file://$MODULE_DIR$/../iron_base/tmp" />
+          <root url="file://$MODULE_DIR$/../iron_base/data" />
+          <root url="file://$MODULE_DIR$/../iron_base/.idea" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../iron_base/lib" />
+          <root url="file://$MODULE_DIR$/../iron_base/log" />
+          <root url="file://$MODULE_DIR$/../iron_base/tmp" />
+          <root url="file://$MODULE_DIR$/../iron_base/data" />
+          <root url="file://$MODULE_DIR$/../iron_base/.idea" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionpack (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionview (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -149,10 +167,10 @@
     <orderEntry type="library" scope="PROVIDED" name="cucumber-rails (v1.4.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner (v1.4.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.2.5, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch (v1.0.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v1.0.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="elasticsearch (v1.0.8, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v1.0.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="elasticsearch-rails (v0.1.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-transport (v1.0.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-transport (v1.0.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.2.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_girl (v4.5.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -170,7 +188,6 @@
     <orderEntry type="library" scope="PROVIDED" name="i18n (v0.7.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="image_voodoo (v0.8.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="interactor (v3.1.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="iron_base (v0.0.2@b73665, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="iron_core (v0.0.14@5b9af8, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jdbc-postgres (v9.3.1102, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jruby-openssl (v0.9.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
@@ -216,7 +233,7 @@
     <orderEntry type="library" scope="PROVIDED" name="spork (v0.9.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v2.12.3, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v2.2.4, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="stretched (v0.1.6@1cb037, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="stretched (v0.1.6@57a246, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="stringex (v2.5.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sunbro (v0.1.1@cec549, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="syslogger (v1.6.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />

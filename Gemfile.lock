@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
-  revision: b73665adad51eef695508a21b500eaee33b3e58c
+  revision: 0aa2d9b58606847535fdb9648f28372da6926388
   specs:
     iron_base (0.0.2)
       activesupport
@@ -20,6 +20,7 @@ GIT
       hashie
       interactor
       redis
+      retryable
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
@@ -241,6 +242,7 @@ GEM
     rest-client (1.7.3)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    retryable (2.0.1)
     robotex (1.0.0)
     rspec-core (3.2.0)
       rspec-support (~> 3.2.0)
