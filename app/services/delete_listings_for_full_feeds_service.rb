@@ -9,9 +9,9 @@ class DeleteListingsForFullFeedsService < BaseService
   def start_jobs
     each_job do |job, domain|
       jid = worker_class.perform_async(job)
-      ring "Starting job #{jid} #{worker_class.name} for #{domain} with #{job.inspect}."
+      log "Starting job #{jid} #{worker_class.name} for #{domain} with #{job.inspect}."
       record_incr(:jobs_started)
-      ring "Job #{jid} will delete #{record[:data][:listings_deleted]} for #{domain}"
+      log "Job #{jid} will delete #{record[:data][:listings_deleted]} for #{domain}"
       status_update(true)
       record[:data][:listings_deleted] = 0
     end
