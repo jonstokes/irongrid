@@ -1,5 +1,5 @@
 module CDN
-  class Image < Bellbro::Bell
+  class Image
 
     attr_reader :source, :page, :file, :file_name, :s3, :http
 
@@ -105,7 +105,44 @@ module CDN
 
     private
 
-    def aws_connect!
+    def retryable_with_success(options = {}, &block)
+      opts = { :tries => 5, :on => Exception, :sleep => 1 }.merge(options)
+      retry_exception, retries, interval = opts[:on], opts[:tries], opts[:sleep]
+
+      success = false
+      begin
+        yield
+        success = true
+      rescue retry_exception
+        sleep interval
+        retry unless (retries -= 1).zero?
+      end
+      success
+    end
+
+    def retryable_with_aws(options = {}, &block)
+      # This is for use with AWS-based models. I find I get a lot of these timeouts and
+      # OpenSSL errors, and sometimes the connection dies and I need to create a new
+      # connection object. I put this in a method called aws_connect!.
+      #
+      opts = { :tries => 10, :on => Exception, :sleep => 1 }.merge(options)
+      retry_exception, retries, interval = opts[:on], opts[:tries], opts[:sleep]
+
+      begin
+        return yield
+      rescue OpenSSL::SSL::SSLError, Timeout::Error
+        sleep interval
+        aws_connect!
+        retry unless (retries -= 1).zero?
+      rescue retry_exception
+        sleep interval
+        retry unless (retries -= 1).zero?
+      end
+      yield
+    end
+
+
+  def aws_connect!
       @s3 = AWS::S3.new(AWS_CREDENTIALS)
     end
 

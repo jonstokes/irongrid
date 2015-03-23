@@ -17,12 +17,12 @@ class PushProductLinksWorker < BaseWorker
   after :transition, :stop_tracking
 
   def call
-    ring "Pushing #{site.link_message_queue.size} product links for #{site.domain}"
+    log "Pushing #{site.link_message_queue.size} product links for #{site.domain}"
     while !timed_out? && !finished? && msg = site.link_message_queue.pop
       record_incr(:links_deleted)
       @urls << msg.url
     end
-    ring "Pushed a session for #{site.domain} with #{@urls.size} urls. LMQ size is #{site.link_message_queue.size}"
+    log "Pushed a session for #{site.domain} with #{@urls.size} urls. LMQ size is #{site.link_message_queue.size}"
     record_set :sessions_pushed, site.session_queue.push(new_session).count
   end
 

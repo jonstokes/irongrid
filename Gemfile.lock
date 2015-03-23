@@ -1,16 +1,33 @@
 GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git
-  revision: 31f2a1a4f4449546f63e54c912a0d0cc2979b2e7
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git
+  revision: cec549dcd4c295aee68c667febd6b87aa110da59
+  specs:
+    sunbro (0.1.1)
+      activesupport
+      capybara
+      hashie
+      nokogiri
+      poltergeist
+      rest-client
+
+PATH
+  remote: ../bellbro
   specs:
     bellbro (0.2.2)
       activesupport
       airbrake
       redis
+      retryable
       sidekiq
 
+<<<<<<< HEAD
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
   revision: b13cd078f6f933286aa62a59c67e19e8516cd04d
+=======
+PATH
+  remote: ../iron_base
+>>>>>>> pool-boy
   specs:
     iron_base (0.0.2)
       activesupport
@@ -22,6 +39,7 @@ GIT
       redis
       retryable
 
+<<<<<<< HEAD
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
   revision: 5b9af8664b474b80f4d48520aa9003da30e13c42
@@ -29,33 +47,46 @@ GIT
     iron_core (0.0.14)
       activesupport
       bellbro (~> 0.2.2)
+=======
+PATH
+  remote: ../iron_core
+  specs:
+    iron_core (0.0.14)
+>>>>>>> pool-boy
       interactor
-      stretched (~> 0.1.5)
 
+<<<<<<< HEAD
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
   revision: 57a24658514ba5405409a2595ec5d2f0b070cba2
+=======
+PATH
+  remote: ../pool_boy
+>>>>>>> pool-boy
+  specs:
+    pool_boy (0.0.1)
+      activesupport
+      connection_pool
+      figaro
+      redis
+      retryable
+      thread_safe
+
+PATH
+  remote: ../shout
+  specs:
+    shout (0.0.1)
+
+PATH
+  remote: ../stretched-rb
   specs:
     stretched (0.1.6)
       activesupport
-      bellbro (~> 0.2.2)
       hashie
       nokogiri
       redis
       stringex
       tokenizer
-
-GIT
-  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git
-  revision: cec549dcd4c295aee68c667febd6b87aa110da59
-  specs:
-    sunbro (0.1.1)
-      activesupport
-      capybara
-      hashie
-      nokogiri
-      poltergeist
-      rest-client
 
 GEM
   remote: http://rubygems.org/
@@ -319,7 +350,7 @@ DEPENDENCIES
   annotate
   awesome_print
   aws-sdk
-  bellbro (~> 0.2.2)!
+  bellbro!
   capybara
   connection_pool
   cucumber-rails
@@ -334,7 +365,7 @@ DEPENDENCIES
   hashie
   image_voodoo
   interactor (= 3.1.0)
-  iron_base (~> 0.0.2)!
+  iron_base!
   iron_core!
   jdbc-postgres
   jruby-openssl
@@ -343,18 +374,21 @@ DEPENDENCIES
   net-http-persistent
   nokogiri
   poltergeist
+  pool_boy!
   protected_attributes
   rails (= 4.2.0)
   rake
   rdoc
   redis
+  retryable
   robotex
   rspec-mocks
   rspec-rails
+  shout!
   sidekiq
   sidekiq-pro
   spork
-  stretched (~> 0.1.6)!
+  stretched!
   stringex
   sunbro!
   syslogger (~> 1.6.0)

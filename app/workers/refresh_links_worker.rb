@@ -8,7 +8,7 @@ class RefreshLinksWorker < BaseWorker
   )
 
   before :should_run?, :track
-  after { ring "Refresh links for #{domain} finished." }
+  after { log "Refresh links for #{domain} finished." }
   after :transition, :stop_tracking
 
   def call
