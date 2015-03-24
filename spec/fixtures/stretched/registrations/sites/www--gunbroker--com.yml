@@ -1,7 +1,13 @@
 ---
 name: GunBroker.com
 domain: www.gunbroker.com
-read_interval: 1800
+read_interval: 21600
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 timezone: America/New_York
 registrations:
   session_queue:
@@ -9,6 +15,9 @@ registrations:
   object_adapter:
     www.gunbroker.com/product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_title
       queue: www.gunbroker.com/listings
       attribute:
         title:
@@ -96,6 +105,8 @@ registrations:
         product_link:
         - find_by_xpath:
             xpath: ./@href
+          filters:
+          - prefix: http://www.gunbroker.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

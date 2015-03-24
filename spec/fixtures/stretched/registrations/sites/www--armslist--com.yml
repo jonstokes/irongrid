@@ -1,7 +1,13 @@
 ---
 name: Armslist
 domain: www.armslist.com
-read_interval: 1800
+read_interval: 21600
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 timezone:
 registrations:
   session_queue:
@@ -9,10 +15,10 @@ registrations:
   object_adapter:
     www.armslist.com/product_page:
       $key: globals/product_page
-      queue: www.armslist.com/listings
       scripts:
       - globals/product_page
       - globals/validate_price_title
+      queue: www.armslist.com/listings
       attribute:
         title:
         - find_by_xpath:
@@ -89,8 +95,19 @@ product_session_format:
   - www.armslist.com/product_page
 sessions:
 - queue: www.armslist.com
-  session_definition: globals/standard_xml_session
+  session_definition: globals/standard_html_session
   object_adapters:
   - www.armslist.com/product_link
   urls:
-  - url: http://www.armslist.com/feed.rss?location=usa
+  - url: http://www.armslist.com/classifieds/usa/firearm-accessories/PAGENUM
+    start_at_page: 1
+    stop_at_page: 200
+- queue: www.armslist.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.armslist.com/product_link
+  urls:
+  - url: http://www.armslist.com/classifieds/usa/guns/PAGENUM
+    start_at_page: 1
+    stop_at_page: 200
+

@@ -1,7 +1,13 @@
 ---
 name: Gun Casket
 domain: www.guncasket.com
-read_interval: 7200
+read_interval: 21600
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 timezone:
 registrations:
   session_queue:
@@ -9,9 +15,15 @@ registrations:
   object_adapter:
     www.guncasket.com/product_feed:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_url_price_title
       queue: www.guncasket.com/listings
       xpath: //Products/Product
       attribute:
+        url:
+        - find_by_xpath:
+            xpath: .//Buy_Link
         title:
         - find_by_xpath:
             xpath: .//Product_Name
@@ -65,4 +77,4 @@ sessions:
   object_adapters:
   - www.guncasket.com/product_feed
   urls:
-  - url: http://datafeed.avantlink.com/download_feed.php?id=155995&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status
+  - url: http://datafeed.avantlink.com/download_feed.php?id=155995&auth=ad2088b086dfc98f918a37e8fa32fcf3

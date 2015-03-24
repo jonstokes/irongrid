@@ -1,7 +1,13 @@
 ---
 name: Impact Guns
 domain: www.impactguns.com
-read_interval: 1440
+read_interval: 21600
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 timezone:
 registrations:
   session_queue:
@@ -76,20 +82,20 @@ registrations:
         product_category1:
         - label_by_xpath:
             label: Accessories
-            xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
+            xpath: //div[@id='BreadCrumb']
             pattern: !ruby/regexp '/Accessor|1911$|Parts|Sights|Suppressors|Silencers|Mags|Cases|Stocks|Airgun|Magazine|Uppers|Bipods|Cleaning|Protection|Electronics|Holster|Lasers|Lights|Muzzleloaders|Finder|Reloading|Slings|Solvent|Components|Gear|Tactical|Targets|Tools|Supplies/i'
         - label_by_xpath:
             label: Guns
-            xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
+            xpath: //div[@id='BreadCrumb']
             pattern: !ruby/regexp '/Firearms|AR15 Rifle|Rifles|Lowers|Handguns|Shotguns|\sGuns|Package|Handguns|Revolvers|Carry
               Gun/'
         - label_by_xpath:
             label: Optics
-            xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
+            xpath: //div[@id='BreadCrumb']
             pattern: !ruby/regexp '/Optics|Mounts|Binocular|Vision|Scope/i'
         - label_by_xpath:
             label: Ammunition
-            xpath: //div[@id="BreadCrumb"]/div[@class="BreadCrumbLabel"]/span[@id="ctl00_ctl00_MainContent_uxProduct_BREAD_CRUMBS_lblPath"]
+            xpath: //div[@id='BreadCrumb']
             pattern: !ruby/regexp '/Ammunition/i'
         not_found:
         - find_by_xpath:
@@ -106,7 +112,7 @@ registrations:
       attribute:
         product_link:
         - find_by_xpath:
-            xpath: ./@href
+            xpath: ./text()
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:

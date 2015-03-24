@@ -1,65 +1,171 @@
 ---
 name: Sportsman's Warehouse
 domain: www.sportsmanswarehouse.com
-read_interval: 7200
+read_interval: 21600
 timezone:
+loadables:
+  - www.sportsmanswarehouse.com/shipping
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 registrations:
   session_queue:
     www.sportsmanswarehouse.com: {}
   object_adapter:
-    www.sportsmanswarehouse.com/product_feed:
+    www.sportsmanswarehouse.com/product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_title
       queue: www.sportsmanswarehouse.com/listings
-      xpath: //Products/Product
       attribute:
         title:
         - find_by_xpath:
-            xpath: .//Product_Name
+            xpath: .//h1[@class='product-name']
         description:
         - find_by_xpath:
-            xpath: .//Long_Description
+            xpath: .//h2[@class='product-description']
+            all_nodes: true
         image:
         - find_by_xpath:
-            xpath: .//Image_URL
+            xpath: .//div[@class='display-area']//a/img/@src
+          filters:
+          - prefix: 'http://www.sportsmanswarehouse.com'
         sale_price_in_cents:
         - find_by_xpath:
-            xpath: .//Sale_Price
+            xpath: .//div[@id='productListPricing']/span[@class='productListSalePrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         price_in_cents:
         - find_by_xpath:
-            xpath: .//Retail_Price
+            xpath: .//div[@id='productListPricing']/span[@class='productListRegPrice']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         availability:
         - label_by_xpath:
             label: out_of_stock
-            xpath: .//Status
-            pattern: !ruby/regexp '/^Removed/i'
+            xpath: .//div[@id='buyBoxHolder']/div[@class='buyBoxBody']/form[@id='productOrderForm']/strong
+            pattern: !ruby/regexp '/unavailable/i'
         - value: in_stock
+        product_caliber:
+        - find_by_xpath:
+            xpath: //div[@id='tabpaneSpecs']/h2[@class='product-description']/ul/li
+            pattern: !ruby/regexp '/caliber:\s*.*$/i'
+          filters:
+          - reject: !ruby/regexp '/caliber:\s*/i'
+        product_grains:
+        - find_by_xpath:
+            xpath: //div[@id='tabpaneSpecs']/h2[@class='product-description']/ul/li
+            pattern: !ruby/regexp '/grains?:\s*\d+/i'
+          filters:
+          - accept: !ruby/regexp '/\d+/i'
+        product_number_of_rounds:
+        - find_by_xpath:
+            xpath: //div[@id='tabpaneSpecs']/h2[@class='product-description']/ul/li
+            pattern: !ruby/regexp '/(quantity|Rounds\sPer\sBox):\s*\d+/i'
+          filters:
+          - accept: !ruby/regexp '/\d+/i'
+        - find_by_xpath:
+            xpath: //div[@id='tabpaneSpecs']/h2[@class='product-description']/ul/li
+            pattern: !ruby/regexp '/\d+\s*rounds per box/i'
+          filters:
+          - accept: !ruby/regexp '/\d+/i'
+        product_bullet_type:
+        - find_by_xpath:
+            xpath: //div[@id='tabpaneSpecs']/h2[@class='product-description']/ul/li
+            pattern: !ruby/regexp '/bullet:\s*\d+/i'
+          filters:
+          - reject: !ruby/regexp '/bullet:\s*/i'
+        product_velocity:
+        - find_by_xpath:
+            xpath: //div[@id='tabpaneSpecs']/h2[@class='product-description']/ul/li
+            pattern: !ruby/regexp '/velocity:\s*\d+,?\d+\s*fps/i'
+          filters:
+          - reject: !ruby/regexp '/velocity:\s*/i'
+          - reject: !ruby/regexp '/\s*fps/i'
+          - reject: !ruby/regexp '/\,/i'
         product_category1:
         - label_by_xpath:
+            label: Reloading
+            xpath: //div[@id='mainContentBreadcrumbs']/div[@id='breadCrumbs']/a
+            pattern: !ruby/regexp '/Reloading/i'
+        - label_by_xpath:
             label: Ammunition
-            xpath: .//Category
+            xpath: //div[@id='mainContentBreadcrumbs']/div[@id='breadCrumbs']/a
             pattern: !ruby/regexp '/Ammunition/i'
         - label_by_xpath:
             label: Optics
-            xpath: .//Category
-            pattern: !ruby/regexp '/Optics/i'
+            xpath: //div[@id='mainContentBreadcrumbs']/div[@id='breadCrumbs']/a
+            pattern: !ruby/regexp '/Optics|Scopes/i'
         - label_by_xpath:
-            label: Accessories
-            xpath: .//Category
-            pattern: !ruby/regexp '/Books|Cleaning|Gunsmith|Magazines|Reloading|Parts|Accessories/i'
+            label: Optics
+            xpath: //div[@id='tabpaneSpecs']/h2[@class='product-description']/ul/li
+            pattern: !ruby/regexp '/magnification|eye relief|field of view/i'
+        - value: Accessories
         condition:
         - value: new
         type:
         - value: RetailListing
         location:
         - value: 7035 High Tech Dr, Midvale, UT 84047
-affiliate_link_tag:
-affiliate_program:
-digest_attributes:
-product_session_format: {}
+    www.sportsmanswarehouse.com/product_link:
+      $key: globals/product_link
+      scripts:
+      - globals/clean_product_link
+      xpath: //div[@id='productNameListing']/a
+      queue: www.sportsmanswarehouse.com/product_links
+      attribute:
+        product_link:
+        - find_by_xpath:
+            xpath: ./@href
+          filters:
+          - prefix: "http://www.sportsmanswarehouse.com"
+affiliate_link_prefix: "http://www.avantlink.com/click.php?tt=cl&mi=12263&pw=151211&"
+affiliate_program: AvantLink
+product_session_format:
+  queue: www.sportsmanswarehouse.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.sportsmanswarehouse.com/product_page
 sessions:
 - queue: www.sportsmanswarehouse.com
-  session_definition: globals/standard_xml_session
+  session_definition: globals/standard_html_session
   object_adapters:
-  - www.sportsmanswarehouse.com/product_feed
+  - www.sportsmanswarehouse.com/product_link
   urls:
-  - url: http://datafeed.avantlink.com/download_feed.php?id=155991&auth=ad2088b086dfc98f918a37e8fa32fcf3&incr=all-status
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Handgun-Ammunition/category/cat100130/sort/bestSellerasce/ipp/96/pn/PAGENUM/trail/false/view/false
+    start_at_page: 1
+    stop_at_page: 6
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Rimfire-Ammunition/category/cat100113
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Shotgun-Ammunition/category/cat100124/sort/bestSellerasce/ipp/96/pn/PAGENUM/trail/false/view/false
+    start_at_page: 1
+    stop_at_page: 3
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Rifle-Ammunition/category/cat100114/sort/bestSellerasce/ipp/96/pn/PAGENUM/trail/false/view/false
+    start_at_page: 1
+    stop_at_page: 8
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Brass/category/cat100137/sort/bestSellerasce/ipp/96/pn/PAGENUM/trail/false/view/false
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Bullets/category/cat100138/sort/bestSellerasce/ipp/96/pn/PAGENUM/trail/false/view/false
+    start_at_page: 1
+    stop_at_page: 8
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Rings-Bases-and-Accessories/category/cat100745/sort/bestSellerasce/ipp/96/pn/2/trail/false/view/false
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Clips-and-Magazines/category/cat100043/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+    start_at_page: 1
+    stop_at_page: 2
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Primers/category/cat100161
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Rifle-Scopes/category/cat100738/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Red-Dot-and-Holographic-Sights/category/cat100741/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Rimfire-Scopes/category/cat100744/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Barrels/category/cat100037/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Choke-tubes/category/cat100038/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Stocks-and-Recoil-Pads/category/cat100039/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Sights/category/cat100042/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Grips/category/cat100044/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Slings-and-Swivels/category/cat100045/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/AR-Accessories/category/cat100049/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/10-22-Accessories/category/cat100050/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Weapon-Lights/category/cat110177/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false
+  - url: http://www.sportsmanswarehouse.com/sportsmans/Tactical-Optics/category/cat100382/sort/bestSellerasce/ipp/96/pn/1/trail/false/view/false

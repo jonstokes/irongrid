@@ -1,7 +1,13 @@
 ---
 name: Guns International
 domain: www.gunsinternational.com
-read_interval: 14400
+read_interval: 216000
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 timezone:
 registrations:
   session_queue:
@@ -9,6 +15,9 @@ registrations:
   object_adapter:
     www.gunsinternational.com/product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_title
       queue: www.gunsinternational.com/listings
       attribute:
         image:

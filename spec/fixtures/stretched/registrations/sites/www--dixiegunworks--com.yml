@@ -1,14 +1,23 @@
 ---
 name: Dixie Gun Works
 domain: www.dixiegunworks.com
-read_interval: 1440
+read_interval: 21600
 timezone:
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 registrations:
   session_queue:
     www.dixiegunworks.com: {}
   object_adapter:
     www.dixiegunworks.com/product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_title_description
       queue: www.dixiegunworks.com/listings
       attribute:
         title:

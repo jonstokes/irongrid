@@ -1,8 +1,13 @@
 ---
 name: Cheaper Than Dirt
 domain: www.cheaperthandirt.com
-read_interval: 1440
-timezone:
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
+read_interval: 21600
 registrations:
   session_queue:
     www.cheaperthandirt.com: {}
@@ -11,7 +16,7 @@ registrations:
       $key: globals/product_page
       scripts:
       - globals/product_page
-      - globals/validate_price_title
+      - globals/validate_price_or_availability_title
       queue: www.cheaperthandirt.com/listings
       attribute:
         title:
@@ -46,6 +51,38 @@ registrations:
             xpath: .//table[@class="product-properties"]/tr/td[@class="property-value"]
             pattern: !ruby/regexp '/new/i'
         - value: new
+        product_manufacturer:
+        - find_by_xpath:
+            xpath: //div[@class='prodInfoTest']/span[@class='brand']
+        product_mpn:
+        - find_by_xpath:
+            xpath: //div[@class='prodInfoTest']/span[@class='mpn']
+        product_sku:
+        - find_by_xpath:
+            xpath: //div[@class='prodInfoTest']/span[@class='sku']
+        product_upc:
+        - find_by_xpath:
+            xpath: //div[@class='prodInfoTest']/span[@class='upc']
+        product_bullet_type:
+        - find_by_xpath:
+            xpath: //span[@id="ctl00_ctl00_ContentPlaceHolderTopLevel_ContentPlaceHolderItemDetailRight_ProdDesc"]
+        product_velocity:
+        - find_by_xpath:
+            xpath: //div[@class='prodInfoTest']/span[@class='description']
+            pattern: !ruby/regexp '/\d{4,5}[\W|\d]*fps/i'
+        product_casing:
+        - label_by_xpath:
+            label: steel
+            xpath: //div[@class='prodInfoTest']/span[@class='description']
+            pattern: !ruby/regexp '/ steel cas(i|e)/i'
+        - label_by_xpath:
+            label: brass
+            xpath: //div[@class='prodInfoTest']/span[@class='description']
+            pattern: !ruby/regexp '/brass\W/i'
+        - label_by_xpath:
+            label: polymer
+            xpath: //div[@class='prodInfoTest']/span[@class='description']
+            pattern: !ruby/regexp '/ polymer cas(i|e)/i'
         product_category1:
         - label_by_xpath:
             label: Guns
@@ -56,20 +93,29 @@ registrations:
             pattern: !ruby/regexp '/Gun/'
             attribute: name
             value: mc-category
+        - label_by_xpath:
+            label: Reloading
+            pattern: !ruby/regexp '/reloading/i'
+            attribute: name
+            value: mc-category
+        - label_by_xpath:
+            label: Reloading
+            xpath: //div[@class="itemBreadCrumbs"]/a
+            pattern: !ruby/regexp '/reloading/i'
         - label_by_meta_tag:
             label: Ammunition
             pattern: !ruby/regexp '/Ammo|Ammunition/i'
-            attribute: name
-            value: mc-category
-        - label_by_meta_tag:
-            label: Optics
-            pattern: !ruby/regexp '/scopes/i'
             attribute: name
             value: mc-category
         - label_by_xpath:
             label: Ammunition
             xpath: //div[@class="itemBreadCrumbs"]/a
             pattern: !ruby/regexp '/Ammo|Ammunition/i'
+        - label_by_meta_tag:
+            label: Optics
+            pattern: !ruby/regexp '/scopes/i'
+            attribute: name
+            value: mc-category
         - label_by_xpath:
             label: Optics
             xpath: //div[@class="itemBreadCrumbs"]/a
@@ -101,7 +147,7 @@ product_session_format:
   - www.cheaperthandirt.com/product_page
 sessions:
 - queue: www.cheaperthandirt.com
-  session_definition: globals/standard_html_session
+  session_definition: globals/fast_html_session
   object_adapters:
   - www.cheaperthandirt.com/product_link
   urls:
@@ -410,6 +456,7 @@ sessions:
   object_adapters:
   - www.cheaperthandirt.com/product_link
   urls:
+  - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4411&catId=6203&fmp=Y&pagesize=1000
   - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=4435&catId=6203&fmp=Y&pagesize=1000
   - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=2364&catId=6203&fmp=Y&pagesize=1000
   - url: http://www.cheaperthandirt.com/MfgContent.aspx?mfgId=457&catId=6203&fmp=Y&pagesize=1000

@@ -1,8 +1,15 @@
 ---
 name: Hyatt Gun Store
 domain: www.hyattgunstore.com
-read_interval: 1440
+read_interval: 21600
 timezone:
+loadables:
+  - www.hyattgunstore.com/shipping
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 registrations:
   session_queue:
     www.hyattgunstore.com: {}
@@ -14,6 +21,12 @@ registrations:
       - globals/validate_price_or_availability_title
       queue: www.hyattgunstore.com/listings
       attribute:
+        product_weight_shipping:
+        - find_by_xpath:
+            xpath: .//div[@class='details']/form/table[@class='product-properties']//tr[@id='product_weight_box']/td[@class='property-value']
+            pattern: !ruby/regexp '/[\d\.]+\s*(lbs|pounds)/i'
+          filters:
+          - accept: !ruby/regexp '/[\d\.]+/i'
         title:
         - find_by_xpath:
             xpath: .//font[@class="bread-crumb last-bread-crumb"]
@@ -100,6 +113,8 @@ registrations:
         product_link:
         - find_by_xpath:
             xpath: ./@href
+          filters:
+          - prefix: http://www.hyattgunstore.com
 affiliate_link_tag:
 affiliate_program:
 digest_attributes:
@@ -143,6 +158,9 @@ sessions:
   object_adapters:
   - www.hyattgunstore.com/product_link
   urls:
+  - url: http://www.hyattgunstore.com/magazines/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 33
   - url: http://www.hyattgunstore.com/gun-accessories/indexPAGENUM.html
     start_at_page: 1
     stop_at_page: 94
@@ -176,6 +194,11 @@ sessions:
   - url: http://www.hyattgunstore.com/rings-mounts-bases/indexPAGENUM.html
     start_at_page: 1
     stop_at_page: 43
+- queue: www.hyattgunstore.com
+  session_definition: globals/standard_html_session
+  object_adapters:
+  - www.hyattgunstore.com/product_link
+  urls:
   - url: http://www.hyattgunstore.com/rangefinders/indexPAGENUM.html
     start_at_page: 1
     stop_at_page: 2
@@ -191,11 +214,9 @@ sessions:
   - url: http://www.hyattgunstore.com/reloading/indexPAGENUM.html
     start_at_page: 1
     stop_at_page: 93
-- queue: www.hyattgunstore.com
-  session_definition: globals/standard_html_session
-  object_adapters:
-  - www.hyattgunstore.com/product_link
-  urls:
+  - url: http://www.hyattgunstore.com/gunsmithing/indexPAGENUM.html
+    start_at_page: 1
+    stop_at_page: 4
   - url: http://www.hyattgunstore.com/bargain-bin/indexPAGENUM.html
     start_at_page: 1
     stop_at_page: 2

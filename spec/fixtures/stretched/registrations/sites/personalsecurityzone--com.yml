@@ -1,7 +1,13 @@
 ---
 name: PersonalSecurityZone
 domain: personalsecurityzone.com
-read_interval: 1440
+read_interval: 21600
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 timezone:
 registrations:
   session_queue:
@@ -9,6 +15,9 @@ registrations:
   object_adapter:
     personalsecurityzone.com/product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_title_description
       queue: personalsecurityzone.com/listings
       attribute:
         title:
@@ -162,6 +171,9 @@ sessions:
   object_adapters:
   - personalsecurityzone.com/product_link
   urls:
+  - url: http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=low-capacity-magazines-clips-mags-for-sale&Page=PAGENUM
+    start_at_page: 1
+    stop_at_page: 20
   - url: http://personalsecurityzone.com/cgi-win/order/prodlist.exe/PSZ/SEARCH?CategoryInfo=hi-cap-hicap-magazines-gun-clips-for-sale&Page=PAGENUM
     start_at_page: 1
     stop_at_page: 15

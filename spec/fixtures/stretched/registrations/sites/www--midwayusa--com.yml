@@ -1,50 +1,137 @@
 ---
 name: Midway USA
 domain: www.midwayusa.com
-read_interval: 14400
-timezone:
+read_interval: 216000
+shipping_methods:
+- usps_ground
+- ups_ground
+- ups_second_day_air
+- ups_next_day_air
 loadables:
   - www.midwayusa.com/shipping
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
+timezone:
 registrations:
   session_queue:
     www.midwayusa.com: {}
   object_adapter:
-    www.midwayusa.com/product_page:
+    www.midwayusa.com/multi_product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_or_availability_title
       queue: www.midwayusa.com/listings
+      xpath: //div[@id='characteristicBlock']/select/option
       attribute:
+        id:
+        - find_by_xpath:
+            xpath: .//@data-upc
         title:
         - find_by_xpath:
-            xpath: //h1[@id='productDescription']
+            xpath: //h1[@id='productDescription']|.//text()
+            all_nodes: true
+          filters:
+          - reject: !ruby/regexp '/(available|Please select a product|out of stock|out of stock\, backorder ok|special order)/i'
+          - reject: !ruby/regexp '/\;/i'
+          - reject: !ruby/regexp '/\;/i'
+          - reject: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - meta_title
         description:
-        - meta_description
         - find_by_xpath:
-            xpath: //div[@id='overview']
+            xpath: .//text()|//div[@id='overview']
+            all_nodes: true
         image:
         - find_by_xpath:
-            xpath: //div[@id='prod_img']/div[@id='img_wrap']/div[@id='images']/div[@class='default']/a[@id='imageClick']/@href
+            xpath: .//@data-skuimage
         - meta_og_image
         price_in_cents:
         - find_by_xpath:
-            xpath: //div[@id='priceblock']/div[@id='savingsLine']/div[@id='comparePrice']
+            xpath: .//@data-prevprice
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         - find_by_xpath:
-            xpath: //div[@id='priceblock']/div[@id='currentPrice']/span
+            xpath: .//text()
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
         sale_price_in_cents:
         - find_by_xpath:
-            xpath: //div[@id='priceblock']/div[@id='currentPrice']/span[@class='sale']
+            xpath: .//text()
             pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        product_weight_shipping:
+        - find_by_xpath:
+            xpath: .//@data-weight
         availability:
         - label_by_xpath:
             label: in_stock
-            xpath: //div[@id='status_block']/div[@id='productStatus']
-            pattern: !ruby/regexp '/Available/i'
+            xpath: .//@data-availmessage
+            pattern: !ruby/regexp '/Ships today/i'
         - label_by_xpath:
             label: out_of_stock
-            xpath: //div[@id='status_block']/div[@id='productStatus']
-            pattern: !ruby/regexp '/Out of Stock/i'
+            xpath: .//@data-availmessage
+            pattern: !ruby/regexp '/Date expected in stock/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@id='prod_select']/div[@id='statusWithoutOptions']/div[@id='status_block']/div[@id='productStatus']
+            pattern: !ruby/regexp '/Out of Stock|Coming Soon/i'
+        message1:
+        - label_by_xpath:
+            label: "ships_free"
+            xpath: //div[@id='specialDeals']/div[@id='freefreight']/span[1]
+            pattern: !ruby/regexp '/free shipping/i'
+        message2:
+        - label_by_xpath:
+            label: "dot_regulated"
+            xpath: (//div[@id='details']/div[@id='prod_info']/div[@id='delivery']//ul[@class='delivery-details']/li[@class='delivery-dot-regulated'])[last()]
+            pattern: !ruby/regexp '/DOT-Regulated:\s*Yes/i'
+        product_mpn:
+        - find_by_xpath:
+            xpath: .//@data-mfgnum
+        product_upc:
+        - find_by_xpath:
+            xpath: .//@data-upc
+        product_number_of_rounds:
+        - find_by_xpath:
+            xpath: ./text()
+            pattern: !ruby/regexp '/\d+;/'
+          filters:
+          - accept: !ruby/regexp '/\d+/'
+        - find_by_xpath:
+            xpath: ./text()
+            pattern: !ruby/regexp '/\d+\s+\(\d+\s+boxes/i'
+          filters:
+          - accept: !ruby/regexp '/\d+\s+\(/'
+          - accept: !ruby/regexp '/\d+/'
+        product_caliber:
+        - find_by_xpath:
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/caliber:.*$/i'
+        product_velocity:
+        - find_by_xpath:
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/velocity:\W*\d{3,4}\W*fps/i'
+          filters:
+          - accept: !ruby/regexp '/\d+/i'
+        product_casing:
+        - label_by_xpath:
+            label: brass
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/(case\Wtype|finish):\W*.*?brass/i'
+        - label_by_xpath:
+            label: steel
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/(case\Wtype|finish):\W*.*?steel/i'
+        - label_by_xpath:
+            label: polymer
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/(case\Wtype|finish):\W*.*?polymer/i'
+        product_bullet_type:
+        - find_by_xpath:
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/bullet\Wstyle:.*$/i'
+        - find_by_xpath:
+            xpath: //h1[@id='productDescription']
         product_category1:
         - label_by_xpath:
             label: Optics
@@ -54,6 +141,14 @@ registrations:
             label: Optics
             xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
             pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Reloading
+            xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
+            pattern: !ruby/regexp '/reloading/i'
+        - label_by_xpath:
+            label: Reloading
+            xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
+            pattern: !ruby/regexp '/reloading/i'
         - label_by_xpath:
             label: Ammunition
             xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
@@ -65,8 +160,135 @@ registrations:
         - label_by_xpath:
             label: Accessories
             xpath: //div[@id='product_content']/div[@id='breadcrumbs']
-            pattern: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Reloading|Shooting
-              Gear/i'
+            pattern: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Shooting Gear/i'
+        condition:
+        - value: new
+        type:
+        - value: RetailListing
+        location:
+        - value: 5875 West Van Horn Tavern Rd, Columbia, MO 65203-9274
+    www.midwayusa.com/product_page:
+      $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_or_availability_title
+      - www.midwayusa.com/invalidate_with_xpath
+      queue: www.midwayusa.com/listings
+      attribute:
+        title:
+        - find_by_xpath:
+            xpath: //h1[@id='productDescription']
+        - meta_title
+        description:
+        - find_by_xpath:
+            xpath: //div[@id='overview']
+        - meta_og_image
+        price_in_cents:
+        - find_by_xpath:
+            xpath: //form[@id='ProductSelectionForm']/div[@id='prod_select']/div[@id='cart_action']/div[@class='priceblock price-container']/div[@class=' price']
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        sale_price_in_cents:
+        - find_by_xpath:
+            xpath: .//text()
+            pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+        product_weight_shipping:
+        - find_by_xpath:
+            xpath: (//div[@id='details']/div[@id='prod_info']/div[@id='delivery']//ul[@class='delivery-details']/li[@class='delivery-weight'])[last()]
+            pattern: !ruby/regexp '/Shipping Weight:\s*.*-.*\s+pounds/i'
+          filters:
+          - reject: !ruby/regexp '/Shipping Weight:\s*.*\-\s+/i'
+          - reject: !ruby/regexp '/\s+pounds/i'
+          - accept: !ruby/regexp '/[\d\.]+/'
+        - find_by_xpath:
+            xpath: (//div[@id='details']/div[@id='prod_info']/div[@id='delivery']//ul[@class='delivery-details']/li[@class='delivery-weight'])[last()]
+            pattern: !ruby/regexp '/Shipping Weight:\s*[\d\.]+\s+pounds/i'
+          filters:
+          - reject: !ruby/regexp '/Shipping Weight:\s*/i'
+          - reject: !ruby/regexp '/\s+pounds/i'
+          - accept: !ruby/regexp '/[\d\.]+/'
+        availability:
+        - label_by_xpath:
+            label: in_stock
+            xpath: //div[@id='status_block']/div[@id='productStatus']
+            pattern: !ruby/regexp '/Available/i'
+        - label_by_xpath:
+            label: out_of_stock
+            xpath: //div[@id='prod_select']/div[@id='statusWithoutOptions']/div[@id='status_block']/div[@id='productStatus']
+            pattern: !ruby/regexp '/Out of Stock|Coming Soon|Backorder/i'
+        message1:
+        - label_by_xpath:
+            label: "ships_free"
+            xpath: //div[@id='specialDeals']/div[@id='freefreight']/span[1]
+            pattern: !ruby/regexp '/free shipping/i'
+        message2:
+        - label_by_xpath:
+            label: "dot_regulated"
+            xpath: (//div[@id='details']/div[@id='prod_info']/div[@id='delivery']//ul[@class='delivery-details']/li[@class='delivery-dot-regulated'])[last()]
+            pattern: !ruby/regexp '/DOT-Regulated:\s*Yes/i'
+        product_mpn:
+        - find_by_xpath:
+            xpath: .//@data-mfgnum
+        product_upc:
+        - find_by_xpath:
+            xpath: .//@data-upc
+        product_caliber:
+        - find_by_xpath:
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/caliber:.*$/i'
+        product_velocity:
+        - find_by_xpath:
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/velocity:\W*\d{3,4}\W*fps/i'
+          filters:
+          - accept: !ruby/regexp '/\d+/i'
+        product_casing:
+        - label_by_xpath:
+            label: brass
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/(case\Wtype|finish):\W*.*?brass/i'
+        - label_by_xpath:
+            label: steel
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/(case\Wtype|finish):\W*.*?steel/i'
+        - label_by_xpath:
+            label: polymer
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/(case\Wtype|finish):\W*.*?polymer/i'
+        product_bullet_type:
+        - find_by_xpath:
+            xpath: //div[@id='product_content']//div[@id='lower']/div[@id='details']/div[@id='prod_info']/div[@id='overview']/div//li
+            pattern: !ruby/regexp '/bullet\Wstyle:.*$/i'
+        - find_by_xpath:
+            xpath: //h1[@id='productDescription']
+        product_category1:
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Optics
+            xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
+            pattern: !ruby/regexp '/Optics/i'
+        - label_by_xpath:
+            label: Reloading
+            xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
+            pattern: !ruby/regexp '/reloading/i'
+        - label_by_xpath:
+            label: Reloading
+            xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
+            pattern: !ruby/regexp '/reloading/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id='content']/div[@id='product_content']/div[@id='breadcrumbs']/span[1]
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Ammunition
+            xpath: //div[@id='product_content']/div[@id='breadcrumbs']/span[@class='youarehere']
+            pattern: !ruby/regexp '/Ammunition/i'
+        - label_by_xpath:
+            label: Accessories
+            xpath: //div[@id='product_content']/div[@id='breadcrumbs']
+            pattern: !ruby/regexp '/Airguns|Gun Parts|Gunsmithing|Shooting Gear/i'
         condition:
         - value: new
         type:
@@ -89,6 +311,7 @@ product_session_format:
   session_definition: globals/standard_html_session
   object_adapters:
   - www.midwayusa.com/product_page
+  - www.midwayusa.com/multi_product_page
 sessions:
 - queue: www.midwayusa.com
   session_definition: globals/standard_html_session
@@ -106,6 +329,10 @@ sessions:
   object_adapters:
   - www.midwayusa.com/product_link
   urls:
+  - url: http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13954&pageNumber=PAGENUM
+    start_at_page: 1
+    stop_at_page: 70
   - url: http://www.midwayusa.com/find?sortby=1&itemsperpage=96&newcategorydimensionid=13957&pageNumber=PAGENUM
     start_at_page: 1
     stop_at_page: 260
+

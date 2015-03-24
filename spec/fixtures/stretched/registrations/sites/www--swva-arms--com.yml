@@ -4,11 +4,11 @@ domain: www.swva-arms.com
 read_interval: 21600
 loadables:
   - www.swva-arms.com/shipping
-  - ironsights/globals/calculate_discount
-  - ironsights/globals/calculate_price_with_shipping
-  - ironsights/globals/calculate_discount_with_shipping
-  - ironsights/globals/calculate_price_per_round
-  - ironsights/globals/calculate_price_per_round_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 registrations:
   session_queue:
     www.swva-arms.com: {}
@@ -144,7 +144,7 @@ registrations:
         type:
         - value: RetailListing
         location:
-        - value: 5401 Fallowater Ln Ste H, Roanoke, Virginia, 24018-0949
+        - value: 1123 Florida St., Salem, Virginia, 24153
     www.swva-arms.com/product_link:
       $key: globals/product_link
       xpath: //td[@class='entityPageProdNameCell']/a

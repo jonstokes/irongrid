@@ -1,7 +1,14 @@
 ---
 name: Brownells
 domain: www.brownells.com
-read_interval: 7200
+read_interval: 21600
+loadables:
+  - www.brownells.com/shipping
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 timezone:
 registrations:
   session_queue:

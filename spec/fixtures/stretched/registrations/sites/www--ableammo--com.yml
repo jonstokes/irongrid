@@ -1,14 +1,27 @@
 ---
 name: Able Ammo
 domain: www.ableammo.com
-read_interval: 1440
+read_interval: 21600
 timezone:
+shipping_methods:
+- ups_ground
+- ups_second_day_air
+- ups_next_day_air
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 registrations:
   session_queue:
     www.ableammo.com: {}
   object_adapter:
     www.ableammo.com/product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_or_availability_title
       queue: www.ableammo.com/listings
       attribute:
         type:
@@ -62,6 +75,23 @@ registrations:
             label: Used
             pattern: !ruby/regexp '/used|condition|like.new/i'
         - value: new
+        shipping_cost_in_cents:
+        - label_by_xpath:
+            xpath: .//div[2]/table[1]//tr/td[2]/table//tr[5]/td/table//tr[3]/td[@class='productListing-data_info'][3]/font
+            pattern: !ruby/regexp '/free shipping/i'
+            label: "0"
+        product_upc:
+        - find_by_xpath:
+            xpath: .//div[2]/table[1]//tr/td[2]/table//tr[2]/td[@class='main']/table//tr/td[2]/div/table[2]//tr[2]/td[@class='largeText']/span
+        product_mpn:
+        - find_by_xpath:
+            xpath: .//div[2]/table[1]//tr/td[2]/table//tr[2]/td[@class='main']/table//tr/td[2]/div/table[2]//tr[1]/td[@class='largeText']/span
+        product_weight_shipping:
+        - find_by_xpath:
+            xpath: .//div[2]/table[1]//tr/td[2]/table//tr[3]/td/span[@class='tinyText'][2]
+            pattern: !ruby/regexp '/Estimated Shipping Weight:\s*[\d\.]+/i'
+          filters:
+          - reject: !ruby/regexp '/Estimated Shipping Weight:\s*/i'
         product_category1:
         - label_by_xpath:
             xpath: //tr[@class="headerNavigation"]/td[@class="headerNavigation"][1]/a[@class="headerNavigation"][2]
@@ -114,12 +144,12 @@ affiliate_program:
 digest_attributes:
 product_session_format:
   queue: www.ableammo.com
-  session_definition: globals/standard_html_session
+  session_definition: globals/standard_dhtml_session
   object_adapters:
   - www.ableammo.com/product_page
 sessions:
 - queue: www.ableammo.com
-  session_definition: globals/standard_html_session
+  session_definition: globals/standard_dhtml_session
   object_adapters:
   - www.ableammo.com/product_link
   urls:

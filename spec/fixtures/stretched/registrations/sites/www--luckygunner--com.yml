@@ -1,7 +1,13 @@
 ---
 name: Lucky Gunner
 domain: www.luckygunner.com
-read_interval: 1440
+read_interval: 21600
+loadables:
+  - ironsights/scripts/irongrid/calculate_discount
+  - ironsights/scripts/irongrid/calculate_price_with_shipping
+  - ironsights/scripts/irongrid/calculate_discount_with_shipping
+  - ironsights/scripts/irongrid/calculate_price_per_round
+  - ironsights/scripts/irongrid/calculate_price_per_round_with_shipping
 timezone:
 registrations:
   session_queue:
@@ -9,6 +15,9 @@ registrations:
   object_adapter:
     www.luckygunner.com/product_page:
       $key: globals/product_page
+      scripts:
+      - globals/product_page
+      - globals/validate_price_title_description
       queue: www.luckygunner.com/listings
       attribute:
         title:
@@ -83,19 +92,18 @@ registrations:
         - find_by_xpath:
             xpath: ./@href
 affiliate_link_tag: '#rid=ironsights&amp;chan=search'
-affiliate_program:
-digest_attributes:
+affiliate_program: Vendor
 product_session_format:
   queue: www.luckygunner.com
-  session_definition: globals/standard_html_session
+  session_definition: globals/standard_dhtml_session
   object_adapters:
   - www.luckygunner.com/product_page
 sessions:
 - queue: www.luckygunner.com
-  session_definition: globals/standard_html_session
+  session_definition: globals/standard_dhtml_session
   object_adapters:
   - www.luckygunner.com/product_link
   urls:
   - url: http://www.luckygunner.com/catalogsearch/advanced/result?description=&name=&p=PAGENUM&price%5Bfrom%5D=0&price%5Bto%5D=1000000
     start_at_page: 1
-    stop_at_page: 25
+    stop_at_page: 40
