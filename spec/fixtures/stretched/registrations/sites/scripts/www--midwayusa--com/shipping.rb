@@ -1,12 +1,13 @@
-Loadable::Script.define do
-  script "www.midwayusa.com/shipping" do
+Stretched::Script.define "www.midwayusa.com/shipping" do
+  extensions 'globals/extensions/*'
+  script do
     shipping_cost do
-      ships_free = message1
-      dot = message2
-      if ships_free && price && (price >= 2500)
+      ships_free = !!message1
+      dot = !!message2
+      if ships_free && current_price && (current_price >= 2500)
         0
       elsif weight
-        ship_weight = weight.ceil
+        ship_weight = weight.to_f.ceil
         if dot
           if weight < 1.0
             899
