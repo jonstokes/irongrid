@@ -16,7 +16,7 @@ class WriteListingToIndex
 
     def call
       context.site.loadables.each do |script_name|
-        runner = Loaded::Script.runner(key: script_name, user: "#{Rails.env}@irongrid.com")
+        runner = Stretched::Script.runner(key: script_name)
         runner.set_context(
             listing:      context.listing,
             product:      context.product,

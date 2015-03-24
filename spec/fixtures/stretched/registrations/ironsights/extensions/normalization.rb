@@ -1,5 +1,5 @@
-Stretched::Extension.define do
-  extension "normalization" do
+Stretched::Extension.define "ironsights/extensions/normalization" do
+  extension do
 
     def normalize_caliber(text)
       str = " #{text} "

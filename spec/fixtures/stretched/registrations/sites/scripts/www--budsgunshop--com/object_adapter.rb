@@ -1,5 +1,6 @@
-Stretched::Script.define do
-  script "www.budsgunshop.com/script" do
+Stretched::Script.define "www.budsgunshop.com/script" do
+  extensions 'globals/extensions/*'
+  script do
     type "RetailListing"
     title do
       meta_title || meta_og_title || find_by_xpath(xpath: ".//title")

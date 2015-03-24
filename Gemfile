@@ -36,7 +36,7 @@ gem 'retryable'
 #gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
 #gem 'iron_base', '~> 0.0.2', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git'
 
-gem 'loaded', path: '../loaded'
+gem 'site_library', path: '../site_library'
 gem 'redis_objects', path: '../redis_objects'
 gem 'sunbro', path: '../sunbro'
 gem 'shout', path: '../shout'

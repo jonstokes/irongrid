@@ -154,10 +154,12 @@
       <library name="iron_core (v0.0.14, /Users/jstokes/Local/Repositories/iron_core) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../iron_core/lib" />
+          <root url="file://$MODULE_DIR$/../iron_core/tmp" />
           <root url="file://$MODULE_DIR$/../iron_core/.idea" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/../iron_core/lib" />
+          <root url="file://$MODULE_DIR$/../iron_core/tmp" />
           <root url="file://$MODULE_DIR$/../iron_core/.idea" />
         </SOURCES>
       </library>
@@ -166,23 +168,9 @@
       <library name="loaded (v0.0.1, /Users/jstokes/Local/Repositories/loaded) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../loaded/lib" />
-          <root url="file://$MODULE_DIR$/../loaded/.idea" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/../loaded/lib" />
-          <root url="file://$MODULE_DIR$/../loaded/.idea" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="pool_boy (v0.0.1, /Users/jstokes/Local/Repositories/pool_boy) [path][gem]">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../pool_boy/lib" />
-          <root url="file://$MODULE_DIR$/../pool_boy/.idea" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../pool_boy/lib" />
-          <root url="file://$MODULE_DIR$/../pool_boy/.idea" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -190,23 +178,9 @@
       <library name="redis_objects (v0.0.1, /Users/jstokes/Local/Repositories/redis_objects) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../redis_objects/lib" />
-          <root url="file://$MODULE_DIR$/../redis_objects/.idea" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/../redis_objects/lib" />
-          <root url="file://$MODULE_DIR$/../redis_objects/.idea" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="shout (v0.0.1, /Users/jstokes/Local/Repositories/shout) [path][gem]">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../shout/lib" />
-          <root url="file://$MODULE_DIR$/../shout/.idea" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../shout/lib" />
-          <root url="file://$MODULE_DIR$/../shout/.idea" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -214,11 +188,13 @@
       <library name="stretched (v0.1.6, /Users/jstokes/Local/Repositories/stretched-rb) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../stretched-rb/lib" />
+          <root url="file://$MODULE_DIR$/../stretched-rb/tmp" />
           <root url="file://$MODULE_DIR$/../stretched-rb/.idea" />
           <root url="file://$MODULE_DIR$/../stretched-rb/tasks" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/../stretched-rb/lib" />
+          <root url="file://$MODULE_DIR$/../stretched-rb/tmp" />
           <root url="file://$MODULE_DIR$/../stretched-rb/.idea" />
           <root url="file://$MODULE_DIR$/../stretched-rb/tasks" />
         </SOURCES>
@@ -266,10 +242,7 @@
     <orderEntry type="library" scope="PROVIDED" name="cucumber-rails (v1.4.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner (v1.4.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.2.5, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch (v1.0.8, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-api (v1.0.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="elasticsearch-rails (v0.1.6, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="elasticsearch-transport (v1.0.7, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.2.2, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_girl (v4.5.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />

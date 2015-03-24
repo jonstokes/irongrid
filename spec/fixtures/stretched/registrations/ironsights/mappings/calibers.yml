@@ -232,7 +232,7 @@ mapping:
     .308 Marlin Express:
     .308 Norma Mag:
     .308 Win:
-    - .308
+    - '.308'
     - .308 cal
     - .308 30 cal
     - .308 caliber
@@ -392,6 +392,8 @@ mapping:
     7.62x39mm:
     - 762x39
     - 7.62x39
+    - 7.62 x 39
+    - 7.62 x 39mm
     7.62x45mm:
     - 7.62x45
     7.62x53R:

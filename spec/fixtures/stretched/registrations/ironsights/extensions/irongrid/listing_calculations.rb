@@ -1,4 +1,4 @@
-Loaded::Extension.define "ironsights/globals/extensions/listing_calculations" do
+Stretched::Extension.define "ironsights/extensions/irongrid/listing_calculations" do
   extension do
     def listing
       context[:listing]

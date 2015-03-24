@@ -1,7 +1,5 @@
-require 'addressable/uri'
-
-Stretched::Extension.define do
-  extension "conversions" do
+Stretched::Extension.define "globals/extensions/conversions" do
+  extension do
 
     def restrict_to_range(num, opts)
       min, max = opts[:min], opts[:max]
@@ -9,14 +7,14 @@ Stretched::Extension.define do
     end
 
     def calculate_discount_in_cents(instance)
-      return unless instance.price_in_cents? && instance.current_price_in_cents?
-      return unless instance.price_in_cents > instance.current_price_in_cents
-      instance.price_in_cents - instance.current_price_in_cents
+      return unless instance['price_in_cents'] && instance['current_price_in_cents']
+      return unless instance['price_in_cents'] > instance['current_price_in_cents']
+      instance['price_in_cents'] - instance['current_price_in_cents']
     end
 
     def calculate_discount_percent(instance)
-      return unless instance.discount_in_cents? && instance.price_in_cents?
-      dp = (instance.discount_in_cents.to_f / instance.price_in_cents.to_f) * 100
+      return unless instance['discount_in_cents'] && instance['price_in_cents']
+      dp = (instance['discount_in_cents'].to_f / instance['price_in_cents'].to_f) * 100
       dp.to_i
     end
 

@@ -1,8 +1,4 @@
 ---
-session_queue:
-  www.budsgunshop.com: {}
-  www.brownells.com: {}
-  ammo.net: {}
 rate_limit:
   globals/standard_rate_limits:
     timezone: America/Chicago
@@ -14,6 +10,16 @@ rate_limit:
       start: '06:01'
       duration: 17
       rate: 2
+  globals/fast_rate_limits:
+    timezone: America/Chicago
+    off_peak:
+      start: '23:00'
+      duration: 7
+      rate: 0.5
+    peak:
+      start: '06:01'
+      duration: 17
+      rate: 1
 session_definition:
   globals/standard_html_session:
     page_format: html
@@ -24,6 +30,10 @@ session_definition:
   globals/standard_dhtml_session:
     page_format: dhtml
     rate_limits: globals/standard_rate_limits
+  globals/fast_html_session:
+    page_format: html
+    rate_limits: globals/fast_rate_limits
+
 "schema": {
   "ProductLink": {
     "title": "ProductLink",
@@ -41,6 +51,7 @@ session_definition:
     "properties": {
       "valid":                    { "type": "boolean" },
       "not_found":                { "type": "boolean" },
+      "id":                       { "type": "string" },
       "url":                      { "type": "url" },
       "description":              { "type": "string" },
       "keywords":                 { "type": "string" },
@@ -51,7 +62,7 @@ session_definition:
       },
       "condition": {
         "type": "string",
-        "enum": ["New", "Used", "Unknown"]
+        "enum": ["New", "Used", "Unknown", "new", "used", "unknown"]
       },
       "availability": {
         "type": "string",
@@ -74,28 +85,35 @@ session_definition:
       "discount_in_cents_with_shipping": { "type": "integer" },
       "discount_percent_with_shipping":  { "type": "integer" },
       "shipping_cost_in_cents":   { "type": "integer" },
-      "product_weight_shipping":  { "type": "float" },
+      "product_weight_shipping":         { "type": "float" },
       "product_upc":              { "type": "string" },
       "product_mpn":              { "type": "string" },
       "product_sku":              { "type": "string" },
       "product_category1": {
         "type": "string",
-        "enum": ["Guns", "Ammunition", "Optics", "Accessories", "None"]
+        "enum": ["guns", "ammunition", "optics", "accessories", "reloading", "none"]
+      },
+      "product_category2":        { "type": "string" },
+      "product_caliber_category": {
+        "type": "string",
+        "enum": ["handgun", "rifle", "rimfire", "shotgun"]
       },
       "product_manufacturer":     { "type": "string" },
       "product_caliber":          { "type": "string" },
-      "product_caliber_category": {
-        "type": "string",
-        "enum": ["Handgun", "Rifle", "Rimfire", "Shotgun"]
-      },
-      "product_ammo_type":        { "type": "string" },
-      "product_material":         { "type": "string" },
       "product_grains":           { "type": "integer" },
       "product_number_of_rounds": { "type": "integer" },
+      "product_material":         { "type": "string" },
       "product_shot_size":        { "type": "integer" },
       "product_velocity":         { "type": "integer" },
-      "product_load_type":        { "type": "string" },
+      "product_load_type": {
+        "type": "string",
+        "enum": ["+P", "+P+"]
+      },
       "product_bullet_type":      { "type": "string" },
+      "product_casing": {
+        "type": "string",
+        "enum": ["brass", "steel", "polymer", "aluminum", "nickel"]
+      },
       "product_shell_length":     { "type": "float" },
       "message1":                 { "type": "string" },
       "message2":                 { "type": "string" },
