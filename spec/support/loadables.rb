@@ -1,4 +1,4 @@
 def load_scripts
-  SiteLibrary.data = File.join(Rails.root, 'spec/fixtures/registrations')
-  SiteLibrary::StretchedUtils.register_all
+  SiteLibrary::Utils.data_dir = File.join(Rails.root, 'spec/fixtures/stretched/registrations')
+  SiteLibrary::Utils.register_all
 end

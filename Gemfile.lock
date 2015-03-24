@@ -5,7 +5,6 @@ PATH
       activesupport
       airbrake
       redis
-      retryable
       sidekiq
 
 PATH
@@ -19,20 +18,15 @@ PATH
       hashie
       interactor
       redis
-      retryable
 
 PATH
   remote: ../iron_core
   specs:
     iron_core (0.0.14)
       activesupport
+      bellbro (~> 0.2.2)
       interactor
-
-PATH
-  remote: ../loaded
-  specs:
-    loaded (0.0.1)
-      thread_safe
+      stretched (~> 0.1.5)
 
 PATH
   remote: ../pool_boy
@@ -57,6 +51,12 @@ PATH
     shout (0.0.1)
 
 PATH
+  remote: ../site_library
+  specs:
+    site_library (0.0.1)
+      figaro
+
+PATH
   remote: ../stretched-rb
   specs:
     stretched (0.1.6)
@@ -73,10 +73,10 @@ PATH
     sunbro (0.1.1)
       activesupport
       capybara
+      hashie
       nokogiri
       poltergeist
       rest-client
-      retryable
 
 GEM
   remote: http://rubygems.org/
@@ -164,6 +164,8 @@ GEM
       rails (>= 3, < 5)
     database_cleaner (1.4.0)
     diff-lcs (1.2.5)
+    domain_name (0.5.23)
+      unf (>= 0.0.5, < 1.0.0)
     elasticsearch (1.0.8)
       elasticsearch-api (= 1.0.7)
       elasticsearch-transport (= 1.0.7)
@@ -194,6 +196,8 @@ GEM
     hashie (3.4.0)
     hike (1.2.3)
     hitimes (1.2.2-java)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     i18n (0.7.0)
     image_voodoo (0.8.7)
     interactor (3.1.0)
@@ -260,7 +264,8 @@ GEM
     redis (3.2.0)
     redis-namespace (1.5.1)
       redis (~> 3.0, >= 3.0.4)
-    rest-client (1.7.3)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     retryable (2.0.1)
@@ -320,6 +325,7 @@ GEM
     tokenizer (0.1.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    unf (0.1.4-java)
     webmock (1.20.4)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -360,7 +366,6 @@ DEPENDENCIES
   jdbc-postgres
   jruby-openssl
   launchy
-  loaded!
   mocktra
   net-http-persistent
   nokogiri
@@ -379,6 +384,7 @@ DEPENDENCIES
   shout!
   sidekiq
   sidekiq-pro
+  site_library!
   spork
   stretched!
   stringex
