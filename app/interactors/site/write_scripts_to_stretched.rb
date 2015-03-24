@@ -5,7 +5,7 @@ module Site
 
     def call
       # Load scripts
-      context.stretched_scripts.each do |file|
+      context.scripts.each do |file|
         log "Registering script #{file} for stretched user #{context.user}"
         Stretched::Script.create_from_file(
             file,

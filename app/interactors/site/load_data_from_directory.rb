@@ -4,8 +4,7 @@ module Site
 
     def call
       context.site_data = YAML.load_file(filename)
-      context.stretched_scripts = Dir["#{directory}/stretched_scripts/#{domain_dash}/*.rb"]
-      context.loadables = Dir["#{directory}/irongrid_scripts/#{domain_dash}.rb"]
+      context.scripts = Dir["#{directory}/scripts/#{domain_dash}/*.rb"]
     end
 
     def filename
@@ -13,7 +12,7 @@ module Site
     end
 
     def directory
-      context.directory ||= IronCore::Site.sites_dir
+      context.directory ||= SiteLibrary::Utils.sites_dir
     end
 
     def domain_dash

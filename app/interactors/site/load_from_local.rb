@@ -6,8 +6,7 @@ module Site
          Site::LoadDataFromDirectory,
          Site::SaveSiteToIronGrid,
          Site::WriteRegistrationsToStretched,
-         Site::WriteScriptsToStretched,
-         Site::WriteLoadablesToIronGrid
+         Site::WriteScriptsToStretched
      ]
   end
 end

@@ -4,17 +4,21 @@ RSpec.configure do |config|
   end
 end
 
+def site_fixtures_dir
+  "#{Rails.root}/spec/fixtures/stretched/registrations/sites"
+end
+
 def create_site(domain)
   Site::LoadFromLocal.call(
       domain:    domain,
-      directory: IronCore::Site.fixtures_dir,
+      directory: site_fixtures_dir,
       user:      Stretched::Settings.user
   ).site
 end
 
 def create_sites
   Site::CreateAll.call(
-      directory: IronCore::Site.fixtures_dir,
+      directory: site_fixtures_dir,
       user:      Stretched::Settings.user,
   )
 end
