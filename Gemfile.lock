@@ -1,17 +1,19 @@
-PATH
-  remote: ../bellbro
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git
+  revision: ee04b24cb50bf2aaf5cfb96bb4bd50b7835ca0ae
   specs:
-    bellbro (0.2.2)
+    bellbro (0.3.0)
       activesupport
       airbrake
       redis
       retryable
       sidekiq
 
-PATH
-  remote: ../iron_base
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
+  revision: 46bea1c48fb97cfe5bcda8f02eea1f56f3696f8b
   specs:
-    iron_base (0.0.2)
+    iron_base (0.0.3)
       activesupport
       connection_pool
       elasticsearch
@@ -21,15 +23,17 @@ PATH
       redis
       retryable
 
-PATH
-  remote: ../iron_core
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
+  revision: 49ba4f7e62e00068ca9a97e51ff0e10e2d06e6d1
   specs:
-    iron_core (0.0.14)
+    iron_core (0.2.0)
       activesupport
       interactor
 
-PATH
-  remote: ../pool_boy
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/pool_boy.git
+  revision: fdb21f2dbc749d9ce7a8d82bcdaad20e9eab2d82
   specs:
     pool_boy (0.0.1)
       activesupport
@@ -39,38 +43,42 @@ PATH
       retryable
       thread_safe
 
-PATH
-  remote: ../redis_objects
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/redis_objects.git
+  revision: ec61d1dbdac2fe9a98668ead9dcba0ae288c4c4b
   specs:
     redis_objects (0.0.1)
       redis
 
-PATH
-  remote: ../shout
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/shout.git
+  revision: 64e4d8b4e4d4a91e524eb5baa6ae3c25132afb83
   specs:
     shout (0.0.1)
 
-PATH
-  remote: ../site_library
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/site_library.git
+  revision: abf41d6f005ecd7abeffe196b6076b6cd2c116c3
   specs:
     site_library (0.0.1)
       interactor
 
-PATH
-  remote: ../stretched-rb
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
+  revision: 8c167ab34b6d8110d31128ebc75b2519b84d67ae
   specs:
-    stretched (0.1.6)
+    stretched (0.2.1)
       activesupport
-      hashie
       nokogiri
       redis
       stringex
       tokenizer
 
-PATH
-  remote: ../sunbro
+GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git
+  revision: 7d52de4730fca936f6625d53bef4f100893a5ca0
   specs:
-    sunbro (0.1.1)
+    sunbro (0.1.2)
       activesupport
       capybara
       nokogiri
