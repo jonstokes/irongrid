@@ -1,29 +1,17 @@
 namespace :site do
   desc "Create all sites from site manifest to redis"
   task :create_all => :environment do
-    StretchedUtils.register_globals
-    Site::CreateAll.call(
-        directory: IronCore::Site.sites_dir,
-        user:      Stretched::Settings.user,
-    )
+    SiteLibrary::CreateAll.call
   end
 
   desc "Create all sites from site manifest to redis"
   task :add_new => :environment do
-    StretchedUtils.register_globals
-    Site::AddNew.call(
-        directory: IronCore::Site.sites_dir,
-        user:      Stretched::Settings.user,
-    )
+    SiteLibrary::Site::AddNew.call
   end
 
   desc "Update site attributes without overwriting stats"
   task :update_all => :environment do
-    StretchedUtils.register_globals
-    Site::UpdateAll.call(
-        directory: IronCore::Site.sites_dir,
-        user:      Stretched::Settings.user,
-    )
+    SiteLibrary::UpdateAll.call
   end
 
   task :flag_session_queues => :environment do

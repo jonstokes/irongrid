@@ -151,7 +151,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="iron_core (v0.0.14, /Users/jstokes/Local/Repositories/iron_core) [path][gem]">
+      <library name="iron_core (v0.2.0, /Users/jstokes/Local/Repositories/iron_core) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../iron_core/lib" />
           <root url="file://$MODULE_DIR$/../iron_core/tmp" />
@@ -168,9 +168,11 @@
       <library name="pool_boy (v0.0.1, /Users/jstokes/Local/Repositories/pool_boy) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../pool_boy/lib" />
+          <root url="file://$MODULE_DIR$/../pool_boy/.idea" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/../pool_boy/lib" />
+          <root url="file://$MODULE_DIR$/../pool_boy/.idea" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -178,9 +180,11 @@
       <library name="redis_objects (v0.0.1, /Users/jstokes/Local/Repositories/redis_objects) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../redis_objects/lib" />
+          <root url="file://$MODULE_DIR$/../redis_objects/.idea" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/../redis_objects/lib" />
+          <root url="file://$MODULE_DIR$/../redis_objects/.idea" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -211,7 +215,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="stretched (v0.1.6, /Users/jstokes/Local/Repositories/stretched-rb) [path][gem]">
+      <library name="stretched (v0.2.1, /Users/jstokes/Local/Repositories/stretched-rb) [path][gem]">
         <CLASSES>
           <root url="file://$MODULE_DIR$/../stretched-rb/lib" />
           <root url="file://$MODULE_DIR$/../stretched-rb/tmp" />
