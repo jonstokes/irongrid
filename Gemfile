@@ -28,16 +28,23 @@ gem 'elasticsearch-rails'
 gem 'syslogger', '~> 1.6.0'
 gem 'retryable'
 
+gem 'stretched' ,git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git"
+
+# IronGrid basic dependencies
 gem 'shout', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/shout.git"
 gem 'pool_boy', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/pool_boy.git"
 gem 'redis_objects', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/redis_objects.git"
-
 gem 'sunbro', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/sunbro.git"
 gem 'bellbro', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git'
-gem 'stretched' ,git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git"
+
+# IronGrid gems
 gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
 gem 'iron_base', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git'
 gem 'site_library', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/site_library.git'
+
+## Local copies
+
+#gem 'stretched', path: '../stretched-rb'
 
 #gem 'shout', path: '../shout'
 #gem 'pool_boy', path: '../pool_boy'
@@ -45,7 +52,6 @@ gem 'site_library', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oau
 
 #gem 'sunbro', path: '../sunbro'
 #gem 'bellbro', path: '../bellbro'
-#gem 'stretched', path: '../stretched-rb'
 #gem 'iron_core', path: '../iron_core'
 #gem 'iron_base', path: '../iron_base'
 #gem 'site_library', path: '../site_library'
