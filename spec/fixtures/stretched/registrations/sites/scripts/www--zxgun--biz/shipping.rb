@@ -1,5 +1,8 @@
 Stretched::Script.define "www.zxgun.biz/shipping" do
-  extensions 'globals/extensions/*'
+  extensions [
+       'globals/extensions/*',
+       'ironsights/extensions/irongrid/*'
+   ]
   script do
     shipping_cost do
       if product.guns?

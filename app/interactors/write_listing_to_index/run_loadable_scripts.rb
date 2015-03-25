@@ -12,6 +12,8 @@ class WriteListingToIndex
       if ironsights?
         extend Ironsights::ListingSetters
       end
+
+      Stretched::Extension.register_all if Stretched::Extension.registry.empty?
     end
 
     def call

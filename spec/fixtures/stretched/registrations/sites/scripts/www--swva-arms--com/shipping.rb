@@ -1,5 +1,8 @@
 Stretched::Script.define "www.swva-arms.com/shipping" do
-  extensions 'globals/extensions/*'
+  extensions [
+       'globals/extensions/*',
+       'ironsights/extensions/irongrid/*'
+   ]
   script do
     shipping_cost do
       if listing.title[/FLAT RATE/]

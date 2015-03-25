@@ -3,7 +3,6 @@ Stretched::Script.define "www.hyattgunstore.com/shipping" do
        'globals/extensions/*',
        'ironsights/extensions/irongrid/*'
    ]
-
   script do
     shipping_cost do
       if current_price && product.category1
