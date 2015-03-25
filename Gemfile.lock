@@ -5,6 +5,7 @@ PATH
       activesupport
       airbrake
       redis
+      retryable
       sidekiq
 
 PATH
@@ -18,6 +19,7 @@ PATH
       hashie
       interactor
       redis
+      retryable
 
 PATH
   remote: ../iron_core
@@ -71,10 +73,10 @@ PATH
     sunbro (0.1.1)
       activesupport
       capybara
-      hashie
       nokogiri
       poltergeist
       rest-client
+      retryable
 
 GEM
   remote: http://rubygems.org/
