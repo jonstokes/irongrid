@@ -4,6 +4,8 @@ def initialize_stretched
   SiteLibrary::CreateEngineRegistrations.call
 end
 
+initialize_stretched
+
 RSpec.configure do |config|
   config.before(:each) do
     initialize_stretched

@@ -1,7 +1,7 @@
 RSpec.configure do |config|
   config.before :all do
     IronBase::Index.delete(index: IronBase::Settings.elasticsearch_index) rescue nil
-    register_globals
+    puts "# Stretched user is #{Stretched::Settings.user}"
     IronBase::Settings.configure {|c| c.synonyms = ElasticTools::Synonyms.synonyms}
   end
 

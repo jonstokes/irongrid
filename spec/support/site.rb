@@ -1,3 +1,5 @@
+IronCore::Site
+
 RSpec.configure do |config|
   config.before(:each) do
     IronCore::Site.clear_all

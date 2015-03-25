@@ -24,9 +24,7 @@ PATH
   specs:
     iron_core (0.0.14)
       activesupport
-      bellbro (~> 0.2.2)
       interactor
-      stretched (~> 0.1.5)
 
 PATH
   remote: ../pool_boy
@@ -54,7 +52,7 @@ PATH
   remote: ../site_library
   specs:
     site_library (0.0.1)
-      figaro
+      interactor
 
 PATH
   remote: ../stretched-rb

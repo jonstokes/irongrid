@@ -3,7 +3,6 @@ require 'spec_helper'
 describe WriteListingToIndex::RunLoadableScripts do
   before :each do
     @site = create_site 'www.budsgunshop.com'
-    load_scripts
   end
 
   describe '#call' do
@@ -31,7 +30,6 @@ describe WriteListingToIndex::RunLoadableScripts do
 
     it 'exposes common variables to the script' do
       site = create_site 'www.midwayusa.com'
-      load_scripts
       opts = {
           site: site,
           listing: IronBase::Listing.new(
