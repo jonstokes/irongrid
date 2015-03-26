@@ -1,6 +1,6 @@
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/bellbro.git
-  revision: ee04b24cb50bf2aaf5cfb96bb4bd50b7835ca0ae
+  revision: e22cf022f8f6481ad5caee528a1a5621238ca004
   specs:
     bellbro (0.3.0)
       activesupport
