@@ -24,5 +24,14 @@ describe DeleteEndedAuctionsService do
         expect(auctions.map(&:id)).to include(id)
       end
     end
+
+    it 'does not blow up if there are no ended auctions' do
+      5.times { FactoryGirl.create(:listing, :auction) }
+      expect {
+        @service.track
+        @service.start_jobs
+        @service.stop_tracking
+      }.not_to raise_error
+    end
   end
 end

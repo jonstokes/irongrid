@@ -14,4 +14,17 @@ IronBase::Settings.configure do |config|
   config.snapshot_repository   = 'irongrid-backup'
   config.allow_nil_fields      = true
   config.redis_pool            = PoolBoy::Settings.redis_pool[:ironsights]
+  config.client_options = {
+      adapter:            :typhoeus,
+      randomize_hosts:    true,
+      retry_on_failure:   true,
+      reload_connections: true,
+      reload_on_failure:  true,
+      transport_options: {
+          request: {
+              open_timeout: 1,
+              timeout: 45
+          }
+      }
+  }
 end
