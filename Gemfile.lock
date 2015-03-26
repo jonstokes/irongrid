@@ -59,7 +59,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/site_library.git
-  revision: 87213416244264b6ce418836e832c8df20b26117
+  revision: 7175e57f557afe5144e3c16398899223b8e23439
   specs:
     site_library (0.0.1)
       interactor
