@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
-  revision: 593a36412d28f5fbc40ce5fccd4feee4429512ba
+  revision: 7084bfac1ade1e4f7c04cd62127bb294a8c9c929
   specs:
     iron_base (0.0.3)
       activesupport
@@ -22,6 +22,7 @@ GIT
       interactor
       redis
       retryable
+      typhoeus
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
@@ -184,6 +185,8 @@ GEM
       faraday
       multi_json
     erubis (2.7.0)
+    ethon (0.7.3)
+      ffi (>= 1.3.0)
     execjs (2.2.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -331,6 +334,8 @@ GEM
     timers (4.0.1)
       hitimes
     tokenizer (0.1.1)
+    typhoeus (0.7.1)
+      ethon (>= 0.7.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     unf (0.1.4-java)
