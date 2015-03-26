@@ -14,7 +14,7 @@ gem 'sidekiq'
 gem 'sidekiq-pro'
 gem 'airbrake'
 gem 'aws-sdk'
-gem 'net-http-persistent'
+#gem 'net-http-persistent'
 gem "geocoder"
 gem 'connection_pool'
 gem 'stringex'
