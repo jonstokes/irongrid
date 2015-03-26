@@ -230,6 +230,7 @@ GEM
     multi_json (1.10.1)
     multi_test (0.1.1)
     multipart-post (2.0.0)
+    net-http-persistent (2.9.4)
     netrc (0.10.3)
     nokogiri (1.6.6.2-java)
     poltergeist (1.5.1)
@@ -379,6 +380,7 @@ DEPENDENCIES
   jruby-openssl
   launchy
   mocktra
+  net-http-persistent
   nokogiri
   poltergeist
   pool_boy!
