@@ -18,8 +18,6 @@ IronBase::Settings.configure do |config|
       adapter:            :typhoeus,
       randomize_hosts:    true,
       retry_on_failure:   true,
-      reload_connections: true,
-      reload_on_failure:  true,
       transport_options: {
           request: {
               open_timeout: 1,
