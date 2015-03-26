@@ -79,7 +79,8 @@ end
 
 namespace :snapshot do
   task create_repository: :environment do
-    IronBase::Snapshot.create_repository
+    result = IronBase::Snapshot.create_repository
+    puts "#{result}"
   end
 
   task create: :environment do
