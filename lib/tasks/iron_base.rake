@@ -83,7 +83,8 @@ namespace :snapshot do
   end
 
   task create: :environment do
-    IronBase::Snapshot.create(indexes: IronBase::Settings.elasticsearch_index)
+    result = IronBase::Snapshot.create(indexes: IronBase::Settings.elasticsearch_index)
+    puts "#{result}"
   end
 
 end
