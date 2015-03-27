@@ -25,9 +25,9 @@ module Elasticsearch
                 url,
                 ( body ? __convert_to_json(body) : nil ),
                 {}
-              response.on_complete do
-                Elasticsearch::Transport::Transport::Response.new response.status, response.body, response.headers
-              end
+
+              sleep 0.1 while !response.finished?
+              Elasticsearch::Transport::Transport::Response.new response.status, response.body, response.headers
             end
           end
         end
