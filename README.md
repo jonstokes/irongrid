@@ -205,7 +205,7 @@ RAILS_ENV="production" jruby -J-Xmx1792m -J-Xms1792m -J-Djruby.reify.classes=tru
 
 # Diagnostic deploy
 
-RAILS_ENV="production" jruby -J-XX:+CMSPermGenSweepingEnabled -J-XX:+CMSClassUnloadingEnabled -J-server -J-Djruby.reify.classes=true -J-Xmx1792m -J-Xms1792m --2.0 -S /opt/bitnami/jruby/lib/ruby/gems/1.9/bin/sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 25 2>&1 | logger -t sidekiq
+RAILS_ENV="production" jruby -J-XX:+UseConcMarkSweepGC -J-XX:+CMSClassUnloadingEnabled -J-server -J-Djruby.reify.classes=true -J-Xmx1792m -J-Xms1792m --2.0 -S /opt/bitnami/jruby/lib/ruby/gems/1.9/bin/sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 25 2>&1 | logger -t sidekiq
 
 RAILS_ENV="production" jruby -J-Djruby.reify.classes=true -J-Xmx1792m -J-Xms1792m --2.0 -S /opt/bitnami/jruby/lib/ruby/gems/1.9/bin/sidekiq -r /home/bitnami/stretched-node -q stretched -c 25  2>&1 | logger -t sidekiq
 
