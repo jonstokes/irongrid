@@ -16,10 +16,7 @@ IronBase::Settings.configure do |config|
   config.redis_pool            = PoolBoy::Settings.redis_pool[:ironsights]
   config.client_options = {
       adapter:            :typhoeus,
-      randomize_hosts:    true,
       retry_on_failure:   true,
-      reload_connections: true,
-      reload_on_failure:  true,
       parallel_manager:   Typhoeus::Hydra.new(max_concurrency: 30),
       transport_options: {
           request: {
