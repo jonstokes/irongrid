@@ -15,17 +15,17 @@ IronBase::Settings.configure do |config|
   config.allow_nil_fields      = true
   config.redis_pool            = PoolBoy::Settings.redis_pool[:ironsights]
   config.client_options = {
-      adapter:            :net_http_persistent,
+      adapter:            :typhoeus,
       randomize_hosts:    true,
       retry_on_failure:   true,
       reload_connections: true,
       reload_on_failure:  true,
+      parallel_manager:   Typhoeus::Hydra.new(max_concurrency: 30),
       transport_options: {
           request: {
               open_timeout: 5,
               timeout: 45
           }
       }
-
   }
 end
