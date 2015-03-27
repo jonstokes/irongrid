@@ -20,11 +20,5 @@ IronBase::Settings.configure do |config|
       retry_on_failure:   true,
       reload_connections: true,
       reload_on_failure:  true,
-      transport_options: {
-          request: {
-              open_timeout: 1,
-              timeout: 45
-          }
-      }
   }
 end
