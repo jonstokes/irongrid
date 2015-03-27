@@ -181,6 +181,9 @@ RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m 
 RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls,10 -q crawl_images,2 -q db_slow_high,1 -q db_slow_low,1 -c 25  2>&1 | logger -t sidekiq
 RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid  -q db_slow_high,10 -q db_slow_low,5 -q crawls,1 -q crawl_images,2 -c 25  2>&1 | logger -t sidekiq
 
+RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec sidekiq -v -r /home/bitnami/irongrid -q crawls -c 25  2>&1 | logger -t sidekiq
+
+
 
 RAILS_ENV="production" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec rake service:boot --trace
 
@@ -264,7 +267,7 @@ RAILS_ENV="staging" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-
 
 	$ sudo apt-get update
 	$ sudo apt-get autoremove
-	$ sudo apt-get install git tmux daemon ack htop
+	$ sudo apt-get install git tmux daemon ack-grep htop openjdk-7-jdk
 
 ### Set up remote syslog
 per http://help.papertrailapp.com/kb/configuration/configuring-remote-syslog-from-unixlinux-and-bsdos-x
