@@ -5,8 +5,10 @@ class DeleteEndedAuctionsService < BaseService
   worker_class DeleteListingsWorker
 
   def each_job
-    IronBase::Listing.with_each_ended_auction do |batch|
-      yield(batch.map(&:id))
+    Retryable.retryable(on: NoMethodError) do
+      IronBase::Listing.with_each_ended_auction do |batch|
+        yield(batch.map(&:id))
+      end
     end
   end
 end
