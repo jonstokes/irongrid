@@ -40,7 +40,7 @@ gem 'bellbro', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-ba
 # IronGrid gems
 gem 'iron_core', git: "https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git"
 gem 'iron_base', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git'
-gem 'site_library', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/site_library.git'
+#gem 'site_library', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/site_library.git'
 
 ## Local copies
 
@@ -54,7 +54,7 @@ gem 'site_library', git: 'https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oau
 #gem 'bellbro', path: '../bellbro'
 #gem 'iron_core', path: '../iron_core'
 #gem 'iron_base', path: '../iron_base'
-#gem 'site_library', path: '../site_library'
+gem 'site_library', path: '../site_library'
 
 # JRuby-specific gems
 gem 'execjs'
