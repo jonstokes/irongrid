@@ -58,6 +58,14 @@ GIT
     shout (0.0.1)
 
 GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/site_library.git
+  revision: 9a139ffc813bbfd5eca0511dd58446a93e4ceb1e
+  specs:
+    site_library (0.0.1)
+      figaro
+      interactor
+
+GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/stretched-rb.git
   revision: 6b4ea7f708f7ac2e11774fa5e2933014452b7ff3
   specs:
@@ -79,13 +87,6 @@ GIT
       poltergeist
       rest-client
       retryable
-
-PATH
-  remote: ../site_library
-  specs:
-    site_library (0.0.1)
-      figaro
-      interactor
 
 GEM
   remote: http://rubygems.org/
