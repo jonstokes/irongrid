@@ -33,7 +33,7 @@ task :write_from_local => :environment do
   write_files(files)
 
   # Side-load the smaller files into the site model's feeds list
-  site = IronCore::Site.new(domain: "www.blueridgefirearms.com")
+  site = SiteLibrary::Site.new(domain: "www.blueridgefirearms.com")
   site.feeds = []
   files.each_with_index do |f, i|
     site.feeds << Feed.new(filename: "tmp/export-#{i}.xml")

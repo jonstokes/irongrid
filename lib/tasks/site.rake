@@ -15,7 +15,7 @@ namespace :site do
   end
 
   task :flag_session_queues => :environment do
-    IronCore::Site.each do |site|
+    SiteLibrary::Site.each do |site|
       site.session_queue.flag!
     end
   end
@@ -23,7 +23,7 @@ namespace :site do
   desc "Update affiliate urls"
   task update_affiliates: :environment do
     ['www.swva-arms.com', 'www.gunsinternational.com'].each do |domain|
-      site = IronCore::Site.find domain
+      site = SiteLibrary::Site.find domain
       IronBase::Listing.find_each(query_hash(domain)) do |batch|
         batch.each do |listing|
           listing.url.purchase = to_affiliate_url(listing.url.purchase, site)
@@ -48,7 +48,7 @@ namespace :site do
 
   desc "Run stats for all active sites"
   task :stats => :environment do
-    IronCore::Site.each do |site|
+    SiteLibrary::Site.each do |site|
       SiteStatsWorker.perform_async(domain: site.domain) unless SiteStatsWorker.jobs_in_flight_with_domain(site.domain).any?
     end
   end
@@ -57,18 +57,18 @@ namespace :site do
   task :delete_dead => :environment do
     YAML.load_file("tmp/dead.yml").each do |domain|
       puts "Removing #{domain}"
-      site = IronCore::Site.find(domain) rescue nil
+      site = SiteLibrary::Site.find(domain) rescue nil
       next unless site
       site.session_queue.clear
       site.listings_queue.clear
       site.product_links_queue.clear
-      IronCore::Site.remove_domain(domain)
+      SiteLibrary::Site.remove_domain(domain)
     end
   end
 
   desc "Jumpstart scrapes on sites with link_data"
   task :scrape_all => :environment do
-    IronCore::Site.each do |site|
+    SiteLibrary::Site.each do |site|
       if IronCore::LinkMessageQueue.new(domain: site.domain).any?
         PruneLinksWorker.perform_async(domain: site.domain)
       end
@@ -96,7 +96,7 @@ namespace :site do
         listing.destroy
         listing.send(:update_es_index)
       end
-      site = IronCore::Site.find(domain)
+      site = SiteLibrary::Site.find(domain)
       puts "  Clearing listings queue of size #{site.listings_queue.size}"
       site.listings_queue.clear
     end
@@ -106,7 +106,7 @@ namespace :site do
   task :generate_fixtures => :environment do
     domains = YAML.load_file("spec/fixtures/sites/manifest.yml")
     domains.each do |domain|
-      site = IronCore::Site.find(domain, source: :local)
+      site = SiteLibrary::Site.find(domain, source: :local)
       filename = "spec/fixtures/sites/#{domain.gsub(".","--")}.yml"
       puts "Writing #{site.domain} to #{filename}"
       File.open(filename, "w") do |f|

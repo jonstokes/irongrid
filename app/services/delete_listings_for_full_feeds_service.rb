@@ -18,7 +18,7 @@ class DeleteListingsForFullFeedsService < BaseService
   end
 
   def each_job
-    IronCore::Site.each_full_product_feed_site do |site|
+    SiteLibrary::Site.each_full_product_feed_site do |site|
       next unless should_add_job?(site)
       IronBase::Listing.find_each(query_hash(site)) do |batch|
         record[:data][:listings_deleted] += batch.size

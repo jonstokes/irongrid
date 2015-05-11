@@ -42,7 +42,7 @@ end
 def clear_site_queues
   domains = YAML.load_file("../ironsights-sites/sites/site_manifest.yml")
   domains.each do |domain|
-    site = IronCore::Site.find(domain, source: :local) rescue next
+    site = SiteLibrary::Site.find(domain, source: :local) rescue next
     next if site.session_queue.size.zero? && site.listings_queue.size.zero? && site.product_links_queue.size.zero? && site.link_message_queue.size.zero?
     puts "## #{site.domain}"
     puts "   SNQ: #{site.session_queue.size}" unless site.session_queue.size.zero?

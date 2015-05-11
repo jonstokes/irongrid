@@ -11,7 +11,7 @@ class ScrapePageWorker < BaseWorker
 
   def site
     @site ||= begin
-      s = IronCore::Site.find(domain)
+      s = SiteLibrary::Site.find(domain)
       s.user = user
       s
     end

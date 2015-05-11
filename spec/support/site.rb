@@ -1,6 +1,6 @@
 RSpec.configure do |config|
   config.before(:each) do
-    IronCore::Site.clear_all
+    SiteLibrary::Site.clear_all
   end
 end
 

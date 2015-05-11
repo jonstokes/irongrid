@@ -117,7 +117,7 @@ class ListingMigration
   def self.sites
     @sites ||= begin
       puts '# Loading sites...'
-      s = IronCore::Site.all
+      s = SiteLibrary::Site.all
       puts "#   #{s.count} sites loaded!"
       s
     end
@@ -134,7 +134,7 @@ class ListingMigration
   end
 
   def self.load_site(domain)
-    site = IronCore::Site.find(domain, source: :local)
+    site = SiteLibrary::Site.find(domain, source: :local)
     sites << site
     site
   end

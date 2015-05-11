@@ -4,7 +4,7 @@ class BaseService < Bellbro::Service
   worker_class BaseWorker
 
   def each_job
-    IronCore::Site.each do |site|
+    SiteLibrary::Site.each do |site|
       next unless should_add_job?(site)
       yield(domain: site.domain)
     end
