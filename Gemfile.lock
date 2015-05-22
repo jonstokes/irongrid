@@ -59,7 +59,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/site_library.git
-  revision: ed8420f42d72d9be496737f6cf54b7705fcc5d31
+  revision: a77378656344e8449d38c91b4f3077c335d7cdc3
   specs:
     site_library (0.0.1)
       figaro
