@@ -120,22 +120,6 @@
     </content>
     <orderEntry type="jdk" jdkName="RVM: jruby-1.7.18 [irongrid]" jdkType="JRUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="site_library (v0.0.1, /Users/jstokes/Local/Repositories/site_library) [path][gem]">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../site_library/lib" />
-          <root url="file://$MODULE_DIR$/../site_library/tmp" />
-          <root url="file://$MODULE_DIR$/../site_library/data" />
-          <root url="file://$MODULE_DIR$/../site_library/.idea" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../site_library/lib" />
-          <root url="file://$MODULE_DIR$/../site_library/tmp" />
-          <root url="file://$MODULE_DIR$/../site_library/data" />
-          <root url="file://$MODULE_DIR$/../site_library/.idea" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionpack (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionview (v4.2.0, RVM: jruby-1.7.18 [irongrid]) [gem]" level="application" />
