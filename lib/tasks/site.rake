@@ -6,7 +6,7 @@ namespace :site do
 
   desc "Create all sites from site manifest to redis"
   task :add_new => :environment do
-    SiteLibrary::Site::AddNew.call
+    SiteLibrary::AddNew.call
   end
 
   desc "Update site attributes without overwriting stats"
