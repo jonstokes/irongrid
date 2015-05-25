@@ -7,11 +7,9 @@ class WriteProductToIndex
     end
 
     def call
-      # This tries to find a product with a pretty strict usage of normalized UPC, MPN, and SKU
+      # This tries to find a product with a pretty strict usage of normalized UPC
       context.product ||=
               find_by_upc ||
-              find_by_mpn ||
-              find_by_sku ||
               IronBase::Product.new
     end
 
@@ -24,6 +22,7 @@ class WriteProductToIndex
       IronBase::Product.find_by_upc(product_source.upc).first
     end
 
+    # Unused for now
     def find_by_mpn
       return unless product_source.mpn.present?
       hits = IronBase::Product.find_by_mpn(product_source.mpn)
@@ -31,6 +30,7 @@ class WriteProductToIndex
       order_hits_by_best_match(hits).first
     end
 
+    # Unused for now
     def find_by_sku
       return unless product_source.sku.present?
       hits = IronBase::Product.find_by_sku(product_source.sku)
