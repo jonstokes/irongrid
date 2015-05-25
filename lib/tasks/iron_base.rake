@@ -39,6 +39,13 @@ def create_alias(index_name)
   )
 end
 
+def create_tfb_alias
+  IronBase::Index.create_alias(
+    index: "restored_ironsights-production-2015-01-14-00-19-56",
+    alias: "tfb"
+  )
+end
+
 def turn_on_logging
   IronBase::Settings.configure {|c| c.logger = Rails.logger}
 end
