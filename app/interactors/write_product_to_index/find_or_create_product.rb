@@ -22,7 +22,10 @@ class WriteProductToIndex
       IronBase::Product.find_by_upc(product_source.upc).first
     end
 
+    #
     # Unused for now
+    #
+
     def find_by_mpn
       return unless product_source.mpn.present?
       hits = IronBase::Product.find_by_mpn(product_source.mpn)
@@ -30,7 +33,6 @@ class WriteProductToIndex
       order_hits_by_best_match(hits).first
     end
 
-    # Unused for now
     def find_by_sku
       return unless product_source.sku.present?
       hits = IronBase::Product.find_by_sku(product_source.sku)
