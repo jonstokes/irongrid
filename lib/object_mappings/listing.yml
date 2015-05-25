@@ -29,6 +29,7 @@ product_source:
   sku:              product_sku
   mpn:              product_mpn
   category1:        product_category1
+  category2:        product_category2
   manufacturer:     product_manufacturer
   weight:           product_weight_shipping
   caliber:          product_caliber
@@ -37,11 +38,11 @@ product_source:
   number_of_rounds: product_number_of_rounds
   material:         product_material
   grains:           product_grains
-  shot_size:        product_shot_size
   velocity:         product_velocity
-  load_type:        product_load_type
-  bullet_type:      product_bullet_type
-  shell_length:     product_shell_length
   casing:           product_casing
   casing_condition: product_casing_condition
   frangible:        product_frangible
+  load_type:        product_load_type
+  bullet_type:      product_bullet_type
+  shell_length:     product_shell_length
+  shot_size:        product_shot_size
