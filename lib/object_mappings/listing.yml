@@ -1,44 +1,47 @@
 ---
-engine: engine
-type: type
-title: title
-keywords: keywords
-description: description
-condition: condition
-auction_ends: auction_ends
-availability: availability
+engine:        engine
+type:          type
+title:         title
+keywords:      keywords
+description:   description
+condition:     condition
+auction_ends:  auction_ends
+availability:  availability
 shipping:
-  cost: shipping_cost_in_cents
+  cost:        shipping_cost_in_cents
 image:
-  source: image
+  source:      image
 discount:
-  in_cents: discount_in_cents
-  percent: discount_percent
+  in_cents:    discount_in_cents
+  percent:     discount_percent
 price:
-  on_request: price_on_request
-  current: current_price_in_cents
-  list: price_in_cents
-  sale: sale_price_in_cents
-  buy_now: buy_now_price_in_cents
+  on_request:  price_on_request
+  current:     current_price_in_cents
+  list:        price_in_cents
+  sale:        sale_price_in_cents
+  buy_now:     buy_now_price_in_cents
   current_bid: current_bid_in_cents
   minimum_bid: minimum_bid_in_cents
-  reserve: reserve_in_cents
-  per_round: price_per_round_in_cents
+  reserve:     reserve_in_cents
+  per_round:   price_per_round_in_cents
 product_source:
-  upc: product_upc
-  sku: product_sku
-  mpn: product_mpn
-  category1: product_category1
-  manufacturer: product_manufacturer
-  weight: product_weight_shipping
-  caliber: product_caliber
+  upc:              product_upc
+  sku:              product_sku
+  mpn:              product_mpn
+  category1:        product_category1
+  manufacturer:     product_manufacturer
+  weight:           product_weight_shipping
+  caliber:          product_caliber
   caliber_category: product_caliber_category
-  ammo_type: product_ammo_type
+  ammo_type:        product_ammo_type
   number_of_rounds: product_number_of_rounds
-  material: product_material
-  grains: product_grains
-  shot_size: product_shot_size
-  velocity: product_velocity
-  load_type: product_load_type
-  bullet_type: product_bullet_type
-  shell_length: product_shell_length
+  material:         product_material
+  grains:           product_grains
+  shot_size:        product_shot_size
+  velocity:         product_velocity
+  load_type:        product_load_type
+  bullet_type:      product_bullet_type
+  shell_length:     product_shell_length
+  casing:           product_casing
+  casing_condition: product_casing_condition
+  frangible:        product_frangible

@@ -1,27 +1,32 @@
 ---
-engine: engine
-complete: complete
-upc: upc
-name: name
+engine:          engine
+complete:        complete
+upc:             upc
+name:            name
 description:
-  short: short_description
-  long: long_description
+  short:         short_description
+  long:          long_description
 image:
-  source: image
-  cdn: image_cdn
+  source:             image
+  cdn:                image_cdn
   download_attempted: image_download_attempted
-msrp: msrp
-category1: category1
-manufacturer: manufacturer
+msrp:             msrp
+category1:        category1
+category2:        category2
+manufacturer:     manufacturer
 weight:
-  shipping: weight
-caliber: caliber
+  shipping:       weight
+caliber:          caliber
 caliber_category: caliber_category
-ammo_type: ammo_type
+ammo_type:        ammo_type
 number_of_rounds: number_of_rounds
-material: material
-grains: grains
-velocity: velocity
-load_type: load_type
-bullet_type: bullet_type
-shell_length: shell_length
+material:         material
+grains:           grains
+velocity:         velocity
+load_type:        load_type
+bullet_type:      bullet_type
+shell_length:     shell_length
+shot_size:        shot_size
+casing:           casing
+casing_condition: casing_condition
+frangible:        frangible
