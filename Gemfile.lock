@@ -10,6 +10,21 @@ GIT
       sidekiq
 
 GIT
+  remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
+  revision: b62e65f052a70c0b5ea93fa4403ea2af3c3e8e23
+  specs:
+    iron_base (0.0.3)
+      activesupport
+      connection_pool
+      elasticsearch
+      geocoder
+      hashie
+      interactor
+      redis
+      retryable
+      typhoeus
+
+GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_core.git
   revision: 89e18c381e2c34a4106ba4975a73df2cc0272d45
   specs:
@@ -72,20 +87,6 @@ GIT
       poltergeist
       rest-client
       retryable
-
-PATH
-  remote: ../iron_base
-  specs:
-    iron_base (0.0.3)
-      activesupport
-      connection_pool
-      elasticsearch
-      geocoder
-      hashie
-      interactor
-      redis
-      retryable
-      typhoeus
 
 GEM
   remote: http://rubygems.org/
