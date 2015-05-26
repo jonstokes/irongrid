@@ -114,7 +114,7 @@ end
 
 namespace :products do
   task rebuild: :environment do
-    sources = ['www.brownells.com', 'www.luckygunner.com']
+    sources = ['www.luckygunner.com', 'www.brownells.com']
 
     delete_all_products
     rebuild_products_from_sources(sources)
@@ -137,13 +137,23 @@ def rebuild_products_from_sources(sources)
         next unless upc = listing.product_source.upc
         count += 1
 
-        product = WriteProductToIndex::FindOrCreateProduct.call(listing: listing)
+        product = WriteProductToIndex::FindOrCreateProduct.call(listing: listing).product
+
+        #puts "### Updating product #{product.inspect}"
+        #puts "###     from listing #{listing.id}"
 
         # Fill in any empty product attributes using this listing
-        UpdateProductFromListing.call(product: product, listing: listing)
+        result = UpdateProductFromListing.call(product: product, listing: listing)
+        listing = result.listing
+        product = result.product
+
+        #puts "### Updating listing #{listing.inspect}"
+        #puts "###     from product #{product.inspect}"
 
         # Fill in any empty listing.product_source attributes from the product
-        UpdateListingFromProduct.call(product: product, listing: listing)
+        result = UpdateListingFromProduct.call(product: product, listing: listing)
+        listing = result.listing
+        product = result.product
 
         product.save
         listing.update_record_without_timestamping
