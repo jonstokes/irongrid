@@ -155,7 +155,7 @@ def rebuild_products_from_sources(sources)
         listing = result.listing
         product = result.product
 
-        product.save
+        product.save(prune_invalid_attributes: true)
         listing.update_record_without_timestamping
       end
       puts "  rebuilt products from #{count} listings"

@@ -7,7 +7,7 @@ class UpdateProductFromListing < UpdateListingFromProduct
 
     listing.product_source.each do |k, v|
       next if %w(weight mpn upc sku).include?(k)
-
+      
       # Downcase what needs to be downcased
       if should_lowercase?(k)
         product.send("#{k}=", v.downcase)
