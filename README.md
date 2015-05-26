@@ -230,6 +230,11 @@ daemon -U -r --stdout=syslog -n irongrid-services -D /home/bitnami/irongrid -- j
 daemon -U -r --stdout=syslog -n irongrid-sidekiq -D /home/bitnami/irongrid -- jruby --2.0 -S bundle exec sidekiq -r /home/bitnami/irongrid -q scrapes
 
 
+## m3.medium stretched
+
+RAILS_ENV="production" jruby -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S /opt/bitnami/jruby/lib/ruby/gems/1.9/bin/sidekiq -v -r /home/bitnami/stretched-node -q stretched -c 25 2>&1 | logger -t sidekiq
+
+
 ## Staging deploy
 
 RAILS_ENV="staging" jruby -Xcompile.invokedynamic=true -J-server -J-Xmx1792m -J-Xms1792m --2.0 -S bundle exec rake service:boot --trace 2>&1 | logger -t sidekiq
