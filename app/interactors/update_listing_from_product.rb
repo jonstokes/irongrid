@@ -12,10 +12,10 @@ class UpdateListingFromProduct
     product_attributes = IronBase::Listing.mapping.listing.properties.product.properties.keys
 
     product.to_hash.slice(*product_attributes).each do |k, v|
-      if should_lowercase?(k) && !listing.product[k].present?
-        listing.product[k] = v.downcase
+      if should_lowercase?(k)
+        listing.product[k] = listing.product_source[k].downcase || v.downcase
       else
-        listing.product[k] = v
+        listing.product[k] = listing.product_source || v
       end
     end
   end
