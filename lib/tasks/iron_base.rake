@@ -122,6 +122,7 @@ namespace :products do
 end
 
 def delete_all_products
+  puts "Deleting all products in the products database..."
   IronBase::Product.find_each do |batch|
     IronBase::Product.bulk_delete batch.map(&:id)
   end
@@ -129,9 +130,12 @@ end
 
 def rebuild_products_from_sources(sources)
   sources.each do |domain|
+    puts "Rebuilding products database from #{domain}..."
+    count = 0
     IronBase::Listing.find_each(query_hash(domain)) do |batch|
       batch.each do |listing|
         next unless upc = listing.product_source.upc
+        count += 1
 
         product = FindOrCreateProduct.call(listing: listing)
 
@@ -142,8 +146,9 @@ def rebuild_products_from_sources(sources)
         UpdateListingFromProduct.call(product: product, listing: listing)
 
         product.save
-        listing.save
+        listing.update_record_without_timestamping
       end
+      puts "  rebuilt products from #{count} listings"
     end
   end
 end
