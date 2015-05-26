@@ -137,7 +137,7 @@ def rebuild_products_from_sources(sources)
         next unless upc = listing.product_source.upc
         count += 1
 
-        product = FindOrCreateProduct.call(listing: listing)
+        product = WriteProductToIndex::FindOrCreateProduct.call(listing: listing)
 
         # Fill in any empty product attributes using this listing
         UpdateProductFromListing.call(product: product, listing: listing)
