@@ -112,23 +112,56 @@ namespace :delete do
   end
 end
 
-def update_product(listing)
-  return unless listing.product_source.present?
-  return if listing.product_source.upc || listing.product_source.mpn || listing.product_source.sku
+namespace :products do
+  task rebuild: :environment do
+    sources = ['www.brownells.com', 'www.luckygunner.com']
 
-  listing.product_source.each do |k, v|
-    listing.product[k] = v
+    delete_all_products
+    rebuild_products_from_sources(sources)
   end
+end
 
-  listing.product_source.id   = nil
-  listing.product.id          = nil
-  listing.product.name        = listing.title
-  listing.product.msrp        = listing.price.list
-  listing.save
+def delete_all_products
+  IronBase::Product.find_each do |batch|
+    IronBase::Product.bulk_delete batch.map(&:id)
+  end
+end
+
+def rebuild_products_from_sources(sources)
+  sources.each do |domain|
+    IronBase::Listing.find_each(query_hash(domain)) do |batch|
+      batch.each do |listing|
+        next unless upc = listing.product_source.upc
+
+        product = FindOrCreateProduct.call(listing: listing)
+
+        # Fill in any empty product attributes using this listing
+        UpdateProductFromListing.call(product: product, listing: listing)
+
+        # Fill in any empty listing.product_source attributes from the product
+        UpdateListingFromProduct.call(product: product, listing: listing)
+
+        product.save
+        listing.save
+      end
+    end
+  end
+end
+
+def find_or_create_product(upc)
+  IronBase::Product.find_by_upc(upc).first ||
+    IronBase::Product.new
+end
+
+def query_hash(domain)
+  IronBase::Listing::Search.new(
+      filters: {
+          seller_domain: domain
+      }
+  ).query_hash
 end
 
 namespace :migrate do
-
   task fix_products: :environment do
     IronBase::Listing.record_timestamps = false
     IronBase::Listing.find_each do |listing|
