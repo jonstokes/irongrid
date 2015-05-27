@@ -1,4 +1,4 @@
-class UpdateProductFromListing < UpdateListingFromProduct
+class UpdateProductFromListing
   include Interactor
 
   def call
@@ -7,13 +7,7 @@ class UpdateProductFromListing < UpdateListingFromProduct
 
     listing.product_source.each do |k, v|
       next if %w(weight mpn upc sku).include?(k)
-      
-      # Downcase what needs to be downcased
-      if should_lowercase?(k)
-        product.send("#{k}=", v.downcase)
-      else
-        product.send("#{k}=", v)
-      end
+      product.send("#{k}=", v)
     end
 
     product.name        = listing.title
@@ -25,6 +19,8 @@ class UpdateProductFromListing < UpdateListingFromProduct
     product.upc         = listing.product_source.try(:upc)
     product.mpn         = listing.product_source.try(:mpn)
     product.sku         = listing.product_source.try(:sku)
+
+    product.normalize!
   end
 
   def msrp
@@ -51,4 +47,11 @@ class UpdateProductFromListing < UpdateListingFromProduct
     { shipping: listing.product_source.weight }
   end
 
+  def product
+    context[:product]
+  end
+
+  def listing
+    context[:listing]
+  end
 end

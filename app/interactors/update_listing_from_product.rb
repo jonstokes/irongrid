@@ -32,8 +32,7 @@ class UpdateListingFromProduct
 
   def get_product_value(attr, value)
     return value unless listing.product_source[attr].present?
-    source = listing.product_source[attr]
-    should_lowercase?(attr) ? source.downcase : source
+    product.normalized_for attr, listing.product_source[attr]
   end
 
   def product
@@ -42,19 +41,5 @@ class UpdateListingFromProduct
 
   def listing
     context[:listing]
-  end
-
-  def self.schema
-    @schema ||= Stretched::Schema.find("Listing")
-  end
-
-  def should_lowercase?(key)
-    lowercased_properties.include?(key)
-  end
-
-  def lowercased_properties
-    @lowercased_properties ||= self.class.schema.data['properties'].select do |k, v|
-      v['enum'] && v['enum'] == v['enum'].map(&:downcase)
-    end.keys.map { |k| k.split('product_').last }
   end
 end
