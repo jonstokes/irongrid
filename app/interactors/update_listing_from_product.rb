@@ -2,7 +2,7 @@ class UpdateListingFromProduct
   include Interactor
 
   before do
-    listing.product ||= {}
+    listing.product = {}
   end
 
   def call
