@@ -114,10 +114,20 @@ end
 
 namespace :products do
   task rebuild: :environment do
-    sources = ['www.luckygunner.com', 'www.brownells.com']
+    sources = ['www.luckygunner.com']
 
     delete_all_products
     rebuild_products_from_sources(sources)
+  end
+
+  task relink: :environment do
+    sources = [
+      'www.brownells.com',
+      'www.manventureoutpost.com',
+      'www.sportsmanswarehouse.com',
+      'www.botach.com'
+    ]
+    rebuild_products_from_sources(sources, false)
   end
 end
 
@@ -128,44 +138,35 @@ def delete_all_products
   end
 end
 
-def rebuild_products_from_sources(sources)
+def rebuild_products_from_sources(sources, rebuild=true)
   sources.each do |domain|
-    puts "Rebuilding products database from #{domain}..."
+    puts "Rebuilding products for #{domain}..."
     count = 0
     IronBase::Listing.find_each(query_hash(domain)) do |batch|
       batch.each do |listing|
-        next unless upc = listing.product_source.upc
+        upc = listing.product_source.upc
+        next if rebuild && upc.nil?
+
         count += 1
 
         product = WriteProductToIndex::FindOrCreateProduct.call(listing: listing).product
-
-        #puts "### Updating product #{product.inspect}"
-        #puts "###     from listing #{listing.id}"
 
         # Fill in any empty product attributes using this listing
         result = UpdateProductFromListing.call(product: product, listing: listing)
         listing = result.listing
         product = result.product
 
-        #puts "### Updating listing #{listing.inspect}"
-        #puts "###     from product #{product.inspect}"
-
         # Fill in any empty listing.product_source attributes from the product
         result = UpdateListingFromProduct.call(product: product, listing: listing)
         listing = result.listing
         product = result.product
 
-        product.save(prune_invalid_attributes: true)
+        product.save(prune_invalid_attributes: true) if rebuild
         listing.update_record_without_timestamping
       end
       puts "  rebuilt products from #{count} listings"
     end
   end
-end
-
-def find_or_create_product(upc)
-  IronBase::Product.find_by_upc(upc).first ||
-    IronBase::Product.new
 end
 
 def query_hash(domain)
