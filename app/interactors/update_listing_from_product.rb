@@ -9,29 +9,31 @@ class UpdateListingFromProduct
     # Use assignments so that dirty flag is set when appropriate
     return unless listing.present? && product.present?
 
-    permitted_product_data.each do |k, v|
-      source = get_product_value(k, v)
-
-      if should_lowercase?(k)
-        listing.product[k] = source.downcase
+    product_data.each do |k, v|
+      if permitted_product_data.include?(k)
+        listing.product[k] = get_product_value(k, v)
       else
-        listing.product[k] = source
+        listing.product[k] = nil
       end
     end
   end
 
   def permitted_product_data
-    product_attributes = IronBase::Listing.mapping.listing.properties.product.properties.keys
+    product_data.slice(*product.allowed_fields)
+  end
 
-    product.to_hash.slice(*product_attributes).slice(*product.allowed_fields)
+  def product_data
+    product.to_hash.slice(*product_attributes)
+  end
+
+  def product_attributes
+    IronBase::Listing.mapping.listing.properties.product.properties.keys
   end
 
   def get_product_value(attr, value)
-    if listing.product_source[attr].present? && product.allowed_fields.include?(attr)
-      listing.product_source[attr]
-    else
-      value
-    end
+    return value unless listing.product_source[attr].present?
+    source = listing.product_source[attr]
+    should_lowercase?(attr) ? source.downcase : source
   end
 
   def product
