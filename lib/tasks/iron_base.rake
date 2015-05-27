@@ -39,13 +39,6 @@ def create_alias(index_name)
   )
 end
 
-def create_tfb_alias
-  IronBase::Index.create_alias(
-    index: "restored_ironsights-production-2015-01-14-00-19-56",
-    alias: "tfb"
-  )
-end
-
 def turn_on_logging
   IronBase::Settings.configure {|c| c.logger = Rails.logger}
 end
@@ -66,6 +59,15 @@ def wait_for_jobs(klass)
   end
 end
 
+def tfb_domains
+  [
+    'www.brownells.com',
+    'www.luckygunner.com',
+    'www.manventureoutpost.com',
+    'www.sportsmanswarehouse.com',
+    'www.botach.com'
+  ]
+end
 
 namespace :index do
   task create: :environment do
@@ -81,6 +83,24 @@ namespace :index do
     set_index(index)
     put_mappings
     create_alias(index)
+  end
+end
+
+namespace :tfb do
+  task create_alias: :environment do
+    IronBase::Index.create_alias(
+      index: "restored_ironsights-production-2015-01-14-00-19-56",
+      alias: "tfb",
+      domains: tfb_domains
+    )
+  end
+
+  task update_alias: :environment do
+    IronBase::Index.update_alias(
+      index: "restored_ironsights-production-2015-01-14-00-19-56",
+      alias: "tfb",
+      domains: tfb_domains
+    )
   end
 end
 
