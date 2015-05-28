@@ -65,7 +65,8 @@ def tfb_domains
     'www.luckygunner.com',
     'www.manventureoutpost.com',
     'www.sportsmanswarehouse.com',
-    'www.botach.com'
+    'www.botach.com',
+    'www.midwayusa.com'
   ]
 end
 
