@@ -66,7 +66,8 @@ def tfb_domains
     'www.manventureoutpost.com',
     'www.sportsmanswarehouse.com',
     'www.botach.com',
-    'www.midwayusa.com'
+    'www.midwayusa.com',
+    'www.cheaperthandirt.com'
   ]
 end
 
