@@ -70,6 +70,54 @@ def tfb_domains
   ]
 end
 
+def tfb_calibers
+  [
+    '.22lr',
+    '9mm Luger',
+    '.45 ACP',
+    '.223 Rem',
+    '5.56 NATO',
+    '7.62x39mm'
+  ]
+end
+
+def tfb_body
+  {
+    filter: {
+      bool: {
+        must: [
+          { term:  { engine:                            'ironsights' } },
+          { term:  { 'listing.product.category1.raw' => 'ammunition' } },
+          { terms: { "listing.product.caliber.raw"   => tfb_calibers } },
+          { terms: { "listing.seller.domain"         => tfb_domains } }
+        ],
+        must_not: [
+          { term: { availability:                       'out_of_stock'} },
+          { term: { inactive:                           true }}
+        ]
+      }
+    }
+  }
+end
+
+namespace :tfb do
+  task create_alias: :environment do
+    IronBase::Index.create_alias(
+      index: "restored_ironsights-production-2015-01-14-00-19-56",
+      alias: "tfb",
+      body: tfb_body
+    )
+  end
+
+  task update_alias: :environment do
+    IronBase::Index.update_alias(
+      index: "restored_ironsights-production-2015-01-14-00-19-56",
+      alias: "tfb",
+      body: tfb_body
+    )
+  end
+end
+
 namespace :index do
   task create: :environment do
     configure_synonyms
@@ -84,24 +132,6 @@ namespace :index do
     set_index(index)
     put_mappings
     create_alias(index)
-  end
-end
-
-namespace :tfb do
-  task create_alias: :environment do
-    IronBase::Index.create_alias(
-      index: "restored_ironsights-production-2015-01-14-00-19-56",
-      alias: "tfb",
-      domains: tfb_domains
-    )
-  end
-
-  task update_alias: :environment do
-    IronBase::Index.update_alias(
-      index: "restored_ironsights-production-2015-01-14-00-19-56",
-      alias: "tfb",
-      domains: tfb_domains
-    )
   end
 end
 
