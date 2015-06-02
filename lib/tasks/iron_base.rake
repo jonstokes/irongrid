@@ -67,7 +67,9 @@ def tfb_domains
     'www.sportsmanswarehouse.com',
     'www.botach.com',
     'www.midwayusa.com',
-    'www.cheaperthandirt.com'
+    'www.cheaperthandirt.com',
+    'palmettostatearmory.com',
+    'www.targetsportsusa.com'
   ]
 end
 
