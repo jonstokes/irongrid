@@ -37,15 +37,15 @@ Stretched::Extension.define "ironsights/extensions/irongrid/listing_calculations
     end
 
     def list_price
-      listing.price_list || product.msrp || 0
+      listing.price_list || product.msrp
     end
 
     def current_price
-      listing.price_current || 0
+      listing.price_current
     end
 
     def sale_price
-      listing.price_sale || 0
+      listing.price_sale
     end
 
     def discounted?

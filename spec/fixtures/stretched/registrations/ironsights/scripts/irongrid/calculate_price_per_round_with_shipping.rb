@@ -6,7 +6,7 @@ Stretched::Script.define "ironsights/scripts/irongrid/calculate_price_per_round_
 
   script do
     with_shipping_price_per_round do
-      next unless should_calculate_ppr?
+      next unless should_calculate_ppr? && listing.with_shipping_price_current
       calculate_price_per_round(listing.with_shipping_price_current)
     end
   end

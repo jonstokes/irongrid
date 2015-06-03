@@ -38,9 +38,9 @@ describe WriteListingToIndex do
       end.first.merge(engine: 'ironsights')
 
       result = WriteListingToIndex.call(
-        page: @page,
+        page:         @page,
         listing_json: Hashie::Mash.new(listing),
-        site: site
+        site:         site
       )
       expect(result.success?).to eq(true)
       IronBase::Listing.refresh_index
@@ -59,6 +59,10 @@ describe WriteListingToIndex do
       expect(item.price.list).to be_nil
       expect(item.price.sale).to eq(34999)
       expect(item.price.current).to eq(34999)
+      expect(item.shipping.cost).to eq(1999)
+      expect(item.with_shipping.price.list).to be_nil
+      expect(item.with_shipping.price.sale).to eq(34999 + 1999)
+      expect(item.with_shipping.price.current).to eq(34999 + 1999)
     end
 
     it 'updates a listing with new values' do
@@ -104,6 +108,7 @@ describe WriteListingToIndex do
       expect(listing.price_current).to be_nil
       expect(listing.availability).to eq("out_of_stock")
       expect(listing.location.id).to eq("2710 South 1900 West, Ogden, UT 84401".upcase)
+      expect(listing.shipping['cost']).to be_nil
     end
 
     it 'parses a classified listing from Armslist' do
@@ -134,6 +139,11 @@ describe WriteListingToIndex do
       expect(item.price.current).to eq(52500)
       expect(item.availability).to eq("in_stock")
       expect(item.location.id).to include("Southwest Washington".upcase)
+      expect(item.shipping['cost']).to be_nil
+      expect(item.shipping_included?).to eq(false)
+      expect(item.with_shipping.price.list).to eq(52500)
+      expect(item.with_shipping.price.sale).to be_nil
+      expect(item.with_shipping.price.current).to eq(52500)
     end
 
     it "parses a CTD retail listing using meta tags" do
