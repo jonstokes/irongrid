@@ -4,15 +4,7 @@ class WriteListingToIndex
 
     before do
       # Loadables will blow up if these are nil
-      context.listing.price ||= {}
       context.product.weight ||= {}
-      context.listing.shipping ||= {}
-
-      # Later there will be elsif clauses for bunkerplex, etc.
-      if ironsights?
-        extend Ironsights::ListingSetters
-      end
-
       Stretched::Extension.register_all if Stretched::Extension.registry.empty?
     end
 
@@ -40,6 +32,5 @@ class WriteListingToIndex
     def ironsights?
       context.listing.engine == 'ironsights'
     end
-
   end
 end

@@ -61,6 +61,24 @@ describe WriteListingToIndex do
       expect(item.price.current).to eq(34999)
     end
 
+    it 'updates a listing with new values' do
+      site = create_site "www.hyattgunstore.com"
+
+      listing = File.open("spec/fixtures/stretched/output/hyatt-standard-instock.json", "r") do |f|
+        JSON.parse(f.read)
+      end.first.merge(engine: 'ironsights')
+
+      result = WriteListingToIndex.call(
+        page: @page,
+        listing_json: Hashie::Mash.new(listing),
+        site: site
+      )
+      expect(result.success?).to eq(true)
+      IronBase::Listing.refresh_index
+
+      pending "Finish it"
+    end
+
     it 'parses a standard, out of stock retail listing from Impact Guns' do
       site = create_site "www.impactguns.com"
 
@@ -124,7 +142,7 @@ describe WriteListingToIndex do
       listing = File.open("spec/fixtures/stretched/output/ctd-meta-tags.json", "r") do |f|
         JSON.parse(f.read)
       end.first.merge(engine: 'ironsights')
-      
+
       result = WriteListingToIndex.call(
         page: @page,
         listing_json: Hashie::Mash.new(listing),
