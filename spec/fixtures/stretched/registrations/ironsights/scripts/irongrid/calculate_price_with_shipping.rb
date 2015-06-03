@@ -1,13 +1,20 @@
 Stretched::Script.define "ironsights/scripts/irongrid/calculate_price_with_shipping" do
-  extensions 'ironsights/extensions/irongrid/*'
+  extensions [
+    'globals/extensions/*',
+    'ironsights/extensions/irongrid/*'
+  ]
+
   script do
-    price_with_shipping do
-      next unless shipping_included?
-      value = {}
-      value.merge!(current: listing.price.current + listing.shipping.try(:cost)) if listing.price.current
-      value.merge!(list: list_price + listing.shipping.try(:cost)) if list_price
-      value.merge!(sale: listing.price.sale + listing.shipping.try(:cost)) if listing.price.sale
-      { price: value }
+    with_shipping_price_current do
+      current_price + listing.shipping_cost
+    end
+
+    with_shipping_price_list do
+      list_price + listing.shipping_cost
+    end
+
+    with_shipping_price_sale do
+      sale_price + listing.shipping_cost
     end
   end
 end

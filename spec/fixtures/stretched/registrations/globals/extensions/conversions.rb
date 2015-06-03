@@ -6,16 +6,15 @@ Stretched::Extension.define "globals/extensions/conversions" do
       num && (num > min && num < max) ? num : nil
     end
 
-    def calculate_discount_in_cents(instance)
-      return unless instance['price_in_cents'] && instance['current_price_in_cents']
-      return unless instance['price_in_cents'] > instance['current_price_in_cents']
-      instance['price_in_cents'] - instance['current_price_in_cents']
+    def calculate_discount_in_cents(list, sale)
+      return if list.to_i.zero? || sale.to_i.zero?
+      return unless list > sale
+      list - sale
     end
 
-    def calculate_discount_percent(instance)
-      return unless instance['discount_in_cents'] && instance['price_in_cents']
-      dp = (instance['discount_in_cents'].to_f / instance['price_in_cents'].to_f) * 100
-      dp.to_i
+    def calculate_discount_percent(list, sale)
+      return unless discount_amount = calculate_discount_in_cents(list, sale)
+      ((discount_amount.to_f / list.to_f) * 100).round
     end
 
     def convert_dollars_to_cents(result)

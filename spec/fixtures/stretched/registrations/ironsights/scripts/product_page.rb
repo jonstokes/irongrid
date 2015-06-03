@@ -25,6 +25,14 @@ Stretched::Script.define "ironsights/scripts/product_page" do
       restrict_to_range(g, min: 0, max: 400)
     end
 
+    product_category1 do |instance|
+      if instance['title'] && (instance['title'][/snap\W*cap/i] || instance['title'][/dummy/i])
+        'accessories'
+      else
+        instance['product_category1']
+      end
+    end
+
     product_caliber do |instance|
       caliber = nil
       caliber_category = %w(rimfire_calibers handgun_calibers shotgun_calibers rifle_calibers).detect do |mapping_name|
@@ -44,6 +52,11 @@ Stretched::Script.define "ironsights/scripts/product_page" do
     product_casing do |instance|
       instance['product_casing'].try(:downcase)
     end
+
+    product_casing_condition do |instance|
+      instance['product_casing_condition'].try(:downcase) || 'new'
+    end
+
     product_manufacturer do |instance|
       mapping = load_registration(type: :mapping, key: 'manufacturers')
       manufacturer = extract_metadata(:product_manufacturer, mapping, instance) ||
@@ -58,10 +71,16 @@ Stretched::Script.define "ironsights/scripts/product_page" do
       extract_bullet_type(instance['product_bullet_type'])
     end
 
-    product_velocity do |instance|
-      instance['product_velocity'].try(:to_i) if instance.product_velocity.present?
+    product_load_type do |instance|
+      extract_load_type(instance['product_load_type'])
     end
 
+    product_velocity do |instance|
+      instance['product_velocity'].to_i if instance['product_velocity'].present?
+    end
+
+    product_frangible do |instance|
+      instance['product_frangible'].present?
+    end
   end
 end
-

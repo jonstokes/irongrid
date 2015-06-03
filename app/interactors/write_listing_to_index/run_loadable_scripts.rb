@@ -18,15 +18,13 @@ class WriteListingToIndex
         )
         instance = runner.run
         instance.each do |setter, value|
-          self.send(setter, value) if value
+          context.listing.send("#{setter}=", value)
         end
       end
     end
 
     after do
-      context.listing.price = nil if context.listing.price.empty?
       context.product.weight = nil if context.product.weight.empty?
-      context.listing.shipping = nil if context.listing.shipping.empty?
     end
 
     def ironsights?

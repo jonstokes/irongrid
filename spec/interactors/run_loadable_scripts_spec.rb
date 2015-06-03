@@ -69,7 +69,6 @@ describe WriteListingToIndex::RunLoadableScripts do
             category1: 'Ammunition',
             number_of_rounds: 10
         )
-
         result = WriteListingToIndex::RunLoadableScripts.call(
             listing: listing,
             product: product,
@@ -78,50 +77,6 @@ describe WriteListingToIndex::RunLoadableScripts do
 
         expect(result.listing.price.per_round).to eq(200)
       end
-
-      it 'calculates the price per round with shipping' do
-        listing = build(:listing)
-        listing.with_shipping = nil
-        product = IronBase::Product.new(
-            category1: 'Ammunition',
-            number_of_rounds: 10
-        )
-
-        result = WriteListingToIndex::RunLoadableScripts.call(
-            listing: listing,
-            product: product,
-            site:    @site
-        )
-
-        expect(result.listing.with_shipping.price.per_round).to eq(299)
-      end
-
-      it 'calculates the discount with shipping' do
-        listing = build(:listing)
-        listing.with_shipping = nil
-        listing.discount = nil
-
-        listing.price.current = listing.price.sale = 700
-
-        product = IronBase::Product.new(
-            category1: 'Ammunition',
-            number_of_rounds: 10
-        )
-
-        listing = WriteListingToIndex::RunLoadableScripts.call(
-            listing: listing,
-            product: product,
-            site:    @site
-        ).listing
-
-        expect(listing.discount.in_cents).to eq(1299)
-        expect(listing.discount.percent).to eq(65)
-        expect(listing.shipping.cost).to eq(995)
-        expect(listing.with_shipping.discount.in_cents).to eq(304)
-        expect(listing.with_shipping.discount.percent).to eq(15)
-      end
-
     end
-
   end
 end

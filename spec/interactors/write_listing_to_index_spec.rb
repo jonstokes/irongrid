@@ -101,7 +101,7 @@ describe WriteListingToIndex do
       expect(listing.image.source).to eq("http://www.impactguns.com/data/default/images/catalog/535/REM_22CYCLONE_CASE.jpg")
       expect(listing.keywords).to eq("Remington, Remington 22LR CYCLONE 36HP 5000 CAS, 10047700482016")
       expect(listing.description).to include("Remington-Remington")
-      expect(listing.price).to be_nil
+      expect(listing.price_current).to be_nil
       expect(listing.availability).to eq("out_of_stock")
       expect(listing.location.id).to eq("2710 South 1900 West, Ogden, UT 84401".upcase)
     end

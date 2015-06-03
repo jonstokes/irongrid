@@ -12,6 +12,14 @@ Stretched::Extension.define "ironsights/extensions/irongrid/listing_calculations
       context[:listing_json]
     end
 
+    def with_shipping
+      listing.with_shipping
+    end
+
+    def shipping
+      listing.shipping
+    end
+
     def message1
       listing_json.message1
     end
@@ -28,57 +36,36 @@ Stretched::Extension.define "ironsights/extensions/irongrid/listing_calculations
       listing_json.message4
     end
 
+    def list_price
+      listing.price_list || product.msrp || 0
+    end
+
     def current_price
-      listing.price.try(:current)
+      listing.price_current || 0
+    end
+
+    def sale_price
+      listing.price_sale || 0
     end
 
     def discounted?
-      listing.discount.try(:in_cents) && !listing.discount.in_cents.zero?
-    end
-
-    def with_shipping
-      listing.with_shipping ||= {}
+      listing.discount_in_cents && !listing.discount_in_cents.zero?
     end
 
     def weight
       product.weight.try(:shipping)
     end
 
-    def shipping
-      listing.shipping ||= {}
-    end
-
     def shipping_included?
-      shipping.included ||= !!shipping.cost
+      listing.shipping_included?
     end
 
     def number_of_rounds
       product.number_of_rounds
     end
 
-    def list_price_per_round
-      if list_price
-        (list_price.to_f / number_of_rounds.to_f).round.to_i
-      end
-    end
-
-    def list_price
-      listing.price.list || product.msrp
-    end
-
     def calculate_price_per_round(price)
       (price.to_f / number_of_rounds.to_f).round.to_i
-    end
-
-    def calculate_discount_in_cents(list, sale)
-      return 0 unless list > sale
-      list - sale
-    end
-
-    def calculate_discount_percent(list, sale)
-      return 0 unless (list > sale) && !sale.zero?
-      discount_amount = calculate_discount_in_cents(list, sale)
-      ((discount_amount.to_f / list.to_f) * 100).round
     end
 
     def should_calculate_ppr?

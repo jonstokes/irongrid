@@ -1,7 +1,45 @@
 Stretched::Extension.define "ironsights/extensions/normalization" do
   extension do
 
+    def normalize_punctuation(text)
+      return unless text.present?
+      str = " #{text} "
+      str.gsub!(/\d\,\d{3}(\D)/) do |match|
+        match.sub!(",", "")
+      end
+      str.gsub!(/\,|\!|\;/, " ")
+      str.strip.squeeze(" ")
+    end
+
+    def normalize_inches(text)
+      return unless text.present?
+      str = " #{text} "
+
+      str.gsub!(/\d{1,2}+\s{0,1}\"\.?\,?\s+/i) do |match|
+        match.sub!(/\s{0,1}\"(\s?|\,?)/i, " inch ")
+      end
+
+      str.gsub!(/\d{1,2}+\s{0,1}in\.?\,?\s+/i) do |match|
+        match.sub!(/\s{0,1}in(\s?|\,?)/i, " inch ")
+      end
+
+      str.gsub!(/\s+/," ")
+      str.try(:strip!)
+      str
+    end
+
+    def normalize_color(text)
+      return unless text.present?
+      str = " #{text} "
+
+      str.gsub!(/\s+blk\s+/i, " black ")
+      str.gsub!(/\s+slv\s+/i, " silver ")
+      str.gsub!(/\s+/," ")
+      str.strip.squeeze(" ")
+    end
+
     def normalize_caliber(text)
+      return unless text.present?
       str = " #{text} "
 
       #
@@ -137,6 +175,11 @@ Stretched::Extension.define "ironsights/extensions/normalization" do
       # Gauge
       str.gsub!(/(\.|\s)(10|12|16|20|24|28|32|410)(\s{0,1}|\-)(gauge|guage|ga|g)\.?\,?\s+/i) do |match|
         match.sub!(/(\s{0,1}|\-)(gauge|guage|ga|g)/i, " gauge")
+      end
+
+      # .22 long rifle
+      str.gsub!(/(\.|\s)(22 lo?ng\s+ri?f?l?e?)\.?\,?\s+/i) do |match|
+        match.sub!(/(\s{0,1}|\-)(lo?ng\s+ri?f?l?e?)/i, " lr")
       end
 
       str.strip.squeeze(" ")

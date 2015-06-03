@@ -1,0 +1,137 @@
+---
+object_adapter:
+  www.nfdn.com/product_page:
+    schema: Listing
+    xpath: '/html'
+    scripts:
+    - globals/scripts/product_page
+    - globals/scripts/validate_price_title_description
+    queue: www.nfdn.com/listings
+    attribute:
+      title:
+      - find_by_xpath:
+          xpath: //div[@class='detail_pane_middle']/div[@class='detail_item_title']
+      keywords:
+      - meta_keywords
+      description:
+      - find_by_xpath:
+          xpath: //table[@id='catalog_detail_table']//tr[4]/td[2]
+      image:
+      - find_by_xpath:
+          xpath: //td[@class='detail_image']/img[@class='full_image']/@src
+        filters:
+        - prefix: http://www.nfdn.com/
+      price_in_cents:
+      - find_by_xpath:
+          xpath: //div[@class='detail_pane_middle']/div[@id='catalog_detail_price_bar']/table//tr/td[2]
+          pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - find_by_xpath:
+          xpath: //div[@id='catalog_detail_price_bar']/table//tr/td/div/span[@class='retail_price']
+          pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - find_by_xpath:
+          xpath: //div[@id='catalog_detail_price_bar']/table//tr/td[@class='display_price']
+          pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - find_by_xpath:
+          xpath: //div[@id='catalog_detail_price_bar']/table//tr/td
+          pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      sale_price_in_cents:
+      - find_by_xpath:
+          xpath: //div[@id='catalog_detail_price_bar']/table//tr/td[@id='live_price_0']
+          pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - find_by_xpath:
+          xpath: //div[@id='catalog_detail_price_bar']/table//tr/td[@class='display_price']
+          pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      - find_by_xpath:
+          xpath: //div[@id='catalog_detail_price_bar']/table//tr/td
+          pattern: !ruby/regexp '/\$\d[\d\,\.]+/i'
+      price_on_request:
+       - find_by_xpath:
+          xpath: //div[@id='catalog_detail_price_bar']
+          pattern: !ruby/regexp '/Contact us for price/i'
+      availability:
+      - label_by_xpath:
+          label: in_stock
+          xpath: //div[@id='catalog_detail_price_bar']/table//tr/td[1]
+          pattern: !ruby/regexp '/in stock/i'
+      - label_by_xpath:
+          label: out_of_stock
+          xpath: //td[@class='live_checkout']/a/div[@class='center low_quantity']
+          pattern: !ruby/regexp '/Contact us for availability/i'
+      - value: in_stock
+      product_manufacturer:
+      - find_by_xpath:
+          xpath: //table[@id='catalog_detail_table']//tr[3]/td[2]
+      product_caliber:
+      - find_by_xpath:
+          xpath: //div[@class='detail_pane_middle']/table[@id='catalog_detail_table']
+          pattern: !ruby/regexp '/caliber:.*$/i'
+        filters:
+        - reject: !ruby/regexp '/caliber:/'
+      product_grains:
+      - find_by_xpath:
+          xpath: //div[@class='detail_pane_middle']/table[@id='catalog_detail_table']
+          pattern: !ruby/regexp '/bullet weight:\d{1,3}\s*gr/i'
+        filters:
+        - accept: !ruby/regexp '/\d{1,3}/'
+      product_number_of_rounds:
+      - find_by_xpath:
+          xpath: //div[@class='detail_pane_middle']/table[@id='catalog_detail_table']
+          pattern: !ruby/regexp '/rounds\Wper\Wbox:?\d{1,6}\s*rounds\Wper\Wbox/i'
+        filters:
+        - accept: !ruby/regexp '/\d{1,6}/'
+      - find_by_xpath:
+          xpath: //div[@class='detail_pane_middle']/div[@class='detail_item_title']
+          pattern: !ruby/regexp '/\d{1,4}bo?x/i'
+        filters:
+        - accept: !ruby/regexp '/\d{1,4}/'
+      - find_by_xpath:
+          xpath: //div[@class='detail_pane_middle']/table[@id='catalog_detail_table']
+          pattern: !ruby/regexp '/\d{1,6}\s*rounds\Wper\Wbox/i'
+        filters:
+        - accept: !ruby/regexp '/\d{1,6}/'
+      product_category1:
+      - label_by_xpath:
+          label: Accessories
+          xpath: //a[@class='detail_item_link']
+          pattern: !ruby/regexp '/Parts|Gear|Magazines|Accessories|CLEARANCE ITEMS/i'
+      - label_by_xpath:
+          label: Guns
+          xpath: //a[@class='detail_item_link']
+          pattern: !ruby/regexp '/guns|Rifles/i'
+      - label_by_xpath:
+          label: Ammunition
+          xpath: //a[@class='detail_item_link']
+          pattern: !ruby/regexp '/Ammo/i'
+      - label_by_xpath:
+          label: Optics
+          xpath: //a[@class='detail_item_link']
+          pattern: !ruby/regexp '/Optics/i'
+      product_upc:
+      - find_by_xpath:
+          xpath: //table[@id='catalog_detail_table']//tr//td
+          pattern: !ruby/regexp '/UPC\s*\d+$/'
+        filters:
+        - accept: !ruby/regexp '/\d+/'
+      not_found:
+      - find_by_xpath:
+          xpath: //div[@id='center_column']/div[@class='content'][1]/h1[@class='featured_items']
+          pattern: !ruby/regexp '/featured items/i'
+      - find_by_xpath:
+          xpath: //table[@id='catalog_detail_table']//tr/td/a[@class='detail_item_link']
+          pattern: !ruby/regexp '/Knives/i'
+      condition:
+      - value: new
+      type:
+      - value: RetailListing
+      location:
+      - value: 123 S. Indiana Ave, Sellersburg, IN 47172
+  www.nfdn.com/product_link:
+    schema: ProductLink
+    xpath: //div[@class='item_title']/a[@class='item_link']
+    queue: www.nfdn.com/product_links
+    attribute:
+      product_link:
+      - find_by_xpath:
+          xpath: ./@href
+        filters:
+        - prefix: http://www.nfdn.com
