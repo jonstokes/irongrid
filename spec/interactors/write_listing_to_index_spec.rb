@@ -60,6 +60,7 @@ describe WriteListingToIndex do
       expect(item.price.sale).to eq(34999)
       expect(item.price.current).to eq(34999)
       expect(item.shipping.cost).to eq(1999)
+      expect(item.shipping_included?).to eq(true)
       expect(item.with_shipping.price.list).to be_nil
       expect(item.with_shipping.price.sale).to eq(34999 + 1999)
       expect(item.with_shipping.price.current).to eq(34999 + 1999)
@@ -109,6 +110,7 @@ describe WriteListingToIndex do
       expect(listing.availability).to eq("out_of_stock")
       expect(listing.location.id).to eq("2710 South 1900 West, Ogden, UT 84401".upcase)
       expect(listing.shipping['cost']).to be_nil
+      expect(listing.shipping_included?).to eq(false)
     end
 
     it 'parses a classified listing from Armslist' do
