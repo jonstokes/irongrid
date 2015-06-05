@@ -20,7 +20,7 @@ class DeleteListingsForFullFeedsService < BaseService
   def each_job
     SiteLibrary::Site.each_full_product_feed_site do |site|
       next unless should_add_job?(site)
-      IronBase::Listing.find_each(query_hash(site)) do |batch|
+      search(site).find_each do |batch|
         record[:data][:listings_deleted] += batch.size
         yield batch.map(&:id), site.domain
       end
@@ -34,13 +34,13 @@ class DeleteListingsForFullFeedsService < BaseService
 
   private
 
-  def query_hash(site)
-    IronBase::Listing::Search.new(
-        filters: {
-            stale: threshold(site),
-            seller_domain: site.domain
-        }
-    ).query_hash
+  def search(site)
+    IronBase::Listing::new_search(
+      filters: {
+        stale:         threshold(site),
+        seller_domain: site.domain
+      }
+    )
   end
 
   def threshold(site)

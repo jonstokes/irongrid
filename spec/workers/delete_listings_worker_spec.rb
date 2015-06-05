@@ -16,11 +16,11 @@ describe DeleteListingsWorker do
     DeleteListingsWorker.new.perform(auctions.map(&:id))
     IronBase::Listing.refresh_index
     expect(
-        IronBase::Listing.find auctions.first.id
-    ).to be_nil
+        IronBase::Listing.find(auctions.first.id).hits
+    ).to be_empty
     expect(
-        IronBase::Listing.find auctions.last.id
-    ).to be_nil
+        IronBase::Listing.find(auctions.last.id).hits
+    ).to be_empty
     expect(auction_count).to eq(5)
   end
 
@@ -33,11 +33,11 @@ describe DeleteListingsWorker do
     DeleteListingsWorker.new.perform(auctions.map(&:id))
     IronBase::Listing.refresh_index
     expect(
-      IronBase::Listing.find auctions.first.id
-    ).to be_nil
+      IronBase::Listing.find(auctions.first.id).hits
+    ).to be_empty
     expect(
-      IronBase::Listing.find auctions.last.id
-    ).to be_nil
+      IronBase::Listing.find(auctions.last.id).hits
+    ).to be_empty
     expect(auction_count).to eq(5)
     expect {
       DeleteListingsWorker.new.perform(auctions.map(&:id))

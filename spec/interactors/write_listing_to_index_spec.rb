@@ -82,6 +82,8 @@ describe WriteListingToIndex do
       IronBase::Listing.refresh_index
 
       pending "Finish it"
+
+      expect(true).to eq(false)
     end
 
     it 'parses a standard, out of stock retail listing from Impact Guns' do

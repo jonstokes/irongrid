@@ -65,7 +65,7 @@ describe WriteListingToIndex::FindOrCreateListing do
 
       expect(listing.persisted?).to eq(false)
       expect(IronBase::Listing.count).to eq(0)
-      expect(IronBase::Listing.find(listing.id)).to be_nil
+      expect(IronBase::Listing.find(listing.id).hits).to be_empty
     end
   end
 

@@ -448,7 +448,7 @@ describe PullListingsWorker do
         @worker.perform(domain: @site.domain)
         IronBase::Listing.refresh_index
         expect(IronBase::Listing.count).to eq(1)
-        expect(IronBase::Listing.find(listing_v1.id)).to be_nil
+        expect(IronBase::Listing.find(listing_v1.id).hits).to be_empty
         listing = IronBase::Listing.find(listing_v2.id).hits.first
 
         expect(listing.url.page).to eq(page[:url])
@@ -624,4 +624,3 @@ describe PullListingsWorker do
   end
 
 end
-
