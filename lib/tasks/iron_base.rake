@@ -69,7 +69,9 @@ def tfb_domains
     'www.midwayusa.com',
     'www.cheaperthandirt.com',
     'palmettostatearmory.com',
-    'www.targetsportsusa.com'
+    'www.targetsportsusa.com',
+    'www.academy.com',
+    'www.ammunitiontogo.com'
   ]
 end
 
