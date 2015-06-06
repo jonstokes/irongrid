@@ -39,9 +39,9 @@ class RefreshLinksWorker < BaseWorker
 
   def convert_to_link_message(listing)
     IronCore::LinkMessage.new(
-        url:                listing.url.page,
-        current_listing_id: listing.id,
-        listing_digest:     listing.digest,
+      url:                listing.url.page,
+      current_listing_id: listing.id,
+      listing_digest:     listing.digest,
     )
   end
 end
