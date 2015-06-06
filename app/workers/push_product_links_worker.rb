@@ -23,7 +23,7 @@ class PushProductLinksWorker < BaseWorker
       @urls << msg.url
     end
     log "Pushed a session for #{site.domain} with #{@urls.size} urls. LMQ size is #{site.link_message_queue.size}"
-    record_set :sessions_pushed, site.session_queue.push(new_session).count
+    record_set :sessions_pushed, site.session_queue.push(new_site_session).count
   end
 
   def transition
@@ -37,25 +37,13 @@ class PushProductLinksWorker < BaseWorker
     super && site.link_message_queue.any?
   end
 
-  def self.prune_refresh_push_cycle_is_running?(domain)
-    PruneLinksWorker.jobs_in_flight_with_domain(domain).any? ||
-        RefreshLinksWorker.jobs_in_flight_with_domain(domain).any?
-  end
-
-
   private
 
   def finished?
     @urls.size >= 300
   end
 
-  def new_session
-    return unless @urls.try(:any?)
-    Stretched::Session.new site.product_session_format.merge('urls' => url_list)
+  def new_site_session
+    site.new_product_session_from_urls(@urls)
   end
-
-  def url_list
-    @urls.to_a.map { |url| { url: url } }
-  end
-
 end

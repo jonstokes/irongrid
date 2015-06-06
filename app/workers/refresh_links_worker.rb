@@ -14,7 +14,6 @@ class RefreshLinksWorker < BaseWorker
   def call
     IronBase::Listing.with_each_stale(@domain) do |batch|
       batch.each do |listing|
-        next if site.link_message_queue.has_key?(listing.url.page)
         msg = convert_to_link_message(listing)
         msg.update(jid: jid)
         record_incr(:links_created) unless site.link_message_queue.add(msg).zero?
@@ -25,15 +24,16 @@ class RefreshLinksWorker < BaseWorker
 
   def transition
     next_jid = PushProductLinksWorker.perform_async(domain: domain)
-    record_set(:transition, "PushLinksWorker")
+    record_set(:transition, "PushProductLinksWorker")
     record_set(:next_jid, next_jid)
   end
 
-  def self.prune_refresh_push_cycle_is_running?(domain)
-    PruneLinksWorker.jobs_in_flight_with_domain(domain).any? ||
-        PushProductLinksWorker.jobs_in_flight_with_domain(domain).any?
+  def self.should_run?(site)
+    !site.full_feed && # Don't run unless the site actually uses the LMQ
+      site.session_queue_inactive? &&
+      site.product_links_queue.empty? &&
+      !PushProductLinksWorker.jobs_in_flight_with_domain(site.domain).any?
   end
-
 
   private
 

@@ -12,9 +12,9 @@ class WriteListingToIndex
       context.site.loadables.each do |script_name|
         runner = Stretched::Script.runner(key: script_name)
         runner.set_context(
-            listing:      context.listing,
-            product:      context.product,
-            listing_json: context.listing_json
+          listing:      context.listing,
+          product:      context.product,
+          listing_json: context.listing_json
         )
         instance = runner.run
         instance.each do |setter, value|

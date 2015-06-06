@@ -2,7 +2,7 @@ def service_list
   @service_list ||= %w(
     ReadListingsService
     ReadProductLinksService
-    PruneLinksService
+    RefreshLinksService
     DeleteEndedAuctionsService
     ReadSitesService
     ReadListingsService
@@ -99,7 +99,7 @@ namespace :service do
     reset_sidekiq_stats
     boot_services
   end
-  
+
   task :clear_all_grid_state => :environment do
     clear_link_messages
     reset_sidekiq_stats

@@ -2,7 +2,7 @@ class PopulateSessionQueueWorker < BaseWorker
 
   sidekiq_options :queue => :crawls, :retry => true
   track_with_schema(
-    sessions_added:  Integer,
+    sessions_added: Integer,
   )
 
   before :should_run?, :track
@@ -21,5 +21,4 @@ class PopulateSessionQueueWorker < BaseWorker
       site.link_message_queue.empty? &&
       !prune_refresh_push_cycle_is_running?(site.domain)
   end
-
 end

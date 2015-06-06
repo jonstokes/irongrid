@@ -55,16 +55,12 @@ describe PopulateSessionQueueWorker do
     end
 
     describe "does nothing if any part of the prune-refresh-push cycle is in effect" do
-      it "does nothing of the site's PruneLinksWorker is running" do
-        PruneLinksWorker.perform_async(domain: @site.domain)
-        @worker.perform(domain: @site.domain)
-        expect(@site.session_queue.size).to be_zero
-      end
       it "does nothing of the site's RefreshLinksWorker is running" do
         RefreshLinksWorker.perform_async(domain: @site.domain)
         @worker.perform(domain: @site.domain)
         expect(@site.session_queue.size).to be_zero
       end
+
       it "does nothing of the site's PushLinksWorker is running" do
         PushProductLinksWorker.perform_async(domain: @site.domain)
         @worker.perform(domain: @site.domain)
@@ -74,4 +70,3 @@ describe PopulateSessionQueueWorker do
   end
 
 end
-

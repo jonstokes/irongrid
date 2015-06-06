@@ -15,7 +15,7 @@ class PullProductLinksWorker < BaseWorker
     log "Pulling product links for #{site.domain} with queue size #{site.product_links_queue.size}"
     while !timed_out? && obj = site.product_links_queue.pop
       record_incr(:objects_deleted)
-      next unless obj.object && obj.object.product_link
+      next unless obj.object.try(:product_link)
       record_incr(:links_created)
       site.link_message_queue.push IronCore::LinkMessage.new(url: obj.object.product_link)
     end
