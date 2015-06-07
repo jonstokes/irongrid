@@ -71,7 +71,7 @@ def tfb_domains
     'www.midwayusa.com',
     'palmettostatearmory.com',
     'www.sportsmanswarehouse.com',
-    'www.swva-arms.com'
+    'www.swva-arms.com',
     'www.targetsportsusa.com',
   ]
 end
