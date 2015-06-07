@@ -61,17 +61,18 @@ end
 
 def tfb_domains
   [
+    'www.academy.com',
+    'www.ammunitiontogo.com',
+    'www.botach.com',
     'www.brownells.com',
+    'www.cheaperthandirt.com',
     'www.luckygunner.com',
     'www.manventureoutpost.com',
-    'www.sportsmanswarehouse.com',
-    'www.botach.com',
     'www.midwayusa.com',
-    'www.cheaperthandirt.com',
     'palmettostatearmory.com',
+    'www.sportsmanswarehouse.com',
+    'www.swva-arms.com'
     'www.targetsportsusa.com',
-    'www.academy.com',
-    'www.ammunitiontogo.com'
   ]
 end
 
