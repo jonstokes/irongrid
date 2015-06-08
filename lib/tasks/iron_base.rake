@@ -76,7 +76,7 @@ def tfb_domains
     'www.swva-arms.com',
     'www.targetsportsusa.com',
     'www.ammunitiondepot.com',
-    'www.narkguns.com'
+    'bangitammo.com'
   ]
 end
 
