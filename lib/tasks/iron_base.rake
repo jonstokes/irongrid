@@ -73,6 +73,8 @@ def tfb_domains
     'www.sportsmanswarehouse.com',
     'www.swva-arms.com',
     'www.targetsportsusa.com',
+    'www.ammunitiondepot.com',
+    'www.narkguns.com'
   ]
 end
 
