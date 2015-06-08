@@ -62,6 +62,7 @@ end
 def tfb_domains
   [
     'www.academy.com',
+    'www.ammo-sale.com',
     'www.ammunitiontogo.com',
     'www.botach.com',
     'www.brownells.com',
@@ -70,6 +71,7 @@ def tfb_domains
     'www.manventureoutpost.com',
     'www.midwayusa.com',
     'palmettostatearmory.com',
+    'www.selwayarmory.com',
     'www.sportsmanswarehouse.com',
     'www.swva-arms.com',
     'www.targetsportsusa.com',
