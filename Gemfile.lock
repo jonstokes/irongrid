@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://339de3a38d1cf30ca405bdc7faddc135dfefe1f6:x-oauth-basic@github.com/jonstokes/iron_base.git
-  revision: c3965b1d9a38de8cfcd42158b837d15d6b059975
+  revision: f1dcd1d3a7e4e857c9af198b3ae39edf7a7220b1
   specs:
     iron_base (0.0.3)
       activesupport
