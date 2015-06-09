@@ -78,7 +78,9 @@ def tfb_domains
     'www.targetsportsusa.com',
     'www.ammunitiondepot.com',
     'bangitammo.com',
-    'www.policestore.com'
+    'www.policestore.com',
+    'www.venturamunitions.com',
+    'all-in-general.com'
   ]
 end
 
