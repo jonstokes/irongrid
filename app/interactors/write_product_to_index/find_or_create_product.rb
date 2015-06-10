@@ -18,42 +18,26 @@ class WriteProductToIndex
     end
 
     def find_by_upc
-      return unless product_source.upc.present?
-      IronBase::Product.find_by_upc(product_source.upc).first
+      return unless product_source['upc'].present?
+      IronBase::Product.find_by_upc(product_source['upc']).first
     end
-
-    #
-    # Unused for now
-    #
 
     def find_by_mpn
-      return unless product_source.mpn.present?
-      hits = IronBase::Product.find_by_mpn(product_source.mpn)
-      hits = prune_hits(hits)
-      order_hits_by_best_match(hits).first
-    end
+      return unless product_source['mpn'].present?
+      hits = IronBase::Product.find_by_mpn(product_source['mpn']) +
+        IronBase::Product.find_by_upc(product_source['mpn'])
+      return unless hits.any?
 
-    def find_by_sku
-      return unless product_source.sku.present?
-      hits = IronBase::Product.find_by_sku(product_source.sku)
       hits = prune_hits(hits)
       order_hits_by_best_match(hits).first
     end
 
     def prune_hits(hits)
       hits.select! do |hit|
-        hit.category1.nil? || (hit.category1 == product_source.category1)
-      end if product_source.category1
-
-      hits.select! do |hit|
-        hit.manufacturer.nil? || (hit.manufacturer == product_source.manufacturer)
-      end if product_source.manufacturer
-
-      hits.select! do |hit|
-        hit.caliber_category.nil? || (hit.caliber_category == product_source.caliber_category)
-      end if product_source.caliber_category
-
-      hits
+        (hit.category1 == product_source['category1']) &&
+          (hit.manufacturer == product_source['manufacturer']) &&
+          (hit.caliber == product_source['caliber'])
+      end
     end
 
     def order_hits_by_best_match(hits)
