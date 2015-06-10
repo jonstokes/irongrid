@@ -10,6 +10,7 @@ class WriteProductToIndex
       # This tries to find a product with a pretty strict usage of normalized UPC
       context.product ||=
               find_by_upc ||
+              find_by_mpn ||
               IronBase::Product.new
     end
 

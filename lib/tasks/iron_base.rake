@@ -179,7 +179,11 @@ end
 
 namespace :products do
   task rebuild: :environment do
-    sources = ['www.luckygunner.com']
+    sources = [
+      'www.luckygunner.com',
+      'www.midwayusa.com',
+      'www.cheaperthandirt.com'
+      ]
 
     delete_all_products
     rebuild_products_from_sources(sources)
@@ -214,7 +218,7 @@ def rebuild_products_from_sources(sources, rebuild=true)
 
         count += 1
 
-        product = WriteProductToIndex::FindOrCreateProduct.call(listing: listing).product
+        product = IronBase::Product.find_by_upc(upc).first || IronBase::Product.new
 
         # Fill in any empty product attributes using this listing
         result = UpdateProductFromListing.call(product: product, listing: listing)
