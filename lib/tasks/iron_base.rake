@@ -215,38 +215,47 @@ def listings_for_site(domain)
   )
 end
 
+def rebuild_product(product: product, listing: listing, count: count, rebuild: rebuild)
+  upc = listing.product_source.upc
+  return if rebuild && upc.nil?
+
+  count += 1
+
+  product = IronBase::Product.find_by_upc(upc).first || IronBase::Product.new
+
+  # Fill in any empty product attributes using this listing
+  result = UpdateProductFromListing.call(product: product, listing: listing)
+  listing = result.listing
+  product = result.product
+
+  # Fill in any empty listing.product_source attributes from the product
+  result = UpdateListingFromProduct.call(product: product, listing: listing)
+  listing = result.listing
+  product = result.product
+
+  product.save(prune_invalid_attributes: true) if rebuild
+
+  listing.update_record_without_timestamping
+end
+
 def rebuild_products_from_sources(sources, rebuild=true)
   sources.each do |domain|
     puts "Rebuilding products for #{domain}..."
     count = 0
     listings_for_site(domain).find_each do |batch|
       batch.each do |listing|
-        upc = listing.product_source.upc
-        next if rebuild && upc.nil?
-
-        count += 1
-
-        product = IronBase::Product.find_by_upc(upc).first || IronBase::Product.new
-
-        # Fill in any empty product attributes using this listing
-        result = UpdateProductFromListing.call(product: product, listing: listing)
-        listing = result.listing
-        product = result.product
-
-        # Fill in any empty listing.product_source attributes from the product
-        result = UpdateListingFromProduct.call(product: product, listing: listing)
-        listing = result.listing
-        product = result.product
-
         exception_block = Proc.new do
           puts "Listing #{listing.id} and product #{product.id} raised an error."
         end
 
         Retryable.retryable(sleep: 2, tries: 3, exception_cb: exception_block) do
-          product.save(prune_invalid_attributes: true)
-        end if rebuild
-
-        listing.update_record_without_timestamping
+          rebuild_product(
+            listing: listing,
+            product: product,
+            rebuild: rebuild,
+            count: count
+          )
+        end
       end
       puts "  rebuilt products from #{count} listings"
     end
