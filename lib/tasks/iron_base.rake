@@ -219,7 +219,7 @@ def rebuild_products_from_sources(sources, rebuild=true)
   sources.each do |domain|
     puts "Rebuilding products for #{domain}..."
     count = 0
-    listings_for_site(domain) do |batch|
+    listings_for_site(domain).find_each do |batch|
       batch.each do |listing|
         upc = listing.product_source.upc
         next if rebuild && upc.nil?
