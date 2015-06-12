@@ -241,7 +241,7 @@ def rebuild_products_from_sources(sources, rebuild=true)
         begin
           product.save(prune_invalid_attributes: true) if rebuild
         rescue Exception => e
-          puts "Listing #{listing.id} and product #{id} raised an error"
+          puts "Listing #{listing.id} and product #{product.id} raised an error"
           raise e
         end
         listing.update_record_without_timestamping
