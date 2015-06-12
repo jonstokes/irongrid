@@ -215,7 +215,11 @@ def listings_for_site(domain)
   )
 end
 
-def rebuild_product(product: product, listing: listing, count: count, rebuild: rebuild)
+def rebuild_product(opts)
+  listing = opts[:listing]
+  count = opts[:count]
+  rebuild = opts[:rebuild]
+  
   upc = listing.product_source.upc
   return if rebuild && upc.nil?
 
