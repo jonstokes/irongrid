@@ -238,7 +238,12 @@ def rebuild_products_from_sources(sources, rebuild=true)
         listing = result.listing
         product = result.product
 
-        product.save(prune_invalid_attributes: true) if rebuild
+        begin
+          product.save(prune_invalid_attributes: true) if rebuild
+        rescue Exception => e
+          puts "Listing #{listing.id} and product #{id} raised an error"
+          raise e
+        end
         listing.update_record_without_timestamping
       end
       puts "  rebuilt products from #{count} listings"
