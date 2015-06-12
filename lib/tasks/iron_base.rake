@@ -238,7 +238,7 @@ def rebuild_products_from_sources(sources, rebuild=true)
         listing = result.listing
         product = result.product
 
-        Retryable.retryable(sleep: 2) { product.save(prune_invalid_attributes: true) } if rebuild
+        Retryable.retryable(sleep: 2, tries: 3) { product.save(prune_invalid_attributes: true) } if rebuild
 
         listing.update_record_without_timestamping
       end
