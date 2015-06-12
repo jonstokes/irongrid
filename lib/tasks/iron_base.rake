@@ -217,13 +217,10 @@ end
 
 def rebuild_product(opts)
   listing = opts[:listing]
-  count = opts[:count]
   rebuild = opts[:rebuild]
-  
+
   upc = listing.product_source.upc
   return if rebuild && upc.nil?
-
-  count += 1
 
   product = IronBase::Product.find_by_upc(upc).first || IronBase::Product.new
 
@@ -245,18 +242,16 @@ end
 def rebuild_products_from_sources(sources, rebuild=true)
   sources.each do |domain|
     puts "Rebuilding products for #{domain}..."
-    count = 0
     listings_for_site(domain).find_each do |batch|
       batch.each do |listing|
         Retryable.retryable(sleep: 2, tries: 3) do
           rebuild_product(
             listing: listing,
             rebuild: rebuild,
-            count: count
           )
         end
       end
-      puts "  rebuilt products from #{count} listings"
+      puts "  rebuilt products from #{batch.size} listings"
     end
   end
 end
