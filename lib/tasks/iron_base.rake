@@ -247,7 +247,6 @@ def rebuild_products_from_sources(sources, rebuild=true)
         Retryable.retryable(sleep: 2, tries: 3) do
           rebuild_product(
             listing: listing,
-            product: product,
             rebuild: rebuild,
             count: count
           )
