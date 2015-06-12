@@ -245,6 +245,7 @@ def rebuild_products_from_sources(sources, rebuild=true)
           raise e
         end
         listing.update_record_without_timestamping
+        sleep 1
       end
       puts "  rebuilt products from #{count} listings"
     end
