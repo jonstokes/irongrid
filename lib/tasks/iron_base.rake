@@ -244,11 +244,7 @@ def rebuild_products_from_sources(sources, rebuild=true)
     count = 0
     listings_for_site(domain).find_each do |batch|
       batch.each do |listing|
-        exception_block = Proc.new do
-          puts "Listing #{listing.id} and product #{product.id} raised an error."
-        end
-
-        Retryable.retryable(sleep: 2, tries: 3, exception_cb: exception_block) do
+        Retryable.retryable(sleep: 2, tries: 3) do
           rebuild_product(
             listing: listing,
             product: product,
