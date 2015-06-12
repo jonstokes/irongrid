@@ -238,7 +238,13 @@ def rebuild_products_from_sources(sources, rebuild=true)
         listing = result.listing
         product = result.product
 
-        Retryable.retryable(sleep: 2, tries: 3) { product.save(prune_invalid_attributes: true) } if rebuild
+        exception_block = Proc.new do
+          puts "Listing #{listing.id} and product #{product.id} raised an error."
+        end
+
+        Retryable.retryable(sleep: 2, tries: 3, exception_cb: exception_block) do
+          product.save(prune_invalid_attributes: true)
+        end if rebuild
 
         listing.update_record_without_timestamping
       end
