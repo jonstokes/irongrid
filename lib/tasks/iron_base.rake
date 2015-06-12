@@ -207,11 +207,19 @@ def delete_all_products
   end
 end
 
+def listings_for_site(domain)
+  IronBase::Listing.new_search(
+    filters: {
+      seller_domain: domain
+    }
+  )
+end
+
 def rebuild_products_from_sources(sources, rebuild=true)
   sources.each do |domain|
     puts "Rebuilding products for #{domain}..."
     count = 0
-    IronBase::Listing.find_each(query_hash(domain)) do |batch|
+    listings_for_site(domain) do |batch|
       batch.each do |listing|
         upc = listing.product_source.upc
         next if rebuild && upc.nil?
@@ -236,14 +244,6 @@ def rebuild_products_from_sources(sources, rebuild=true)
       puts "  rebuilt products from #{count} listings"
     end
   end
-end
-
-def query_hash(domain)
-  IronBase::Listing::Search.new(
-      filters: {
-          seller_domain: domain
-      }
-  ).query_hash
 end
 
 namespace :migrate do
