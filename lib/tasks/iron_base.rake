@@ -180,12 +180,12 @@ end
 namespace :products do
   task rebuild: :environment do
     sources = [
-      'www.luckygunner.com',
-      'www.midwayusa.com',
+      #'www.luckygunner.com',
+      #'www.midwayusa.com',
       'www.cheaperthandirt.com'
       ]
 
-    delete_all_products
+    #delete_all_products
     rebuild_products_from_sources(sources)
   end
 
