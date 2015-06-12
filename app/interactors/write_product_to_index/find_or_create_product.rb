@@ -28,8 +28,7 @@ class WriteProductToIndex
       hits = IronBase::Product.find_by_mpn(product_source['mpn']) +
         IronBase::Product.find_by_upc(product_source['mpn'])
       return unless hits.any?
-
-      hits = prune_hits(hits)
+      return unless hits = prune_hits(hits)
       order_hits_by_best_match(hits).first
     end
 
