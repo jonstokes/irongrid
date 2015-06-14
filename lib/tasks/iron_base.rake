@@ -87,11 +87,22 @@ end
 def tfb_calibers
   [
     '.22lr',
+    '.17 HMR',
     '9mm Luger',
     '.45 ACP',
     '.223 Rem',
     '5.56 NATO',
-    '7.62x39mm'
+    '7.62x39mm',
+    '.308 Win',
+    '22-250',
+    '5.7x28mm',
+    '.30-30 Win',
+    '10mm Auto',
+    '.380 ACP',
+    '.40 S&W',
+    '.38 Special',
+    '12 gauge',
+    '20 gauge'
   ]
 end
 
