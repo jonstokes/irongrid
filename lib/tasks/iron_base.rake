@@ -88,7 +88,7 @@ def tfb_calibers
   [
     '.17 HMR',
     '.22lr',
-    '.22 WMR'
+    '.22 WMR',
     '.22-250',
     '.223 Rem',
     '.300 BLK',
@@ -96,7 +96,7 @@ def tfb_calibers
     '.30-06',
     '.308 Win',
     '.338 Lapua Mag',
-    '.357 Mag'
+    '.357 Mag',
     '.380 ACP',
     '.38 Special',
     '.40 S&W',
