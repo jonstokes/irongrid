@@ -122,14 +122,14 @@ def tfb_body
     filter: {
       bool: {
         must: [
-          { term:  { engine:                            'ironsights' } },
-          { term:  { 'listing.product.category1.raw' => 'ammunition' } },
-          { terms: { "listing.product.caliber.raw"   => tfb_calibers } },
-          { terms: { "listing.seller.domain"         => tfb_domains } }
+          { term:   { engine:                            'ironsights' } },
+          { term:   { 'listing.product.category1.raw' => 'ammunition' } },
+          { exists: { field: 'listing.product.caliber.raw' } },
+          { terms:  { "listing.seller.domain"         => tfb_domains } }
         ],
         must_not: [
-          { term: { availability:                       'out_of_stock'} },
-          { term: { inactive:                           true }}
+          { term:   { availability:                       'out_of_stock'} },
+          { term:   { inactive:                           true }}
         ]
       }
     }
