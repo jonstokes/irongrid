@@ -1,4 +1,10 @@
 namespace :site do
+
+  task remove_inactive: :environment do
+    inactive = SiteLibrary::Site.domains - SiteLibrary::Site.manifest
+    inactive.each { |domain| SiteLibrary::Site.remove_domain(domain) }
+  end
+
   desc "Create all sites from site manifest to redis"
   task :create_all => :environment do
     SiteLibrary::CreateAll.call
