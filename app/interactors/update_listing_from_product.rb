@@ -19,7 +19,7 @@ class UpdateListingFromProduct
   end
 
   def permitted_product_data
-    product_data.slice(*product.allowed_fields)
+    product_data.slice(*product.allowed_fields).keys + %w(id)
   end
 
   def product_data
@@ -31,6 +31,8 @@ class UpdateListingFromProduct
   end
 
   def get_product_value(attr, value)
+    # Don't copy number_of_rounds for an MPN-only match
+    return value if listing.product_source['upc'].present? && attr == 'number_of_rounds'
     return value unless listing.product_source[attr].present?
     product.normalized_for attr, listing.product_source[attr]
   end
