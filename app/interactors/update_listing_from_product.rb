@@ -9,6 +9,8 @@ class UpdateListingFromProduct
     # Use assignments so that dirty flag is set when appropriate
     return unless listing.present? && product.present?
 
+    product.engine ||= listing.engine
+
     product_data.each do |k, v|
       if permitted_product_data.include?(k)
         listing.product[k] = get_product_value(k, v)
