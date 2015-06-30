@@ -80,7 +80,9 @@ def tfb_domains
     'bangitammo.com',
     'www.policestore.com',
     'www.venturamunitions.com',
-    'all-in-general.com'
+    'all-in-general.com',
+    'www.lanbosarmory.com',
+    'www.hyattgunstore.com'
   ]
 end
 
