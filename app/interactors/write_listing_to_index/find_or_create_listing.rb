@@ -18,6 +18,9 @@ class WriteListingToIndex
           purchase: purchase_url,
           page: current_url
       }
+
+      # FIXME: This can be deleted once the new scripts take effect
+      context.listing.engine ||= 'ironsights'
     end
 
     def find_or_create_listing
