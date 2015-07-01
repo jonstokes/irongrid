@@ -81,8 +81,7 @@ def tfb_domains
     'www.policestore.com',
     'www.venturamunitions.com',
     'all-in-general.com',
-    'www.lanbosarmory.com',
-    'www.hyattgunstore.com'
+    'www.lanbosarmory.com'
   ]
 end
 
