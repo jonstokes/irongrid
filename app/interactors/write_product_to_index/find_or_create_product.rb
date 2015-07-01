@@ -20,7 +20,9 @@ class WriteProductToIndex
 
     def find_by_upc
       return unless product_source['upc'].present?
-      IronBase::Product.find_by_upc(product_source['upc']).first
+      result = IronBase::Product.find_by_upc(product_source['upc']).first
+      context.match_type = :upc if result
+      result
     end
 
     def find_by_mpn
@@ -28,7 +30,9 @@ class WriteProductToIndex
       hits = IronBase::Product.find_by_mpn(product_source['mpn']) +
         IronBase::Product.find_by_upc(product_source['mpn'])
       prune_hits(hits)
-      order_hits_by_best_match(hits).first
+      result = order_hits_by_best_match(hits).first
+      context.match_type = :mpn if result
+      result
     end
 
     def prune_hits(hits)
