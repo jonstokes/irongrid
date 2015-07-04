@@ -32,7 +32,7 @@ class RefreshLinksWorker < BaseWorker
     !site.full_feed && # Don't run unless the site actually uses the LMQ
       site.session_queue_inactive? &&
       site.product_links_queue.empty? &&
-      !PushProductLinksWorker.jobs_in_flight_with_domain(site.domain).any?
+      PushProductLinksWorker.jobs_in_flight_with_domain(site.domain).empty?
   end
 
   private

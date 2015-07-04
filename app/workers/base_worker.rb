@@ -23,7 +23,7 @@ class BaseWorker < Bellbro::Worker
     self.class.jobs_with_domain(domain).select { |j| jid != j[:jid] }.empty? &&
         self.class.workers_with_domain(domain).select { |j| jid != j[:jid] }.empty?
   end
-
+  
   def should_run?
     (self.class.should_run?(site) && i_am_alone_with_this_domain?) || abort!
   end

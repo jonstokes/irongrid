@@ -34,8 +34,12 @@ class PullListingsWorker < BaseWorker
     record_set(:next_jid, next_jid)
   end
 
+  def should_run?
+    self.class.should_run?(site) || abort!
+  end
+
   def self.should_run?(site)
-    super && site.listings_queue.any?
+    super && site.listings_queue.any? && self.jobs_in_flight_with_domain(site.domain).size < 4
   end
 
   private
