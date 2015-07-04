@@ -39,7 +39,14 @@ class PullListingsWorker < BaseWorker
   end
 
   def self.should_run?(site)
-    super && site.listings_queue.any? && self.jobs_in_flight_with_domain(site.domain).size < 4
+    super && site.listings_queue.any? && self.new_jobs_allowed?(site)
+  end
+
+  def self.new_jobs_allowed?(site)
+    jobs_in_flight = self.jobs_in_flight_with_domain(site.domain).size
+    total_jobs_allowed = site.listings_queue.size / 500
+    total_jobs_allowed = total_jobs_allowed.zero? ? 1 : total_jobs_allowed
+    jobs_in_flight < total_jobs_allowed
   end
 
   private
