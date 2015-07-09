@@ -13,8 +13,6 @@ class UpdateListingFromProduct
 
     product_data.each do |k, v|
       if permitted_product_data.include?(k)
-        # Don't copy number_of_rounds for non-UPC matches
-        next if (k == 'number_of_rounds') && (context.match_type != :upc)
         listing.product[k] = get_product_value(k, v)
       else
         listing.product[k] = nil
@@ -35,8 +33,14 @@ class UpdateListingFromProduct
   end
 
   def get_product_value(attr, value)
-    return value unless listing.product_source[attr].present?
-    product.normalized_for attr, listing.product_source[attr]
+    if listing.product_source[attr].present?
+      product.normalized_for attr, listing.product_source[attr]
+    elsif attr == 'number_of_rounds'
+      # Only pull num rounds from the product if there's a UPC match
+      value if context.match_type == :upc
+    else
+      value
+    end
   end
 
   def product
